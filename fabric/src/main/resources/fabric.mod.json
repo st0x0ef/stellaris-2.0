@@ -1,0 +1,37 @@
+{
+  "schemaVersion": 1,
+  "id": "stellaris",
+  "version": "${version}",
+  "name": "Stellaris",
+  "description": "Stellaris introduces an expansive and immersive space exploration experience within the familiar Minecraft universe. Players can discover new planets, moon and galaxies !",
+  "authors": [
+    "Exodus Studio"
+  ],
+  "contact": {
+    "homepage": "https://fabricmc.net/",
+    "sources": "https://github.com/FabricMC/fabric-example-mod"
+  },
+  "license": "CC0-1.0",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "org.exodusstudio.stellaris.fabric.StellarisFabric"
+    ],
+    "client": [
+      "org.exodusstudio.stellaris.fabric.client.StellarisFabricClient"
+    ]
+  },
+  "mixins": [
+    "stellaris.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.16.14",
+    "minecraft": "~1.21.7",
+    "java": ">=21",
+    "architectury": ">=17.0.6",
+    "fabric-api": "*"
+  },
+  "suggests": {
+    "another-mod": "*"
+  }
+}

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/common/stellaris.common.iml" filepath="$PROJECT_DIR$/.idea/modules/common/stellaris.common.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/common/stellaris.common.main.iml" filepath="$PROJECT_DIR$/.idea/modules/common/stellaris.common.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/common/stellaris.common.test.iml" filepath="$PROJECT_DIR$/.idea/modules/common/stellaris.common.test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/fabric/stellaris.fabric.main.iml" filepath="$PROJECT_DIR$/.idea/modules/fabric/stellaris.fabric.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/fabric/stellaris.fabric.test.iml" filepath="$PROJECT_DIR$/.idea/modules/fabric/stellaris.fabric.test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/neoforge/stellaris.neoforge.main.iml" filepath="$PROJECT_DIR$/.idea/modules/neoforge/stellaris.neoforge.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/neoforge/stellaris.neoforge.test.iml" filepath="$PROJECT_DIR$/.idea/modules/neoforge/stellaris.neoforge.test.iml" />
+    </modules>
+  </component>
+</project>

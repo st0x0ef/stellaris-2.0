@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <bytecodeTargetLevel target="21" />
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="stellaris.common" options="&quot;-AoutRefMapFile=$PROJECT_DIR$/common/build/classes/java/main/stellaris-1.21.7-common-common-refmap.json&quot; -AdefaultObfuscationEnv=named:intermediary -Aquiet=true &quot;-AoutMapFileNamedIntermediary=$PROJECT_DIR$/common/build/loom-cache/mixin-map-loom.mappings.1_21_7.layered+hash.1194878700-v2.main.tiny&quot; -AinMapFileNamedIntermediary=$USER_HOME$/.gradle/caches/fabric-loom/1.21.7/loom.mappings.1_21_7.layered+hash.1194878700-v2/mappings.tiny" />
+      <module name="stellaris.common.main" options="&quot;-AoutRefMapFile=$PROJECT_DIR$/common/build/classes/java/main/stellaris-1.21.7-common-common-refmap.json&quot; -AdefaultObfuscationEnv=named:intermediary -Aquiet=true &quot;-AoutMapFileNamedIntermediary=$PROJECT_DIR$/common/build/loom-cache/mixin-map-loom.mappings.1_21_7.layered+hash.1194878700-v2.main.tiny&quot; -AinMapFileNamedIntermediary=$USER_HOME$/.gradle/caches/fabric-loom/1.21.7/loom.mappings.1_21_7.layered+hash.1194878700-v2/mappings.tiny" />
+      <module name="stellaris.common.test" options="&quot;-AoutRefMapFile=$PROJECT_DIR$/common/build/classes/java/test/test-stellaris-1.21.7-common-common-refmap.json&quot; -AdefaultObfuscationEnv=named:intermediary -Aquiet=true &quot;-AoutMapFileNamedIntermediary=$PROJECT_DIR$/common/build/loom-cache/mixin-map-loom.mappings.1_21_7.layered+hash.1194878700-v2.test.tiny&quot; -AinMapFileNamedIntermediary=$USER_HOME$/.gradle/caches/fabric-loom/1.21.7/loom.mappings.1_21_7.layered+hash.1194878700-v2/mappings.tiny" />
+      <module name="stellaris.fabric" options="&quot;-AoutRefMapFile=$PROJECT_DIR$/fabric/build/classes/java/main/stellaris-1.21.7-fabric-fabric-refmap.json&quot; -AdefaultObfuscationEnv=named:intermediary -Aquiet=true &quot;-AoutMapFileNamedIntermediary=$PROJECT_DIR$/fabric/build/loom-cache/mixin-map-loom.mappings.1_21_7.layered+hash.1194878700-v2.main.tiny&quot; -AinMapFileNamedIntermediary=$USER_HOME$/.gradle/caches/fabric-loom/1.21.7/loom.mappings.1_21_7.layered+hash.1194878700-v2/mappings.tiny" />
+      <module name="stellaris.fabric.main" options="&quot;-AoutRefMapFile=$PROJECT_DIR$/fabric/build/classes/java/main/stellaris-1.21.7-fabric-fabric-refmap.json&quot; -AdefaultObfuscationEnv=named:intermediary -Aquiet=true &quot;-AoutMapFileNamedIntermediary=$PROJECT_DIR$/fabric/build/loom-cache/mixin-map-loom.mappings.1_21_7.layered+hash.1194878700-v2.main.tiny&quot; -AinMapFileNamedIntermediary=$USER_HOME$/.gradle/caches/fabric-loom/1.21.7/loom.mappings.1_21_7.layered+hash.1194878700-v2/mappings.tiny" />
+      <module name="stellaris.fabric.test" options="&quot;-AoutRefMapFile=$PROJECT_DIR$/fabric/build/classes/java/test/test-stellaris-1.21.7-fabric-fabric-refmap.json&quot; -AdefaultObfuscationEnv=named:intermediary -Aquiet=true &quot;-AoutMapFileNamedIntermediary=$PROJECT_DIR$/fabric/build/loom-cache/mixin-map-loom.mappings.1_21_7.layered+hash.1194878700-v2.test.tiny&quot; -AinMapFileNamedIntermediary=$USER_HOME$/.gradle/caches/fabric-loom/1.21.7/loom.mappings.1_21_7.layered+hash.1194878700-v2/mappings.tiny" />
+    </option>
+  </component>
+</project>
