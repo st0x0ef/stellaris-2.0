@@ -1,6 +1,6 @@
 .gradle
 **/build/
-!**/src/**/build/
+**/run/
 
 gradle-app.setting
 
