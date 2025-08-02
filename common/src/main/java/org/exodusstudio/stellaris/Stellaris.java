@@ -2,9 +2,6 @@ package org.exodusstudio.stellaris;
 
 import com.google.common.base.Suppliers;
 import dev.architectury.registry.registries.RegistrarManager;
-import net.minecraft.resources.ResourceLocation;
-import org.exodusstudio.stellaris.registries.BlocksRegistry;
-import org.exodusstudio.stellaris.registries.ItemsRegistry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -17,11 +14,5 @@ public final class Stellaris {
 
     public static void init() {
 
-        ItemsRegistry.ITEMS.key();
-        BlocksRegistry.BLOCKS.key();
-    }
-
-    public static ResourceLocation id(String name) {
-        return ResourceLocation.fromNamespaceAndPath(MOD_ID, name);
     }
 }

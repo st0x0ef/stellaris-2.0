@@ -20,7 +20,7 @@ public final class StellarisNeoForge {
 
     public void registerEvent(RegisterEvent event) {
         if (event.getRegistry() == BuiltInRegistries.ENTITY_TYPE) { // To register it after blocks and before items
-            BlocksRegistry.registerBlockItems();
+            //BlocksRegistry.registerBlockItems();
         }
     }
 }

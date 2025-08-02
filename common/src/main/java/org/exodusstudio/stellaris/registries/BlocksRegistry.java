@@ -10,6 +10,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockBehaviour;
+import org.exodusstudio.stellaris.utils.ResourceLocationUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -19,7 +20,6 @@ import java.util.function.Function;
 import java.util.function.Supplier;
 
 import static org.exodusstudio.stellaris.Stellaris.*;
-import static org.exodusstudio.stellaris.registries.ItemsRegistry.item;
 import static net.minecraft.world.level.block.state.BlockBehaviour.Properties.ofFullCopy;
 
 public final class BlocksRegistry extends ModRegistries {
@@ -29,13 +29,13 @@ public final class BlocksRegistry extends ModRegistries {
     private static final Set<BlockSupplier<?, ?>> BLOCK_SUPPLIERS = new HashSet<>();
     private static boolean blockItemsRegistered = false;
 
-    public static final BlockSupplier<Block, BlockItem> MOON_ROCK = blockWithItem("moon_rock", ofFullCopy(Blocks.STONE), Block::new);
+    public static final BlockSupplier<Block, BlockItem> TEST_BLOCK_ITEM = blockWithItem("test_block_item", ofFullCopy(Blocks.STONE), Block::new);
 
 
-    protected static <B extends Block> RegistrySupplier<B> block(String name,
-                                                              BlockBehaviour.Properties properties,
-                                                              Function<BlockBehaviour.Properties, B> block) {
-        ResourceLocation id = id(name);
+    private static <B extends Block> RegistrySupplier<B> block(String name,
+                                                               BlockBehaviour.Properties properties,
+                                                               Function<BlockBehaviour.Properties, B> block) {
+        ResourceLocation id = ResourceLocationUtils.id(name);
         ResourceKey<Block> key = ResourceKey.create(Registries.BLOCK, id);
         return BLOCKS.register(id, () -> block.apply(properties.setId(key)));
     }
@@ -44,7 +44,7 @@ public final class BlocksRegistry extends ModRegistries {
                                                                               BlockBehaviour.Properties properties,
                                                                               Function<BlockBehaviour.Properties, B> block) {
 
-        return blockWithItem(name, properties, block, new Item.Properties()); // TODO add blocks tab
+        return blockWithItem(name, properties, block, new Item.Properties());
     }
 
     public static <B extends Block> BlockSupplier<B, BlockItem> blockWithItem(String name,
@@ -52,7 +52,7 @@ public final class BlocksRegistry extends ModRegistries {
                                                                               Function<BlockBehaviour.Properties, B> block,
                                                                               Item.Properties itemProperties) {
 
-        return blockWithCustomItem(name, properties, block,itemProperties, b -> p -> new BlockItem(b, p));
+        return blockWithCustomItem(name, properties, block, itemProperties, b -> p -> new BlockItem(b, p));
     }
 
     public static <B extends Block, I extends BlockItem> BlockSupplier<B, I> blockWithCustomItem(String name,
@@ -62,7 +62,7 @@ public final class BlocksRegistry extends ModRegistries {
                                                                                                  Function<B, Function<Item.Properties, I>> itemFunc) {
 
         RegistrySupplier<B> block = block(name, properties, blockFunc);
-        Function<B, RegistrySupplier<I>> blockItemGetter = b -> item(name, itemProperties, itemFunc.apply(b));
+        Function<B, RegistrySupplier<I>> blockItemGetter = b -> ItemsRegistry.item(name, itemProperties, itemFunc.apply(b));
         return new BlockSupplier<>(block, blockItemGetter);
     }
 
@@ -121,9 +121,4 @@ public final class BlocksRegistry extends ModRegistries {
     public ModRegistries getStaticInstance() {
         return blocksRegistry;
     }
-
-    private BlocksRegistry() {
-        super();
-    }
-
 }
