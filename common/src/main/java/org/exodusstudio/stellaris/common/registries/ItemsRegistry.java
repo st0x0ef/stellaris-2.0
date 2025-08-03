@@ -1,4 +1,4 @@
-package org.exodusstudio.stellaris.registries;
+package org.exodusstudio.stellaris.common.registries;
 
 import dev.architectury.registry.registries.DeferredRegister;
 import dev.architectury.registry.registries.RegistrySupplier;
@@ -6,10 +6,12 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.function.Function;
 
-import static org.exodusstudio.stellaris.Stellaris.*;
+import static org.exodusstudio.stellaris.Stellaris.MOD_ID;
+import static org.exodusstudio.stellaris.Stellaris.id;
 
 public final class ItemsRegistry {
 
@@ -18,7 +20,9 @@ public final class ItemsRegistry {
     public static final RegistrySupplier<Item> TEST_ITEM = item("test_item");
     public static final RegistrySupplier<Item> DESH_INGOT = item("desh_ingot");
 
-    public static <I extends Item> RegistrySupplier<I> item(String name, Item.Properties properties, Function<Item.Properties, I> itemFunc) {
+
+
+    public static <I extends Item> @NotNull RegistrySupplier<I> item(String name, Item.Properties properties, Function<Item.Properties, I> itemFunc) {
         ResourceLocation id = id(name);
         ResourceKey<Item> key = ResourceKey.create(Registries.ITEM, id);
         return ITEMS.register(id, () -> itemFunc.apply(properties.setId(key)));
