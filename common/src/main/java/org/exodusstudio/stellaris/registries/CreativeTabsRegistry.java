@@ -1,36 +1,34 @@
 package org.exodusstudio.stellaris.registries;
 
 import dev.architectury.registry.CreativeTabRegistry;
-import dev.architectury.registry.registries.Registrar;
+import dev.architectury.registry.registries.DeferredRegister;
 import dev.architectury.registry.registries.RegistrySupplier;
+import net.minecraft.core.Holder;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
-import org.exodusstudio.stellaris.utils.ResourceLocationUtils;
 
-import static org.exodusstudio.stellaris.Stellaris.MANAGER;
+import static org.exodusstudio.stellaris.Stellaris.*;
 
-public final class CreativeTabsRegistry extends ModRegistries {
-    public static final CreativeTabsRegistry creativeTabsRegistry = new CreativeTabsRegistry();
-    public static final Registrar<CreativeModeTab> CREATIVE_MODE_TABS = MANAGER.get().get(Registries.CREATIVE_MODE_TAB);
+public class CreativeTabsRegistry {
 
-    public static final RegistrySupplier<CreativeModeTab> STELLARIS_TAB = creativeTabs(ResourceLocationUtils.id("stellaris_tab"),
-            Component.translatable("itemGroup.stellaris.tab"), new ItemStack(Items.STICK)); // TODO : find a way to use our items here (currently crash)
+    public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS = DeferredRegister.create(MOD_ID, Registries.CREATIVE_MODE_TAB);
 
-    public static RegistrySupplier<CreativeModeTab> creativeTabs(ResourceLocation location, Component translatable, ItemStack icon) {
-        return CREATIVE_MODE_TABS.register(location, () -> CreativeTabRegistry.create(translatable, () -> icon));
+    public static final RegistrySupplier<CreativeModeTab> STELLARIS_MAIN = create("stellaris", ItemsRegistry.DESH_INGOT);
+    public static final RegistrySupplier<CreativeModeTab> STELLARIS_BLOCKS = create("stellaris_blocks", BlocksRegistry.MOON_ROCK.item);
+
+    @SuppressWarnings("all")
+    public static RegistrySupplier<CreativeModeTab> create(String name, Holder<? extends Item> icon) {
+
+        return CREATIVE_MODE_TABS.register(id(name),
+                () -> CreativeTabRegistry.create(
+                        Component.translatable("itemGroup.stellaris." + name),
+                        () -> new ItemStack((Holder<Item>) icon)
+                ));
     }
 
-    @Override
-    public Registrar<?> getRegistrar() {
-        return CREATIVE_MODE_TABS;
-    }
+    private CreativeTabsRegistry() {}
 
-    @Override
-    public ModRegistries getStaticInstance() {
-        return creativeTabsRegistry;
-    }
 }

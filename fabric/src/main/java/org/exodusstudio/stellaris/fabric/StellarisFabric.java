@@ -8,7 +8,6 @@ import org.exodusstudio.stellaris.registries.BlocksRegistry;
 public final class StellarisFabric implements ModInitializer {
     @Override
     public void onInitialize() {
-        BlocksRegistry.registerBlockItems();
         Stellaris.init();
     }
 }
