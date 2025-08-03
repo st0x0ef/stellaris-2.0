@@ -21,6 +21,13 @@ public final class ItemsRegistry {
     public static final RegistrySupplier<Item> DESH_INGOT = item("desh_ingot");
 
 
+    public static RegistrySupplier<Item> item(String name) {
+        return item(name, new Item.Properties().arch$tab(CreativeTabsRegistry.STELLARIS_MAIN), Item::new);
+    }
+
+    public static <I extends Item> RegistrySupplier<I> item(String name, Function<Item.Properties, I> itemFunc) {
+        return item(name, new Item.Properties().arch$tab(CreativeTabsRegistry.STELLARIS_MAIN), itemFunc);
+    }
 
     public static <I extends Item> @NotNull RegistrySupplier<I> item(String name, Item.Properties properties, Function<Item.Properties, I> itemFunc) {
         ResourceLocation id = id(name);
@@ -28,13 +35,6 @@ public final class ItemsRegistry {
         return ITEMS.register(id, () -> itemFunc.apply(properties.setId(key)));
     }
 
-    public static <I extends Item> RegistrySupplier<I> item(String name, Function<Item.Properties, I> itemFunc) {
-        return item(name, new Item.Properties().arch$tab(CreativeTabsRegistry.STELLARIS_MAIN), itemFunc);
-    }
-
-    public static RegistrySupplier<Item> item(String name) {
-        return item(name, new Item.Properties().arch$tab(CreativeTabsRegistry.STELLARIS_MAIN), Item::new);
-    }
 
     private ItemsRegistry() {}
 
