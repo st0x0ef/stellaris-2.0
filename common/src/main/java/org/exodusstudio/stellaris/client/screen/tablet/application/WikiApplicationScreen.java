@@ -1,46 +1,21 @@
 package org.exodusstudio.stellaris.client.screen.tablet.application;
 
-import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.player.Inventory;
-import org.exodusstudio.stellaris.common.menu.application.WikiApplicationMenu;
+import net.minecraft.world.entity.player.Player;
 import org.jetbrains.annotations.NotNull;
 
-public class WikiApplicationScreen extends AbstractApplicationScreen<WikiApplicationMenu>{
+import java.util.function.Function;
 
-    public WikiApplicationScreen(WikiApplicationMenu menu, Inventory playerInventory) {
-        super(menu, playerInventory);
+public class WikiApplicationScreen extends Screen{
+
+    public Player player;
+
+    public WikiApplicationScreen(Player player) {
+        super(Component.empty());
+
+        this.player = player;
     }
 
-    @Override
-    Component getName() {
-        return null;
-    }
-
-    @Override
-    public @NotNull Component getTitle() {
-        return super.getTitle();
-    }
-
-    @Override
-    Component getDescription() {
-        return null;
-    }
-
-    @Override
-    Screen getScreen() {
-        return null;
-    }
-
-    @Override
-    ResourceLocation getIconLocation() {
-        return null;
-    }
-
-    @Override
-    protected void renderBg(GuiGraphics guiGraphics, float partialTick, int mouseX, int mouseY) {
-
-    }
 }
