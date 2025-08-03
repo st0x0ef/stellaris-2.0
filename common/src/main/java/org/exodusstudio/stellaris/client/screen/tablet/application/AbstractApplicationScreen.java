@@ -15,7 +15,7 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import org.exodusstudio.stellaris.common.menu.application.AbstractApplicationMenu;
 import org.jetbrains.annotations.NotNull;
 
-public abstract class AbstractApplicationScreen<T extends AbstractApplicationMenu<?>> extends AbstractContainerScreen<T> {
+public abstract class AbstractApplicationScreen<T extends AbstractApplicationMenu> extends AbstractContainerScreen<T> {
 
 
     public AbstractApplicationScreen(T menu, Inventory playerInventory) {

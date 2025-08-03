@@ -7,7 +7,7 @@ import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.Nullable;
 
-public class WikiApplicationMenu extends AbstractApplicationMenu<WikiApplicationMenu> {
+public class WikiApplicationMenu extends AbstractApplicationMenu {
 
     public WikiApplicationMenu(@Nullable MenuType<?> menuType, int syncId, Inventory playerInventory) {
         super(menuType, syncId, playerInventory);

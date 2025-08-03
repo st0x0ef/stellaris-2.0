@@ -7,11 +7,11 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.MenuType;
 import org.jetbrains.annotations.Nullable;
 
-public abstract class AbstractApplicationMenu<T extends AbstractApplicationMenu<?>> extends AbstractContainerMenu {
+public abstract class AbstractApplicationMenu extends AbstractContainerMenu {
 
     private final Player player;
 
-    abstract public T create(int syncId, Inventory inventory, FriendlyByteBuf data);
+    abstract public AbstractApplicationMenu create(int syncId, Inventory inventory, FriendlyByteBuf data);
 
     public AbstractApplicationMenu(@Nullable MenuType<?> menuType, int syncId, Inventory playerInventory) {
         super(menuType, syncId);
