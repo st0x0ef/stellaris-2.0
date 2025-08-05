@@ -4,7 +4,8 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
-import org.exodusstudio.stellaris.client.screen.components.ScrollableContainer;
+import org.exodusstudio.stellaris.client.screen.components.containers.DraggableContainer;
+import org.exodusstudio.stellaris.client.screen.components.containers.ScrollableContainer;
 
 public class TestScreen extends Screen {
 
@@ -20,8 +21,7 @@ public class TestScreen extends Screen {
             System.out.println("Button clicked!");
         }).bounds(20, 20, 100, 20).build();
 
-        ScrollableContainer<?> container = new ScrollableContainer<>(0, 0, 500, 500)
-                .addChild(testButton);
+        DraggableContainer<?> container = new DraggableContainer<>(0, 0, 500, 500, testButton);
 
         this.addRenderableWidget(testButton);
         this.addRenderableWidget(container);
