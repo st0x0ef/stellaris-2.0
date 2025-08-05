@@ -1,9 +1,7 @@
 package org.exodusstudio.stellaris;
 
-import net.minecraft.resources.ResourceLocation;
-import org.exodusstudio.stellaris.common.registries.BlocksRegistry;
-import org.exodusstudio.stellaris.common.registries.CreativeTabsRegistry;
-import org.exodusstudio.stellaris.common.registries.ItemsRegistry;
+import org.exodusstudio.stellaris.common.network.NetworkRegistry;
+import org.exodusstudio.stellaris.common.registries.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -15,10 +13,9 @@ public final class Stellaris {
         BlocksRegistry.BLOCKS.register();
         ItemsRegistry.ITEMS.register();
         CreativeTabsRegistry.register();
-
+        MenuTypesRegistry.MENU_TYPE.register();
+        CommandsRegistry.register();
+        NetworkRegistry.init();
     }
 
-    public static ResourceLocation id(String name) {
-        return ResourceLocation.fromNamespaceAndPath(MOD_ID, name);
-    }
 }

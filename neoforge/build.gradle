@@ -7,6 +7,11 @@ architectury {
     neoForge()
 }
 
+loom {
+    accessWidenerPath.set(project(":common").loom.accessWidenerPath)
+}
+
+
 configurations {
     common {
         canBeResolved = true
@@ -48,9 +53,15 @@ processResources {
 
 shadowJar {
     configurations = [project.configurations.shadowBundle]
+
+    exclude "architectury.common.json"
+
+
     archiveClassifier = 'dev-shadow'
 }
 
 remapJar {
     inputFile.set shadowJar.archiveFile
+    atAccessWideners.add("stellaris.accesswidener")
+
 }

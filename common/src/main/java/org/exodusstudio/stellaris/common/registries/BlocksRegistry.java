@@ -10,6 +10,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockBehaviour;
+import org.exodusstudio.stellaris.common.utils.ResourceLocationUtils;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.function.BiFunction;
@@ -17,7 +18,6 @@ import java.util.function.Function;
 
 import static net.minecraft.world.level.block.state.BlockBehaviour.Properties.ofFullCopy;
 import static org.exodusstudio.stellaris.Stellaris.MOD_ID;
-import static org.exodusstudio.stellaris.Stellaris.id;
 
 public final class BlocksRegistry {
 
@@ -31,7 +31,7 @@ public final class BlocksRegistry {
     public static <B extends Block> @NotNull RegistrySupplier<B> block(String name,
                                                                BlockBehaviour.Properties properties,
                                                                Function<BlockBehaviour.Properties, B> blockFunc) {
-        ResourceLocation id = id(name);
+        ResourceLocation id = ResourceLocationUtils.id(name);
         ResourceKey<Block> key = ResourceKey.create(Registries.BLOCK, id);
         return BLOCKS.register(id, () -> blockFunc.apply(properties.setId(key)));
     }
