@@ -1,5 +1,6 @@
 package org.exodusstudio.stellaris;
 
+import org.exodusstudio.stellaris.client.screen.tablet.application.ApplicationRegistry;
 import org.exodusstudio.stellaris.common.network.NetworkRegistry;
 import org.exodusstudio.stellaris.common.registries.*;
 import org.slf4j.Logger;

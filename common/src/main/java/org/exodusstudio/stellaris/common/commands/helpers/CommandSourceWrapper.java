@@ -35,4 +35,12 @@ public class CommandSourceWrapper {
         return context.getArgument(name, type);
     }
 
+    public int success() {
+        return 1;
+    }
+
+    public int failure() {
+        return 0;
+    }
+
 }

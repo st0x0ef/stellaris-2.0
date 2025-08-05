@@ -1,6 +1,8 @@
 package org.exodusstudio.stellaris.common.menu;
 
+import dev.architectury.registry.menu.ExtendedMenuProvider;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.Container;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Inventory;
@@ -11,22 +13,19 @@ import net.minecraft.world.item.ItemStack;
 import org.exodusstudio.stellaris.common.registries.MenuTypesRegistry;
 import org.jetbrains.annotations.Nullable;
 
-import java.awt.*;
 
 public class MainTabletMenu extends AbstractContainerMenu {
 
-    private final Container container;
     private final Inventory playerInventory;
 
 
     public MainTabletMenu(int syncId, Inventory inventory, FriendlyByteBuf buffer) {
-        this(syncId, inventory, new SimpleContainer(13));
+        this(syncId, inventory);
     }
 
-    public MainTabletMenu(int syncId, Inventory playerInventory, Container container) {
+    public MainTabletMenu(int syncId, Inventory playerInventory) {
         super(MenuTypesRegistry.TABLET.get(), syncId);
 
-        this.container = container;
         this.playerInventory = playerInventory;
     }
 
@@ -38,5 +37,24 @@ public class MainTabletMenu extends AbstractContainerMenu {
     @Override
     public boolean stillValid(Player player) {
         return false;
+    }
+
+    public static ExtendedMenuProvider createProvider() {
+        return new ExtendedMenuProvider() {
+            @Override
+            public void saveExtraData(FriendlyByteBuf buf) {
+
+            }
+
+            @Override
+            public AbstractContainerMenu createMenu(int syncId, Inventory inventory, Player player) {
+                return new MainTabletMenu(syncId, inventory);
+            }
+
+            @Override
+            public Component getDisplayName() {
+                return Component.translatable("container.stellaris.tablet");
+            }
+        };
     }
 }

@@ -4,11 +4,11 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
 
-public class ScrollableContainer<C extends AbstractWidget> extends BasicContainer<C> {
+public class ScrollableContainer extends BasicContainer {
 
     private int scrollOffset = 0;
 
-    public ScrollableContainer(int baseX, int baseY, int width, int height, C... children) {
+    public ScrollableContainer(int baseX, int baseY, int width, int height, AbstractWidget... children) {
         super(baseX, baseY, width, height, children);
     }
 
@@ -27,7 +27,7 @@ public class ScrollableContainer<C extends AbstractWidget> extends BasicContaine
     @Override
     public void updateChildrenPosition() {
         int y = this.scrollOffset;
-        for (C child : this.children) {
+        for (AbstractWidget child : this.children) {
             int childHeight = child.getHeight();
             child.setY(childHeight + y);
         }

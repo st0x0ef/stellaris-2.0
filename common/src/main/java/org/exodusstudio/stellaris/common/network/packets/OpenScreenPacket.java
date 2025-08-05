@@ -18,7 +18,6 @@ public class OpenScreenPacket implements CustomPacketPayload {
 
     public static final ScreenType TEST_SCREEN = new ScreenType("test", (c) -> new TestScreen());
 
-
     private final String screenName;
 
     public static final StreamCodec<RegistryFriendlyByteBuf, OpenScreenPacket> STREAM_CODEC = new StreamCodec<>() {
@@ -41,9 +40,7 @@ public class OpenScreenPacket implements CustomPacketPayload {
         this.screenName = screenName;
     }
 
-
     public static void handle(OpenScreenPacket packet, NetworkManager.PacketContext context) {
-        //On the client
         Minecraft.getInstance().setScreen(ScreenType.TYPES.get(packet.screenName).screen.apply(Component.empty()));
     }
 

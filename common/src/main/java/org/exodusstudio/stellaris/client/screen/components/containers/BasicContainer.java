@@ -9,12 +9,12 @@ import net.minecraft.network.chat.Component;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public abstract class BasicContainer<C extends AbstractWidget> extends AbstractWidget{
+public abstract class BasicContainer extends AbstractWidget{
 
-    public ArrayList<C> children = new ArrayList<C>();
+    public ArrayList<AbstractWidget> children = new ArrayList<AbstractWidget>();
 
     @SafeVarargs
-    public BasicContainer(int baseX, int baseY, int width, int height, C ...children) {
+    public BasicContainer(int baseX, int baseY, int width, int height, AbstractWidget ...children) {
         this(baseX, baseY, width, height);
         this.children = new ArrayList<>(Arrays.asList(children));
     }
@@ -34,20 +34,20 @@ public abstract class BasicContainer<C extends AbstractWidget> extends AbstractW
 
     }
 
-    public BasicContainer<C> setVisible(boolean visible) {
+    public BasicContainer setVisible(boolean visible) {
         this.visible = visible;
-        for (C child : this.children) {
+        for (AbstractWidget child : this.children) {
             child.visible = visible;
         }
         return this;
     }
 
-    public BasicContainer<C> addChild(Screen parent, C child) {
+    public BasicContainer addChild(Screen parent, AbstractWidget child) {
         parent.addRenderableWidget(child);
         return this.addChild(child);
     }
 
-    public BasicContainer<C> addChild(C child) {
+    public BasicContainer addChild(AbstractWidget child) {
         this.children.add(child);
         return this;
     }

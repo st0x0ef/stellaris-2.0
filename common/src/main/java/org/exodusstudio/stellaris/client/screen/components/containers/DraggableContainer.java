@@ -2,13 +2,13 @@ package org.exodusstudio.stellaris.client.screen.components.containers;
 
 import net.minecraft.client.gui.components.AbstractWidget;
 
-public class DraggableContainer<C extends AbstractWidget> extends BasicContainer<C> {
+public class DraggableContainer extends BasicContainer {
 
     public int dragOffsetX = 0;
     public int dragOffsetY = 0;
 
 
-    public DraggableContainer(int baseX, int baseY, int width, int height, C... children) {
+    public DraggableContainer(int baseX, int baseY, int width, int height, AbstractWidget... children) {
         super(baseX, baseY, width, height, children);
     }
 
@@ -19,12 +19,10 @@ public class DraggableContainer<C extends AbstractWidget> extends BasicContainer
             this.dragOffsetX += dragX;
             this.dragOffsetY += dragY;
 
-
             updateChildrenPosition();
 
             this.dragOffsetX = 0;
             this.dragOffsetY = 0;
-
 
             return true; // Indicate that the mouse was dragged
         }
@@ -34,7 +32,7 @@ public class DraggableContainer<C extends AbstractWidget> extends BasicContainer
 
     @Override
     public void updateChildrenPosition() {
-        for (C child : this.children) {
+        for (AbstractWidget child : this.children) {
             int childX = child.getX() + this.dragOffsetX;
             int childY = child.getY() + this.dragOffsetY;
             child.setX(childX);
