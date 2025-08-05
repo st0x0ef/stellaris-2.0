@@ -1,11 +1,13 @@
-package org.exodusstudio.stellaris.common.commands;
+package org.exodusstudio.stellaris.common.commands.helpers;
 
 import com.mojang.brigadier.CommandDispatcher;
+import com.mojang.brigadier.arguments.ArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.function.Function;
 
@@ -13,7 +15,11 @@ public class CommandBuilder {
 
     public String commandName;
     public int permissionLevel = 0;
-    public Function<CommandContext<CommandSourceStack>, Integer> commandFunction = (c) -> 1;
+    public Function<CommandSourceWrapper, Integer> commandFunction = (c) -> 1;
+
+    public HashMap<String, ArgumentType<?>> arguments = new HashMap<>();
+
+    public ArgumentBuilder<?> argumentBuilder;
 
     public HashSet<CommandBuilder> subCommands = new HashSet<>();
 
@@ -24,18 +30,23 @@ public class CommandBuilder {
         this.commandName = commandName;
     }
 
-    public CommandBuilder command(String name) {
-        this.commandName = name;
-        return this;
-    }
-
     public CommandBuilder permission(int level) {
         this.permissionLevel = level;
         return this;
     }
 
-    public CommandBuilder execute(Function<CommandContext<CommandSourceStack>, Integer> function) {
+    public CommandBuilder execute(Function<CommandSourceWrapper, Integer> function) {
         this.commandFunction = function;
+        return this;
+    }
+
+    public <T> ArgumentBuilder<T> createArgument(String argName, ArgumentType<T> argumentType) {
+        ArgumentBuilder<T> argBuilder = ArgumentBuilder.of(argName, argumentType);
+        return argBuilder;
+    }
+
+    public <T> CommandBuilder addArgument(ArgumentBuilder<T> argBuilder) {
+        this.argumentBuilder = argBuilder;
         return this;
     }
 
@@ -62,8 +73,14 @@ public class CommandBuilder {
         }
 
         LiteralArgumentBuilder<CommandSourceStack> commandBuilder = Commands.literal(commandName)
-            .requires(source -> source.hasPermission(permissionLevel))
-            .executes(commandFunction::apply);
+                .requires(source -> source.hasPermission(permissionLevel));
+
+        if(argumentBuilder != null) {
+            commandBuilder.then(argumentBuilder.build(this.commandFunction, null));
+        } else {
+            commandBuilder.executes((c) ->  this.commandFunction.apply(new CommandSourceWrapper(c)));
+        }
+
 
         for (CommandBuilder subCommand : subCommands) {
             commandBuilder.then(subCommand.build());
