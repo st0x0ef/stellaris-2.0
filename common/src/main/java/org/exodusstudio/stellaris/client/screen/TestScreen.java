@@ -5,7 +5,6 @@ import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import org.exodusstudio.stellaris.client.screen.components.containers.DraggableContainer;
-import org.exodusstudio.stellaris.client.screen.components.containers.ScrollableContainer;
 
 public class TestScreen extends Screen {
 

@@ -10,15 +10,18 @@ import org.exodusstudio.stellaris.common.network.packets.OpenScreenPacket;
 public class StellarisCommands {
 
     public StellarisCommands(CommandDispatcher<CommandSourceStack> dispatcher, CommandBuildContext registry, Commands.CommandSelection selection) {
-        dispatcher.register(Commands.literal("stellaris")
-                .then(Commands.literal("tablet")
-                        .executes((context) -> {
-                            NetworkManager.sendToPlayer(context.getSource().getPlayer(), new OpenScreenPacket("test"));
-                            //Minecraft.getInstance().setScreen(new TestScreen());
-                            return 0;
-                        })
-                )
-        );
+
+        CommandBuilder builder = CommandBuilder.of(dispatcher, "stellaris");
+        builder.addSubCommand(
+                        builder.createSubCommand("screen")
+                                .permission(2)
+                                .addSubCommand(builder.createSubCommand("tablet")
+                                        .execute((context) -> {
+                                            NetworkManager.sendToPlayer(context.getSource().getPlayer(), new OpenScreenPacket("test"));
+                                            return 0;
+                                        }))
+                ).register();
+
 
     }
 

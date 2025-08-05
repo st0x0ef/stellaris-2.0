@@ -34,6 +34,14 @@ public abstract class BasicContainer<C extends AbstractWidget> extends AbstractW
 
     }
 
+    public BasicContainer<C> setVisible(boolean visible) {
+        this.visible = visible;
+        for (C child : this.children) {
+            child.visible = visible;
+        }
+        return this;
+    }
+
     public BasicContainer<C> addChild(Screen parent, C child) {
         parent.addRenderableWidget(child);
         return this.addChild(child);
