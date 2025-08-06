@@ -16,7 +16,7 @@ public class ApplicationScreen extends Screen {
 
     public final MainTabletScreen mainTablet;
 
-    protected ApplicationScreen(MainTabletScreen mainTablet, Component title) {
+    public ApplicationScreen(MainTabletScreen mainTablet, Component title) {
         super(title);
 
         this.mainTablet = mainTablet;

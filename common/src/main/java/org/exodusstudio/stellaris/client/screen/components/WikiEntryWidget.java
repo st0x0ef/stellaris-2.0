@@ -1,25 +1,5 @@
 package org.exodusstudio.stellaris.client.screen.components;
 
-import com.mojang.blaze3d.systems.RenderSystem;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.Font;
-import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.gui.components.AbstractScrollArea;
-import net.minecraft.client.gui.narration.NarrationElementOutput;
-import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.Entity;
-import org.exodusstudio.stellaris.client.screen.tablet.application.WikiApplicationScreen;
-import org.exodusstudio.stellaris.common.utils.ResourceLocationUtils;
-import org.joml.Quaternionf;
-import org.joml.Vector3f;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.atomic.AtomicInteger;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 public class WikiEntryWidget
         //extends AbstractScrollArea
 {

@@ -21,18 +21,20 @@ public class TexturedButton extends Button {
     public static final ResourceLocation TEXTURE = ResourceLocationUtils.guiTexture("util/buttons/button");
     public static final ResourceLocation HOVER_TEXTURE = ResourceLocationUtils.guiTexture("util/buttons/button");
 
-    private ResourceLocation buttonTexture;
-    private ResourceLocation hoverButtonTexture;
+    public ResourceLocation buttonTexture;
+    public ResourceLocation hoverButtonTexture;
 
-    private int xTexStart;
-    private int yTexStart;
+    public int xTexStart;
+    public int yTexStart;
 
-    private int yDiffText;
+    public int yDiffText;
 
-    private int textureWidth;
-    private int textureHeight;
+    public int textureWidth;
+    public int textureHeight;
 
-    private boolean showText = false;
+    public boolean useSprite = false;
+
+    public boolean showText = false;
 
     public TexturedButton(int x, int y, int widthIn, int heightIn, Button.OnPress onPressIn) {
         this(x, y, widthIn, heightIn, Component.empty(), onPressIn, DEFAULT_NARRATION);
@@ -109,12 +111,12 @@ public class TexturedButton extends Button {
         /** TEXTURE MANAGER */
         ResourceLocation texture = this.getTypeTexture();
 
-
-        graphics.blitSprite(RenderPipelines.GUI_TEXTURED, texture, this.getX(), this.getY(), this.getWidth(), this.getHeight(), ARGB.white(this.alpha));
-
-
-        graphics.blit(RenderPipelines.GUI_TEXTURED, texture, this.getX(), this.getY(), (float) this.xTexStart, (float) i,
-                this.width, this.height, this.textureWidth, this.textureHeight);
+        if( this.useSprite ) {
+            graphics.blitSprite(RenderPipelines.GUI_TEXTURED, texture, this.getX(), this.getY(), this.getWidth(), this.getHeight(), ARGB.white(this.alpha));
+        } else {
+            graphics.blit(RenderPipelines.GUI_TEXTURED, texture, this.getX(), this.getY(), (float) this.xTexStart, (float) i,
+                    this.width, this.height, this.textureWidth, this.textureHeight);
+        }
 
         /** FONT RENDERER */
         int color = this.isHovered ? 16777215 : 10526880;
@@ -132,7 +134,7 @@ public class TexturedButton extends Button {
     }
 
     /** TYPE TEXTURE MANAGER */
-    private ResourceLocation getTypeTexture() {
+    public ResourceLocation getTypeTexture() {
         if (this.isHovered) {
             return this.buttonTexture;
         }

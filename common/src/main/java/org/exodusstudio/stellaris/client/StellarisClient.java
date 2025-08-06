@@ -3,7 +3,7 @@ package org.exodusstudio.stellaris.client;
 import dev.architectury.registry.ReloadListenerRegistry;
 import dev.architectury.registry.menu.MenuRegistry;
 import net.minecraft.server.packs.PackType;
-import org.exodusstudio.stellaris.client.data.wiki.TabletPack;
+import org.exodusstudio.stellaris.client.data.wiki.WikiPack;
 import org.exodusstudio.stellaris.client.screen.tablet.MainTabletScreen;
 import org.exodusstudio.stellaris.client.screen.tablet.application.ApplicationRegistry;
 import org.exodusstudio.stellaris.common.registries.MenuTypesRegistry;
@@ -22,7 +22,7 @@ public class StellarisClient {
     }
 
     private static void registerPack() {
-        ReloadListenerRegistry.register(PackType.CLIENT_RESOURCES, new TabletPack(), ResourceLocationUtils.id("wiki"));
+        ReloadListenerRegistry.register(PackType.CLIENT_RESOURCES, new WikiPack(), ResourceLocationUtils.id("wiki"));
     }
 
 

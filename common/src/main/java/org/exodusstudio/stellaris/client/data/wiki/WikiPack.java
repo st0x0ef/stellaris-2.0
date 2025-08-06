@@ -6,18 +6,18 @@ import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.packs.resources.SimpleJsonResourceReloadListener;
 import net.minecraft.util.profiling.ProfilerFiller;
 import org.exodusstudio.stellaris.Stellaris;
-import org.exodusstudio.stellaris.client.screen.tablet.application.WikiApplicationScreen;
+import org.exodusstudio.stellaris.client.screen.tablet.application.wiki.WikiApplicationScreen;
 
 import java.util.Map;
 
-public class TabletPack extends SimpleJsonResourceReloadListener<TabletEntry> {
+public class WikiPack extends SimpleJsonResourceReloadListener<WikiEntry> {
 
-    public TabletPack() {
-        super(TabletEntry.CODEC, FileToIdConverter.json("wiki"));
+    public WikiPack() {
+        super(WikiEntry.CODEC, FileToIdConverter.json("wiki"));
     }
 
     @Override
-    protected void apply(Map<ResourceLocation, TabletEntry> resourceLocationJsonElementMap, ResourceManager resourceManager, ProfilerFiller profiler) {
+    protected void apply(Map<ResourceLocation, WikiEntry> resourceLocationJsonElementMap, ResourceManager resourceManager, ProfilerFiller profiler) {
 
         Stellaris.LOG.error("Loading Assets for Tablet Pack");
         resourceLocationJsonElementMap.forEach((key, entry) -> {

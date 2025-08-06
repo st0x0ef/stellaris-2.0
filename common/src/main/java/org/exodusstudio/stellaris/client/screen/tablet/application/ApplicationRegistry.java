@@ -6,9 +6,9 @@ import dev.architectury.registry.registries.RegistrySupplier;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.player.Player;
 import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.client.screen.tablet.MainTabletScreen;
+import org.exodusstudio.stellaris.client.screen.tablet.application.wiki.WikiApplicationScreen;
 
 import java.util.function.Function;
 

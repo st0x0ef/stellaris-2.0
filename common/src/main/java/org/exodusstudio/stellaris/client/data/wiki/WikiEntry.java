@@ -8,16 +8,16 @@ import net.minecraft.world.item.ItemStack;
 import java.util.List;
 import java.util.Optional;
 
-public record TabletEntry(String id, String description, ResourceLocation icon, ResourceLocation hoverIcon,
-                          List<EntryComponents> components) {
+public record WikiEntry(String id, String description, ResourceLocation icon, ResourceLocation hoverIcon,
+                        List<EntryComponents> components) {
 
-    public static final Codec<TabletEntry> CODEC = RecordCodecBuilder.create(instance -> instance.group(
-            Codec.STRING.fieldOf("id").forGetter(TabletEntry::id),
-            Codec.STRING.fieldOf("description").forGetter(TabletEntry::description),
-            ResourceLocation.CODEC.fieldOf("icon").forGetter(TabletEntry::icon),
-            ResourceLocation.CODEC.fieldOf("hoverIcon").forGetter(TabletEntry::hoverIcon),
-            EntryComponents.CODEC.listOf().fieldOf("components").forGetter(TabletEntry::components)
-    ).apply(instance, TabletEntry::new));
+    public static final Codec<WikiEntry> CODEC = RecordCodecBuilder.create(instance -> instance.group(
+            Codec.STRING.fieldOf("id").forGetter(WikiEntry::id),
+            Codec.STRING.fieldOf("description").forGetter(WikiEntry::description),
+            ResourceLocation.CODEC.fieldOf("icon").forGetter(WikiEntry::icon),
+            ResourceLocation.CODEC.fieldOf("hoverIcon").forGetter(WikiEntry::hoverIcon),
+            EntryComponents.CODEC.listOf().fieldOf("components").forGetter(WikiEntry::components)
+    ).apply(instance, WikiEntry::new));
 
     public record EntryComponents(String id, String title, String iconType, List<InfoComponent> components) {
 
