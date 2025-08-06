@@ -1,21 +1,28 @@
 package org.exodusstudio.stellaris.client.screen.tablet.application;
 
-import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
-import org.jetbrains.annotations.NotNull;
+import org.exodusstudio.stellaris.client.data.wiki.TabletEntry;
+import org.exodusstudio.stellaris.client.screen.tablet.MainTabletScreen;
 
-import java.util.function.Function;
+import java.util.HashMap;
+import java.util.Map;
 
-public class WikiApplicationScreen extends Screen{
+public class WikiApplicationScreen extends ApplicationScreen {
 
     public Player player;
 
-    public WikiApplicationScreen(Player player) {
-        super(Component.empty());
+    public static Map<String, TabletEntry> ENTRIES = new HashMap<>();
+    public static Map<ResourceLocation, TabletEntry.EntryComponents> ENTRY_COMPONENTS = new HashMap<>();
 
-        this.player = player;
+    protected WikiApplicationScreen(MainTabletScreen mainTablet) {
+        super(mainTablet, Component.literal("Wiki"));
     }
 
+    @Override
+    public void renderBackground(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
+        super.renderBackground(guiGraphics, mouseX, mouseY, partialTick);
+    }
 }

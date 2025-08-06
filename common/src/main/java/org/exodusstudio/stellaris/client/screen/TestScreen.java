@@ -21,7 +21,6 @@ public class TestScreen extends Screen {
     protected void init() {
 
         Button testButton = Button.builder(Component.literal("Test Button"), button -> {
-            // Handle button click
             System.out.println("Button clicked!");
         }).bounds(20, 20, 100, 20).build();
 

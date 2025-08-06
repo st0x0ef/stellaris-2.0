@@ -8,6 +8,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import org.exodusstudio.stellaris.Stellaris;
+import org.exodusstudio.stellaris.client.screen.tablet.MainTabletScreen;
 
 import java.util.function.Function;
 
@@ -39,9 +40,9 @@ public class ApplicationRegistry {
         private final Component name;
         private final Component description;
         private final ResourceLocation iconLocation;
-        private final Function<Player, Screen> screenFactory; // Function that takes Player and returns a Screen
+        private final Function<MainTabletScreen, Screen> screenFactory; // Function that takes Player and returns a Screen
 
-        public ApplicationFactory(Component name, Component description, ResourceLocation iconLocation, Function<Player, Screen> screenFactory) {
+        public ApplicationFactory(Component name, Component description, ResourceLocation iconLocation, Function<MainTabletScreen, Screen> screenFactory) {
             this.name = name;
             this.description = description;
             this.iconLocation = iconLocation;
@@ -52,8 +53,8 @@ public class ApplicationRegistry {
         public Component getDescription() { return description; }
         public ResourceLocation getIconLocation() { return iconLocation; }
 
-        public Screen createScreen(Player player) {
-            return screenFactory.apply(player);
+        public Screen createScreen(MainTabletScreen screen) {
+            return screenFactory.apply(screen);
         }
     }
 

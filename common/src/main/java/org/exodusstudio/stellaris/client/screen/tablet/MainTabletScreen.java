@@ -58,7 +58,7 @@ public class MainTabletScreen extends AbstractContainerScreen<MainTabletMenu> {
 
         ApplicationRegistry.TABLET_APPLICATION.entrySet().forEach(entry -> {
             ApplicationRegistry.ApplicationFactory infos = entry.getValue();
-            TexturedButton tabletButton = new TexturedButton(this.leftPos + 68 + (column.get() * 30), this.topPos + 60 + (row.get() * 30), 20, 20, infos.getName(), (button -> minecraft.setScreen(infos.createScreen(this.getPlayer()))))
+            TexturedButton tabletButton = new TexturedButton(this.leftPos + 68 + (column.get() * 30), this.topPos + 60 + (row.get() * 30), 20, 20, infos.getName(), (button -> minecraft.setScreen(infos.createScreen(this))))
                     .tex(infos.getIconLocation(), infos.getIconLocation());
 
             if (column.get() == 3) {
@@ -102,6 +102,15 @@ public class MainTabletScreen extends AbstractContainerScreen<MainTabletMenu> {
                 }
             }
         }
+
+    }
+
+    public int getLeftPos() {
+        return this.leftPos;
+    }
+
+    public int getTopPos() {
+        return this.topPos;
     }
 
     public Player getPlayer() {
