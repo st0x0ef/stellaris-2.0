@@ -1,16 +1,13 @@
 package org.exodusstudio.stellaris.client.screen.tablet;
 
-import com.mojang.datafixers.kinds.App;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.gui.components.AbstractWidget;
-import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
+import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import org.exodusstudio.stellaris.client.screen.components.TexturedButton;
-import org.exodusstudio.stellaris.client.screen.components.containers.ScrollableContainer;
 import org.exodusstudio.stellaris.client.screen.tablet.application.ApplicationRegistry;
 import org.exodusstudio.stellaris.common.menu.MainTabletMenu;
 import org.exodusstudio.stellaris.common.utils.ResourceLocationUtils;
@@ -25,30 +22,27 @@ public class MainTabletScreen extends AbstractContainerScreen<MainTabletMenu> {
     public final ArrayList<ArrayList<TexturedButton>> APPLICATIONS = new ArrayList<>();
     private int currentPage = 0;
 
-    public ScrollableContainer container;
-
     public final Player player;
 
     public MainTabletScreen(MainTabletMenu menu, Inventory playerInventory, Component title) {
         super(menu, playerInventory, title);
+
         this.player = playerInventory.player;
+        this.imageHeight = 162;
+        this.imageWidth = 250;
+
     }
 
     @Override
     protected void init() {
-        container = (ScrollableContainer) new ScrollableContainer(this.leftPos, this.topPos, this.imageWidth, this.imageHeight)
-                .addChild(this, Button.builder(Component.literal("ee"), button -> {
-                    // Handle button click
-                }).bounds(20, 20, 100, 20).build());
-
-
+        super.init();
 
         createAppsButton();
     }
 
     @Override
     protected void renderBg(GuiGraphics guiGraphics, float partialTick, int mouseX, int mouseY) {
-        guiGraphics.blit(BACKGROUND, this.leftPos, this.topPos, 0, 0, this.imageWidth, this.imageHeight, this.imageWidth, this.imageHeight);
+        guiGraphics.blit(RenderPipelines.GUI_TEXTURED, BACKGROUND, this.leftPos, this.topPos, 0, 0, 250, 162, 250, 162);
     }
 
 
@@ -81,6 +75,7 @@ public class MainTabletScreen extends AbstractContainerScreen<MainTabletMenu> {
         });
     }
 
+    //Add button to the current page list, if the current page is full, create a new page
     public void addButtonToList(TexturedButton button, int size){
         if (APPLICATIONS.isEmpty()) {
             ArrayList<TexturedButton> list = new ArrayList<>();

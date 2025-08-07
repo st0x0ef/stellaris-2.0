@@ -3,15 +3,11 @@ package org.exodusstudio.stellaris.common.menu;
 import dev.architectury.registry.menu.ExtendedMenuProvider;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
-import net.minecraft.world.Container;
-import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
-import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.ItemStack;
 import org.exodusstudio.stellaris.common.registries.MenuTypesRegistry;
-import org.jetbrains.annotations.Nullable;
 
 
 public class MainTabletMenu extends AbstractContainerMenu {
@@ -36,7 +32,7 @@ public class MainTabletMenu extends AbstractContainerMenu {
 
     @Override
     public boolean stillValid(Player player) {
-        return false;
+        return true;
     }
 
     public static ExtendedMenuProvider createProvider() {

@@ -18,7 +18,7 @@ public class OpenScreenPacket implements CustomPacketPayload {
 
     public static final ScreenType TEST_SCREEN = new ScreenType("test", (c) -> new TestScreen());
 
-    private final String screenName;
+    private final String screenId;
 
     public static final StreamCodec<RegistryFriendlyByteBuf, OpenScreenPacket> STREAM_CODEC = new StreamCodec<>() {
         @Override
@@ -28,20 +28,20 @@ public class OpenScreenPacket implements CustomPacketPayload {
 
         @Override
         public void encode(RegistryFriendlyByteBuf buf, OpenScreenPacket packet) {
-            buf.writeUtf(packet.screenName);
+            buf.writeUtf(packet.screenId);
         }
     };
 
     public OpenScreenPacket(RegistryFriendlyByteBuf buffer) {
-        this.screenName = buffer.readUtf();
+        this.screenId = buffer.readUtf();
     }
 
-    public OpenScreenPacket(String screenName) {
-        this.screenName = screenName;
+    public OpenScreenPacket(String screenId) {
+        this.screenId = screenId;
     }
 
     public static void handle(OpenScreenPacket packet, NetworkManager.PacketContext context) {
-        Minecraft.getInstance().setScreen(ScreenType.TYPES.get(packet.screenName).screen.apply(Component.empty()));
+        Minecraft.getInstance().setScreen(ScreenType.TYPES.get(packet.screenId).screen.apply(Component.empty()));
     }
 
     @Override

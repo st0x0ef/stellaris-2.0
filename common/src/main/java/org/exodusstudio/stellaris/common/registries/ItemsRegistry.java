@@ -6,6 +6,7 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
+import org.exodusstudio.stellaris.common.items.TabletItem;
 import org.exodusstudio.stellaris.common.utils.ResourceLocationUtils;
 import org.jetbrains.annotations.NotNull;
 
@@ -19,6 +20,7 @@ public final class ItemsRegistry {
 
     public static final RegistrySupplier<Item> TEST_ITEM = item("test_item");
     public static final RegistrySupplier<Item> DESH_INGOT = item("desh_ingot");
+    public static final RegistrySupplier<TabletItem> TABLET = item("tablet", TabletItem::new);
 
 
     public static RegistrySupplier<Item> item(String name) {

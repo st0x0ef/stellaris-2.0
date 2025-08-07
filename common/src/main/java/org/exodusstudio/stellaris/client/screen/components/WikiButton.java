@@ -13,10 +13,10 @@ import org.exodusstudio.stellaris.client.utils.ClientUtils;
 
 public class WikiButton extends TexturedButton{
 
-    private final WikiEntry.EntryComponents info;
+    private final WikiEntry.EntryInfo info;
 
 
-    public WikiButton(int x, int y, int widthIn, int heightIn, OnPress onPressIn, WikiEntry.EntryComponents info) {
+    public WikiButton(int x, int y, int widthIn, int heightIn, OnPress onPressIn, WikiEntry.EntryInfo info) {
         super(x, y, widthIn, heightIn, onPressIn);
         this.info = info;
         setTooltip();

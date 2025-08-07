@@ -3,29 +3,26 @@ package org.exodusstudio.stellaris.client.utils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
+import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.client.screen.components.WikiEntryWidget;
 import org.exodusstudio.stellaris.common.utils.Utils;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Consumer;
-import java.util.function.Supplier;
 
 public class WikiEntryTextRenderer {
 
-    public final GuiGraphics guiGraphics;
     public final String text;
     public final int maxWidth;
 
 
     public String color = null;
-    public String resourcelocation = null;
+    public String referenceLocation = null;
 
     public ArrayList<ArrayList<Word>> lines = new ArrayList<>();
 
-    public WikiEntryTextRenderer(GuiGraphics guiGraphics, String text, int maxWidth) {
-        this.guiGraphics = guiGraphics;
+    public WikiEntryTextRenderer(String text, int maxWidth) {
         this.text = text;
         this.maxWidth = maxWidth;
         this.lines = createLines(text, maxWidth);
@@ -35,8 +32,10 @@ public class WikiEntryTextRenderer {
 
         String[] words = message.split("\\s+");
 
+        //This will hold all the lines of words
         ArrayList<ArrayList<Word>> lines = new ArrayList<>();
 
+        //This holds the current line of words
         ArrayList<Word> wordsInLine = new ArrayList<>();
 
         AtomicInteger remainingWords = new AtomicInteger(words.length);
@@ -47,38 +46,52 @@ public class WikiEntryTextRenderer {
 
             int wordWidth = Minecraft.getInstance().font.width(word + " ");
 
+            // Handle line breaks
             if (word.contains("[br]")) {
                 lines.add(wordsInLine);
                 wordsInLine = new ArrayList<>();
                 width.set(0);
             } else {
 
+                // Handle opening tags
                 if (word.contains("[color=")) {
-                    String wordWithoutColor = word.replace("[color=" + word.substring(7, word.indexOf("]")) + "]", "");
                     this.color = word.substring(7, word.indexOf("]"));
-                    wordWidth = Minecraft.getInstance().font.width(wordWithoutColor + " ");
+                    word = word.replace("[color=" + word.substring(7, word.indexOf("]")) + "]", "");
+
+                    if(word.isEmpty()) continue;
+
+
+                    wordWidth = Minecraft.getInstance().font.width(word + " ");
                 }
                 else if (word.contains("[ref=")) {
-                    this.color = word.substring(7, word.indexOf("]"));
-                    wordWidth = Minecraft.getInstance().font.width(removeRef(word) + " ");
+                    this.referenceLocation = word.substring(5, word.indexOf("]"));
+                    word = removeRef(word);
+
+                    //If it's only the tag, skip it
+                    if(word.isEmpty()) continue;
+
+                    wordWidth = Minecraft.getInstance().font.width(word + " ");
                 }
 
 
+                // Handle closing tags
                 if(word.equals("[color]")) {
                     this.color = null;
-                    break;
+                    continue;
                 } else if (word.equals("[ref]")) {
-                    this.resourcelocation = null;
-                    break;
+                    this.referenceLocation = null;
+                    continue;
                 }
 
+                // Create a new Word object for the current word
                 Word wordObj = new Word(word);
 
+                //Add color and reference location if they are set
                 if(this.color != null) {
                     wordObj.color = this.color;
                 }
-                if(this.resourcelocation != null) {
-                    wordObj.resourceLocation = this.resourcelocation;
+                if(this.referenceLocation != null) {
+                    wordObj.resourceLocation = this.referenceLocation;
                 }
 
 
@@ -101,10 +114,11 @@ public class WikiEntryTextRenderer {
             }
         }
 
+        Stellaris.LOG.error("Created " + lines.size() + " lines from text: " + message);
         return lines;
     }
 
-    public int renderWords(int x, int y, Consumer<WikiEntryWidget.ClickBox> clickBoxConsumer) {
+    public int renderWords(GuiGraphics guiGraphics, int x, int y, Consumer<WikiEntryWidget.ClickBox> clickBoxConsumer) {
         for (int i = 0; i < lines.size(); i++) {
             ArrayList<Word> words = lines.get(i);
             AtomicInteger width = new AtomicInteger(0);
@@ -121,7 +135,7 @@ public class WikiEntryTextRenderer {
                     color = "blue";
                 }
 
-                this.guiGraphics.drawString(getFont(), word.text, x + width.get(), y + (i * getFont().lineHeight), Utils.getColorHexCode(color));
+                guiGraphics.drawString(getFont(), word.text, x + width.get(), y + (i * getFont().lineHeight), Utils.getColorHexCode(color));
                 width.addAndGet(Minecraft.getInstance().font.width(word + " "));
             }
             width.set(0);
@@ -137,7 +151,7 @@ public class WikiEntryTextRenderer {
         String regex = "\\[ref=.*?\\]";
         return text.replaceAll(regex, "");
     }
-
+    
     public static class Word {
 
         public String text;
@@ -150,7 +164,11 @@ public class WikiEntryTextRenderer {
 
         @Override
         public String toString() {
-            return (color != null ? " [color=" + color + "]" : "") + (resourceLocation != null ? " [ref=" + resourceLocation + "]" : "") + text;
+            return (!this.onlyText() ? "{" : "") + (color != null ? "[color=" + color + "]" : "") + (resourceLocation != null ? " [ref=" + resourceLocation + "]" : "") + text + (!this.onlyText() ? "}" : "");
+        }
+
+        public boolean onlyText() {
+            return color == null && resourceLocation == null;
         }
     }
 

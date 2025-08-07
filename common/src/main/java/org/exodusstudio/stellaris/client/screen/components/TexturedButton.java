@@ -40,6 +40,12 @@ public class TexturedButton extends Button {
         this(x, y, widthIn, heightIn, Component.empty(), onPressIn, DEFAULT_NARRATION);
     }
 
+    public TexturedButton(int x, int y, int widthIn, int heightIn, ResourceLocation buttonTexture, ResourceLocation hoverButtonTexture, Button.OnPress onPressIn) {
+        this(x, y, widthIn, heightIn, Component.empty(), onPressIn, DEFAULT_NARRATION);
+        this.buttonTexture = buttonTexture;
+        this.hoverButtonTexture = hoverButtonTexture;
+    }
+
     public TexturedButton(int x, int y, int widthIn, int heightIn, Component title, Button.OnPress onPressIn) {
         this(x, y, widthIn, heightIn, title, onPressIn, DEFAULT_NARRATION);
     }

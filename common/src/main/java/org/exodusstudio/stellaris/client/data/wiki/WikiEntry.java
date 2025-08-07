@@ -2,31 +2,36 @@ package org.exodusstudio.stellaris.client.data.wiki;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 
 import java.util.List;
 import java.util.Optional;
 
-public record WikiEntry(String id, String description, ResourceLocation icon, ResourceLocation hoverIcon,
-                        List<EntryComponents> components) {
+public record WikiEntry(ResourceLocation id, String description, ResourceLocation icon, ResourceLocation hoverIcon,
+                        List<EntryInfo> components) {
 
     public static final Codec<WikiEntry> CODEC = RecordCodecBuilder.create(instance -> instance.group(
-            Codec.STRING.fieldOf("id").forGetter(WikiEntry::id),
+            ResourceLocation.CODEC.fieldOf("id").forGetter(WikiEntry::id),
             Codec.STRING.fieldOf("description").forGetter(WikiEntry::description),
             ResourceLocation.CODEC.fieldOf("icon").forGetter(WikiEntry::icon),
             ResourceLocation.CODEC.fieldOf("hoverIcon").forGetter(WikiEntry::hoverIcon),
-            EntryComponents.CODEC.listOf().fieldOf("components").forGetter(WikiEntry::components)
+            EntryInfo.CODEC.listOf().fieldOf("infos").forGetter(WikiEntry::components)
     ).apply(instance, WikiEntry::new));
 
-    public record EntryComponents(String id, String title, String iconType, List<InfoComponent> components) {
+    public Component getTitle() {
+        return Component.translatable("wiki." + id.getNamespace() + "." + id.getPath() + ".title");
+    }
 
-        public static final Codec<EntryComponents> CODEC = RecordCodecBuilder.create(instance -> instance.group(
-                Codec.STRING.fieldOf("id").forGetter(EntryComponents::id),
-                Codec.STRING.fieldOf("title").forGetter(EntryComponents::title),
-                Codec.STRING.fieldOf("iconType").forGetter(EntryComponents::iconType),
-                InfoComponent.CODEC.listOf().fieldOf("components").forGetter(EntryComponents::components)
-        ).apply(instance, EntryComponents::new));
+    public record EntryInfo(String id, String title, String iconType, List<InfoComponent> components) {
+
+        public static final Codec<EntryInfo> CODEC = RecordCodecBuilder.create(instance -> instance.group(
+                Codec.STRING.fieldOf("id").forGetter(EntryInfo::id),
+                Codec.STRING.fieldOf("title").forGetter(EntryInfo::title),
+                Codec.STRING.fieldOf("iconType").forGetter(EntryInfo::iconType),
+                InfoComponent.CODEC.listOf().fieldOf("components").forGetter(EntryInfo::components)
+        ).apply(instance, EntryInfo::new));
     }
 
     public record InfoComponent(String type, Optional<String> text, Optional<ImageComponent> image,

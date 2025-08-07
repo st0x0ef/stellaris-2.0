@@ -1,6 +1,5 @@
 package org.exodusstudio.stellaris.client.screen.components.containers;
 
-import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
 
@@ -10,11 +9,6 @@ public class ScrollableContainer extends BasicContainer {
 
     public ScrollableContainer(int baseX, int baseY, int width, int height, AbstractWidget... children) {
         super(baseX, baseY, width, height, children);
-    }
-
-    @Override
-    protected void renderWidget(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
-
     }
 
     @Override

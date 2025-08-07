@@ -33,15 +33,15 @@ public class ArgumentBuilder<T> {
         RequiredArgumentBuilder<CommandSourceStack, ?> builder = RequiredArgumentBuilder.argument(argumentName, argumentType);
 
         if (subArgumentBuilder != null) {
-            builder.then(subArgumentBuilder.build(commandFunction, null)); // Chaînage des sous-arguments
+            builder.then(subArgumentBuilder.build(commandFunction, null));
         }
 
         if (parentArgument != null) {
-            parentArgument.then(builder); // Attachement à l'argument parent
+            parentArgument.then(builder);
             return parentArgument;
         }
 
-        return builder.executes((c) ->  commandFunction.apply(new CommandSourceWrapper(c))); // Ajout de l'exécution si aucun parent
+        return builder.executes((c) ->  commandFunction.apply(new CommandSourceWrapper(c)));
     }
 
 

@@ -22,10 +22,11 @@ public class WikiPack extends SimpleJsonResourceReloadListener<WikiEntry> {
         Stellaris.LOG.error("Loading Assets for Tablet Pack");
         resourceLocationJsonElementMap.forEach((key, entry) -> {
 
-            if (!WikiApplicationScreen.ENTRIES.containsKey(entry.id())) {
-                WikiApplicationScreen.ENTRIES.put(entry.id(), entry);
+            if (!WikiApplicationScreen.ENTRIES.contains(entry)) {
+                WikiApplicationScreen.ENTRIES.add(entry);
             }
-            entry.components().forEach(info -> WikiApplicationScreen.ENTRY_COMPONENTS.put(ResourceLocation.fromNamespaceAndPath(entry.id(), info.id()), info));
+            entry.components().forEach(info -> WikiApplicationScreen.ENTRY_COMPONENTS.put(
+                    ResourceLocation.fromNamespaceAndPath(entry.id().getNamespace(), entry.id().getPath() + "/" + info.id()), info));
 
             Stellaris.LOG.info("Loading tablet entry: {}", key);
 
