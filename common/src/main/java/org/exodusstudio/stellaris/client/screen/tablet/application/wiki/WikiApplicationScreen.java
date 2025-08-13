@@ -4,6 +4,7 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
+import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.client.data.wiki.WikiEntry;
 import org.exodusstudio.stellaris.client.screen.components.TexturedButton;
 import org.exodusstudio.stellaris.client.screen.tablet.MainTabletScreen;
@@ -17,6 +18,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+
+/**
+ * Wiki Application Screen
+ * This screen displays a list of wiki entries and allows navigation between them.
+ */
 public class WikiApplicationScreen extends ApplicationScreen {
 
 
@@ -43,6 +49,9 @@ public class WikiApplicationScreen extends ApplicationScreen {
     @Override
     protected void init() {
         super.init();
+
+        Stellaris.LOG.error("leftPos: {}, topPos: {}", this.getLeftPos(), this.getTopPos());
+
 
         if(!ENTRIES.isEmpty()) {
             setupButtons();

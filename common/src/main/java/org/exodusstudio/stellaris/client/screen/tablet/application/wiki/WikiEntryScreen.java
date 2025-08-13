@@ -11,7 +11,6 @@ import org.exodusstudio.stellaris.client.data.wiki.WikiEntry;
 import org.exodusstudio.stellaris.client.screen.components.TexturedButton;
 import org.exodusstudio.stellaris.client.screen.components.WikiButton;
 import org.exodusstudio.stellaris.client.screen.components.WikiEntryWidget;
-import org.exodusstudio.stellaris.client.screen.tablet.MainTabletScreen;
 import org.exodusstudio.stellaris.client.screen.tablet.application.ApplicationScreen;
 import org.exodusstudio.stellaris.client.utils.ClientUtils;
 import org.exodusstudio.stellaris.common.menu.MainTabletMenu;
@@ -21,6 +20,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
+/**
+ * WikiEntryScreen
+ * This screen displays a specific wiki entry and allows navigation between infos.
+ */
 public class WikiEntryScreen extends ApplicationScreen {
 
     /** Textures */
@@ -86,6 +89,7 @@ public class WikiEntryScreen extends ApplicationScreen {
 
     @Override
     protected void init() {
+        super.init();
 
         StringWidget titleWidget = new StringWidget(this.getLeftPos() + 15, this.getTopPos() + 10, Component.literal(this.title.getString()), this.font);
         this.addWidget(titleWidget);
@@ -101,15 +105,6 @@ public class WikiEntryScreen extends ApplicationScreen {
 
     }
 
-    @Override
-    public void renderBackground(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
-        super.renderBackground(guiGraphics, mouseX, mouseY, partialTick);
-        if (currentPage == null) {
-            guiGraphics.blit(RenderPipelines.GUI_TEXTURED, BACKGROUND, this.getLeftPos(), this.getTopPos(), 0, 0, this.imageWidth, this.imageHeight, this.imageWidth, this.imageHeight);
-        } else {
-            guiGraphics.blit(RenderPipelines.GUI_TEXTURED, MENU_BACKGROUND_LIGHT, this.getLeftPos(), this.getTopPos(), 0, 0, this.imageWidth, this.imageHeight, this.imageWidth, this.imageHeight);
-        }
-    }
 
     private void setupEntryButtons() {
         AtomicInteger row = new AtomicInteger(0);
