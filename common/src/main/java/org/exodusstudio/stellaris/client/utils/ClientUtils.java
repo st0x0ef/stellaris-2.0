@@ -11,6 +11,7 @@ import org.jetbrains.annotations.Nullable;
 import org.joml.Quaternionf;
 import org.joml.Vector3f;
 
+import java.util.ArrayList;
 import java.util.Optional;
 
 public class ClientUtils {
@@ -29,7 +30,29 @@ public class ClientUtils {
     public static void renderEntityInInventory(GuiGraphics guiGraphics, float x, float y, float scale, Vector3f translate, Quaternionf pose, @Nullable Quaternionf cameraOrientation, Entity entity) {
     }
 
+    public static <T> void addButtonToList(ArrayList<ArrayList<T>> pages, T button, int size) {
+        if (pages.isEmpty()) {
+            ArrayList<T> list = new ArrayList<>();
+            list.add(button);
+            pages.add(list);
+            return;
+        }
 
+        for (ArrayList<T> buttons : pages) {
+            if (buttons.size() < size) {
+                buttons.add(button);
+                break;
+            }
+            else if (buttons.size() == size) {
+                if (pages.indexOf(buttons) + 1 >= pages.size()) {
+                    ArrayList<T> list = new ArrayList<>();
+                    list.add(button);
+                    pages.add(list);
+                    break;
+                }
+            }
+        }
+    }
 
 
 }

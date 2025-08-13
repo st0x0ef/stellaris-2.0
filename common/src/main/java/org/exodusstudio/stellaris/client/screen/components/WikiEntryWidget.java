@@ -11,6 +11,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.client.data.wiki.WikiEntry;
 import org.exodusstudio.stellaris.client.screen.tablet.application.wiki.WikiApplicationScreen;
 import org.exodusstudio.stellaris.client.screen.tablet.application.wiki.WikiEntryScreen;
@@ -32,8 +33,8 @@ public class WikiEntryWidget extends AbstractScrollArea {
     private final WikiEntryScreen screen;
     private final ArrayList<ClickBox> clickBoxes = new ArrayList<>();
 
-    public WikiEntryWidget(int x, int y, int width, int height, Component message, WikiEntry.EntryInfo info, WikiEntryScreen screen) {
-        super(x, y, width, height, message);
+    public WikiEntryWidget(int x, int y, int width, int height, WikiEntry.EntryInfo info, WikiEntryScreen screen) {
+        super(x, y, width, height, Component.literal(info != null ? info.title() : "Wiki Entry"));
         this.info = info;
         this.baseScreenWidth = screen.width;
         this.screen = screen;
@@ -41,28 +42,42 @@ public class WikiEntryWidget extends AbstractScrollArea {
 
     @Override
     protected int contentHeight() {
-        return finalHeight.get() + finalHeight.get() / 2;
+        return 200;
     }
 
     @Override
     protected double scrollRate() {
         return 9;
     }
-
     @Override
-    protected void renderWidget(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
+    public void renderWidget(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
+
+        Stellaris.LOG.error("{} {}", this.getX() + 5, this.getY() + 5);
+        Stellaris.LOG.error("{} {}", mouseX, mouseY);
+
+        guiGraphics.drawString(getFont(), "Test", this.getX() + 5, this.getY() + 5, Utils.getColorHexCode("white"), false);
+        if (this.visible) {
+            guiGraphics.enableScissor(this.getX(), this.getY(), this.getRight(), this.getBottom());
+
+            this.renderContents(guiGraphics, mouseX, mouseY, partialTick);
+            guiGraphics.disableScissor();
+            this.renderScrollbar(guiGraphics);
+        }
+    }
+
+
+    protected void renderContents(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
         if (this.info == null) {
             return;
         }
 
         finalHeight.set(0);
-        guiGraphics.drawCenteredString(getFont(), info.title(), this.baseScreenWidth / 2, getY() + finalHeight.get() + 10, Utils.getColorHexCode("white"));
-
         for(WikiEntry.InfoComponent component : info.components()) {
 
             switch (component.type()) {
                 case "text" -> component.text().ifPresent((text) -> {
-                    int descriptionHeight = new WikiEntryTextRenderer(component.text().get(), getWidth() - 20).renderWords(guiGraphics, getX() + 5, getY() + finalHeight.get() + 30, clickBoxes::add);
+                    int descriptionHeight = new WikiEntryTextRenderer(component.text().get(), getWidth() - 20)
+                            .renderWords(guiGraphics, getX() + 5, getY() + finalHeight.get() + 30, clickBoxes::add);
                     finalHeight.addAndGet(descriptionHeight);
                 });
                 case "image" -> component.image().ifPresent((image) -> {
@@ -102,10 +117,7 @@ public class WikiEntryWidget extends AbstractScrollArea {
     @Override
     protected void renderScrollbar(GuiGraphics guiGraphics) {
         if (this.scrollbarVisible()) {
-            int i = this.scrollBarX();
-            int j = this.scrollerHeight();
-            int k = this.scrollBarY();
-            guiGraphics.blitSprite(RenderPipelines.GUI_TEXTURED, SCROLLER_SPRITE, i, k, 6, j);
+            guiGraphics.blitSprite(RenderPipelines.GUI_TEXTURED, SCROLLER_SPRITE, this.scrollBarX(), this.scrollerHeight(), 6, this.scrollBarY());
         }
     }
 
@@ -120,18 +132,17 @@ public class WikiEntryWidget extends AbstractScrollArea {
         return super.mouseClicked(mouseX, mouseY, button);
     }
 
+    public WikiEntry.EntryInfo getInfo() {
+        return info;
+    }
 
     public Font getFont() {
         return Minecraft.getInstance().font;
     }
 
     public void setInfo( WikiEntry.EntryInfo info) {
-        try {
-            this.info = info;
-            this.setScrollAmount(0);
-        }
-        catch (Exception e) {
-        }
+        this.info = info;
+        this.setScrollAmount(0);
     }
 
     public record ClickBox(int x, int y, int width, int height, String action) {

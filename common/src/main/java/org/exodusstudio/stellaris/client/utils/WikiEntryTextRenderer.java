@@ -113,8 +113,6 @@ public class WikiEntryTextRenderer {
                 }
             }
         }
-
-        Stellaris.LOG.error("Created " + lines.size() + " lines from text: " + message);
         return lines;
     }
 

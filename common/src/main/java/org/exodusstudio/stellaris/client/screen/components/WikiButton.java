@@ -8,6 +8,7 @@ import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.client.data.wiki.WikiEntry;
 import org.exodusstudio.stellaris.client.utils.ClientUtils;
 
@@ -67,4 +68,9 @@ public class WikiButton extends TexturedButton{
         }
     }
 
+    @Override
+    public void onPress() {
+        Stellaris.LOG.error("entry: {}", info.title());
+        super.onPress();
+    }
 }

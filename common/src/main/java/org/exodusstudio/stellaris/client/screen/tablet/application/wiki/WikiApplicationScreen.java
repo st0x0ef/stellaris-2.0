@@ -3,10 +3,13 @@ package org.exodusstudio.stellaris.client.screen.tablet.application.wiki;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.player.Inventory;
 import org.exodusstudio.stellaris.client.data.wiki.WikiEntry;
 import org.exodusstudio.stellaris.client.screen.components.TexturedButton;
 import org.exodusstudio.stellaris.client.screen.tablet.MainTabletScreen;
+import org.exodusstudio.stellaris.client.screen.tablet.application.ApplicationRegistry;
 import org.exodusstudio.stellaris.client.screen.tablet.application.ApplicationScreen;
+import org.exodusstudio.stellaris.common.menu.MainTabletMenu;
 import org.exodusstudio.stellaris.common.utils.ResourceLocationUtils;
 import org.jetbrains.annotations.Nullable;
 
@@ -28,8 +31,12 @@ public class WikiApplicationScreen extends ApplicationScreen {
 
     public TexturedButton entryButton;
 
-    public WikiApplicationScreen(MainTabletScreen mainTablet) {
-        super(mainTablet, Component.literal("Wiki"));
+    public WikiApplicationScreen(MainTabletMenu menu, Inventory inventory) {
+        super(menu, inventory, Component.literal("Wiki"));
+    }
+
+    public static WikiApplicationScreen create(ApplicationRegistry.MenuHolder menuHolder) {
+        return new WikiApplicationScreen(menuHolder.menu(), menuHolder.inventory());
     }
 
 
@@ -42,10 +49,6 @@ public class WikiApplicationScreen extends ApplicationScreen {
         }
     }
 
-    @Override
-    public void renderBackground(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
-        super.renderBackground(guiGraphics, mouseX, mouseY, partialTick);
-    }
 
     private void setupButtons() {
         this.prevEntryButton = new TexturedButton(this.getLeftPos() + 40, (this.height /2) - 10, 20, 20,
@@ -57,7 +60,7 @@ public class WikiApplicationScreen extends ApplicationScreen {
                 ResourceLocationUtils.guiTexture("tablet/wiki/entry_button"),
                 ResourceLocationUtils.guiTexture("tablet/wiki/entry_button"),
                 button -> {
-                    this.minecraft.setScreen(new WikiEntryScreen(this.mainTablet, ENTRIES.get(this.currentPage)));
+                    this.minecraft.setScreen(new WikiEntryScreen(this.menu, this.inventory, ENTRIES.get(this.currentPage)));
                 });
 
         this.nextEntryButton = new TexturedButton(this.getLeftPos() + 190, (this.height /2) - 10, 20, 20,

@@ -9,6 +9,7 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import org.exodusstudio.stellaris.client.screen.components.TexturedButton;
 import org.exodusstudio.stellaris.client.screen.tablet.application.ApplicationRegistry;
+import org.exodusstudio.stellaris.client.utils.ClientUtils;
 import org.exodusstudio.stellaris.common.menu.MainTabletMenu;
 import org.exodusstudio.stellaris.common.utils.ResourceLocationUtils;
 
@@ -23,6 +24,7 @@ public class MainTabletScreen extends AbstractContainerScreen<MainTabletMenu> {
     private int currentPage = 0;
 
     public final Player player;
+    public final Inventory inventory;
 
     public MainTabletScreen(MainTabletMenu menu, Inventory playerInventory, Component title) {
         super(menu, playerInventory, title);
@@ -30,6 +32,7 @@ public class MainTabletScreen extends AbstractContainerScreen<MainTabletMenu> {
         this.player = playerInventory.player;
         this.imageHeight = 162;
         this.imageWidth = 250;
+        this.inventory = playerInventory;
 
     }
 
@@ -52,7 +55,7 @@ public class MainTabletScreen extends AbstractContainerScreen<MainTabletMenu> {
 
         ApplicationRegistry.TABLET_APPLICATION.entrySet().forEach(entry -> {
             ApplicationRegistry.ApplicationFactory infos = entry.getValue();
-            TexturedButton tabletButton = new TexturedButton(this.leftPos + 68 + (column.get() * 30), this.topPos + 60 + (row.get() * 30), 20, 20, infos.getName(), (button -> minecraft.setScreen(infos.createScreen(this))))
+            TexturedButton tabletButton = new TexturedButton(this.leftPos + 68 + (column.get() * 30), this.topPos + 60 + (row.get() * 30), 20, 20, infos.getName(), (button -> minecraft.setScreen(infos.createScreen(this.createMenuHolder()))))
                     .tex(infos.getIconLocation(), infos.getIconLocation());
 
             if (column.get() == 3) {
@@ -68,7 +71,7 @@ public class MainTabletScreen extends AbstractContainerScreen<MainTabletMenu> {
                 row.set(0);
             }
 
-            this.addButtonToList(tabletButton, 6);
+            ClientUtils.addButtonToList(APPLICATIONS, tabletButton, 6);
             tabletButton.visible = true;
             this.addRenderableWidget(tabletButton);
 
@@ -110,5 +113,9 @@ public class MainTabletScreen extends AbstractContainerScreen<MainTabletMenu> {
 
     public Player getPlayer() {
         return player;
+    }
+
+    public ApplicationRegistry.MenuHolder createMenuHolder() {
+        return new ApplicationRegistry.MenuHolder(this.menu, this.inventory);
     }
 }

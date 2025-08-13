@@ -1,49 +1,52 @@
 package org.exodusstudio.stellaris.client.screen.tablet.application;
 
-import com.mojang.blaze3d.systems.RenderSystem;
 import dev.architectury.networking.NetworkManager;
-import dev.architectury.registry.menu.MenuRegistry;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.client.renderer.GameRenderer;
+import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
-import org.exodusstudio.stellaris.Stellaris;
-import org.exodusstudio.stellaris.client.screen.tablet.MainTabletScreen;
+import org.exodusstudio.stellaris.common.menu.MainTabletMenu;
 import org.exodusstudio.stellaris.common.network.packets.OpenMenuPacket;
 import org.exodusstudio.stellaris.common.utils.ResourceLocationUtils;
 
-public class ApplicationScreen extends Screen {
+public  class ApplicationScreen extends AbstractContainerScreen<MainTabletMenu> {
 
     public static final ResourceLocation BACKGROUND = ResourceLocationUtils.guiTexture("tablet/tablet_background");
 
-    public final MainTabletScreen mainTablet;
+    public final Player player;
+    public final Inventory inventory;
 
-    public ApplicationScreen(MainTabletScreen mainTablet, Component title) {
-        super(title);
-
-        this.mainTablet = mainTablet;
+    public ApplicationScreen(MainTabletMenu menu, Inventory inventory, Component title) {
+        super(menu, inventory, title);
+        this.player = inventory.player;
+        this.inventory = inventory;
     }
 
     @Override
     public void renderBackground(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
-        guiGraphics.blit(RenderPipelines.GUI_TEXTURED, BACKGROUND, this.mainTablet.getLeftPos(), this.mainTablet.getTopPos(), 0, 0, 250, 162, 250, 162);
         super.renderBackground(guiGraphics, mouseX, mouseY, partialTick);
+        guiGraphics.blit(RenderPipelines.GUI_TEXTURED, BACKGROUND, this.leftPos, this.topPos, 0, 0, 250, 162, 250, 162);
+
+    }
+
+    @Override
+    protected void renderBg(GuiGraphics guiGraphics, float partialTick, int mouseX, int mouseY) {
 
     }
 
     public int getLeftPos() {
-        return this.mainTablet.getLeftPos();
+        return this.leftPos;
     }
 
     public int getTopPos() {
-        return this.mainTablet.getTopPos();
+        return this.topPos;
     }
 
     public Player getPlayer() {
-        return this.mainTablet.player;
+        return player;
     }
 
     public void openMainTabletScreen() {
