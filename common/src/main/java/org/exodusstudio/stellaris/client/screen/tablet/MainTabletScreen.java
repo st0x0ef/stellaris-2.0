@@ -33,6 +33,8 @@ public class MainTabletScreen extends AbstractContainerScreen<MainTabletMenu> {
         this.imageHeight = 162;
         this.imageWidth = 250;
         this.inventory = playerInventory;
+        this.inventoryLabelY = -this.imageHeight;
+        this.titleLabelY = -this.imageHeight;
 
     }
 
@@ -116,6 +118,6 @@ public class MainTabletScreen extends AbstractContainerScreen<MainTabletMenu> {
     }
 
     public ApplicationRegistry.MenuHolder createMenuHolder() {
-        return new ApplicationRegistry.MenuHolder(this.menu, this.inventory);
+        return new ApplicationRegistry.MenuHolder(this.menu, this.inventory, this);
     }
 }

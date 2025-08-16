@@ -3,8 +3,7 @@ package org.exodusstudio.stellaris.client.utils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
-import org.exodusstudio.stellaris.Stellaris;
-import org.exodusstudio.stellaris.client.screen.components.WikiEntryWidget;
+import org.exodusstudio.stellaris.client.screen.components.WikiInfos;
 import org.exodusstudio.stellaris.common.utils.Utils;
 
 import java.util.ArrayList;
@@ -116,7 +115,11 @@ public class WikiEntryTextRenderer {
         return lines;
     }
 
-    public int renderWords(GuiGraphics guiGraphics, int x, int y, Consumer<WikiEntryWidget.ClickBox> clickBoxConsumer) {
+    public int getTextHeight() {
+        return lines.size() * getFont().lineHeight;
+    }
+
+    public int renderWords(GuiGraphics guiGraphics, int x, int y, Consumer<WikiInfos.ClickBox> clickBoxConsumer) {
         for (int i = 0; i < lines.size(); i++) {
             ArrayList<Word> words = lines.get(i);
             AtomicInteger width = new AtomicInteger(0);
@@ -129,12 +132,12 @@ public class WikiEntryTextRenderer {
                 }
 
                 if (word.resourceLocation != null) {
-                    clickBoxConsumer.accept(new WikiEntryWidget.ClickBox(x + width.get(), y + (i * getFont().lineHeight), getFont().width(word.text), getFont().lineHeight, word.resourceLocation));
+                    clickBoxConsumer.accept(new WikiInfos.ClickBox(x + width.get(), y + (i * getFont().lineHeight), getFont().width(word.text), getFont().lineHeight, word.resourceLocation));
                     color = "blue";
                 }
 
-                guiGraphics.drawString(getFont(), word.text, x + width.get(), y + (i * getFont().lineHeight), Utils.getColorHexCode(color));
-                width.addAndGet(Minecraft.getInstance().font.width(word + " "));
+                guiGraphics.drawString(getFont(), word.text, x + width.get(), y + (i * getFont().lineHeight), Utils.getMinecraftColor(color));
+                width.addAndGet(Minecraft.getInstance().font.width(word.text + " "));
             }
             width.set(0);
         }

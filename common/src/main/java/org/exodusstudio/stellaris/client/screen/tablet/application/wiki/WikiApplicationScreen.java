@@ -1,10 +1,8 @@
 package org.exodusstudio.stellaris.client.screen.tablet.application.wiki;
 
-import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
-import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.client.data.wiki.WikiEntry;
 import org.exodusstudio.stellaris.client.screen.components.TexturedButton;
 import org.exodusstudio.stellaris.client.screen.tablet.MainTabletScreen;
@@ -23,7 +21,7 @@ import java.util.Map;
  * Wiki Application Screen
  * This screen displays a list of wiki entries and allows navigation between them.
  */
-public class WikiApplicationScreen extends ApplicationScreen {
+public class WikiApplicationScreen extends ApplicationScreen<MainTabletMenu> {
 
 
     /** Variables */
@@ -37,21 +35,20 @@ public class WikiApplicationScreen extends ApplicationScreen {
 
     public TexturedButton entryButton;
 
-    public WikiApplicationScreen(MainTabletMenu menu, Inventory inventory) {
-        super(menu, inventory, Component.literal("Wiki"));
+    public MainTabletScreen mainTabletScreen;
+
+    public WikiApplicationScreen(MainTabletScreen mainTabletScreen, Inventory inventory) {
+        super(mainTabletScreen.getMenu(), inventory, Component.literal("Wiki"));
+        this.mainTabletScreen = mainTabletScreen;
     }
 
-    public static WikiApplicationScreen create(ApplicationRegistry.MenuHolder menuHolder) {
-        return new WikiApplicationScreen(menuHolder.menu(), menuHolder.inventory());
+    public static WikiApplicationScreen create(ApplicationRegistry.MenuHolder<MainTabletMenu> menuHolder) {
+        return new WikiApplicationScreen(menuHolder.mainTabletScreen(), menuHolder.inventory());
     }
-
 
     @Override
     protected void init() {
         super.init();
-
-        Stellaris.LOG.error("leftPos: {}, topPos: {}", this.getLeftPos(), this.getTopPos());
-
 
         if(!ENTRIES.isEmpty()) {
             setupButtons();
@@ -69,7 +66,7 @@ public class WikiApplicationScreen extends ApplicationScreen {
                 ResourceLocationUtils.guiTexture("tablet/wiki/entry_button"),
                 ResourceLocationUtils.guiTexture("tablet/wiki/entry_button"),
                 button -> {
-                    this.minecraft.setScreen(new WikiEntryScreen(this.menu, this.inventory, ENTRIES.get(this.currentPage)));
+                    this.minecraft.setScreen(new WikiEntryScreen(this.mainTabletScreen, ENTRIES.get(this.currentPage)));
                 });
 
         this.nextEntryButton = new TexturedButton(this.getLeftPos() + 190, (this.height /2) - 10, 20, 20,

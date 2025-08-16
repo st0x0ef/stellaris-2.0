@@ -1,5 +1,9 @@
 package org.exodusstudio.stellaris.common.utils;
 
+import net.minecraft.util.ARGB;
+import net.minecraft.world.phys.Vec3;
+import org.joml.Vector3i;
+
 import java.util.Random;
 
 public class Utils {
@@ -52,6 +56,18 @@ public class Utils {
         return random.nextInt(0xFFFFFF + 1);
     }
 
+    public static int getMinecraftColor(String colorName) {
+        int colorHex = getColorHexCode(colorName);
+        Vec3 vector3i = hexToVec3(colorHex);
+        return ARGB.color(vector3i);
+    }
+
+    public static Vec3 hexToVec3(int hex) {
+        int r = (hex >> 16) & 0xFF;
+        int g = (hex >> 8) & 0xFF;
+        int b = hex & 0xFF;
+        return new Vec3(r, g, b);
+    }
 
 
 }

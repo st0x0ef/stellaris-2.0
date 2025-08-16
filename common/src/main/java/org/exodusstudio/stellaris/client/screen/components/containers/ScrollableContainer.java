@@ -33,4 +33,11 @@ public class ScrollableContainer extends BasicContainer {
 
     }
 
+    public void setScrollOffset(int scrollOffset) {
+        this.scrollOffset = scrollOffset;
+    }
+
+    public int getScrollOffset() {
+        return scrollOffset;
+    }
 }

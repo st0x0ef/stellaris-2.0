@@ -1,20 +1,23 @@
 package org.exodusstudio.stellaris.client.screen.tablet.application.wiki;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.StringWidget;
+import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
-import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.client.data.wiki.WikiEntry;
-import org.exodusstudio.stellaris.client.screen.components.TexturedButton;
-import org.exodusstudio.stellaris.client.screen.components.WikiButton;
-import org.exodusstudio.stellaris.client.screen.components.WikiEntryWidget;
+import org.exodusstudio.stellaris.client.screen.components.*;
+import org.exodusstudio.stellaris.client.screen.components.containers.ScrollableContainer;
+import org.exodusstudio.stellaris.client.screen.tablet.MainTabletScreen;
 import org.exodusstudio.stellaris.client.screen.tablet.application.ApplicationScreen;
 import org.exodusstudio.stellaris.client.utils.ClientUtils;
 import org.exodusstudio.stellaris.common.menu.MainTabletMenu;
 import org.exodusstudio.stellaris.common.utils.ResourceLocationUtils;
+import org.jetbrains.annotations.Nullable;
+import org.lwjgl.glfw.GLFW;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +27,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  * WikiEntryScreen
  * This screen displays a specific wiki entry and allows navigation between infos.
  */
-public class WikiEntryScreen extends ApplicationScreen {
+public class WikiEntryScreen extends Screen {
 
     /** Textures */
     //Navigation
@@ -63,18 +66,20 @@ public class WikiEntryScreen extends ApplicationScreen {
     public List<WikiEntry.EntryInfo> ENTRIES;
 
 
-    public WikiEntry currentEntry;
+    public WikiEntry entry;
 
     public TexturedButton nextButton;
     public TexturedButton backButton;
     public TexturedButton homeButton;
-    public WikiEntryWidget widget;
+    public WikiInfos widget;
 
+    public MainTabletScreen tabletScreen;
 
-    protected WikiEntryScreen(MainTabletMenu menu, Inventory inventory, WikiEntry currentEntry) {
-        super(menu, inventory, currentEntry.getTitle());
-        this.currentEntry = currentEntry;
-        this.ENTRIES = currentEntry.components();
+    protected WikiEntryScreen(MainTabletScreen tabletScreen, WikiEntry entry) {
+        super(entry.getTitle());
+        this.entry = entry;
+        this.tabletScreen = tabletScreen;
+        this.ENTRIES = entry.components();
 
     }
 
@@ -82,7 +87,7 @@ public class WikiEntryScreen extends ApplicationScreen {
     public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
         super.render(guiGraphics, mouseX, mouseY, partialTick);
 
-        this.widget.visible = currentPage != null;
+        //this.widget.visible = currentPage != null;
         this.showEntryButton(currentPage == null);
 
     }
@@ -99,12 +104,24 @@ public class WikiEntryScreen extends ApplicationScreen {
 
 
         //Setup the main widget
-        this.widget = new WikiEntryWidget(this.getLeftPos() + 15, this.getTopPos() + 40, 215, 96, null, this);
-        this.widget.visible = false;
+        this.widget = new WikiInfos(this.getLeftPos() + 33,  this.getTopPos() + 40,187, 96);
         this.addRenderableWidget(this.widget);
 
     }
 
+    @Override
+    public void resize(Minecraft minecraft, int width, int height) {
+        this.tabletScreen.resize(minecraft, width, height);
+        this.tabletScreen.init(minecraft, width, height);
+        super.resize(minecraft, width, height);
+    }
+
+    @Override
+    public void renderBackground(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
+        super.renderBackground(guiGraphics, mouseX, mouseY, partialTick);
+        guiGraphics.blit(RenderPipelines.GUI_TEXTURED, ApplicationScreen.BACKGROUND, this.getLeftPos(), this.getTopPos(), 0, 0, this.imageWidth, this.imageHeight, this.imageWidth, this.imageHeight);
+
+    }
 
     private void setupEntryButtons() {
         AtomicInteger row = new AtomicInteger(0);
@@ -135,10 +152,15 @@ public class WikiEntryScreen extends ApplicationScreen {
         showEntryButton(true);
     }
 
-    public void changeInfo(WikiEntry.EntryInfo info) {
-        Stellaris.LOG.error("Changing info to: {}", info.title());
-        widget.setInfo(info);
+    /**
+     * Change the current info displayed in the widget.
+     * If info is null, it will display the main page.
+     *
+     * @param info The new info to display, or null for the main page.
+     */
+    public void changeInfo(@Nullable WikiEntry.EntryInfo info) {
         currentPage = info;
+        widget.refresh(this.currentPage);
     }
 
     //Make all buttons invisible
@@ -207,6 +229,27 @@ public class WikiEntryScreen extends ApplicationScreen {
         return this.ENTRIES.get(nextIndex);
     }
 
+    @Override
+    public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
+        if(keyCode == GLFW.GLFW_KEY_ESCAPE) {
+            if(this.currentPage != null) {
+                this.changeInfo(null);
+                return true;
+            } else {
+                this.minecraft.setScreen(new WikiApplicationScreen(this.tabletScreen, this.tabletScreen.inventory));
+                return true;
+            }
+        }
 
+        return super.keyPressed(keyCode, scanCode, modifiers);
+    }
+
+    public int getLeftPos() {
+        return this.tabletScreen.getLeftPos();
+    }
+
+    public int getTopPos() {
+        return this.tabletScreen.getTopPos();
+    }
 
 }
