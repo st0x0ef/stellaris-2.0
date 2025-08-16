@@ -23,6 +23,10 @@ public class WikiInfos extends AbstractWidget {
 
     private int scrollOffset = 0;
 
+    private int defaultOffset = 0;
+    private AtomicInteger finalHeight = new AtomicInteger(0);
+
+
     public WikiEntry.EntryInfo entry;
     private final ArrayList<ClickBox> clickBoxes = new ArrayList<>();
 
@@ -54,7 +58,7 @@ public class WikiInfos extends AbstractWidget {
 
     @Override
     public boolean mouseScrolled(double mouseX, double mouseY, double scrollX, double scrollY) {
-        if(this.isHovered) {
+        if(this.isHovered && this.canOffset(scrollY)) {
             this.scrollOffset -= (int) (scrollY * 6); // Adjust the scroll speed as needed
             return false;
         }
@@ -63,8 +67,7 @@ public class WikiInfos extends AbstractWidget {
 
 
     protected void renderContents(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
-        AtomicInteger finalHeight = new AtomicInteger(0);
-
+        finalHeight.set(0);
         for(WikiEntry.InfoComponent component : entry.components()) {
 
             switch (component.type().toLowerCase()) {
@@ -97,6 +100,7 @@ public class WikiInfos extends AbstractWidget {
                 });
             }
         }
+
     }
 
     @Override
@@ -120,7 +124,13 @@ public class WikiInfos extends AbstractWidget {
         this.entry = entryInfo;
         this.clickBoxes.clear();
         this.scrollOffset = 0;
-        //this.setHeight(this.getHeight());
+    }
+
+    public boolean canOffset(double yOffset) {
+        this.defaultOffset = 0;
+        int delta = (int) (yOffset * 6);
+        int next = this.scrollOffset - delta;
+        return next >= this.defaultOffset && next <= this.finalHeight.get() / 2;
     }
 
     public int getOffsetHeight() {

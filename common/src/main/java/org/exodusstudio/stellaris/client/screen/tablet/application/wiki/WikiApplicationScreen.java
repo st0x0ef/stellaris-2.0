@@ -62,9 +62,9 @@ public class WikiApplicationScreen extends ApplicationScreen<MainTabletMenu> {
                 WikiEntryScreen.BACK_ARROW_HOVER,
                 button -> previousEntry());
 
-        this.entryButton = new TexturedButton((this.width / 2) - 45, (this.height /2) - 30, 90, 60,
-                ResourceLocationUtils.guiTexture("tablet/wiki/entry_button"),
-                ResourceLocationUtils.guiTexture("tablet/wiki/entry_button"),
+        this.entryButton = new TexturedButton((this.width / 2) - 45, (this.height /2) - 45, 90, 90,
+                ENTRIES.get(currentPage).icon(),
+                ENTRIES.get(currentPage).hoverIcon(),
                 button -> {
                     this.minecraft.setScreen(new WikiEntryScreen(this.mainTabletScreen, ENTRIES.get(this.currentPage)));
                 });

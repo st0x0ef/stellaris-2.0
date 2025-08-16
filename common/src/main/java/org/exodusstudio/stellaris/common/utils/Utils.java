@@ -66,7 +66,7 @@ public class Utils {
         int r = (hex >> 16) & 0xFF;
         int g = (hex >> 8) & 0xFF;
         int b = hex & 0xFF;
-        return new Vec3(r, g, b);
+        return new Vec3(r / 255.0, g / 255.0, b / 255.0);
     }
 
 

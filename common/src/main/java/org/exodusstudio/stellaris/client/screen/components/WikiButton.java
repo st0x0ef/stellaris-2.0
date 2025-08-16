@@ -62,7 +62,7 @@ public class WikiButton extends TexturedButton{
                 info.components().stream().filter((c) -> c.type().equals("entity")).findFirst().ifPresent((entity) -> {
                     Entity entity1 = ClientUtils.createEntity(Minecraft.getInstance().level, entity.entity().get().entity());
                     if(entity1 instanceof LivingEntity livingEntity) {
-                        InventoryScreen.renderEntityInInventoryFollowsMouse(graphics, this.getX(), this.getY(), 16, 16, 7, 0.25F, mouseX, mouseY, livingEntity);
+                        InventoryScreen.renderEntityInInventoryFollowsMouse(graphics, this.getX() + 2, this.getY(), this.getX() + 18, this.getY() + 16, 8, 0.25F, mouseX, mouseY, livingEntity);
                     }
                 });
         }
@@ -70,7 +70,6 @@ public class WikiButton extends TexturedButton{
 
     @Override
     public void onPress() {
-        Stellaris.LOG.error("entry: {}", info.title());
         super.onPress();
     }
 }

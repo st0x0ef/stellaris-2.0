@@ -74,12 +74,12 @@ public class WikiEntryTextRenderer {
 
 
                 // Handle closing tags
-                if(word.equals("[color]")) {
+                if(word.contains("[color]")) {
                     this.color = null;
-                    continue;
-                } else if (word.equals("[ref]")) {
+                    word = word.replace("[color]", "");
+                } else if (word.contains("[ref]")) {
                     this.referenceLocation = null;
-                    continue;
+                    word = word.replace("[ref]", "");
                 }
 
                 // Create a new Word object for the current word

@@ -16,6 +16,7 @@ import org.exodusstudio.stellaris.client.screen.tablet.application.ApplicationSc
 import org.exodusstudio.stellaris.client.utils.ClientUtils;
 import org.exodusstudio.stellaris.common.menu.MainTabletMenu;
 import org.exodusstudio.stellaris.common.utils.ResourceLocationUtils;
+import org.exodusstudio.stellaris.common.utils.Utils;
 import org.jetbrains.annotations.Nullable;
 import org.lwjgl.glfw.GLFW;
 
@@ -90,21 +91,27 @@ public class WikiEntryScreen extends Screen {
         //this.widget.visible = currentPage != null;
         this.showEntryButton(currentPage == null);
 
+
+        var title = this.currentPage == null ? this.entry.getTitle() : Component.literal(this.currentPage.title());
+        guiGraphics.drawCenteredString(this.font, title, this.width / 2, this.getTopPos() + 25, Utils.getMinecraftColor("white"));
+
+        boolean showNav = currentPage != null || ENTRY_BUTTONS.size() != 1;
+        this.nextButton.visible = showNav;
+        this.backButton.visible = showNav;
     }
 
     @Override
     protected void init() {
         super.init();
 
-        StringWidget titleWidget = new StringWidget(this.getLeftPos() + 15, this.getTopPos() + 10, Component.literal(this.title.getString()), this.font);
-        this.addWidget(titleWidget);
-
         //Setup entry buttons
         setupEntryButtons();
 
+        setupNavigationButtons();
+
 
         //Setup the main widget
-        this.widget = new WikiInfos(this.getLeftPos() + 33,  this.getTopPos() + 40,187, 96);
+        this.widget = new WikiInfos(this.getLeftPos() + 33,  this.getTopPos() + 40,187, 85);
         this.addRenderableWidget(this.widget);
 
     }
@@ -113,6 +120,7 @@ public class WikiEntryScreen extends Screen {
     public void resize(Minecraft minecraft, int width, int height) {
         this.tabletScreen.resize(minecraft, width, height);
         this.tabletScreen.init(minecraft, width, height);
+        this.currentEntryPage = 0;
         super.resize(minecraft, width, height);
     }
 
@@ -121,6 +129,21 @@ public class WikiEntryScreen extends Screen {
         super.renderBackground(guiGraphics, mouseX, mouseY, partialTick);
         guiGraphics.blit(RenderPipelines.GUI_TEXTURED, ApplicationScreen.BACKGROUND, this.getLeftPos(), this.getTopPos(), 0, 0, this.imageWidth, this.imageHeight, this.imageWidth, this.imageHeight);
 
+    }
+
+    private void setupNavigationButtons() {
+        this.nextButton = new TexturedButton(this.getLeftPos() + 194 - 28, (this.height / 2) + 48, 20, 20,
+                NEXT_ARROW, NEXT_ARROW_HOVER, button -> changePage(true));
+
+        this.backButton = new TexturedButton(this.getLeftPos() + 40 + 28, (this.height / 2) + 48, 20, 20,
+                BACK_ARROW, BACK_ARROW_HOVER, button -> changePage(false));
+
+        this.homeButton = new TexturedButton((this.width / 2) - 8, (this.height / 2) + 49, 16, 16,
+                HOME_BUTTON, HOME_BUTTON_HOVER, button -> goBackScreen());
+
+        this.addRenderableWidget(nextButton);
+        this.addRenderableWidget(backButton);
+        this.addRenderableWidget(homeButton);
     }
 
     private void setupEntryButtons() {
@@ -232,16 +255,19 @@ public class WikiEntryScreen extends Screen {
     @Override
     public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
         if(keyCode == GLFW.GLFW_KEY_ESCAPE) {
-            if(this.currentPage != null) {
-                this.changeInfo(null);
-                return true;
-            } else {
-                this.minecraft.setScreen(new WikiApplicationScreen(this.tabletScreen, this.tabletScreen.inventory));
-                return true;
-            }
+            goBackScreen();
+            return true;
         }
 
         return super.keyPressed(keyCode, scanCode, modifiers);
+    }
+
+    private void goBackScreen() {
+        if(this.currentPage != null) {
+            this.changeInfo(null);
+        } else {
+            this.minecraft.setScreen(new WikiApplicationScreen(this.tabletScreen, this.tabletScreen.inventory));
+        }
     }
 
     public int getLeftPos() {
