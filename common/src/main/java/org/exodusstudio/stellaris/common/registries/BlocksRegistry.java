@@ -23,7 +23,12 @@ public final class BlocksRegistry {
 
     public static DeferredRegister<Block> BLOCKS = DeferredRegister.create(MOD_ID, Registries.BLOCK);
 
-    public static final RegistrySupplier<Block> MOON_ROCK = blockWithItem("moon_rock", ofFullCopy(Blocks.STONE));
+
+    /**
+     * MOON WORLDGEN BLOCKS
+     */
+    public static final RegistrySupplier<Block> MOON_SAND = blockWithItem("moon_sand", ofFullCopy(Blocks.SAND));
+    public static final RegistrySupplier<Block> MOON_STONE = blockWithItem("moon_stone", ofFullCopy(Blocks.STONE));
 
 
 

@@ -1,4 +1,8 @@
 {
   "itemGroup.stellaris.stellaris": "Stellaris",
-  "itemGroup.stellaris.stellaris_blocks" : "Stellaris Blocks"
+  "itemGroup.stellaris.stellaris_blocks" : "Stellaris Blocks",
+
+
+  "item.stellaris.moon_stone": "Moon Stone",
+  "item.stellaris.moon_sand": "Moon Sand"
 }
