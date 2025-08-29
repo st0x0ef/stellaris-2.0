@@ -1,3 +1,5 @@
+import net.fabricmc.loom.configuration.ide.RunConfigSettings
+
 plugins {
     id 'com.gradleup.shadow'
 }
@@ -22,12 +24,28 @@ configurations {
     }
 }
 
-repositories {
-    maven {
-        name = 'NeoForged'
-        url = 'https://maven.neoforged.net/releases'
+loom {
+    runs {
+        client {
+            client()
+            property 'neoforge.enabledGameTestNamespaces', project.name
+        }
+
+        data {
+            data()
+            programArgs.addAll '--mod', project.name, '--all',
+                    '--output', file('src/generated/resources/').getAbsolutePath(),
+                    '--existing', file('src/main/resources/').getAbsolutePath()
+        }
     }
 }
+
+    repositories {
+        maven {
+            name = 'NeoForged'
+            url = 'https://maven.neoforged.net/releases'
+        }
+    }
 
 dependencies {
     neoForge "net.neoforged:neoforge:$rootProject.neoforge_version"
@@ -38,6 +56,7 @@ dependencies {
     shadowBundle project(path: ':common', configuration: 'transformProductionNeoForge')
 }
 
+
 processResources {
     inputs.property 'version', project.version
 
@@ -45,6 +64,7 @@ processResources {
         expand version: project.version
     }
 }
+
 
 shadowJar {
     configurations = [project.configurations.shadowBundle]
