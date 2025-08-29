@@ -8,10 +8,10 @@ import org.exodusstudio.stellaris.common.registries.ItemsRegistry;
 
 import java.util.concurrent.CompletableFuture;
 
-public class ForgeItemTagsProvider extends ItemTagsProvider {
+public class NeoForgeItemTagsProvider extends ItemTagsProvider {
 
 
-    public ForgeItemTagsProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider, String modId) {
+    public NeoForgeItemTagsProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider, String modId) {
         super(output, lookupProvider, modId);
     }
 

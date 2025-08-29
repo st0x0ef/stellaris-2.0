@@ -10,10 +10,10 @@ import java.util.concurrent.CompletableFuture;
 
 import static org.exodusstudio.stellaris.Stellaris.MOD_ID;
 
-public class ForgeBlockTagsProvider extends BlockTagsProvider {
+public class NeoForgeBlockTagsProvider extends BlockTagsProvider {
 
 
-    public ForgeBlockTagsProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider) {
+    public NeoForgeBlockTagsProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider) {
         super(output, lookupProvider, MOD_ID);
     }
 
