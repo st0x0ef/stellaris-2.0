@@ -19,6 +19,7 @@ public final class ItemsRegistry {
 
     public static final RegistrySupplier<Item> TEST_ITEM = item("test_item");
     public static final RegistrySupplier<Item> DESH_INGOT = item("desh_ingot");
+    public static final RegistrySupplier<Item> RAW_DESH = item("raw_desh");
 
 
     public static RegistrySupplier<Item> item(String name) {
