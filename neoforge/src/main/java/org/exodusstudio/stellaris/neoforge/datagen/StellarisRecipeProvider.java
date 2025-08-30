@@ -1,6 +1,5 @@
 package org.exodusstudio.stellaris.neoforge.datagen;
 
-import net.minecraft.advancements.critereon.ItemPredicate;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.*;
