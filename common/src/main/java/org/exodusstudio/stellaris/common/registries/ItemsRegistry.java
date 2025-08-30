@@ -13,6 +13,8 @@ import java.util.function.Function;
 import static org.exodusstudio.stellaris.Stellaris.MOD_ID;
 import static org.exodusstudio.stellaris.Stellaris.id;
 
+
+@SuppressWarnings("all")
 public final class ItemsRegistry {
 
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(MOD_ID, Registries.ITEM);

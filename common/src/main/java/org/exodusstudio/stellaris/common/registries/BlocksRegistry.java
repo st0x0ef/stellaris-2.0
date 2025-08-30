@@ -19,6 +19,7 @@ import static net.minecraft.world.level.block.state.BlockBehaviour.Properties.of
 import static org.exodusstudio.stellaris.Stellaris.MOD_ID;
 import static org.exodusstudio.stellaris.Stellaris.id;
 
+@SuppressWarnings("all")
 public final class BlocksRegistry {
 
     public static DeferredRegister<Block> BLOCKS = DeferredRegister.create(MOD_ID, Registries.BLOCK);

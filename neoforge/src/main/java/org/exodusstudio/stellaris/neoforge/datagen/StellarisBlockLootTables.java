@@ -17,6 +17,7 @@ import org.exodusstudio.stellaris.common.registries.BlocksRegistry;
 
 import java.util.*;
 
+@SuppressWarnings("all")
 public class StellarisBlockLootTables extends BlockLootSubProvider  {
     protected StellarisBlockLootTables(HolderLookup.Provider registries) {
         super(Set.of(), FeatureFlags.REGISTRY.allFlags(), registries);
