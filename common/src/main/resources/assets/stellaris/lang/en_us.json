@@ -4,5 +4,14 @@
 
 
   "item.stellaris.moon_stone": "Moon Stone",
-  "item.stellaris.moon_sand": "Moon Sand"
+  "item.stellaris.moon_sand": "Moon Sand",
+
+
+  "item.stellaris.solar_panel": "Solar Panel",
+
+
+  "gauge_text.stellaris.max_generation": "Max Generation : %s Fe/tick",
+
+
+  "stellaris.screen.energyContainer": "Energy"
 }
