@@ -8,24 +8,26 @@ import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Inventory;
 import org.exodusstudio.stellaris.client.screens.components.GaugeWidget;
 import org.exodusstudio.stellaris.client.screens.utils.GUISprites;
 import org.exodusstudio.stellaris.client.screens.utils.GUIUtils;
-import org.exodusstudio.stellaris.common.blocks.entities.machines.SolarPanelBlockEntity;
-import org.exodusstudio.stellaris.common.menus.SolarPanelMenu;
+import org.exodusstudio.stellaris.common.blocks.entities.machines.CoalGeneratorBlockEntity;
+import org.exodusstudio.stellaris.common.menus.CoalGeneratorMenu;
 import org.exodusstudio.stellaris.common.utils.ResourceLocationUtils;
 
 @Environment(EnvType.CLIENT)
-public class SolarPanelScreen extends AbstractContainerScreen<SolarPanelMenu> {
+public class CoalGeneratorScreen extends AbstractContainerScreen<CoalGeneratorMenu> {
 
-    public static final ResourceLocation TEXTURE = ResourceLocationUtils.guiTexture("solar_panel");
+    private static final ResourceLocation TEXTURE = ResourceLocationUtils.guiTexture("coal_generator");
 
-    private final SolarPanelBlockEntity blockEntity = getMenu().getBlockEntity();
+    private final CoalGeneratorBlockEntity blockEntity = getMenu().getBlockEntity();
     private GaugeWidget energyGauge;
 
-    public SolarPanelScreen(SolarPanelMenu abstractContainerMenu, Inventory inventory, Component component) {
+    public CoalGeneratorScreen(CoalGeneratorMenu abstractContainerMenu, Inventory inventory, Component component) {
         super(abstractContainerMenu, inventory, component);
+
         imageWidth = 180;
         imageHeight = 188;
 
@@ -61,6 +63,11 @@ public class SolarPanelScreen extends AbstractContainerScreen<SolarPanelMenu> {
     @Override
     protected void renderBg(GuiGraphics graphics, float partialTick, int mouseX, int mouseY) {
         graphics.blit(RenderPipelines.GUI_TEXTURED, TEXTURE, leftPos, topPos, 0, 0, imageWidth, imageHeight, imageWidth, imageHeight);
+
+        if (menu.isLit()) {
+            int i = Mth.ceil(menu.getLitProgress() * 11.0F) + 1;
+            graphics.blitSprite(RenderPipelines.GUI_TEXTURED, GUISprites.COAL_GENERATOR_LIT_PROGRESS_SPRITE, 14, 11, 0, 12 - i, leftPos + 99, topPos + 68 - i, 12, i);
+        }
     }
 
     @Override

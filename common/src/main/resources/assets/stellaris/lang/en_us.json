@@ -8,6 +8,7 @@
 
 
   "item.stellaris.solar_panel": "Solar Panel",
+  "item.stellaris.coal_generator": "Coal Generator",
 
 
   "gauge_text.stellaris.max_generation": "Max Generation : %s Fe/tick",

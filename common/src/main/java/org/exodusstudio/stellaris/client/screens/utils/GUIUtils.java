@@ -1,9 +1,12 @@
 package org.exodusstudio.stellaris.client.screens.utils;
 
+import net.minecraft.client.gui.Font;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
 import net.minecraft.network.chat.TextColor;
+import org.exodusstudio.stellaris.client.screens.components.GaugeWidget;
 
 import java.util.Random;
 
@@ -58,5 +61,9 @@ public class GUIUtils {
     public static int generateRandomHexColor() {
         Random random = new Random();
         return random.nextInt(0xFFFFFF + 1);
+    }
+
+    public static void renderEnergyGaugeTooltip(GuiGraphics graphics, GaugeWidget widget, int energyGeneratedPerTicks, int x, int y, Font font) {
+        widget.renderTooltips(graphics, x, y, font, list -> list.add(ClientTooltipComponent.create(Component.translatable("gauge_text.stellaris.max_generation", energyGeneratedPerTicks).getVisualOrderText())));
     }
 }

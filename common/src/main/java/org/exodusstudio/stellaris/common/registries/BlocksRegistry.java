@@ -10,6 +10,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockBehaviour;
+import org.exodusstudio.stellaris.common.blocks.CoalGeneratorBlock;
 import org.exodusstudio.stellaris.common.blocks.SolarPanelBlock;
 import org.exodusstudio.stellaris.common.utils.ResourceLocationUtils;
 import org.jetbrains.annotations.NotNull;
@@ -34,7 +35,10 @@ public final class BlocksRegistry {
     /**
      * MACHINES BLOCKS
      */
+
+    // ENERGY GENERATORS
     public static final RegistrySupplier<SolarPanelBlock> SOLAR_PANEL = blockWithItem("solar_panel", BlockBehaviour.Properties.of(), SolarPanelBlock::new);
+    public static final RegistrySupplier<CoalGeneratorBlock> COAL_GENERATOR = blockWithItem("coal_generator", BlockBehaviour.Properties.of(), CoalGeneratorBlock::new);
 
 
     public static <B extends Block> @NotNull RegistrySupplier<B> block(String name,
