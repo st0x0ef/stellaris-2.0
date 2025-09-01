@@ -29,7 +29,7 @@ public class CreativeTabsRegistry {
 
     public static void register() {
         registerTab("stellaris", ItemsRegistry.DESH_INGOT);
-        registerTab("stellaris_blocks", BlocksRegistry.MOON_STONE);
+        registerTab("stellaris_blocks", BlocksRegistry.MOON_STONE.item());
 
         CREATIVE_MODE_TABS.register();
     }

@@ -66,7 +66,7 @@ public class CoalGeneratorScreen extends AbstractContainerScreen<CoalGeneratorMe
 
         if (menu.isLit()) {
             int i = Mth.ceil(menu.getLitProgress() * 11.0F) + 1;
-            graphics.blitSprite(RenderPipelines.GUI_TEXTURED, GUISprites.COAL_GENERATOR_LIT_PROGRESS_SPRITE, 14, 11, 0, 12 - i, leftPos + 99, topPos + 68 - i, 12, i);
+            graphics.blitSprite(RenderPipelines.GUI_TEXTURED, GUISprites.COAL_GENERATOR_LIT_PROGRESS_SPRITE, 14, 11, 0, 12 - i, leftPos + 99, topPos + 68 - i, 14, i);
         }
     }
 

@@ -16,13 +16,6 @@ public class CableBlockEntity extends BaseEnergyBlockEntity {
         super(BlockEntitiesRegistry.CABLES.get(), blockPos, blockState, transferRate);
     }
 
-    public static CableBlockEntity create(BlockPos pos, BlockState state) {
-        if (state.getBlock() instanceof CableBlock block) {
-            return new CableBlockEntity(pos, state, block.transferRate);
-        }
-        return new CableBlockEntity(pos, state, 0);
-    }
-
     @Override
     public void tick() {
         EnergyUtil.distributeEnergyNearby(level, worldPosition, energyContainer.getEnergy());

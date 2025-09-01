@@ -17,5 +17,6 @@ public final class Stellaris {
         ItemsRegistry.ITEMS.register();
         CreativeTabsRegistry.register();
         MenuTypesRegistry.MENU_TYPE.register();
+        CapabilitiesRegistry.init();
     }
 }

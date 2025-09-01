@@ -16,13 +16,13 @@ public class BlockEntitiesRegistry {
     public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITY_TYPE = DeferredRegister.create(Stellaris.MOD_ID, Registries.BLOCK_ENTITY_TYPE);
 
     public static final Supplier<BlockEntityType<?>> SOLAR_PANEL = BLOCK_ENTITY_TYPE.register("solar_panel",
-            () -> new BlockEntityType<>(SolarPanelBlockEntity::new, Set.of(BlocksRegistry.SOLAR_PANEL.get())));
+            () -> new BlockEntityType<>(SolarPanelBlockEntity::new, Set.of(BlocksRegistry.SOLAR_PANEL.block().get())));
     public static final Supplier<BlockEntityType<?>> COAL_GENERATOR = BLOCK_ENTITY_TYPE.register("coal_generator",
-            () -> new BlockEntityType<>(CoalGeneratorBlockEntity::new, Set.of(BlocksRegistry.COAL_GENERATOR.get())));
+            () -> new BlockEntityType<>(CoalGeneratorBlockEntity::new, Set.of(BlocksRegistry.COAL_GENERATOR.block().get())));
 
     public static final Supplier<BlockEntityType<?>> POWER_BANKS = BLOCK_ENTITY_TYPE.register("power_bank",
-            () -> new BlockEntityType<>(PowerBankBlockEntity::new, Set.of(BlocksRegistry.POWER_BANK_T1.get())));
+            () -> new BlockEntityType<>(PowerBankBlockEntity::new, Set.of(BlocksRegistry.POWER_BANK_T1.block().get())));
 
     public static final Supplier<BlockEntityType<?>> CABLES = BLOCK_ENTITY_TYPE.register("cables",
-            () -> new BlockEntityType<>(CableBlockEntity::new, Set.of(BlocksRegistry.CABLE_T1.get())));
+            () -> new BlockEntityType<>(CableBlockEntity::new, Set.of(BlocksRegistry.CABLE_T1.block().get())));
 }

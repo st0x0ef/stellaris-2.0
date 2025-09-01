@@ -32,6 +32,24 @@ public abstract class EnergyStorage extends BaseEnergyStorage {
         return extracted;
     }
 
+    @Override
+    public int insertWithoutLimits(int amount, boolean simulate) {
+        int inserted = super.insertWithoutLimits(amount, simulate);
+        if (!simulate) {
+            onChange();
+        }
+        return inserted;
+    }
+
+    @Override
+    public int extractWithoutLimits(int amount, boolean simulate) {
+        int extracted = super.extractWithoutLimits(amount, simulate);
+        if (!simulate) {
+            onChange();
+        }
+        return extracted;
+    }
+
     public void save(ValueOutput output, String name) {
         output.putInt("energy-" + name, energy);
     }
@@ -40,7 +58,6 @@ public abstract class EnergyStorage extends BaseEnergyStorage {
         if (input != null && input.getInt("energy-" + name).isPresent()) {
             this.energy = input.getInt("energy-" + name).get();
         }
-
     }
 
     protected abstract void onChange();
