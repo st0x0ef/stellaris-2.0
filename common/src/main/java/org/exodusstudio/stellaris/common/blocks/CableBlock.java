@@ -50,7 +50,7 @@ public class CableBlock extends BaseCableBlock {
     protected @NotNull MapCodec<? extends CableBlock> codec() {
         return RecordCodecBuilder.mapCodec(instance -> instance.group(
                 propertiesCodec(),
-                Codec.INT.fieldOf("capacity").forGetter(cable -> cable.transferRate)
+                Codec.INT.fieldOf("transferRate").forGetter(cable -> cable.transferRate)
         ).apply(instance, CableBlock::new));
     }
 

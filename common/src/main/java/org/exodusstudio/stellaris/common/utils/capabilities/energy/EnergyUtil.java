@@ -49,7 +49,7 @@ public class EnergyUtil {
         UniversalEnergyStorage from;
         UniversalEnergyStorage to;
         for (Direction direction : outputDirections) {
-            from = Capabilities.Energy.BLOCK.getCapability(level, pos, direction);
+            from = Capabilities.Energy.BLOCK.getCapability(level, pos, null);
             if (from == null) {
                 continue;
             }
