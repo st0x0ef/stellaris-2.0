@@ -49,26 +49,15 @@ public class EnergyUtil {
         UniversalEnergyStorage from;
         UniversalEnergyStorage to;
         for (Direction direction : outputDirections) {
-            from = Capabilities.Energy.BLOCK.getCapability(level, pos, null);
-            if (from == null) {
+
+            from = Capabilities.Energy.BLOCK.getCapability(level, pos, direction);
+            if (from == null || !from.canExtractEnergy() || from.extract(amount, true) == 0)
                 continue;
-            }
-            if (!from.canExtractEnergy()) {
+
+            to = Capabilities.Energy.BLOCK.getCapability(level, pos.relative(direction), direction.getOpposite());
+            if (to == null || !to.canInsertEnergy() || to.insert(amount, true) == 0)
                 continue;
-            }
-            if (from.extract(amount, true) == 0) {
-                continue;
-            }
-            to = Capabilities.Energy.BLOCK.getCapability(level, pos, direction);
-            if (to == null) {
-                continue;
-            }
-            if (!to.canInsertEnergy()) {
-                continue;
-            }
-            if (to.insert(amount, true) == 0) {
-                continue;
-            }
+
             pairs.put(from, to);
         }
 
