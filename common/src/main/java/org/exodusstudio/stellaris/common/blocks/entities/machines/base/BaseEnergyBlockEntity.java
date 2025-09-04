@@ -21,7 +21,6 @@ public abstract class BaseEnergyBlockEntity extends BlockEntity implements Energ
     public BaseEnergyBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state, int maxCapacity, int maxInput, int maxOutput) {
         super(type, pos, state);
         this.energyContainer = new EnergyStorage(maxCapacity, maxInput, maxOutput) {
-
             @Override
             protected void onChange() {
                 setChanged();

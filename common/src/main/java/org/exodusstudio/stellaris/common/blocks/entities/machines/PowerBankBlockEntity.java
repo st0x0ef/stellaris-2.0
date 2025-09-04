@@ -20,7 +20,7 @@ public class PowerBankBlockEntity extends BaseEnergyContainerBlockEntity {
     }
 
     public PowerBankBlockEntity(BlockPos pos, BlockState state, int tier) {
-        super(BlockEntitiesRegistry.POWER_BANKS.get(), pos, state, (int) Math.pow(2,4*tier)*1000, (int) Math.pow(2,4*tier)*1000, (int) Math.pow(2,4*tier)*1000);
+        super(BlockEntitiesRegistry.POWER_BANKS.get(), pos, state, (int) Math.pow(2,4*tier)*1000);
     }
 
     @Override
@@ -39,7 +39,7 @@ public class PowerBankBlockEntity extends BaseEnergyContainerBlockEntity {
         //Update render stage
         renderStage = (energyContainer.getEnergy() * 9) / energyContainer.getMaxEnergy();
 
-        if (initialRenderStage != renderStage) {
+        if (initialRenderStage != renderStage && level != null) {
             BlockState state = getBlockState().setValue(PowerBankBlock.STAGE, renderStage);
             level.setBlock(getBlockPos(), state, 3);
             setChanged();

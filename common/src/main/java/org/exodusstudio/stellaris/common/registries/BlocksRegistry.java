@@ -14,6 +14,7 @@ import org.exodusstudio.stellaris.common.blocks.CableBlock;
 import org.exodusstudio.stellaris.common.blocks.CoalGeneratorBlock;
 import org.exodusstudio.stellaris.common.blocks.PowerBankBlock;
 import org.exodusstudio.stellaris.common.blocks.SolarPanelBlock;
+import org.exodusstudio.stellaris.common.items.PowerBankItem;
 import org.exodusstudio.stellaris.common.registries.utils.BlockItemRegistrySupplier;
 import org.exodusstudio.stellaris.common.utils.ResourceLocationUtils;
 import org.jetbrains.annotations.NotNull;
@@ -44,7 +45,7 @@ public final class BlocksRegistry {
     public static final BlockItemRegistrySupplier COAL_GENERATOR = blockWithItem("coal_generator", BlockBehaviour.Properties.of(), CoalGeneratorBlock::new);
 
     // POWER STORAGE
-    public static final BlockItemRegistrySupplier POWER_BANK_T1 = blockWithItem("power_bank_t1", BlockBehaviour.Properties.of(), (p) -> new PowerBankBlock(p, (short) 1));
+    public static final BlockItemRegistrySupplier POWER_BANK_T1 = blockWithCustomItem("power_bank_t1", BlockBehaviour.Properties.of(), (p) -> new PowerBankBlock(p, (short) 1), new Item.Properties().component(DataComponentsRegistry.ENERGY.get(), 0), (b, p) -> new PowerBankItem((PowerBankBlock) b, p));
 
     // CABLES/PIPES
     public static final BlockItemRegistrySupplier CABLE_T1 = blockWithItem("cable_t1", BlockBehaviour.Properties.of(), (p) -> new CableBlock(p, 20));

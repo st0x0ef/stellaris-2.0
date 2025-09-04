@@ -11,7 +11,8 @@ public final class Stellaris {
 
     public static void init() {
         NetworkRegistry.init();
-        
+
+        DataComponentsRegistry.DATA_COMPONENT_TYPE.register();
         BlocksRegistry.BLOCKS.register();
         BlockEntitiesRegistry.BLOCK_ENTITY_TYPE.register();
         ItemsRegistry.ITEMS.register();
