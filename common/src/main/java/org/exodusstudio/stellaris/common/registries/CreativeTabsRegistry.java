@@ -8,11 +8,11 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ItemLike;
+import org.exodusstudio.stellaris.common.utils.ResourceLocationUtils;
 
 import java.util.function.Supplier;
 
 import static org.exodusstudio.stellaris.Stellaris.MOD_ID;
-import static org.exodusstudio.stellaris.Stellaris.id;
 
 public class CreativeTabsRegistry {
 
@@ -24,12 +24,12 @@ public class CreativeTabsRegistry {
 
     @SuppressWarnings("all")
     public static DeferredSupplier<CreativeModeTab> create(String name) {
-        return CreativeTabRegistry.defer(id(name));
+        return CreativeTabRegistry.defer(ResourceLocationUtils.id(name));
     }
 
     public static void register() {
         registerTab("stellaris", ItemsRegistry.DESH_INGOT);
-        registerTab("stellaris_blocks", BlocksRegistry.MOON_STONE);
+        registerTab("stellaris_blocks", BlocksRegistry.MOON_STONE.item());
 
         CREATIVE_MODE_TABS.register();
     }

@@ -4,5 +4,21 @@
 
 
   "item.stellaris.moon_stone": "Moon Stone",
-  "item.stellaris.moon_sand": "Moon Sand"
+  "item.stellaris.moon_sand": "Moon Sand",
+
+
+  "item.stellaris.solar_panel": "Solar Panel",
+  "item.stellaris.coal_generator": "Coal Generator",
+
+
+  "item.stellaris.power_bank_t1": "Tier 1 Power Bank",
+
+
+  "item.stellaris.cable_t1": "Cable",
+
+
+  "gauge_text.stellaris.max_generation": "Max Generation : %s Fe/tick",
+
+
+  "stellaris.screen.energyContainer": "Energy"
 }
