@@ -18,7 +18,6 @@ public final class ItemsRegistry {
 
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(MOD_ID, Registries.ITEM);
 
-    public static final RegistrySupplier<Item> DESH_INGOT = item("desh_ingot");
     public static final RegistrySupplier<TabletItem> TABLET = item("tablet", TabletItem::new);
 
 
