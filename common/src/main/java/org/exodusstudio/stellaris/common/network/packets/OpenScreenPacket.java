@@ -7,7 +7,7 @@ import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
-import org.exodusstudio.stellaris.client.screen.TestScreen;
+import org.exodusstudio.stellaris.client.screens.TestScreen;
 import org.exodusstudio.stellaris.common.network.NetworkRegistry;
 import org.jetbrains.annotations.NotNull;
 

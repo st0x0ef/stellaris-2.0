@@ -1,4 +1,4 @@
-package org.exodusstudio.stellaris.client.screen.tablet.application;
+package org.exodusstudio.stellaris.client.screens.tablet.application;
 
 import dev.architectury.registry.registries.Registrar;
 import dev.architectury.registry.registries.RegistrarManager;
@@ -9,14 +9,13 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import org.exodusstudio.stellaris.Stellaris;
-import org.exodusstudio.stellaris.client.screen.tablet.MainTabletScreen;
-import org.exodusstudio.stellaris.client.screen.tablet.application.wiki.WikiApplicationScreen;
+import org.exodusstudio.stellaris.client.screens.tablet.MainTabletScreen;
+import org.exodusstudio.stellaris.client.screens.tablet.application.wiki.WikiApplicationScreen;
 import org.exodusstudio.stellaris.common.menu.MainTabletMenu;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Consumer;
 import java.util.function.Function;
-import java.util.function.Supplier;
 
 public class ApplicationRegistry {
 

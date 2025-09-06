@@ -1,4 +1,4 @@
-package org.exodusstudio.stellaris.client.screen;
+package org.exodusstudio.stellaris.client.screens;
 
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
@@ -7,11 +7,9 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.ARGB;
 import net.minecraft.world.item.ItemStack;
-import org.exodusstudio.stellaris.client.screen.components.WikiInfos;
-import org.exodusstudio.stellaris.client.screen.components.containers.DraggableContainer;
+import org.exodusstudio.stellaris.client.screens.components.WikiInfos;
+import org.exodusstudio.stellaris.client.screens.components.containers.DraggableContainer;
 import org.exodusstudio.stellaris.common.utils.ResourceLocationUtils;
-
-import java.awt.*;
 
 import static net.minecraft.world.item.Items.ALLAY_SPAWN_EGG;
 

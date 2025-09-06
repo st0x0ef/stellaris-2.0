@@ -1,4 +1,4 @@
-package org.exodusstudio.stellaris.client.screen.components.containers;
+package org.exodusstudio.stellaris.client.screens.components.containers;
 
 import net.minecraft.client.gui.components.AbstractWidget;
 

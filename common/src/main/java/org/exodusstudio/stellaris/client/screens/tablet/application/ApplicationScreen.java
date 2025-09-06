@@ -1,4 +1,4 @@
-package org.exodusstudio.stellaris.client.screen.tablet.application;
+package org.exodusstudio.stellaris.client.screens.tablet.application;
 
 import dev.architectury.networking.NetworkManager;
 import net.minecraft.client.Minecraft;

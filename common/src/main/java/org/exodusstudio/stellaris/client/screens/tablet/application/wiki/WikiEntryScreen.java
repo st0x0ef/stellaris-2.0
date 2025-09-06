@@ -1,20 +1,18 @@
-package org.exodusstudio.stellaris.client.screen.tablet.application.wiki;
+package org.exodusstudio.stellaris.client.screens.tablet.application.wiki;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.gui.components.StringWidget;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.player.Inventory;
 import org.exodusstudio.stellaris.client.data.wiki.WikiEntry;
-import org.exodusstudio.stellaris.client.screen.components.*;
-import org.exodusstudio.stellaris.client.screen.components.containers.ScrollableContainer;
-import org.exodusstudio.stellaris.client.screen.tablet.MainTabletScreen;
-import org.exodusstudio.stellaris.client.screen.tablet.application.ApplicationScreen;
+import org.exodusstudio.stellaris.client.screens.components.TexturedButton;
+import org.exodusstudio.stellaris.client.screens.components.WikiButton;
+import org.exodusstudio.stellaris.client.screens.components.WikiInfos;
+import org.exodusstudio.stellaris.client.screens.tablet.MainTabletScreen;
+import org.exodusstudio.stellaris.client.screens.tablet.application.ApplicationScreen;
 import org.exodusstudio.stellaris.client.utils.ClientUtils;
-import org.exodusstudio.stellaris.common.menu.MainTabletMenu;
 import org.exodusstudio.stellaris.common.utils.ResourceLocationUtils;
 import org.exodusstudio.stellaris.common.utils.Utils;
 import org.jetbrains.annotations.Nullable;

@@ -6,7 +6,7 @@ import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.packs.resources.SimpleJsonResourceReloadListener;
 import net.minecraft.util.profiling.ProfilerFiller;
 import org.exodusstudio.stellaris.Stellaris;
-import org.exodusstudio.stellaris.client.screen.tablet.application.wiki.WikiApplicationScreen;
+import org.exodusstudio.stellaris.client.screens.tablet.application.wiki.WikiApplicationScreen;
 
 import java.util.Map;
 

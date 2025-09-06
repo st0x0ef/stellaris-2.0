@@ -3,7 +3,7 @@ package org.exodusstudio.stellaris.client.utils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
-import org.exodusstudio.stellaris.client.screen.components.WikiInfos;
+import org.exodusstudio.stellaris.client.screens.components.WikiInfos;
 import org.exodusstudio.stellaris.common.utils.Utils;
 
 import java.util.ArrayList;

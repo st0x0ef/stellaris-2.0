@@ -1,4 +1,4 @@
-package org.exodusstudio.stellaris.client.screen.tablet;
+package org.exodusstudio.stellaris.client.screens.tablet;
 
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
@@ -7,8 +7,8 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
-import org.exodusstudio.stellaris.client.screen.components.TexturedButton;
-import org.exodusstudio.stellaris.client.screen.tablet.application.ApplicationRegistry;
+import org.exodusstudio.stellaris.client.screens.components.TexturedButton;
+import org.exodusstudio.stellaris.client.screens.tablet.application.ApplicationRegistry;
 import org.exodusstudio.stellaris.client.utils.ClientUtils;
 import org.exodusstudio.stellaris.common.menu.MainTabletMenu;
 import org.exodusstudio.stellaris.common.utils.ResourceLocationUtils;

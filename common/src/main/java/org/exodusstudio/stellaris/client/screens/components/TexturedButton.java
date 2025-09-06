@@ -1,4 +1,4 @@
-package org.exodusstudio.stellaris.client.screen.components;
+package org.exodusstudio.stellaris.client.screens.components;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
