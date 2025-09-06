@@ -12,8 +12,11 @@ import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.client.screen.tablet.MainTabletScreen;
 import org.exodusstudio.stellaris.client.screen.tablet.application.wiki.WikiApplicationScreen;
 import org.exodusstudio.stellaris.common.menu.MainTabletMenu;
+import org.jetbrains.annotations.Nullable;
 
+import java.util.function.Consumer;
 import java.util.function.Function;
+import java.util.function.Supplier;
 
 public class ApplicationRegistry {
 
@@ -30,7 +33,8 @@ public class ApplicationRegistry {
                     Component.translatable("application.stellaris.wiki.name"),
                     Component.translatable("application.stellaris.wiki.description"),
                     ResourceLocation.fromNamespaceAndPath("stellaris", "textures/gui/application/wiki_icon.png"),
-                    WikiApplicationScreen::create
+                    WikiApplicationScreen::create,
+                    null
             )
     );
 
@@ -45,7 +49,8 @@ public class ApplicationRegistry {
         private final ResourceLocation iconLocation;
         private final Function<MenuHolder<T>, Screen> screenFactory; // Function that takes Player and returns a Screen
 
-        public  ApplicationFactory(Component name, Component description, ResourceLocation iconLocation, Function<MenuHolder<T>, Screen> screenFactory) {
+        public  ApplicationFactory(Component name, Component description, ResourceLocation iconLocation,
+                                   @Nullable Function<MenuHolder<T>, Screen> screenFactory, @Nullable Consumer<MenuHolder<T>> menuOperation) {
             this.name = name;
             this.description = description;
             this.iconLocation = iconLocation;

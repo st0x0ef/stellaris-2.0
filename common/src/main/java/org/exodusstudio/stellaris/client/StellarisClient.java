@@ -24,6 +24,4 @@ public class StellarisClient {
     private static void registerPack() {
         ReloadListenerRegistry.register(PackType.CLIENT_RESOURCES, new WikiPack(), ResourceLocationUtils.id("wiki"));
     }
-
-
 }

@@ -14,7 +14,6 @@ public class MainTabletMenu extends AbstractContainerMenu {
 
     private final Inventory playerInventory;
 
-
     public MainTabletMenu(int syncId, Inventory inventory, FriendlyByteBuf buffer) {
         this(syncId, inventory);
     }

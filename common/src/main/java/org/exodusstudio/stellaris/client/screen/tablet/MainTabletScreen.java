@@ -113,6 +113,14 @@ public class MainTabletScreen extends AbstractContainerScreen<MainTabletMenu> {
         return this.topPos;
     }
 
+    public int getImageWidth() {
+        return this.imageWidth;
+    }
+
+    public int getImageHeight() {
+        return this.imageHeight;
+    }
+
     public Player getPlayer() {
         return player;
     }

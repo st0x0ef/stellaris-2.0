@@ -266,7 +266,7 @@ public class WikiEntryScreen extends Screen {
         if(this.currentPage != null) {
             this.changeInfo(null);
         } else {
-            this.minecraft.setScreen(new WikiApplicationScreen(this.tabletScreen, this.tabletScreen.inventory));
+            this.minecraft.setScreen(new WikiApplicationScreen(this.tabletScreen));
         }
     }
 

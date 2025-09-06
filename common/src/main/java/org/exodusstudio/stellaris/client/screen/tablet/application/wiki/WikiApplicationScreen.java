@@ -1,10 +1,14 @@
 package org.exodusstudio.stellaris.client.screen.tablet.application.wiki;
 
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 import org.exodusstudio.stellaris.client.data.wiki.WikiEntry;
 import org.exodusstudio.stellaris.client.screen.components.TexturedButton;
+import org.exodusstudio.stellaris.client.screen.components.containers.ScrollableContainer;
 import org.exodusstudio.stellaris.client.screen.tablet.MainTabletScreen;
 import org.exodusstudio.stellaris.client.screen.tablet.application.ApplicationRegistry;
 import org.exodusstudio.stellaris.client.screen.tablet.application.ApplicationScreen;
@@ -21,7 +25,7 @@ import java.util.Map;
  * Wiki Application Screen
  * This screen displays a list of wiki entries and allows navigation between them.
  */
-public class WikiApplicationScreen extends ApplicationScreen<MainTabletMenu> {
+public class WikiApplicationScreen extends Screen {
 
 
     /** Variables */
@@ -32,18 +36,20 @@ public class WikiApplicationScreen extends ApplicationScreen<MainTabletMenu> {
 
     public TexturedButton nextEntryButton;
     public TexturedButton prevEntryButton;
-
     public TexturedButton entryButton;
+
+
+    public ScrollableContainer scrollableContainer;
 
     public MainTabletScreen mainTabletScreen;
 
-    public WikiApplicationScreen(MainTabletScreen mainTabletScreen, Inventory inventory) {
-        super(mainTabletScreen.getMenu(), inventory, Component.literal("Wiki"));
+    public WikiApplicationScreen(MainTabletScreen mainTabletScreen) {
+        super(Component.literal("Wiki"));
         this.mainTabletScreen = mainTabletScreen;
     }
 
     public static WikiApplicationScreen create(ApplicationRegistry.MenuHolder<MainTabletMenu> menuHolder) {
-        return new WikiApplicationScreen(menuHolder.mainTabletScreen(), menuHolder.inventory());
+        return new WikiApplicationScreen(menuHolder.mainTabletScreen());
     }
 
     @Override
@@ -55,12 +61,34 @@ public class WikiApplicationScreen extends ApplicationScreen<MainTabletMenu> {
         }
     }
 
+    @Override
+    public void renderBackground(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
+        super.renderBackground(guiGraphics, mouseX, mouseY, partialTick);
+        guiGraphics.blit(RenderPipelines.GUI_TEXTURED, ApplicationScreen.BACKGROUND, this.getLeftPos(), this.getTopPos(), 0, 0, this.mainTabletScreen.getImageWidth(), this.mainTabletScreen.getImageHeight(), this.mainTabletScreen.getImageWidth(),this.mainTabletScreen.getImageHeight());
+
+    }
+
 
     private void setupButtons() {
         this.prevEntryButton = new TexturedButton(this.getLeftPos() + 40, (this.height /2) - 10, 20, 20,
                 WikiEntryScreen.BACK_ARROW,
                 WikiEntryScreen.BACK_ARROW_HOVER,
                 button -> previousEntry());
+
+        this.nextEntryButton = new TexturedButton(this.getLeftPos() + 190, (this.height /2) - 10, 20, 20,
+                WikiEntryScreen.NEXT_ARROW,
+                WikiEntryScreen.NEXT_ARROW_HOVER,
+                button -> nextEntry());
+
+        this.addRenderableWidget(nextEntryButton);
+        this.addRenderableWidget(prevEntryButton);
+
+        setupScrollableContainer();
+
+    }
+
+
+    private void setupScrollableContainer() {
 
         this.entryButton = new TexturedButton((this.width / 2) - 45, (this.height /2) - 45, 90, 90,
                 ENTRIES.get(currentPage).icon(),
@@ -69,15 +97,10 @@ public class WikiApplicationScreen extends ApplicationScreen<MainTabletMenu> {
                     this.minecraft.setScreen(new WikiEntryScreen(this.mainTabletScreen, ENTRIES.get(this.currentPage)));
                 });
 
-        this.nextEntryButton = new TexturedButton(this.getLeftPos() + 190, (this.height /2) - 10, 20, 20,
-                WikiEntryScreen.NEXT_ARROW,
-                WikiEntryScreen.NEXT_ARROW_HOVER,
-                button -> nextEntry());
+        this.scrollableContainer = new ScrollableContainer(this.getLeftPos() + 10, this.getTopPos() + 10, this.mainTabletScreen.getImageWidth() -20, this.mainTabletScreen.getImageHeight() - 20, this.entryButton);
 
-
-        this.addRenderableWidget(nextEntryButton);
-        this.addRenderableWidget(entryButton);
-        this.addRenderableWidget(prevEntryButton);
+        this.addWidget(entryButton);
+        this.addRenderableWidget(scrollableContainer);
     }
 
     public void nextEntry() {
@@ -101,5 +124,14 @@ public class WikiApplicationScreen extends ApplicationScreen<MainTabletMenu> {
     public static @Nullable WikiEntry.EntryInfo getEntryInfo(ResourceLocation resourceLocation) {
         return ENTRY_COMPONENTS.getOrDefault(resourceLocation, null);
     }
+
+
+    public int getLeftPos() {
+        return this.mainTabletScreen.getLeftPos();
+    }
+    public int getTopPos() {
+        return this.mainTabletScreen.getTopPos();
+    }
+
 
 }

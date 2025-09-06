@@ -7,12 +7,9 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.ARGB;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
-import org.exodusstudio.stellaris.client.screen.components.TexturedButton;
 import org.exodusstudio.stellaris.client.screen.components.WikiInfos;
 import org.exodusstudio.stellaris.client.screen.components.containers.DraggableContainer;
 import org.exodusstudio.stellaris.common.utils.ResourceLocationUtils;
-import org.exodusstudio.stellaris.common.utils.Utils;
 
 import java.awt.*;
 
