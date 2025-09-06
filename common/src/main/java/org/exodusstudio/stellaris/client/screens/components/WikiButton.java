@@ -8,15 +8,16 @@ import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import org.exodusstudio.stellaris.client.data.wiki.EntryInfo;
 import org.exodusstudio.stellaris.client.data.wiki.WikiEntry;
 import org.exodusstudio.stellaris.client.utils.ClientUtils;
 
 public class WikiButton extends TexturedButton{
 
-    private final WikiEntry.EntryInfo info;
+    private final EntryInfo info;
 
 
-    public WikiButton(int x, int y, int widthIn, int heightIn, OnPress onPressIn, WikiEntry.EntryInfo info) {
+    public WikiButton(int x, int y, int widthIn, int heightIn, OnPress onPressIn, EntryInfo info) {
         super(x, y, widthIn, heightIn, onPressIn);
         this.info = info;
         setTooltip();

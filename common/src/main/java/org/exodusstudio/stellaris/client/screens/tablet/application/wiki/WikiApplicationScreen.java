@@ -5,6 +5,7 @@ import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import org.exodusstudio.stellaris.client.data.wiki.EntryInfo;
 import org.exodusstudio.stellaris.client.data.wiki.WikiEntry;
 import org.exodusstudio.stellaris.client.screens.components.TexturedButton;
 import org.exodusstudio.stellaris.client.screens.components.containers.ScrollableContainer;
@@ -28,7 +29,9 @@ public class WikiApplicationScreen extends Screen {
 
     /** Variables */
     public static ArrayList<WikiEntry> ENTRIES = new ArrayList<>();
-    public static Map<ResourceLocation, WikiEntry.EntryInfo> ENTRY_COMPONENTS = new HashMap<>();
+
+
+    public static Map<ResourceLocation, EntryInfo> ENTRY_COMPONENTS = new HashMap<>();
 
     public int currentPage = 0;
 
@@ -119,7 +122,7 @@ public class WikiApplicationScreen extends Screen {
         }
     }
 
-    public static @Nullable WikiEntry.EntryInfo getEntryInfo(ResourceLocation resourceLocation) {
+    public static @Nullable EntryInfo getEntryInfo(ResourceLocation resourceLocation) {
         return ENTRY_COMPONENTS.getOrDefault(resourceLocation, null);
     }
 

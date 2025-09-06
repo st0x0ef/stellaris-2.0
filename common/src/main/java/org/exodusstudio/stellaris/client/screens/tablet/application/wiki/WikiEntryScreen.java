@@ -6,6 +6,7 @@ import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import org.exodusstudio.stellaris.client.data.wiki.EntryInfo;
 import org.exodusstudio.stellaris.client.data.wiki.WikiEntry;
 import org.exodusstudio.stellaris.client.screens.components.TexturedButton;
 import org.exodusstudio.stellaris.client.screens.components.WikiButton;
@@ -56,13 +57,13 @@ public class WikiEntryScreen extends Screen {
 
     /** Variables */
     //Null is the main page
-    public WikiEntry.EntryInfo currentPage = null;
+    public EntryInfo currentPage = null;
 
     //Use for pagination
     public ArrayList<ArrayList<WikiButton>> ENTRY_BUTTONS = new ArrayList<>();
     public int currentEntryPage = 0;
 
-    public List<WikiEntry.EntryInfo> ENTRIES;
+    public List<EntryInfo> INFOS;
 
 
     public WikiEntry entry;
@@ -78,8 +79,21 @@ public class WikiEntryScreen extends Screen {
         super(entry.getTitle());
         this.entry = entry;
         this.tabletScreen = tabletScreen;
-        this.ENTRIES = entry.components();
 
+        //TODO : get all the infos from the entry
+        this.INFOS = getInfosForEntry(entry);
+
+    }
+
+    public List<EntryInfo> getInfosForEntry(WikiEntry entry) {
+        List<EntryInfo> infos = new ArrayList<>();
+
+        WikiApplicationScreen.ENTRY_COMPONENTS.forEach((key, info) -> {
+            if(info.entryId().equals(entry.id())) {
+                infos.add(info);
+            }
+        });
+        return infos;
     }
 
     @Override
@@ -149,7 +163,7 @@ public class WikiEntryScreen extends Screen {
         AtomicInteger column = new AtomicInteger(0);
 
         var PAGES_BUTTONS = new ArrayList<WikiButton>();
-        ENTRIES.forEach((infos) -> {
+        INFOS.forEach((infos) -> {
             WikiButton entryButton = new WikiButton(this.getLeftPos() + 68 + (column.get() * 30), this.getTopPos() + 60 + (row.get() * 30), 20, 20, (b) -> changeInfo(infos), infos)
                     .tex(BUTTON_TEXTURE, BUTTON_HOVERED_TEXTURE);
 
@@ -179,7 +193,7 @@ public class WikiEntryScreen extends Screen {
      *
      * @param info The new info to display, or null for the main page.
      */
-    public void changeInfo(@Nullable WikiEntry.EntryInfo info) {
+    public void changeInfo(@Nullable EntryInfo info) {
         currentPage = info;
         widget.refresh(this.currentPage);
     }
@@ -199,7 +213,7 @@ public class WikiEntryScreen extends Screen {
 
     public void changePage(boolean next) {
         if (currentPage != null) {
-            WikiEntry.EntryInfo info = getNextInfo(next);
+            EntryInfo info = getNextInfo(next);
             changeInfo(info);
             return;
         }
@@ -226,28 +240,28 @@ public class WikiEntryScreen extends Screen {
 
 
 
-    public WikiEntry.EntryInfo getNextInfo(boolean forward) {
+    public EntryInfo getNextInfo(boolean forward) {
         int currentIndex = -1;
 
-        for (int i = 0; i < this.ENTRIES.size(); i++) {
-            if (this.ENTRIES.get(i).equals(currentPage)) {
+        for (int i = 0; i < this.INFOS.size(); i++) {
+            if (this.INFOS.get(i).equals(currentPage)) {
                 currentIndex = i;
                 break;
             }
         }
 
         if (currentIndex == -1) {
-            if (!this.ENTRIES.isEmpty()) {
-                return forward ? this.ENTRIES.getFirst() : this.ENTRIES.getLast();
+            if (!this.INFOS.isEmpty()) {
+                return forward ? this.INFOS.getFirst() : this.INFOS.getLast();
             }
             else {
                 return null;
             }
         }
 
-        int nextIndex = forward ? (currentIndex + 1) % this.ENTRIES.size() : (currentIndex - 1 + this.ENTRIES.size()) % this.ENTRIES.size(); // The "+ infos.size()" is to avoid negative modulo results
+        int nextIndex = forward ? (currentIndex + 1) % this.INFOS.size() : (currentIndex - 1 + this.INFOS.size()) % this.INFOS.size(); // The "+ infos.size()" is to avoid negative modulo results
 
-        return this.ENTRIES.get(nextIndex);
+        return this.INFOS.get(nextIndex);
     }
 
     @Override

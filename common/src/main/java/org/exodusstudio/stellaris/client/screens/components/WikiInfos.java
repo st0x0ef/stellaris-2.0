@@ -10,6 +10,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import org.exodusstudio.stellaris.Stellaris;
+import org.exodusstudio.stellaris.client.data.wiki.EntryInfo;
 import org.exodusstudio.stellaris.client.data.wiki.WikiEntry;
 import org.exodusstudio.stellaris.client.screens.tablet.application.wiki.WikiApplicationScreen;
 import org.exodusstudio.stellaris.client.screens.tablet.application.wiki.WikiEntryScreen;
@@ -27,7 +28,7 @@ public class WikiInfos extends AbstractWidget {
     private AtomicInteger finalHeight = new AtomicInteger(0);
 
 
-    public WikiEntry.EntryInfo entry;
+    public EntryInfo entry;
     private final ArrayList<ClickBox> clickBoxes = new ArrayList<>();
 
     public WikiInfos(int baseX, int baseY, int width, int height) {
@@ -68,7 +69,7 @@ public class WikiInfos extends AbstractWidget {
 
     protected void renderContents(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
         finalHeight.set(0);
-        for(WikiEntry.InfoComponent component : entry.components()) {
+        for(EntryInfo.InfoComponent component : entry.components()) {
 
             switch (component.type().toLowerCase()) {
                 case "text" -> component.text().ifPresent((text) -> {
@@ -120,7 +121,7 @@ public class WikiInfos extends AbstractWidget {
 
     }
 
-    public void refresh(WikiEntry.EntryInfo entryInfo) {
+    public void refresh(EntryInfo entryInfo) {
         this.entry = entryInfo;
         this.clickBoxes.clear();
         this.scrollOffset = 0;
