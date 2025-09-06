@@ -12,8 +12,8 @@ public class ResourceLocationUtils {
         return texture("gui/" + path);
     }
 
-
     public static ResourceLocation id(String path) {
         return ResourceLocation.fromNamespaceAndPath(Stellaris.MOD_ID, path);
     }
+
 }
