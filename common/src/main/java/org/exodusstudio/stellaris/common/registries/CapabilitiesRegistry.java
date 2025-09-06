@@ -1,0 +1,22 @@
+package org.exodusstudio.stellaris.common.registries;
+
+import com.fej1fun.potentials.capabilities.Capabilities;
+
+public class CapabilitiesRegistry {
+
+    public static void init() {
+        registerEnergyItems();
+        registerEnergyBlockEntities();
+    }
+
+    static void registerEnergyBlockEntities() {
+        Capabilities.Energy.BLOCK.registerForBlockEntity(BlockEntitiesRegistry.SOLAR_PANEL);
+        Capabilities.Energy.BLOCK.registerForBlockEntity(BlockEntitiesRegistry.COAL_GENERATOR);
+        Capabilities.Energy.BLOCK.registerForBlockEntity(BlockEntitiesRegistry.CABLES);
+        Capabilities.Energy.BLOCK.registerForBlockEntity(BlockEntitiesRegistry.POWER_BANKS);
+    }
+
+    static void registerEnergyItems() {
+        Capabilities.Energy.ITEM.registerForItem(BlocksRegistry.POWER_BANK_T1.item());
+    }
+}

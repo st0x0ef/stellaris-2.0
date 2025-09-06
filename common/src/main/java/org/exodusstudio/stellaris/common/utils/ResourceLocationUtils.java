@@ -4,7 +4,6 @@ import net.minecraft.resources.ResourceLocation;
 import org.exodusstudio.stellaris.Stellaris;
 
 public class ResourceLocationUtils {
-
     public static ResourceLocation texture(String path) {
         return id("textures/" + path + ".png");
     }

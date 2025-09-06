@@ -10,6 +10,12 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockBehaviour;
+import org.exodusstudio.stellaris.common.blocks.CableBlock;
+import org.exodusstudio.stellaris.common.blocks.CoalGeneratorBlock;
+import org.exodusstudio.stellaris.common.blocks.PowerBankBlock;
+import org.exodusstudio.stellaris.common.blocks.SolarPanelBlock;
+import org.exodusstudio.stellaris.common.items.PowerBankItem;
+import org.exodusstudio.stellaris.common.registries.utils.BlockItemRegistrySupplier;
 import org.exodusstudio.stellaris.common.utils.ResourceLocationUtils;
 import org.jetbrains.annotations.NotNull;
 
@@ -23,12 +29,29 @@ public final class BlocksRegistry {
 
     public static DeferredRegister<Block> BLOCKS = DeferredRegister.create(MOD_ID, Registries.BLOCK);
 
-    public static final RegistrySupplier<Block> MOON_ROCK = blockWithItem("moon_rock", ofFullCopy(Blocks.STONE));
+
+    /**
+     * MOON WORLDGEN BLOCKS
+     */
+    public static final BlockItemRegistrySupplier MOON_SAND = blockWithItem("moon_sand", ofFullCopy(Blocks.SAND));
+    public static final BlockItemRegistrySupplier MOON_STONE = blockWithItem("moon_stone", ofFullCopy(Blocks.STONE));
+
+    /**
+     * MACHINES BLOCKS
+     */
+
+    // ENERGY GENERATORS
+    public static final BlockItemRegistrySupplier SOLAR_PANEL = blockWithItem("solar_panel", BlockBehaviour.Properties.of(), SolarPanelBlock::new);
+    public static final BlockItemRegistrySupplier COAL_GENERATOR = blockWithItem("coal_generator", BlockBehaviour.Properties.of(), CoalGeneratorBlock::new);
+
+    // POWER STORAGE
+    public static final BlockItemRegistrySupplier POWER_BANK_T1 = blockWithCustomItem("power_bank_t1", BlockBehaviour.Properties.of(), (p) -> new PowerBankBlock(p, (short) 1), new Item.Properties().component(DataComponentsRegistry.ENERGY.get(), 0), (b, p) -> new PowerBankItem((PowerBankBlock) b, p));
+
+    // CABLES/PIPES
+    public static final BlockItemRegistrySupplier CABLE_T1 = blockWithItem("cable_t1", BlockBehaviour.Properties.of(), (p) -> new CableBlock(p, 20));
 
 
-
-
-    public static <B extends Block> @NotNull RegistrySupplier<B> block(String name,
+    public static <B extends Block> @NotNull RegistrySupplier<Block> block(String name,
                                                                BlockBehaviour.Properties properties,
                                                                Function<BlockBehaviour.Properties, B> blockFunc) {
         ResourceLocation id = ResourceLocationUtils.id(name);
@@ -40,35 +63,32 @@ public final class BlocksRegistry {
         return block(name, properties, Block::new);
     }
 
-    public static @NotNull RegistrySupplier<Block> blockWithItem(String name, BlockBehaviour.Properties properties) {
-        RegistrySupplier<Block> toReturn = block(name, properties);
-        ItemsRegistry.item(name, new Item.Properties().arch$tab(CreativeTabsRegistry.STELLARIS_BLOCKS), p -> new BlockItem(toReturn.get(), p));
-        return toReturn;
+    public static @NotNull BlockItemRegistrySupplier blockWithItem(String name, BlockBehaviour.Properties properties) {
+        RegistrySupplier<Block> block = block(name, properties);
+        RegistrySupplier<Item> item = ItemsRegistry.item(name, new Item.Properties().arch$tab(CreativeTabsRegistry.STELLARIS_BLOCKS), p -> new BlockItem(block.get(), p));
+        return new BlockItemRegistrySupplier(block, item);
     }
 
-    public static <B extends Block> @NotNull RegistrySupplier<B> blockWithItem(String name, BlockBehaviour.Properties properties,
+    public static <B extends Block> @NotNull BlockItemRegistrySupplier blockWithItem(String name, BlockBehaviour.Properties properties,
                                                                                Function<BlockBehaviour.Properties, B> blockFunc) {
-        RegistrySupplier<B> toReturn = block(name, properties, blockFunc);
-        ItemsRegistry.item(name, new Item.Properties().arch$tab(CreativeTabsRegistry.STELLARIS_BLOCKS), p -> new BlockItem(toReturn.get(), p));
-        return toReturn;
+        RegistrySupplier<Block> block = block(name, properties, blockFunc);
+        RegistrySupplier<Item> item = ItemsRegistry.item(name, new Item.Properties().arch$tab(CreativeTabsRegistry.STELLARIS_BLOCKS), p -> new BlockItem(block.get(), p));
+        return new BlockItemRegistrySupplier(block, item);
     }
 
-    public static <B extends Block> @NotNull RegistrySupplier<B> blockWithItem(String name, BlockBehaviour.Properties properties,
+    public static <B extends Block> @NotNull BlockItemRegistrySupplier blockWithItem(String name, BlockBehaviour.Properties properties,
                                                                                Function<BlockBehaviour.Properties, B> blockFunc,
                                                                                Item.Properties itemProperties) {
-        RegistrySupplier<B> b = block(name, properties, blockFunc);
-        ItemsRegistry.item(name, itemProperties, p -> new BlockItem(b.get(), p));
-        return b;
+        RegistrySupplier<Block> block = block(name, properties, blockFunc);
+        RegistrySupplier<Item> item = ItemsRegistry.item(name, itemProperties, p -> new BlockItem(block.get(), p));
+        return new BlockItemRegistrySupplier(block, item);
     }
 
-    public static <B extends Block, I extends BlockItem> @NotNull RegistrySupplier<B> blockWithCustomItem(String name, BlockBehaviour.Properties properties,
+    public static <B extends Block, I extends BlockItem> @NotNull BlockItemRegistrySupplier blockWithCustomItem(String name, BlockBehaviour.Properties properties,
                                                                             Function<BlockBehaviour.Properties, B> blockFunc, Item.Properties itemProperties,
                                                                             BiFunction<Block, Item.Properties, I> itemSupplier) {
-        RegistrySupplier<B> b = block(name, properties, blockFunc);
-        ItemsRegistry.item(name, itemProperties, p -> itemSupplier.apply(b.get(), p));
-        return b;
+        RegistrySupplier<Block> block = block(name, properties, blockFunc);
+        RegistrySupplier<Item> item = ItemsRegistry.item(name, itemProperties, p -> itemSupplier.apply(block.get(), p));
+        return new BlockItemRegistrySupplier(block, item);
     }
-
-    private BlocksRegistry() {}
-
 }
