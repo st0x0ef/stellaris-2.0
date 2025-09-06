@@ -1,17 +1,21 @@
 package org.exodusstudio.stellaris.client;
 
+import dev.architectury.platform.Platform;
 import dev.architectury.registry.ReloadListenerRegistry;
 import dev.architectury.registry.menu.MenuRegistry;
 import net.minecraft.server.packs.PackType;
+import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.client.data.wiki.WikiPack;
 import org.exodusstudio.stellaris.client.screen.tablet.MainTabletScreen;
 import org.exodusstudio.stellaris.client.screen.tablet.application.ApplicationRegistry;
+import org.exodusstudio.stellaris.client.screens.ConfigScreen;
 import org.exodusstudio.stellaris.common.registries.MenuTypesRegistry;
 import org.exodusstudio.stellaris.common.utils.ResourceLocationUtils;
 
 public class StellarisClient {
 
     public static void initClient() {
+
         Platform.getMod(Stellaris.MOD_ID).registerConfigurationScreen(ConfigScreen::new);
         registerScreens();
         registerPack();
