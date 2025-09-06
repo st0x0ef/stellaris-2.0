@@ -142,10 +142,10 @@ public class TexturedButton extends Button {
     /** TYPE TEXTURE MANAGER */
     public ResourceLocation getTypeTexture() {
         if (this.isHovered) {
-            return this.buttonTexture;
+            return this.hoverButtonTexture;
         }
         else {
-            return this.hoverButtonTexture;
+            return this.buttonTexture;
         }
     }
 

@@ -107,7 +107,6 @@ public class ScrollableContainer extends BasicContainer {
             int j = this.scrollerHeight();
             int k = this.scrollBarY();
             if(this.isScrollbarHovered(mouseX, mouseY)) {
-                Stellaris.LOG.error("EEEEEEEEEEE");
                 guiGraphics.blitSprite(RenderPipelines.GUI_TEXTURED, SCROLLER_SPRITE_HOVER, i, k, 10, j);
             } else {
                 guiGraphics.blitSprite(RenderPipelines.GUI_TEXTURED, SCROLLER_SPRITE, i, k, 10, j);
