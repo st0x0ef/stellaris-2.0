@@ -1,0 +1,37 @@
+package org.exodusstudio.stellaris.client.screens.components;
+
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.narration.NarratableEntry;
+import net.minecraft.client.renderer.RenderPipelines;
+import net.minecraft.util.ARGB;
+import org.exodusstudio.stellaris.client.data.wiki.WikiEntry;
+
+import java.util.Collection;
+
+public class WikiEntryButton extends TexturedButton{
+
+    public final WikiEntry entry;
+
+    public WikiEntryButton(int x, int y, int widthIn, int heightIn, WikiEntry entry, OnPress onPressIn) {
+        super(x, y, widthIn, heightIn, onPressIn);
+        this.entry = entry;
+    }
+
+
+    @Override
+    public void renderWidget(GuiGraphics graphics, int mouseX, int mouseY, float partialTicks) {
+        super.renderWidget(graphics, mouseX, mouseY, partialTicks);
+
+        graphics.blit(RenderPipelines.GUI_TEXTURED, this.isHovered() ? entry.hoverIcon() : entry.icon(), this.getX(), this.getY() + 2, 0, 0,
+                16, 16, 16, 16);
+
+        graphics.drawString(Minecraft.getInstance().font, entry.getTitle(), this.getX() + 20, this.getY() + 6, ARGB.white(1), false);
+    }
+
+    @Override
+    public Collection<? extends NarratableEntry> getNarratables() {
+        return super.getNarratables();
+    }
+
+}

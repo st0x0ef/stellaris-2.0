@@ -2,12 +2,15 @@ package org.exodusstudio.stellaris.client.screens.components.containers;
 
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractWidget;
+import net.minecraft.client.gui.narration.NarratableEntry;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import org.exodusstudio.stellaris.Stellaris;
+
+import java.util.Collection;
 
 public class ScrollableContainer extends BasicContainer {
 
@@ -44,7 +47,7 @@ public class ScrollableContainer extends BasicContainer {
     @Override
     public boolean mouseDragged(double mouseX, double mouseY, int button, double dragX, double dragY) {
         if(this.canOffset(dragY) && this.isScrollbarHovered(mouseX, mouseY)) {
-            this.scrollOffset += dragY;
+            this.scrollOffset += dragY * 1.5f;
             updateChildrenPosition();
             return true;
         }
@@ -64,10 +67,10 @@ public class ScrollableContainer extends BasicContainer {
 
     @Override
     public void updateChildrenPosition() {
-        int y = this.scrollOffset;
+        int y = this.getY() - this.scrollOffset;
         for (AbstractWidget child : this.children) {
-            int childHeight = child.getHeight();
-            child.setY(childHeight + y);
+            child.setY(y);
+            y += child.getHeight();
         }
     }
 
@@ -75,6 +78,7 @@ public class ScrollableContainer extends BasicContainer {
     protected void updateWidgetNarration(NarrationElementOutput narrationElementOutput) {
 
     }
+
 
     @Override
     public ScrollableContainer addChild(Screen parent, AbstractWidget child) {
@@ -107,7 +111,6 @@ public class ScrollableContainer extends BasicContainer {
             int j = this.scrollerHeight();
             int k = this.scrollBarY();
             if(this.isScrollbarHovered(mouseX, mouseY)) {
-                Stellaris.LOG.error("EEEEEEEEEEE");
                 guiGraphics.blitSprite(RenderPipelines.GUI_TEXTURED, SCROLLER_SPRITE_HOVER, i, k, 10, j);
             } else {
                 guiGraphics.blitSprite(RenderPipelines.GUI_TEXTURED, SCROLLER_SPRITE, i, k, 10, j);

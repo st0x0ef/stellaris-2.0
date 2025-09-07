@@ -1,0 +1,29 @@
+{
+  "components": [
+    {
+      "type": "text",
+      "text": "This is an [color=yellow]Alien [color]. This passive mob can be found on the moon [br] [br] Stats : [br] - Health : 20 [br] - Speed : 0.5"
+    },
+    {
+      "type": "entity",
+      "entity": {
+        "id": "stellaris:alien",
+        "scale": 25
+      }
+    },
+    {
+      "type": "item",
+      "item": {
+        "size": 32.0,
+        "stack": {
+          "count": 1,
+          "id": "minecraft:end_rod"
+        }
+      }
+    }
+  ],
+  "iconType": "entity",
+  "id": "alien",
+  "entryId": "mobs",
+  "title": "Alien"
+}

@@ -26,6 +26,8 @@ public class MainTabletScreen extends AbstractContainerScreen<MainTabletMenu> {
     public final Player player;
     public final Inventory inventory;
 
+
+
     public MainTabletScreen(MainTabletMenu menu, Inventory playerInventory, Component title) {
         super(menu, playerInventory, title);
 

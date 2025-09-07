@@ -8,6 +8,8 @@ import net.minecraft.resources.ResourceLocation;
 import org.exodusstudio.stellaris.client.data.wiki.EntryInfo;
 import org.exodusstudio.stellaris.client.data.wiki.WikiEntry;
 import org.exodusstudio.stellaris.client.screens.components.TexturedButton;
+import org.exodusstudio.stellaris.client.screens.components.WikiEntryButton;
+import org.exodusstudio.stellaris.client.screens.components.containers.NewScrollableContainer;
 import org.exodusstudio.stellaris.client.screens.components.containers.ScrollableContainer;
 import org.exodusstudio.stellaris.client.screens.tablet.MainTabletScreen;
 import org.exodusstudio.stellaris.client.screens.tablet.application.ApplicationRegistry;
@@ -33,14 +35,7 @@ public class WikiApplicationScreen extends Screen {
 
     public static Map<ResourceLocation, EntryInfo> ENTRY_COMPONENTS = new HashMap<>();
 
-    public int currentPage = 0;
-
-    public TexturedButton nextEntryButton;
-    public TexturedButton prevEntryButton;
-    public TexturedButton entryButton;
-
-
-    public ScrollableContainer scrollableContainer;
+    public NewScrollableContainer scrollableContainer;
 
     public MainTabletScreen mainTabletScreen;
 
@@ -66,60 +61,30 @@ public class WikiApplicationScreen extends Screen {
     public void renderBackground(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
         super.renderBackground(guiGraphics, mouseX, mouseY, partialTick);
         guiGraphics.blit(RenderPipelines.GUI_TEXTURED, ApplicationScreen.BACKGROUND, this.getLeftPos(), this.getTopPos(), 0, 0, this.mainTabletScreen.getImageWidth(), this.mainTabletScreen.getImageHeight(), this.mainTabletScreen.getImageWidth(),this.mainTabletScreen.getImageHeight());
-
     }
 
 
     private void setupButtons() {
-        this.prevEntryButton = new TexturedButton(this.getLeftPos() + 40, (this.height /2) - 10, 20, 20,
-                WikiEntryScreen.BACK_ARROW,
-                WikiEntryScreen.BACK_ARROW_HOVER,
-                button -> previousEntry());
-
-        this.nextEntryButton = new TexturedButton(this.getLeftPos() + 190, (this.height /2) - 10, 20, 20,
-                WikiEntryScreen.NEXT_ARROW,
-                WikiEntryScreen.NEXT_ARROW_HOVER,
-                button -> nextEntry());
-
-        this.addRenderableWidget(nextEntryButton);
-        this.addRenderableWidget(prevEntryButton);
-
         setupScrollableContainer();
-
     }
 
 
     private void setupScrollableContainer() {
 
-        this.entryButton = new TexturedButton((this.width / 2) - 45, (this.height /2) - 45, 90, 90,
-                ENTRIES.get(currentPage).icon(),
-                ENTRIES.get(currentPage).hoverIcon(),
-                button -> {
-                    this.minecraft.setScreen(new WikiEntryScreen(this.mainTabletScreen, ENTRIES.get(this.currentPage)));
-                });
+        this.scrollableContainer = new NewScrollableContainer(this.getLeftPos() + 10, this.getTopPos() + 25, this.mainTabletScreen.getImageWidth() -20, this.mainTabletScreen.getImageHeight() - 40, Component.empty());
 
-        this.scrollableContainer = new ScrollableContainer(this.getLeftPos() + 10, this.getTopPos() + 10, this.mainTabletScreen.getImageWidth() -20, this.mainTabletScreen.getImageHeight() - 20, this.entryButton);
+        int height = 5;
+        for (WikiEntry entry : ENTRIES) {
+            WikiEntryButton button = new WikiEntryButton((this.width / 2) - 60, this.scrollableContainer.getY() + height, 120, 20, entry,
+                    button1 -> {
+                        this.minecraft.setScreen(new WikiEntryScreen(this.mainTabletScreen, entry));
+                    });
+            this.scrollableContainer.addChild(this, button);
+            height += 25;
+        }
 
-        this.addWidget(entryButton);
+        scrollableContainer.setContentHeight(height);
         this.addRenderableWidget(scrollableContainer);
-    }
-
-    public void nextEntry() {
-        if (ENTRIES.size() > 0) {
-            currentPage++;
-            if (currentPage >= ENTRIES.size()) {
-                currentPage = 0;
-            }
-        }
-    }
-
-    public void previousEntry() {
-        if (ENTRIES.size() > 0) {
-            currentPage--;
-            if (currentPage < 0) {
-                currentPage = ENTRIES.size() - 1;
-            }
-        }
     }
 
     public static @Nullable EntryInfo getEntryInfo(ResourceLocation resourceLocation) {
