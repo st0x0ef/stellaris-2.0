@@ -127,7 +127,7 @@ public class MainTabletScreen extends AbstractContainerScreen<MainTabletMenu> {
         return player;
     }
 
-    public ApplicationRegistry.MenuHolder createMenuHolder() {
-        return new ApplicationRegistry.MenuHolder(this.menu, this.inventory, this);
+    public ApplicationRegistry.MenuHolder<?> createMenuHolder() {
+        return new ApplicationRegistry.MenuHolder<>(this.menu, this.inventory, this);
     }
 }

@@ -149,7 +149,6 @@ public class WikiInfos extends AbstractWidget {
             ResourceLocation location = ResourceLocation.parse(action);
 
             var entryInfo = WikiApplicationScreen.getEntryInfo(location);
-            Stellaris.LOG.error("eeee");
             if(entryInfo != null) {
                 //entryScreen.widget.refreshList();
                 //entryScreen.widget.setInfo(entryInfo);

@@ -16,7 +16,6 @@ public final class Stellaris {
     public static final Logger LOG = LoggerFactory.getLogger(MOD_ID);
     public static final Gson GSON = new GsonBuilder()
             .setPrettyPrinting()
-            .setLenient()
             .setObjectToNumberStrategy(ToNumberPolicy.LONG_OR_DOUBLE)
             .setStrictness(Strictness.LENIENT)
             .create();
