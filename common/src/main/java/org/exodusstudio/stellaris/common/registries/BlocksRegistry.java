@@ -9,11 +9,10 @@ import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.MagmaBlock;
+import net.minecraft.world.level.block.RotatedPillarBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour;
-import org.exodusstudio.stellaris.common.blocks.CableBlock;
-import org.exodusstudio.stellaris.common.blocks.CoalGeneratorBlock;
-import org.exodusstudio.stellaris.common.blocks.PowerBankBlock;
-import org.exodusstudio.stellaris.common.blocks.SolarPanelBlock;
+import org.exodusstudio.stellaris.common.blocks.*;
 import org.exodusstudio.stellaris.common.items.PowerBankItem;
 import org.exodusstudio.stellaris.common.registries.utils.BlockItemRegistrySupplier;
 import org.exodusstudio.stellaris.common.utils.ResourceLocationUtils;
@@ -35,6 +34,13 @@ public final class BlocksRegistry {
      */
     public static final BlockItemRegistrySupplier MOON_SAND = blockWithItem("moon_sand", ofFullCopy(Blocks.SAND));
     public static final BlockItemRegistrySupplier MOON_STONE = blockWithItem("moon_stone", ofFullCopy(Blocks.STONE));
+
+    public static final BlockItemRegistrySupplier ICED_MAGMA_BLOCK = blockWithItem("iced_magma_block", ofFullCopy(Blocks.MAGMA_BLOCK), IcedMagmaBlock::new);
+
+    public static final BlockItemRegistrySupplier PACKED_ICE_BRICKS = blockWithItem("packed_ice_bricks", ofFullCopy(Blocks.PACKED_ICE));
+    public static final BlockItemRegistrySupplier PACKED_ICE_PILLAR = blockWithItem("packed_ice_pillar", ofFullCopy(Blocks.PACKED_ICE), RotatedPillarBlock::new);
+    public static final BlockItemRegistrySupplier POLISHED_PACKED_ICE = blockWithItem("polished_packed_ice", ofFullCopy(Blocks.PACKED_ICE));
+
 
     /**
      * MACHINES BLOCKS
