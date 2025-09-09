@@ -4,8 +4,6 @@ import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
-import org.exodusstudio.stellaris.Stellaris;
-import org.exodusstudio.stellaris.client.StellarisClient;
 import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
 import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.client.StellarisClient;

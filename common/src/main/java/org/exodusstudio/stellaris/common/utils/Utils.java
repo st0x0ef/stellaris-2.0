@@ -2,7 +2,6 @@ package org.exodusstudio.stellaris.common.utils;
 
 import net.minecraft.util.ARGB;
 import net.minecraft.world.phys.Vec3;
-import org.joml.Vector3i;
 
 import java.util.Random;
 

@@ -20,13 +20,13 @@ import java.util.function.Function;
 public class ApplicationRegistry {
 
 
-    public static final Registrar<ApplicationFactory> TABLET_APPLICATION =
+    public static final Registrar<ApplicationFactory<MainTabletMenu>> TABLET_APPLICATION =
             RegistrarManager.get(Stellaris.MOD_ID)
-                    .<ApplicationFactory>builder(ResourceLocation.parse("stellaris:applications")) // The type for builder should match the Registrar
+                    .<ApplicationFactory<MainTabletMenu>>builder(ResourceLocation.parse("stellaris:applications")) // The type for builder should match the Registrar
                     .syncToClients()
                     .build();
 
-    public static RegistrySupplier<ApplicationFactory> WIKI1 = TABLET_APPLICATION.register(
+    public static RegistrySupplier<ApplicationFactory<MainTabletMenu>> WIKI = TABLET_APPLICATION.register(
             ResourceLocation.parse("stellaris:applications/wiki"),
             () -> new ApplicationFactory<MainTabletMenu>(
                     Component.translatable("application.stellaris.wiki.name"),
@@ -61,7 +61,10 @@ public class ApplicationRegistry {
         public ResourceLocation getIconLocation() { return iconLocation; }
 
         public Screen createScreen(MenuHolder<T> screen) {
-            return screenFactory.apply(screen);
+            if (screenFactory != null) {
+                return screenFactory.apply(screen);
+            }
+            return null;
         }
     }
 
