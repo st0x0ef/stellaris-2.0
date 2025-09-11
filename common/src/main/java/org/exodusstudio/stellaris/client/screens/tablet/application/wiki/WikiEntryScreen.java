@@ -9,8 +9,9 @@ import net.minecraft.resources.ResourceLocation;
 import org.exodusstudio.stellaris.client.data.wiki.EntryInfo;
 import org.exodusstudio.stellaris.client.data.wiki.WikiEntry;
 import org.exodusstudio.stellaris.client.screens.components.TexturedButton;
-import org.exodusstudio.stellaris.client.screens.components.WikiButton;
-import org.exodusstudio.stellaris.client.screens.components.WikiInfos;
+import org.exodusstudio.stellaris.client.screens.components.containers.ScrollableContainer;
+import org.exodusstudio.stellaris.client.screens.components.wiki.WikiInfoButton;
+import org.exodusstudio.stellaris.client.screens.components.wiki.WikiInfos;
 import org.exodusstudio.stellaris.client.screens.tablet.MainTabletScreen;
 import org.exodusstudio.stellaris.client.screens.tablet.application.ApplicationScreen;
 import org.exodusstudio.stellaris.client.utils.ClientUtils;
@@ -60,7 +61,7 @@ public class WikiEntryScreen extends Screen {
     public EntryInfo currentPage = null;
 
     //Use for pagination
-    public ArrayList<ArrayList<WikiButton>> ENTRY_BUTTONS = new ArrayList<>();
+    public ArrayList<ArrayList<WikiInfoButton>> ENTRY_BUTTONS = new ArrayList<>();
     public int currentEntryPage = 0;
 
     public List<EntryInfo> INFOS;
@@ -107,9 +108,7 @@ public class WikiEntryScreen extends Screen {
         var title = this.currentPage == null ? this.entry.getTitle() : Component.literal(this.currentPage.title());
         guiGraphics.drawCenteredString(this.font, title, this.width / 2, this.getTopPos() + 25, Utils.getMinecraftColor("white"));
 
-        boolean showNav = currentPage != null || ENTRY_BUTTONS.size() != 1;
-        this.nextButton.visible = showNav;
-        this.backButton.visible = showNav;
+        updateArrowVisibility();
     }
 
     @Override
@@ -120,7 +119,7 @@ public class WikiEntryScreen extends Screen {
         setupEntryButtons();
 
         setupNavigationButtons();
-
+        updateArrowVisibility();
 
         //Setup the main widget
         this.widget = new WikiInfos(this.getLeftPos() + 33,  this.getTopPos() + 40,187, 85);
@@ -143,6 +142,13 @@ public class WikiEntryScreen extends Screen {
 
     }
 
+    private void updateArrowVisibility() {
+        boolean showNav = currentPage != null || ENTRY_BUTTONS.size() > 1;
+        this.nextButton.visible = showNav;
+        this.backButton.visible = showNav;
+
+    }
+
     private void setupNavigationButtons() {
         this.nextButton = new TexturedButton(this.getLeftPos() + 194 - 28, (this.height / 2) + 48, 20, 20,
                 NEXT_ARROW, NEXT_ARROW_HOVER, button -> changePage(true));
@@ -162,9 +168,9 @@ public class WikiEntryScreen extends Screen {
         AtomicInteger row = new AtomicInteger(0);
         AtomicInteger column = new AtomicInteger(0);
 
-        var PAGES_BUTTONS = new ArrayList<WikiButton>();
+        var PAGES_BUTTONS = new ArrayList<WikiInfoButton>();
         INFOS.forEach((infos) -> {
-            WikiButton entryButton = new WikiButton(this.getLeftPos() + 68 + (column.get() * 30), this.getTopPos() + 60 + (row.get() * 30), 20, 20, (b) -> changeInfo(infos), infos)
+            WikiInfoButton entryButton = new WikiInfoButton(this.getLeftPos() + 68 + (column.get() * 30), this.getTopPos() + 60 + (row.get() * 30), 20, 20, (b) -> changeInfo(infos), infos)
                     .tex(BUTTON_TEXTURE, BUTTON_HOVERED_TEXTURE);
 
             if (column.get() == 3) {
@@ -196,11 +202,12 @@ public class WikiEntryScreen extends Screen {
     public void changeInfo(@Nullable EntryInfo info) {
         currentPage = info;
         widget.refresh(this.currentPage);
+
     }
 
     //Make all buttons invisible
     public void removeAllButtons() {
-        for (ArrayList<WikiButton> entryButton : ENTRY_BUTTONS) {
+        for (ArrayList<WikiInfoButton> entryButton : ENTRY_BUTTONS) {
             entryButton.forEach(button -> button.visible = false);
         }
     }

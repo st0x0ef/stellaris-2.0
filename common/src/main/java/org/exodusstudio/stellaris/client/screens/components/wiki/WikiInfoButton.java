@@ -1,4 +1,4 @@
-package org.exodusstudio.stellaris.client.screens.components;
+package org.exodusstudio.stellaris.client.screens.components.wiki;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
@@ -9,15 +9,15 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import org.exodusstudio.stellaris.client.data.wiki.EntryInfo;
-import org.exodusstudio.stellaris.client.data.wiki.WikiEntry;
+import org.exodusstudio.stellaris.client.screens.components.TexturedButton;
 import org.exodusstudio.stellaris.client.utils.ClientUtils;
 
-public class WikiButton extends TexturedButton{
+public class WikiInfoButton extends TexturedButton {
 
     private final EntryInfo info;
 
 
-    public WikiButton(int x, int y, int widthIn, int heightIn, OnPress onPressIn, EntryInfo info) {
+    public WikiInfoButton(int x, int y, int widthIn, int heightIn, OnPress onPressIn, EntryInfo info) {
         super(x, y, widthIn, heightIn, onPressIn);
         this.info = info;
         setTooltip();

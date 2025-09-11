@@ -7,9 +7,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import org.exodusstudio.stellaris.client.data.wiki.EntryInfo;
 import org.exodusstudio.stellaris.client.data.wiki.WikiEntry;
-import org.exodusstudio.stellaris.client.screens.components.TexturedButton;
-import org.exodusstudio.stellaris.client.screens.components.WikiEntryButton;
-import org.exodusstudio.stellaris.client.screens.components.containers.NewScrollableContainer;
+import org.exodusstudio.stellaris.client.screens.components.wiki.WikiEntryButton;
 import org.exodusstudio.stellaris.client.screens.components.containers.ScrollableContainer;
 import org.exodusstudio.stellaris.client.screens.tablet.MainTabletScreen;
 import org.exodusstudio.stellaris.client.screens.tablet.application.ApplicationRegistry;
@@ -35,7 +33,7 @@ public class WikiApplicationScreen extends Screen {
 
     public static Map<ResourceLocation, EntryInfo> ENTRY_COMPONENTS = new HashMap<>();
 
-    public NewScrollableContainer scrollableContainer;
+    public ScrollableContainer scrollableContainer;
 
     public MainTabletScreen mainTabletScreen;
 
@@ -71,7 +69,7 @@ public class WikiApplicationScreen extends Screen {
 
     private void setupScrollableContainer() {
 
-        this.scrollableContainer = new NewScrollableContainer(this.getLeftPos() + 10, this.getTopPos() + 25, this.mainTabletScreen.getImageWidth() -20, this.mainTabletScreen.getImageHeight() - 40, Component.empty());
+        this.scrollableContainer = new ScrollableContainer(this.getLeftPos() + 10, this.getTopPos() + 25, this.mainTabletScreen.getImageWidth() -20, this.mainTabletScreen.getImageHeight() - 40, Component.empty());
 
         int height = 5;
         for (WikiEntry entry : ENTRIES) {
@@ -83,7 +81,7 @@ public class WikiApplicationScreen extends Screen {
             height += 25;
         }
 
-        scrollableContainer.setContentHeight(height);
+        scrollableContainer.setContentHeight(height*4);
         this.addRenderableWidget(scrollableContainer);
     }
 
