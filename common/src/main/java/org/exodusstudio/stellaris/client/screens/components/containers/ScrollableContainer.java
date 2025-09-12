@@ -136,7 +136,7 @@ public class ScrollableContainer extends AbstractScrollArea {
 
 
     @FunctionalInterface
-    interface RenderInfo {
+    public interface RenderInfo {
 
         void render(ScrollableContainer container,  GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick);
 

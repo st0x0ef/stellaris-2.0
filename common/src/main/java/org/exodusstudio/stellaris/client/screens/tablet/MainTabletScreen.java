@@ -32,8 +32,8 @@ public class MainTabletScreen extends AbstractContainerScreen<MainTabletMenu> {
         super(menu, playerInventory, title);
 
         this.player = playerInventory.player;
-        this.imageHeight = 162;
-        this.imageWidth = 250;
+        this.imageHeight = 162 + 30;
+        this.imageWidth = 250 + 60;
         this.inventory = playerInventory;
         this.inventoryLabelY = -this.imageHeight;
         this.titleLabelY = -this.imageHeight;
@@ -49,7 +49,7 @@ public class MainTabletScreen extends AbstractContainerScreen<MainTabletMenu> {
 
     @Override
     protected void renderBg(GuiGraphics guiGraphics, float partialTick, int mouseX, int mouseY) {
-        guiGraphics.blit(RenderPipelines.GUI_TEXTURED, BACKGROUND, this.leftPos, this.topPos, 0, 0, 250, 162, 250, 162);
+        guiGraphics.blit(RenderPipelines.GUI_TEXTURED, BACKGROUND, this.leftPos, this.topPos, 0, 0, this.imageWidth, this.imageHeight, this.imageWidth, this.imageHeight);
     }
 
 

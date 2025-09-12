@@ -1,5 +1,6 @@
 package org.exodusstudio.stellaris.client.screens.tablet.application.wiki;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.renderer.RenderPipelines;
@@ -69,11 +70,11 @@ public class WikiApplicationScreen extends Screen {
 
     private void setupScrollableContainer() {
 
-        this.scrollableContainer = new ScrollableContainer(this.getLeftPos() + 10, this.getTopPos() + 25, this.mainTabletScreen.getImageWidth() -20, this.mainTabletScreen.getImageHeight() - 40, Component.empty());
+        this.scrollableContainer = new ScrollableContainer(this.getLeftPos() + 10, this.getTopPos() + 25, 100, this.mainTabletScreen.getImageHeight() - 40, Component.empty());
 
         int height = 5;
         for (WikiEntry entry : ENTRIES) {
-            WikiEntryButton button = new WikiEntryButton((this.width / 2) - 60, this.scrollableContainer.getY() + height, 120, 20, entry,
+            WikiEntryButton button = new WikiEntryButton(this.scrollableContainer.getX() + 5, this.scrollableContainer.getY() + height, 90, 20, entry,
                     button1 -> {
                         this.minecraft.setScreen(new WikiEntryScreen(this.mainTabletScreen, entry));
                     });
@@ -81,7 +82,7 @@ public class WikiApplicationScreen extends Screen {
             height += 25;
         }
 
-        scrollableContainer.setContentHeight(height*4);
+        scrollableContainer.setContentHeight(height);
         this.addRenderableWidget(scrollableContainer);
     }
 
@@ -89,6 +90,11 @@ public class WikiApplicationScreen extends Screen {
         return ENTRY_COMPONENTS.getOrDefault(resourceLocation, null);
     }
 
+    @Override
+    public void resize(Minecraft minecraft, int width, int height) {
+        this.mainTabletScreen.resize(minecraft, width, height);
+        super.resize(minecraft, width, height);
+    }
 
     public int getLeftPos() {
         return this.mainTabletScreen.getLeftPos();
