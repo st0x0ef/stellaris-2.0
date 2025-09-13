@@ -2,33 +2,33 @@ package org.exodusstudio.stellaris.client.screens.components.wiki;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.gui.components.AbstractWidget;
-import net.minecraft.client.gui.narration.NarrationElementOutput;
 import net.minecraft.client.gui.screens.inventory.InventoryScreen;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.client.data.wiki.EntryInfo;
 import org.exodusstudio.stellaris.client.screens.components.containers.ScrollableContainer;
-import org.exodusstudio.stellaris.client.screens.tablet.application.wiki.WikiApplicationScreen;
-import org.exodusstudio.stellaris.client.screens.tablet.application.wiki.WikiEntryScreen;
+import org.exodusstudio.stellaris.client.utils.ActionBox;
 import org.exodusstudio.stellaris.client.utils.ClientUtils;
 import org.exodusstudio.stellaris.client.utils.WikiEntryTextRenderer;
 
 import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class WikiInfos extends ScrollableContainer {
+public class WikiInfosWidget extends ScrollableContainer {
 
     private AtomicInteger finalHeight = new AtomicInteger(0);
 
+    public EntryInfo info;
+    private final ArrayList<ActionBox> clickBoxes = new ArrayList<>();
 
-    public EntryInfo entry;
-    private final ArrayList<ClickBox> clickBoxes = new ArrayList<>();
+    public WikiInfosWidget(int baseX, int baseY, int width, int height, EntryInfo info) {
+        this(baseX, baseY, width, height);
+        this.info = info;
+    }
 
-    public WikiInfos(int baseX, int baseY, int width, int height) {
+    public WikiInfosWidget(int baseX, int baseY, int width, int height) {
         super(baseX, baseY, width, height, Component.empty());
     }
 
@@ -41,14 +41,14 @@ public class WikiInfos extends ScrollableContainer {
     public void renderContent(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
         finalHeight.set(0);
 
-        if(entry == null) return;
+        if(info == null) return;
 
-        for(EntryInfo.InfoComponent component : entry.components()) {
+        for(EntryInfo.InfoComponent component : info.components()) {
 
             switch (component.type().toLowerCase()) {
                 case "text" -> component.text().ifPresent((text) -> {
                     int descriptionHeight = new WikiEntryTextRenderer(component.text().get(), getWidth() - 30)
-                            .renderWords(guiGraphics, this.getX() + 5, (int) (this.getOffsetHeight() + finalHeight.get() + 30), clickBoxes::add);
+                            .renderWords(guiGraphics, this.getX() + 5, (int) (this.getOffsetHeight() + finalHeight.get() + 5), mouseX, mouseY, this::addClickBox);
                     finalHeight.addAndGet(descriptionHeight);
                 });
                 case "image" -> component.image().ifPresent((image) -> {
@@ -75,15 +75,35 @@ public class WikiInfos extends ScrollableContainer {
                 });
             }
         }
+    }
 
+    public void addClickBox(ActionBox box) {
+
+        boolean isBoxAlreadyIn = this.clickBoxes.stream().anyMatch((b) -> b.id().equals(box.id()));
+
+        if(!isBoxAlreadyIn) {
+            this.clickBoxes.add(box);
+        }
+    }
+
+    @Override
+    public void mouseMoved(double mouseX, double mouseY) {
+
+        for (ActionBox clickBox : clickBoxes) {
+
+            if (clickBox.isHovered(mouseX,mouseY, 0)) {
+                clickBox.onHover(this);
+            }
+        }
+        super.mouseMoved(mouseX, mouseY);
     }
 
     @Override
     public boolean mouseClicked(double mouseX, double mouseY, int button) {
-        for (ClickBox clickBox : clickBoxes) {
-            if (clickBox.isHovered(mouseX,mouseY,this.getOffsetHeight())) {
-                Stellaris.LOG.error("Clicked on box: {}", clickBox.action());
-                //clickBox.changePage(screen);
+
+        for (ActionBox clickBox : clickBoxes) {
+            if (clickBox.isHovered(mouseX,mouseY, this.scrollAmount())) {
+                clickBox.onClick(this);
             }
         }
 
@@ -92,27 +112,9 @@ public class WikiInfos extends ScrollableContainer {
 
 
     public void refresh(EntryInfo entryInfo) {
-        this.entry = entryInfo;
+        this.info = entryInfo;
         this.clickBoxes.clear();
         this.setScrollAmount(0);
     }
 
-
-    public record ClickBox(int x, int y, int width, int height, String action) {
-
-        public boolean isHovered(double mouseX, double mouseY, double finalHeight) {
-            mouseY += finalHeight;
-            return mouseX >= x && mouseX <= x + width && mouseY >= y && mouseY <= y + height;
-        }
-
-        public void changePage(WikiEntryScreen entryScreen) {
-            ResourceLocation location = ResourceLocation.parse(action);
-
-            var entryInfo = WikiApplicationScreen.getEntryInfo(location);
-            if(entryInfo != null) {
-                //entryScreen.widget.refreshList();
-                //entryScreen.widget.setInfo(entryInfo);
-            }
-        }
-    }
 }

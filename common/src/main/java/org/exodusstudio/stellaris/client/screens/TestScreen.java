@@ -7,7 +7,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.ARGB;
 import net.minecraft.world.item.ItemStack;
-import org.exodusstudio.stellaris.client.screens.components.wiki.WikiInfos;
+import org.exodusstudio.stellaris.client.screens.components.wiki.WikiInfosWidget;
 import org.exodusstudio.stellaris.client.screens.components.containers.DraggableContainer;
 import org.exodusstudio.stellaris.common.utils.ResourceLocationUtils;
 
@@ -28,7 +28,7 @@ public class TestScreen extends Screen {
         Button testButton = Button.builder(Component.literal("Test Button"), button -> {
             System.out.println("Button clicked!");
         }).bounds(20, 20, 100, 20).build();
-        WikiInfos wikiInfos = new WikiInfos(20, 60, 200, 100);
+        WikiInfosWidget wikiInfos = new WikiInfosWidget(20, 60, 200, 100);
 
         DraggableContainer container = new DraggableContainer(0, 0, 500, 500, testButton, wikiInfos);
 
