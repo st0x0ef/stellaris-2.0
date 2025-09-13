@@ -6,7 +6,6 @@ import net.minecraft.client.gui.screens.inventory.InventoryScreen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
-import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.client.data.wiki.EntryInfo;
 import org.exodusstudio.stellaris.client.screens.components.containers.ScrollableContainer;
 import org.exodusstudio.stellaris.client.utils.ActionBox;
@@ -21,7 +20,8 @@ public class WikiInfosWidget extends ScrollableContainer {
     private AtomicInteger finalHeight = new AtomicInteger(0);
 
     public EntryInfo info;
-    private final ArrayList<ActionBox> clickBoxes = new ArrayList<>();
+    private final ArrayList<ActionBox> actionBoxes = new ArrayList<>();
+
 
     public WikiInfosWidget(int baseX, int baseY, int width, int height, EntryInfo info) {
         this(baseX, baseY, width, height);
@@ -79,17 +79,17 @@ public class WikiInfosWidget extends ScrollableContainer {
 
     public void addClickBox(ActionBox box) {
 
-        boolean isBoxAlreadyIn = this.clickBoxes.stream().anyMatch((b) -> b.id().equals(box.id()));
+        boolean isBoxAlreadyIn = this.actionBoxes.stream().anyMatch((b) -> b.id().equals(box.id()));
 
         if(!isBoxAlreadyIn) {
-            this.clickBoxes.add(box);
+            this.actionBoxes.add(box);
         }
     }
 
     @Override
     public void mouseMoved(double mouseX, double mouseY) {
 
-        for (ActionBox clickBox : clickBoxes) {
+        for (ActionBox clickBox : actionBoxes) {
 
             if (clickBox.isHovered(mouseX,mouseY, 0)) {
                 clickBox.onHover(this);
@@ -100,8 +100,7 @@ public class WikiInfosWidget extends ScrollableContainer {
 
     @Override
     public boolean mouseClicked(double mouseX, double mouseY, int button) {
-
-        for (ActionBox clickBox : clickBoxes) {
+        for (ActionBox clickBox : actionBoxes) {
             if (clickBox.isHovered(mouseX,mouseY, this.scrollAmount())) {
                 clickBox.onClick(this);
             }
@@ -113,8 +112,8 @@ public class WikiInfosWidget extends ScrollableContainer {
 
     public void refresh(EntryInfo entryInfo) {
         this.info = entryInfo;
-        this.clickBoxes.clear();
         this.setScrollAmount(0);
+
     }
 
 }

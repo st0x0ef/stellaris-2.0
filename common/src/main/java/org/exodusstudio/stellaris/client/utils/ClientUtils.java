@@ -27,9 +27,6 @@ public class ClientUtils {
         return type.create(level, EntitySpawnReason.LOAD);
     }
 
-    public static void renderEntityInInventory(GuiGraphics guiGraphics, float x, float y, float scale, Vector3f translate, Quaternionf pose, @Nullable Quaternionf cameraOrientation, Entity entity) {
-    }
-
     public static <T> void addButtonToList(ArrayList<ArrayList<T>> pages, T button, int size) {
         if (pages.isEmpty()) {
             ArrayList<T> list = new ArrayList<>();

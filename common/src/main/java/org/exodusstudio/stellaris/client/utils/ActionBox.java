@@ -39,13 +39,12 @@ public record ActionBox(int x, int y, int width, int height, @Nullable Consumer<
 
     public void changePage(WikiInfosWidget infos, String location) {
         var entryInfo = WikiApplicationScreen.getEntryInfo(ResourceLocation.parse(location));
-        if (entryInfo != null) {
+        if (entryInfo != null && infos.info.id() != entryInfo.id()) {
             infos.refresh(entryInfo);
         }
     }
 
 
-    public record RenderingInfo(WikiInfosWidget infoWidget, ActionBox actionBox) {
-    }
+    public record RenderingInfo(WikiInfosWidget infoWidget, ActionBox actionBox) {}
 
 }

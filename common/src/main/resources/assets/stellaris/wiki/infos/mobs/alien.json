@@ -2,7 +2,7 @@
   "components": [
     {
       "type": "text",
-      "text": "[tl=test]This is an [color=yellow]Alien [color] [tl]. This passive mob can be found on the [ref=blue] moon [ref] [br] [br] Stats : [br] - Health : 20 [br] - Speed : 0.5"
+      "text": "[tl=test]This is an [color=yellow]Alien [color] [tl]. This passive mob can be found on the [ref=stellaris:mobs/alien_zombie] moon [ref] [br] [br] Stats : [br] - Health : 20 [br] - Speed : 0.5"
     },
     {
       "type": "entity",
