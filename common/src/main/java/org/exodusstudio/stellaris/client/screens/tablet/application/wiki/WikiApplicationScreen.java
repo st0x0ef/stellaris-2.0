@@ -103,7 +103,7 @@ public class WikiApplicationScreen extends Screen {
 
 
     private void setupScrollableContainer() {
-        this.scrollableContainer = new ScrollableContainer(this.getLeftPos() + 20, this.getTopPos() + 40, 100, this.mainTabletScreen.getImageHeight() - 40, Component.empty());
+        this.scrollableContainer = new ScrollableContainer(this.getLeftPos() + 30, this.getTopPos() + 40, 100, this.mainTabletScreen.getImageHeight() - 40, Component.empty());
 
         int height = 5;
         for (WikiEntry entry : ENTRIES) {
@@ -252,6 +252,7 @@ public class WikiApplicationScreen extends Screen {
     public int getLeftPos() {
         return this.mainTabletScreen.getLeftPos();
     }
+
     public int getTopPos() {
         return this.mainTabletScreen.getTopPos();
     }

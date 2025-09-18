@@ -5,6 +5,7 @@ import dev.architectury.registry.registries.RegistrarManager;
 import dev.architectury.registry.registries.RegistrySupplier;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -43,12 +44,12 @@ public class ApplicationRegistry {
 
     public static class ApplicationFactory<T extends AbstractContainerMenu> {
 
-        private final Component name;
-        private final Component description;
+        private final MutableComponent name;
+        private final MutableComponent description;
         private final ResourceLocation iconLocation;
-        private final Function<MenuHolder<T>, Screen> screenFactory; // Function that takes Player and returns a Screen
+        private final Function<MenuHolder<T>, Screen> screenFactory;
 
-        public  ApplicationFactory(Component name, Component description, ResourceLocation iconLocation,
+        public ApplicationFactory(MutableComponent name, MutableComponent description, ResourceLocation iconLocation,
                                    @Nullable Function<MenuHolder<T>, Screen> screenFactory, @Nullable Consumer<MenuHolder<T>> menuOperation) {
             this.name = name;
             this.description = description;
@@ -56,8 +57,8 @@ public class ApplicationRegistry {
             this.screenFactory = screenFactory;
         }
 
-        public Component getName() { return name; }
-        public Component getDescription() { return description; }
+        public MutableComponent getName() { return name; }
+        public MutableComponent getDescription() { return description; }
         public ResourceLocation getIconLocation() { return iconLocation; }
 
         public Screen createScreen(MenuHolder<T> screen) {

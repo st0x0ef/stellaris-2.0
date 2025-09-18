@@ -1,9 +1,12 @@
 package org.exodusstudio.stellaris.client.screens.tablet;
 
+import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -32,8 +35,8 @@ public class MainTabletScreen extends AbstractContainerScreen<MainTabletMenu> {
         super(menu, playerInventory, title);
 
         this.player = playerInventory.player;
-        this.imageHeight = 162 + 30;
-        this.imageWidth = 250 + 60;
+        this.imageHeight = 192;
+        this.imageWidth = 310;
         this.inventory = playerInventory;
         this.inventoryLabelY = -this.imageHeight;
         this.titleLabelY = -this.imageHeight;
@@ -59,8 +62,13 @@ public class MainTabletScreen extends AbstractContainerScreen<MainTabletMenu> {
 
         ApplicationRegistry.TABLET_APPLICATION.entrySet().forEach(entry -> {
             ApplicationRegistry.ApplicationFactory infos = entry.getValue();
+
+            MutableComponent tooltip = infos.getName().copy();
+            tooltip.append("\n").append(infos.getDescription().withStyle(ChatFormatting.GRAY));
+
             TexturedButton tabletButton = new TexturedButton(this.leftPos + 68 + (column.get() * 30), this.topPos + 60 + (row.get() * 30), 20, 20, infos.getName(), (button -> minecraft.setScreen(infos.createScreen(this.createMenuHolder()))))
-                    .tex(infos.getIconLocation(), infos.getIconLocation());
+                    .tex(infos.getIconLocation(), infos.getIconLocation())
+                    .tooltip(Tooltip.create(tooltip, infos.getDescription()));
 
             if (column.get() == 3) {
                 column.set(0);
@@ -80,31 +88,6 @@ public class MainTabletScreen extends AbstractContainerScreen<MainTabletMenu> {
             this.addRenderableWidget(tabletButton);
 
         });
-    }
-
-    //Add button to the current page list, if the current page is full, create a new page
-    public void addButtonToList(TexturedButton button, int size){
-        if (APPLICATIONS.isEmpty()) {
-            ArrayList<TexturedButton> list = new ArrayList<>();
-            list.add(button);
-            APPLICATIONS.add(list);
-            return;
-        }
-
-        for (ArrayList<TexturedButton> buttons : APPLICATIONS) {
-            if(buttons.size() < size){
-                buttons.add(button);
-                break;
-            } else if (buttons.size() == size) {
-                if (APPLICATIONS.indexOf(buttons) + 1 >= APPLICATIONS.size()) {
-                    ArrayList<TexturedButton> list = new ArrayList<>();
-                    list.add(button);
-                    APPLICATIONS.add(list);
-                    break;
-                }
-            }
-        }
-
     }
 
     public int getLeftPos() {

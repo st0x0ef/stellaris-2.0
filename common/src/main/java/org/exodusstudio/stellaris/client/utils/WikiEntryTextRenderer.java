@@ -31,6 +31,12 @@ public class WikiEntryTextRenderer {
         this.lines = createLines(text, maxWidth);
     }
 
+    /**
+     *  Return a list of word in a line.
+     * @param message The message we want to render
+     * @param maxWidth The width of the place we want our text to be rendered
+     * @return A list of line containing a list of words.
+     */
     public ArrayList<ArrayList<Word>> createLines(String message, int maxWidth) {
 
         String[] words = message.split("\\s+");
