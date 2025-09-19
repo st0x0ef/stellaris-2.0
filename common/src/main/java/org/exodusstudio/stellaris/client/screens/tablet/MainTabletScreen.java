@@ -66,7 +66,13 @@ public class MainTabletScreen extends AbstractContainerScreen<MainTabletMenu> {
             MutableComponent tooltip = infos.getName().copy();
             tooltip.append("\n").append(infos.getDescription().withStyle(ChatFormatting.GRAY));
 
-            TexturedButton tabletButton = new TexturedButton(this.leftPos + 68 + (column.get() * 30), this.topPos + 60 + (row.get() * 30), 20, 20, infos.getName(), (button -> minecraft.setScreen(infos.createScreen(this.createMenuHolder()))))
+            TexturedButton tabletButton = new TexturedButton(this.leftPos + 68 + (column.get() * 30), this.topPos + 60 + (row.get() * 30), 20, 20, infos.getName(), (button ->  {
+                Screen screen = infos.createScreen(this.createMenuHolder());
+                if (screen != null) {
+                    minecraft.setScreen(screen);
+                }
+                
+            }))
                     .tex(infos.getIconLocation(), infos.getIconLocation())
                     .tooltip(Tooltip.create(tooltip, infos.getDescription()));
 
