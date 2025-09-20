@@ -4,8 +4,8 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.ToNumberPolicy;
 import com.google.gson.Strictness;
+import fr.tathan.exoconfig.common.loader.ConfigsRegistry;
 import org.exodusstudio.stellaris.common.config.CommonConfig;
-import org.exodusstudio.stellaris.common.config.ConfigManager;
 import org.exodusstudio.stellaris.common.network.NetworkRegistry;
 import org.exodusstudio.stellaris.common.registries.*;
 import org.slf4j.Logger;
@@ -23,7 +23,7 @@ public final class Stellaris {
     public static CommonConfig CONFIG;
 
     public static void init() {
-        CONFIG = ConfigManager.loadOrGenerateDefaults();
+        CONFIG = ConfigsRegistry.getInstance().registerConfig(new CommonConfig(), CONFIG);;
 
         NetworkRegistry.init();
 
