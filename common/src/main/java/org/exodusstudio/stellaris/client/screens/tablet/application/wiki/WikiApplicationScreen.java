@@ -91,7 +91,7 @@ public class WikiApplicationScreen extends Screen {
     @Override
     public void renderBackground(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
         super.renderBackground(guiGraphics, mouseX, mouseY, partialTick);
-        guiGraphics.blit(RenderPipelines.GUI_TEXTURED, ApplicationScreen.BACKGROUND, this.getLeftPos(), this.getTopPos(), 0, 0, this.mainTabletScreen.getImageWidth(), this.mainTabletScreen.getImageHeight(), this.mainTabletScreen.getImageWidth(),this.mainTabletScreen.getImageHeight());
+        guiGraphics.blit(RenderPipelines.GUI_TEXTURED, ApplicationScreen.BLANCK_BACKGROUND, this.getLeftPos(), this.getTopPos(), 0, 0, this.mainTabletScreen.getImageWidth(), this.mainTabletScreen.getImageHeight(), this.mainTabletScreen.getImageWidth(),this.mainTabletScreen.getImageHeight());
         updateNavigationButtons();
 
         if(currentEntry == null) {
@@ -103,14 +103,15 @@ public class WikiApplicationScreen extends Screen {
 
 
     private void setupScrollableContainer() {
-        this.scrollableContainer = new ScrollableContainer(this.getLeftPos() + 30, this.getTopPos() + 40, 100, this.mainTabletScreen.getImageHeight() - 40, Component.empty());
+        this.scrollableContainer = new ScrollableContainer(this.getLeftPos() + 30, this.getTopPos() + 40, 100, this.mainTabletScreen.getImageHeight() - 70, Component.empty())
+                .setBackground(ResourceLocationUtils.guiTexture("tablet/tablet_entries_background"));
 
         int height = 5;
         for (WikiEntry entry : ENTRIES) {
             WikiEntryButton button = new WikiEntryButton(this.scrollableContainer.getX() + 5, this.scrollableContainer.getY() + height, 90, 20, entry,
                     button1 -> {
                         switchEntry(entry, 0);
-                    });
+                    }).tex(ResourceLocationUtils.guiTexture("tablet/tablet_entry_button"), ResourceLocationUtils.guiTexture("tablet/tablet_entry_button"));
             this.scrollableContainer.addChild(this, button);
             height += 25;
         }

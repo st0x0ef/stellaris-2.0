@@ -2,6 +2,7 @@ package org.exodusstudio.stellaris.client.screens.components.wiki;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.narration.NarratableEntry;
 import net.minecraft.client.renderer.RenderPipelines;
@@ -36,12 +37,8 @@ public class WikiEntryButton extends TexturedButton {
         graphics.blit(RenderPipelines.GUI_TEXTURED, this.isHovered() ? entry.hoverIcon() : entry.icon(), this.getX(), this.getY() + 2, 0, 0,
                 16, 16, 16, 16);
 
-        graphics.drawString(Minecraft.getInstance().font, entry.getTitle(), this.getX() + 20, this.getY() + 6, ARGB.white(1), false);
-    }
 
-    @Override
-    public Collection<? extends NarratableEntry> getNarratables() {
-        return super.getNarratables();
+        Button.renderScrollingString(graphics, Minecraft.getInstance().font, entry.getTitle(), this.getX() + 20, this.getY() + 2, this.getRight(), this.getBottom(), ARGB.white(1));
     }
 
 }

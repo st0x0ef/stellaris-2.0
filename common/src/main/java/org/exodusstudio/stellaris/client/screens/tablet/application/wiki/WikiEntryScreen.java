@@ -41,7 +41,7 @@ public class WikiEntryScreen extends Screen {
     @Override
     protected void init() {
         super.init();
-        this.widget = new WikiInfosWidget(this.getLeftPos() + 40,  this.getTopPos() + 46,230, 104, this.info);
+        this.widget = new WikiInfosWidget(this.getLeftPos() + 40,  this.getTopPos() + 46,230, 128, this.info);
         this.addRenderableWidget(this.widget);
 
     }
@@ -56,7 +56,9 @@ public class WikiEntryScreen extends Screen {
     @Override
     public void renderBackground(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
         super.renderBackground(guiGraphics, mouseX, mouseY, partialTick);
-        guiGraphics.blit(RenderPipelines.GUI_TEXTURED, ApplicationScreen.BACKGROUND, this.getLeftPos(), this.getTopPos(), 0, 0, this.tabletScreen.getImageWidth(), this.tabletScreen.getImageHeight(), this.tabletScreen.getImageWidth(),this.tabletScreen.getImageHeight());
+        guiGraphics.blit(RenderPipelines.GUI_TEXTURED, ApplicationScreen.BLANCK_BACKGROUND, this.getLeftPos(), this.getTopPos(), 0, 0, this.tabletScreen.getImageWidth(), this.tabletScreen.getImageHeight(), this.tabletScreen.getImageWidth(),this.tabletScreen.getImageHeight());
+
+        guiGraphics.blit(RenderPipelines.GUI_TEXTURED, ApplicationScreen.BLANCK_BACKGROUND, this.getLeftPos(), this.getTopPos(), 0, 0, this.tabletScreen.getImageWidth(), this.tabletScreen.getImageHeight(), this.tabletScreen.getImageWidth(),this.tabletScreen.getImageHeight());
 
     }
 

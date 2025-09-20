@@ -1,5 +1,6 @@
 package org.exodusstudio.stellaris.client.screens.components.containers;
 
+import com.mojang.blaze3d.pipeline.RenderPipeline;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractScrollArea;
 import net.minecraft.client.gui.components.AbstractWidget;
@@ -13,7 +14,6 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.function.Consumer;
 
 public class ScrollableContainer extends AbstractScrollArea {
 
@@ -27,6 +27,8 @@ public class ScrollableContainer extends AbstractScrollArea {
     private ResourceLocation scrollerSprite = ResourceLocationUtils.id("icon/scroller");
     @Nullable
     private ResourceLocation scrollerBackground;
+    @Nullable
+    private ResourceLocation background;
 
     public ScrollableContainer(int x, int y, int width, int height, Component component) {
         super(x, y, width, height, component);
@@ -60,10 +62,13 @@ public class ScrollableContainer extends AbstractScrollArea {
         guiGraphics.pose().pushMatrix();
         guiGraphics.enableScissor(this.getX(), this.getY(), this.getRight(), this.getBottom());
 
+        if(this.background != null) guiGraphics.blit(RenderPipelines.GUI_TEXTURED, this.background, this.getX(), this.getY(), 0, 0, this.getWidth(), this.getBottom(), this.getWidth(), this.getHeight());
+
         renderContent(guiGraphics, mouseX, mouseY, partialTick);
 
         guiGraphics.disableScissor();
         guiGraphics.pose().popMatrix();
+
 
         renderScrollbar(guiGraphics);
 
@@ -119,9 +124,14 @@ public class ScrollableContainer extends AbstractScrollArea {
         return this;
     }
 
-    public ScrollableContainer setTexture(ResourceLocation sprite, @Nullable ResourceLocation background) {
+    public ScrollableContainer setScrollerTexture(ResourceLocation sprite, @Nullable ResourceLocation background) {
         this.scrollerSprite = sprite;
         this.scrollerBackground = background;
+        return this;
+    }
+
+    public ScrollableContainer setBackground(@Nullable ResourceLocation background) {
+        this.background = background;
         return this;
     }
 
