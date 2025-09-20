@@ -17,6 +17,7 @@
   "item.stellaris.cable_t1": "Cable",
 
   "item.stellaris.tablet": "Tablet",
+  "item.stellaris.sd_card": "SD Card",
 
 
   "gauge_text.stellaris.max_generation": "Max Generation : %s Fe/tick",
