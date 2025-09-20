@@ -29,7 +29,7 @@ public class ScrollableTextWidget extends AbstractWidget {
         this.text = Minecraft.getInstance().font.split(text, width - PADDING * 2);
 
         var numLines = this.text.size();
-        this.contentHeight = numLines * Minecraft.getInstance().font.lineHeight + numLines * LINE_PADDING - this.getHeight() + PADDING;
+        this.contentHeight = numLines * Minecraft.getInstance().font.lineHeight + numLines * LINE_PADDING;
     }
 
     @Override
@@ -47,10 +47,10 @@ public class ScrollableTextWidget extends AbstractWidget {
 
     @Override
     public boolean mouseScrolled(double mouseX, double mouseY, double scrollX, double scrollY) {
-        if (!this.visible) {
+        if (!this.visible || contentHeight < this.getHeight()) {
             return false;
         } else {
-            this.scrollAmount = Math.clamp(this.scrollAmount - scrollY * this.scrollRate, 0, Math.abs(this.contentHeight));
+            this.scrollAmount = Math.clamp(this.scrollAmount - scrollY * this.scrollRate, 0, Math.abs(this.contentHeight - this.getHeight() + PADDING));
             return true;
         }
     }
