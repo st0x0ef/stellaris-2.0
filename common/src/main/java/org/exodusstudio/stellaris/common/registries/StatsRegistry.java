@@ -13,7 +13,7 @@ public class StatsRegistry {
 
     public static final DeferredRegister<ResourceLocation> STATS = DeferredRegister.create(Stellaris.MOD_ID, Registries.CUSTOM_STAT);
 
-    public static RegistrySupplier<ResourceLocation> SPACE_TRAVEL = register("space_traveled", (value) -> value + " km");
+    public static RegistrySupplier<ResourceLocation> SPACE_TRAVELED = register("space_traveled", (value) -> value + " km");
 
     public static RegistrySupplier<ResourceLocation> register(String key) {
         return register(key, StatFormatter.DEFAULT);
