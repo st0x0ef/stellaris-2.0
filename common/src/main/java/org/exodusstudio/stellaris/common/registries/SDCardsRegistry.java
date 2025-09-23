@@ -1,8 +1,6 @@
 package org.exodusstudio.stellaris.common.registries;
 
-import net.minecraft.network.chat.Component;
 import org.exodusstudio.stellaris.common.sdcard.SDCard;
-import org.exodusstudio.stellaris.common.sdcard.SDCardInfo;
 import org.exodusstudio.stellaris.common.sdcard.TestSDCard;
 
 import java.util.Collection;
