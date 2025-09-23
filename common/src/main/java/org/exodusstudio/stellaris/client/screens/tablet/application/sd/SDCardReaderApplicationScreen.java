@@ -60,6 +60,7 @@ public class SDCardReaderApplicationScreen extends AbstractContainerScreen<SDCar
                 var card = SDCardsRegistry.get(component);
                 if (cardInfoWidget.getCard() == card) return;
 
+                card.run();
                 cardInfoWidget.setCard(card);
                 cardInfoWidget.active = true;
             }
