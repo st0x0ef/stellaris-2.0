@@ -10,6 +10,8 @@ import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
+import org.exodusstudio.stellaris.Stellaris;
+import org.exodusstudio.stellaris.client.screens.components.sd.SDCardDecodeButton;
 import org.exodusstudio.stellaris.client.screens.components.sd.SDCardInfoWidget;
 import org.exodusstudio.stellaris.client.screens.tablet.application.ApplicationRegistry;
 import org.exodusstudio.stellaris.common.menu.MainTabletMenu;
@@ -22,38 +24,47 @@ import org.exodusstudio.stellaris.common.utils.ResourceLocationUtils;
 @Environment(EnvType.CLIENT)
 public class SDCardReaderApplicationScreen extends AbstractContainerScreen<SDCardReaderApplicationMenu> {
 
-    private static final ResourceLocation TEXTURE = ResourceLocationUtils.guiTexture("coal_generator");
+    private static final ResourceLocation TEXTURE = ResourceLocationUtils.guiTexture("tablet/sd/sd_card_decoder");
 
     public static SDCardReaderApplicationScreen create(ApplicationRegistry.MenuHolder<MainTabletMenu> menuHolder) {
         NetworkManager.sendToServer(new OpenMenuPacket("sd_card_reader"));
         return null;
     }
 
-    private SDCardInfoWidget cardInfoWidget = new SDCardInfoWidget(40, 40, 200, 200, null);;
+    private SDCardInfoWidget cardInfoWidget;
     private Button decodeButton;
 
     public SDCardReaderApplicationScreen(SDCardReaderApplicationMenu abstractContainerMenu, Inventory inventory, Component component) {
         super(abstractContainerMenu, inventory, component);
 
-        imageWidth = 180;
-        imageHeight = 188;
+        imageWidth = 310;
+        imageHeight = 192;
     }
 
     @Override
     protected void init() {
         super.init();
 
-        decodeButton = Button.builder(Component.literal("DECODE"), (press) -> {
+        // TODO: Make this button transwparent or some shit, position the widget as well
+        cardInfoWidget = new SDCardInfoWidget(width / 2 + 39, height / 2 - 66, 90, 134, null);
+
+        decodeButton = new SDCardDecodeButton(width / 2 - 76, height / 2 - 48, 100, 21, (btn) -> {
             if (this.getMenu().hasCard()) {
                 var cardItemStack = this.getMenu().getCard();
-                var card = SDCardsRegistry.get(cardItemStack.get(DataComponentsRegistry.SD_CARD_ID.get()));
+                var component = cardItemStack.get(DataComponentsRegistry.SD_CARD_ID.get());
+                if (component == null) {
+                    Stellaris.LOG.error("SD Card data component (SD_CARD_ID) is null!");
+                    return;
+                }
+
+                var card = SDCardsRegistry.get(component);
+                if (cardInfoWidget.getCard() == card) return;
 
                 cardInfoWidget.setCard(card);
                 cardInfoWidget.active = true;
             }
-        }).build();
+        });
         this.addRenderableWidget(decodeButton);
-        //this.addRenderableWidget(cardInfoWidget);
     }
 
     @Override
@@ -89,8 +100,6 @@ public class SDCardReaderApplicationScreen extends AbstractContainerScreen<SDCar
     }
 
     @Override
-    protected void renderLabels(GuiGraphics guiGraphics, int mouseX, int mouseY) {
-        guiGraphics.drawString(this.font, this.title, this.titleLabelX, this.titleLabelY, -11050641, false);
-    }
+    protected void renderLabels(GuiGraphics guiGraphics, int mouseX, int mouseY) {}
 
 }

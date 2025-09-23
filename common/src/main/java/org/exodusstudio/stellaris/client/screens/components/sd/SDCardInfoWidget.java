@@ -44,8 +44,8 @@ public class SDCardInfoWidget extends AbstractContainerWidget {
 
     public void setupTextWidgets(SDCard card) {
         if (card == null) return;
-        this.nameContainer = new ScrollableTextWidget((this.getX() + this.getWidth()) / 2, this.getY(), (this.getX() + this.getWidth()) / 2, 50, card.getCardInfo().name());
-        this.descriptionContainer = new ScrollableTextWidget(this.getX() + 5, this.getY() + 55, this.getWidth() - 10, 100, card.getCardInfo().description());
+        this.nameContainer = new ScrollableTextWidget(this.getX(), this.getY(), this.getWidth(), 26, card.getCardInfo().name());
+        this.descriptionContainer = new ScrollableTextWidget(this.getX(), this.getY() + 28, this.getWidth(), 110, card.getCardInfo().description());
     }
 
     @Override
@@ -70,8 +70,9 @@ public class SDCardInfoWidget extends AbstractContainerWidget {
     }
 
     @Override
-    protected void renderWidget(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
-        this.children.forEach(w -> w.render(guiGraphics, mouseX, mouseY, partialTick));
+    protected void renderWidget(GuiGraphics ctx, int mouseX, int mouseY, float partialTick) {
+        this.children.forEach(w -> w.render(ctx, mouseX, mouseY, partialTick));
+        if (this.getCard() != null) ctx.fill(this.getX() + 4, this.getY() + 27, this.getX() + this.getWidth() + 4, this.getY() + 28, 0xFFFFFFFF);
     }
 
     @Override
