@@ -4,6 +4,7 @@ import dev.architectury.registry.registries.DeferredRegister;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import org.exodusstudio.stellaris.Stellaris;
+import org.exodusstudio.stellaris.common.blocks.entities.FlagBlockEntity;
 import org.exodusstudio.stellaris.common.blocks.entities.machines.CableBlockEntity;
 import org.exodusstudio.stellaris.common.blocks.entities.machines.CoalGeneratorBlockEntity;
 import org.exodusstudio.stellaris.common.blocks.entities.machines.PowerBankBlockEntity;
@@ -25,4 +26,8 @@ public class BlockEntitiesRegistry {
 
     public static final Supplier<BlockEntityType<?>> CABLES = BLOCK_ENTITY_TYPE.register("cables",
             () -> new BlockEntityType<>(CableBlockEntity::new, Set.of(BlocksRegistry.CABLE_T1.block().get())));
+
+    public static final Supplier<BlockEntityType<FlagBlockEntity>> FLAG = BLOCK_ENTITY_TYPE.register("flag",
+            () -> new BlockEntityType<>(FlagBlockEntity::new, Set.of(BlocksRegistry.FLAG.get())));
+
 }
