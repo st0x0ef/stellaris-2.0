@@ -26,6 +26,14 @@ public class CommandSourceWrapper {
         context.getSource().sendSuccess(() -> component, logging);
     }
 
+    public boolean runByPlayer() {
+        if(getPlayer() == null) {
+            this.sendFailure(Component.literal("This command need to be run by a player"));
+            return false;
+        }
+        return true;
+    }
+    
     public MinecraftServer getServer() {
         return context.getSource().getServer();
     }

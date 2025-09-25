@@ -6,6 +6,7 @@ import com.google.gson.ToNumberPolicy;
 import com.google.gson.Strictness;
 import fr.tathan.exoconfig.common.loader.ConfigsRegistry;
 import org.exodusstudio.stellaris.common.config.CommonConfig;
+import org.exodusstudio.stellaris.common.events.Events;
 import org.exodusstudio.stellaris.common.network.NetworkRegistry;
 import org.exodusstudio.stellaris.common.registries.*;
 import org.slf4j.Logger;
@@ -34,7 +35,7 @@ public final class Stellaris {
         CreativeTabsRegistry.register();
         MenuTypesRegistry.MENU_TYPE.register();
         CommandsRegistry.register();
-
+        Events.register();
         CapabilitiesRegistry.init();
     }
 }
