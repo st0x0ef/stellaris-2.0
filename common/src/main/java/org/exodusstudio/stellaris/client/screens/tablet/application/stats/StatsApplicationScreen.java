@@ -41,6 +41,18 @@ public class StatsApplicationScreen extends Screen {
         setupScrollableContainer();
     }
 
+    @Override
+    public boolean mouseScrolled(double mouseX, double mouseY, double scrollX, double scrollY) {
+        return this.getChildAt(mouseX, mouseY).filter((guiEventListener) -> {
+            if(this.scrollableContainer.children().contains(guiEventListener)) {
+                return this.scrollableContainer.mouseScrolled(mouseX, mouseY, scrollX, scrollY);
+            } else {
+                return guiEventListener.mouseScrolled(mouseX, mouseY, scrollX, scrollY);
+            }
+        }).isPresent();
+
+    }
+
     private void setupScrollableContainer() {
         scrollableContainer = new ScrollableContainer(this.width / 2 - 129, this.height / 2 - 67, 258, 134, Component.empty());
 

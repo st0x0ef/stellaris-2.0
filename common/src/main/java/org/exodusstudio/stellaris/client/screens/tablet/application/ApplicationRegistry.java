@@ -57,9 +57,9 @@ public class ApplicationRegistry {
             () -> new ApplicationFactory<>(
                     Component.translatable("application.stellaris.stats.name"),
                     Component.translatable("application.stellaris.stats.description"),
-                    ResourceLocation.fromNamespaceAndPath("stellaris", "textures/gui/application/stats_icon.png"),
-                    StatsApplicationScreen::create,
-                    null
+                    ResourceLocationUtils.id("icon/wiki_app"),
+                    ResourceLocationUtils.id("icon/wiki_app_hover"),
+                    StatsApplicationScreen::create
             )
     );
 

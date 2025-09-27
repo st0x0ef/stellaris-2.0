@@ -4,18 +4,23 @@ import com.mojang.blaze3d.pipeline.RenderPipeline;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractScrollArea;
 import net.minecraft.client.gui.components.AbstractWidget;
+import net.minecraft.client.gui.components.events.ContainerEventHandler;
+import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.common.utils.ResourceLocationUtils;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
-public class ScrollableContainer extends AbstractScrollArea {
+public class ScrollableContainer extends AbstractScrollArea implements ContainerEventHandler {
+
 
 
     public HashMap<AbstractWidget, Integer> defaultPositions = new HashMap<>();
@@ -23,6 +28,7 @@ public class ScrollableContainer extends AbstractScrollArea {
     public int contentHeight = 0;
     public RenderInfo onRender;
     public double scrollRate = 7;
+    public boolean allowScrollingOnChildren = true;
 
     private ResourceLocation scrollerSprite = ResourceLocationUtils.id("icon/scroller");
     @Nullable
@@ -89,6 +95,12 @@ public class ScrollableContainer extends AbstractScrollArea {
 
     }
 
+    @Override
+    public boolean mouseScrolled(double mouseX, double mouseY, double scrollX, double scrollY) {
+
+        return super.mouseScrolled(mouseX, mouseY, scrollX, scrollY);
+    }
+
     /**
      * We Override this to allow changing textures
      */
@@ -101,12 +113,59 @@ public class ScrollableContainer extends AbstractScrollArea {
             if(this.scrollerBackground != null) guiGraphics.blitSprite(RenderPipelines.GUI_TEXTURED, this.scrollerBackground, i, this.getY(), 6, this.getHeight());
             guiGraphics.blitSprite(RenderPipelines.GUI_TEXTURED, this.scrollerSprite, i, k, 6, j);
         }
+    }
 
+    @Override
+    public boolean isHoveredOrFocused() {
+
+        boolean bl = false;
+        if(allowScrollingOnChildren) {
+            for(AbstractWidget widget : this.children) {
+                if(widget.isHoveredOrFocused()) {
+                    bl = true;
+                    break;
+                }
+            }
+        }
+
+        return super.isHoveredOrFocused() || bl;
     }
 
     public double getOffsetHeight() {
         return this.getY() - this.scrollAmount();
     }
+
+    @Override
+    public List<? extends GuiEventListener> children() {
+        return this.children;
+    }
+
+    @Override
+    public boolean isDragging() {
+        return false;
+    }
+
+    @Override
+    public void setDragging(boolean isDragging) {
+
+    }
+
+    @Override
+    public @Nullable GuiEventListener getFocused() {
+        for(AbstractWidget widget : this.children) {
+           if(widget.isFocused()) return widget;
+        }
+        return null;
+    }
+
+    @Override
+    public void setFocused(@Nullable GuiEventListener focused) {
+        for(AbstractWidget widget : this.children) {
+            widget.setFocused(focused == widget);
+        }
+    }
+
+
 
     /** Builder */
     public ScrollableContainer setContentHeight(int contentHeight) {
