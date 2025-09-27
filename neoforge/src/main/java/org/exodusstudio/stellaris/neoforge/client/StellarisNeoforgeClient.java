@@ -7,11 +7,10 @@ import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.client.StellarisClient;
 import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
-import org.exodusstudio.stellaris.Stellaris;
-import org.exodusstudio.stellaris.client.StellarisClient;
 import org.exodusstudio.stellaris.client.screens.CoalGeneratorScreen;
 import org.exodusstudio.stellaris.client.screens.PowerBankScreen;
 import org.exodusstudio.stellaris.client.screens.SolarPanelScreen;
+import org.exodusstudio.stellaris.client.screens.tablet.application.sd.SDCardReaderApplicationScreen;
 import org.exodusstudio.stellaris.common.registries.MenuTypesRegistry;
 
 @EventBusSubscriber(modid = Stellaris.MOD_ID, value = Dist.CLIENT)
@@ -26,5 +25,6 @@ public class StellarisNeoforgeClient {
         event.register(MenuTypesRegistry.SOLAR_PANEL_MENU.get(), SolarPanelScreen::new);
         event.register(MenuTypesRegistry.COAL_GENERATOR_MENU.get(), CoalGeneratorScreen::new);
         event.register(MenuTypesRegistry.POWER_BANK_MENU.get(), PowerBankScreen::new);
+        event.register(MenuTypesRegistry.SD_CARD_READER_MENU.get(), SDCardReaderApplicationScreen::new);
     }
 }

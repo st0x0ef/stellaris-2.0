@@ -6,6 +6,7 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
+import org.exodusstudio.stellaris.common.items.SDCardItem;
 import org.exodusstudio.stellaris.common.items.TabletItem;
 import org.exodusstudio.stellaris.common.utils.ResourceLocationUtils;
 import org.jetbrains.annotations.NotNull;
@@ -19,7 +20,7 @@ public final class ItemsRegistry {
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(MOD_ID, Registries.ITEM);
 
     public static final RegistrySupplier<TabletItem> TABLET = item("tablet", TabletItem::new);
-
+    public static final RegistrySupplier<SDCardItem> SD_CARD = item("sd_card", new Item.Properties().component(DataComponentsRegistry.SD_CARD_ID.get(), 0), SDCardItem::new);
 
     public static RegistrySupplier<Item> item(String name) {
         return item(name, new Item.Properties().arch$tab(CreativeTabsRegistry.STELLARIS_MAIN), Item::new);
