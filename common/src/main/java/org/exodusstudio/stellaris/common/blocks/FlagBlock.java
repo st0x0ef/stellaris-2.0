@@ -5,6 +5,7 @@ import dev.architectury.registry.menu.ExtendedMenuProvider;
 import io.netty.buffer.Unpooled;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
@@ -13,8 +14,8 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
-import net.minecraft.world.item.DyeItem;
-import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.*;
+import net.minecraft.world.item.component.DyedItemColor;
 import net.minecraft.world.item.component.ResolvableProfile;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
@@ -32,10 +33,12 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.common.blocks.base.BaseMachineBlock;
 import org.exodusstudio.stellaris.common.blocks.entities.FlagBlockEntity;
 import org.exodusstudio.stellaris.common.registries.BlockEntitiesRegistry;
 import org.exodusstudio.stellaris.common.registries.BlocksRegistry;
+import org.exodusstudio.stellaris.common.registries.DataComponentsRegistry;
 import org.exodusstudio.stellaris.common.registries.ItemsRegistry;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -85,21 +88,14 @@ public class FlagBlock extends BaseMachineBlock implements SimpleWaterloggedBloc
                     FriendlyByteBuf buf = new FriendlyByteBuf(Unpooled.buffer());
                     buf.writeBlockPos(blockEntity.getBlockPos());
 
-                    return FlagUploadMenu.create(containerId, inventory, buf);
+                    return null;
+                    //return FlagUploadMenu.create(containerId, inventory, buf);
                 }
             };
         }
         return null;
     }
 
-    @Override
-    public BlockState playerWillDestroy(Level worldIn, BlockPos pos, BlockState state, Player player) {
-        if (!worldIn.isClientSide && player.isCreative()) {
-        }
-        super.playerWillDestroy(worldIn, pos, state, player);
-        player.addItem(BlocksRegistry.FLAG.item().get().getDefaultInstance());
-        return state;
-    }
 
 
     @Nullable
@@ -119,29 +115,39 @@ public class FlagBlock extends BaseMachineBlock implements SimpleWaterloggedBloc
 
     @Override
     public void setPlacedBy(Level worldIn, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack stack) {
-
         if(worldIn.isClientSide()) return;
 
-        boolean flag = worldIn.getFluidState(pos.above()).is(Fluids.WATER);
 
-        BlockEntity tileentity = worldIn.getBlockEntity(new BlockPos(pos.getX(), pos.getY() + 1, pos.getZ()));
+        BlockEntity blockEntity = worldIn.getBlockEntity(new BlockPos(pos.getX(), pos.getY() + 1, pos.getZ()));
 
-        if(tileentity instanceof FlagBlockEntity flagBlockEntity && placer instanceof Player player) {
-            flagBlockEntity.setProfile(new ResolvableProfile(player.getGameProfile()));
+        if(blockEntity instanceof FlagBlockEntity flagBlockEntity) {
+
+            //Handle Player Head
+            if(placer instanceof Player player) {
+                flagBlockEntity.setProfile(new ResolvableProfile(player.getGameProfile()));
+            }
+            if(stack.has(DataComponents.DYED_COLOR)) {
+                DyeColor dyeColor = stack.get(DataComponentsRegistry.DYE_COLOR.get());
+                flagBlockEntity.setDyeColor(dyeColor);
+            }
         }
         super.setPlacedBy(worldIn, pos, state.setValue(WATERLOGGED, false), placer, stack);
-
     }
-
-
-
 
     @Override
     protected InteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) {
-        if(stack.getItem() instanceof DyeItem dyeItem) {
-            BlockEntity blockEntity = level.getBlockEntity(pos);
-            if (blockEntity instanceof FlagBlockEntity flagBlockEntity) {
+        BlockEntity blockEntity = level.getBlockEntity(pos);
+        if (blockEntity instanceof FlagBlockEntity flagBlockEntity) {
+            if(stack.getItem() instanceof DyeItem dyeItem) {
                 flagBlockEntity.setDyeColor(dyeItem.getDyeColor());
+                level.sendBlockUpdated(pos, state, state, 3);
+                return InteractionResult.SUCCESS;
+            }
+
+            if(stack.has(DataComponents.PROFILE)) {
+                Stellaris.LOG.error("Setting profile from itemstack");
+                ResolvableProfile resolvableprofile = stack.get(DataComponents.PROFILE);
+                flagBlockEntity.setProfile(resolvableprofile);
                 level.sendBlockUpdated(pos, state, state, 3);
                 return InteractionResult.SUCCESS;
             }

@@ -43,7 +43,7 @@ public class FlagBlockEntity extends BaseContainerBlockEntity {
 
     @Override
     protected @NotNull AbstractContainerMenu createMenu(int containerId, Inventory inventory) {
-        return new FlagUploadMenu(containerId, inventory, this);
+        return null;
     }
 
     public FlagBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState blockState) {
@@ -168,7 +168,7 @@ public class FlagBlockEntity extends BaseContainerBlockEntity {
                     return state;
                 }
             }
-            throw new NoSuchElementException(); // or throw an exception
+            return STATE.PLAYER_HEAD;
         }
 
         public static STATE fromValues(boolean playerHead, boolean customPng) {
