@@ -23,5 +23,7 @@
   "gauge_text.stellaris.max_generation": "Max Generation : %s Fe/tick",
 
 
-  "stellaris.screen.energyContainer": "Energy"
+  "stellaris.screen.energyContainer": "Energy",
+
+  "stat.stellaris.space_traveled": "Space Traveled"
 }

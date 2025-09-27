@@ -12,6 +12,7 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.client.screens.tablet.MainTabletScreen;
 import org.exodusstudio.stellaris.client.screens.tablet.application.sd.SDCardReaderApplicationScreen;
+import org.exodusstudio.stellaris.client.screens.tablet.application.stats.StatsApplicationScreen;
 import org.exodusstudio.stellaris.client.screens.tablet.application.wiki.WikiApplicationScreen;
 import org.exodusstudio.stellaris.common.menu.MainTabletMenu;
 import org.jetbrains.annotations.Nullable;
@@ -46,6 +47,17 @@ public class ApplicationRegistry {
                     Component.translatable("application.stellaris.sd_card_reader.description"),
                     ResourceLocation.fromNamespaceAndPath("stellaris", "textures/gui/application/sd_card_reader_icon.png"),
                     SDCardReaderApplicationScreen::create,
+                    null
+            )
+    );
+
+    public static RegistrySupplier<ApplicationFactory> STATS = TABLET_APPLICATION.register(
+            ResourceLocation.parse("stellaris:applications/stats"),
+            () -> new ApplicationFactory<>(
+                    Component.translatable("application.stellaris.stats.name"),
+                    Component.translatable("application.stellaris.stats.description"),
+                    ResourceLocation.fromNamespaceAndPath("stellaris", "textures/gui/application/stats_icon.png"),
+                    StatsApplicationScreen::create,
                     null
             )
     );
