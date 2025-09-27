@@ -50,7 +50,7 @@ public class StatsApplicationScreen extends Screen {
             Component name = Component.translatable("stat.stellaris." + val.get().toString().split(":")[1]);
             Component value = Component.literal(String.valueOf(Minecraft.getInstance().player.getStats().getValue(Stats.CUSTOM.get(val.get())))).append(" km");
 
-            StatWidget statWidget = new StatWidget(this.scrollableContainer.getX() + 4, this.scrollableContainer.getY() + height, 260, 20, name, value);
+            StatWidget statWidget = new StatWidget(this.scrollableContainer.getX() + 4, this.scrollableContainer.getY() + height, 260, 20, name, value, scrollableContainer);
             this.scrollableContainer.addChild(this, statWidget);
             height += 25;
         }

@@ -7,6 +7,7 @@ import net.minecraft.client.gui.narration.NarrationElementOutput;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import org.exodusstudio.stellaris.client.screens.components.containers.ScrollableContainer;
 import org.exodusstudio.stellaris.common.utils.ResourceLocationUtils;
 
 public class StatWidget extends AbstractWidget {
@@ -15,11 +16,13 @@ public class StatWidget extends AbstractWidget {
 
     private final Component statName;
     private final Component statValue;
+    private final ScrollableContainer parent;
 
-    public StatWidget(int x, int y, int width, int height, Component name, Component val) {
+    public StatWidget(int x, int y, int width, int height, Component name, Component val, ScrollableContainer parent) {
         super(x, y, width, height, Component.literal("Stat Widget"));
         this.statName = name;
         this.statValue = val;
+        this.parent = parent;
     }
 
     @Override
@@ -28,6 +31,11 @@ public class StatWidget extends AbstractWidget {
         var tx = Minecraft.getInstance().font;
         ctx.drawString(tx, statName, this.getX() + 3, this.getY() + this.getHeight() / 2 - tx.lineHeight / 2, 0xFFFFFFFF);
         ctx.drawString(tx, statValue, this.getX() + this.getWidth() - tx.width(statValue) - 8, this.getY() + this.getHeight() / 2 - tx.lineHeight / 2, 0xFFFFFFFF);
+    }
+
+    @Override
+    public boolean mouseScrolled(double mouseX, double mouseY, double scrollX, double scrollY) {
+        return this.parent.mouseScrolled(mouseX, mouseY, scrollX, scrollY);
     }
 
     @Override
