@@ -35,6 +35,7 @@ public final class Stellaris {
         MenuTypesRegistry.MENU_TYPE.register();
         CommandsRegistry.register();
         SDCardsRegistry.register();
+        StatsRegistry.STATS.register();
 
         CapabilitiesRegistry.init();
     }
