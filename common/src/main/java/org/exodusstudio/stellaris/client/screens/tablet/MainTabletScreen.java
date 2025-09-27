@@ -74,7 +74,8 @@ public class MainTabletScreen extends AbstractContainerScreen<MainTabletMenu> {
                 }
                 
             }))
-                    .tex(infos.getIconLocation(), infos.getIconLocation())
+                    .tex(infos.getIconLocation(), infos.getIconHoverLocation())
+                    .useSprite(true)
                     .tooltip(Tooltip.create(tooltip, infos.getDescription()));
 
             if (column.get() == 3) {

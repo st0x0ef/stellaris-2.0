@@ -11,6 +11,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.ARGB;
 import net.minecraft.util.Mth;
+import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.common.utils.ResourceLocationUtils;
 import org.jetbrains.annotations.Nullable;
 
@@ -73,6 +74,12 @@ public class TexturedButton extends Button {
         return (T) this;
     }
 
+    public <T extends TexturedButton> T useSprite(boolean useSprite) {
+        this.useSprite = useSprite;
+        return cast();
+    }
+
+
     public <T extends TexturedButton> T tex(ResourceLocation buttonTexture, ResourceLocation hoverTexture) {
         this.buttonTexture = buttonTexture;
         this.hoverButtonTexture = hoverTexture;
@@ -117,7 +124,7 @@ public class TexturedButton extends Button {
         /** TEXTURE MANAGER */
         ResourceLocation texture = this.getTypeTexture();
 
-        if( this.useSprite ) {
+        if(this.useSprite ) {
             graphics.blitSprite(RenderPipelines.GUI_TEXTURED, texture, this.getX(), this.getY(), this.getWidth(), this.getHeight(), ARGB.white(this.alpha));
         } else {
             graphics.blit(RenderPipelines.GUI_TEXTURED, texture, this.getX(), this.getY(), (float) this.xTexStart, (float) i,

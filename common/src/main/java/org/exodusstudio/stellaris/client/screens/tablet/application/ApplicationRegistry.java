@@ -14,6 +14,7 @@ import org.exodusstudio.stellaris.client.screens.tablet.MainTabletScreen;
 import org.exodusstudio.stellaris.client.screens.tablet.application.sd.SDCardReaderApplicationScreen;
 import org.exodusstudio.stellaris.client.screens.tablet.application.wiki.WikiApplicationScreen;
 import org.exodusstudio.stellaris.common.menu.MainTabletMenu;
+import org.exodusstudio.stellaris.common.utils.ResourceLocationUtils;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Consumer;
@@ -22,20 +23,20 @@ import java.util.function.Function;
 public class ApplicationRegistry {
 
 
-    public static final Registrar<ApplicationFactory> TABLET_APPLICATION =
+    public static final Registrar<ApplicationFactory<?>> TABLET_APPLICATION =
             RegistrarManager.get(Stellaris.MOD_ID)
-                    .<ApplicationFactory>builder(ResourceLocation.parse("stellaris:applications")) // The type for builder should match the Registrar
+                    .<ApplicationFactory<?>>builder(ResourceLocation.parse("stellaris:applications")) // The type for builder should match the Registrar
                     .syncToClients()
                     .build();
 
-    public static RegistrySupplier<ApplicationFactory> WIKI1 = TABLET_APPLICATION.register(
+    public static RegistrySupplier<ApplicationFactory> WIKI = TABLET_APPLICATION.register(
             ResourceLocation.parse("stellaris:applications/wiki"),
             () -> new ApplicationFactory<MainTabletMenu>(
                     Component.translatable("application.stellaris.wiki.name"),
                     Component.translatable("application.stellaris.wiki.description"),
-                    ResourceLocation.fromNamespaceAndPath("stellaris", "textures/gui/application/wiki_icon.png"),
-                    WikiApplicationScreen::create,
-                    null
+                    ResourceLocationUtils.id("icon/wiki_app"),
+                    ResourceLocationUtils.id("icon/wiki_app_hover"),
+                    WikiApplicationScreen::create
             )
     );
 
@@ -44,9 +45,9 @@ public class ApplicationRegistry {
             () -> new ApplicationFactory<>(
                     Component.translatable("application.stellaris.sd_card_reader.name"),
                     Component.translatable("application.stellaris.sd_card_reader.description"),
-                    ResourceLocation.fromNamespaceAndPath("stellaris", "textures/gui/application/sd_card_reader_icon.png"),
-                    SDCardReaderApplicationScreen::create,
-                    null
+                    ResourceLocationUtils.id("icon/wiki_app"),
+                    ResourceLocationUtils.id("icon/wiki_app_hover"),
+                    SDCardReaderApplicationScreen::create
             )
     );
 
@@ -59,19 +60,25 @@ public class ApplicationRegistry {
         private final MutableComponent name;
         private final MutableComponent description;
         private final ResourceLocation iconLocation;
+        private final ResourceLocation iconHoverLocation;
+
         private final Function<MenuHolder<T>, Screen> screenFactory;
 
-        public ApplicationFactory(MutableComponent name, MutableComponent description, ResourceLocation iconLocation,
-                                   @Nullable Function<MenuHolder<T>, Screen> screenFactory, @Nullable Consumer<MenuHolder<T>> menuOperation) {
+        public ApplicationFactory(MutableComponent name, MutableComponent description, ResourceLocation iconLocation,ResourceLocation iconHoverLocation,
+                                   @Nullable Function<MenuHolder<T>, Screen> screenFactory) {
             this.name = name;
             this.description = description;
             this.iconLocation = iconLocation;
             this.screenFactory = screenFactory;
+            this.iconHoverLocation = iconHoverLocation;
         }
 
         public MutableComponent getName() { return name; }
         public MutableComponent getDescription() { return description; }
         public ResourceLocation getIconLocation() { return iconLocation; }
+        public ResourceLocation getIconHoverLocation() {
+            return iconHoverLocation;
+        }
 
         public Screen createScreen(MenuHolder<T> screen) {
             return screenFactory.apply(screen);
