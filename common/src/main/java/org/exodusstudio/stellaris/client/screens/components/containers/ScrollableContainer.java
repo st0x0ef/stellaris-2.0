@@ -58,7 +58,7 @@ public class ScrollableContainer extends AbstractScrollArea implements Container
 
     public void updateChildrenPosition() {
         for (AbstractWidget child : this.children) {
-            child.setY((int) (this.defaultPositions.get(child) + this.scrollAmount()));
+            child.setY((int) (this.defaultPositions.get(child) - this.scrollAmount()));
         }
     }
 
