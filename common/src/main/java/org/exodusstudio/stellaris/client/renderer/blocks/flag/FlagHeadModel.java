@@ -44,12 +44,12 @@ public class FlagHeadModel extends SkullModelBase {
         return LayerDefinition.create(meshdefinition, 64, 64);
     }
 
+
     @Override
-    public void setupAnim(float p_103811_, float p_103812_, float p_103813_) {
-        this.head.yRot = p_103812_ * ((float) Math.PI / 180F);
-        this.head.xRot = p_103813_ * ((float) Math.PI / 180F);
+    public void setupAnim(float mouthAnimation, float yRot, float xRot) {
+        this.head.yRot = yRot * ((float) Math.PI / 180F);
+        this.head.xRot = xRot * ((float) Math.PI / 180F);
+
     }
-
-
 
 }

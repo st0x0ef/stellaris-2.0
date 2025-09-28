@@ -138,7 +138,7 @@ public class FlagBlockRenderer implements BlockEntityRenderer<FlagBlockEntity> {
             Vector4d directionInfo = rotationMap.get(dir);
             poseStack.translate(directionInfo.y, directionInfo.z, directionInfo.w);
 
-            var testProfile = new ResolvableProfile(new GameProfile(UUID.fromString("fe40f09cfdaa497f8e2bbed31180bfbd"), "TATHAN_06"));
+            var testProfile = new ResolvableProfile(new GameProfile(UUID.fromString("fe40f09c-fdaa-497f-8e2b-bed31180bfbd"), "TATHAN_06"));
 
             ResolvableProfile profile = blockEntity.getGameProfile() != null ? blockEntity.getGameProfile() : testProfile;
 

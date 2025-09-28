@@ -5,6 +5,7 @@ import dev.architectury.registry.menu.ExtendedMenuProvider;
 import io.netty.buffer.Unpooled;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
@@ -44,12 +45,15 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 
-public class FlagBlock extends BaseMachineBlock implements SimpleWaterloggedBlock {
+public class FlagBlock extends BaseEntityBlock implements SimpleWaterloggedBlock {
 
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
+    public static final EnumProperty<Direction> FACING = HorizontalDirectionalBlock.FACING;
 
     public FlagBlock(Properties properties) {
         super(properties);
+        this.registerDefaultState(stateDefinition.any().setValue(FACING, Direction.NORTH));
+
     }
 
     @Override
@@ -65,35 +69,6 @@ public class FlagBlock extends BaseMachineBlock implements SimpleWaterloggedBloc
     @Override
     public VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
         return Shapes.box((double) 7 / 16, 0, (double) 7 / 16, (double) 9 / 16, 3, (double) 9 / 16);
-    }
-
-    @Nullable
-    @Override
-    protected ExtendedMenuProvider getMenuProvider(BlockState state, Level level, BlockPos pos) {
-        BlockEntity blockEntity = level.getBlockEntity(pos);
-        if (blockEntity instanceof FlagBlockEntity flagBlockEntity) {
-            return new ExtendedMenuProvider() {
-                @Override
-                public void saveExtraData(FriendlyByteBuf buf) {
-                    buf.writeBlockPos(blockEntity.getBlockPos());
-                }
-
-                @Override
-                public Component getDisplayName() {
-                    return flagBlockEntity.getDisplayName();
-                }
-
-                @Override
-                public AbstractContainerMenu createMenu(int containerId, Inventory inventory, Player player) {
-                    FriendlyByteBuf buf = new FriendlyByteBuf(Unpooled.buffer());
-                    buf.writeBlockPos(blockEntity.getBlockPos());
-
-                    return null;
-                    //return FlagUploadMenu.create(containerId, inventory, buf);
-                }
-            };
-        }
-        return null;
     }
 
 
@@ -164,16 +139,6 @@ public class FlagBlock extends BaseMachineBlock implements SimpleWaterloggedBloc
     @Override
     public @Nullable BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
         return new FlagBlockEntity(pos, state);
-    }
-
-    @Override
-    public BlockEntityType<?> getBlockEntityType() {
-        return BlockEntitiesRegistry.FLAG.get();
-    }
-
-    @Override
-    public boolean hasTicker(Level level) {
-        return false;
     }
 
     @Override
