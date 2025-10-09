@@ -33,7 +33,6 @@ import java.util.Optional;
 
 public abstract class VehicleEntity extends Entity implements HasCustomInventoryScreen {
 
-    //public EntityDataAccessor<Integer> FUEL = SynchedEntityData.defineId(this.getClass(), EntityDataSerializers.INT);
 
     //public FuelType.Type FUEL_TYPE = FuelType.Type.FUEL;
     protected SimpleContainer inventory;
@@ -127,14 +126,10 @@ public abstract class VehicleEntity extends Entity implements HasCustomInventory
         }
     }
 
-    @Override
-    protected void defineSynchedData(SynchedEntityData.Builder builder) {
-        //builder.define(FUEL, 0);
-    }
-
 
     @Override
     protected void lerpPositionAndRotationStep(int steps, double targetX, double targetY, double targetZ, double targetYRot, double targetXRot) {
+        super.lerpPositionAndRotationStep(steps, targetX, targetY, targetZ, targetYRot, targetXRot);
         this.lerpX = targetX;
         this.lerpY = targetY;
         this.lerpZ = targetZ;
@@ -324,10 +319,7 @@ public abstract class VehicleEntity extends Entity implements HasCustomInventory
         vehicle.yRotO = vehicle.getYRot();
     }
 
-    public int getFuel() {
-        return 0;
-        //return this.entityData.get(FUEL).intValue();
-    }
+    public abstract int getFuel();
 
     //public FuelType.Type getFuelType() {
     //    return this.FUEL_TYPE;
