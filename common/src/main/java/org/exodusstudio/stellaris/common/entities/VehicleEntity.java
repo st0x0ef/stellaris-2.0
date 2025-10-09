@@ -33,7 +33,7 @@ import java.util.Optional;
 
 public abstract class VehicleEntity extends Entity implements HasCustomInventoryScreen {
 
-    public EntityDataAccessor<Integer> FUEL = SynchedEntityData.defineId(this.getClass(), EntityDataSerializers.INT);
+    //public EntityDataAccessor<Integer> FUEL = SynchedEntityData.defineId(this.getClass(), EntityDataSerializers.INT);
 
     //public FuelType.Type FUEL_TYPE = FuelType.Type.FUEL;
     protected SimpleContainer inventory;
@@ -129,7 +129,7 @@ public abstract class VehicleEntity extends Entity implements HasCustomInventory
 
     @Override
     protected void defineSynchedData(SynchedEntityData.Builder builder) {
-        builder.define(FUEL, 0);
+        //builder.define(FUEL, 0);
     }
 
 
@@ -325,7 +325,8 @@ public abstract class VehicleEntity extends Entity implements HasCustomInventory
     }
 
     public int getFuel() {
-        return this.entityData.get(FUEL).intValue();
+        return 0;
+        //return this.entityData.get(FUEL).intValue();
     }
 
     //public FuelType.Type getFuelType() {
