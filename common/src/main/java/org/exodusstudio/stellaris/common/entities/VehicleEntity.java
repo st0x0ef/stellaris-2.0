@@ -16,10 +16,8 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.HasCustomInventoryScreen;
-import net.minecraft.world.entity.MoverType;
+import net.minecraft.world.entity.*;
+import net.minecraft.world.entity.animal.horse.AbstractHorse;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -31,8 +29,7 @@ import net.minecraft.world.phys.Vec3;
 
 import java.util.Optional;
 
-public abstract class VehicleEntity extends Entity implements HasCustomInventoryScreen {
-
+public abstract class VehicleEntity extends Entity implements HasCustomInventoryScreen, PlayerRideable {
 
     //public FuelType.Type FUEL_TYPE = FuelType.Type.FUEL;
     protected SimpleContainer inventory;
@@ -114,6 +111,17 @@ public abstract class VehicleEntity extends Entity implements HasCustomInventory
         this.xxa *= 0.98F;
         this.zza *= 0.98F;
         this.travel(new Vec3(this.xxa, this.yya, this.zza));
+    }
+
+    @Override
+    public InteractionResult interactAt(Player player, Vec3 vec, InteractionHand hand) {
+
+        if(this.canAddPassenger(player)) {
+            player.startRiding(this);
+
+        }
+
+        return super.interactAt(player, vec, hand);
     }
 
     public void rotAnim() {
@@ -339,11 +347,16 @@ public abstract class VehicleEntity extends Entity implements HasCustomInventory
 
     }
 
+
     private SimpleContainer getBaseContainer() {
         return new SimpleContainer(15);
     }
 
     public Container getInventory() {
         return this.inventory;
+    }
+
+    public Pose getRiderPose() {
+        return Pose.SITTING;
     }
 }
