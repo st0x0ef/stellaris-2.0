@@ -14,6 +14,7 @@ import net.minecraft.world.level.block.Rotation;
 import org.exodusstudio.stellaris.client.models.rockets.RocketModel;
 import org.exodusstudio.stellaris.client.models.rockets.RocketModelState;
 import org.exodusstudio.stellaris.common.entities.RocketEntity;
+import org.exodusstudio.stellaris.common.registries.EntityDataSerializersRegistry;
 import org.exodusstudio.stellaris.common.utils.ResourceLocationUtils;
 
 public class RocketRenderer extends EntityRenderer<RocketEntity, RocketModelState> {
@@ -28,6 +29,12 @@ public class RocketRenderer extends EntityRenderer<RocketEntity, RocketModelStat
     }
 
     @Override
+    public void extractRenderState(RocketEntity entity, RocketModelState reusedState, float partialTick) {
+        super.extractRenderState(entity, reusedState, partialTick);
+        reusedState.modules = entity.getEntityData().get(RocketEntity.ROCKET_MODULES).getModules();
+    }
+
+    @Override
     public RocketModelState createRenderState() {
         return new RocketModelState();
     }
@@ -39,6 +46,12 @@ public class RocketRenderer extends EntityRenderer<RocketEntity, RocketModelStat
         poseStack.translate(0.0D, 0.0D, 0.0D);
         poseStack.mulPose(Axis.XP.rotationDegrees(180.0F));
         this.model.renderToBuffer(poseStack, bufferSource.getBuffer(RENDER_TYPE), packedLight, OverlayTexture.NO_OVERLAY);
+
+        // Render each module
+        renderState.modules.forEach((module) -> {
+            module.renderModule(renderState, poseStack, bufferSource, packedLight, this.model);
+        });
+
         poseStack.popPose();
     }
 

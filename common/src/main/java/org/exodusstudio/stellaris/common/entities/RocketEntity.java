@@ -3,15 +3,20 @@ package org.exodusstudio.stellaris.common.entities;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Pose;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
+import org.exodusstudio.stellaris.common.registries.EntityDataSerializersRegistry;
+import org.exodusstudio.stellaris.common.rocket.RocketModules;
+import org.exodusstudio.stellaris.common.utils.ResourceLocationUtils;
 
 public class RocketEntity extends VehicleEntity {
 
-    public static final EntityDataAccessor<Integer> FUEL = SynchedEntityData.defineId(RocketEntity.class, EntityDataSerializers.INT);;
+    public static final EntityDataAccessor<Integer> FUEL = SynchedEntityData.defineId(RocketEntity.class, EntityDataSerializers.INT);
+    public static final EntityDataAccessor<RocketModules> ROCKET_MODULES = SynchedEntityData.defineId(RocketEntity.class, EntityDataSerializersRegistry.ROCKET_MODULES );
 
     public RocketEntity(EntityType<?> entityType, Level level) {
         super(entityType, level);
@@ -20,6 +25,7 @@ public class RocketEntity extends VehicleEntity {
     @Override
     protected void defineSynchedData(SynchedEntityData.Builder builder) {
         builder.define(FUEL, 0);
+        builder.define(ROCKET_MODULES, RocketModules.empty());
     }
 
     @Override
@@ -36,4 +42,6 @@ public class RocketEntity extends VehicleEntity {
     public Pose getRiderPose() {
         return Pose.STANDING;
     }
+
+
 }

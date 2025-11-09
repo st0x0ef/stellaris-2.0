@@ -49,18 +49,14 @@ public class OpenScreenPacket implements CustomPacketPayload {
         return NetworkRegistry.OPEN_SCREEN_PACKET_TYPE;
     }
 
-    public static class ScreenType {
+    public record ScreenType(String id, Function<Component, Screen> screen) {
 
-        static final HashMap<String, ScreenType> TYPES = new HashMap<>();
-        final String id;
-        final Function<Component, Screen> screen;
+       static final HashMap<String, ScreenType> TYPES = new HashMap<>();
 
         public ScreenType(String id, Function<Component, Screen> screen) {
-            this.id = id;
-            this.screen = screen;
-            TYPES.put(this.id, this);
+                this.id = id;
+                this.screen = screen;
+                TYPES.put(this.id, this);
+            }
         }
-    }
-
-
 }

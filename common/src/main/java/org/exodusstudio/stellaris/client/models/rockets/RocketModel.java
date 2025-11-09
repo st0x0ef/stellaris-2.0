@@ -45,6 +45,7 @@ public class RocketModel extends EntityModel<RocketModelState> {
 		this.shield2 = this.sunflare_protection.getChild("shield2");
 		this.shield1 = this.sunflare_protection.getChild("shield1");
 		this.storage_upgrade = this.MainBody.getChild("storage_upgrade");
+
 		this.motor_upgrade = this.MainBody.getChild("motor_upgrade");
 		this.pipes = this.motor_upgrade.getChild("pipes");
 		this.Roof = root.getChild("Roof");
@@ -57,6 +58,8 @@ public class RocketModel extends EntityModel<RocketModelState> {
 		this.BottomBars = this.Bottom.getChild("BottomBars");
 		this.BottomFrame = this.Bottom.getChild("BottomFrame");
 		this.Wings = root.getChild("Wings");
+
+        this.setDefaultModel();
 	}
 
 	public static LayerDefinition createBodyLayer() {
@@ -207,6 +210,15 @@ public class RocketModel extends EntityModel<RocketModelState> {
 		return LayerDefinition.create(meshdefinition, 256, 256);
 	}
 
+    /**
+     * Sets the rocket model to its default state, hiding all upgrades.
+     * These upgrades can be made visible with modules.
+     */
+    public void setDefaultModel() {
+        this.storage_upgrade.visible = false;
+        this.tank_upgrade.visible = false;
+        this.motor_upgrade.visible = false;
 
+    }
 
 }

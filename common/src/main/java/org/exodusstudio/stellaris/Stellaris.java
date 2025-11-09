@@ -28,6 +28,7 @@ public final class Stellaris {
 
         NetworkRegistry.init();
 
+        EntityDataSerializersRegistry.register();
         DataComponentsRegistry.DATA_COMPONENT_TYPE.register();
         EntityTypesRegistry.ENTITY_TYPE.register();
         BlocksRegistry.BLOCKS.register();
