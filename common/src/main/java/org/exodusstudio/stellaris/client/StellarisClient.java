@@ -6,11 +6,13 @@ import dev.architectury.registry.client.level.entity.EntityModelLayerRegistry;
 import dev.architectury.registry.client.level.entity.EntityRendererRegistry;
 import dev.architectury.registry.menu.MenuRegistry;
 import fr.tathan.exoconfig.client.screen.ConfigScreen;
+import net.minecraft.client.renderer.special.SpecialModelRenderers;
 import net.minecraft.server.packs.PackType;
 import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.client.data.wiki.WikiPack;
 import org.exodusstudio.stellaris.client.models.rockets.RocketModel;
 import org.exodusstudio.stellaris.client.renderer.rockets.RocketRenderer;
+import org.exodusstudio.stellaris.client.screens.RocketScreen;
 import org.exodusstudio.stellaris.client.screens.tablet.MainTabletScreen;
 import org.exodusstudio.stellaris.client.screens.tablet.application.ApplicationRegistry;
 import org.exodusstudio.stellaris.common.registries.EntityTypesRegistry;
@@ -30,6 +32,7 @@ public class StellarisClient {
 
     private static void registerScreens() {
         MenuRegistry.registerScreenFactory(MenuTypesRegistry.TABLET.get(), MainTabletScreen::new);
+        MenuRegistry.registerScreenFactory(MenuTypesRegistry.ROCKET_MENU.get(), RocketScreen::new);
     }
 
     private  static void registerRenderers()
@@ -40,7 +43,8 @@ public class StellarisClient {
         EntityModelLayerRegistry.register(RocketModel.LAYER_LOCATION, RocketModel::createBodyLayer);
     }
 
-        private static void registerPack() {
+    private static void registerPack() {
         ReloadListenerRegistry.register(PackType.CLIENT_RESOURCES, new WikiPack(), ResourceLocationUtils.id("wiki"));
     }
+
 }

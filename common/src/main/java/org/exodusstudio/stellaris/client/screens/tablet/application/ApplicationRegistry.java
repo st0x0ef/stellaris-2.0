@@ -11,7 +11,7 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.client.screens.tablet.MainTabletScreen;
 import org.exodusstudio.stellaris.client.screens.tablet.application.wiki.WikiApplicationScreen;
-import org.exodusstudio.stellaris.common.menu.MainTabletMenu;
+import org.exodusstudio.stellaris.common.menus.MainTabletMenu;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Consumer;

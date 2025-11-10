@@ -23,7 +23,7 @@ public abstract class HumanoidModelMixin<T extends LivingEntity, S extends Livin
     @Inject(at = @At(value = "TAIL"), method = "extractRenderState(Lnet/minecraft/world/entity/LivingEntity;Lnet/minecraft/client/renderer/entity/state/LivingEntityRenderState;F)V")
     private void setupAnim(T livingEntity, S livingEntityRenderState, float f, CallbackInfo ci) {
         if(livingEntity.getVehicle() instanceof VehicleEntity vehicle) {
-            livingEntityRenderState.pose = vehicle.getPose();
+            livingEntityRenderState.pose = vehicle.getRiderPose();
         }
     }
 

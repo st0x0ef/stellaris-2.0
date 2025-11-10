@@ -8,11 +8,14 @@ import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import org.exodusstudio.stellaris.common.items.RocketModule;
+import org.exodusstudio.stellaris.common.entities.RocketEntity;
+import org.exodusstudio.stellaris.common.items.modules.RocketModule;
 import org.exodusstudio.stellaris.common.utils.ResourceLocationUtils;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -22,8 +25,8 @@ public record RocketModules(List<ItemStack> modules) implements Serializable {
         return new RocketModules(List.of());
     }
 
-    public static final Codec<RocketModules> CODEC = ItemStack.CODEC.listOf().xmap(RocketModules::new, modules -> modules.modules);
-    public static final StreamCodec<RegistryFriendlyByteBuf, RocketModules> STREAM_CODEC = ItemStack.STREAM_CODEC
+    public static final Codec<RocketModules> CODEC = ItemStack.OPTIONAL_CODEC.listOf().xmap(RocketModules::new, modules -> modules.modules);
+    public static final StreamCodec<RegistryFriendlyByteBuf, RocketModules> STREAM_CODEC = ItemStack.OPTIONAL_STREAM_CODEC
             .apply(ByteBufCodecs.list())
             .map(RocketModules::new, modules -> modules.modules);
 
@@ -46,7 +49,7 @@ public record RocketModules(List<ItemStack> modules) implements Serializable {
 
     public static ItemStack getIfContains(Entity entity, Item module) {
         ItemStack moduleToReturn = ItemStack.EMPTY;
-        RocketModules rocketModules = entity.getEntityData(ResourceLocationUtils.id("rocket_modules"), RocketModules.class);
+        RocketModules rocketModules = entity.getEntityData().get(RocketEntity.ROCKET_MODULES);
         if (rocketModules == null || rocketModules.items() == null) {
             return moduleToReturn;
         }
@@ -78,7 +81,7 @@ public record RocketModules(List<ItemStack> modules) implements Serializable {
 
     public static boolean containsInModules(Entity entity, RocketModule module) {
 
-        RocketModules rocketModules = entity.getEntityData(ResourceLocationUtils.id("rocket_modules"), RocketModules.class);
+        RocketModules rocketModules = entity.getEntityData().get(RocketEntity.ROCKET_MODULES);
         if (rocketModules == null) {
             return false;
         }
@@ -104,7 +107,9 @@ public record RocketModules(List<ItemStack> modules) implements Serializable {
         return null; //failsafe, shouldn't happen unless tampered with or incorrect checks for upgrade station
     }
 
-    public static class Mutable {
+    public static class Mutable implements Iterable<ItemStack> {
+
+        public static Mutable EMPTY = new Mutable(RocketModules.empty());
 
         private final List<ItemStack> modules;
 
@@ -121,6 +126,11 @@ public record RocketModules(List<ItemStack> modules) implements Serializable {
 
         public RocketModules toImmutable() {
             return new RocketModules(List.copyOf(this.modules));
+        }
+
+        @Override
+        public @NotNull Iterator<ItemStack> iterator() {
+            return this.modules.iterator();
         }
     }
 

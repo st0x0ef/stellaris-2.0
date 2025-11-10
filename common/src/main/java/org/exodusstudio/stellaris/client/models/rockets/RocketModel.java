@@ -18,24 +18,24 @@ import org.exodusstudio.stellaris.common.utils.ResourceLocationUtils;
 public class RocketModel extends EntityModel<RocketModelState> {
 	// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
 	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(ResourceLocationUtils.id("rocket"), "main");
-	private final ModelPart MainBody;
-	private final ModelPart tank_upgrade;
-	private final ModelPart sunflare_protection;
-	private final ModelPart shield2;
-	private final ModelPart shield1;
-	private final ModelPart storage_upgrade;
-	private final ModelPart motor_upgrade;
-	private final ModelPart pipes;
-	private final ModelPart Roof;
-	private final ModelPart RoofPlanes;
-	private final ModelPart RoofBars;
-	private final ModelPart RoofFrame;
-	private final ModelPart RoofTop;
-	private final ModelPart Bottom;
-	private final ModelPart BottomPlanes;
-	private final ModelPart BottomBars;
-	private final ModelPart BottomFrame;
-	private final ModelPart Wings;
+    public final ModelPart MainBody;
+    public final ModelPart tank_upgrade;
+    public final ModelPart sunflare_protection;
+    public final ModelPart shield2;
+    public final ModelPart shield1;
+    public final ModelPart storage_upgrade;
+    public final ModelPart motor_upgrade;
+    public final ModelPart pipes;
+    public final ModelPart Roof;
+    public final ModelPart RoofPlanes;
+    public final ModelPart RoofBars;
+    public final ModelPart RoofFrame;
+    public final ModelPart RoofTop;
+    public final ModelPart Bottom;
+    public final ModelPart BottomPlanes;
+    public final ModelPart BottomBars;
+    public final ModelPart BottomFrame;
+	public final ModelPart Wings;
 
 	public RocketModel(ModelPart root) {
         super(root);
@@ -218,6 +218,8 @@ public class RocketModel extends EntityModel<RocketModelState> {
         this.storage_upgrade.visible = false;
         this.tank_upgrade.visible = false;
         this.motor_upgrade.visible = false;
+        this.shield1.visible = false;
+        this.shield2.visible = false;
 
     }
 

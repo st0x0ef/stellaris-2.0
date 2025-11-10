@@ -26,13 +26,15 @@ import net.minecraft.world.level.block.PowderSnowBlock;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.phys.Vec3;
+import org.exodusstudio.stellaris.common.utils.InventorySaver;
 
 import java.util.Optional;
 
 public abstract class VehicleEntity extends Entity implements HasCustomInventoryScreen, PlayerRideable {
 
     //public FuelType.Type FUEL_TYPE = FuelType.Type.FUEL;
-    protected SimpleContainer inventory;
+    public SimpleContainer inventory;
+    public static final EntityDataAccessor<Integer> FUEL = SynchedEntityData.defineId(RocketEntity.class, EntityDataSerializers.INT);
 
     private int lerpSteps;
     private double lerpX;
@@ -61,17 +63,14 @@ public abstract class VehicleEntity extends Entity implements HasCustomInventory
 
     @Override
     protected void readAdditionalSaveData(ValueInput input) {
-        Optional<ValueInput.TypedInputList<ItemStack>> optionalList = input.list("item", ItemStack.CODEC);
-        optionalList.ifPresent(list -> {
-           this.inventory.fromItemList(list);
-        });
+        InventorySaver.readInventory(input, this.inventory);
     }
 
     @Override
     protected void addAdditionalSaveData(ValueOutput output) {
 
-        ValueOutput.TypedOutputList<ItemStack> list = output.list("item", ItemStack.CODEC);
-        this.inventory.storeAsItemList(list);
+        InventorySaver saver = InventorySaver.fromContainer(this.inventory);
+        saver.saveInventory(output);
 
     }
 
@@ -328,10 +327,6 @@ public abstract class VehicleEntity extends Entity implements HasCustomInventory
     }
 
     public abstract int getFuel();
-
-    //public FuelType.Type getFuelType() {
-    //    return this.FUEL_TYPE;
-    //}
 
     @Override
     public Packet<ClientGamePacketListener> getAddEntityPacket(ServerEntity entity) {

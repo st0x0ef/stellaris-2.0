@@ -1,4 +1,4 @@
-package org.exodusstudio.stellaris.common.menu;
+package org.exodusstudio.stellaris.common.menus;
 
 import dev.architectury.registry.menu.ExtendedMenuProvider;
 import net.minecraft.network.FriendlyByteBuf;
@@ -10,7 +10,7 @@ import net.minecraft.world.item.ItemStack;
 import org.exodusstudio.stellaris.common.registries.MenuTypesRegistry;
 
 
-public class MainTabletMenu extends AbstractContainerMenu {
+public class MainTabletMenu extends AbstractContainerMenu  {
 
     private final Inventory playerInventory;
 

@@ -4,15 +4,15 @@ import net.minecraft.resources.ResourceLocation;
 
 public interface EntityDataAttachmentAccessor {
 
-    default boolean hasEntityData(ResourceLocation key) {
+    default boolean hasDataAttachments(ResourceLocation key) {
         return false;
     }
 
-    default <T> T getEntityData(ResourceLocation location, Class<T> clazz) {
+    default <T> T getDataAttachments(ResourceLocation location, Class<T> clazz) {
         return null;
     }
 
-    default <T> void saveEntityData(ResourceLocation key, T value) {
+    default <T> void saveDataAttachments(ResourceLocation key, T value) {
 
     }
 

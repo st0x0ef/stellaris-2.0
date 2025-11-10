@@ -26,5 +26,8 @@
   "gauge_text.stellaris.max_generation": "Max Generation : %s Fe/tick",
 
 
-  "stellaris.screen.energyContainer": "Energy"
+  "stellaris.screen.energyContainer": "Energy",
+
+
+  "entity.stellaris.rocket": "Rocket"
 }
