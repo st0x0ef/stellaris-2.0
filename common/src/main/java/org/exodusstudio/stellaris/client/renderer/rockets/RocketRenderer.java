@@ -14,14 +14,16 @@ import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.phys.AABB;
+import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.client.models.rockets.RocketModel;
 import org.exodusstudio.stellaris.client.models.rockets.RocketModelState;
 import org.exodusstudio.stellaris.common.entities.RocketEntity;
 import org.exodusstudio.stellaris.common.registries.EntityDataSerializersRegistry;
 import org.exodusstudio.stellaris.common.utils.ResourceLocationUtils;
+import org.jetbrains.annotations.NotNull;
 
 public class RocketRenderer extends EntityRenderer<RocketEntity, RocketModelState> {
-    private RocketModel model;
+    private final RocketModel model;
     public static final RenderType RENDER_TYPE;
     public static final ResourceLocation ROCKET_TEXTURE =  ResourceLocationUtils.texture("entity/rocket/default");
 
@@ -38,7 +40,7 @@ public class RocketRenderer extends EntityRenderer<RocketEntity, RocketModelStat
     }
 
     @Override
-    public RocketModelState createRenderState() {
+    public @NotNull RocketModelState createRenderState() {
         return new RocketModelState();
     }
 
@@ -50,15 +52,19 @@ public class RocketRenderer extends EntityRenderer<RocketEntity, RocketModelStat
         poseStack.translate(0.0D, 0.0D, 0.0D);
         poseStack.mulPose(Axis.XP.rotationDegrees(180.0F));
 
-        VertexConsumer vertexConsumer = bufferSource.getBuffer(RENDER_TYPE);
 
         this.model.setDefaultModel();
 
-        renderState.preRenderModules(poseStack, bufferSource, packedLight, this.model, vertexConsumer);
+        ResourceLocation texture = ROCKET_TEXTURE;
+
+        renderState.preRenderModules(new RenderingContext(poseStack, bufferSource, packedLight, this.model, texture));
+
+        RenderType renderType = renderState.getRenderType(new RenderingContext(poseStack, bufferSource, packedLight, this.model, texture));
+        VertexConsumer vertexConsumer = bufferSource.getBuffer(renderType);
 
         this.model.renderToBuffer(poseStack, vertexConsumer, packedLight, OverlayTexture.NO_OVERLAY);
 
-        renderState.renderModules(poseStack, bufferSource, packedLight, this.model, vertexConsumer);
+        renderState.renderModules(new RenderingContext(poseStack, bufferSource, packedLight, this.model, texture));
 
         poseStack.popPose();
     }
@@ -68,7 +74,31 @@ public class RocketRenderer extends EntityRenderer<RocketEntity, RocketModelStat
         return minecraft.getBoundingBox().inflate(0.5f);
     }
 
-    static {
-        RENDER_TYPE = RenderType.entityCutoutNoCull(ROCKET_TEXTURE);
+    public static RenderType getRenderType(ResourceLocation resourceLocation) {
+        return RenderType.entityCutoutNoCull(resourceLocation);
     }
+
+    static {
+        RENDER_TYPE = getRenderType(ROCKET_TEXTURE);
+    }
+
+    public static class RenderingContext {
+        public final PoseStack poseStack;
+        public final MultiBufferSource bufferSource;
+        public final int packedLight;
+        public final RocketModel model;
+        public ResourceLocation texture;
+
+        public RenderingContext(PoseStack poseStack, MultiBufferSource bufferSource, int packedLight, RocketModel model, ResourceLocation texture) {
+            this.poseStack = poseStack;
+            this.bufferSource = bufferSource;
+            this.packedLight = packedLight;
+            this.model = model;
+            this.texture = texture;
+        }
+
+    }
+
+
+
 }

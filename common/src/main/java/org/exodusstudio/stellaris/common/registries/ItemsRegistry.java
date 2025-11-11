@@ -7,6 +7,7 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import org.exodusstudio.stellaris.common.items.TabletItem;
+import org.exodusstudio.stellaris.common.items.modules.GalaxySkinModule;
 import org.exodusstudio.stellaris.common.items.modules.ShieldModule;
 import org.exodusstudio.stellaris.common.utils.ResourceLocationUtils;
 import org.jetbrains.annotations.NotNull;
@@ -21,6 +22,7 @@ public final class ItemsRegistry {
 
     public static final RegistrySupplier<TabletItem> TABLET = item("tablet", TabletItem::new);
     public static final RegistrySupplier<ShieldModule> SHIELD_MODULE = item("shield_module", ShieldModule::new);
+    public static final RegistrySupplier<GalaxySkinModule> GALAXY_SKIN = item("galaxy_skin", GalaxySkinModule::new);
 
     public static RegistrySupplier<Item> item(String name) {
         return item(name, new Item.Properties().arch$tab(CreativeTabsRegistry.STELLARIS_MAIN), Item::new);

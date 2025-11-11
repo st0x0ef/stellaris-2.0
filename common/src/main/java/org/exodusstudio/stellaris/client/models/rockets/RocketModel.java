@@ -16,7 +16,6 @@ import org.exodusstudio.stellaris.common.utils.ResourceLocationUtils;
 
 
 public class RocketModel extends EntityModel<RocketModelState> {
-	// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
 	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(ResourceLocationUtils.id("rocket"), "main");
     public final ModelPart MainBody;
     public final ModelPart tank_upgrade;

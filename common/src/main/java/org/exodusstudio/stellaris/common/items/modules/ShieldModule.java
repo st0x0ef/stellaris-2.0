@@ -1,10 +1,6 @@
 package org.exodusstudio.stellaris.common.items.modules;
 
-import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
-import net.minecraft.client.renderer.MultiBufferSource;
-import org.exodusstudio.stellaris.client.models.rockets.RocketModel;
-import org.exodusstudio.stellaris.client.models.rockets.RocketModelState;
+import org.exodusstudio.stellaris.client.renderer.rockets.RocketRenderer;
 
 public class ShieldModule extends RocketModule {
 
@@ -13,9 +9,9 @@ public class ShieldModule extends RocketModule {
     }
 
     @Override
-    public void preRenderModel(RocketModelState renderState, PoseStack poseStack, MultiBufferSource bufferSource, int packedLight, RocketModel model, VertexConsumer vertexConsumer) {
-        model.shield1.visible = true;
-        model.shield2.visible = true;
+    public void preRenderModel(RocketRenderer.RenderingContext renderContext) {
+        renderContext.model.shield1.visible = true;
+        renderContext.model.shield2.visible = true;
     }
 
 }

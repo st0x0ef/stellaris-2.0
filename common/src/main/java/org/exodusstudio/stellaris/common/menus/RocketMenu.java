@@ -63,9 +63,6 @@ public class RocketMenu extends AbstractContainerMenu {
 
     @Override
     public boolean stillValid(Player player) {
-        if (!player.isLocalPlayer()) {
-            //this.getRocket().syncRocketData((ServerPlayer) player);
-        }
 
         return this.inventory.stillValid(player);
     }

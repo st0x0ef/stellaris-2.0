@@ -109,12 +109,16 @@ public record RocketModules(List<ItemStack> modules) implements Serializable {
 
     public static class Mutable implements Iterable<ItemStack> {
 
-        public static Mutable EMPTY = new Mutable(RocketModules.empty());
+        public static Mutable EMPTY = new Mutable(List.of());
 
-        private final List<ItemStack> modules;
+        public final List<ItemStack> modules;
 
         public Mutable(RocketModules contents) {
-            this.modules = new ArrayList<>(contents.modules);
+            this(contents.modules);
+        }
+
+        public Mutable(List<ItemStack> contents) {
+            this.modules = new ArrayList<>(contents);
         }
 
         public Mutable insert(ItemStack stack) {
@@ -122,6 +126,10 @@ public record RocketModules(List<ItemStack> modules) implements Serializable {
                 this.modules.add(stack);
             }
             return this;
+        }
+
+        public boolean contains(ItemStack stack) {
+            return this.modules.contains(stack);
         }
 
         public RocketModules toImmutable() {

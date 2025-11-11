@@ -1,11 +1,9 @@
 package org.exodusstudio.stellaris.common.items.modules;
 
-import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
-import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.world.item.Item;
-import org.exodusstudio.stellaris.client.models.rockets.RocketModel;
-import org.exodusstudio.stellaris.client.models.rockets.RocketModelState;
+import org.exodusstudio.stellaris.client.renderer.rockets.RocketRenderer;
+import org.jetbrains.annotations.Nullable;
 
 public abstract class RocketModule extends Item {
 
@@ -16,25 +14,29 @@ public abstract class RocketModule extends Item {
 
     /**
      * This method is fired before rendering the rocket model.
-     * @param renderState the current rocket model state
-     * @param poseStack t
-     * @param bufferSource
-     * @param packedLight
-     * @param model used for stellaris own module that are directly into the rocket model
+     * @param context the current rendering context
      */
-    public void preRenderModel(RocketModelState renderState, PoseStack poseStack, MultiBufferSource bufferSource, int packedLight, RocketModel model, VertexConsumer vertexConsumer) {
+    public void preRenderModel(RocketRenderer.RenderingContext context) {
 
     }
 
     /**
      * Render this module on the rocket.
-     * @param renderState the current rocket model state
-     * @param poseStack t
-     * @param bufferSource
-     * @param packedLight
-     * @param model used for stellaris own module that are directly into the rocket model
+     * @param context the current rendering context
      */
-    public void renderModule(RocketModelState renderState, PoseStack poseStack, MultiBufferSource bufferSource, int packedLight, RocketModel model) {
+    public void renderModule(RocketRenderer.RenderingContext context) {
 
+    }
+
+    /**
+     * Get the render type for this module.
+     * Allow you to change the texture used to render the rocket.
+     * If you don't change the texture/render type, set it to null to allow other modules to change it.
+     * @param context the current rendering context
+     * @return the render type, or null to use the default one
+     */
+    @Nullable
+    public RenderType getRenderType(RocketRenderer.RenderingContext context) {
+        return null;
     }
 }

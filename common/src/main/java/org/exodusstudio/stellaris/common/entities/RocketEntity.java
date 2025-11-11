@@ -27,6 +27,9 @@ import org.exodusstudio.stellaris.common.rocket.RocketModules;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+
 public class RocketEntity extends VehicleEntity  {
 
     public static final int[] MODULES_SLOT = new int[]{2, 3, 4, 5};
@@ -43,6 +46,11 @@ public class RocketEntity extends VehicleEntity  {
         builder.define(ROCKET_MODULES, RocketModules.empty());
     }
 
+    @Override
+    public void tick() {
+        super.tick();
+        //this.updateModuleFromContainer(this.inventory);
+    }
 
     @Override
     public int getFuel() {
@@ -63,7 +71,7 @@ public class RocketEntity extends VehicleEntity  {
     protected void readAdditionalSaveData(ValueInput input) {
         super.readAdditionalSaveData(input);
 
-        updateModuleFromContainer();
+        updateModuleFromContainer(this.inventory);
     }
 
     @Override
@@ -96,25 +104,21 @@ public class RocketEntity extends VehicleEntity  {
      * This is used to update the Rocket Modules when the inventory changes
      */
     public void containerChanged(Container container) {
-        updateModuleFromContainer();
+        updateModuleFromContainer(container);
     }
 
-    public void updateModuleFromContainer() {
+    public void updateModuleFromContainer(Container container) {
         this.entityData.set(ROCKET_MODULES, RocketModules.empty());
 
-        RocketModules.Mutable moduleMutable = RocketModules.Mutable.EMPTY;
+        ArrayList<ItemStack> modules = new ArrayList<>();
         for(int slot : MODULES_SLOT) {
-            ItemStack stack = inventory.getItem(slot);
-            if(!stack.isEmpty()) {
-                moduleMutable.insert(stack);
+            ItemStack stack = container.getItem(slot);
+            if(!stack.isEmpty() && !modules.contains(stack)) {
+                modules.add(stack);
             }
         }
 
-        this.entityData.set(ROCKET_MODULES, moduleMutable.toImmutable());
-    }
-
-    public RocketModules getRocketModules() {
-        return this.entityData.get(ROCKET_MODULES);
+        this.entityData.set(ROCKET_MODULES, new RocketModules(modules));
     }
 
 }
