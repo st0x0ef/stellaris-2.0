@@ -55,6 +55,9 @@ public final class BlocksRegistry {
     // CABLES/PIPES
     public static final BlockItemRegistrySupplier CABLE_T1 = blockWithItem("cable_t1", BlockBehaviour.Properties.of(), (p) -> new CableBlock(p, 20));
 
+    // TECH
+    public static final BlockItemRegistrySupplier ELECTROLYZER = blockWithCustomItem("electrolyzer", BlockBehaviour.Properties.of(), ElectrolyzerBlock::new, new Item.Properties(), BlockItem::new);
+
 
     public static <B extends Block> @NotNull RegistrySupplier<Block> block(String name,
                                                                BlockBehaviour.Properties properties,

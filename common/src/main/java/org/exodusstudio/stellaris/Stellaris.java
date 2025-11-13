@@ -27,7 +27,7 @@ public final class Stellaris {
         CONFIG = ConfigsRegistry.getInstance().registerConfig(new CommonConfig(), CONFIG);;
 
         NetworkRegistry.init();
-
+        RecipesRegistry.register();
         DataComponentsRegistry.DATA_COMPONENT_TYPE.register();
         BlocksRegistry.BLOCKS.register();
         BlockEntitiesRegistry.BLOCK_ENTITY_TYPE.register();

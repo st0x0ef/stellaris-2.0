@@ -45,6 +45,9 @@ public abstract class BaseEnergyContainerBlockEntity extends BaseContainerBlockE
         this(type, pos, state, initialMaxCapacity, initialMaxCapacity, initialMaxCapacity);
     }
 
+    public BaseEnergyContainerBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
+        this(type, pos, state, 12800);
+    }
     @Override
     public NonNullList<ItemStack> getItems() {
         return items;
