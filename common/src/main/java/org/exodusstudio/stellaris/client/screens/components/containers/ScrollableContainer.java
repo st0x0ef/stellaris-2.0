@@ -44,7 +44,7 @@ public class ScrollableContainer extends BasicContainer {
     @Override
     public boolean mouseDragged(double mouseX, double mouseY, int button, double dragX, double dragY) {
         if(this.canOffset(dragY) && this.isScrollbarHovered(mouseX, mouseY)) {
-            this.scrollOffset += dragY;
+            this.scrollOffset += (int) dragY;
             updateChildrenPosition();
             return true;
         }
@@ -55,7 +55,7 @@ public class ScrollableContainer extends BasicContainer {
     @Override
     public boolean mouseScrolled(double mouseX, double mouseY, double scrollX, double scrollY) {
         if(this.canOffset(scrollY)) {
-            this.scrollOffset -= scrollY;
+            this.scrollOffset -= (int) scrollY;
             updateChildrenPosition();
             return true;
         }

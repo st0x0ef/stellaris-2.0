@@ -14,6 +14,7 @@
   "item.stellaris.solar_panel": "Solar Panel",
   "item.stellaris.coal_generator": "Coal Generator",
 
+  "item.stellaris.vacuumator": "Vacuumator",
 
   "item.stellaris.power_bank_t1": "Tier 1 Power Bank",
 
@@ -21,6 +22,8 @@
   "item.stellaris.cable_t1": "Cable",
 
   "item.stellaris.tablet": "Tablet",
+
+  "item.stellaris.blue_can": "Blue Can",
 
 
   "gauge_text.stellaris.max_generation": "Max Generation : %s Fe/tick",

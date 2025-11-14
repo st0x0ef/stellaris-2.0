@@ -1,0 +1,12 @@
+{
+  "parent": "minecraft:block/cube",
+  "textures": {
+    "down": "stellaris:block/machines/vacuumator/vacuumator_bottom",
+    "east": "stellaris:block/machines/vacuumator/vacuumator_side",
+    "north": "stellaris:block/machines/vacuumator/vacuumator_front",
+    "particle": "stellaris:block/machines/vacuumator/vacuumator_side",
+    "south": "stellaris:block/machines/vacuumator/vacuumator_side",
+    "up": "stellaris:block/machines/vacuumator/vacuumator_top",
+    "west": "stellaris:block/machines/vacuumator/vacuumator_side"
+  }
+}

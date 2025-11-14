@@ -1,18 +1,18 @@
 package org.exodusstudio.stellaris.common.menus.slot;
 
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.Container;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
-import org.exodusstudio.stellaris.common.registries.TagsRegistry;
 
-public class CoalGeneratorSlot extends Slot {
+public class FoodSlot extends Slot {
 
-    public CoalGeneratorSlot(Container container, int slot, int x, int y) {
+    public FoodSlot(Container container, int slot, int x, int y) {
         super(container, slot, x, y);
     }
 
     @Override
     public boolean mayPlace(ItemStack stack) {
-        return stack.is(TagsRegistry.COAL_GENERATOR_FUEL);
+        return stack.has(DataComponents.FOOD);
     }
 }

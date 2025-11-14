@@ -51,6 +51,9 @@ public final class BlocksRegistry {
     public static final BlockItemRegistrySupplier SOLAR_PANEL = blockWithItem("solar_panel", BlockBehaviour.Properties.of(), SolarPanelBlock::new);
     public static final BlockItemRegistrySupplier COAL_GENERATOR = blockWithItem("coal_generator", BlockBehaviour.Properties.of(), CoalGeneratorBlock::new);
 
+    // FOOD PROCESSING
+    public static final BlockItemRegistrySupplier VACUUMATOR = blockWithItem("vacuumator", BlockBehaviour.Properties.of(), VacuumatorBlock::new);
+
     // POWER STORAGE
     public static final BlockItemRegistrySupplier POWER_BANK_T1 = blockWithCustomItem("power_bank_t1", BlockBehaviour.Properties.of(), (p) -> new PowerBankBlock(p, (short) 1), new Item.Properties(), (b, p) -> new PowerBankItem((PowerBankBlock) b, p));
 
