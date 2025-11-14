@@ -34,14 +34,10 @@ public class FlagBlockEntity extends BlockEntity {
     private ResolvableProfile profile;
     private DyeColor color = DyeColor.GRAY;
 
-    public FlagBlockEntity( BlockPos pos, BlockState blockState) {
-        this(BlockEntitiesRegistry.FLAG.get(), pos, blockState);
+    public FlagBlockEntity(BlockPos pos, BlockState blockState) {
+        super(BlockEntitiesRegistry.FLAG.get(), pos, blockState);
     }
 
-
-    public FlagBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState blockState) {
-        super(type, pos, blockState);
-    }
 
     @Override
     protected void saveAdditional(ValueOutput output) {
