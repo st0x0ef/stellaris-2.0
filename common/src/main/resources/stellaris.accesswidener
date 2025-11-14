@@ -7,3 +7,4 @@ mutable field net/minecraft/client/gui/components/AbstractSelectionList itemHeig
 accessible field net/minecraft/client/gui/components/tabs/TabManager addWidget Ljava/util/function/Consumer;
 
 accessible method net/minecraft/world/level/block/entity/BlockEntityType <init> (Lnet/minecraft/world/level/block/entity/BlockEntityType$BlockEntitySupplier;Ljava/util/Set;)V
+accessible field net/minecraft/client/gui/GuiGraphics sprites Lnet/minecraft/client/gui/GuiSpriteManager;

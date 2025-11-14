@@ -11,7 +11,7 @@ import org.exodusstudio.stellaris.client.screens.components.containers.Scrollabl
 import org.exodusstudio.stellaris.client.screens.tablet.MainTabletScreen;
 import org.exodusstudio.stellaris.client.screens.tablet.application.ApplicationRegistry;
 import org.exodusstudio.stellaris.client.screens.tablet.application.ApplicationScreen;
-import org.exodusstudio.stellaris.common.menu.MainTabletMenu;
+import org.exodusstudio.stellaris.common.menus.MainTabletMenu;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;

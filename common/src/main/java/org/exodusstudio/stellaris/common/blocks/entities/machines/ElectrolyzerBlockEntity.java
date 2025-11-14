@@ -18,6 +18,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
+import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.common.blocks.ElectrolyzerBlock;
 import org.exodusstudio.stellaris.common.blocks.base.BaseMachineBlock;
 import org.exodusstudio.stellaris.common.blocks.entities.machines.base.BaseEnergyContainerBlockEntity;
@@ -26,6 +27,7 @@ import org.exodusstudio.stellaris.common.data.recipe.input.FluidInput;
 import org.exodusstudio.stellaris.common.fluid.FluidUtil;
 import org.exodusstudio.stellaris.common.fluid.MultipleFluidStorage;
 import org.exodusstudio.stellaris.common.fluid.SingleFluidStorage;
+import org.exodusstudio.stellaris.common.menus.ElectrolyzerMenu;
 import org.exodusstudio.stellaris.common.network.packets.SyncFluidPacket;
 import org.exodusstudio.stellaris.common.registries.BlockEntitiesRegistry;
 import org.exodusstudio.stellaris.common.registries.RecipesRegistry;
@@ -52,7 +54,17 @@ public class ElectrolyzerBlockEntity extends BaseEnergyContainerBlockEntity impl
 
         @Override
         public boolean isFluidValid(int tank, FluidStack stack) {
-            return stack.getFluid() == Fluids.WATER;
+            if (level != null && level instanceof ServerLevel serverLevel) {
+                Optional<RecipeHolder<ElectrolyzeRecipe>> recipeHolder = cachedCheck.getRecipeFor(new FluidInput(ElectrolyzerBlockEntity.this), serverLevel);
+                if(recipeHolder.isPresent()) {
+                    ElectrolyzeRecipe recipe = recipeHolder.get().value();
+
+                    return recipe.ingredientStack().getFluid() == stack.getFluid();
+
+                }
+            }
+
+            return false;
         }
     };
 
@@ -113,7 +125,8 @@ public class ElectrolyzerBlockEntity extends BaseEnergyContainerBlockEntity impl
             if (recipeHolder.isPresent()) {
                 ElectrolyzeRecipe recipe = recipeHolder.get().value();
 
-                if (energyContainer.getEnergy() >= recipe.energy()) {
+                //TODO REMOVE THIS ONLY FOR TEST PURPOSES
+                if (energyContainer.getEnergy() >= recipe.energy() || true) {
                     boolean shouldDrainWaterAndEnergy = false;
 
                     if (resultTanks.getFluidValueInTank(0) < resultTanks.getTankCapacity(0)) {
@@ -163,12 +176,12 @@ public class ElectrolyzerBlockEntity extends BaseEnergyContainerBlockEntity impl
 
     @Override
     protected Component getDefaultName() {
-        return null;
+        return Component.empty();
     }
 
     @Override
     protected AbstractContainerMenu createMenu(int containerId, Inventory inventory) {
-        return null;
+        return new ElectrolyzerMenu(containerId, inventory, this, this);
     }
 
     @Override

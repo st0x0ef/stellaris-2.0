@@ -7,7 +7,7 @@ import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.server.level.ServerPlayer;
-import org.exodusstudio.stellaris.common.menu.MainTabletMenu;
+import org.exodusstudio.stellaris.common.menus.MainTabletMenu;
 import org.exodusstudio.stellaris.common.network.NetworkRegistry;
 import org.jetbrains.annotations.NotNull;
 

@@ -28,14 +28,18 @@ public final class Stellaris {
 
         NetworkRegistry.init();
         RecipesRegistry.register();
+        FluidsRegistry.init();
+
         DataComponentsRegistry.DATA_COMPONENT_TYPE.register();
         BlocksRegistry.BLOCKS.register();
         BlockEntitiesRegistry.BLOCK_ENTITY_TYPE.register();
         ItemsRegistry.ITEMS.register();
+
         CreativeTabsRegistry.register();
         MenuTypesRegistry.MENU_TYPE.register();
         CommandsRegistry.register();
         Events.register();
         CapabilitiesRegistry.init();
+
     }
 }

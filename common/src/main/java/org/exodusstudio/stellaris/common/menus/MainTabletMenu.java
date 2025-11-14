@@ -1,4 +1,4 @@
-package org.exodusstudio.stellaris.common.menu;
+package org.exodusstudio.stellaris.common.menus;
 
 import dev.architectury.registry.menu.ExtendedMenuProvider;
 import net.minecraft.network.FriendlyByteBuf;

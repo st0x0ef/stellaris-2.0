@@ -21,7 +21,6 @@ import java.util.List;
 
 public record ElectrolyzeRecipe(FluidStack ingredientStack, List<FluidStack> resultStacks,
                                int energy) implements Recipe<FluidInput> {
-    public static RecipeType<ElectrolyzeRecipe> Type = RecipesRegistry.ELECTROLYZE_TYPE.get();
 
     @Override
     public boolean matches(FluidInput container, Level level) {
