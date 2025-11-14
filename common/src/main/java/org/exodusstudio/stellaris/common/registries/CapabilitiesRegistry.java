@@ -14,6 +14,7 @@ public class CapabilitiesRegistry {
         Capabilities.Energy.BLOCK.registerForBlockEntity(BlockEntitiesRegistry.COAL_GENERATOR);
         Capabilities.Energy.BLOCK.registerForBlockEntity(BlockEntitiesRegistry.CABLES);
         Capabilities.Energy.BLOCK.registerForBlockEntity(BlockEntitiesRegistry.POWER_BANKS);
+        Capabilities.Energy.BLOCK.registerForBlockEntity(BlockEntitiesRegistry.VACUUMATOR);
     }
 
     static void registerEnergyItems() {

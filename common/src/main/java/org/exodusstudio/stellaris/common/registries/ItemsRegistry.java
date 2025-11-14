@@ -6,6 +6,7 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
+import org.exodusstudio.stellaris.common.items.CanItem;
 import org.exodusstudio.stellaris.common.items.TabletItem;
 import org.exodusstudio.stellaris.common.utils.ResourceLocationUtils;
 import org.jetbrains.annotations.NotNull;
@@ -19,6 +20,9 @@ public final class ItemsRegistry {
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(MOD_ID, Registries.ITEM);
 
     public static final RegistrySupplier<TabletItem> TABLET = item("tablet", TabletItem::new);
+
+    // Cans
+    public static final RegistrySupplier<CanItem> BLUE_CAN = item("blue_can", (p) -> new CanItem(p, 10));
 
 
     public static RegistrySupplier<Item> item(String name) {

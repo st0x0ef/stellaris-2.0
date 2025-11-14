@@ -28,7 +28,7 @@ public class ApplicationRegistry {
 
     public static RegistrySupplier<ApplicationFactory<MainTabletMenu>> WIKI = TABLET_APPLICATION.register(
             ResourceLocation.parse("stellaris:applications/wiki"),
-            () -> new ApplicationFactory<MainTabletMenu>(
+            () -> new ApplicationFactory<>(
                     Component.translatable("application.stellaris.wiki.name"),
                     Component.translatable("application.stellaris.wiki.description"),
                     ResourceLocation.fromNamespaceAndPath("stellaris", "textures/gui/application/wiki_icon.png"),

@@ -49,7 +49,7 @@ public class WikiInfos extends AbstractWidget {
     @Override
     public boolean mouseDragged(double mouseX, double mouseY, int button, double dragX, double dragY) {
         if(this.isHovered) {
-            this.scrollOffset -= dragY;
+            this.scrollOffset -= (int) dragY;
             return true;
         }
 

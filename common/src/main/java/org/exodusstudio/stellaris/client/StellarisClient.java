@@ -8,7 +8,6 @@ import net.minecraft.server.packs.PackType;
 import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.client.data.wiki.WikiPack;
 import org.exodusstudio.stellaris.client.screens.tablet.MainTabletScreen;
-import org.exodusstudio.stellaris.client.screens.tablet.application.ApplicationRegistry;
 import org.exodusstudio.stellaris.common.registries.MenuTypesRegistry;
 import org.exodusstudio.stellaris.common.utils.ResourceLocationUtils;
 
@@ -18,7 +17,7 @@ public class StellarisClient {
         Platform.getMod(Stellaris.MOD_ID).registerConfigurationScreen(previous -> new ConfigScreen<>(previous, Stellaris.CONFIG));
         registerScreens();
         registerPack();
-        ApplicationRegistry.init();
+        //ApplicationRegistry.init(); TODO : fix crash
     }
 
     private static void registerScreens() {

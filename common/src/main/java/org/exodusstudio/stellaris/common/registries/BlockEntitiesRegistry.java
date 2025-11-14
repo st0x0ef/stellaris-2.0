@@ -4,10 +4,7 @@ import dev.architectury.registry.registries.DeferredRegister;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import org.exodusstudio.stellaris.Stellaris;
-import org.exodusstudio.stellaris.common.blocks.entities.machines.CableBlockEntity;
-import org.exodusstudio.stellaris.common.blocks.entities.machines.CoalGeneratorBlockEntity;
-import org.exodusstudio.stellaris.common.blocks.entities.machines.PowerBankBlockEntity;
-import org.exodusstudio.stellaris.common.blocks.entities.machines.SolarPanelBlockEntity;
+import org.exodusstudio.stellaris.common.blocks.entities.machines.*;
 
 import java.util.Set;
 import java.util.function.Supplier;
@@ -19,6 +16,10 @@ public class BlockEntitiesRegistry {
             () -> new BlockEntityType<>(SolarPanelBlockEntity::new, Set.of(BlocksRegistry.SOLAR_PANEL.block().get())));
     public static final Supplier<BlockEntityType<?>> COAL_GENERATOR = BLOCK_ENTITY_TYPE.register("coal_generator",
             () -> new BlockEntityType<>(CoalGeneratorBlockEntity::new, Set.of(BlocksRegistry.COAL_GENERATOR.block().get())));
+
+    public static final Supplier<BlockEntityType<?>> VACUUMATOR = BLOCK_ENTITY_TYPE.register("vacuumator",
+            () -> new BlockEntityType<>(VacuumatorBlockEntity::new, Set.of(BlocksRegistry.VACUUMATOR.block().get())));
+
 
     public static final Supplier<BlockEntityType<?>> POWER_BANKS = BLOCK_ENTITY_TYPE.register("power_bank",
             () -> new BlockEntityType<>(PowerBankBlockEntity::new, Set.of(BlocksRegistry.POWER_BANK_T1.block().get())));
