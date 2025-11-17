@@ -283,6 +283,23 @@
             "Name": "minecraft:bedrock"
           }
         }
+      },
+      {
+        "type": "minecraft:condition",
+        "if_true": {
+          "type": "minecraft:y_above",
+          "anchor": {
+            "above_bottom": 60
+          },
+          "surface_depth_multiplier": -2.3,
+          "add_stone_depth": false
+        },
+        "then_run": {
+          "type": "minecraft:block",
+          "result_state": {
+            "Name": "stellaris:moon_sand"
+          }
+        }
       }
     ]
   }

@@ -38,7 +38,7 @@
         "type": "minecraft:noise",
         "biome_source": {
           "type": "minecraft:fixed",
-          "biome": "stellaris:moon_surface"
+          "biome": "stellaris:lunar_desert"
         },
         "settings": "stellaris:moon"
       }
