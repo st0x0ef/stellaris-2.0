@@ -5,6 +5,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.ToNumberPolicy;
 import com.google.gson.Strictness;
 import fr.tathan.exoconfig.common.loader.ConfigsRegistry;
+import org.exodusstudio.stellaris.client.screens.tablet.application.ApplicationRegistry;
 import org.exodusstudio.stellaris.common.config.CommonConfig;
 import org.exodusstudio.stellaris.common.network.NetworkRegistry;
 import org.exodusstudio.stellaris.common.registries.*;
@@ -23,7 +24,7 @@ public final class Stellaris {
     public static CommonConfig CONFIG;
 
     public static void init() {
-        CONFIG = ConfigsRegistry.getInstance().registerConfig(new CommonConfig(), CONFIG);;
+        CONFIG = ConfigsRegistry.getInstance().registerConfig(new CommonConfig(), CONFIG);
 
         NetworkRegistry.init();
 
@@ -34,7 +35,7 @@ public final class Stellaris {
         CreativeTabsRegistry.register();
         MenuTypesRegistry.MENU_TYPE.register();
         CommandsRegistry.register();
-
+        ApplicationRegistry.init();
         CapabilitiesRegistry.init();
     }
 }
