@@ -6,6 +6,7 @@ import net.minecraft.data.recipes.*;
 import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.ItemLike;
 import org.exodusstudio.stellaris.Stellaris;
+import org.exodusstudio.stellaris.common.registries.BlocksRegistry;
 import org.exodusstudio.stellaris.common.registries.ItemsRegistry;
 
 import java.util.List;
@@ -37,16 +38,29 @@ public class StellarisRecipeProvider extends RecipeProvider {
     protected void buildRecipes() {
 
 
-        shaped(RecipeCategory.MISC, ItemsRegistry.DESH_INGOT.get())
-                .pattern("BBB")
-                .pattern("BBB")
-                .pattern("BBB")
-                .define('B', ItemsRegistry.DESH_INGOT.get());
+//        ShapedRecipeBuilder.shaped(this.registries.lookupOrThrow(Registries.ITEM),RecipeCategory.MISC, ItemsRegistry.DESH_INGOT.get())
+//                .pattern("BBB")
+//                .pattern("BBB")
+//                .pattern("BBB")
+//                .define('B', ItemsRegistry.DESH_INGOT.get());
+
+        this.nineBlockStorageRecipes(
+                RecipeCategory.MISC,
+                ItemsRegistry.DESH_INGOT.get(),
+                RecipeCategory.BUILDING_BLOCKS,
+                BlocksRegistry.DESH_BLOCK.item().get(),
+                Stellaris.MOD_ID
+        );
 
         // if you will be gen data for armor trims
         // not working for now
 
     }
+
+    protected void nineBlockStorageRecipes(RecipeCategory unpackedCategory, ItemLike unpacked, RecipeCategory packedCategory, ItemLike packed, String modId) {
+        this.nineBlockStorageRecipes(unpackedCategory, unpacked, packedCategory, packed, String.format("%s:%s_packing",modId,getItemName(packed)), null, String.format("%s:%s_unpacking",modId,getItemName(packed)), null);
+    }
+
 
     protected void oreSmelting(RecipeOutput recipeOutput, List<ItemLike> pIngredients, RecipeCategory pCategory, ItemLike pResult,
                                float pExperience, int pCookingTIme, String pGroup) {
