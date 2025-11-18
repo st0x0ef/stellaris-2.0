@@ -6,12 +6,14 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
+import org.exodusstudio.stellaris.common.items.CanItem;
+import org.exodusstudio.stellaris.common.items.TabletItem;
+import org.exodusstudio.stellaris.common.utils.ResourceLocationUtils;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.function.Function;
 
 import static org.exodusstudio.stellaris.Stellaris.MOD_ID;
-import static org.exodusstudio.stellaris.Stellaris.id;
 
 
 @SuppressWarnings("all")
@@ -22,6 +24,10 @@ public final class ItemsRegistry {
     public static final RegistrySupplier<Item> TEST_ITEM = item("test_item");
     public static final RegistrySupplier<Item> DESH_INGOT = item("desh_ingot");
     public static final RegistrySupplier<Item> RAW_DESH = item("raw_desh");
+    public static final RegistrySupplier<TabletItem> TABLET = item("tablet", TabletItem::new);
+
+    // Cans
+    public static final RegistrySupplier<CanItem> BLUE_CAN = item("blue_can", (p) -> new CanItem(p, 10));
 
 
     public static RegistrySupplier<Item> item(String name) {
@@ -33,7 +39,7 @@ public final class ItemsRegistry {
     }
 
     public static <I extends Item> @NotNull RegistrySupplier<I> item(String name, Item.Properties properties, Function<Item.Properties, I> itemFunc) {
-        ResourceLocation id = id(name);
+        ResourceLocation id = ResourceLocationUtils.id(name);
         ResourceKey<Item> key = ResourceKey.create(Registries.ITEM, id);
         return ITEMS.register(id, () -> itemFunc.apply(properties.setId(key)));
     }

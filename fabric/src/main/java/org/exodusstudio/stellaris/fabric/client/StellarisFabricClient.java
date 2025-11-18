@@ -1,10 +1,25 @@
 package org.exodusstudio.stellaris.fabric.client;
 
+import dev.architectury.registry.menu.MenuRegistry;
 import net.fabricmc.api.ClientModInitializer;
+import org.exodusstudio.stellaris.client.StellarisClient;
+import org.exodusstudio.stellaris.client.screens.CoalGeneratorScreen;
+import org.exodusstudio.stellaris.client.screens.PowerBankScreen;
+import org.exodusstudio.stellaris.client.screens.SolarPanelScreen;
+import org.exodusstudio.stellaris.client.screens.VacuumatorScreen;
+import org.exodusstudio.stellaris.common.registries.MenuTypesRegistry;
 
 public final class StellarisFabricClient implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
+        StellarisClient.initClient();
+        registerScreens();
+    }
 
+    private void registerScreens() {
+        MenuRegistry.registerScreenFactory(MenuTypesRegistry.SOLAR_PANEL.get(), SolarPanelScreen::new);
+        MenuRegistry.registerScreenFactory(MenuTypesRegistry.COAL_GENERATOR.get(), CoalGeneratorScreen::new);
+        MenuRegistry.registerScreenFactory(MenuTypesRegistry.POWER_BANK.get(), PowerBankScreen::new);
+        MenuRegistry.registerScreenFactory(MenuTypesRegistry.VACUUMATOR.get(), VacuumatorScreen::new);
     }
 }

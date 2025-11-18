@@ -1,0 +1,60 @@
+{
+  "dimensions": {
+    "minecraft:overworld": {
+      "type": "minecraft:overworld",
+      "generator": {
+        "type": "minecraft:noise",
+        "biome_source": {
+          "type": "minecraft:multi_noise",
+          "preset": "minecraft:overworld"
+        },
+        "settings": "minecraft:overworld"
+      }
+    },
+    "minecraft:the_end": {
+      "type": "minecraft:the_end",
+      "generator": {
+        "type": "minecraft:noise",
+        "biome_source": {
+          "type": "minecraft:the_end"
+        },
+        "settings": "minecraft:end"
+      }
+    },
+    "minecraft:the_nether": {
+      "type": "minecraft:the_nether",
+      "generator": {
+        "type": "minecraft:noise",
+        "biome_source": {
+          "type": "minecraft:multi_noise",
+          "preset": "minecraft:nether"
+        },
+        "settings": "minecraft:nether"
+      }
+    },
+    "stellaris:moon": {
+      "type": "stellaris:moon",
+      "generator": {
+        "type": "minecraft:noise",
+        "biome_source": {
+          "type": "minecraft:multi_noise",
+          "biomes": [
+            {
+              "biome": "stellaris:lunar_desert",
+              "parameters": {
+                "depth": [0,0],
+                "temperature": [0.55,1],
+                "humidity": [-1,-0.35],
+                "continentalness": [0.3,1],
+                "erosion": [0.55,1],
+                "weirdness": [-0.85,-0.2],
+                "offset": 0
+              }
+            }
+          ]
+        },
+        "settings": "stellaris:moon"
+      }
+    }
+  }
+}

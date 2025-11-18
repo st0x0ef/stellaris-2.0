@@ -18,13 +18,17 @@ subprojects {
     apply plugin: 'architectury-plugin'
     apply plugin: 'maven-publish'
 
+    def modLoader = project.name
+
+
     base {
         archivesName = "${rootProject.mod_id}-${rootProject.minecraft_version}-${project.name}"
     }
 
     repositories {
         maven { url "https://maven.parchmentmc.org" }
-
+        maven { url "https://maven.exodusstudio.org/releases" }
+        maven { url "https://maven.terraformersmc.com/releases" }
     }
 
     loom {
@@ -38,6 +42,9 @@ subprojects {
             officialMojangMappings()
             parchment("org.parchmentmc.data:parchment-${rootProject.minecraft_version}:${rootProject.parchment_mapping_version}@zip")
         }
+
+        modImplementation "fr.tathan.exoconfig:exoconfig-$modLoader-${rootProject.minecraft_version}:${rootProject.exoconfig_version}"
+
     }
 
     java {
