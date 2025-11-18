@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "stellaris:item/cans/big_can_paintable",
+    "layer1": "stellaris:item/cans/big_can"
+  }
+}
