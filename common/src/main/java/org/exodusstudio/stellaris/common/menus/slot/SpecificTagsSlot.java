@@ -6,10 +6,11 @@ import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 
-public class SpecificTagSlot extends Slot {
+public class SpecificTagsSlot extends Slot {
     private final TagKey<Item>[] allowedTags;
 
-    public SpecificTagSlot(Container container, int slot, int x, int y, TagKey<Item>... allowedTags) {
+    @SafeVarargs
+    public SpecificTagsSlot(Container container, int slot, int x, int y, TagKey<Item>... allowedTags) {
         super(container, slot, x, y);
         this.allowedTags = allowedTags;
     }

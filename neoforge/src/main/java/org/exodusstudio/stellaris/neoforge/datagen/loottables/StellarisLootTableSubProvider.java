@@ -63,6 +63,4 @@ public class StellarisLootTableSubProvider extends BlockLootSubProvider {
         BlocksRegistry.BLOCKS.iterator().forEachRemaining(supplier -> blocks.add(supplier.get()));
         return blocks;
     }
-
-
 }
