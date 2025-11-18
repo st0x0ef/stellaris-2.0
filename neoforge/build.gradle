@@ -37,10 +37,17 @@ loom {
         }
 
         data {
-            data()
+            clientData()
             programArgs.addAll '--mod', project.name, '--all',
                     '--output', file('src/generated/resources/').getAbsolutePath(),
                     '--existing', file('src/main/resources/').getAbsolutePath()
+        }
+
+        datagen {
+            clientData()
+            programArgs.addAll '--mod', project.name, '--all',
+                    '--output', project(":common").file("src/main/generated/resources").getAbsolutePath(),
+                    '--existing', project(":common").file("src/main/resources").getAbsolutePath()
         }
     }
 }
