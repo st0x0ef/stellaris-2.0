@@ -1,0 +1,24 @@
+{
+  "ultrawarm": true,
+  "natural": true,
+  "coordinate_scale": 1,
+  "has_skylight": false,
+  "has_ceiling": false,
+  "ambient_light": 0,
+  "monster_spawn_light_level": {
+    "type": "minecraft:uniform",
+    "max_inclusive": 7,
+    "min_inclusive": 0
+  },
+  "min_y": 0,
+  "monster_spawn_block_light_limit": 0,
+  "piglin_safe": false,
+  "bed_works": true,
+  "respawn_anchor_works": true,
+  "has_raids": false,
+  "height": 256,
+  "logical_height": 256,
+  "min_height": 0,
+  "infiniburn": "#stellaris:infiniburn_moon",
+  "effects": "minecraft:the_end"
+}
