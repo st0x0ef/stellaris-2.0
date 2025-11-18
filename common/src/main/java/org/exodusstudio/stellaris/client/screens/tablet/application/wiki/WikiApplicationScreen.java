@@ -91,9 +91,7 @@ public class WikiApplicationScreen extends Screen {
         this.entryButton = new TexturedButton((this.width / 2) - 45, (this.height /2) - 45, 90, 90,
                 ENTRIES.get(currentPage).icon(),
                 ENTRIES.get(currentPage).hoverIcon(),
-                button -> {
-                    this.minecraft.setScreen(new WikiEntryScreen(this.mainTabletScreen, ENTRIES.get(this.currentPage)));
-                });
+                button -> this.minecraft.setScreen(new WikiEntryScreen(this.mainTabletScreen, ENTRIES.get(this.currentPage))));
 
         this.scrollableContainer = new ScrollableContainer(this.getLeftPos() + 10, this.getTopPos() + 10, this.mainTabletScreen.getImageWidth() -20, this.mainTabletScreen.getImageHeight() - 20, this.entryButton);
 

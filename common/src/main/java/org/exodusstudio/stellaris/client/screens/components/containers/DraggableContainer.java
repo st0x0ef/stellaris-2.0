@@ -14,8 +14,8 @@ public class DraggableContainer extends BasicContainer {
     @Override
     public boolean mouseDragged(double mouseX, double mouseY, int button, double dragX, double dragY) {
         if(this.isHovered()) {
-            this.dragOffsetX += dragX;
-            this.dragOffsetY += dragY;
+            this.dragOffsetX += (int) dragX;
+            this.dragOffsetY += (int) dragY;
 
             updateChildrenPosition();
 
