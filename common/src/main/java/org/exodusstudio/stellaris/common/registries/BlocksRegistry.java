@@ -27,10 +27,8 @@ import static org.exodusstudio.stellaris.Stellaris.MOD_ID;
 public final class BlocksRegistry {
 
     public static DeferredRegister<Block> BLOCKS = DeferredRegister.create(MOD_ID, Registries.BLOCK);
-    
-    //TODO : fix this to use the new system
-    public static final RegistrySupplier<Block> MOON_ROCK = blockWithItem("moon_rock", ofFullCopy(Blocks.STONE));
-    public static final RegistrySupplier<Block> VENUS_DIAMOND_ORE = blockWithItem("venus_diamond_ore", ofFullCopy(Blocks.STONE));
+
+    public static final BlockItemRegistrySupplier MOON_ROCK = blockWithItem("moon_rock", ofFullCopy(Blocks.STONE));
 
     /**
      * MOON WORLDGEN BLOCKS

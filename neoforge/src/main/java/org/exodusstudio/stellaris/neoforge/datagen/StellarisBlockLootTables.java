@@ -24,7 +24,7 @@ public class StellarisBlockLootTables extends BlockLootSubProvider  {
     }
     @Override
     protected void generate() {
-       dropSelf(BlocksRegistry.MOON_ROCK.get());
+       dropSelf(BlocksRegistry.MOON_ROCK.block().get());
     }
 
     protected LootTable.Builder createMultipleOreDrops(Block pBlock, Item item, float minDrops, float maxDrops) {

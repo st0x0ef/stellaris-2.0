@@ -20,6 +20,10 @@ public class TagsRegistry {
         public static TagKey<Item> addTag(String path, String modid) {
             return TagKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath(path, modid));
         }
+
+        public static TagKey<Item> addCTag(String path) {
+            return addTag(path, "c");
+        }
     }
 
 }

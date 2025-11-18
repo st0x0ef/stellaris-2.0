@@ -21,9 +21,9 @@ public class NeoForgeBlockTagsProvider extends BlockTagsProvider {
     @Override
     protected void addTags(HolderLookup.Provider provider) {
         tag(BlockTags.MINEABLE_WITH_PICKAXE).add(
-                BlocksRegistry.MOON_ROCK.get());
+                BlocksRegistry.MOON_ROCK.block().get());
 
         tag(BlockTags.NEEDS_IRON_TOOL).add(
-                BlocksRegistry.MOON_ROCK.get());
+                BlocksRegistry.MOON_ROCK.block().get());
     }
 }
