@@ -62,6 +62,8 @@ public class StellarisDataGeneration {
         // event.createProvider(StellarisModelProvider::new);
         // Datapacks
         event.createProvider(StellarisDataPackProvider::new);
+
+//        event.createProvider(StellarisGlobalLootModifierProvider::new);
     }
 
 
