@@ -15,10 +15,15 @@ import java.util.function.Function;
 
 import static org.exodusstudio.stellaris.Stellaris.MOD_ID;
 
+
+@SuppressWarnings("all")
 public final class ItemsRegistry {
 
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(MOD_ID, Registries.ITEM);
 
+    public static final RegistrySupplier<Item> TEST_ITEM = item("test_item");
+    public static final RegistrySupplier<Item> DESH_INGOT = item("desh_ingot");
+    public static final RegistrySupplier<Item> RAW_DESH = item("raw_desh");
     public static final RegistrySupplier<TabletItem> TABLET = item("tablet", TabletItem::new);
 
     // Cans
