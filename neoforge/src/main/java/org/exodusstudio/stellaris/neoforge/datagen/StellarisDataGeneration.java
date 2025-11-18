@@ -65,10 +65,6 @@ public class StellarisDataGeneration {
         generator.addProvider(true, blockTagsProvider);
         generator.addProvider(true, new NeoForgeItemTagsProvider(packOutput, lookupProvider, MOD_ID));
 
-
-        //Models
-        generator.addProvider(true, new StellarisModelProvider(packOutput));
-
         //DataMap
         generator.addProvider(true, new StellarisDataMapProvider(packOutput, lookupProvider));
 
