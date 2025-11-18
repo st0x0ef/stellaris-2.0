@@ -7,6 +7,7 @@ import com.google.gson.Strictness;
 import fr.tathan.exoconfig.common.loader.ConfigsRegistry;
 import org.exodusstudio.stellaris.client.screens.tablet.application.ApplicationRegistry;
 import org.exodusstudio.stellaris.common.config.CommonConfig;
+import org.exodusstudio.stellaris.common.events.Events;
 import org.exodusstudio.stellaris.common.network.NetworkRegistry;
 import org.exodusstudio.stellaris.common.registries.*;
 import org.slf4j.Logger;
@@ -20,7 +21,8 @@ public final class Stellaris {
             .setObjectToNumberStrategy(ToNumberPolicy.LONG_OR_DOUBLE)
             .setStrictness(Strictness.LENIENT)
             .create();
-  
+
+
     public static CommonConfig CONFIG;
 
     public static void init() {
@@ -37,5 +39,6 @@ public final class Stellaris {
         CommandsRegistry.register();
         ApplicationRegistry.init();
         CapabilitiesRegistry.init();
+        Events.init();
     }
 }
