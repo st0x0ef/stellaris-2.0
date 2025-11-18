@@ -11,6 +11,21 @@ architectury {
 
 loom {
     accessWidenerPath.set(project(":common").loom.accessWidenerPath)
+
+    runs {
+        data {
+            data()
+            programArgs "--all", "--mod", "sky_aesthetics"
+            programArgs "--output", project(":common").file("src/main/generated/resources").absolutePath
+        }
+    }
+
+}
+
+sourceSets {
+    main  {
+        resources.srcDir project(":common").file("src/main/generated/resources").absolutePath
+    }
 }
 
 
