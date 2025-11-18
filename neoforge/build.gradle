@@ -51,7 +51,7 @@ loom {
 
         datagen {
             clientData()
-            programArgs.addAll '--mod', project.name, '--all',
+            programArgs.addAll '--mod', project.rootProject.name , '--all',
                     '--output', project(":common").file("src/main/generated/resources").getAbsolutePath(),
                     '--existing', project(":common").file("src/main/resources").getAbsolutePath()
         }

@@ -29,6 +29,7 @@ public final class BlocksRegistry {
     public static DeferredRegister<Block> BLOCKS = DeferredRegister.create(MOD_ID, Registries.BLOCK);
 
     public static final BlockItemRegistrySupplier MOON_ROCK = blockWithItem("moon_rock", ofFullCopy(Blocks.STONE));
+    public static final BlockItemRegistrySupplier VENUS_DIAMOND_ORE = blockWithItem("venus_diamond_ore", ofFullCopy(Blocks.STONE));
 
     /**
      * MOON WORLDGEN BLOCKS
@@ -45,6 +46,7 @@ public final class BlocksRegistry {
     public static final BlockItemRegistrySupplier PACKED_ICE_PILLAR = blockWithItem("packed_ice_pillar", ofFullCopy(Blocks.PACKED_ICE), RotatedPillarBlock::new);
     public static final BlockItemRegistrySupplier POLISHED_PACKED_ICE = blockWithItem("polished_packed_ice", ofFullCopy(Blocks.PACKED_ICE));
 
+    public static final BlockItemRegistrySupplier DESH_BLOCK = blockWithItem("desh_block", ofFullCopy(Blocks.IRON_BLOCK));
 
     /**
      * MACHINES BLOCKS

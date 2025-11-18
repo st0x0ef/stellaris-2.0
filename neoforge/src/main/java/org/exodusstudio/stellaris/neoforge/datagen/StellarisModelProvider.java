@@ -31,14 +31,15 @@ public class StellarisModelProvider extends ModelProvider {
 
 
 
-        // BLOCKS
-        // blockModels.createTrivialCube(BlocksRegistry.VENUS_DIAMOND_ORE.block().get());
+        //BLOCKS
+        blockModels.createTrivialCube(BlocksRegistry.VENUS_DIAMOND_ORE.block().get());
+
     }
 
     @Override
     protected Stream<? extends Holder<Block>> getKnownBlocks() {
         return StreamSupport.stream(Spliterators.spliteratorUnknownSize(BlocksRegistry.BLOCKS.iterator(), Spliterator.ORDERED), false)
-                .filter(x -> !x.equals(BlocksRegistry.MOON_ROCK))
+                .filter(x -> !x.equals(BlocksRegistry.MOON_ROCK.block()) && !x.equals(BlocksRegistry.VENUS_DIAMOND_ORE.block()))
                 .map(RegistrySupplier::getDelegate);
     }
 
