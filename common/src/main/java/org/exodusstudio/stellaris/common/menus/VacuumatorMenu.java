@@ -39,7 +39,7 @@ public class VacuumatorMenu extends AbstractContainerMenu {
         this.container = container;
         this.entity = entity;
 
-        addSlot(new SpecificTagSlot(container, 0, 58, 40, TagsRegistry.CAN));
+        addSlot(new SpecificTagSlot(container, 0, 58, 40, TagsRegistry.ItemTags.CAN));
         addSlot(new FoodSlot(container, 1, 82, 40));
         addSlot(new SpecificItemsSlot(container, 2, 106, 40, Items.GLASS_BOTTLE.getDefaultInstance()));
 

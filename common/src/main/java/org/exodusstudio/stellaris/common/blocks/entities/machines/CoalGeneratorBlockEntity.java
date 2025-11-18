@@ -101,7 +101,7 @@ public class CoalGeneratorBlockEntity extends BaseGeneratorBlockEntity {
     }
 
     protected int getBurnDuration(ItemStack fuelStack) {
-        if (fuelStack.isEmpty() || !fuelStack.is(TagsRegistry.COAL_GENERATOR_FUEL) || level == null) {
+        if (fuelStack.isEmpty() || !fuelStack.is(TagsRegistry.ItemTags.COAL_GENERATOR_FUEL) || level == null) {
             return 0;
         }
 
