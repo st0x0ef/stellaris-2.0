@@ -1,7 +1,6 @@
 package org.exodusstudio.stellaris.client.registry;
 
 import dev.architectury.fluid.FluidStack;
-import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.material.Fluid;
@@ -13,6 +12,10 @@ import org.exodusstudio.stellaris.common.registries.FluidsRegistry;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * This class is used to register fluids infos.
+ * Very useful for displaying gauge when we don't know which fluid it will have.
+ */
 public class FluidInfosRegistry {
 
     public static Map<ResourceLocation, FluidInfos> FLUIDS_INFO = new HashMap<ResourceLocation, FluidInfos>();
@@ -26,16 +29,22 @@ public class FluidInfosRegistry {
     }
 
     public static void register(Fluid fluid, FluidInfos fluidInfos) {
-        FLUIDS_INFO.put(fluid.arch$registryName(), fluidInfos);
-        Stellaris.LOG.error("Registered infos for {}", fluid.arch$registryName());
+        register(fluid.arch$registryName(), fluidInfos);
+    }
 
+    /**
+     * Used to register fluids from other mod when we don't have access to the fluid registry
+     * @param fluidLocation
+     * @param fluidInfos
+     */
+    public static void register(ResourceLocation fluidLocation, FluidInfos fluidInfos) {
+        FLUIDS_INFO.put(fluidLocation, fluidInfos);
     }
 
 
     /**
      * Utility Methods to get fluids infos
      */
-
     public static ResourceLocation getFluidTexture(FluidStack fluid) {
         return getFluidTexture(fluid.getFluid());
     }
@@ -54,21 +63,21 @@ public class FluidInfosRegistry {
 
             return FLUIDS_INFO.get(fluid.arch$registryName()).component();
         }
-        return Component.literal("Null Fluid");
+        return Component.literal("Empty");
     }
 
     public static void init() {
 
         register(FluidsRegistry.HYDROGEN_STILL.get(),
-                new FluidInfos(GUISprites.HYDROGEN_OVERLAY,  Component.literal("fluid.stellaris.hydrogen" )));
+                new FluidInfos(GUISprites.HYDROGEN_OVERLAY,  Component.translatable("fluid.stellaris.hydrogen" )));
 
         register(FluidsRegistry.OXYGEN_STILL.get(),
-                new FluidInfos(GUISprites.OXYGEN_OVERLAY,  Component.literal("fluid.stellaris.oxygen" )));
+                new FluidInfos(GUISprites.OXYGEN_OVERLAY,  Component.translatable("fluid.stellaris.oxygen" )));
 
         register(Fluids.WATER,
-                new FluidInfos(GUISprites.WATER_OVERLAY,  Component.literal("fluid.stellaris.water" )));
-
-
+                new FluidInfos(GUISprites.WATER_OVERLAY,  Component.translatable("fluid.stellaris.water" )));
+        register(Fluids.EMPTY,
+                new FluidInfos(GUISprites.WATER_OVERLAY,  Component.literal("Empty")));
 
     }
 

@@ -97,8 +97,14 @@ public class GaugeWidget extends AbstractWidget {
         this.amount = Math.clamp(value, 0, capacity);
     }
 
+    /**
+     * Update the gauge amount from a fluid storage
+     * Allow to sync fluid texture/component
+     * @param storage
+     * @param tank
+     */
     public void updateAmount(UniversalFluidStorage storage, int tank) {
-        this.amount = Math.clamp(0, storage.getFluidInTank(tank).getAmount(), capacity);
+        this.updateAmount(storage.getFluidInTank(tank).getAmount());
         this.setMessage(FluidInfosRegistry.getFluidComponent(storage.getFluidInTank(tank).getFluid()));
         this.updateSprite(FluidInfosRegistry.getFluidTexture(storage.getFluidInTank(tank)));
     }
