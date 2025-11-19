@@ -21,9 +21,8 @@ public class Events {
 
     public static void init() {
 
-
         LifecycleEvent.SERVER_STARTING.register((MinecraftServer server) -> {
-            if(Platform.isDevelopmentEnvironment() && Stellaris.CONFIG.regenWorld) {
+            if(Stellaris.CONFIG.admin.debugMode && Stellaris.CONFIG.admin.regenDimension) {
                 regenStellarisDim(server);
             }
 
@@ -33,7 +32,15 @@ public class Events {
 
     public static void regenStellarisDim(MinecraftServer server) {
         List<ServerLevel> levelList = new ArrayList<>((Collection<ServerLevel>) server.getAllLevels());
-        List<ResourceLocation> dimensionsToRegen = List.of(Stellaris.CONFIG.dimensionsToRegen);
+        List<ResourceLocation> dimensionsToRegen = List.of(Stellaris.CONFIG.admin.dimensionsToRegen);
+
+
+        Stellaris.LOG.warn("---------- Dimension Regeneration Enabled ----------");
+        Stellaris.LOG.warn("All theses dimensions will be regenerated on join");
+        Stellaris.LOG.warn("This is used for development only");
+
+        Stellaris.LOG.warn("Do disable this, go to the config.");
+        Stellaris.LOG.warn("Dimensions Regenerated:");
 
         levelList.stream()
                 .map(Level::dimension)
@@ -49,6 +56,7 @@ public class Events {
                                 try {
                                     if (Files.exists(file.toPath())) {
                                         FileUtils.deleteDirectory(file);
+                                        Stellaris.LOG.warn("    - {}", level.location());
                                     }
                                 } catch(IOException e) {
                                     throw new RuntimeException(e);
@@ -56,6 +64,8 @@ public class Events {
                                 }
                             });
                 });
+        Stellaris.LOG.warn("---------- Dimension Regeneration Enabled ----------");
+
 
     }
 
