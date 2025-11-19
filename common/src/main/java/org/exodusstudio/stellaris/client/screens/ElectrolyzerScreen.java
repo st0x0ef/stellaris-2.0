@@ -19,7 +19,7 @@ import org.exodusstudio.stellaris.common.utils.ResourceLocationUtils;
 import java.util.List;
 
 public class ElectrolyzerScreen extends AbstractContainerScreen<ElectrolyzerMenu> {
-    private static final ResourceLocation TEXTURE = ResourceLocationUtils.guiTexture("water_separator");
+    private static final ResourceLocation TEXTURE = ResourceLocationUtils.guiTexture("electrolyzer");
 
     private final ElectrolyzerMenu menu;
     private final ElectrolyzerBlockEntity blockEntity;
@@ -50,14 +50,14 @@ public class ElectrolyzerScreen extends AbstractContainerScreen<ElectrolyzerMenu
         }
 
         SingleFluidStorage ingredientTank = blockEntity.ingredientTank;
-        ingredientTankGauge = new GaugeChunkWidget(leftPos + 53, topPos + 54, 76, 46, Component.translatable("stellaris.screen.water"), GUISprites.WATER_OVERLAY, GUISprites.WATER_SEPARATOR_OVERLAY, ingredientTank.getTankCapacity(0), GaugeChunkWidget.Direction4.DOWN_UP);
+        ingredientTankGauge = new GaugeChunkWidget(leftPos + 53, topPos + 54, 76, 46, ingredientTank.getFluidInTank(0), GUISprites.ELECTROLYZER_OVERLAY, ingredientTank.getTankCapacity(0), GaugeChunkWidget.Direction4.DOWN_UP);
         addRenderableWidget(ingredientTankGauge);
 
         MultipleFluidStorage resultTanks = blockEntity.resultTanks;
-        firstIngredientGauge = new GaugeWidget(leftPos + 22, topPos + 54, 12, 46, Component.translatable("stellaris.screen.hydrogen"), GUISprites.HYDROGEN_OVERLAY, GUISprites.FLUID_TANK_OVERLAY, resultTanks.getTankCapacity(0), GaugeWidget.Direction4.UP_DOWN);
+        firstIngredientGauge = new GaugeWidget(leftPos + 22, topPos + 54, 12, 46, resultTanks.getFluidInTank(0), GUISprites.FLUID_TANK_OVERLAY, resultTanks.getTankCapacity(0), GaugeWidget.Direction4.UP_DOWN);
         addRenderableWidget(firstIngredientGauge);
 
-        secondIngredientGauge = new GaugeWidget(leftPos + 146, topPos + 54, 12, 46, Component.translatable("stellaris.screen.oxygen"), GUISprites.OXYGEN_OVERLAY, GUISprites.FLUID_TANK_OVERLAY, resultTanks.getTankCapacity(1), GaugeWidget.Direction4.UP_DOWN);
+        secondIngredientGauge = new GaugeWidget(leftPos + 146, topPos + 54, 12, 46, resultTanks.getFluidInTank(1), GUISprites.FLUID_TANK_OVERLAY, resultTanks.getTankCapacity(1), GaugeWidget.Direction4.UP_DOWN);
         addRenderableWidget(secondIngredientGauge);
 
         energyGauge = new GaugeWidget(leftPos + 68, topPos + 20, 44, 6, Component.translatable("stellaris.screen.energyContainer"), GUISprites.SIDEWAYS_ENERGY_FULL, null, blockEntity.getEnergy(null).getMaxEnergy(), GaugeWidget.Direction4.LEFT_RIGHT);
@@ -75,9 +75,9 @@ public class ElectrolyzerScreen extends AbstractContainerScreen<ElectrolyzerMenu
             return;
         }
 
-        ingredientTankGauge.updateAmount((int) blockEntity.ingredientTank.getFluidValueInTank());
-        firstIngredientGauge.updateAmount((int) blockEntity.resultTanks.getFluidValueInTank(0));
-        secondIngredientGauge.updateAmount((int) blockEntity.resultTanks.getFluidValueInTank(1));
+        ingredientTankGauge.updateAmount(blockEntity.ingredientTank, 0);
+        firstIngredientGauge.updateAmount(blockEntity.resultTanks, 0);
+        secondIngredientGauge.updateAmount(blockEntity.resultTanks, 1);
         energyGauge.updateAmount(blockEntity.getEnergy(null).getEnergy());
     }
 

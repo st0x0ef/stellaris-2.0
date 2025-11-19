@@ -1,5 +1,6 @@
 package org.exodusstudio.stellaris.client.screens.components;
 
+import dev.architectury.fluid.FluidStack;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.GuiGraphics;
@@ -8,6 +9,7 @@ import net.minecraft.client.renderer.texture.SpriteContents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
+import org.exodusstudio.stellaris.client.registry.FluidInfosRegistry;
 import org.jetbrains.annotations.Nullable;
 
 /**
@@ -20,6 +22,12 @@ public class GaugeChunkWidget extends GaugeWidget {
 
     protected int imageWidth;
     protected int imageHeight;
+
+    public GaugeChunkWidget(int x, int y, int width, int height, FluidStack fluidStack, @Nullable ResourceLocation overlay_sprite, long capacity, Direction4 direction) {
+        this(x, y,width, height, FluidInfosRegistry.getFluidComponent(fluidStack.getFluid()), FluidInfosRegistry.getFluidTexture(fluidStack), overlay_sprite, capacity, direction);
+
+        spriteChanged = true;
+    }
 
     public GaugeChunkWidget(int x, int y, int width, int height, Component message, ResourceLocation sprite, @Nullable ResourceLocation overlay_sprite, long capacity, Direction4 direction) {
         super(x, y, width, height, message, sprite, overlay_sprite, capacity, direction);

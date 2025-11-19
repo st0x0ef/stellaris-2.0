@@ -1,5 +1,7 @@
 package org.exodusstudio.stellaris.client.screens.components;
 
+import com.fej1fun.potentials.fluid.UniversalFluidStorage;
+import dev.architectury.fluid.FluidStack;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.Font;
@@ -12,6 +14,9 @@ import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
+import org.exodusstudio.stellaris.Stellaris;
+import org.exodusstudio.stellaris.client.registry.FluidInfosRegistry;
+import org.exodusstudio.stellaris.client.screens.utils.GUISprites;
 import org.exodusstudio.stellaris.client.screens.utils.GUIUtils;
 import org.jetbrains.annotations.Nullable;
 
@@ -28,6 +33,10 @@ public class GaugeWidget extends AbstractWidget {
     protected ResourceLocation overlay_sprite;
     protected final Direction4 DIRECTION;
 
+    public GaugeWidget(int x, int y, int width, int height, FluidStack fluidStack, @Nullable ResourceLocation overlay_sprite, long capacity, Direction4 direction) {
+        this(x, y,width, height, FluidInfosRegistry.getFluidComponent(fluidStack.getFluid()), FluidInfosRegistry.getFluidTexture(fluidStack), overlay_sprite, capacity, direction);
+    }
+
     public GaugeWidget(int x, int y, int width, int height, Component message, ResourceLocation sprite, @Nullable ResourceLocation overlay_sprite, long capacity, Direction4 direction) {
         super(x, y, width, height, message);
         this.sprite = sprite;
@@ -38,6 +47,7 @@ public class GaugeWidget extends AbstractWidget {
 
     @Override
     protected void renderWidget(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
+
         switch (DIRECTION) {
             case DOWN_UP -> {
                 int i = Mth.ceil(getProgress(amount, capacity) * (getHeight()));
@@ -85,6 +95,12 @@ public class GaugeWidget extends AbstractWidget {
 
     public void updateAmount(long value) {
         this.amount = Math.clamp(value, 0, capacity);
+    }
+
+    public void updateAmount(UniversalFluidStorage storage, int tank) {
+        this.amount = Math.clamp(0, storage.getFluidInTank(tank).getAmount(), capacity);
+        this.setMessage(FluidInfosRegistry.getFluidComponent(storage.getFluidInTank(tank).getFluid()));
+        this.updateSprite(FluidInfosRegistry.getFluidTexture(storage.getFluidInTank(tank)));
     }
 
     public void updateCapacity(long capacity) {

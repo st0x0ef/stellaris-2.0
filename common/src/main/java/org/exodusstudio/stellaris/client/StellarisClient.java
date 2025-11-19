@@ -7,6 +7,7 @@ import fr.tathan.exoconfig.client.screen.ConfigScreen;
 import net.minecraft.server.packs.PackType;
 import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.client.data.wiki.WikiPack;
+import org.exodusstudio.stellaris.client.registry.FluidInfosRegistry;
 import org.exodusstudio.stellaris.client.screens.ElectrolyzerScreen;
 import org.exodusstudio.stellaris.client.screens.tablet.MainTabletScreen;
 import org.exodusstudio.stellaris.client.screens.tablet.application.ApplicationRegistry;
@@ -20,6 +21,7 @@ public class StellarisClient {
         registerScreens();
         registerPack();
         ApplicationRegistry.init();
+        FluidInfosRegistry.init();
     }
 
     private static void registerScreens() {
