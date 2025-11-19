@@ -10,7 +10,7 @@ import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import org.exodusstudio.stellaris.common.menus.slot.CustomResultSlot;
-import org.exodusstudio.stellaris.common.menus.slot.SpecificFluidContainerSlot;
+import org.exodusstudio.stellaris.common.menus.slot.ElectrolyzeSlot;
 import org.exodusstudio.stellaris.common.registries.MenuTypesRegistry;
 
 public class ElectrolyzerMenu extends BaseContainer {
@@ -29,9 +29,9 @@ public class ElectrolyzerMenu extends BaseContainer {
         this.blockEntity = blockEntity;
 
         addSlot(new CustomResultSlot(container, 0, 106, 113)); // Water tank output
-        addSlot(new SpecificFluidContainerSlot(container, blockEntity.ingredientTank.getFluidInTank(0).getFluid(), 1, 60, 113, false)); // Water tank input
-        addSlot(new SpecificFluidContainerSlot(container, blockEntity.resultTanks.getFluidInTank(0).getFluid(), 2, 20, 113, true)); // Hydrogen tank output
-        addSlot(new SpecificFluidContainerSlot(container, blockEntity.resultTanks.getFluidInTank(1).getFluid(), 3, 144, 113, true)); // Oxygen tank output
+        addSlot(new ElectrolyzeSlot(container, 1, 60, 113, blockEntity, -1)); // Water tank input
+        addSlot(new ElectrolyzeSlot(container, 2, 20, 113, blockEntity, 0)); // Hydrogen tank output
+        addSlot(new ElectrolyzeSlot(container,  3, 144, 113, blockEntity, 1)); // Oxygen tank output
     }
 
     @Override

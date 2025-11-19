@@ -4,11 +4,15 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.ToNumberPolicy;
 import com.google.gson.Strictness;
+import dev.architectury.registry.ReloadListenerRegistry;
 import fr.tathan.exoconfig.common.loader.ConfigsRegistry;
+import net.minecraft.server.packs.PackType;
 import org.exodusstudio.stellaris.common.config.CommonConfig;
+import org.exodusstudio.stellaris.common.data.recipe.ElectrolyzeRecipeData;
 import org.exodusstudio.stellaris.common.events.Events;
 import org.exodusstudio.stellaris.common.network.NetworkRegistry;
 import org.exodusstudio.stellaris.common.registries.*;
+import org.exodusstudio.stellaris.common.utils.ResourceLocationUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -40,6 +44,10 @@ public final class Stellaris {
         CommandsRegistry.register();
         Events.register();
         CapabilitiesRegistry.init();
+        initDataPack();
+    }
 
+    public static void initDataPack() {
+        ReloadListenerRegistry.register(PackType.SERVER_DATA, new ElectrolyzeRecipeData(), ResourceLocationUtils.id("electrolyze"));
     }
 }

@@ -11,18 +11,14 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.AbstractContainerMenu;
-import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeManager;
-import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
-import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.common.blocks.ElectrolyzerBlock;
 import org.exodusstudio.stellaris.common.blocks.base.BaseMachineBlock;
 import org.exodusstudio.stellaris.common.blocks.entities.machines.base.BaseEnergyContainerBlockEntity;
-import org.exodusstudio.stellaris.common.data.recipe.ElectrolyzeRecipe;
+import org.exodusstudio.stellaris.common.data.recipe.ElectrolyzeRecipeData;
 import org.exodusstudio.stellaris.common.data.recipe.input.FluidInput;
 import org.exodusstudio.stellaris.common.fluid.FluidUtil;
 import org.exodusstudio.stellaris.common.fluid.MultipleFluidStorage;
@@ -30,16 +26,11 @@ import org.exodusstudio.stellaris.common.fluid.SingleFluidStorage;
 import org.exodusstudio.stellaris.common.menus.ElectrolyzerMenu;
 import org.exodusstudio.stellaris.common.network.packets.SyncFluidPacket;
 import org.exodusstudio.stellaris.common.registries.BlockEntitiesRegistry;
-import org.exodusstudio.stellaris.common.registries.RecipesRegistry;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
-import java.util.Optional;
 
 public class ElectrolyzerBlockEntity extends BaseEnergyContainerBlockEntity implements FluidProvider.BLOCK{
-
-    private final RecipeManager.CachedCheck<FluidInput, ElectrolyzeRecipe> cachedCheck = RecipeManager.createCheck(RecipesRegistry.ELECTROLYZE_TYPE.get());
-
 
     public final SingleFluidStorage ingredientTank = new SingleFluidStorage(3000, 3000, 0) {
 
@@ -54,17 +45,8 @@ public class ElectrolyzerBlockEntity extends BaseEnergyContainerBlockEntity impl
 
         @Override
         public boolean isFluidValid(int tank, FluidStack stack) {
-            if (level != null && level instanceof ServerLevel serverLevel) {
-                Optional<RecipeHolder<ElectrolyzeRecipe>> recipeHolder = cachedCheck.getRecipeFor(new FluidInput(ElectrolyzerBlockEntity.this), serverLevel);
-                if(recipeHolder.isPresent()) {
-                    ElectrolyzeRecipe recipe = recipeHolder.get().value();
-
-                    return recipe.ingredientStack().getFluid() == stack.getFluid();
-
-                }
-            }
-
-            return false;
+            if (this.isEmpty()) return ElectrolyzeRecipeData.RECIPES.containsKey(stack.getFluid());
+            else return this.getFluidInTank(0).getFluid() == stack.getFluid();
         }
     };
 
@@ -81,17 +63,12 @@ public class ElectrolyzerBlockEntity extends BaseEnergyContainerBlockEntity impl
 
         @Override
         public boolean isFluidValid(int tank, FluidStack stack) {
-            if (level != null && level instanceof ServerLevel serverLevel) {
-                Optional<RecipeHolder<ElectrolyzeRecipe>> recipeHolder = cachedCheck.getRecipeFor(new FluidInput(ElectrolyzerBlockEntity.this), serverLevel);
-                if(recipeHolder.isPresent()) {
-                    ElectrolyzeRecipe recipe = recipeHolder.get().value();
-
-                    return recipe.resultStacks().get(tank).getFluid() == stack.getFluid();
-
-                }
+            if(ElectrolyzerBlockEntity.this.ingredientTank.isEmpty()) {
+                return false;
+            } else {
+                ElectrolyzeRecipeData.ElectrolyzeRecipe recipe = ElectrolyzeRecipeData.RECIPES.get(ElectrolyzerBlockEntity.this.ingredientTank.getFluidInTank(0).getFluid());
+                return recipe.resultStacks().get(tank).getFluid() == stack.getFluid();
             }
-
-            return false;
         }
     };
 
@@ -120,11 +97,8 @@ public class ElectrolyzerBlockEntity extends BaseEnergyContainerBlockEntity impl
         FluidUtil.distributeFluidNearby(level, worldPosition, resultTanks.getFluidInTank(1), List.of(facing.getCounterClockWise()));
         FluidUtil.distributeFluidNearby(level, worldPosition, ingredientTank.getFluidInTank(0), List.of(Direction.UP, Direction.DOWN, facing, facing.getOpposite()));
 
-        if(level instanceof ServerLevel serverLevel) {
-            Optional<RecipeHolder<ElectrolyzeRecipe>> recipeHolder = cachedCheck.getRecipeFor(new FluidInput(this), serverLevel);
-            if (recipeHolder.isPresent()) {
-                ElectrolyzeRecipe recipe = recipeHolder.get().value();
-
+        if(level instanceof ServerLevel && ElectrolyzeRecipeData.RECIPES.containsKey(this.ingredientTank.getFluidInTank(0).getFluid())) {
+                ElectrolyzeRecipeData.ElectrolyzeRecipe recipe = ElectrolyzeRecipeData.RECIPES.get(this.ingredientTank.getFluidInTank(0).getFluid());
                 //TODO REMOVE THIS ONLY FOR TEST PURPOSES
                 if (energyContainer.getEnergy() >= recipe.energy() || true) {
                     boolean shouldDrainWaterAndEnergy = false;
@@ -142,7 +116,6 @@ public class ElectrolyzerBlockEntity extends BaseEnergyContainerBlockEntity impl
                         ingredientTank.drainWithoutLimits(recipe.ingredientStack(), false);
                         energyContainer.extract(recipe.energy(), false);
                     }
-                }
             }
 
         }

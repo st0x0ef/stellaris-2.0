@@ -1,15 +1,14 @@
 {
-  "type": "stellaris:electrolyze",
   "energyContainer": 50,
   "ingredient": {
-    "fluid": "minecraft:water",
-    "id": "minecraft:water",
+    "fluid": "minecraft:lava",
+    "id": "minecraft:lava",
     "amount": 5
   },
   "results": [
     {
-      "fluid": "stellaris:hydrogen",
-      "id": "stellaris:hydrogen",
+      "fluid": "minecraft:water",
+      "id": "minecraft:water",
       "amount": 10
     },
     {
