@@ -12,6 +12,22 @@
   "item.stellaris.packed_ice_pillar": "Packed Ice Pillar",
   "item.stellaris.polished_packed_ice": "Polished Packed Ice",
 
+  "block.stellaris.mars_rock": "Mars Rock",
+  "block.stellaris.mars_regolith": "Mars Regolith",
+  "block.stellaris.mars_sand": "Mars Sand",
+  "block.stellaris.mars_ice": "Mars Ice",
+
+  "biome.stellaris.red_desert": "Red Desert",
+  "biome.stellaris.ice_caps": "Ice Caps",
+  "biome.stellaris.mars_valleys": "Mars Valleys",
+  "biome.stellaris.velvet_forest": "Velvet Forest",
+  "biome.stellaris.mars_mountains": "Mars Mountains",
+  "biome.stellaris.green_sludge_lakes": "Green Sludge Lakes",
+  "biome.stellaris.green_cauldron_cave": "Green Cauldron Cave",
+  "biome.stellaris.tangled_ravine": "Tangled Ravine",
+  "biome.stellaris.green_forest": "Green Forest",
+
+
 
   "item.stellaris.solar_panel": "Solar Panel",
   "item.stellaris.coal_generator": "Coal Generator",

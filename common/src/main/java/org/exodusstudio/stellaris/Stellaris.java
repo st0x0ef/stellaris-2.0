@@ -30,6 +30,9 @@ public final class Stellaris {
 
         NetworkRegistry.init();
 
+        // Keep above the blocks and item registries, please, or it will crash when adding fluids
+        FluidsRegistry.register();
+        EffectsRegistry.register();
         DataComponentsRegistry.DATA_COMPONENT_TYPE.register();
         BlocksRegistry.BLOCKS.register();
         BlockEntitiesRegistry.BLOCK_ENTITY_TYPE.register();
@@ -39,6 +42,7 @@ public final class Stellaris {
         CommandsRegistry.register();
         ApplicationRegistry.init();
         CapabilitiesRegistry.init();
+
         Events.init();
     }
 }

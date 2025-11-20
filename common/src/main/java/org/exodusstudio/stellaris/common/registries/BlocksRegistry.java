@@ -9,8 +9,11 @@ import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.LiquidBlock;
 import net.minecraft.world.level.block.RotatedPillarBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.material.FlowingFluid;
+
 import org.exodusstudio.stellaris.common.blocks.*;
 import org.exodusstudio.stellaris.common.items.PowerBankItem;
 import org.exodusstudio.stellaris.common.registries.utils.BlockItemRegistrySupplier;
@@ -49,6 +52,25 @@ public final class BlocksRegistry {
     public static final BlockItemRegistrySupplier DESH_BLOCK = blockWithItem("desh_block", ofFullCopy(Blocks.IRON_BLOCK));
 
     /**
+     * MARS WORLDGEN BLOCKS
+     */
+    public static final BlockItemRegistrySupplier MARS_ROCK = blockWithItem("mars_rock", ofFullCopy(Blocks.STONE));
+    public static final BlockItemRegistrySupplier MARS_REGOLITH = blockWithItem("mars_regolith", ofFullCopy(Blocks.GRAVEL));
+    public static final BlockItemRegistrySupplier MARS_SAND = blockWithItem("mars_sand", ofFullCopy(Blocks.SAND));
+    public static final BlockItemRegistrySupplier MARS_ICE = blockWithItem("mars_ice", ofFullCopy(Blocks.PACKED_ICE));
+    public static final BlockItemRegistrySupplier MARS_GOLD = blockWithItem("mars_gold", ofFullCopy(Blocks.GOLD_BLOCK));
+    public static final BlockItemRegistrySupplier RUSTED_IRON = blockWithItem("rusted_iron", ofFullCopy(Blocks.IRON_BLOCK));
+    public static final BlockItemRegistrySupplier MARS_COBBLESTONE = blockWithItem("mars_cobblestone", ofFullCopy(Blocks.COBBLESTONE));
+    public static final BlockItemRegistrySupplier MARS_DIAMOND_ORE = blockWithItem("mars_diamond_ore", ofFullCopy(Blocks.DIAMOND_ORE));
+    public static final BlockItemRegistrySupplier MARS_ICE_SHARD_ORE = blockWithItem("mars_ice_shard_ore", ofFullCopy(Blocks.ICE));
+    public static final BlockItemRegistrySupplier MARS_IRON_ORE = blockWithItem("mars_iron_ore", ofFullCopy(Blocks.IRON_ORE));
+    public static final BlockItemRegistrySupplier MARS_OSTRUM_ORE = blockWithItem("mars_ostrum_ore", ofFullCopy(Blocks.IRON_ORE));
+    public static final BlockItemRegistrySupplier MARS_STONE = blockWithItem("mars_stone", ofFullCopy(Blocks.STONE));
+    public static final BlockItemRegistrySupplier MARS_THARSITE_ORE = blockWithItem("mars_tharsite_ore", ofFullCopy(Blocks.IRON_ORE));
+
+
+
+    /**
      * MACHINES BLOCKS
      */
 
@@ -67,8 +89,8 @@ public final class BlocksRegistry {
 
 
     public static <B extends Block> @NotNull RegistrySupplier<Block> block(String name,
-                                                               BlockBehaviour.Properties properties,
-                                                               Function<BlockBehaviour.Properties, B> blockFunc) {
+                                                                           BlockBehaviour.Properties properties,
+                                                                           Function<BlockBehaviour.Properties, B> blockFunc) {
         ResourceLocation id = ResourceLocationUtils.id(name);
         ResourceKey<Block> key = ResourceKey.create(Registries.BLOCK, id);
         return BLOCKS.register(id, () -> blockFunc.apply(properties.setId(key)));
@@ -85,25 +107,26 @@ public final class BlocksRegistry {
     }
 
     public static <B extends Block> @NotNull BlockItemRegistrySupplier blockWithItem(String name, BlockBehaviour.Properties properties,
-                                                                               Function<BlockBehaviour.Properties, B> blockFunc) {
+                                                                                     Function<BlockBehaviour.Properties, B> blockFunc) {
         RegistrySupplier<Block> block = block(name, properties, blockFunc);
         RegistrySupplier<Item> item = ItemsRegistry.item(name, new Item.Properties().arch$tab(CreativeTabsRegistry.STELLARIS_BLOCKS), p -> new BlockItem(block.get(), p));
         return new BlockItemRegistrySupplier(block, item);
     }
 
     public static <B extends Block> @NotNull BlockItemRegistrySupplier blockWithItem(String name, BlockBehaviour.Properties properties,
-                                                                               Function<BlockBehaviour.Properties, B> blockFunc,
-                                                                               Item.Properties itemProperties) {
+                                                                                     Function<BlockBehaviour.Properties, B> blockFunc,
+                                                                                     Item.Properties itemProperties) {
         RegistrySupplier<Block> block = block(name, properties, blockFunc);
         RegistrySupplier<Item> item = ItemsRegistry.item(name, itemProperties, p -> new BlockItem(block.get(), p));
         return new BlockItemRegistrySupplier(block, item);
     }
 
     public static <B extends Block, I extends BlockItem> @NotNull BlockItemRegistrySupplier blockWithCustomItem(String name, BlockBehaviour.Properties properties,
-                                                                            Function<BlockBehaviour.Properties, B> blockFunc, Item.Properties itemProperties,
-                                                                            BiFunction<Block, Item.Properties, I> itemSupplier) {
+                                                                                                                Function<BlockBehaviour.Properties, B> blockFunc, Item.Properties itemProperties,
+                                                                                                                BiFunction<Block, Item.Properties, I> itemSupplier) {
         RegistrySupplier<Block> block = block(name, properties, blockFunc);
         RegistrySupplier<Item> item = ItemsRegistry.item(name, itemProperties, p -> itemSupplier.apply(block.get(), p));
         return new BlockItemRegistrySupplier(block, item);
     }
+    private BlocksRegistry() {}
 }
