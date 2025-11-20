@@ -5,6 +5,7 @@ import net.minecraft.data.PackOutput;
 import net.minecraft.tags.BlockTags;
 import net.neoforged.neoforge.common.data.BlockTagsProvider;
 import org.exodusstudio.stellaris.common.registries.BlocksRegistry;
+import org.exodusstudio.stellaris.common.registries.TagsRegistry;
 
 import java.util.concurrent.CompletableFuture;
 
@@ -39,5 +40,7 @@ public class StellarisBlockTagsProvider extends BlockTagsProvider {
 
         this.tag(BlockTags.NEEDS_IRON_TOOL)
                 .add(BlocksRegistry.MOON_ROCK.block().get());
+
+        this.tag(TagsRegistry.BlockTags.INFINIBURN_MOON);
     }
 }

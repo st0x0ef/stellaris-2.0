@@ -2,9 +2,12 @@ package org.exodusstudio.stellaris.neoforge.datagen.tags;
 
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
+import net.neoforged.neoforge.common.Tags;
 import net.neoforged.neoforge.common.data.BlockTagCopyingItemTagProvider;
 import org.exodusstudio.stellaris.Stellaris;
+import org.exodusstudio.stellaris.common.registries.TagsRegistry;
 
 import java.util.concurrent.CompletableFuture;
 
@@ -32,6 +35,9 @@ public class StellarisItemTagsProvider extends BlockTagCopyingItemTagProvider {
      */
     @Override
     protected void addTags(HolderLookup.Provider provider) {
+        this.tag(TagsRegistry.ItemTags.COAL_GENERATOR_FUEL)
+                .addTags(Tags.Items.STORAGE_BLOCKS_COAL)
+                .add(Items.COAL, Items.CHARCOAL);
 
     }
 }
