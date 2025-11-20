@@ -66,5 +66,11 @@
 
   "tooltip.item.stellaris.can.empty": "Empty",
   "tooltip.item.stellaris.can.nutrition": "Nutrition: %s/%s",
-  "tooltip.item.stellaris.can.saturation": "Saturation: %s"
+  "tooltip.item.stellaris.can.saturation": "Saturation: %s",
+
+  "config.stellaris.debugMode": "Debug Mode",
+  "config.stellaris.debugMode.desc": "Select to enter the debug mode.",
+  "config.stellaris.regenDimension.desc": "When selected, all the dimensions in the dimensionsToRegen will be regenerated.",
+  "config.stellaris.regenDimension": "Regenerate dimensions",
+  "config.stellaris.dimensionsToRegen": "Dimensions to Regenerate"
 }
