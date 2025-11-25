@@ -5,7 +5,11 @@ import dev.architectury.registry.registries.RegistrySupplier;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.BucketItem;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.level.material.Fluid;
+
 import org.exodusstudio.stellaris.common.items.CanItem;
 import org.exodusstudio.stellaris.common.items.TabletItem;
 import org.exodusstudio.stellaris.common.utils.ResourceLocationUtils;
@@ -24,6 +28,7 @@ public final class ItemsRegistry {
     public static final RegistrySupplier<Item> TEST_ITEM = item("test_item");
     public static final RegistrySupplier<Item> DESH_INGOT = item("desh_ingot");
     public static final RegistrySupplier<Item> RAW_DESH = item("raw_desh");
+
     public static final RegistrySupplier<TabletItem> TABLET = item("tablet", TabletItem::new);
 
     /** Cans */
@@ -77,8 +82,5 @@ public final class ItemsRegistry {
         ResourceKey<Item> key = ResourceKey.create(Registries.ITEM, id);
         return ITEMS.register(id, () -> itemFunc.apply(properties.setId(key)));
     }
-
-
     private ItemsRegistry() {}
-
 }

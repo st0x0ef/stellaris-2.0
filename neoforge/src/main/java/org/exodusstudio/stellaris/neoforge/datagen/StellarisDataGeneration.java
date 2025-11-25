@@ -59,7 +59,7 @@ public class StellarisDataGeneration {
         //Tags
         event.createBlockAndItemTags(StellarisBlockTagsProvider::new, StellarisItemTagsProvider::new);
         // Models
-        // event.createProvider(StellarisModelProvider::new);
+//         event.createProvider(StellarisModelProvider::new);
         // Datapacks
         event.createProvider(StellarisDataPackProvider::new);
 

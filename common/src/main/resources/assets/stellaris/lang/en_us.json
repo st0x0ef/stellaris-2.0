@@ -12,6 +12,22 @@
   "item.stellaris.packed_ice_pillar": "Packed Ice Pillar",
   "item.stellaris.polished_packed_ice": "Polished Packed Ice",
 
+  "block.stellaris.mars_rock": "Mars Rock",
+  "block.stellaris.mars_regolith": "Mars Regolith",
+  "block.stellaris.mars_sand": "Mars Sand",
+  "block.stellaris.mars_ice": "Mars Ice",
+
+  "biome.stellaris.red_desert": "Red Desert",
+  "biome.stellaris.ice_caps": "Ice Caps",
+  "biome.stellaris.mars_valleys": "Mars Valleys",
+  "biome.stellaris.velvet_forest": "Velvet Forest",
+  "biome.stellaris.mars_mountains": "Mars Mountains",
+  "biome.stellaris.green_sludge_lakes": "Green Sludge Lakes",
+  "biome.stellaris.green_cauldron_cave": "Green Cauldron Cave",
+  "biome.stellaris.tangled_ravine": "Tangled Ravine",
+  "biome.stellaris.green_forest": "Green Forest",
+
+
 
   "item.stellaris.solar_panel": "Solar Panel",
   "item.stellaris.coal_generator": "Coal Generator",
@@ -66,5 +82,11 @@
 
   "tooltip.item.stellaris.can.empty": "Empty",
   "tooltip.item.stellaris.can.nutrition": "Nutrition: %s/%s",
-  "tooltip.item.stellaris.can.saturation": "Saturation: %s"
+  "tooltip.item.stellaris.can.saturation": "Saturation: %s",
+
+  "config.stellaris.debugMode": "Debug Mode",
+  "config.stellaris.debugMode.desc": "Select to enter the debug mode.",
+  "config.stellaris.regenDimension.desc": "When selected, all the dimensions in the dimensionsToRegen will be regenerated.",
+  "config.stellaris.regenDimension": "Regenerate dimensions",
+  "config.stellaris.dimensionsToRegen": "Dimensions to Regenerate"
 }
