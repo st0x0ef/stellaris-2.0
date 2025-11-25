@@ -3,12 +3,17 @@ package org.exodusstudio.stellaris.common.items;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.alchemy.PotionContents;
+import net.minecraft.world.item.alchemy.Potions;
+import net.minecraft.world.item.component.Consumable;
 import net.minecraft.world.item.component.TooltipDisplay;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
@@ -22,10 +27,17 @@ public class CanItem extends Item {
     public CanItem(Properties properties, int maxNutrition) {
         super(properties);
         this.maxNutrition = maxNutrition;
+
     }
 
     public static void setFoodProperties(ItemStack stack, FoodProperties foodProperties) {
-        stack.set(DataComponents.FOOD, foodProperties);
+        if (foodProperties != null && (foodProperties.nutrition() > 0 || foodProperties.saturation() > 0)) {
+            stack.set(DataComponents.FOOD, foodProperties);
+            stack.set(DataComponents.CONSUMABLE, Consumable.builder().build());
+        } else {
+            stack.remove(DataComponents.FOOD);
+            stack.remove(DataComponents.CONSUMABLE);
+        }
     }
 
     public static FoodProperties getFoodProperties(ItemStack stack) {
@@ -77,6 +89,13 @@ public class CanItem extends Item {
     public @NotNull ItemStack finishUsingItem(ItemStack stack, Level level, LivingEntity entity) {
         ItemStack emptyCanStack = new ItemStack(stack.getItem());
         super.finishUsingItem(stack, level, entity);
+
+        if (entity.getMainHandItem().is(PotionContents.createItemStack(Items.POTION, Potions.WATER).getItem())) {
+            entity.setItemInHand(InteractionHand.MAIN_HAND, new ItemStack(Items.GLASS_BOTTLE));
+        } else {
+            entity.setItemInHand(InteractionHand.OFF_HAND, new ItemStack(Items.GLASS_BOTTLE));
+        }
+
         if (entity instanceof Player player && !player.hasInfiniteMaterials()) {
             if (stack.isEmpty()) {
                 return emptyCanStack;

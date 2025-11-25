@@ -13,15 +13,16 @@ public class TagsRegistry {
 
         public static final TagKey<Item> CAN = addTag("can");
 
-        public static TagKey<Item> addTag(String path) {
+        // Utils
+        private static TagKey<Item> addTag(String path) {
             return TagKey.create(Registries.ITEM, ResourceLocationUtils.id(path));
         }
 
-        public static TagKey<Item> addTag(String path, String modid) {
+        private static TagKey<Item> addTag(String path, String modid) {
             return TagKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath(path, modid));
         }
 
-        public static TagKey<Item> addCTag(String path) {
+        private static TagKey<Item> addCTag(String path) {
             return addTag(path, "c");
         }
     }
