@@ -42,7 +42,7 @@ public class StatsApplicationScreen extends Screen {
     }
 
     private void setupScrollableContainer() {
-        scrollableContainer = new ScrollableContainer(this.width / 2 - 129, this.height / 2 - 67, 258, 134, Component.empty());
+        scrollableContainer = new ScrollableContainer(this.getLeftPos() + 27, this.getTopPos() + 30, 258, this.mainTabletScreen.getImageHeight() - 50, Component.empty());
 
         int height = 5;
 
