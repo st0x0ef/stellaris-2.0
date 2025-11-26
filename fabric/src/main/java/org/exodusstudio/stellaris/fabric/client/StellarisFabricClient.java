@@ -7,6 +7,7 @@ import org.exodusstudio.stellaris.client.screens.CoalGeneratorScreen;
 import org.exodusstudio.stellaris.client.screens.PowerBankScreen;
 import org.exodusstudio.stellaris.client.screens.SolarPanelScreen;
 import org.exodusstudio.stellaris.client.screens.VacuumatorScreen;
+import org.exodusstudio.stellaris.client.screens.tablet.MainTabletScreen;
 import org.exodusstudio.stellaris.common.registries.MenuTypesRegistry;
 
 public final class StellarisFabricClient implements ClientModInitializer {
@@ -17,6 +18,8 @@ public final class StellarisFabricClient implements ClientModInitializer {
     }
 
     private void registerScreens() {
+        MenuRegistry.registerScreenFactory(MenuTypesRegistry.TABLET.get(), MainTabletScreen::new);
+
         MenuRegistry.registerScreenFactory(MenuTypesRegistry.SOLAR_PANEL.get(), SolarPanelScreen::new);
         MenuRegistry.registerScreenFactory(MenuTypesRegistry.COAL_GENERATOR.get(), CoalGeneratorScreen::new);
         MenuRegistry.registerScreenFactory(MenuTypesRegistry.POWER_BANK.get(), PowerBankScreen::new);

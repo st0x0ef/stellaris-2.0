@@ -11,6 +11,7 @@ import org.exodusstudio.stellaris.client.screens.CoalGeneratorScreen;
 import org.exodusstudio.stellaris.client.screens.PowerBankScreen;
 import org.exodusstudio.stellaris.client.screens.SolarPanelScreen;
 import org.exodusstudio.stellaris.client.screens.VacuumatorScreen;
+import org.exodusstudio.stellaris.client.screens.tablet.MainTabletScreen;
 import org.exodusstudio.stellaris.common.registries.MenuTypesRegistry;
 
 @EventBusSubscriber(modid = Stellaris.MOD_ID, value = Dist.CLIENT)
@@ -22,6 +23,8 @@ public class StellarisNeoforgeClient {
 
     @SubscribeEvent
     public static void registerScreen(RegisterMenuScreensEvent event) {
+        event.register(MenuTypesRegistry.TABLET.get(), MainTabletScreen::new);
+
         event.register(MenuTypesRegistry.SOLAR_PANEL.get(), SolarPanelScreen::new);
         event.register(MenuTypesRegistry.COAL_GENERATOR.get(), CoalGeneratorScreen::new);
         event.register(MenuTypesRegistry.POWER_BANK.get(), PowerBankScreen::new);
