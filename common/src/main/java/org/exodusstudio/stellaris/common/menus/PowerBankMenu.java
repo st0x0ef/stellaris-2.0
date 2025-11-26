@@ -20,7 +20,7 @@ public class PowerBankMenu extends BaseContainer {
     }
 
     public PowerBankMenu(int syncId, Inventory playerInventory, Container container, PowerBankBlockEntity entity) {
-        super(MenuTypesRegistry.POWER_BANK_MENU.get(), syncId, 2, playerInventory, 10, 106);
+        super(MenuTypesRegistry.POWER_BANK.get(), syncId, 2, playerInventory, 10, 106);
 
         checkContainerSize(container, 2);
         this.inventory = container;

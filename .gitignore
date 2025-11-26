@@ -10,3 +10,4 @@ gradle-app.setting
 .classpath
 /.idea/
 /.profileconfig.json
+.cache/

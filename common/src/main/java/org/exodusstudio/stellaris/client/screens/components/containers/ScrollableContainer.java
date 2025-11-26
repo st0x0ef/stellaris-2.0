@@ -153,7 +153,7 @@ public class ScrollableContainer extends AbstractScrollArea implements Container
     @Override
     public @Nullable GuiEventListener getFocused() {
         for(AbstractWidget widget : this.children) {
-           if(widget.isFocused()) return widget;
+            if(widget.isFocused()) return widget;
         }
         return null;
     }

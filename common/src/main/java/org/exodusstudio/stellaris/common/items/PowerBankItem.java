@@ -13,14 +13,13 @@ import org.exodusstudio.stellaris.common.blocks.PowerBankBlock;
 import org.exodusstudio.stellaris.common.registries.DataComponentsRegistry;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.List;
 import java.util.function.Consumer;
 
 public class PowerBankItem extends BlockItem implements EnergyProvider.ITEM {
 
     final int capacity;
 
-    public PowerBankItem(PowerBankBlock block, Properties properties) {
+    public  PowerBankItem(PowerBankBlock block, Properties properties) {
         super(block, properties);
         this.capacity = (int) Math.pow(2, 4 * block.tier) * 1000;
     }

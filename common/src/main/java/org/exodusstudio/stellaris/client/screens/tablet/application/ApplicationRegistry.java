@@ -77,7 +77,7 @@ public class ApplicationRegistry {
         private final Function<MenuHolder<T>, Screen> screenFactory;
 
         public ApplicationFactory(MutableComponent name, MutableComponent description, ResourceLocation iconLocation,ResourceLocation iconHoverLocation,
-                                   @Nullable Function<MenuHolder<T>, Screen> screenFactory) {
+                                  @Nullable Function<MenuHolder<T>, Screen> screenFactory) {
             this.name = name;
             this.description = description;
             this.iconLocation = iconLocation;

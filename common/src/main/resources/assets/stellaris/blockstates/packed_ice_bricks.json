@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+        "model": "stellaris:block/packed_ice_bricks"
+    }
+  }
+}

@@ -72,7 +72,7 @@ public class MainTabletScreen extends AbstractContainerScreen<MainTabletMenu> {
                 if (screen != null) {
                     minecraft.setScreen(screen);
                 }
-                
+
             }))
                     .tex(infos.getIconLocation(), infos.getIconHoverLocation())
                     .useSprite(true)
