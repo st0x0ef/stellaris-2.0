@@ -7,15 +7,12 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.world.inventory.MenuType;
 import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.common.menu.MainTabletMenu;
-import org.exodusstudio.stellaris.common.menus.CoalGeneratorMenu;
-import org.exodusstudio.stellaris.common.menus.PowerBankMenu;
-import org.exodusstudio.stellaris.common.menus.SolarPanelMenu;
+import org.exodusstudio.stellaris.common.menus.*;
 
 public class MenuTypesRegistry {
 
     public static final DeferredRegister<MenuType<?>> MENU_TYPE = DeferredRegister.create(Stellaris.MOD_ID, Registries.MENU);
 
-    public static final RegistrySupplier<MenuType<MainTabletMenu>> TABLET = MENU_TYPE.register("tablet", () -> MenuRegistry.ofExtended(MainTabletMenu::new));
     public static final RegistrySupplier<MenuType<MainTabletMenu>> TABLET = MENU_TYPE.register("tablet", () -> MenuRegistry.ofExtended(MainTabletMenu::new));
     public static final RegistrySupplier<MenuType<SDCardReaderApplicationMenu>> SD_CARD_READER_MENU = MENU_TYPE.register("sd_card_reader", () -> MenuRegistry.ofExtended(SDCardReaderApplicationMenu::create));
 
