@@ -2,14 +2,11 @@ package org.exodusstudio.stellaris.client;
 
 import dev.architectury.platform.Platform;
 import dev.architectury.registry.ReloadListenerRegistry;
-import dev.architectury.registry.menu.MenuRegistry;
 import fr.tathan.exoconfig.client.screen.ConfigScreen;
 import net.minecraft.server.packs.PackType;
 import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.client.data.wiki.WikiPack;
-import org.exodusstudio.stellaris.client.screens.tablet.MainTabletScreen;
 import org.exodusstudio.stellaris.client.screens.tablet.application.ApplicationRegistry;
-import org.exodusstudio.stellaris.common.registries.MenuTypesRegistry;
 import org.exodusstudio.stellaris.common.utils.ResourceLocationUtils;
 
 public class StellarisClient {

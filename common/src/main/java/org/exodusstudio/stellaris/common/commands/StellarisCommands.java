@@ -3,17 +3,23 @@ package org.exodusstudio.stellaris.common.commands;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.arguments.StringArgumentType;
+import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import dev.architectury.networking.NetworkManager;
 import dev.architectury.registry.menu.MenuRegistry;
 import net.minecraft.commands.CommandBuildContext;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
+import net.minecraft.network.chat.Component;
 import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.client.utils.WikiEntryTextRenderer;
+import org.exodusstudio.stellaris.common.commands.arguments.PlanetArgument;
 import org.exodusstudio.stellaris.common.commands.helpers.ArgumentBuilder;
 import org.exodusstudio.stellaris.common.commands.helpers.CommandBuilder;
+import org.exodusstudio.stellaris.common.data.Planet;
+import org.exodusstudio.stellaris.common.data.PlanetsData;
 import org.exodusstudio.stellaris.common.menu.MainTabletMenu;
 import org.exodusstudio.stellaris.common.network.packets.OpenScreenPacket;
+import org.exodusstudio.stellaris.common.utils.PlanetUtil;
 
 import java.util.ArrayList;
 
@@ -56,7 +62,32 @@ public class StellarisCommands {
                 )
                 .register();
 
-
+        builder.addSubCommand(
+                builder.createSubCommand("planets").execute(wrapper -> {
+                    StringBuilder stringBuilder = new StringBuilder("Loaded Planets:\n");
+                    for (Planet planet : PlanetsData.PLANETS) {
+                        stringBuilder.append("- " + planet.translationKey() + " (" + planet.dimension() + ")\n");
+                    }
+                    wrapper.getPlayer().displayClientMessage(Component.literal(stringBuilder.toString()), false);
+                    return wrapper.success();
+                })
+                .addSubCommand(builder.createSubCommand("teleport").addArgument(ArgumentBuilder.of("planet", PlanetArgument.planet())).execute(wrapper -> {
+                    Planet planet = PlanetsData.PLANETS.stream().filter(p -> {
+                        try {
+                            return p.is(PlanetArgument.getPlanet(wrapper.context, "planet"));
+                        } catch (CommandSyntaxException e) {
+                            wrapper.getPlayer().displayClientMessage(Component.literal("Planet not found!"), false);
+                            return false;
+                        }
+                    }).findFirst().orElse(null);
+                    if (planet == null) {
+                        wrapper.getPlayer().displayClientMessage(Component.literal("Planet not found!"), false);
+                        return wrapper.failure();
+                    }
+                    PlanetUtil.teleportToPlanet(wrapper.getPlayer(), planet, 100);
+                    return wrapper.success();
+                })
+        )).register();
     }
 
 }
