@@ -15,6 +15,9 @@ import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.common.utils.ResourceLocationUtils;
 import org.jetbrains.annotations.Nullable;
 
+/**
+ * A utility class to create custom textured button.
+ */
 @Environment(EnvType.CLIENT)
 public class TexturedButton extends Button {
 
@@ -63,50 +66,6 @@ public class TexturedButton extends Button {
         this.hoverButtonTexture = HOVER_TEXTURE;
     }
 
-    /** Builder Methods */
-    public <T extends TexturedButton> T tooltip(@Nullable Tooltip tooltip) {
-        this.setTooltip(tooltip);
-        return cast();
-    }
-
-    @SuppressWarnings("unchecked")
-    private <T extends TexturedButton> T cast() {
-        return (T) this;
-    }
-
-    public <T extends TexturedButton> T useSprite(boolean useSprite) {
-        this.useSprite = useSprite;
-        return cast();
-    }
-
-
-    public <T extends TexturedButton> T tex(ResourceLocation buttonTexture, ResourceLocation hoverTexture) {
-        this.buttonTexture = buttonTexture;
-        this.hoverButtonTexture = hoverTexture;
-        return cast();
-    }
-
-    public <T extends TexturedButton> T size(int texWidth, int texHeight) {
-        this.textureWidth = texWidth;
-        this.textureHeight = texHeight;
-        return cast();
-    }
-
-    public <T extends TexturedButton> T setUVs(int xTexStart, int yTexStart) {
-        this.xTexStart = xTexStart;
-        this.yTexStart = yTexStart;
-        return cast();
-    }
-
-    public <T extends TexturedButton> T showText(boolean showText) {
-        this.showText = showText;
-        return cast();
-    }
-
-    public void setYShift(int y) {
-        this.yDiffText = y;
-    }
-
     /** Override Methods */
     @Override
     public void setTooltip(@Nullable Tooltip tooltip) {
@@ -144,6 +103,51 @@ public class TexturedButton extends Button {
         super.setSize(width, height);
         this.textureWidth = width;
         this.textureHeight = height;
+    }
+
+
+
+    /** Builder Methods */
+    public <T extends TexturedButton> T tooltip(@Nullable Tooltip tooltip) {
+        this.setTooltip(tooltip);
+        return cast();
+    }
+
+    @SuppressWarnings("unchecked")
+    private <T extends TexturedButton> T cast() {
+        return (T) this;
+    }
+
+    public <T extends TexturedButton> T useSprite(boolean useSprite) {
+        this.useSprite = useSprite;
+        return cast();
+    }
+
+    public <T extends TexturedButton> T tex(ResourceLocation buttonTexture, ResourceLocation hoverTexture) {
+        this.buttonTexture = buttonTexture;
+        this.hoverButtonTexture = hoverTexture;
+        return cast();
+    }
+
+    public <T extends TexturedButton> T size(int texWidth, int texHeight) {
+        this.textureWidth = texWidth;
+        this.textureHeight = texHeight;
+        return cast();
+    }
+
+    public <T extends TexturedButton> T setUVs(int xTexStart, int yTexStart) {
+        this.xTexStart = xTexStart;
+        this.yTexStart = yTexStart;
+        return cast();
+    }
+
+    public <T extends TexturedButton> T showText(boolean showText) {
+        this.showText = showText;
+        return cast();
+    }
+
+    public void setYShift(int y) {
+        this.yDiffText = y;
     }
 
     /** TYPE TEXTURE MANAGER */

@@ -1,6 +1,8 @@
-package org.exodusstudio.stellaris.common.sdcard;
+package org.exodusstudio.stellaris.common.sd_cards;
 
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 
 public class TestSDCard extends SDCard {
 
@@ -9,7 +11,7 @@ public class TestSDCard extends SDCard {
     }
 
     @Override
-    public void run() {
+    public void run(Player player, ItemStack itemStack) {
         System.out.println("Run method called on Test SD Card");
     }
 

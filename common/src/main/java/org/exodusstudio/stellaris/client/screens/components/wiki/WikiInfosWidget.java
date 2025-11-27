@@ -53,7 +53,7 @@ public class WikiInfosWidget extends ScrollableContainer {
                 });
                 case "image" -> component.image().ifPresent((image) -> {
                     int height = (int) (this.getOffsetHeight() + 40 + finalHeight.get() + 20);
-                    guiGraphics.blit(image.location().withSuffix(".png"), this.getWidth() / 2 - image.width() / 2, height, 0, 0, image.width(), image.height(), image.width(), image.height());
+                    guiGraphics.blit(image.formatFileLocation(), this.getWidth() / 2 - image.width() / 2, height, 0, 0, image.width(), image.height(), image.width(), image.height());
                     finalHeight.addAndGet(image.height() + 40);
                 });
                 case "item" -> component.item().ifPresent((item) -> {

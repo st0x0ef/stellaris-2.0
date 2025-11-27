@@ -45,6 +45,5 @@ public final class Stellaris {
 
         CapabilitiesRegistry.init();
         Events.init();
-
     }
 }

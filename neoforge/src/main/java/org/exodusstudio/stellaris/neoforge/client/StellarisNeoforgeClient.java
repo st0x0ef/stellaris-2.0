@@ -7,8 +7,6 @@ import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.client.StellarisClient;
 import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
-import org.exodusstudio.stellaris.Stellaris;
-import org.exodusstudio.stellaris.client.StellarisClient;
 import org.exodusstudio.stellaris.client.screens.CoalGeneratorScreen;
 import org.exodusstudio.stellaris.client.screens.PowerBankScreen;
 import org.exodusstudio.stellaris.client.screens.SolarPanelScreen;
@@ -26,7 +24,7 @@ public class StellarisNeoforgeClient {
 
     @SubscribeEvent
     public static void registerScreen(RegisterMenuScreensEvent event) {
-        event.register(MenuTypesRegistry.TABLET.get(), MainTabletScreen::new);
+        event.register(MenuTypesRegistry.TABLET_MENU.get(), MainTabletScreen::new);
         event.register(MenuTypesRegistry.SD_CARD_READER_MENU.get(), SDCardReaderApplicationScreen::new);
 
         event.register(MenuTypesRegistry.SOLAR_PANEL_MENU.get(), SolarPanelScreen::new);

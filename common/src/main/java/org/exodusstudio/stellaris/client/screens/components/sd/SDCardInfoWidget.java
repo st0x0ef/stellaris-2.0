@@ -7,7 +7,7 @@ import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
 import net.minecraft.network.chat.Component;
 import org.exodusstudio.stellaris.client.screens.components.ScrollableTextWidget;
-import org.exodusstudio.stellaris.common.sdcard.SDCard;
+import org.exodusstudio.stellaris.common.sd_cards.SDCard;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,4 +1,4 @@
-package org.exodusstudio.stellaris.common.sdcard;
+package org.exodusstudio.stellaris.common.sd_cards;
 
 import net.minecraft.network.chat.Component;
 

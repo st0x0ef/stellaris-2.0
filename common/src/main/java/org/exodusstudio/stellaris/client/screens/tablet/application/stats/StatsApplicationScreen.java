@@ -10,10 +10,9 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.stats.Stats;
 import org.exodusstudio.stellaris.client.screens.components.containers.ScrollableContainer;
 import org.exodusstudio.stellaris.client.screens.components.stats.StatWidget;
-import org.exodusstudio.stellaris.client.screens.components.wiki.WikiEntryButton;
 import org.exodusstudio.stellaris.client.screens.tablet.MainTabletScreen;
 import org.exodusstudio.stellaris.client.screens.tablet.application.ApplicationRegistry;
-import org.exodusstudio.stellaris.common.menu.MainTabletMenu;
+import org.exodusstudio.stellaris.common.menus.MainTabletMenu;
 import org.exodusstudio.stellaris.common.registries.StatsRegistry;
 import org.exodusstudio.stellaris.common.utils.ResourceLocationUtils;
 

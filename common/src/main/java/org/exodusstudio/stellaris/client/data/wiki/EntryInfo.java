@@ -34,9 +34,10 @@ public record EntryInfo(ResourceLocation id, ResourceLocation entryId, String ti
 
 
     /**
-     *
-     * Components that can be rendered in the wiki entry.
-     *
+     * A component that render an image on the wiki.
+     * @param location the location of the image
+     * @param width the width of the image
+     * @param height the height of the image
      */
     public record ImageComponent(ResourceLocation location, int width, int height) {
 
@@ -46,9 +47,24 @@ public record EntryInfo(ResourceLocation id, ResourceLocation entryId, String ti
                 Codec.INT.fieldOf("height").forGetter(ImageComponent::height)
         ).apply(instance, ImageComponent::new));
 
+        /**
+         * If the location don't have a .png at the end, we add it.
+         * @return the resource location with .png at the end
+         */
+        public ResourceLocation formatFileLocation() {
+            if(!this.location.getPath().endsWith(".png")) {
+                return location.withPrefix(".png");
+            }
+            return location;
+        }
     }
 
-
+    /**
+     * A component that render an item on the wiki.
+     * @param stack the item to render
+     * @param size the item size
+     * @param onlyIcon If present, the item won't be shown in the wiki page but only on the enty button.
+     */
     public record ItemComponent(ItemStack stack, float size, Optional<Boolean> onlyIcon) {
 
         public static final Codec<ItemComponent> CODEC = RecordCodecBuilder.create(instance -> instance.group(
@@ -59,6 +75,11 @@ public record EntryInfo(ResourceLocation id, ResourceLocation entryId, String ti
 
     }
 
+    /**
+     * A component that render an entity on the wiki.
+     * @param entity the location of the entity to render
+     * @param scale the entity scale
+     */
     public record EntityComponent(ResourceLocation entity, int scale) {
 
         public static final Codec<EntityComponent> CODEC = RecordCodecBuilder.create(instance -> instance.group(

@@ -3,16 +3,15 @@ package org.exodusstudio.stellaris.client.utils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.gui.components.Tooltip;
-import net.minecraft.client.gui.components.WidgetTooltipHolder;
-import net.minecraft.network.chat.Component;
-import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.common.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Consumer;
 
+/**
+ * A Class to parse and render our "custom" markdown system.
+ */
 public class WikiEntryTextRenderer {
 
     public final String text;
@@ -28,7 +27,7 @@ public class WikiEntryTextRenderer {
     public WikiEntryTextRenderer(String text, int maxWidth) {
         this.text = text;
         this.maxWidth = maxWidth;
-        this.lines = createLines(text, maxWidth);
+        this.lines = parseLines(text, maxWidth);
     }
 
     /**
@@ -37,7 +36,7 @@ public class WikiEntryTextRenderer {
      * @param maxWidth The width of the place we want our text to be rendered
      * @return A list of line containing a list of words.
      */
-    public ArrayList<ArrayList<Word>> createLines(String message, int maxWidth) {
+    public ArrayList<ArrayList<Word>> parseLines(String message, int maxWidth) {
 
         String[] words = message.split("\\s+");
 
@@ -166,7 +165,7 @@ public class WikiEntryTextRenderer {
                     color = "blue";
                 }
                 if (word.tooltip != null) {
-
+                    //TODO add tooltip support.
                     clickBoxConsumer.accept(new ActionBox(x + width.get(), y + (i * getFont().lineHeight), getFont().width(word.text), getFont().lineHeight, (info) -> {
                         //info.infoWidget().setTooltip(Tooltip.create(Component.literal("eee")));
                     }, null, (word.text + word.tooltip)));

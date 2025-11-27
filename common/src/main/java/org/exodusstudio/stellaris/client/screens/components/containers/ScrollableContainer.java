@@ -11,7 +11,6 @@ import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.common.utils.ResourceLocationUtils;
 import org.jetbrains.annotations.Nullable;
 
@@ -173,6 +172,11 @@ public class ScrollableContainer extends AbstractScrollArea implements Container
         return this;
     }
 
+    /**
+     * This allows to render things but without attaching child widget.
+     * @param info the things to render.
+     * @return the container
+     */
     public ScrollableContainer setRender(RenderInfo info) {
         this.onRender = info;
         return this;
@@ -200,7 +204,6 @@ public class ScrollableContainer extends AbstractScrollArea implements Container
         this.defaultPositions.put(child, child.getY());
         return this;
     }
-
 
 
 

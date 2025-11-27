@@ -12,7 +12,7 @@ import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.client.utils.WikiEntryTextRenderer;
 import org.exodusstudio.stellaris.common.commands.helpers.ArgumentBuilder;
 import org.exodusstudio.stellaris.common.commands.helpers.CommandBuilder;
-import org.exodusstudio.stellaris.common.menu.MainTabletMenu;
+import org.exodusstudio.stellaris.common.menus.MainTabletMenu;
 import org.exodusstudio.stellaris.common.network.packets.OpenScreenPacket;
 
 import java.util.ArrayList;
@@ -55,7 +55,6 @@ public class StellarisCommands {
                         )
                 )
                 .register();
-
 
     }
 

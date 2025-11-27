@@ -1,13 +1,17 @@
 package org.exodusstudio.stellaris.common.registries;
 
-import org.exodusstudio.stellaris.common.sdcard.SDCard;
-import org.exodusstudio.stellaris.common.sdcard.TestSDCard;
+import org.exodusstudio.stellaris.common.sd_cards.SDCard;
+import org.exodusstudio.stellaris.common.sd_cards.TestSDCard;
 
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.function.Supplier;
 
+/**
+ * Registry class for SD Cards.
+ * SD cards are a system that allows to give player infos like lore and more.
+ */
 public class SDCardsRegistry {
 
     private static final HashMap<Integer, SDCard> REGISTRY = new HashMap<>();

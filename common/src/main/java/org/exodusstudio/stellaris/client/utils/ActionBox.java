@@ -10,6 +10,16 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Consumer;
 
+/**
+ * A utility class mainly used for the wiki. Allow tooltip and page navigation.
+ * @param x x coordinates of the action box
+ * @param y y coordinated of the action box
+ * @param width
+ * @param height
+ * @param hoverAction action to perform when the box is hovered
+ * @param clickAction action to perform when the box is clicked
+ * @param id
+ */
 public record ActionBox(int x, int y, int width, int height, @Nullable Consumer<RenderingInfo> hoverAction,
                         @Nullable Consumer<RenderingInfo> clickAction, String id) {
 

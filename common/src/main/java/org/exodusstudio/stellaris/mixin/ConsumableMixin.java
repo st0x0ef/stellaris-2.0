@@ -15,6 +15,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(Consumable.class)
 public class ConsumableMixin {
+
+
     @Inject(method = "canConsume", at = @At("HEAD"), cancellable = true)
     public void canConsume(LivingEntity entity, ItemStack stack, CallbackInfoReturnable<Boolean> cir) {
         Item waterBottle = PotionContents.createItemStack(Items.POTION, Potions.WATER).getItem();

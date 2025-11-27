@@ -19,7 +19,7 @@ import org.jetbrains.annotations.NotNull;
 public class SDCardReaderApplicationMenu extends BaseContainer {
 
     private final Container inventory;
-
+    private final Player player;
     private ItemStack card = ItemStack.EMPTY;
 
     public static SDCardReaderApplicationMenu create(int syncId, Inventory inventory, FriendlyByteBuf data) {
@@ -31,7 +31,7 @@ public class SDCardReaderApplicationMenu extends BaseContainer {
 
         checkContainerSize(container, 1);
         this.inventory = container;
-
+        this.player = playerInventory.player;
         this.addSlot(new SDCardSlot(this, this.inventory, 0, 39, 50));
     }
 
@@ -66,6 +66,10 @@ public class SDCardReaderApplicationMenu extends BaseContainer {
     public void setCard(ItemStack card) { this.card = card; }
 
     public ItemStack getCard() { return this.card; }
+
+    public Player getPlayer() {
+        return player;
+    }
 
     public boolean hasCard() { return this.card.is(ItemsRegistry.SD_CARD.get()); }
 
