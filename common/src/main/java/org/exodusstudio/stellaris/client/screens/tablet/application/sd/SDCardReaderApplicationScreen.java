@@ -45,7 +45,6 @@ public class SDCardReaderApplicationScreen extends AbstractContainerScreen<SDCar
     protected void init() {
         super.init();
 
-        // TODO: Make this button transwparent or some shit, position the widget as well
         cardInfoWidget = new SDCardInfoWidget(width / 2 + 39, height / 2 - 66, 90, 134, null);
 
         decodeButton = new SDCardDecodeButton(width / 2 - 76, height / 2 - 48, 100, 21, (btn) -> {

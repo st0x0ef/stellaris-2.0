@@ -53,13 +53,13 @@ public class StatsApplicationScreen extends Screen {
     }
 
     private void setupScrollableContainer() {
-        scrollableContainer = new ScrollableContainer(this.getLeftPos() + 27, this.getTopPos() + 30, 258, this.mainTabletScreen.getImageHeight() - 50, Component.empty());
+        scrollableContainer = new CustomStatsScrollableContainer(this.getLeftPos() + 26, this.getTopPos() + 30, 258, this.mainTabletScreen.getImageHeight() - 50, Component.empty());
 
         int height = 5;
 
         for (RegistrySupplier<ResourceLocation> val : StatsRegistry.STATS) {
             Component name = Component.translatable("stat.stellaris." + val.get().toString().split(":")[1]);
-            Component value = Component.literal(String.valueOf(Minecraft.getInstance().player.getStats().getValue(Stats.CUSTOM.get(val.get())))).append(" km");
+            Component value = Component.literal(String.valueOf(Minecraft.getInstance().player.getStats().getValue(Stats.CUSTOM.get(val.get()))));
 
             StatWidget statWidget = new StatWidget(this.scrollableContainer.getX() + 4, this.scrollableContainer.getY() + height, 260, 20, name, value, scrollableContainer);
             this.scrollableContainer.addChild(this, statWidget);
@@ -88,6 +88,19 @@ public class StatsApplicationScreen extends Screen {
 
     public int getTopPos() {
         return this.mainTabletScreen.getTopPos();
+    }
+
+    private static class CustomStatsScrollableContainer extends ScrollableContainer {
+
+        public CustomStatsScrollableContainer(int x, int y, int width, int height, Component component) {
+            super(x, y, width, height, component);
+        }
+
+        @Override
+        protected int scrollBarX() {
+            return this.getRight() - 3;
+        }
+
     }
 
 }
