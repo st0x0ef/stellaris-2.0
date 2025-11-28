@@ -44,4 +44,13 @@ public class PlanetsData extends SimpleJsonResourceReloadListener<Planet> {
         }
         return server.getLevel(levelKey);
     }
+
+    public static Planet getPlanet(ResourceKey<Level> level) {
+        for (Planet planet : PLANETS) {
+            if (planet.is(level)) {
+                return planet;
+            }
+        }
+        return null;
+    }
 }

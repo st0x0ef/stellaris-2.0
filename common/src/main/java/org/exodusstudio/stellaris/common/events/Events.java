@@ -1,12 +1,17 @@
 package org.exodusstudio.stellaris.common.events;
 
+import dev.architectury.event.EventResult;
+import dev.architectury.event.events.common.EntityEvent;
 import dev.architectury.event.events.common.LifecycleEvent;
+import dev.architectury.event.events.common.PlayerEvent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
 import org.apache.commons.io.FileUtils;
 import org.exodusstudio.stellaris.Stellaris;
+import org.exodusstudio.stellaris.common.utils.GravityUtils;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -19,14 +24,20 @@ import java.util.List;
 public class Events {
 
     public static void init() {
-
         LifecycleEvent.SERVER_STARTING.register((MinecraftServer server) -> {
             if(Stellaris.CONFIG.admin.debugMode && Stellaris.CONFIG.admin.regenDimension) {
                 regenStellarisDim(server);
             }
-
         });
 
+        PlayerEvent.CHANGE_DIMENSION.register(((player, oldLevel, newLevel) -> GravityUtils.setGravity(player)));
+
+        EntityEvent.ADD.register((entity, level) -> {
+            if(entity instanceof LivingEntity livingEntity) {
+                GravityUtils.setGravity(livingEntity);
+            }
+            return EventResult.pass();
+        });
     }
 
     public static void regenStellarisDim(MinecraftServer server) {
@@ -64,8 +75,5 @@ public class Events {
                             });
                 });
         Stellaris.LOG.warn("---------- Dimension Regeneration Enabled ----------");
-
-
     }
-
 }

@@ -6,7 +6,8 @@
   "client": [
   ],
   "mixins": [
-    "ConsumableMixin"
+    "ConsumableMixin",
+    "ItemEntityMixin"
   ],
   "injectors": {
     "defaultRequire": 1

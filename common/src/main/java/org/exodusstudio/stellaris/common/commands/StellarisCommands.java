@@ -66,7 +66,7 @@ public class StellarisCommands {
                 builder.createSubCommand("planets").execute(wrapper -> {
                     StringBuilder stringBuilder = new StringBuilder("Loaded Planets:\n");
                     for (Planet planet : PlanetsData.PLANETS) {
-                        stringBuilder.append("- " + planet.translationKey() + " (" + planet.dimension() + ")\n");
+                        stringBuilder.append("- ").append(planet.translationKey()).append(" (").append(planet.dimension()).append(")\n");
                     }
                     wrapper.getPlayer().displayClientMessage(Component.literal(stringBuilder.toString()), false);
                     return wrapper.success();
