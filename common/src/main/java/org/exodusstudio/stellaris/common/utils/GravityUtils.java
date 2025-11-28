@@ -40,8 +40,10 @@ public class GravityUtils {
     public static void trySetBaseAttribute(LivingEntity entity, Holder<Attribute> attribute, double value) {
         AttributeInstance attributeInstance = entity.getAttribute(attribute);
 
-        if (attributeInstance != null)
+        if (attributeInstance != null) {
+            Stellaris.LOG.error("changed attribute");
             attributeInstance.setBaseValue(value);
+        }
 
     }
 
