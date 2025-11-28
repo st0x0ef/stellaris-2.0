@@ -30,8 +30,6 @@ public class Events {
             }
         });
 
-        PlayerEvent.CHANGE_DIMENSION.register(((player, oldLevel, newLevel) -> GravityUtils.setGravity(player)));
-
         EntityEvent.ADD.register((entity, level) -> {
             if(entity instanceof LivingEntity livingEntity) {
                 GravityUtils.setGravity(livingEntity);
