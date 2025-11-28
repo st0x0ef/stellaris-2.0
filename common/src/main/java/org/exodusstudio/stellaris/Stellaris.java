@@ -24,6 +24,8 @@ public final class Stellaris {
     public static CommonConfig CONFIG;
 
     public static void init() {
+        StellarisRegistries.register();
+
         CONFIG = ConfigsRegistry.getInstance().registerConfig(new CommonConfig(), CONFIG);;
 
         NetworkRegistry.init();

@@ -36,3 +36,5 @@ side = "BOTH"
 
 [[mixins]]
 config = "stellaris.mixins.json"
+[[mixins]]
+config = "stellaris-neoforge.mixins.json"

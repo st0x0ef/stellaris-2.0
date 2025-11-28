@@ -3,7 +3,7 @@ package org.exodusstudio.stellaris.common.menus.slot;
 import net.minecraft.world.Container;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
-import org.exodusstudio.stellaris.common.items.modules.RocketModule;
+import org.exodusstudio.stellaris.common.module.rocket.RocketModule;
 
 public class RocketModuleSlot extends Slot {
 

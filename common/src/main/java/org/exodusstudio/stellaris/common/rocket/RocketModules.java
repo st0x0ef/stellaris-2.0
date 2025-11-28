@@ -9,8 +9,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import org.exodusstudio.stellaris.common.entities.RocketEntity;
-import org.exodusstudio.stellaris.common.items.modules.RocketModule;
-import org.exodusstudio.stellaris.common.utils.ResourceLocationUtils;
+import org.exodusstudio.stellaris.common.module.rocket.RocketModule;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.Serializable;
@@ -19,6 +18,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Stream;
 
+@Deprecated(forRemoval = true)
 public record RocketModules(List<ItemStack> modules) implements Serializable {
 
     public static RocketModules empty() {

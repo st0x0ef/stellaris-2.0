@@ -1,12 +1,9 @@
 package org.exodusstudio.stellaris.client.models.rockets;
 
-import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
-import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.state.EntityRenderState;
 import org.exodusstudio.stellaris.client.renderer.rockets.RocketRenderer;
-import org.exodusstudio.stellaris.common.items.modules.RocketModule;
+import org.exodusstudio.stellaris.common.module.rocket.RocketModule;
 
 import java.util.List;
 

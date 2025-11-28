@@ -1,11 +1,19 @@
 package org.exodusstudio.stellaris.common.items.modules;
 
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.world.item.Item;
 import org.exodusstudio.stellaris.client.renderer.rockets.RocketRenderer;
+import org.exodusstudio.stellaris.common.module.rocket.RocketModule;
 
-public class ShieldModule extends RocketModule {
+public class ShieldModule extends Item implements RocketModule {
 
     public ShieldModule(Properties properties) {
         super(properties);
+    }
+
+    @Override
+    public RocketFeature getRocketFeature() {
+        return RocketFeature.OTHER;
     }
 
     @Override
@@ -14,4 +22,8 @@ public class ShieldModule extends RocketModule {
         renderContext.model.shield2.visible = true;
     }
 
+    @Override
+    public MutableComponent displayName() {
+        return null;
+    }
 }

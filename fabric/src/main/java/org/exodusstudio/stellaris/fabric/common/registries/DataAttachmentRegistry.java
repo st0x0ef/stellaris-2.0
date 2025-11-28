@@ -6,17 +6,20 @@ import net.fabricmc.fabric.api.attachment.v1.AttachmentSyncPredicate;
 import net.fabricmc.fabric.api.attachment.v1.AttachmentType;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.resources.ResourceLocation;
-import org.exodusstudio.stellaris.common.rocket.RocketModules;
+import org.exodusstudio.stellaris.common.module.Modules;
+import org.exodusstudio.stellaris.common.module.rocket.RocketModule;
+import org.exodusstudio.stellaris.common.module.rocket.RocketModules;
 import org.exodusstudio.stellaris.common.utils.ResourceLocationUtils;
 
 import java.util.HashMap;
 
+@SuppressWarnings("all")
 public class DataAttachmentRegistry {
 
     public static HashMap<ResourceLocation, AttachmentType<?>> ATTACHMENT_TYPES = new HashMap<>();
 
     public static final AttachmentType<Integer> OIL;
-    public static final AttachmentType<RocketModules> ROCKET_MODULES;
+    public static final AttachmentType<? extends Modules<RocketModule>> ROCKET_MODULES;
 
     public static void register() {
 
