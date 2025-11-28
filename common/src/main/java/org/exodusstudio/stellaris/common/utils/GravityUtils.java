@@ -1,7 +1,6 @@
 package org.exodusstudio.stellaris.common.utils;
 
 import net.minecraft.core.Holder;
-import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
@@ -25,16 +24,15 @@ public class GravityUtils {
 
         Planet planet = PlanetsData.getPlanet(entity.level().dimension());
 
-        if (planet == null)
+        if (planet == null) {
+            resetEntityGravity(entity); // Resets gravity on dimensions like The Nether
             return;
+        }
 
         double gravity = getGravity(planet);
+        setEntityGravity(entity, gravity);
 
         Stellaris.LOG.debug(String.valueOf(gravity));
-
-        trySetBaseAttribute(entity, Attributes.GRAVITY, gravity);
-        trySetBaseAttribute(entity, Attributes.SAFE_FALL_DISTANCE, 0.08 / gravity * 3);
-
     }
 
     public static void trySetBaseAttribute(LivingEntity entity, Holder<Attribute> attribute, double value) {
@@ -43,6 +41,16 @@ public class GravityUtils {
         if (attributeInstance != null)
             attributeInstance.setBaseValue(value);
 
+    }
+
+    public static void setEntityGravity(LivingEntity entity, double gravity) {
+        trySetBaseAttribute(entity, Attributes.GRAVITY, gravity);
+        trySetBaseAttribute(entity, Attributes.SAFE_FALL_DISTANCE, 0.08 / gravity * 3);
+    }
+
+    public static void resetEntityGravity(LivingEntity entity) {
+        trySetBaseAttribute(entity, Attributes.GRAVITY, Attributes.GRAVITY.value().getDefaultValue());
+        trySetBaseAttribute(entity, Attributes.SAFE_FALL_DISTANCE, Attributes.SAFE_FALL_DISTANCE.value().getDefaultValue());
     }
 
     public static double getGravity(@NotNull Planet planet) {
