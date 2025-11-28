@@ -22,4 +22,12 @@ public record Planet(String translationKey, ResourceLocation dimension, Double g
     public boolean is(ResourceKey<Level> level) {
         return level.location().equals(this.dimension);
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof Planet other)
+            return this.dimension.equals(other.dimension);
+
+        return false;
+    }
 }
