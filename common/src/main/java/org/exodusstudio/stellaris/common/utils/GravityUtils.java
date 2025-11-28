@@ -18,7 +18,10 @@ import java.util.Map;
 public class GravityUtils {
 
     public static final BigDecimal GRAVITY_CONVERSION_RATE = new BigDecimal("0.08").divide(new BigDecimal("9.81"), 20, RoundingMode.HALF_UP);
+    public static final BigDecimal SAFE_FALL_DISTANCE_CONVERSION_RATE = new BigDecimal("3").multiply(new BigDecimal("0.08"));
+
     private static final Map<Planet, Double> GRAVITY_CACHE = new HashMap<>();
+    private static final Map<Planet, Double> SAFE_FALL_DISTANCE_CACHE = new HashMap<>();
 
     public static void setGravity(LivingEntity entity) {
 
@@ -30,7 +33,9 @@ public class GravityUtils {
         }
 
         double gravity = getGravity(planet);
-        setEntityGravity(entity, gravity);
+        double safeFallDistance = getSafeFallDistance(planet);
+
+        setEntityGravity(entity, gravity, safeFallDistance);
 
         Stellaris.LOG.debug(String.valueOf(gravity));
     }
@@ -43,9 +48,9 @@ public class GravityUtils {
 
     }
 
-    public static void setEntityGravity(LivingEntity entity, double gravity) {
+    public static void setEntityGravity(LivingEntity entity, double gravity, double safeFallDistance) {
         trySetBaseAttribute(entity, Attributes.GRAVITY, gravity);
-        trySetBaseAttribute(entity, Attributes.SAFE_FALL_DISTANCE, 0.08 / gravity * 3);
+        trySetBaseAttribute(entity, Attributes.SAFE_FALL_DISTANCE, safeFallDistance);
     }
 
     public static void resetEntityGravity(LivingEntity entity) {
@@ -57,6 +62,14 @@ public class GravityUtils {
         return GRAVITY_CACHE.computeIfAbsent(planet, p -> MPS2ToMCG(p.gravity()));
     }
 
+    public static double getSafeFallDistance(Planet planet) {
+        return SAFE_FALL_DISTANCE_CACHE.computeIfAbsent(planet, p -> computeSafeFallDistance(getGravity(p)));
+    }
+
+    public static double computeSafeFallDistance(double gravity) {
+        return SAFE_FALL_DISTANCE_CONVERSION_RATE.divide(new BigDecimal(gravity), 5, RoundingMode.HALF_UP).doubleValue();
+    }
+
     /**
      * @param MPS2 m/s²
      * @return Minecraft Gravity Unit (blocks/t²)
@@ -64,5 +77,4 @@ public class GravityUtils {
     public static double MPS2ToMCG(String MPS2) {
         return GRAVITY_CONVERSION_RATE.multiply(new BigDecimal(MPS2)).setScale(5, RoundingMode.HALF_UP).doubleValue();
     }
-}
 }

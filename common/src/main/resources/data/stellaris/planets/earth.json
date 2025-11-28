@@ -1,5 +1,5 @@
 {
   "translation_key": "stellaris.planet.earth",
   "dimension": "minecraft:overworld",
-  "gravity": 9.81
+  "gravity": "9.81"
 }
