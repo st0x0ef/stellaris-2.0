@@ -17,6 +17,7 @@ public final class StellarisFabric implements ModInitializer {
     public void onInitialize() {
         Stellaris.init();
         onAddReloadListener();
+        StellarisFabricEvents.entityLoadEvent();
     }
 
     public static void onAddReloadListener() {
