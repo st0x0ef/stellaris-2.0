@@ -40,4 +40,7 @@ public record CommandSourceWrapper(CommandContext<CommandSourceStack> context) {
         return 0;
     }
 
+    public CommandContext<CommandSourceStack> context() {
+        return context;
+    }
 }

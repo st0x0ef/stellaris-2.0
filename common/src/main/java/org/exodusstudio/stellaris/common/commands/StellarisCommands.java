@@ -12,7 +12,7 @@ import org.exodusstudio.stellaris.common.commands.helpers.ArgumentBuilder;
 import org.exodusstudio.stellaris.common.commands.helpers.CommandBuilder;
 import org.exodusstudio.stellaris.common.data.Planet;
 import org.exodusstudio.stellaris.common.data.PlanetsData;
-import org.exodusstudio.stellaris.common.menu.MainTabletMenu;
+import org.exodusstudio.stellaris.common.menus.MainTabletMenu;
 import org.exodusstudio.stellaris.common.utils.PlanetUtil;
 
 public class StellarisCommands {
@@ -56,7 +56,7 @@ public class StellarisCommands {
         builder.addSubCommand(builder.createSubCommand("teleport").addArgument(ArgumentBuilder.of("planet", PlanetArgument.planet())).execute(wrapper -> {
             Planet planet = PlanetsData.PLANETS.stream().filter(p -> {
                 try {
-                    return p.is(PlanetArgument.getPlanet(wrapper.context, "planet"));
+                    return p.is(PlanetArgument.getPlanet(wrapper.context(), "planet"));
                 } catch (CommandSyntaxException e) {
                     wrapper.getPlayer().displayClientMessage(Component.literal("Planet not found!"), false);
                     return false;
@@ -88,7 +88,7 @@ public class StellarisCommands {
                         .execute(wrapper -> {
                             PlanetsData.PLANETS.stream().filter(p -> {
                                 try {
-                                    return p.is(PlanetArgument.getPlanet(wrapper.context, "planet"));
+                                    return p.is(PlanetArgument.getPlanet(wrapper.context(), "planet"));
                                 } catch (CommandSyntaxException e) {
                                     wrapper.getPlayer().displayClientMessage(Component.literal("Planet not found!"), false);
                                     return false;
