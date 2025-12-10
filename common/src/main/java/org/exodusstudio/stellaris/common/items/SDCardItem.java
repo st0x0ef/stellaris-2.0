@@ -13,7 +13,7 @@ import java.util.function.Consumer;
 public class SDCardItem extends Item {
 
     public SDCardItem(Properties properties) {
-        super(properties);
+        super(properties.component(DataComponentsRegistry.SD_CARD_ID.get(), 0));
     }
 
     @Override
