@@ -74,17 +74,17 @@ public class CommandBuilder {
         LiteralArgumentBuilder<CommandSourceStack> commandBuilder = Commands.literal(commandName)
                 .requires(source -> source.hasPermission(permissionLevel));
 
-        if(argumentBuilder != null) {
-            commandBuilder.then(argumentBuilder.build(this.commandFunction, null));
-        } else {
-            commandBuilder.executes((c) ->  this.commandFunction.apply(new CommandSourceWrapper(c)));
-        }
+        commandBuilder.executes((c) -> this.commandFunction.apply(new CommandSourceWrapper(c)));
 
+        if (argumentBuilder != null) {
+            commandBuilder.then(argumentBuilder.build(this.commandFunction, null));
+        }
 
         for (CommandBuilder subCommand : subCommands) {
             commandBuilder.then(subCommand.build());
         }
         return commandBuilder;
     }
+
 
 }

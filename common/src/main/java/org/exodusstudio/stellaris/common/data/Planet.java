@@ -2,6 +2,7 @@ package org.exodusstudio.stellaris.common.data;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
@@ -29,5 +30,15 @@ public record Planet(String translationKey, ResourceLocation dimension, String g
             return this.dimension.equals(other.dimension);
 
         return false;
+    }
+
+    public Component getDisplayInfo() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("----- Planet Info -----").append("\n");
+        sb.append("Planet: ").append(translationKey).append("\n");
+        sb.append("Dimension: ").append(dimension.toString()).append("\n");
+        sb.append("Gravity: ").append(gravity).append(" m/s²").append("\n");
+        sb.append("-----------------------");
+        return Component.literal(sb.toString());
     }
 }
