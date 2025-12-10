@@ -2,6 +2,9 @@ package org.exodusstudio.stellaris.client.screens.components.containers;
 
 import net.minecraft.client.gui.components.AbstractWidget;
 
+/**
+ * Utility class to make Draggable Container.
+ */
 public class DraggableContainer extends BasicContainer {
 
     public int dragOffsetX = 0;

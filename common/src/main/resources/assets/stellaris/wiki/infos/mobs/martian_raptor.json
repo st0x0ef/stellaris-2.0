@@ -1,0 +1,19 @@
+{
+  "components": [
+    {
+      "type": "text",
+      "text": "This is a [color=yellow]Martian [color=yellow]Raptor. This agressive creature live on [ref=planets:mars]Mars [br] [br] Stats : [br] - Health : 20 [br] - Speed : 0.3 [br] - Damage : 3"
+    },
+    {
+      "type": "entity",
+      "entity": {
+        "id": "stellaris:martian_raptor",
+        "scale": 25
+      }
+    }
+  ],
+  "iconType": "entity",
+  "id": "martian_raptor",
+  "title": "Martian Raptor",
+  "entryId": "mobs"
+}

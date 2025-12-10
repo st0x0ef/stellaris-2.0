@@ -40,6 +40,8 @@
   "item.stellaris.cable_t1": "Cable",
 
   "item.stellaris.tablet": "Tablet",
+  "item.stellaris.tablet": "Tablet",
+  "item.stellaris.sd_card": "SD Card",
 
   "item.stellaris.black_can": "Black Can",
   "item.stellaris.blue_can": "Blue Can",
@@ -88,5 +90,8 @@
   "config.stellaris.debugMode.desc": "Select to enter the debug mode.",
   "config.stellaris.regenDimension.desc": "When selected, all the dimensions in the dimensionsToRegen will be regenerated.",
   "config.stellaris.regenDimension": "Regenerate dimensions",
-  "config.stellaris.dimensionsToRegen": "Dimensions to Regenerate"
+  "config.stellaris.dimensionsToRegen": "Dimensions to Regenerate",
+
+  "stat.stellaris.space_traveled": "Space Traveled"
+
 }

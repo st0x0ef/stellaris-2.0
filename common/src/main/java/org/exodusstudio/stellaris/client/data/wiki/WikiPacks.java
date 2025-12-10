@@ -1,0 +1,53 @@
+package org.exodusstudio.stellaris.client.data.wiki;
+
+import net.minecraft.resources.FileToIdConverter;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.packs.resources.ResourceManager;
+import net.minecraft.server.packs.resources.SimpleJsonResourceReloadListener;
+import net.minecraft.util.profiling.ProfilerFiller;
+import org.exodusstudio.stellaris.Stellaris;
+import org.exodusstudio.stellaris.client.screens.tablet.application.wiki.WikiApplicationScreen;
+
+import java.util.Map;
+
+public class WikiPacks {
+
+
+    public static class WikiEntryPack extends SimpleJsonResourceReloadListener<WikiEntry> {
+
+        public WikiEntryPack() {
+            super(WikiEntry.CODEC, FileToIdConverter.json("wiki/entries"));
+        }
+
+        @Override
+        protected void apply(Map<ResourceLocation, WikiEntry> resourceLocationJsonElementMap, ResourceManager resourceManager, ProfilerFiller profiler) {
+            Stellaris.LOG.error("Loading Assets for Tablet Pack");
+            resourceLocationJsonElementMap.forEach((key, entry) -> {
+
+                if (!WikiApplicationScreen.ENTRIES.contains(entry)) {
+                    WikiApplicationScreen.ENTRIES.add(entry);
+                }
+
+
+                Stellaris.LOG.info("Loading tablet entry: {}", key);
+
+            });
+
+        }
+    }
+
+    public static class EntryInfoPack extends SimpleJsonResourceReloadListener<EntryInfo> {
+
+        public EntryInfoPack() {
+            super(EntryInfo.CODEC, FileToIdConverter.json("wiki/infos"));
+        }
+
+        @Override
+        protected void apply(Map<ResourceLocation, EntryInfo> resourceLocationJsonElementMap, ResourceManager resourceManager, ProfilerFiller profiler) {
+            Stellaris.LOG.error("Loading Assets for Tablet Pack");
+
+            WikiApplicationScreen.ENTRY_COMPONENTS.putAll(resourceLocationJsonElementMap);
+
+        }
+    }
+}

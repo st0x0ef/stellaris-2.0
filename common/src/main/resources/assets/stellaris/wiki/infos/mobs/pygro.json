@@ -1,0 +1,19 @@
+{
+  "components": [
+    {
+      "type": "text",
+      "text": "This is a [color=yellow]Pygro. This passive creature live on [ref=planets:mercury]Mercury [br] [br] Stats : [br] - Health : 16 [br] - Speed : 0.35 [br]"
+    },
+    {
+      "type": "entity",
+      "entity": {
+        "id": "stellaris:pygro",
+        "scale": 25
+      }
+    }
+  ],
+  "iconType": "entity",
+  "id": "pygro",
+  "title": "Pygro",
+  "entryId": "mobs"
+}
