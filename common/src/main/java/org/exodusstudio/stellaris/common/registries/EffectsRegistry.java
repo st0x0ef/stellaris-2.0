@@ -6,14 +6,13 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.world.effect.MobEffect;
 import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.common.effects.CorrosionEffect;
+import org.exodusstudio.stellaris.common.effects.InfectedEffect;
 
 public class EffectsRegistry {
+    public static final DeferredRegister<MobEffect> EFFECTS = DeferredRegister.create(Stellaris.MOD_ID, Registries.MOB_EFFECT);
 
-    public static final DeferredRegister<MobEffect> EFFECTS = 
-            DeferredRegister.create(Stellaris.MOD_ID, Registries.MOB_EFFECT);
-
-    public static final RegistrySupplier<MobEffect> CORROSION = 
-            EFFECTS.register("corrosion", CorrosionEffect::new);
+    public static final RegistrySupplier<MobEffect> CORROSION = EFFECTS.register("corrosion", CorrosionEffect::new);
+    public static final RegistrySupplier<MobEffect> INFECTED = EFFECTS.register("infected", InfectedEffect::new);
 
     public static void register() {
         EFFECTS.register();
