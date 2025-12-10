@@ -3,13 +3,15 @@ package org.exodusstudio.stellaris.client.utils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
-import org.exodusstudio.stellaris.client.screens.components.WikiInfos;
 import org.exodusstudio.stellaris.common.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Consumer;
 
+/**
+ * A Class to parse and render our "custom" markdown system.
+ */
 public class WikiEntryTextRenderer {
 
     public final String text;
@@ -18,16 +20,23 @@ public class WikiEntryTextRenderer {
 
     public String color = null;
     public String referenceLocation = null;
+    public String tooltip = null;
 
     public ArrayList<ArrayList<Word>> lines = new ArrayList<>();
 
     public WikiEntryTextRenderer(String text, int maxWidth) {
         this.text = text;
         this.maxWidth = maxWidth;
-        this.lines = createLines(text, maxWidth);
+        this.lines = parseLines(text, maxWidth);
     }
 
-    public ArrayList<ArrayList<Word>> createLines(String message, int maxWidth) {
+    /**
+     *  Return a list of word in a line.
+     * @param message The message we want to render
+     * @param maxWidth The width of the place we want our text to be rendered
+     * @return A list of line containing a list of words.
+     */
+    public ArrayList<ArrayList<Word>> parseLines(String message, int maxWidth) {
 
         String[] words = message.split("\\s+");
 
@@ -62,9 +71,18 @@ public class WikiEntryTextRenderer {
 
                     wordWidth = Minecraft.getInstance().font.width(word + " ");
                 }
-                else if (word.contains("[ref=")) {
+                if (word.contains("[ref=")) {
                     this.referenceLocation = word.substring(5, word.indexOf("]"));
-                    word = removeRef(word);
+                    word = removeTag(word, "ref");
+
+                    //If it's only the tag, skip it
+                    if(word.isEmpty()) continue;
+
+                    wordWidth = Minecraft.getInstance().font.width(word + " ");
+                }
+                if (word.contains("[tl=")) {
+                    this.tooltip = word.substring(4, word.indexOf("]"));
+                    word = removeTag(word, "tl");
 
                     //If it's only the tag, skip it
                     if(word.isEmpty()) continue;
@@ -80,6 +98,9 @@ public class WikiEntryTextRenderer {
                 } else if (word.contains("[ref]")) {
                     this.referenceLocation = null;
                     word = word.replace("[ref]", "");
+                } else if (word.contains("[tl]")) {
+                    this.tooltip = null;
+                    word = word.replace("[tl]", "");
                 }
 
                 // Create a new Word object for the current word
@@ -92,6 +113,10 @@ public class WikiEntryTextRenderer {
                 if(this.referenceLocation != null) {
                     wordObj.resourceLocation = this.referenceLocation;
                 }
+                if(this.tooltip != null) {
+                    wordObj.tooltip = this.tooltip;
+                }
+
 
 
                 if (wordWidth + width.get() < maxWidth) {
@@ -119,7 +144,7 @@ public class WikiEntryTextRenderer {
         return lines.size() * getFont().lineHeight;
     }
 
-    public int renderWords(GuiGraphics guiGraphics, int x, int y, Consumer<WikiInfos.ClickBox> clickBoxConsumer) {
+    public int renderWords(GuiGraphics guiGraphics, int x, int y, int mouseX, int mouseY, Consumer<ActionBox> clickBoxConsumer) {
         for (int i = 0; i < lines.size(); i++) {
             ArrayList<Word> words = lines.get(i);
             AtomicInteger width = new AtomicInteger(0);
@@ -132,8 +157,19 @@ public class WikiEntryTextRenderer {
                 }
 
                 if (word.resourceLocation != null) {
-                    clickBoxConsumer.accept(new WikiInfos.ClickBox(x + width.get(), y + (i * getFont().lineHeight), getFont().width(word.text), getFont().lineHeight, word.resourceLocation));
+                    clickBoxConsumer.accept(new ActionBox(x + width.get(), y + (i * getFont().lineHeight), getFont().width(word.text), getFont().lineHeight, null, (info) -> {
+
+                        info.actionBox().changePage(info.infoWidget(), word.resourceLocation);
+
+                        }, (word.text + word.resourceLocation)));
                     color = "blue";
+                }
+                if (word.tooltip != null) {
+                    //TODO add tooltip support.
+                    clickBoxConsumer.accept(new ActionBox(x + width.get(), y + (i * getFont().lineHeight), getFont().width(word.text), getFont().lineHeight, (info) -> {
+                        //info.infoWidget().setTooltip(Tooltip.create(Component.literal("eee")));
+                    }, null, (word.text + word.tooltip)));
+                    color = "green";
                 }
 
                 guiGraphics.drawString(getFont(), word.text, x + width.get(), y + (i * getFont().lineHeight), Utils.getMinecraftColor(color));
@@ -148,8 +184,8 @@ public class WikiEntryTextRenderer {
         return Minecraft.getInstance().font;
     }
 
-    public String removeRef(String text) {
-        String regex = "\\[ref=.*?\\]";
+    public String removeTag(String text, String tag) {
+        String regex = "\\[" + tag + "=.*?\\]";
         return text.replaceAll(regex, "");
     }
     
@@ -158,6 +194,7 @@ public class WikiEntryTextRenderer {
         public String text;
         public String color = null;
         public String resourceLocation = null;
+        public String tooltip = null;
 
         public Word(String word) {
             this.text = word;
@@ -165,11 +202,11 @@ public class WikiEntryTextRenderer {
 
         @Override
         public String toString() {
-            return (!this.onlyText() ? "{" : "") + (color != null ? "[color=" + color + "]" : "") + (resourceLocation != null ? " [ref=" + resourceLocation + "]" : "") + text + (!this.onlyText() ? "}" : "");
+            return (!this.onlyText() ? "{" : "") + (color != null ? "[color=" + color + "]" : "") + (tooltip != null ? "[tl=" + tooltip + "]" : "") + (resourceLocation != null ? " [ref=" + resourceLocation + "]" : "") + text + (!this.onlyText() ? "}" : "");
         }
 
         public boolean onlyText() {
-            return color == null && resourceLocation == null;
+            return color == null && resourceLocation == null && tooltip == null;
         }
     }
 

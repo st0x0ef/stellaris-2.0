@@ -27,7 +27,7 @@ public class CoalGeneratorMenu extends BaseContainer {
     }
 
     public CoalGeneratorMenu(int syncId, Inventory playerInventory, Container container, CoalGeneratorBlockEntity entity, ContainerData containerData) {
-        super(MenuTypesRegistry.COAL_GENERATOR.get(), syncId, 1, playerInventory, 10, 106);
+        super(MenuTypesRegistry.COAL_GENERATOR_MENU.get(), syncId, 1, playerInventory, 10, 106);
 
         checkContainerSize(container, 1);
         this.inventory = container;

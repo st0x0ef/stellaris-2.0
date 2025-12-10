@@ -1,73 +1,91 @@
 package org.exodusstudio.stellaris.client.screens.components.containers;
 
+import com.mojang.blaze3d.pipeline.RenderPipeline;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.components.AbstractScrollArea;
 import net.minecraft.client.gui.components.AbstractWidget;
+import net.minecraft.client.gui.components.events.ContainerEventHandler;
+import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.renderer.RenderPipelines;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.Mth;
-import org.exodusstudio.stellaris.Stellaris;
+import org.exodusstudio.stellaris.common.utils.ResourceLocationUtils;
+import org.jetbrains.annotations.Nullable;
 
-public class ScrollableContainer extends BasicContainer {
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
-    private static final ResourceLocation SCROLLER_SPRITE = ResourceLocation.fromNamespaceAndPath(Stellaris.MOD_ID, "icon/scroller");
-    private static final ResourceLocation SCROLLER_SPRITE_HOVER = ResourceLocation.fromNamespaceAndPath(Stellaris.MOD_ID, "icon/scroller_hover");
-
-    private int scrollOffset = 0;
-    private int minOffset = -16;
-    private boolean showScrollbar = true;
+public class ScrollableContainer extends AbstractScrollArea implements ContainerEventHandler {
 
 
-    public ScrollableContainer(int baseX, int baseY, int width, int height, AbstractWidget... children) {
-        super(baseX, baseY, width, height, children);
+
+    public HashMap<AbstractWidget, Integer> defaultPositions = new HashMap<>();
+    public ArrayList<AbstractWidget> children = new ArrayList<>();
+    public int contentHeight = 0;
+    public RenderInfo onRender;
+    public double scrollRate = 7;
+    public boolean allowScrollingOnChildren = true;
+
+    private ResourceLocation scrollerSprite = ResourceLocationUtils.id("icon/scroller");
+    @Nullable
+    private ResourceLocation scrollerBackground;
+    @Nullable
+    private ResourceLocation background;
+
+    public ScrollableContainer(int x, int y, int width, int height, Component component) {
+        super(x, y, width, height, component);
     }
 
     @Override
-    protected void renderWidget(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
-        if(this.scrollOffset < minOffset) {
-            this.scrollOffset = minOffset;
-        }
+    protected int contentHeight() {
+        return contentHeight;
+    }
 
+    @Override
+    protected double scrollRate() {
+        return scrollRate;
+    }
+
+    @Override
+    public void setScrollAmount(double scrollAmount) {
+        super.setScrollAmount(scrollAmount);
+        updateChildrenPosition();
+    }
+
+    public void updateChildrenPosition() {
+        for (AbstractWidget child : this.children) {
+            child.setY((int) (this.defaultPositions.get(child) - this.scrollAmount()));
+        }
+    }
+
+
+    @Override
+    protected void renderWidget(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
         guiGraphics.pose().pushMatrix();
         guiGraphics.enableScissor(this.getX(), this.getY(), this.getRight(), this.getBottom());
 
+        if(this.background != null) guiGraphics.blit(RenderPipelines.GUI_TEXTURED, this.background, this.getX(), this.getY(), 0, 0, this.getWidth(), this.getBottom(), this.getWidth(), this.getHeight());
+
+        renderContent(guiGraphics, mouseX, mouseY, partialTick);
+
+        guiGraphics.disableScissor();
+        guiGraphics.pose().popMatrix();
+
+
+        renderScrollbar(guiGraphics);
+
+    }
+
+    public void renderContent(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
         for(AbstractWidget widget : this.children) {
             widget.render(guiGraphics, mouseX, mouseY, partialTick);
         }
 
-        guiGraphics.disableScissor();
-        guiGraphics.pose().popMatrix();
-        renderScrollbar(guiGraphics, mouseX, mouseY);
-    }
-
-    @Override
-    public boolean mouseDragged(double mouseX, double mouseY, int button, double dragX, double dragY) {
-        if(this.canOffset(dragY) && this.isScrollbarHovered(mouseX, mouseY)) {
-            this.scrollOffset += (int) dragY;
-            updateChildrenPosition();
-            return true;
-        }
-
-        return super.mouseDragged(mouseX, mouseY, button, dragX, dragY);
-    }
-
-    @Override
-    public boolean mouseScrolled(double mouseX, double mouseY, double scrollX, double scrollY) {
-        if(this.canOffset(scrollY)) {
-            this.scrollOffset -= (int) scrollY;
-            updateChildrenPosition();
-            return true;
-        }
-        return super.mouseScrolled(mouseX, mouseY, scrollX, scrollY);
-    }
-
-    @Override
-    public void updateChildrenPosition() {
-        int y = this.scrollOffset;
-        for (AbstractWidget child : this.children) {
-            int childHeight = child.getHeight();
-            child.setY(childHeight + y);
+        if(onRender != null) {
+            onRender.render(this, guiGraphics, mouseX, mouseY, partialTick);
         }
     }
 
@@ -77,49 +95,122 @@ public class ScrollableContainer extends BasicContainer {
     }
 
     @Override
-    public ScrollableContainer addChild(Screen parent, AbstractWidget child) {
-        parent.addRenderableWidget(child);
-        return (ScrollableContainer) this.addChild(child);
+    public boolean mouseScrolled(double mouseX, double mouseY, double scrollX, double scrollY) {
+
+        return super.mouseScrolled(mouseX, mouseY, scrollX, scrollY);
     }
 
-    public boolean canOffset(double yOffset) {
-
-        return this.scrollOffset + yOffset >= minOffset;
-    }
-
-    protected int scrollerHeight() {
-        return 40;
-    }
-
-    protected int scrollBarY() {
-        return Mth.clamp(getY() + scrollOffset, getY() , getBottom() - scrollerHeight());
-    }
-
-    public boolean isScrollbarHovered(double mouseX, double mouseY) {
-        int scrollbarX = this.getRight() - 10;
-        int scrollbarY = this.scrollBarY();
-        return mouseX >= scrollbarX && mouseX <= this.getRight() && mouseY >= scrollbarY && mouseY <= scrollbarY + this.scrollerHeight();
-    }
-
-    private void renderScrollbar(GuiGraphics guiGraphics, int mouseX, int mouseY) {
-        if (this.showScrollbar) {
-            int i = this.getRight() - 10;
+    /**
+     * We Override this to allow changing textures
+     */
+    @Override
+    protected void renderScrollbar(GuiGraphics guiGraphics) {
+        if (this.scrollbarVisible()) {
+            int i = this.scrollBarX();
             int j = this.scrollerHeight();
             int k = this.scrollBarY();
-            if(this.isScrollbarHovered(mouseX, mouseY)) {
-                guiGraphics.blitSprite(RenderPipelines.GUI_TEXTURED, SCROLLER_SPRITE_HOVER, i, k, 10, j);
-            } else {
-                guiGraphics.blitSprite(RenderPipelines.GUI_TEXTURED, SCROLLER_SPRITE, i, k, 10, j);
-            }
+            if(this.scrollerBackground != null) guiGraphics.blitSprite(RenderPipelines.GUI_TEXTURED, this.scrollerBackground, i, this.getY(), 6, this.getHeight());
+            guiGraphics.blitSprite(RenderPipelines.GUI_TEXTURED, this.scrollerSprite, i, k, 6, j);
         }
     }
 
-    public ScrollableContainer setScrollOffset(int scrollOffset) {
-        this.scrollOffset = scrollOffset;
+    @Override
+    public boolean isHoveredOrFocused() {
+
+        boolean bl = false;
+        if(allowScrollingOnChildren) {
+            for(AbstractWidget widget : this.children) {
+                if(widget.isHoveredOrFocused()) {
+                    bl = true;
+                    break;
+                }
+            }
+        }
+
+        return super.isHoveredOrFocused() || bl;
+    }
+
+    public double getOffsetHeight() {
+        return this.getY() - this.scrollAmount();
+    }
+
+    @Override
+    public List<? extends GuiEventListener> children() {
+        return this.children;
+    }
+
+    @Override
+    public boolean isDragging() {
+        return false;
+    }
+
+    @Override
+    public void setDragging(boolean isDragging) {
+
+    }
+
+    @Override
+    public @Nullable GuiEventListener getFocused() {
+        for(AbstractWidget widget : this.children) {
+            if(widget.isFocused()) return widget;
+        }
+        return null;
+    }
+
+    @Override
+    public void setFocused(@Nullable GuiEventListener focused) {
+        for(AbstractWidget widget : this.children) {
+            widget.setFocused(focused == widget);
+        }
+    }
+
+
+
+    /** Builder */
+    public ScrollableContainer setContentHeight(int contentHeight) {
+        this.contentHeight = contentHeight;
         return this;
     }
 
-    public int getScrollOffset() {
-        return scrollOffset;
+    /**
+     * This allows to render things but without attaching child widget.
+     * @param info the things to render.
+     * @return the container
+     */
+    public ScrollableContainer setRender(RenderInfo info) {
+        this.onRender = info;
+        return this;
+    }
+
+    public ScrollableContainer setScrollRate(double scrollRate) {
+        this.scrollRate = scrollRate;
+        return this;
+    }
+
+    public ScrollableContainer setScrollerTexture(ResourceLocation sprite, @Nullable ResourceLocation background) {
+        this.scrollerSprite = sprite;
+        this.scrollerBackground = background;
+        return this;
+    }
+
+    public ScrollableContainer setBackground(@Nullable ResourceLocation background) {
+        this.background = background;
+        return this;
+    }
+
+    public ScrollableContainer addChild(Screen parent, AbstractWidget child) {
+        parent.addWidget(child);
+        this.children.add(child);
+        this.defaultPositions.put(child, child.getY());
+        return this;
+    }
+
+
+
+    @FunctionalInterface
+    public interface RenderInfo {
+
+        void render(ScrollableContainer container,  GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick);
+
     }
 }

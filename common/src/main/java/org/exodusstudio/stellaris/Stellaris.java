@@ -27,29 +27,30 @@ public final class Stellaris {
             .setObjectToNumberStrategy(ToNumberPolicy.LONG_OR_DOUBLE)
             .setStrictness(Strictness.LENIENT)
             .create();
-
-
+  
     public static CommonConfig CONFIG;
 
     public static void init() {
         CONFIG = ConfigsRegistry.getInstance().registerConfig(new CommonConfig(), CONFIG);
 
         NetworkRegistry.init();
-
         // Keep above the blocks and item registries, please, or it will crash when adding fluids
         FluidsRegistry.register();
         EffectsRegistry.register();
+
         DataComponentsRegistry.DATA_COMPONENT_TYPE.register();
         BlocksRegistry.BLOCKS.register();
         BlockEntitiesRegistry.BLOCK_ENTITY_TYPE.register();
         ItemsRegistry.ITEMS.register();
         CreativeTabsRegistry.register();
+        SDCardsRegistry.register();
+        StatsRegistry.STATS.register();
         MenuTypesRegistry.MENU_TYPE.register();
         ArgumentsTypesRegistry.init();
         CommandsRegistry.init();
         ApplicationRegistry.init();
-        CapabilitiesRegistry.init();
 
+        CapabilitiesRegistry.init();
         Events.init();
     }
 

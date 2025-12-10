@@ -2,11 +2,14 @@ package org.exodusstudio.stellaris.client;
 
 import dev.architectury.platform.Platform;
 import dev.architectury.registry.ReloadListenerRegistry;
+import dev.architectury.registry.menu.MenuRegistry;
 import fr.tathan.exoconfig.client.screen.ConfigScreen;
 import net.minecraft.server.packs.PackType;
 import org.exodusstudio.stellaris.Stellaris;
-import org.exodusstudio.stellaris.client.data.wiki.WikiPack;
+import org.exodusstudio.stellaris.client.data.wiki.WikiPacks;
+import org.exodusstudio.stellaris.client.screens.tablet.MainTabletScreen;
 import org.exodusstudio.stellaris.client.screens.tablet.application.ApplicationRegistry;
+import org.exodusstudio.stellaris.common.registries.MenuTypesRegistry;
 import org.exodusstudio.stellaris.common.utils.ResourceLocationUtils;
 
 public class StellarisClient {
@@ -18,6 +21,8 @@ public class StellarisClient {
     }
 
     private static void registerPack() {
-        ReloadListenerRegistry.register(PackType.CLIENT_RESOURCES, new WikiPack(), ResourceLocationUtils.id("wiki"));
+        ReloadListenerRegistry.register(PackType.CLIENT_RESOURCES, new WikiPacks.WikiEntryPack(), ResourceLocationUtils.id("wiki/entries"));
+
+        ReloadListenerRegistry.register(PackType.CLIENT_RESOURCES, new WikiPacks.EntryInfoPack(), ResourceLocationUtils.id("wiki/infos"));
     }
 }

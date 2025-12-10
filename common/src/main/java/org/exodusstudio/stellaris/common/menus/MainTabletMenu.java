@@ -1,4 +1,4 @@
-package org.exodusstudio.stellaris.common.menu;
+package org.exodusstudio.stellaris.common.menus;
 
 import dev.architectury.registry.menu.ExtendedMenuProvider;
 import net.minecraft.network.FriendlyByteBuf;
@@ -19,7 +19,7 @@ public class MainTabletMenu extends AbstractContainerMenu {
     }
 
     public MainTabletMenu(int syncId, Inventory playerInventory) {
-        super(MenuTypesRegistry.TABLET.get(), syncId);
+        super(MenuTypesRegistry.TABLET_MENU.get(), syncId);
 
         this.playerInventory = playerInventory;
     }

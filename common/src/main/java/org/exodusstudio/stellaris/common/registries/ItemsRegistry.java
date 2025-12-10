@@ -5,8 +5,11 @@ import dev.architectury.registry.registries.RegistrySupplier;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.BucketItem;
 import net.minecraft.world.item.Item;
-
+import net.minecraft.world.item.Items;
+import net.minecraft.world.level.material.Fluid;
+import org.exodusstudio.stellaris.common.items.SDCardItem;
 import org.exodusstudio.stellaris.common.items.CanItem;
 import org.exodusstudio.stellaris.common.items.TabletItem;
 import org.exodusstudio.stellaris.common.utils.ResourceLocationUtils;
@@ -27,6 +30,7 @@ public final class ItemsRegistry {
     public static final RegistrySupplier<Item> RAW_DESH = item("raw_desh");
 
     public static final RegistrySupplier<TabletItem> TABLET = item("tablet", TabletItem::new);
+    public static final RegistrySupplier<SDCardItem> SD_CARD = item("sd_card", new Item.Properties().component(DataComponentsRegistry.SD_CARD_ID.get(), 0), SDCardItem::new);
 
     /** Cans */
     // Small cans

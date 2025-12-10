@@ -8,6 +8,7 @@ import org.exodusstudio.stellaris.client.screens.PowerBankScreen;
 import org.exodusstudio.stellaris.client.screens.SolarPanelScreen;
 import org.exodusstudio.stellaris.client.screens.VacuumatorScreen;
 import org.exodusstudio.stellaris.client.screens.tablet.MainTabletScreen;
+import org.exodusstudio.stellaris.client.screens.tablet.application.sd.SDCardReaderApplicationScreen;
 import org.exodusstudio.stellaris.common.registries.MenuTypesRegistry;
 
 public final class StellarisFabricClient implements ClientModInitializer {
@@ -18,11 +19,11 @@ public final class StellarisFabricClient implements ClientModInitializer {
     }
 
     private void registerScreens() {
-        MenuRegistry.registerScreenFactory(MenuTypesRegistry.TABLET.get(), MainTabletScreen::new);
-
-        MenuRegistry.registerScreenFactory(MenuTypesRegistry.SOLAR_PANEL.get(), SolarPanelScreen::new);
-        MenuRegistry.registerScreenFactory(MenuTypesRegistry.COAL_GENERATOR.get(), CoalGeneratorScreen::new);
-        MenuRegistry.registerScreenFactory(MenuTypesRegistry.POWER_BANK.get(), PowerBankScreen::new);
+        MenuRegistry.registerScreenFactory(MenuTypesRegistry.TABLET_MENU.get(), MainTabletScreen::new);
+        MenuRegistry.registerScreenFactory(MenuTypesRegistry.SD_CARD_READER_MENU.get(), SDCardReaderApplicationScreen::new);
+        MenuRegistry.registerScreenFactory(MenuTypesRegistry.SOLAR_PANEL_MENU.get(), SolarPanelScreen::new);
+        MenuRegistry.registerScreenFactory(MenuTypesRegistry.COAL_GENERATOR_MENU.get(), CoalGeneratorScreen::new);
+        MenuRegistry.registerScreenFactory(MenuTypesRegistry.POWER_BANK_MENU.get(), PowerBankScreen::new);
         MenuRegistry.registerScreenFactory(MenuTypesRegistry.VACUUMATOR.get(), VacuumatorScreen::new);
     }
 }
