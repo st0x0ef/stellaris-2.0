@@ -30,7 +30,7 @@ public final class ItemsRegistry {
     public static final RegistrySupplier<Item> RAW_DESH = item("raw_desh");
 
     public static final RegistrySupplier<TabletItem> TABLET = item("tablet", TabletItem::new);
-    public static final RegistrySupplier<SDCardItem> SD_CARD = item("sd_card", new Item.Properties().component(DataComponentsRegistry.SD_CARD_ID.get(), 0), SDCardItem::new);
+    public static final RegistrySupplier<SDCardItem> SD_CARD = item("sd_card", SDCardItem::new);
 
     /** Cans */
     // Small cans

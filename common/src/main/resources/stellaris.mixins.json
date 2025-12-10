@@ -7,7 +7,8 @@
 
   ],
   "mixins": [
-    "ConsumableMixin"
+    "ConsumableMixin",
+    "EntityMixin"
   ],
   "injectors": {
     "defaultRequire": 1
