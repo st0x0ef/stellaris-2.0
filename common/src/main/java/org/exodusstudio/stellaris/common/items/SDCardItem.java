@@ -18,7 +18,7 @@ public class SDCardItem extends Item {
 
     @Override
     public void appendHoverText(ItemStack stack, Item.TooltipContext context, TooltipDisplay tooltipDisplay, Consumer<Component> tooltipAdder, TooltipFlag flag) {
-        tooltipAdder.accept(Component.literal("ID: " + stack.get(DataComponentsRegistry.SD_CARD_ID.get())).withStyle(ChatFormatting.DARK_GRAY));
+        tooltipAdder.accept(Component.literal("ID: " + stack.get(DataComponentsRegistry.SD_CARD_ID.get())).withStyle(ChatFormatting.GRAY));
     }
 
 }

@@ -40,7 +40,6 @@
   "item.stellaris.cable_t1": "Cable",
 
   "item.stellaris.tablet": "Tablet",
-  "item.stellaris.tablet": "Tablet",
   "item.stellaris.sd_card": "SD Card",
 
   "item.stellaris.black_can": "Black Can",
@@ -76,6 +75,8 @@
   "item.stellaris.big_red_can": "Big Red Can",
   "item.stellaris.big_white_can": "Big White Can",
   "item.stellaris.big_yellow_can": "Big Yellow Can",
+
+  "item.stellaris.parasite": "Parasite",
 
 
   "gauge_text.stellaris.max_generation": "Max Generation : %s Fe/tick",

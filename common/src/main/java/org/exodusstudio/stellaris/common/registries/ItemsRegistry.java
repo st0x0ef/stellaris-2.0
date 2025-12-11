@@ -9,6 +9,7 @@ import net.minecraft.world.item.BucketItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.material.Fluid;
+import org.exodusstudio.stellaris.common.items.ParasiteItem;
 import org.exodusstudio.stellaris.common.items.SDCardItem;
 import org.exodusstudio.stellaris.common.items.CanItem;
 import org.exodusstudio.stellaris.common.items.TabletItem;
@@ -69,6 +70,8 @@ public final class ItemsRegistry {
     public static final RegistrySupplier<CanItem> BIG_WHITE_CAN = item("big_white_can", (p) -> new CanItem(p, 20));
     public static final RegistrySupplier<CanItem> BIG_YELLOW_CAN = item("big_yellow_can", (p) -> new CanItem(p, 20));
 
+    // Moon lore items
+    public static final RegistrySupplier<ParasiteItem> PARASITE = item("parasite", ParasiteItem::new);
 
     public static RegistrySupplier<Item> item(String name) {
         return item(name, new Item.Properties().arch$tab(CreativeTabsRegistry.STELLARIS_MAIN), Item::new);
