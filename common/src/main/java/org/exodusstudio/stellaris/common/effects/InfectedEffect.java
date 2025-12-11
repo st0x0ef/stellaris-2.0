@@ -12,7 +12,7 @@ import org.joml.Random;
 
 public class InfectedEffect extends MobEffect {
     public InfectedEffect() {
-        super(MobEffectCategory.HARMFUL, 0x83B848);
+        super(MobEffectCategory.HARMFUL, 0xAB49DB);
     }
 
     @Override

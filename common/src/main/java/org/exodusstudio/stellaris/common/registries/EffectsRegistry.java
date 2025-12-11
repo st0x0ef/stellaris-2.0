@@ -23,7 +23,6 @@ public class EffectsRegistry {
         EFFECTS.register(CORROSION, CorrosionEffect::new);
         EFFECTS.register(INFECTED, InfectedEffect::new);
 
-
         EFFECTS.register();
     }
 

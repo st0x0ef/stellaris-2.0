@@ -83,6 +83,8 @@
 
   "stellaris.screen.energyContainer": "Energy",
 
+  "effect.stellaris.infected": "Infected",
+
   "tooltip.item.stellaris.can.empty": "Empty",
   "tooltip.item.stellaris.can.nutrition": "Nutrition: %s/%s",
   "tooltip.item.stellaris.can.saturation": "Saturation: %s",
