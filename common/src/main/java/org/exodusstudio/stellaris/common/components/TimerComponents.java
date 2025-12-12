@@ -4,15 +4,16 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.network.codec.StreamCodec;
+import org.exodusstudio.stellaris.Stellaris;
 
-public record TimerComponents(double timeLeft, int maxTime) {
+public record TimerComponents(int timeLeft, int maxTime) {
     public TimerComponents(int maxTime) {
         this(maxTime, maxTime);
     }
 
     public static Codec<TimerComponents> CODEC = RecordCodecBuilder.create(instance ->
             instance.group(
-                    Codec.DOUBLE.fieldOf("timeLeft").forGetter(TimerComponents::timeLeft),
+                    Codec.INT.fieldOf("timeLeft").forGetter(TimerComponents::timeLeft),
                     Codec.INT.fieldOf("maxTime").forGetter(TimerComponents::maxTime)
             ).apply(instance, TimerComponents::new)
     );
@@ -22,16 +23,16 @@ public record TimerComponents(double timeLeft, int maxTime) {
     static {
         STREAM_CODEC = StreamCodec.of(
                 (buf, timerComponents) -> {
-                    buf.writeDouble(timerComponents.timeLeft);
+                    buf.writeInt(timerComponents.timeLeft);
                     buf.writeInt(timerComponents.maxTime);
                 },
-                buf -> new TimerComponents(buf.readDouble(), buf.readInt())
+                buf -> new TimerComponents(buf.readInt(), buf.readInt())
         );
     }
 
-    public TimerComponents tick(double delta) {
-        if (timeLeft - delta > 0) {
-            return new TimerComponents(timeLeft - delta, maxTime);
+    public TimerComponents tick() {
+        if (timeLeft - 1 > 0) {
+            return new TimerComponents(timeLeft - 1, maxTime);
         }
         return new TimerComponents(0, maxTime);
     }
