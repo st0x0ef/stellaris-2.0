@@ -3,7 +3,7 @@ package org.exodusstudio.stellaris.mixin.client;
 import net.minecraft.client.renderer.ItemInHandRenderer;
 import net.minecraft.world.item.ItemStack;
 import org.exodusstudio.stellaris.common.components.TimerComponents;
-import org.exodusstudio.stellaris.common.items.ParasiteItem;
+import org.exodusstudio.stellaris.common.items.infection.ParasiteItem;
 import org.exodusstudio.stellaris.common.registries.DataComponentsRegistry;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;

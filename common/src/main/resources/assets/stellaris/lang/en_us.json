@@ -77,6 +77,7 @@
   "item.stellaris.big_yellow_can": "Big Yellow Can",
 
   "item.stellaris.parasite": "Parasite",
+  "item.stellaris.pathogen_storage_cell": "Pathogen Storage Cell",
 
 
   "gauge_text.stellaris.max_generation": "Max Generation : %s Fe/tick",
@@ -88,6 +89,8 @@
   "tooltip.item.stellaris.can.empty": "Empty",
   "tooltip.item.stellaris.can.nutrition": "Nutrition: %s/%s",
   "tooltip.item.stellaris.can.saturation": "Saturation: %s",
+
+  "tooltip.item.stellaris.pathogen_storage_cell_info": "A sealed containment cell used to store parasites and support research toward an infection cure.",
 
   "config.stellaris.debugMode": "Debug Mode",
   "config.stellaris.debugMode.desc": "Select to enter the debug mode.",
