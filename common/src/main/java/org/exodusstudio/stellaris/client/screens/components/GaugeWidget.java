@@ -1,7 +1,9 @@
 package org.exodusstudio.stellaris.client.screens.components;
 
 import com.fej1fun.potentials.fluid.UniversalFluidStorage;
+import dev.architectury.core.fluid.ArchitecturyFluidAttributes;
 import dev.architectury.fluid.FluidStack;
+import dev.architectury.hooks.fluid.FluidStackHooks;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.Font;
@@ -33,9 +35,6 @@ public class GaugeWidget extends AbstractWidget {
     protected ResourceLocation overlay_sprite;
     protected final Direction4 DIRECTION;
 
-    public GaugeWidget(int x, int y, int width, int height, FluidStack fluidStack, @Nullable ResourceLocation overlay_sprite, long capacity, Direction4 direction) {
-        this(x, y,width, height, FluidInfosRegistry.getFluidComponent(fluidStack.getFluid()), FluidInfosRegistry.getFluidTexture(fluidStack), overlay_sprite, capacity, direction);
-    }
 
     public GaugeWidget(int x, int y, int width, int height, Component message, ResourceLocation sprite, @Nullable ResourceLocation overlay_sprite, long capacity, Direction4 direction) {
         super(x, y, width, height, message);
@@ -97,17 +96,7 @@ public class GaugeWidget extends AbstractWidget {
         this.amount = Math.clamp(value, 0, capacity);
     }
 
-    /**
-     * Update the gauge amount from a fluid storage
-     * Allow to sync fluid texture/component
-     * @param storage
-     * @param tank
-     */
-    public void updateAmount(UniversalFluidStorage storage, int tank) {
-        this.updateAmount(storage.getFluidInTank(tank).getAmount());
-        this.setMessage(FluidInfosRegistry.getFluidComponent(storage.getFluidInTank(tank).getFluid()));
-        this.updateSprite(FluidInfosRegistry.getFluidTexture(storage.getFluidInTank(tank)));
-    }
+
 
     public void updateCapacity(long capacity) {
         this.capacity = capacity;

@@ -1,5 +1,6 @@
 package org.exodusstudio.stellaris.client.screens.components;
 
+import com.fej1fun.potentials.fluid.UniversalFluidStorage;
 import dev.architectury.fluid.FluidStack;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -90,6 +91,18 @@ public class GaugeChunkWidget extends GaugeWidget {
         if (this.overlay_sprite != null) {
             guiGraphics.blitSprite(RenderPipelines.GUI_TEXTURED, overlay_sprite, getX(), getY(), width, height);
         }
+    }
+
+    /**
+     * Update the gauge amount from a fluid storage
+     * Allow to sync fluid texture/component
+     * @param storage
+     * @param tank
+     */
+    public void updateAmount(UniversalFluidStorage storage, int tank) {
+        this.updateAmount(storage.getFluidInTank(tank).getAmount());
+        this.setMessage(FluidInfosRegistry.getFluidComponent(storage.getFluidInTank(tank).getFluid()));
+        this.updateSprite(FluidInfosRegistry.getFluidTexture(storage.getFluidInTank(tank)));
     }
 
     @Override
