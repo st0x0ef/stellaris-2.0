@@ -44,11 +44,8 @@ public class StellarisClient {
     }
 
     public static void registerLayer() {
-
         EntityModelLayerRegistry.register(FlagHeadModel.LAYER_LOCATION, FlagHeadModel::createHumanoidHeadLayer);
         EntityModelLayerRegistry.register(FlagBlockRenderer.LAYER_LOCATION, FlagBlockRenderer::createBodyLayer);
-
-        BlockEntityRendererRegistry.register(BlockEntitiesRegistry.FLAG.get(), FlagBlockRenderer::new);
     }
 
     public static void registerEntityRenderer() {
