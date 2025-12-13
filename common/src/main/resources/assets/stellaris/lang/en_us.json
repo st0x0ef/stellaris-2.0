@@ -4,32 +4,102 @@
 
 
   "item.stellaris.moon_stone": "Moon Stone",
+  "item.stellaris.moon_stone_iron_ore": "Moon Stone Iron Ore",
   "item.stellaris.moon_sand": "Moon Sand",
+  "item.stellaris.lunar_stoned_wood_log": "Lunar Stoned Wood Log",
   "item.stellaris.iced_magma_block": "Iced Magma Block",
   "item.stellaris.packed_ice_bricks": "Packed Ice Bricks",
   "item.stellaris.packed_ice_pillar": "Packed Ice Pillar",
   "item.stellaris.polished_packed_ice": "Polished Packed Ice",
-  "item.stellaris.flag": "Flag",
+
+  "block.stellaris.mars_rock": "Mars Rock",
+  "block.stellaris.mars_regolith": "Mars Regolith",
+  "block.stellaris.mars_sand": "Mars Sand",
+  "block.stellaris.mars_ice": "Mars Ice",
+
+  "biome.stellaris.red_desert": "Red Desert",
+  "biome.stellaris.ice_caps": "Ice Caps",
+  "biome.stellaris.mars_valleys": "Mars Valleys",
+  "biome.stellaris.velvet_forest": "Velvet Forest",
+  "biome.stellaris.mars_mountains": "Mars Mountains",
+  "biome.stellaris.green_sludge_lakes": "Green Sludge Lakes",
+  "biome.stellaris.green_cauldron_cave": "Green Cauldron Cave",
+  "biome.stellaris.tangled_ravine": "Tangled Ravine",
+  "biome.stellaris.green_forest": "Green Forest",
+
+
 
   "item.stellaris.solar_panel": "Solar Panel",
   "item.stellaris.coal_generator": "Coal Generator",
 
   "item.stellaris.vacuumator": "Vacuumator",
+  "item.stellaris.electrolyzer": "Electrolyzer",
 
   "item.stellaris.power_bank_t1": "Tier 1 Power Bank",
+
+  "item.stellaris.hydrogen_bucket": "Hydrogen Bucket",
 
 
   "item.stellaris.cable_t1": "Cable",
 
   "item.stellaris.tablet": "Tablet",
+  "item.stellaris.sd_card": "SD Card",
 
+  "item.stellaris.black_can": "Black Can",
   "item.stellaris.blue_can": "Blue Can",
+  "item.stellaris.brown_can": "Brown Can",
+  "item.stellaris.cyan_can": "Cyan Can",
+  "item.stellaris.gray_can": "Gray Can",
+  "item.stellaris.green_can": "Green Can",
+  "item.stellaris.light_blue_can": "Light Blue Can",
+  "item.stellaris.light_gray_can": "Light Gray Can",
+  "item.stellaris.lime_can": "Lime Can",
+  "item.stellaris.magenta_can": "Magenta Can",
+  "item.stellaris.orange_can": "Orange Can",
+  "item.stellaris.pink_can": "Pink Can",
+  "item.stellaris.purple_can": "Purple Can",
+  "item.stellaris.red_can": "Red Can",
+  "item.stellaris.white_can": "White Can",
+  "item.stellaris.yellow_can": "Yellow Can",
+
+  "item.stellaris.big_black_can": "Big Black Can",
+  "item.stellaris.big_blue_can": "Big Blue Can",
+  "item.stellaris.big_brown_can": "Big Brown Can",
+  "item.stellaris.big_cyan_can": "Big Cyan Can",
+  "item.stellaris.big_gray_can": "Big Gray Can",
+  "item.stellaris.big_green_can": "Big Green Can",
+  "item.stellaris.big_light_blue_can": "Big Light Blue Can",
+  "item.stellaris.big_light_gray_can": "Big Light Gray Can",
+  "item.stellaris.big_lime_can": "Big Lime Can",
+  "item.stellaris.big_magenta_can": "Big Magenta Can",
+  "item.stellaris.big_orange_can": "Big Orange Can",
+  "item.stellaris.big_pink_can": "Big Pink Can",
+  "item.stellaris.big_purple_can": "Big Purple Can",
+  "item.stellaris.big_red_can": "Big Red Can",
+  "item.stellaris.big_white_can": "Big White Can",
+  "item.stellaris.big_yellow_can": "Big Yellow Can",
+
+  "item.stellaris.flag": "Flag",
+
+  "fluid.stellaris.hydrogen": "Hydrogen",
+  "fluid.stellaris.oxygen": "Oxygen",
+  "fluid.stellaris.water": "Water",
 
 
   "gauge_text.stellaris.max_generation": "Max Generation : %s Fe/tick",
 
+  "stellaris.screen.energyContainer": "Energy",
+  "stellaris.screen.empty_fluid": "Empty Fluid Tank",
 
-  "stellaris.screen.energyContainer": "Energy"
+  "tooltip.item.stellaris.can.empty": "Empty",
+  "tooltip.item.stellaris.can.nutrition": "Nutrition: %s/%s",
+  "tooltip.item.stellaris.can.saturation": "Saturation: %s",
 
+  "config.stellaris.debugMode": "Debug Mode",
+  "config.stellaris.debugMode.desc": "Select to enter the debug mode.",
+  "config.stellaris.regenDimension.desc": "When selected, all the dimensions in the dimensionsToRegen will be regenerated.",
+  "config.stellaris.regenDimension": "Regenerate dimensions",
+  "config.stellaris.dimensionsToRegen": "Dimensions to Regenerate",
 
+  "stat.stellaris.space_traveled": "Space Traveled"
 }

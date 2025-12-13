@@ -9,10 +9,7 @@ import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
 import org.exodusstudio.stellaris.Stellaris;
-import org.exodusstudio.stellaris.common.network.packets.OpenMenuPacket;
-import org.exodusstudio.stellaris.common.network.packets.OpenScreenPacket;
-import org.exodusstudio.stellaris.common.network.packets.SyncEnergyPacket;
-import org.exodusstudio.stellaris.common.network.packets.SyncEnergyPacketWithoutDirection;
+import org.exodusstudio.stellaris.common.network.packets.*;
 
 import java.util.Collections;
 import java.util.List;
@@ -26,8 +23,9 @@ public interface NetworkRegistry {
         registerS2C(OPEN_SCREEN_PACKET_TYPE, OpenScreenPacket.STREAM_CODEC, OpenScreenPacket::handle);
 
         registerC2S(OPEN_MENU_PACKET_TYPE, OpenMenuPacket.STREAM_CODEC, OpenMenuPacket::handle);
-      
-              
+
+        registerS2C(SyncFluidPacket.TYPE, SyncFluidPacket.STREAM_CODEC, SyncFluidPacket::handle);
+
         registerS2C(SyncEnergyPacket.TYPE, SyncEnergyPacket.STREAM_CODEC, SyncEnergyPacket::handle);
         registerS2C(SyncEnergyPacketWithoutDirection.TYPE, SyncEnergyPacketWithoutDirection.STREAM_CODEC, SyncEnergyPacketWithoutDirection::handle);
     }

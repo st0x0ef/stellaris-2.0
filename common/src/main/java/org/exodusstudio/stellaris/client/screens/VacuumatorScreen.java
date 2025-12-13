@@ -59,16 +59,16 @@ public class VacuumatorScreen extends AbstractContainerScreen<VacuumatorMenu> {
         }
 
         energyGauge.updateAmount(blockEntity.getEnergy(null).getEnergy());
+
+        if (menu.isLit()) {
+            int i = 45 - Mth.ceil(menu.getLitProgress() * 44);
+            graphics.blitSprite(RenderPipelines.GUI_TEXTURED, GUISprites.VACUUMATOR_PROGRESS_SPRITE, 110, 44, 0, 0, leftPos + 35, topPos + 42, 110, i);
+        }
     }
 
     @Override
     protected void renderBg(GuiGraphics graphics, float var2, int var3, int var4) {
         graphics.blit(RenderPipelines.GUI_TEXTURED, texture, this.leftPos, this.topPos, 0, 0, this.imageWidth, this.imageHeight, this.imageWidth, this.imageHeight);
-
-        if (menu.isLit()) {
-            int i = Mth.ceil(menu.getLitProgress() * 11.0F) + 1;
-            graphics.blitSprite(RenderPipelines.GUI_TEXTURED, GUISprites.VACUUMATOR_PROGRESS_SPRITE, 116, 34, 0, 34 - i, leftPos + 99, topPos + 68 - i, 116, i);
-        }
     }
 
     @Override

@@ -21,6 +21,8 @@ import org.exodusstudio.stellaris.common.utils.ResourceLocationUtils;
 public class ApplicationScreen<T extends AbstractContainerMenu> extends AbstractContainerScreen<T> {
 
     public static final ResourceLocation BACKGROUND = ResourceLocationUtils.guiTexture("tablet/tablet_background");
+    public static final ResourceLocation BLANCK_BACKGROUND = ResourceLocationUtils.guiTexture("tablet/tablet_background_blanck");
+    public static final ResourceLocation SIDE_LIGHTS = ResourceLocationUtils.guiTexture("tablet/side_light");
 
     public final Player player;
     public final Inventory inventory;

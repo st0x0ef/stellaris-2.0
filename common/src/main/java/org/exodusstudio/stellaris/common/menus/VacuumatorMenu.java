@@ -16,7 +16,7 @@ import org.exodusstudio.stellaris.common.blocks.entities.machines.VacuumatorBloc
 import org.exodusstudio.stellaris.common.menus.slot.FoodSlot;
 import org.exodusstudio.stellaris.common.menus.slot.ResultSlot;
 import org.exodusstudio.stellaris.common.menus.slot.SpecificItemsSlot;
-import org.exodusstudio.stellaris.common.menus.slot.SpecificTagSlot;
+import org.exodusstudio.stellaris.common.menus.slot.SpecificTagsSlot;
 import org.exodusstudio.stellaris.common.registries.MenuTypesRegistry;
 import org.exodusstudio.stellaris.common.registries.TagsRegistry;
 import org.jetbrains.annotations.NotNull;
@@ -39,17 +39,19 @@ public class VacuumatorMenu extends AbstractContainerMenu {
         this.container = container;
         this.entity = entity;
 
-        addSlot(new SpecificTagSlot(container, 0, 58, 40, TagsRegistry.CAN));
-        addSlot(new FoodSlot(container, 1, 82, 40));
-        addSlot(new SpecificItemsSlot(container, 2, 106, 40, Items.GLASS_BOTTLE.getDefaultInstance()));
+        this.data = containerData;
 
-        addSlot(new ResultSlot(container, 3, 66, 68));
-        addSlot(new ResultSlot(container, 4, 98, 68));
+        addSlot(new SpecificTagsSlot(container, 0, 56, 43, TagsRegistry.ItemTags.CAN));
+        addSlot(new FoodSlot(container, 1, 82, 43));
+        addSlot(new SpecificItemsSlot(container, 2, 108, 43, Items.GLASS_BOTTLE.getDefaultInstance()));
+
+        addSlot(new ResultSlot(container, 3, 68, 69));
+        addSlot(new ResultSlot(container, 4, 96, 69));
 
         addPlayerHotbar(inventory);
         addPlayerInventory(inventory);
 
-        this.data = containerData;
+        addDataSlots(containerData);
     }
 
     @Override
