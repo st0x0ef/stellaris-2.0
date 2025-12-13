@@ -9,6 +9,7 @@ import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.client.data.wiki.WikiPack;
 import org.exodusstudio.stellaris.client.registry.FluidInfosRegistry;
 import org.exodusstudio.stellaris.client.screens.ElectrolyzerScreen;
+import org.exodusstudio.stellaris.client.data.wiki.WikiPacks;
 import org.exodusstudio.stellaris.client.screens.tablet.MainTabletScreen;
 import org.exodusstudio.stellaris.client.screens.tablet.application.ApplicationRegistry;
 import org.exodusstudio.stellaris.common.registries.MenuTypesRegistry;
@@ -18,9 +19,9 @@ public class StellarisClient {
 
     public static void initClient() {
         Platform.getMod(Stellaris.MOD_ID).registerConfigurationScreen(previous -> new ConfigScreen<>(previous, Stellaris.CONFIG));
-        registerScreens();
         registerPack();
         ApplicationRegistry.init();
+        registerScreens();
         FluidInfosRegistry.init();
     }
 
@@ -31,6 +32,8 @@ public class StellarisClient {
     }
 
     private static void registerPack() {
-        ReloadListenerRegistry.register(PackType.CLIENT_RESOURCES, new WikiPack(), ResourceLocationUtils.id("wiki"));
+        ReloadListenerRegistry.register(PackType.CLIENT_RESOURCES, new WikiPacks.WikiEntryPack(), ResourceLocationUtils.id("wiki/entries"));
+
+        ReloadListenerRegistry.register(PackType.CLIENT_RESOURCES, new WikiPacks.EntryInfoPack(), ResourceLocationUtils.id("wiki/infos"));
     }
 }

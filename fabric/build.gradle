@@ -60,3 +60,9 @@ remapJar {
     dependsOn shadowJar
     archiveClassifier = null
 }
+
+sourceSets {
+    main  {
+        resources.srcDir project(":common").file("src/main/generated/resources").absolutePath
+    }
+}

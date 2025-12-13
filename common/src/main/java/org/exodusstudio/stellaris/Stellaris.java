@@ -9,12 +9,19 @@ import fr.tathan.exoconfig.common.loader.ConfigsRegistry;
 import net.minecraft.server.packs.PackType;
 import org.exodusstudio.stellaris.common.config.CommonConfig;
 import org.exodusstudio.stellaris.common.data.recipe.ElectrolyzeRecipeData;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.packs.resources.PreparableReloadListener;
+import org.exodusstudio.stellaris.client.screens.tablet.application.ApplicationRegistry;
+import org.exodusstudio.stellaris.common.config.CommonConfig;
+import org.exodusstudio.stellaris.common.data.PlanetsData;
 import org.exodusstudio.stellaris.common.events.Events;
 import org.exodusstudio.stellaris.common.network.NetworkRegistry;
 import org.exodusstudio.stellaris.common.registries.*;
 import org.exodusstudio.stellaris.common.utils.ResourceLocationUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.function.BiConsumer;
 
 public final class Stellaris {
     public static final String MOD_ID = "stellaris";
@@ -28,11 +35,13 @@ public final class Stellaris {
     public static CommonConfig CONFIG;
 
     public static void init() {
-        CONFIG = ConfigsRegistry.getInstance().registerConfig(new CommonConfig(), CONFIG);;
+        CONFIG = ConfigsRegistry.getInstance().registerConfig(new CommonConfig(), CONFIG);
 
         NetworkRegistry.init();
         RecipesRegistry.register();
         FluidsRegistry.init();
+
+        EffectsRegistry.register();
 
         DataComponentsRegistry.DATA_COMPONENT_TYPE.register();
         BlocksRegistry.BLOCKS.register();
@@ -40,14 +49,25 @@ public final class Stellaris {
         ItemsRegistry.ITEMS.register();
 
         CreativeTabsRegistry.register();
+        SDCardsRegistry.register();
+        StatsRegistry.STATS.register();
         MenuTypesRegistry.MENU_TYPE.register();
-        CommandsRegistry.register();
-        Events.register();
+        ArgumentsTypesRegistry.init();
+        CommandsRegistry.init();
+        ApplicationRegistry.init();
+
+        CapabilitiesRegistry.init();
+        Events.init();
         CapabilitiesRegistry.init();
         initDataPack();
     }
 
     public static void initDataPack() {
         ReloadListenerRegistry.register(PackType.SERVER_DATA, new ElectrolyzeRecipeData(), ResourceLocationUtils.id("electrolyze"));
+
+    }
+
+    public static void onAddReloadListenerEvent(BiConsumer<ResourceLocation, PreparableReloadListener> registry) {
+        registry.accept(ResourceLocationUtils.id(PlanetsData.ID), new PlanetsData());
     }
 }

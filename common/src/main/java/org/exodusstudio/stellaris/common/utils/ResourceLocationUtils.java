@@ -16,4 +16,8 @@ public class ResourceLocationUtils {
         return ResourceLocation.fromNamespaceAndPath(Stellaris.MOD_ID, path);
     }
 
+    public static String key(ResourceLocation loc) {
+        return loc.toString().split(":")[1];
+    }
+
 }

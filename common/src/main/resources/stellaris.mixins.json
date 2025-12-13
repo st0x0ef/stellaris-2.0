@@ -4,9 +4,13 @@
   "compatibilityLevel": "JAVA_21",
   "minVersion": "0.8",
   "client": [
+
   ],
   "mixins": [
     "ChunkAccessMixin"
+
+    "ConsumableMixin",
+    "EntityMixin"
   ],
   "injectors": {
     "defaultRequire": 1

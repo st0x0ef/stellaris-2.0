@@ -23,7 +23,6 @@ public class CoalGeneratorBlockEntity extends BaseGeneratorBlockEntity {
     private int litTime;
     private int litDuration;
     public final ContainerData dataAccess = new ContainerData() {
-
         public int get(int index) {
             switch (index) {
                 case 0 -> {
@@ -102,7 +101,7 @@ public class CoalGeneratorBlockEntity extends BaseGeneratorBlockEntity {
     }
 
     protected int getBurnDuration(ItemStack fuelStack) {
-        if (fuelStack.isEmpty() || !fuelStack.is(TagsRegistry.COAL_GENERATOR_FUEL_TAG) || level == null) {
+        if (fuelStack.isEmpty() || !fuelStack.is(TagsRegistry.ItemTags.COAL_GENERATOR_FUEL) || level == null) {
             return 0;
         }
 
