@@ -14,6 +14,7 @@ import org.exodusstudio.stellaris.common.utils.ResourceLocationUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class FluidsRegistry {
 
@@ -23,7 +24,8 @@ public class FluidsRegistry {
 
     /** HYDROGEN FLUIDS */
     public static final ArchitecturyFluidAttributes HYDROGEN_ATTRIBUTES = SimpleArchitecturyFluidAttributes.ofSupplier(() -> FluidsRegistry.HYDROGEN_FLOWING, () -> FluidsRegistry.HYDROGEN_STILL)
-            .blockSupplier(() -> (RegistrySupplier<LiquidBlock>) BlocksRegistry.HYDROGEN.block())
+            .blockSupplier(() -> (RegistrySupplier<? extends LiquidBlock>) BlocksRegistry.HYDROGEN.block())
+            .bucketItem(() -> Optional.of(ItemsRegistry.HYDROGEN_BUCKET.get()))
             .slopeFindDistance(4)
             .dropOff(1)
             .tickDelay(8)

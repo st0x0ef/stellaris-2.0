@@ -37,6 +37,8 @@
 
   "item.stellaris.power_bank_t1": "Tier 1 Power Bank",
 
+  "item.stellaris.hydrogen_bucket": "Hydrogen Bucket",
+
 
   "item.stellaris.cable_t1": "Cable",
 
@@ -98,5 +100,4 @@
   "config.stellaris.dimensionsToRegen": "Dimensions to Regenerate",
 
   "stat.stellaris.space_traveled": "Space Traveled"
-
 }

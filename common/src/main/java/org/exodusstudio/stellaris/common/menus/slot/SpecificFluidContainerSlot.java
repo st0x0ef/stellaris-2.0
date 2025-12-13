@@ -35,7 +35,7 @@ public class SpecificFluidContainerSlot extends Slot {
         }
 
         for (FluidStack fluidStack : fluidStorage) {
-            if (fluidStack.getFluid() == fluid) {
+            if (fluidStack.getFluid().isSame(fluid)) {
                 return true;
             }
         }

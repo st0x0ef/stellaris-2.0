@@ -89,12 +89,12 @@ public class ElectrolyzerBlockEntity extends BaseEnergyContainerBlockEntity impl
         }
 
 
-        //Move fluid to item for results tanks
-        FluidUtil.moveFluidToItem(0, resultTanks, 3, items, 1000);
-        FluidUtil.moveFluidToItem(1, resultTanks, 2, items, 1000);
+        //Move fluid to item for results tanks and ingredient tank
+        FluidUtil.moveFluidToItem(0, resultTanks, 2, 2, items, 1000);
+        FluidUtil.moveFluidToItem(1, resultTanks, 3, 3, items, 1000);
 
         //Move fluid to item for ingredient tank
-        FluidUtil.moveFluidFromItem(0, 1, items, ingredientTank, 1000);
+        FluidUtil.moveFluidFromItem(0, 1, 0, items, ingredientTank, 1000);
 
         Direction facing = getBlockState().getValue(ElectrolyzerBlock.FACING);
         FluidUtil.distributeFluidNearby(level, worldPosition, resultTanks.getFluidInTank(0), List.of(facing.getClockWise()));
