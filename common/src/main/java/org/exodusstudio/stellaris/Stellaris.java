@@ -2,8 +2,8 @@ package org.exodusstudio.stellaris;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.ToNumberPolicy;
 import com.google.gson.Strictness;
+import com.google.gson.ToNumberPolicy;
 import fr.tathan.exoconfig.common.loader.ConfigsRegistry;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.PreparableReloadListener;
@@ -34,14 +34,15 @@ public final class Stellaris {
         CONFIG = ConfigsRegistry.getInstance().registerConfig(new CommonConfig(), CONFIG);
 
         NetworkRegistry.init();
-        // Keep above the blocks and item registries, please, or it will crash when adding fluids
-        FluidsRegistry.register();
+        FluidsRegistry.init();
+
         EffectsRegistry.register();
 
         DataComponentsRegistry.DATA_COMPONENT_TYPE.register();
         BlocksRegistry.BLOCKS.register();
         BlockEntitiesRegistry.BLOCK_ENTITY_TYPE.register();
         ItemsRegistry.ITEMS.register();
+
         CreativeTabsRegistry.register();
         SDCardsRegistry.register();
         StatsRegistry.STATS.register();
@@ -49,9 +50,11 @@ public final class Stellaris {
         ArgumentsTypesRegistry.init();
         CommandsRegistry.init();
         ApplicationRegistry.init();
-
         CapabilitiesRegistry.init();
+
         Events.init();
+
+        RecipesRegistry.register();
     }
 
     public static void onAddReloadListenerEvent(BiConsumer<ResourceLocation, PreparableReloadListener> registry) {

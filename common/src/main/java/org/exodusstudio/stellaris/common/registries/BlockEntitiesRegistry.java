@@ -26,4 +26,8 @@ public class BlockEntitiesRegistry {
 
     public static final Supplier<BlockEntityType<?>> CABLES = BLOCK_ENTITY_TYPE.register("cables",
             () -> new BlockEntityType<>(CableBlockEntity::new, Set.of(BlocksRegistry.CABLE_T1.block().get())));
+
+    public static final Supplier<BlockEntityType<?>> ELECTROLYZER = BLOCK_ENTITY_TYPE.register("electrolyzer",
+            () -> new BlockEntityType<>(ElectrolyzerBlockEntity::new, Set.of(BlocksRegistry.ELECTROLYZER.block().get())));
+
 }

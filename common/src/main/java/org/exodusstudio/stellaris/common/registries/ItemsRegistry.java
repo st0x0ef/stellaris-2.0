@@ -1,5 +1,6 @@
 package org.exodusstudio.stellaris.common.registries;
 
+import dev.architectury.core.item.ArchitecturyBucketItem;
 import dev.architectury.registry.registries.DeferredRegister;
 import dev.architectury.registry.registries.RegistrySupplier;
 import net.minecraft.core.registries.Registries;
@@ -68,6 +69,8 @@ public final class ItemsRegistry {
     public static final RegistrySupplier<CanItem> BIG_RED_CAN = item("big_red_can", (p) -> new CanItem(p, 20));
     public static final RegistrySupplier<CanItem> BIG_WHITE_CAN = item("big_white_can", (p) -> new CanItem(p, 20));
     public static final RegistrySupplier<CanItem> BIG_YELLOW_CAN = item("big_yellow_can", (p) -> new CanItem(p, 20));
+
+    public static final RegistrySupplier<ArchitecturyBucketItem> HYDROGEN_BUCKET = item("hydrogen_bucket", (properties -> new ArchitecturyBucketItem(FluidsRegistry.HYDROGEN_STILL, properties)));
 
 
     public static RegistrySupplier<Item> item(String name) {

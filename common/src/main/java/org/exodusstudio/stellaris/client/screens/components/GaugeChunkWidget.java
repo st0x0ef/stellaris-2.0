@@ -1,0 +1,113 @@
+package org.exodusstudio.stellaris.client.screens.components;
+
+import com.fej1fun.potentials.fluid.UniversalFluidStorage;
+import dev.architectury.fluid.FluidStack;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.renderer.RenderPipelines;
+import net.minecraft.client.renderer.texture.SpriteContents;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.Mth;
+import org.exodusstudio.stellaris.client.registry.FluidInfosRegistry;
+import org.jetbrains.annotations.Nullable;
+
+/**
+ * A Widget that render a big fluid gauge on the screen
+ */
+@Environment(EnvType.CLIENT)
+public class GaugeChunkWidget extends GaugeWidget {
+
+    protected boolean spriteChanged;
+
+    protected int imageWidth;
+    protected int imageHeight;
+
+    public GaugeChunkWidget(int x, int y, int width, int height, FluidStack fluidStack, @Nullable ResourceLocation overlay_sprite, long capacity, Direction4 direction) {
+        this(x, y,width, height, FluidInfosRegistry.getFluidComponent(fluidStack.getFluid()), FluidInfosRegistry.getFluidTexture(fluidStack), overlay_sprite, capacity, direction);
+
+        spriteChanged = true;
+    }
+
+    public GaugeChunkWidget(int x, int y, int width, int height, Component message, ResourceLocation sprite, @Nullable ResourceLocation overlay_sprite, long capacity, Direction4 direction) {
+        super(x, y, width, height, message, sprite, overlay_sprite, capacity, direction);
+
+        spriteChanged = true;
+    }
+
+    @Override
+    protected void renderWidget(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
+        if (spriteChanged) {
+            SpriteContents contents = guiGraphics.sprites.getSprite(sprite).contents();
+            this.imageHeight = contents.height();
+            this.imageWidth = contents.width();
+
+            spriteChanged = false;
+        }
+
+        switch (DIRECTION) {
+            case DOWN_UP -> {
+                int i = Mth.ceil(getProgress(amount, capacity) * (getHeight() - 1));
+                for (int j = 0; j < width / imageWidth; j++) {
+                    guiGraphics.blitSprite(RenderPipelines.GUI_TEXTURED, sprite, imageWidth, getHeight(), 0, getHeight() - i, getX() + imageWidth * j, getY() + getHeight() - i, imageWidth, i);
+                }
+                int x = width % imageWidth;
+                if (x > 0) {
+                    guiGraphics.blitSprite(RenderPipelines.GUI_TEXTURED, sprite, x, getHeight(), 0, getHeight() - i, getX() + width - x, getY() + getHeight() - i, x, i);
+                }
+            }
+            case UP_DOWN -> {
+                int i = Mth.ceil(getProgress(amount, capacity) * (getHeight() - 1));
+                for (int j = 0; j < width / imageWidth; j++) {
+                    guiGraphics.blitSprite(RenderPipelines.GUI_TEXTURED, sprite, imageWidth, getHeight(), 0, 0, getX() + imageWidth * j, getY(), imageWidth, i);
+                }
+                int x = width % imageWidth;
+                if (x > 0) {
+                    guiGraphics.blitSprite(RenderPipelines.GUI_TEXTURED, sprite, x, getHeight(), 0, 0, getX() + width - x, getY(), x, i);
+                }
+            }
+            case LEFT_RIGHT -> {
+                int i = Mth.ceil(getProgress(amount, capacity) * (getWidth() - 1));
+                for (int j = 0; j < height / imageHeight; j++) {
+                    guiGraphics.blitSprite(RenderPipelines.GUI_TEXTURED, sprite, getWidth(), imageHeight, 0, 0, getX(), getY() + imageHeight * j, i, imageHeight);
+                }
+                int y = height % imageHeight;
+                if (y > 0) {
+                    guiGraphics.blitSprite(RenderPipelines.GUI_TEXTURED, sprite, getWidth(), y, 0, 0, getX(), getY() + height - y, i, y);
+                }
+            }
+            case RIGHT_LEFT -> {
+                int i = Mth.ceil(getProgress(amount, capacity) * (getWidth() - 1));
+                for (int j = 0; j < height / imageHeight; j++) {
+                    guiGraphics.blitSprite(RenderPipelines.GUI_TEXTURED, sprite, getWidth(), imageHeight, getWidth() - i, 0, getX() + getWidth() - i, getY() + imageHeight * j, i, imageHeight);
+                }
+                int y = height % imageHeight;
+                if (y > 0) {
+                    guiGraphics.blitSprite(RenderPipelines.GUI_TEXTURED, sprite, getWidth(), y, getWidth() - i, 0, getX() + getWidth() - i, getY() + height - y, i, y);
+                }
+            }
+        }
+        if (this.overlay_sprite != null) {
+            guiGraphics.blitSprite(RenderPipelines.GUI_TEXTURED, overlay_sprite, getX(), getY(), width, height);
+        }
+    }
+
+    /**
+     * Update the gauge amount from a fluid storage
+     * Allow to sync fluid texture/component
+     * @param storage
+     * @param tank
+     */
+    public void updateAmount(UniversalFluidStorage storage, int tank) {
+        this.updateAmount(storage.getFluidInTank(tank).getAmount());
+        this.setMessage(FluidInfosRegistry.getFluidComponent(storage.getFluidInTank(tank).getFluid()));
+        this.updateSprite(FluidInfosRegistry.getFluidTexture(storage.getFluidInTank(tank)));
+    }
+
+    @Override
+    public void updateSprite(ResourceLocation sprite) {
+        super.updateSprite(sprite);
+        spriteChanged = true;
+    }
+}
