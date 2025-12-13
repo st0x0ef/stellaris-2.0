@@ -15,7 +15,7 @@ import org.exodusstudio.stellaris.common.utils.GravityUtils;
 public final class StellarisNeoForge {
     public StellarisNeoForge(IEventBus bus) {
         Stellaris.init();
-        DataAttachmentRegistry.register();
+        //DataAttachmentRegistry.register(); TODO : fix crash
 
 
         NeoForge.EVENT_BUS.addListener(StellarisNeoForge::onAddServerReloadListenersEvent);
