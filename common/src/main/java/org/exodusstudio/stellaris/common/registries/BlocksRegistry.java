@@ -69,6 +69,8 @@ public final class BlocksRegistry {
     public static final BlockItemRegistrySupplier HYDROGEN = blockWithItem("hydrogen_block", BlockBehaviour.Properties.ofFullCopy(Blocks.WATER), (p) -> new ArchitecturyLiquidBlock(FluidsRegistry.HYDROGEN_STILL, p));
     public static final BlockItemRegistrySupplier OXYGEN = blockWithItem("oxygen_block", BlockBehaviour.Properties.ofFullCopy(Blocks.WATER), (p) -> new ArchitecturyLiquidBlock(FluidsRegistry.OXYGEN_STILL, p));
 
+
+
     public static <B extends Block> @NotNull RegistrySupplier<Block> block(String name,
                                                                BlockBehaviour.Properties properties,
                                                                Function<BlockBehaviour.Properties, B> blockFunc) {

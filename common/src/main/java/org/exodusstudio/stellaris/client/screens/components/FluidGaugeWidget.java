@@ -1,7 +1,6 @@
 package org.exodusstudio.stellaris.client.screens.components;
 
 import com.fej1fun.potentials.fluid.UniversalFluidStorage;
-import com.mojang.blaze3d.systems.RenderSystem;
 import dev.architectury.hooks.fluid.FluidStackHooks;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;

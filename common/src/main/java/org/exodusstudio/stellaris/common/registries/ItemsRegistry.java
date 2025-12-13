@@ -1,5 +1,6 @@
 package org.exodusstudio.stellaris.common.registries;
 
+import dev.architectury.core.item.ArchitecturyBucketItem;
 import dev.architectury.registry.registries.DeferredRegister;
 import dev.architectury.registry.registries.RegistrySupplier;
 import net.minecraft.core.registries.Registries;
@@ -19,6 +20,8 @@ public final class ItemsRegistry {
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(MOD_ID, Registries.ITEM);
 
     public static final RegistrySupplier<TabletItem> TABLET = item("tablet", TabletItem::new);
+
+    public static final RegistrySupplier<ArchitecturyBucketItem> HYDROGEN_BUCKET = item("hydrogen_bucket", (properties -> new ArchitecturyBucketItem(FluidsRegistry.HYDROGEN_STILL, properties)));
 
 
     public static RegistrySupplier<Item> item(String name) {

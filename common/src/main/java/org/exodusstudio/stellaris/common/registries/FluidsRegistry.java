@@ -23,14 +23,14 @@ public class FluidsRegistry {
 
     /** HYDROGEN FLUIDS */
     public static final ArchitecturyFluidAttributes HYDROGEN_ATTRIBUTES = SimpleArchitecturyFluidAttributes.ofSupplier(() -> FluidsRegistry.HYDROGEN_FLOWING, () -> FluidsRegistry.HYDROGEN_STILL)
-            .blockSupplier(() -> (RegistrySupplier< LiquidBlock >) BlocksRegistry.HYDROGEN.block())
-            //.bucketItemSupplier(BlocksRegistry.HYDROGEN::item)
+            .blockSupplier(() -> (RegistrySupplier<LiquidBlock>) BlocksRegistry.HYDROGEN.block())
             .slopeFindDistance(4)
             .dropOff(1)
             .tickDelay(8)
             .explosionResistance(100.0F)
             .lighterThanAir(true)
             .convertToSource(false)
+            .overlayTexture(ResourceLocationUtils.id("block/fluids/hydrogen_overlay"))
             .sourceTexture(ResourceLocationUtils.id("block/fluids/hydrogen_still"))
             .flowingTexture(ResourceLocationUtils.id("block/fluids/hydrogen_flow"));
 
@@ -39,13 +39,14 @@ public class FluidsRegistry {
 
     /** OXYGEN FLUIDS **/
     public static final ArchitecturyFluidAttributes OXYGEN_ATTRIBUTES = SimpleArchitecturyFluidAttributes.ofSupplier(() -> FluidsRegistry.OXYGEN_FLOWING, () -> FluidsRegistry.OXYGEN_STILL)
-            .blockSupplier(() -> (RegistrySupplier< LiquidBlock >) BlocksRegistry.OXYGEN.block())
+            .blockSupplier(() -> (RegistrySupplier<LiquidBlock>) BlocksRegistry.OXYGEN.block())
             .slopeFindDistance(4)
             .dropOff(1)
             .tickDelay(8)
             .explosionResistance(100)
             .lighterThanAir(true)
             .convertToSource(false)
+            .overlayTexture(ResourceLocationUtils.id("block/fluids/oxygen_overlay"))
             .sourceTexture(ResourceLocationUtils.id("block/fluids/oxygen_still"))
             .flowingTexture(ResourceLocationUtils.id("block/fluids/oxygen_flow"));
 
