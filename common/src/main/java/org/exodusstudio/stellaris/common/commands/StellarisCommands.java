@@ -1,6 +1,7 @@
 package org.exodusstudio.stellaris.common.commands;
 
 import com.mojang.brigadier.CommandDispatcher;
+import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import dev.architectury.registry.menu.MenuRegistry;
 import net.minecraft.commands.CommandBuildContext;
@@ -62,7 +63,7 @@ public class StellarisCommands {
                                         return context.failure();
                                     }
 
-                                    int quantity = IntegerArgumentType.getInteger(context.context, "quantity");
+                                    int quantity = IntegerArgumentType.getInteger(context.context(), "quantity");
                                     ChunkAccess access = player.level().getChunk(context.getPlayer().getOnPos());
                                     access.stellaris$setChunkOilLevel(quantity);
                                     context.sendSuccess(Component.literal("Oil Level : " + access.stellaris$getChunkOilLevel()), true);
@@ -71,7 +72,7 @@ public class StellarisCommands {
                                 })))
                 )
                 .register();
-        );
+
     }
 
     private void planetsCommand(CommandBuilder builder) {
