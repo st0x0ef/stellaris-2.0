@@ -27,7 +27,6 @@ public class StellarisClient {
     //TODO make this loader abstract
     private static void registerScreens() {
         MenuRegistry.registerScreenFactory(MenuTypesRegistry.ELECTROLYZER.get(), ElectrolyzerScreen::new);
-
     }
 
     private static void registerPack() {
