@@ -2,13 +2,9 @@ package org.exodusstudio.stellaris;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.ToNumberPolicy;
 import com.google.gson.Strictness;
-import dev.architectury.registry.ReloadListenerRegistry;
+import com.google.gson.ToNumberPolicy;
 import fr.tathan.exoconfig.common.loader.ConfigsRegistry;
-import net.minecraft.server.packs.PackType;
-import org.exodusstudio.stellaris.common.config.CommonConfig;
-import org.exodusstudio.stellaris.common.data.recipe.ElectrolyzeRecipeData;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.PreparableReloadListener;
 import org.exodusstudio.stellaris.client.screens.tablet.application.ApplicationRegistry;
@@ -38,7 +34,6 @@ public final class Stellaris {
         CONFIG = ConfigsRegistry.getInstance().registerConfig(new CommonConfig(), CONFIG);
 
         NetworkRegistry.init();
-        RecipesRegistry.register();
         FluidsRegistry.init();
 
         EffectsRegistry.register();
@@ -55,16 +50,11 @@ public final class Stellaris {
         ArgumentsTypesRegistry.init();
         CommandsRegistry.init();
         ApplicationRegistry.init();
-
         CapabilitiesRegistry.init();
+
         Events.init();
-        CapabilitiesRegistry.init();
-        initDataPack();
-    }
 
-    public static void initDataPack() {
-        ReloadListenerRegistry.register(PackType.SERVER_DATA, new ElectrolyzeRecipeData(), ResourceLocationUtils.id("electrolyze"));
-
+        RecipesRegistry.register();
     }
 
     public static void onAddReloadListenerEvent(BiConsumer<ResourceLocation, PreparableReloadListener> registry) {

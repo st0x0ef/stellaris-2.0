@@ -10,7 +10,7 @@ public class GUISprites {
     public static final ResourceLocation OXYGEN_OVERLAY = ResourceLocationUtils.id("util/oxygen_overlay");
     public static final ResourceLocation FLUID_TANK_OVERLAY = ResourceLocationUtils.id("util/fluid_tank_overlay");
     public static final ResourceLocation VACUUMATOR_PROGRESS_SPRITE = ResourceLocationUtils.id("progress_indicator/vacuumator_progress_full");
-    public static final ResourceLocation SIDEWAYS_ENERGY_FULL = ResourceLocationUtils.id("progress_indicator/sideways_energy_full");
+    public static final ResourceLocation SIDEWAYS_ENERGY_FULL = ResourceLocationUtils.id("progress_indicator/sideway_energy_full");
 
     public static final ResourceLocation COAL_GENERATOR_LIT_PROGRESS_SPRITE = ResourceLocationUtils.id("progress_indicator/coal_generator_fire_full");
 }

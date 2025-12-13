@@ -6,8 +6,6 @@ import net.minecraft.world.Container;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import org.exodusstudio.stellaris.common.blocks.entities.machines.ElectrolyzerBlockEntity;
-import org.exodusstudio.stellaris.common.data.recipe.ElectrolyzeRecipeData;
-import org.jetbrains.annotations.Nullable;
 
 public class ElectrolyzeSlot extends Slot {
 
@@ -29,17 +27,15 @@ public class ElectrolyzeSlot extends Slot {
 
         //If the tank is -1, we are doing the logic for the ingredient tank
         if(tank == -1) {
-
             //If the main tank is not empty we check if it's the same fluid
             if(!electrolyzerBlock.ingredientTank.isEmpty()) {
-                return fluidStorage.isFluidValid(0, electrolyzerBlock.ingredientTank.getFluidInTank(0));
+                return fluidStorage.getFluidInTank(0).isFluidEqual(electrolyzerBlock.ingredientTank.getFluidInTank(0));
             }
-            //Else, we just check if the fluid is in the recipe registry
-            //TODO need to fix that we can use an other fluid when the ingredient tank is empty
-            return ElectrolyzeRecipeData.RECIPES.containsKey(fluidStorage.getFluidInTank(0).getFluid());
+
+            return electrolyzerBlock.ingredientTank.isFluidValid(0, fluidStorage.getFluidInTank(0));
         }
-        if (electrolyzerBlock.ingredientTank.isEmpty()) return false;
-        return electrolyzerBlock.resultTanks.getFluidInTank(tank).isFluidEqual(fluidStorage.getFluidInTank(0));
+
+        return fluidStorage.isFluidValid(0, electrolyzerBlock.resultTanks.getFluidInTank(0));
 
     }
 

@@ -11,14 +11,16 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 import org.exodusstudio.stellaris.common.blocks.ElectrolyzerBlock;
 import org.exodusstudio.stellaris.common.blocks.base.BaseMachineBlock;
 import org.exodusstudio.stellaris.common.blocks.entities.machines.base.BaseEnergyContainerBlockEntity;
-import org.exodusstudio.stellaris.common.data.recipe.ElectrolyzeRecipeData;
+import org.exodusstudio.stellaris.common.data.recipe.ElectrolyzeRecipe;
 import org.exodusstudio.stellaris.common.data.recipe.input.FluidInput;
 import org.exodusstudio.stellaris.common.fluid.FluidUtil;
 import org.exodusstudio.stellaris.common.fluid.MultipleFluidStorage;
@@ -26,6 +28,7 @@ import org.exodusstudio.stellaris.common.fluid.SingleFluidStorage;
 import org.exodusstudio.stellaris.common.menus.ElectrolyzerMenu;
 import org.exodusstudio.stellaris.common.network.packets.SyncFluidPacket;
 import org.exodusstudio.stellaris.common.registries.BlockEntitiesRegistry;
+import org.exodusstudio.stellaris.common.registries.RecipesRegistry;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -34,8 +37,8 @@ import java.util.Optional;
 
 public class ElectrolyzerBlockEntity extends BaseEnergyContainerBlockEntity implements FluidProvider.BLOCK{
 
-    //Null when all recipes can be loaded
-    public ElectrolyzeRecipeData.ElectrolyzeRecipe currentRecipe = null;
+    private final RecipeManager.CachedCheck<FluidInput, ElectrolyzeRecipe> cachedCheck = RecipeManager.createCheck(RecipesRegistry.ELECTROLYZE_RECIPE_TYPE.get());
+
 
     public final SingleFluidStorage ingredientTank = new SingleFluidStorage(3000, 3000, 0) {
 
@@ -50,8 +53,8 @@ public class ElectrolyzerBlockEntity extends BaseEnergyContainerBlockEntity impl
 
         @Override
         public boolean isFluidValid(int tank, FluidStack stack) {
-
-            return ElectrolyzerBlockEntity.this.isFluidValid(this, stack, tank, true);
+            return stack.getFluid().isSame(Fluids.WATER);
+            //return ElectrolyzerBlockEntity.this.isFluidValid(this, stack, tank, true); // TODO : use the recipe to determinated which fluid can be used
         }
     };
 
@@ -68,8 +71,8 @@ public class ElectrolyzerBlockEntity extends BaseEnergyContainerBlockEntity impl
 
         @Override
         public boolean isFluidValid(int tank, FluidStack stack) {
-            return ElectrolyzerBlockEntity.this.isFluidValid(this, stack, tank, false);
-
+            return true;
+            //return ElectrolyzerBlockEntity.this.isFluidValid(this, stack, tank, false);
         }
     };
 
@@ -98,22 +101,14 @@ public class ElectrolyzerBlockEntity extends BaseEnergyContainerBlockEntity impl
         FluidUtil.distributeFluidNearby(level, worldPosition, resultTanks.getFluidInTank(1), List.of(facing.getCounterClockWise()));
         FluidUtil.distributeFluidNearby(level, worldPosition, ingredientTank.getFluidInTank(0), List.of(Direction.UP, Direction.DOWN, facing, facing.getOpposite()));
 
-        //Process recipe
-        //This fix the issue when changing fluid in the ingredient tank doesn't update the currentRecipe
-        if(this.resultTanks.isEmpty()) {
-            if(!this.ingredientTank.isEmpty()) {
-                this.currentRecipe = ElectrolyzeRecipeData.RECIPES.get(this.ingredientTank.getFluidInTank(0).getFluid());
-            } else {
-                this.currentRecipe = null;
-            }
-        }
 
-        if(level instanceof ServerLevel && ElectrolyzeRecipeData.RECIPES.containsKey(this.ingredientTank.getFluidInTank(0).getFluid())) {
-                ElectrolyzeRecipeData.ElectrolyzeRecipe recipe = ElectrolyzeRecipeData.RECIPES.get(this.ingredientTank.getFluidInTank(0).getFluid());
-                //TODO REMOVE THIS ONLY FOR TEST PURPOSES
-                if (energyContainer.getEnergy() >= recipe.energy() || true) {
+        if (level instanceof ServerLevel serverLevel) {
+            Optional<RecipeHolder<ElectrolyzeRecipe>> recipeHolder = cachedCheck.getRecipeFor(new FluidInput(this), serverLevel);
+            if (recipeHolder.isPresent()) {
+                ElectrolyzeRecipe recipe = recipeHolder.get().value();
+
+                if (energyContainer.getEnergy() >= recipe.energy()) {
                     boolean shouldDrainWaterAndEnergy = false;
-
                     if (resultTanks.getFluidValueInTank(0) < resultTanks.getTankCapacity(0)) {
                         resultTanks.fillWithoutLimits(recipe.resultStacks().getFirst(), false);
                         shouldDrainWaterAndEnergy = true;
@@ -125,12 +120,11 @@ public class ElectrolyzerBlockEntity extends BaseEnergyContainerBlockEntity impl
 
                     if (shouldDrainWaterAndEnergy) {
                         ingredientTank.drainWithoutLimits(recipe.ingredientStack(), false);
-                        energyContainer.extract(recipe.energy(), false);
+                        energyContainer.extract((int)recipe.energy(), false);
                     }
+                }
             }
-
         }
-
     }
 
     @Override
@@ -138,21 +132,15 @@ public class ElectrolyzerBlockEntity extends BaseEnergyContainerBlockEntity impl
         super.saveAdditional(output);
 
         ingredientTank.save(output, "ingredient");
-
         resultTanks.save(output, "resultTanks");
-
-        if(this.currentRecipe != null) {
-            output.store("currentRecipe", ElectrolyzeRecipeData.ElectrolyzeRecipe.CODEC, this.currentRecipe);
-        }
     }
 
     @Override
     protected void loadAdditional(ValueInput input) {
         super.loadAdditional(input);
+
         ingredientTank.load(input, "ingredient");
         resultTanks.load(input, "resultTanks");
-        Optional<ElectrolyzeRecipeData.ElectrolyzeRecipe> currentRecipe = input.read("currentRecipe", ElectrolyzeRecipeData.ElectrolyzeRecipe.CODEC);
-        this.currentRecipe = currentRecipe.orElse(null);
 
         setChanged();
     }
@@ -167,17 +155,17 @@ public class ElectrolyzerBlockEntity extends BaseEnergyContainerBlockEntity impl
     }
 
     /**
-     * Check if the given fluid stack is valid for the given tank
+     * TODO : Check if the given fluid stack is valid for the given tank
      * If currentRecipe is null, check if the fluid is valid for the recipes
      * If result tanks contains a fluid, we only accept the base fluid for input.
-     *
-     * @param storage the fluid storage
-     * @param stack the fluid stack to check
-     * @param tank the tank index
-     * @param input true if checking for input tank, false for output tank
-     * @return if the fluid stack is valid for the given tank
+     * <p>
+     * //@param storage the fluid storage
+     * //@param stack the fluid stack to check
+     * //@param tank the tank index
+     * //@param input true if checking for input tank, false for output tank
+     * //@return if the fluid stack is valid for the given tank
      */
-    public boolean isFluidValid(UniversalFluidStorage storage, FluidStack stack, int tank, boolean input) {
+    /*public boolean isFluidValid(UniversalFluidStorage storage, FluidStack stack, int tank, boolean input) {
         if(input) {
             if(this.currentRecipe == null) {
 
@@ -196,7 +184,7 @@ public class ElectrolyzerBlockEntity extends BaseEnergyContainerBlockEntity impl
             }
             return this.currentRecipe.resultStacks().get(tank).isFluidEqual(stack);
         }
-    }
+    }*/
 
     @Override
     protected @NotNull Component getDefaultName() {

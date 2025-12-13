@@ -64,11 +64,8 @@ public class ElectrolyzerScreen extends AbstractContainerScreen<ElectrolyzerMenu
         secondIngredientGauge = new GaugeChunkWidget(leftPos + 146, topPos + 54, 12, 46, resultTanks.getFluidInTank(1), GUISprites.FLUID_TANK_OVERLAY, resultTanks.getTankCapacity(1), GaugeWidget.Direction4.DOWN_UP);
         addRenderableWidget(secondIngredientGauge);
 
-        //energyGauge = new FluidGaugeWidget(leftPos + 68, topPos + 20, 44, 6, Component.translatable("stellaris.screen.energyContainer"), GUISprites.SIDEWAYS_ENERGY_FULL, null, blockEntity.getEnergy(null).getMaxEnergy(), GaugeWidget.Direction4.LEFT_RIGHT);
-//        energyGauge = new FluidGaugeWidget(leftPos + 68, topPos + 20, 44, 6, Component.empty(), () -> ingredientTank, 0, GaugeWidget.Direction4.DOWN_UP)
-//                .setOverlaySprite(GUISprites.FLUID_TANK_OVERLAY);
-//
-//        addRenderableWidget(energyGauge);
+        energyGauge = new GaugeWidget(leftPos + 68, topPos + 20, 44, 6, Component.translatable("stellaris.screen.energyContainer"), GUISprites.SIDEWAYS_ENERGY_FULL, null, blockEntity.getEnergy(null).getMaxEnergy(), GaugeWidget.Direction4.LEFT_RIGHT);
+        addRenderableWidget(energyGauge);
     }
 
 
@@ -85,7 +82,7 @@ public class ElectrolyzerScreen extends AbstractContainerScreen<ElectrolyzerMenu
         ingredientTankGauge.updateAmount(blockEntity.ingredientTank, 0);
         firstIngredientGauge.updateAmount(blockEntity.resultTanks, 0);
         secondIngredientGauge.updateAmount(blockEntity.resultTanks, 1);
-        //energyGauge.updateAmount(blockEntity.getEnergy(null).getEnergy());
+        energyGauge.updateAmount(blockEntity.getEnergy(null).getEnergy());
     }
 
     @Override
@@ -112,7 +109,7 @@ public class ElectrolyzerScreen extends AbstractContainerScreen<ElectrolyzerMenu
         firstIngredientGauge.renderTooltips(guiGraphics, x, y, this.font, List::of);
         secondIngredientGauge.renderTooltips(guiGraphics, x, y, this.font, List::of);
 
-        //energyGauge.renderTooltips(guiGraphics, x, y, this.font, List::of);
+        energyGauge.renderTooltips(guiGraphics, x, y, this.font, List::of);
     }
 
     @Override
