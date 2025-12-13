@@ -33,13 +33,13 @@
   "item.stellaris.coal_generator": "Coal Generator",
 
   "item.stellaris.vacuumator": "Vacuumator",
+  "item.stellaris.electrolyzer": "Electrolyzer",
 
   "item.stellaris.power_bank_t1": "Tier 1 Power Bank",
 
 
   "item.stellaris.cable_t1": "Cable",
 
-  "item.stellaris.tablet": "Tablet",
   "item.stellaris.tablet": "Tablet",
   "item.stellaris.sd_card": "SD Card",
 
@@ -77,10 +77,15 @@
   "item.stellaris.big_white_can": "Big White Can",
   "item.stellaris.big_yellow_can": "Big Yellow Can",
 
+  "fluid.stellaris.hydrogen": "Hydrogen",
+  "fluid.stellaris.oxygen": "Oxygen",
+  "fluid.stellaris.water": "Water",
+
 
   "gauge_text.stellaris.max_generation": "Max Generation : %s Fe/tick",
 
   "stellaris.screen.energyContainer": "Energy",
+  "stellaris.screen.empty_fluid": "Empty Fluid Tank",
 
   "tooltip.item.stellaris.can.empty": "Empty",
   "tooltip.item.stellaris.can.nutrition": "Nutrition: %s/%s",
