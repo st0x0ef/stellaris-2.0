@@ -1,9 +1,5 @@
 package org.exodusstudio.stellaris.client.screens.components;
 
-import com.fej1fun.potentials.fluid.UniversalFluidStorage;
-import dev.architectury.core.fluid.ArchitecturyFluidAttributes;
-import dev.architectury.fluid.FluidStack;
-import dev.architectury.hooks.fluid.FluidStackHooks;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.Font;
@@ -16,9 +12,6 @@ import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
-import org.exodusstudio.stellaris.Stellaris;
-import org.exodusstudio.stellaris.client.registry.FluidInfosRegistry;
-import org.exodusstudio.stellaris.client.screens.utils.GUISprites;
 import org.exodusstudio.stellaris.client.screens.utils.GUIUtils;
 import org.jetbrains.annotations.Nullable;
 
@@ -85,7 +78,6 @@ public class GaugeWidget extends AbstractWidget {
         }
 
         List<ClientTooltipComponent> components1 = new ArrayList<>();
-        components.accept(components1);
         components1.addFirst(capacity);
         if (mouseX >= this.getX() && mouseX <= this.getX() + width && mouseY >= this.getY() && mouseY <= this.getY() + this.height) {
             graphics.renderTooltip(font, components1, mouseX, mouseY, DefaultTooltipPositioner.INSTANCE, null);

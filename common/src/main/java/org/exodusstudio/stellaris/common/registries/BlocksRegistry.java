@@ -130,7 +130,7 @@ public final class BlocksRegistry {
                                                                                      Function<BlockBehaviour.Properties, B> blockFunc,
                                                                                      Item.Properties itemProperties) {
         RegistrySupplier<Block> block = block(name, properties, blockFunc);
-        RegistrySupplier<Item> item = ItemsRegistry.item(name, itemProperties, p -> new BlockItem(block.get(), p));
+        RegistrySupplier<Item> item = ItemsRegistry.item(name, itemProperties.arch$tab(CreativeTabsRegistry.STELLARIS_BLOCKS), p -> new BlockItem(block.get(), p));
         return new BlockItemRegistrySupplier(block, item);
     }
 
@@ -138,7 +138,7 @@ public final class BlocksRegistry {
                                                                                                                 Function<BlockBehaviour.Properties, B> blockFunc, Item.Properties itemProperties,
                                                                                                                 BiFunction<Block, Item.Properties, I> itemSupplier) {
         RegistrySupplier<Block> block = block(name, properties, blockFunc);
-        RegistrySupplier<Item> item = ItemsRegistry.item(name, itemProperties, p -> itemSupplier.apply(block.get(), p));
+        RegistrySupplier<Item> item = ItemsRegistry.item(name, itemProperties.arch$tab(CreativeTabsRegistry.STELLARIS_BLOCKS), p -> itemSupplier.apply(block.get(), p));
         return new BlockItemRegistrySupplier(block, item);
     }
     private BlocksRegistry() {}
