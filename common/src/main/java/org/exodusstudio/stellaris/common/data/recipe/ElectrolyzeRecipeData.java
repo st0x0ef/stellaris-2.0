@@ -45,7 +45,7 @@ public class ElectrolyzeRecipeData extends SimpleJsonResourceReloadListener<Elec
     public record ElectrolyzeRecipe(FluidStack ingredientStack, List<FluidStack> resultStacks,
                                     int energy) {
 
-        private static final Codec<ElectrolyzeRecipe> CODEC = RecordCodecBuilder.create(instance -> instance.group(
+        public static final Codec<ElectrolyzeRecipe> CODEC = RecordCodecBuilder.create(instance -> instance.group(
                 FluidStack.CODEC.fieldOf("ingredient").forGetter(ElectrolyzeRecipe::ingredientStack),
                 FluidStack.CODEC.listOf(1, 2).fieldOf("results").forGetter(ElectrolyzeRecipe::resultStacks),
                 Codec.INT.fieldOf("energyContainer").forGetter(ElectrolyzeRecipe::energy)

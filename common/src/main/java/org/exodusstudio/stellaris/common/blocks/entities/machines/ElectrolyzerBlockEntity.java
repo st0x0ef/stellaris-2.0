@@ -26,11 +26,16 @@ import org.exodusstudio.stellaris.common.fluid.SingleFluidStorage;
 import org.exodusstudio.stellaris.common.menus.ElectrolyzerMenu;
 import org.exodusstudio.stellaris.common.network.packets.SyncFluidPacket;
 import org.exodusstudio.stellaris.common.registries.BlockEntitiesRegistry;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
+import java.util.Optional;
 
 public class ElectrolyzerBlockEntity extends BaseEnergyContainerBlockEntity implements FluidProvider.BLOCK{
+
+    //Null when all recipes can be loaded
+    public ElectrolyzeRecipeData.ElectrolyzeRecipe currentRecipe = null;
 
     public final SingleFluidStorage ingredientTank = new SingleFluidStorage(3000, 3000, 0) {
 
@@ -45,8 +50,8 @@ public class ElectrolyzerBlockEntity extends BaseEnergyContainerBlockEntity impl
 
         @Override
         public boolean isFluidValid(int tank, FluidStack stack) {
-            if (this.isEmpty()) return ElectrolyzeRecipeData.RECIPES.containsKey(stack.getFluid());
-            else return this.getFluidInTank(0).getFluid() == stack.getFluid();
+
+            return ElectrolyzerBlockEntity.this.isFluidValid(this, stack, tank, true);
         }
     };
 
@@ -63,12 +68,8 @@ public class ElectrolyzerBlockEntity extends BaseEnergyContainerBlockEntity impl
 
         @Override
         public boolean isFluidValid(int tank, FluidStack stack) {
-            if(ElectrolyzerBlockEntity.this.ingredientTank.isEmpty()) {
-                return false;
-            } else {
-                ElectrolyzeRecipeData.ElectrolyzeRecipe recipe = ElectrolyzeRecipeData.RECIPES.get(ElectrolyzerBlockEntity.this.ingredientTank.getFluidInTank(0).getFluid());
-                return recipe.resultStacks().get(tank).getFluid() == stack.getFluid();
-            }
+            return ElectrolyzerBlockEntity.this.isFluidValid(this, stack, tank, false);
+
         }
     };
 
@@ -96,6 +97,16 @@ public class ElectrolyzerBlockEntity extends BaseEnergyContainerBlockEntity impl
         FluidUtil.distributeFluidNearby(level, worldPosition, resultTanks.getFluidInTank(0), List.of(facing.getClockWise()));
         FluidUtil.distributeFluidNearby(level, worldPosition, resultTanks.getFluidInTank(1), List.of(facing.getCounterClockWise()));
         FluidUtil.distributeFluidNearby(level, worldPosition, ingredientTank.getFluidInTank(0), List.of(Direction.UP, Direction.DOWN, facing, facing.getOpposite()));
+
+        //Process recipe
+        //This fix the issue when changing fluid in the ingredient tank doesn't update the currentRecipe
+        if(this.resultTanks.isEmpty()) {
+            if(!this.ingredientTank.isEmpty()) {
+                this.currentRecipe = ElectrolyzeRecipeData.RECIPES.get(this.ingredientTank.getFluidInTank(0).getFluid());
+            } else {
+                this.currentRecipe = null;
+            }
+        }
 
         if(level instanceof ServerLevel && ElectrolyzeRecipeData.RECIPES.containsKey(this.ingredientTank.getFluidInTank(0).getFluid())) {
                 ElectrolyzeRecipeData.ElectrolyzeRecipe recipe = ElectrolyzeRecipeData.RECIPES.get(this.ingredientTank.getFluidInTank(0).getFluid());
@@ -125,9 +136,14 @@ public class ElectrolyzerBlockEntity extends BaseEnergyContainerBlockEntity impl
     @Override
     protected void saveAdditional(ValueOutput output) {
         super.saveAdditional(output);
+
         ingredientTank.save(output, "ingredient");
+
         resultTanks.save(output, "resultTanks");
 
+        if(this.currentRecipe != null) {
+            output.store("currentRecipe", ElectrolyzeRecipeData.ElectrolyzeRecipe.CODEC, this.currentRecipe);
+        }
     }
 
     @Override
@@ -135,6 +151,10 @@ public class ElectrolyzerBlockEntity extends BaseEnergyContainerBlockEntity impl
         super.loadAdditional(input);
         ingredientTank.load(input, "ingredient");
         resultTanks.load(input, "resultTanks");
+        Optional<ElectrolyzeRecipeData.ElectrolyzeRecipe> currentRecipe = input.read("currentRecipe", ElectrolyzeRecipeData.ElectrolyzeRecipe.CODEC);
+        this.currentRecipe = currentRecipe.orElse(null);
+
+        setChanged();
     }
 
     @Override
@@ -146,14 +166,45 @@ public class ElectrolyzerBlockEntity extends BaseEnergyContainerBlockEntity impl
         return ingredientTank;
     }
 
+    /**
+     * Check if the given fluid stack is valid for the given tank
+     * If currentRecipe is null, check if the fluid is valid for the recipes
+     * If result tanks contains a fluid, we only accept the base fluid for input.
+     *
+     * @param storage the fluid storage
+     * @param stack the fluid stack to check
+     * @param tank the tank index
+     * @param input true if checking for input tank, false for output tank
+     * @return if the fluid stack is valid for the given tank
+     */
+    public boolean isFluidValid(UniversalFluidStorage storage, FluidStack stack, int tank, boolean input) {
+        if(input) {
+            if(this.currentRecipe == null) {
+
+                if (this.ingredientTank.isEmpty()) return ElectrolyzeRecipeData.RECIPES.containsKey(stack.getFluid());
+                else return storage.getFluidInTank(0).getFluid() == stack.getFluid();
+            }
+            return this.currentRecipe.ingredientStack().isFluidEqual(stack);
+        } else {
+            if(this.currentRecipe == null) {
+                if(this.ingredientTank.isEmpty()) {
+                    return false;
+                } else {
+                    ElectrolyzeRecipeData.ElectrolyzeRecipe recipe = ElectrolyzeRecipeData.RECIPES.get(ElectrolyzerBlockEntity.this.ingredientTank.getFluidInTank(0).getFluid());
+                    return recipe.resultStacks().get(tank).getFluid() == stack.getFluid();
+                }
+            }
+            return this.currentRecipe.resultStacks().get(tank).isFluidEqual(stack);
+        }
+    }
 
     @Override
-    protected Component getDefaultName() {
+    protected @NotNull Component getDefaultName() {
         return Component.empty();
     }
 
     @Override
-    protected AbstractContainerMenu createMenu(int containerId, Inventory inventory) {
+    protected @NotNull AbstractContainerMenu createMenu(int containerId, Inventory inventory) {
         return new ElectrolyzerMenu(containerId, inventory, this, this);
     }
 
