@@ -6,10 +6,8 @@ import dev.architectury.registry.client.level.entity.EntityModelLayerRegistry;
 import dev.architectury.registry.client.level.entity.EntityRendererRegistry;
 import dev.architectury.registry.menu.MenuRegistry;
 import fr.tathan.exoconfig.client.screen.ConfigScreen;
-import net.minecraft.client.renderer.special.SpecialModelRenderers;
 import net.minecraft.server.packs.PackType;
 import org.exodusstudio.stellaris.Stellaris;
-import org.exodusstudio.stellaris.client.data.wiki.WikiPack;
 import org.exodusstudio.stellaris.client.models.rockets.RocketModel;
 import org.exodusstudio.stellaris.client.renderer.rockets.RocketRenderer;
 import org.exodusstudio.stellaris.client.screens.RocketScreen;
@@ -38,7 +36,7 @@ public class StellarisClient {
 
     //TODO make this loader abstract
     private static void registerScreens() {
-        MenuRegistry.registerScreenFactory(MenuTypesRegistry.TABLET.get(), MainTabletScreen::new);
+        MenuRegistry.registerScreenFactory(MenuTypesRegistry.TABLET_MENU.get(), MainTabletScreen::new);
         MenuRegistry.registerScreenFactory(MenuTypesRegistry.ROCKET_MENU.get(), RocketScreen::new);
     }
 
