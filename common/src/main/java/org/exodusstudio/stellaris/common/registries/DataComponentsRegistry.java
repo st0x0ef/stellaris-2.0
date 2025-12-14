@@ -23,6 +23,8 @@ public class DataComponentsRegistry {
 
     public static final RegistrySupplier<DataComponentType<Integer>> ENERGY =
             register("energy", builder -> builder.persistent(Codec.INT).networkSynchronized(ByteBufCodecs.INT));
+    public static final RegistrySupplier<DataComponentType<Integer>> SD_CARD_ID =
+            register("sd_card_id", builder -> builder.persistent(Codec.INT).networkSynchronized(ByteBufCodecs.INT));
 
     public static final RegistrySupplier<DataComponentType<Modules<RocketModule>>> ROCKET_MODULES =
             register("rocket_modules", builder -> builder

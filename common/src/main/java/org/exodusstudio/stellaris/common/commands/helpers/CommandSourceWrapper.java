@@ -6,13 +6,11 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 
-public class CommandSourceWrapper {
-
-    public final CommandContext<CommandSourceStack> context;
-
-    public CommandSourceWrapper(CommandContext<CommandSourceStack> context) {
-        this.context = context;
-    }
+/**
+ * A Wrapper of the context to access to usually used methods more easily.
+ * @param context
+ */
+public record CommandSourceWrapper(CommandContext<CommandSourceStack> context) {
 
     public ServerPlayer getPlayer() {
         return context.getSource().getPlayer();
@@ -50,4 +48,7 @@ public class CommandSourceWrapper {
         return 0;
     }
 
+    public CommandContext<CommandSourceStack> context() {
+        return context;
+    }
 }

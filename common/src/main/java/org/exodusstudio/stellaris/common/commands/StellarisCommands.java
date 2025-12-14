@@ -2,8 +2,7 @@ package org.exodusstudio.stellaris.common.commands;
 
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
-import com.mojang.brigadier.arguments.StringArgumentType;
-import dev.architectury.networking.NetworkManager;
+import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import dev.architectury.registry.menu.MenuRegistry;
 import net.minecraft.commands.CommandBuildContext;
 import net.minecraft.commands.CommandSourceStack;
@@ -19,41 +18,30 @@ import org.exodusstudio.stellaris.common.menus.MainTabletMenu;
 import org.exodusstudio.stellaris.common.network.packets.OpenScreenPacket;
 
 import java.util.ArrayList;
+import org.exodusstudio.stellaris.common.commands.arguments.PlanetArgument;
+import org.exodusstudio.stellaris.common.commands.helpers.ArgumentBuilder;
+import org.exodusstudio.stellaris.common.commands.helpers.CommandBuilder;
+import org.exodusstudio.stellaris.common.data.Planet;
+import org.exodusstudio.stellaris.common.data.PlanetsData;
+import org.exodusstudio.stellaris.common.menus.MainTabletMenu;
+import org.exodusstudio.stellaris.common.utils.PlanetUtil;
 
 public class StellarisCommands {
 
     public StellarisCommands(CommandDispatcher<CommandSourceStack> dispatcher, CommandBuildContext registry, Commands.CommandSelection selection) {
+        CommandBuilder builder = CommandBuilder.of(dispatcher, "stellaris").permission(2);
+        screenCommand(builder);
+        planetsCommand(builder);
+        builder.register();
+    }
 
-        CommandBuilder builder = CommandBuilder.of(dispatcher, "stellaris");
-        builder.permission(2).addSubCommand(
-                        builder.createSubCommand("screen")
-                                .addSubCommand(builder.createSubCommand("tablet")
-                                        .execute((context) -> {
-                                            MenuRegistry.openExtendedMenu(context.getPlayer(), MainTabletMenu.createProvider());
-                                            return context.success();
-                                        })
-                                )
-                ).addSubCommand(builder.createSubCommand("test")
-                        .addSubCommand(builder.createSubCommand("wikiLines")
-                                .addArgument(ArgumentBuilder.of("lines", StringArgumentType.string())
-                                        .addArgument(ArgumentBuilder.of("width", IntegerArgumentType.integer(0))))
+    private void screenCommand(CommandBuilder builder) {
+        builder.addSubCommand(
+                builder.createSubCommand("screen")
+                        .addSubCommand(builder.createSubCommand("tablet")
                                 .execute((context) -> {
-                                    String lines = context.getArgument("lines", String.class);
-                                    Integer width = context.getArgument("width", Integer.class);
-                                    WikiEntryTextRenderer renderer = new WikiEntryTextRenderer(lines, width);
-
-                                    for (ArrayList<WikiEntryTextRenderer.Word> line : renderer.lines) {
-                                        StringBuilder sb = new StringBuilder();
-                                        for (WikiEntryTextRenderer.Word word : line) sb.append(word.toString()).append(" ");
-                                        Stellaris.LOG.error("Line: {}", sb);
-                                    }
-
+                                    MenuRegistry.openExtendedMenu(context.getPlayer(), MainTabletMenu.createProvider());
                                     return context.success();
-                                })
-                        ).addSubCommand(builder.createSubCommand("test")
-                                .execute((context) -> {
-                                    NetworkManager.sendToPlayer(context.getPlayer(), new OpenScreenPacket("test"));
-                                    return context.failure();
                                 })
                         )
                 ).addSubCommand(builder.createSubCommand("oil")
@@ -75,7 +63,7 @@ public class StellarisCommands {
                                         return context.failure();
                                     }
 
-                                    int quantity = IntegerArgumentType.getInteger(context.context, "quantity");
+                                    int quantity = IntegerArgumentType.getInteger(context.context(), "quantity");
                                     ChunkAccess access = player.level().getChunk(context.getPlayer().getOnPos());
                                     access.stellaris$setChunkOilLevel(quantity);
                                     context.sendSuccess(Component.literal("Oil Level : " + access.stellaris$getChunkOilLevel()), true);
@@ -85,7 +73,74 @@ public class StellarisCommands {
                 )
                 .register();
 
-
     }
 
+    private void planetsCommand(CommandBuilder builder) {
+        CommandBuilder planetsCommandBuilder = builder.createSubCommand("planets").execute(wrapper -> {
+            StringBuilder stringBuilder = new StringBuilder("Planets registered:\n");
+            for (Planet planet : PlanetsData.PLANETS) {
+                stringBuilder.append("- ").append(planet.translationKey()).append(" (").append(planet.dimension()).append(")\n");
+            }
+            wrapper.getPlayer().displayClientMessage(Component.literal(stringBuilder.toString()), false);
+            return wrapper.success();
+        });
+
+        teleportToPlanetCommand(planetsCommandBuilder);
+        planetInfoCommand(planetsCommandBuilder);
+
+        builder.addSubCommand(planetsCommandBuilder);
+    }
+
+    private void teleportToPlanetCommand(CommandBuilder builder) {
+        builder.addSubCommand(builder.createSubCommand("teleport").addArgument(ArgumentBuilder.of("planet", PlanetArgument.planet())).execute(wrapper -> {
+            Planet planet = PlanetsData.PLANETS.stream().filter(p -> {
+                try {
+                    return p.is(PlanetArgument.getPlanet(wrapper.context(), "planet"));
+                } catch (CommandSyntaxException e) {
+                    wrapper.getPlayer().displayClientMessage(Component.literal("Planet not found!"), false);
+                    return false;
+                }
+            }).findFirst().orElse(null);
+            if (planet == null) {
+                wrapper.getPlayer().displayClientMessage(Component.literal("Planet not found!"), false);
+                return wrapper.failure();
+            }
+            PlanetUtil.teleportToPlanet(wrapper.getPlayer(), planet, 100);
+            return wrapper.success();
+        }));
+    }
+
+    private void planetInfoCommand(CommandBuilder builder) {
+        CommandBuilder infoNoArg = builder.createSubCommand("info").execute(wrapper -> {
+            Planet planet = PlanetsData.getPlanet(wrapper.getPlayer().level().dimension());
+            if (planet != null) {
+                wrapper.getPlayer().displayClientMessage(planet.getDisplayInfo(), false);
+                return wrapper.success();
+            } else {
+                wrapper.getPlayer().displayClientMessage(Component.literal("You are not on a registered planet."), false);
+                return wrapper.failure();
+            }
+        });
+
+        infoNoArg.addArgument(
+                ArgumentBuilder.of("planet", PlanetArgument.planet())
+                        .execute(wrapper -> {
+                            PlanetsData.PLANETS.stream().filter(p -> {
+                                try {
+                                    return p.is(PlanetArgument.getPlanet(wrapper.context(), "planet"));
+                                } catch (CommandSyntaxException e) {
+                                    wrapper.getPlayer().displayClientMessage(Component.literal("Planet not found!"), false);
+                                    return false;
+                                }
+                            }).findFirst().ifPresentOrElse(planet -> {
+                                wrapper.getPlayer().displayClientMessage(planet.getDisplayInfo(), false);
+                            }, () -> {
+                                wrapper.getPlayer().displayClientMessage(Component.literal("Planet not found!"), false);
+                            });
+                            return wrapper.success();
+                        })
+        );
+
+        builder.addSubCommand(infoNoArg);
+    }
 }

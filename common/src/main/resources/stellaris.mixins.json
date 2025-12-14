@@ -8,7 +8,11 @@
   ],
   "mixins": [
     "ChunkAccessMixin",
-    "EntityMixinAttachment"
+    "EntityMixinAttachment",
+    "ChunkAccessMixin",
+    "ConsumableMixin",
+    "EntityMixin"
+
   ],
   "injectors": {
     "defaultRequire": 1

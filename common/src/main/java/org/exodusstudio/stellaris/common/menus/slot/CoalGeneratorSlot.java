@@ -13,6 +13,6 @@ public class CoalGeneratorSlot extends Slot {
 
     @Override
     public boolean mayPlace(ItemStack stack) {
-        return stack.is(TagsRegistry.COAL_GENERATOR_FUEL_TAG);
+        return stack.is(TagsRegistry.ItemTags.COAL_GENERATOR_FUEL);
     }
 }

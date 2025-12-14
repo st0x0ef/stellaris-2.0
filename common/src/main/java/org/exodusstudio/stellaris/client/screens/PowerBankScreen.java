@@ -13,6 +13,8 @@ import org.exodusstudio.stellaris.client.screens.utils.GUISprites;
 import org.exodusstudio.stellaris.common.blocks.entities.machines.PowerBankBlockEntity;
 import org.exodusstudio.stellaris.common.menus.PowerBankMenu;
 
+import java.util.List;
+
 public class PowerBankScreen extends AbstractContainerScreen<PowerBankMenu> {
 
     public static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(Stellaris.MOD_ID, "textures/gui/power_bank.png");
@@ -61,7 +63,7 @@ public class PowerBankScreen extends AbstractContainerScreen<PowerBankMenu> {
     @Override
     protected void renderTooltip(GuiGraphics guiGraphics, int x, int y) {
         super.renderTooltip(guiGraphics, x, y);
-        energyGauge.renderTooltips(guiGraphics, x, y, font, list -> {});
+        energyGauge.renderTooltips(guiGraphics, x, y, font, List::of);
     }
 
     @Override

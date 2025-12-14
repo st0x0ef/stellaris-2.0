@@ -57,7 +57,7 @@ public interface ImplementedInventory extends WorldlyContainer {
 
     @Override
     default int getContainerSize() {
-        return getItems().size();
+        return 0;
     }
 
     @Override

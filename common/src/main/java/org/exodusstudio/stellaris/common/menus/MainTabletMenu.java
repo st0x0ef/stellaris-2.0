@@ -10,7 +10,7 @@ import net.minecraft.world.item.ItemStack;
 import org.exodusstudio.stellaris.common.registries.MenuTypesRegistry;
 
 
-public class MainTabletMenu extends AbstractContainerMenu  {
+public class MainTabletMenu extends AbstractContainerMenu {
 
     private final Inventory playerInventory;
 
@@ -19,7 +19,7 @@ public class MainTabletMenu extends AbstractContainerMenu  {
     }
 
     public MainTabletMenu(int syncId, Inventory playerInventory) {
-        super(MenuTypesRegistry.TABLET.get(), syncId);
+        super(MenuTypesRegistry.TABLET_MENU.get(), syncId);
 
         this.playerInventory = playerInventory;
     }

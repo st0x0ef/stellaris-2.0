@@ -5,11 +5,14 @@ import dev.architectury.fluid.FluidStack;
 import dev.architectury.hooks.fluid.FluidStackHooks;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import org.exodusstudio.stellaris.Stellaris;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Iterator;
 import java.util.List;
+import java.util.Optional;
 
 public abstract class SingleFluidStorage implements UniversalFluidStorage {
 
@@ -161,21 +164,20 @@ public abstract class SingleFluidStorage implements UniversalFluidStorage {
         return filled;
     }
 
-    public void save(CompoundTag compoundTag, HolderLookup.Provider provider, String name) {
+
+    public void save(ValueOutput output, String name) {
         if (isEmpty()) {
             return;
         }
         if (!getFluidInTank(0).isEmpty()) {
-            compoundTag.put(name + "-singleFluid", FluidStackHooks.write(provider, getFluidInTank(0), new CompoundTag()));
+            output.store(name + "-singleFluid", FluidStack.CODEC, getFluidInTank(0));
         }
     }
 
-    public void load(CompoundTag compoundTag, HolderLookup.Provider provider, String name) {
-        if (!compoundTag.contains(name + "-singleFluid")) {
-            return;
-        }
+    public void load(ValueInput input, String name) {
+        Optional<FluidStack> optional = input.read(name + "-singleFluid", FluidStack.CODEC);
+        optional.ifPresent(this::setFluidInTank);
 
-        setFluidInTank(FluidStackHooks.readOptional(provider, (CompoundTag) compoundTag.get(name + "-singleFluid")));
     }
 
     public boolean isEmpty() {

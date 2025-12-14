@@ -44,7 +44,6 @@ public class CoalGeneratorBlock extends BaseLitMachineBlock {
             level.addParticle(ParticleTypes.SMOKE, d, e, f, 0.0, 0.0, 0.0);
             level.addParticle(ParticleTypes.SMOKE, d, e, f, 0.0, 0.0, 0.0);
             level.addParticle(ParticleTypes.SMOKE, d, e, f, 0.0, 0.0, 0.0);
-
         }
     }
 }

@@ -11,9 +11,13 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.ARGB;
 import net.minecraft.util.Mth;
+import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.common.utils.ResourceLocationUtils;
 import org.jetbrains.annotations.Nullable;
 
+/**
+ * A utility class to create custom textured button.
+ */
 @Environment(EnvType.CLIENT)
 public class TexturedButton extends Button {
 
@@ -62,6 +66,47 @@ public class TexturedButton extends Button {
         this.hoverButtonTexture = HOVER_TEXTURE;
     }
 
+    /** Override Methods */
+    @Override
+    public void setTooltip(@Nullable Tooltip tooltip) {
+        super.setTooltip(tooltip);
+    }
+
+    @Override
+    public void renderWidget(GuiGraphics graphics, int mouseX, int mouseY, float partialTicks) {
+        Minecraft minecraft = Minecraft.getInstance();
+
+
+        int i = this.yTexStart;
+        if (this.isHoveredOrFocused()) i += this.yDiffText;
+
+        /** TEXTURE MANAGER */
+        ResourceLocation texture = this.getTypeTexture();
+
+        if(this.useSprite ) {
+            graphics.blitSprite(RenderPipelines.GUI_TEXTURED, texture, this.getX(), this.getY(), this.getWidth(), this.getHeight(), ARGB.white(this.alpha));
+        } else {
+            graphics.blit(RenderPipelines.GUI_TEXTURED, texture, this.getX(), this.getY(), (float) this.xTexStart, (float) i,
+                    this.width, this.height, this.textureWidth, this.textureHeight);
+        }
+
+        /** FONT RENDERER */
+        int color = this.isHovered ? 16777215 : 10526880;
+
+        if(this.showText) {
+            this.renderString(graphics, minecraft.font, color | Mth.ceil(this.alpha * 255.0F) << 24);
+        }
+    }
+
+    @Override
+    public void setSize(int width, int height) {
+        super.setSize(width, height);
+        this.textureWidth = width;
+        this.textureHeight = height;
+    }
+
+
+
     /** Builder Methods */
     public <T extends TexturedButton> T tooltip(@Nullable Tooltip tooltip) {
         this.setTooltip(tooltip);
@@ -71,6 +116,11 @@ public class TexturedButton extends Button {
     @SuppressWarnings("unchecked")
     private <T extends TexturedButton> T cast() {
         return (T) this;
+    }
+
+    public <T extends TexturedButton> T useSprite(boolean useSprite) {
+        this.useSprite = useSprite;
+        return cast();
     }
 
     public <T extends TexturedButton> T tex(ResourceLocation buttonTexture, ResourceLocation hoverTexture) {
@@ -98,45 +148,6 @@ public class TexturedButton extends Button {
 
     public void setYShift(int y) {
         this.yDiffText = y;
-    }
-
-    /** Override Methods */
-    @Override
-    public void setTooltip(@Nullable Tooltip tooltip) {
-        super.setTooltip(tooltip);
-    }
-
-    @Override
-    public void renderWidget(GuiGraphics graphics, int mouseX, int mouseY, float partialTicks) {
-        Minecraft minecraft = Minecraft.getInstance();
-
-
-        int i = this.yTexStart;
-        if (this.isHoveredOrFocused()) i += this.yDiffText;
-
-        /** TEXTURE MANAGER */
-        ResourceLocation texture = this.getTypeTexture();
-
-        if( this.useSprite ) {
-            graphics.blitSprite(RenderPipelines.GUI_TEXTURED, texture, this.getX(), this.getY(), this.getWidth(), this.getHeight(), ARGB.white(this.alpha));
-        } else {
-            graphics.blit(RenderPipelines.GUI_TEXTURED, texture, this.getX(), this.getY(), (float) this.xTexStart, (float) i,
-                    this.width, this.height, this.textureWidth, this.textureHeight);
-        }
-
-        /** FONT RENDERER */
-        int color = this.isHovered ? 16777215 : 10526880;
-
-        if(this.showText) {
-            this.renderString(graphics, minecraft.font, color | Mth.ceil(this.alpha * 255.0F) << 24);
-        }
-    }
-
-    @Override
-    public void setSize(int width, int height) {
-        super.setSize(width, height);
-        this.textureWidth = width;
-        this.textureHeight = height;
     }
 
     /** TYPE TEXTURE MANAGER */

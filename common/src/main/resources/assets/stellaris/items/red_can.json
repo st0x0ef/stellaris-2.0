@@ -1,0 +1,12 @@
+{
+  "model": {
+    "type": "minecraft:model",
+    "model": "stellaris:item/small_can",
+    "tints": [
+      {
+        "type": "constant",
+        "value": 16711680
+      }
+    ]
+  }
+}

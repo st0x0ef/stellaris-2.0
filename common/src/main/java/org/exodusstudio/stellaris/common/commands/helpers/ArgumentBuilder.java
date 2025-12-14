@@ -13,6 +13,7 @@ public class ArgumentBuilder<T> {
     private final ArgumentType<T> argumentType;
 
     private ArgumentBuilder<?> subArgumentBuilder;
+    private Function<CommandSourceWrapper, Integer> executor;
 
     private ArgumentBuilder(String argumentName, ArgumentType<T> argumentType) {
         this.argumentName = argumentName;
@@ -23,7 +24,12 @@ public class ArgumentBuilder<T> {
         return new ArgumentBuilder<>(argumentName, argumentType);
     }
 
-    public ArgumentBuilder<?> addArgument(ArgumentBuilder<?> subArgumentBuilder) {
+    public ArgumentBuilder<T> execute(Function<CommandSourceWrapper, Integer> executor) {
+        this.executor = executor;
+        return this;
+    }
+
+    public ArgumentBuilder<T> addArgument(ArgumentBuilder<?> subArgumentBuilder) {
         this.subArgumentBuilder = subArgumentBuilder;
         return this;
     }
@@ -35,13 +41,14 @@ public class ArgumentBuilder<T> {
             builder.then(subArgumentBuilder.build(commandFunction, null));
         }
 
+        Function<CommandSourceWrapper, Integer> effectiveExecutor = (this.executor != null) ? this.executor : commandFunction;
+        builder.executes((c) -> effectiveExecutor.apply(new CommandSourceWrapper(c)));
+
         if (parentArgument != null) {
             parentArgument.then(builder);
             return parentArgument;
         }
 
-        return builder.executes((c) ->  commandFunction.apply(new CommandSourceWrapper(c)));
+        return builder;
     }
-
-
 }

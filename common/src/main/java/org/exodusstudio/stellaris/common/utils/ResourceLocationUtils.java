@@ -21,5 +21,8 @@ public class ResourceLocationUtils {
     public static <T> ResourceKey<T> resourceKey(ResourceKey<? extends Registry<T>> key, String path) {
         return ResourceKey.create(key, id(path));
     }
+    public static String key(ResourceLocation loc) {
+        return loc.toString().split(":")[1];
+    }
 
 }

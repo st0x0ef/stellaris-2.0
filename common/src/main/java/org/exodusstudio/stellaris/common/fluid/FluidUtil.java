@@ -17,7 +17,7 @@ import java.util.concurrent.atomic.AtomicLong;
 @SuppressWarnings("all")
 public class FluidUtil {
 
-    public static void moveFluidToItem(int tank, UniversalFluidStorage from, int slot, NonNullList<ItemStack> items, long amount) {
+    public static void moveFluidToItem(int tank, UniversalFluidStorage from, int slot, int resultSlot, NonNullList<ItemStack> items, long amount) {
         if (items.get(slot).isEmpty()) {
             return;
         }
@@ -27,10 +27,12 @@ public class FluidUtil {
         }
         amount = Math.min(amount, to.getTankCapacity(0) - to.getFluidInTank(0).getAmount());
         moveFluid(from, to, from.getFluidInTank(tank).copyWithAmount(amount));
-        items.set(slot, to.getContainer());
+
+        if (slot != resultSlot) items.set(slot, ItemStack.EMPTY);
+        items.set(resultSlot, to.getContainer());
     }
 
-    public static void moveFluidFromItem(int tank, int slot, NonNullList<ItemStack> items, UniversalFluidStorage to, long amount) {
+    public static void moveFluidFromItem(int tank, int slot, int remainingItemSlot, NonNullList<ItemStack> items, UniversalFluidStorage to, long amount) {
         if (items.get(slot).isEmpty()) {
             return;
         }
@@ -40,7 +42,8 @@ public class FluidUtil {
         }
         amount = Math.min(amount, to.getTankCapacity(tank) - to.getFluidInTank(tank).getAmount());
         moveFluid(from, to, from.getFluidInTank(tank).copyWithAmount(amount));
-        items.set(slot, from.getContainer());
+        if (slot != remainingItemSlot) items.set(slot, ItemStack.EMPTY);
+        items.set(remainingItemSlot, from.getContainer());
     }
 
     public static FluidStack moveFluid(UniversalFluidStorage from, UniversalFluidStorage to, FluidStack stack) {

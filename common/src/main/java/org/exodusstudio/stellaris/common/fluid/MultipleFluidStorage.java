@@ -5,6 +5,10 @@ import dev.architectury.fluid.FluidStack;
 import dev.architectury.hooks.fluid.FluidStackHooks;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
+
+import java.util.Optional;
 
 public abstract class MultipleFluidStorage extends BaseFluidStorage {
 
@@ -114,23 +118,30 @@ public abstract class MultipleFluidStorage extends BaseFluidStorage {
         return FluidStack.create(stack, drained);
     }
 
-    public void save(CompoundTag compoundTag, HolderLookup.Provider provider, String name) {
-        for (int i = 0; i < getTanks(); i++) {
 
-            if (!getFluidInTank(i).isEmpty()) {
-                compoundTag.put(name + "-fluid-" + i, FluidStackHooks.write(provider, getFluidInTank(i), new CompoundTag()));
-            }
+    public void save(ValueOutput output, String name) {
+        if (isEmpty()) {
+            return;
+        }
+
+        ValueOutput.TypedOutputList<FluidStack> list =  output.list(name + "-list", FluidStack.CODEC);
+
+        for (int i = 0; i < getTanks(); i++) {
+            list.add(getFluidInTank(i));
         }
     }
 
-    public void load(CompoundTag compoundTag, HolderLookup.Provider provider, String name) {
-        for (int i = 0; i < getTanks(); i++) {
-
-            if (compoundTag.contains(name + "-fluid-" + i)) {
-                setFluidInTank(i, FluidStackHooks.read(provider, compoundTag.get(name + "-fluid-" + i)).orElse(FluidStack.empty()));
+    public void load(ValueInput input, String name) {
+        Optional<ValueInput.TypedInputList<FluidStack>> optional = input.list(name + "-list", FluidStack.CODEC);
+        if (optional.isPresent()) {
+            ValueInput.TypedInputList<FluidStack>  list = optional.get();
+            for (int i = 0; i < getTanks(); i++) {
+                setFluidInTank(i, (FluidStack) list.stream().toArray()[i]);
             }
         }
+
     }
+
 
     public boolean isEmpty() {
         for (FluidStack stack : this) {

@@ -1,3 +1,5 @@
+import net.fabricmc.loom.configuration.ide.RunConfigSettings
+
 plugins {
     id 'com.gradleup.shadow'
 }
@@ -9,6 +11,12 @@ architectury {
 
 loom {
     accessWidenerPath.set(project(":common").loom.accessWidenerPath)
+}
+
+sourceSets {
+    main  {
+        resources.srcDir project(":common").file("src/main/generated/resources").absolutePath
+    }
 }
 
 
@@ -27,12 +35,35 @@ configurations {
     }
 }
 
-repositories {
-    maven {
-        name = 'NeoForged'
-        url = 'https://maven.neoforged.net/releases'
+loom {
+    runs {
+        client {
+            client()
+            property 'neoforge.enabledGameTestNamespaces', project.name
+        }
+
+        data {
+            clientData()
+            programArgs.addAll '--mod', project.name, '--all',
+                    '--output', file('src/generated/resources/').getAbsolutePath(),
+                    '--existing', file('src/main/resources/').getAbsolutePath()
+        }
+
+        datagen {
+            clientData()
+            programArgs.addAll '--mod', project.rootProject.name , '--all',
+                    '--output', project(":common").file("src/main/generated/resources").getAbsolutePath(),
+                    '--existing', project(":common").file("src/main/resources").getAbsolutePath()
+        }
     }
 }
+
+    repositories {
+        maven {
+            name = 'NeoForged'
+            url = 'https://maven.neoforged.net/releases'
+        }
+    }
 
 dependencies {
     neoForge "net.neoforged:neoforge:$rootProject.neoforge_version"
@@ -45,6 +76,7 @@ dependencies {
     shadowBundle project(path: ':common', configuration: 'transformProductionNeoForge')
 }
 
+
 processResources {
     inputs.property 'version', project.version
 
@@ -52,6 +84,7 @@ processResources {
         expand version: project.version
     }
 }
+
 
 shadowJar {
     configurations = [project.configurations.shadowBundle]

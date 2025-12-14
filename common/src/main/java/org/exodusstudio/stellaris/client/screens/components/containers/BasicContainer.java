@@ -11,7 +11,7 @@ import java.util.Arrays;
 
 public abstract class BasicContainer extends AbstractWidget {
 
-    public ArrayList<AbstractWidget> children = new ArrayList<AbstractWidget>();
+    public ArrayList<AbstractWidget> children = new ArrayList<>();
 
     @SafeVarargs
     public BasicContainer(int baseX, int baseY, int width, int height, AbstractWidget ...children) {
