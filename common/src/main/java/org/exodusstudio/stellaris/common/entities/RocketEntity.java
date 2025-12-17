@@ -38,6 +38,7 @@ public class RocketEntity extends VehicleEntity  {
     public RocketEntity(EntityType<?> entityType, Level level) {
         super(entityType, level);
         this.inventory.addListener(this::containerChanged);
+        updateModuleFromContainer(this.inventory);
     }
 
     @Override
