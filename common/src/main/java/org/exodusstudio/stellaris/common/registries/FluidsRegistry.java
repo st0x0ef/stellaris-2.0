@@ -24,7 +24,7 @@ public class FluidsRegistry {
 
     /** HYDROGEN FLUIDS */
     public static final ArchitecturyFluidAttributes HYDROGEN_ATTRIBUTES = SimpleArchitecturyFluidAttributes.ofSupplier(() -> FluidsRegistry.HYDROGEN_FLOWING, () -> FluidsRegistry.HYDROGEN_STILL)
-            .blockSupplier(() -> (RegistrySupplier<? extends LiquidBlock>) BlocksRegistry.HYDROGEN.block())
+            .blockSupplier(() -> BlocksRegistry.HYDROGEN)
             .bucketItem(() -> Optional.of(ItemsRegistry.HYDROGEN_BUCKET.get()))
             .slopeFindDistance(4)
             .dropOff(1)
@@ -41,7 +41,7 @@ public class FluidsRegistry {
 
     /** OXYGEN FLUIDS **/
     public static final ArchitecturyFluidAttributes OXYGEN_ATTRIBUTES = SimpleArchitecturyFluidAttributes.ofSupplier(() -> FluidsRegistry.OXYGEN_FLOWING, () -> FluidsRegistry.OXYGEN_STILL)
-            .blockSupplier(() -> (RegistrySupplier<LiquidBlock>) BlocksRegistry.OXYGEN.block())
+            .blockSupplier(() -> BlocksRegistry.OXYGEN)
             .slopeFindDistance(4)
             .dropOff(1)
             .tickDelay(8)

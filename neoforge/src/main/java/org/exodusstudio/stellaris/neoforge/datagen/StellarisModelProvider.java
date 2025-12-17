@@ -35,7 +35,6 @@ public class StellarisModelProvider extends ModelProvider {
         itemModels.generateFlatItem(ItemsRegistry.RAW_DESH.get(), ModelTemplates.FLAT_ITEM);
 
         //BLOCKS
-        blockModels.createTrivialCube(BlocksRegistry.VENUS_DIAMOND_ORE.block().get());
         simpleRotatedVariantBlock(BlocksRegistry.MOON_SAND);
         simpleRotatedVariantBlock(BlocksRegistry.MOON_STONE);
 
@@ -44,21 +43,5 @@ public class StellarisModelProvider extends ModelProvider {
     protected void simpleRotatedVariantBlock(BlockItemRegistrySupplier blockItem) {
         blockModels.createRotatedVariantBlock(blockItem.block().get());
         blockModels.registerSimpleFlatItemModel(blockItem.block().get());
-    }
-
-
-
-    @Override
-    protected Stream<? extends Holder<Block>> getKnownBlocks() {
-        return StreamSupport.stream(Spliterators.spliteratorUnknownSize(BlocksRegistry.BLOCKS.iterator(), Spliterator.ORDERED), false)
-                .filter(x -> !x.equals(BlocksRegistry.MOON_ROCK.block()) && !x.equals(BlocksRegistry.VENUS_DIAMOND_ORE.block()))
-                .map(RegistrySupplier::getDelegate);
-    }
-
-    @Override
-    protected Stream<? extends Holder<Item>> getKnownItems() {
-        return StreamSupport.stream(Spliterators.spliteratorUnknownSize(ItemsRegistry.ITEMS.iterator(), Spliterator.ORDERED), false)
-                .filter(x -> !x.equals(ItemsRegistry.TEST_ITEM) && !x.equals(ItemsRegistry.DESH_INGOT) && !x.equals(ItemsRegistry.RAW_DESH))
-                .map(RegistrySupplier::getDelegate);
     }
 }

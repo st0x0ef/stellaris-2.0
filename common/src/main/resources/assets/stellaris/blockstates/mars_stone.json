@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "": [
+      { "model": "stellaris:block/mars_stone", "y": 0 },
+      { "model": "stellaris:block/mars_stone", "y": 90 },
+      { "model": "stellaris:block/mars_stone", "y": 180 },
+      { "model": "stellaris:block/mars_stone", "y": 270 }
+    ]
+  }
+}
