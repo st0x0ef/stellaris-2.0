@@ -77,13 +77,13 @@ public record EntryInfo(ResourceLocation id, ResourceLocation entryId, String ti
 
     /**
      * A component that render an entity on the wiki.
-     * @param entity the location of the entity to render
+     * @param location the location of the entity to render
      * @param scale the entity scale
      */
-    public record EntityComponent(ResourceLocation entity, int scale) {
+    public record EntityComponent(ResourceLocation location, int scale) {
 
         public static final Codec<EntityComponent> CODEC = RecordCodecBuilder.create(instance -> instance.group(
-                ResourceLocation.CODEC.fieldOf("id").forGetter(EntityComponent::entity),
+                ResourceLocation.CODEC.fieldOf("id").forGetter(EntityComponent::location),
                 Codec.INT.fieldOf("scale").forGetter(EntityComponent::scale)
         ).apply(instance, EntityComponent::new));
 

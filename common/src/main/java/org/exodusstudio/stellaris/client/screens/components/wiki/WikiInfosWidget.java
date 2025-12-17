@@ -64,7 +64,7 @@ public class WikiInfosWidget extends ScrollableContainer {
                 });
                 case "entity" -> component.entity().ifPresent((entity) -> {
                     int height = (int) (this.getOffsetHeight() + finalHeight.get() + entity.scale());
-                    Entity entity1 = ClientUtils.createEntity(Minecraft.getInstance().level, entity.entity());
+                    Entity entity1 = ClientUtils.createEntity(Minecraft.getInstance().level, entity.location());
                     if(entity1 instanceof LivingEntity livingEntity) {
 
                         int cornerX = guiGraphics.guiWidth() / 2 - 25;
