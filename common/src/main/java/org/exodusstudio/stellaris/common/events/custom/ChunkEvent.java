@@ -3,7 +3,6 @@ package org.exodusstudio.stellaris.common.events.custom;
 import dev.architectury.event.Event;
 import dev.architectury.event.EventFactory;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.chunk.ChunkAccess;
 

@@ -11,7 +11,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.ARGB;
 import net.minecraft.util.Mth;
-import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.common.utils.ResourceLocationUtils;
 import org.jetbrains.annotations.Nullable;
 

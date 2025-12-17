@@ -4,16 +4,11 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.Tooltip;
-import net.minecraft.client.gui.narration.NarratableEntry;
 import net.minecraft.client.renderer.RenderPipelines;
-import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.util.ARGB;
 import org.exodusstudio.stellaris.client.data.wiki.WikiEntry;
 import org.exodusstudio.stellaris.client.screens.components.TexturedButton;
-import org.jetbrains.annotations.Nullable;
-
-import java.util.Collection;
 
 public class WikiEntryButton extends TexturedButton {
 

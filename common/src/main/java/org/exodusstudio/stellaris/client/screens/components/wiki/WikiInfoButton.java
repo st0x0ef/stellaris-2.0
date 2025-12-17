@@ -56,7 +56,7 @@ public class WikiInfoButton extends TexturedButton {
         /** FONT RENDERER */
         switch (info.iconType()) {
             case "item":
-                info.components().stream().filter((c) -> c.type().equals("item")).findFirst().ifPresent((item) -> graphics.renderItem(item.item().get().stack(), this.getX(), this.getY()));;
+                info.components().stream().filter((c) -> c.type().equals("item")).findFirst().ifPresent((item) -> graphics.renderItem(item.item().get().stack(), this.getX(), this.getY()));
                 break;
             case "entity":
                 info.components().stream().filter((c) -> c.type().equals("entity")).findFirst().ifPresent((entity) -> {

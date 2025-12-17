@@ -18,7 +18,7 @@ import java.util.Map;
  */
 public class FluidInfosRegistry {
 
-    public static Map<ResourceLocation, FluidInfos> FLUIDS_INFO = new HashMap<ResourceLocation, FluidInfos>();
+    public static Map<ResourceLocation, FluidInfos> FLUIDS_INFO = new HashMap<>();
 
     public static void register(Fluid fluid, FluidInfos fluidInfos, boolean overwrite) {
         boolean alreadyIn = FLUIDS_INFO.containsKey(fluid.arch$registryName());

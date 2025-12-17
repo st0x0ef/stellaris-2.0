@@ -15,7 +15,6 @@ import org.exodusstudio.stellaris.client.screens.components.wiki.WikiInfoButton;
 import org.exodusstudio.stellaris.client.screens.tablet.MainTabletScreen;
 import org.exodusstudio.stellaris.client.screens.tablet.application.ApplicationRegistry;
 import org.exodusstudio.stellaris.client.screens.tablet.application.ApplicationScreen;
-import org.exodusstudio.stellaris.common.menus.MainTabletMenu;
 import org.exodusstudio.stellaris.client.utils.ClientUtils;
 import org.exodusstudio.stellaris.common.menus.MainTabletMenu;
 import org.exodusstudio.stellaris.common.utils.ResourceLocationUtils;
@@ -110,9 +109,7 @@ public class WikiApplicationScreen extends Screen {
         int height = 5;
         for (WikiEntry entry : ENTRIES) {
             WikiEntryButton button = new WikiEntryButton(this.scrollableContainer.getX() + 5, this.scrollableContainer.getY() + height, 90, 20, entry,
-                    button1 -> {
-                        switchEntry(entry, 0);
-                    }).tex(ResourceLocationUtils.guiTexture("tablet/tablet_entry_button"), ResourceLocationUtils.guiTexture("tablet/tablet_entry_button"));
+                    button1 -> switchEntry(entry, 0)).tex(ResourceLocationUtils.guiTexture("tablet/tablet_entry_button"), ResourceLocationUtils.guiTexture("tablet/tablet_entry_button"));
             this.scrollableContainer.addChild(this, button);
             height += 25;
         }
@@ -221,7 +218,7 @@ public class WikiApplicationScreen extends Screen {
 
         var PAGES_BUTTONS = new ArrayList<WikiInfoButton>();
         INFOS.forEach((infos) -> {
-            WikiInfoButton entryButton = new WikiInfoButton(this.scrollableContainer.getRight() + 30 + (column.get() * 30), this.getTopPos() + 60 + (row.get() * 30), 20, 20, (b) -> {this.minecraft.setScreen(new WikiEntryScreen(this.mainTabletScreen, WikiState.fromWiki(this), infos));}, infos)
+            WikiInfoButton entryButton = new WikiInfoButton(this.scrollableContainer.getRight() + 30 + (column.get() * 30), this.getTopPos() + 60 + (row.get() * 30), 20, 20, (b) -> this.minecraft.setScreen(new WikiEntryScreen(this.mainTabletScreen, WikiState.fromWiki(this), infos)), infos)
                     .tex(BUTTON_TEXTURE, BUTTON_HOVERED_TEXTURE);
 
             if (column.get() == 3) {

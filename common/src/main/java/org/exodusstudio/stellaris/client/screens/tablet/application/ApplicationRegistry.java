@@ -29,9 +29,9 @@ public class ApplicationRegistry {
                     .syncToClients()
                     .build();
 
-    public static RegistrySupplier<ApplicationFactory> WIKI = TABLET_APPLICATION.register(
+    public static RegistrySupplier<ApplicationFactory<MainTabletMenu>> WIKI = TABLET_APPLICATION.register(
             ResourceLocation.parse("stellaris:applications/wiki"),
-            () -> new ApplicationFactory<MainTabletMenu>(
+            () -> new ApplicationFactory<>(
                     Component.translatable("application.stellaris.wiki.name"),
                     Component.translatable("application.stellaris.wiki.description"),
                     ResourceLocationUtils.id("icon/wiki_app"),
@@ -40,7 +40,7 @@ public class ApplicationRegistry {
             )
     );
 
-    public static RegistrySupplier<ApplicationFactory> SD_CARD_READER = TABLET_APPLICATION.register(
+    public static RegistrySupplier<ApplicationFactory<MainTabletMenu>> SD_CARD_READER = TABLET_APPLICATION.register(
             ResourceLocation.parse("stellaris:applications/sd_card_reader"),
             () -> new ApplicationFactory<>(
                     Component.translatable("application.stellaris.sd_card_reader.name"),
@@ -51,7 +51,7 @@ public class ApplicationRegistry {
             )
     );
 
-    public static RegistrySupplier<ApplicationFactory> STATS = TABLET_APPLICATION.register(
+    public static RegistrySupplier<ApplicationFactory<MainTabletMenu>> STATS = TABLET_APPLICATION.register(
             ResourceLocation.parse("stellaris:applications/stats"),
             () -> new ApplicationFactory<>(
                     Component.translatable("application.stellaris.stats.name"),
