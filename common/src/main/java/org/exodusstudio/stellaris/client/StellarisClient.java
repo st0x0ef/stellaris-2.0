@@ -17,7 +17,7 @@ public class StellarisClient {
 
     public static void initClient() {
         Platform.getMod(Stellaris.MOD_ID).registerConfigurationScreen(previous -> new ConfigScreen<>(previous, Stellaris.CONFIG));
-        registerPack();
+
         ApplicationRegistry.init();
 
         FluidInfosRegistry.init();
@@ -27,11 +27,5 @@ public class StellarisClient {
     //TODO make this loader abstract
     private static void registerScreens() {
         MenuRegistry.registerScreenFactory(MenuTypesRegistry.ELECTROLYZER.get(), ElectrolyzerScreen::new);
-    }
-
-    private static void registerPack() {
-        ReloadListenerRegistry.register(PackType.CLIENT_RESOURCES, new WikiPacks.WikiEntryPack(), ResourceLocationUtils.id("wiki/entries"));
-
-        ReloadListenerRegistry.register(PackType.CLIENT_RESOURCES, new WikiPacks.EntryInfoPack(), ResourceLocationUtils.id("wiki/infos"));
     }
 }

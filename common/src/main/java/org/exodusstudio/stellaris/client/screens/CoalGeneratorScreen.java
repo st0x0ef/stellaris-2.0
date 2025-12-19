@@ -20,7 +20,7 @@ import org.exodusstudio.stellaris.common.utils.ResourceLocationUtils;
 @Environment(EnvType.CLIENT)
 public class CoalGeneratorScreen extends AbstractContainerScreen<CoalGeneratorMenu> {
 
-    private static final ResourceLocation TEXTURE = ResourceLocationUtils.guiTexture("coal_generator");
+    private static final ResourceLocation TEXTURE = ResourceLocationUtils.guiTexture("coal_generator.json");
 
     private final CoalGeneratorBlockEntity blockEntity = getMenu().getBlockEntity();
     private GaugeWidget energyGauge;
