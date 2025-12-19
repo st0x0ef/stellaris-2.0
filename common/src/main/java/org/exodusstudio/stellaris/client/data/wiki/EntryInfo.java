@@ -40,7 +40,6 @@ public record EntryInfo(ResourceLocation id, ResourceLocation entryId, String ti
      * @param height the height of the image
      */
     public record ImageComponent(ResourceLocation location, int width, int height) {
-
         public static final Codec<ImageComponent> CODEC = RecordCodecBuilder.create(instance -> instance.group(
                 ResourceLocation.CODEC.fieldOf("location").forGetter(ImageComponent::location),
                 Codec.INT.fieldOf("width").forGetter(ImageComponent::width),
@@ -66,7 +65,6 @@ public record EntryInfo(ResourceLocation id, ResourceLocation entryId, String ti
      * @param onlyIcon If present, the item won't be shown in the wiki page but only on the enty button.
      */
     public record ItemComponent(ItemStack stack, float size, Optional<Boolean> onlyIcon) {
-
         public static final Codec<ItemComponent> CODEC = RecordCodecBuilder.create(instance -> instance.group(
                 ItemStack.CODEC.fieldOf("stack").forGetter(ItemComponent::stack),
                 Codec.FLOAT.fieldOf("size").forGetter(ItemComponent::size),

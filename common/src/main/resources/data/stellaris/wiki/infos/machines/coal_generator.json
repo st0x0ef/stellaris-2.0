@@ -5,15 +5,17 @@
       "text": "The coal generator is a basic power generator that uses coal as fuel. It provides a steady supply of energy for your machines and devices, making it an essential component for any off-world colony."
     },
     {
-      "type": "block",
-      "entity": {
-        "id": "stellaris:coal_generator",
-        "scale": 25
+      "type": "item",
+      "item": {
+        "stack": {
+          "id": "stellaris:coal_generator"
+        },
+        "size": 10
       }
     }
   ],
   "iconType": "machines",
-  "id": "coal_generator",
-  "entryId": "machines",
+  "id": "stellaris:coal_generator",
+  "entryId": "stellaris:machines",
   "title": "Coal Generator"
 }

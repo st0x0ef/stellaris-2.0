@@ -13,7 +13,7 @@
     }
   ],
   "iconType": "entity",
-  "id": "pygro",
-  "title": "Pygro",
+  "id": "stellaris:pygro",
+  "title": "stellaris:Pygro",
   "entryId": "mobs"
 }
