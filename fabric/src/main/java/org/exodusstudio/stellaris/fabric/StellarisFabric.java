@@ -28,7 +28,6 @@ public final class StellarisFabric implements ModInitializer {
         ServerChunkEvents.CHUNK_GENERATE.register((level, chunk) -> ChunkEvent.LOAD.invoker().load(chunk, level, true));
         ServerChunkEvents.CHUNK_LOAD.register((level, chunk) ->ChunkEvent.LOAD.invoker().load(chunk, level, false));
         onAddReloadListener();
-        StellarisFabricEvents.entityLoadEvent();
     }
 
     public static void onAddReloadListener() {

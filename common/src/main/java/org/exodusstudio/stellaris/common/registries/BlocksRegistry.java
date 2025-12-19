@@ -72,13 +72,14 @@ public final class BlocksRegistry {
     public static final BlockItemRegistrySupplier VACUUMATOR = blockWithItem("vacuumator", BlockBehaviour.Properties.of(), VacuumatorBlock::new);
 
     // POWER STORAGE
-    public static final BlockItemRegistrySupplier POWER_BANK_T1 = blockWithCustomItem("power_bank_t1", BlockBehaviour.Properties.of(), (p) -> new PowerBankBlock(p, (short) 1), new Item.Properties(), (b, p) -> new PowerBankItem((PowerBankBlock) b, p));
+    public static final BlockItemRegistrySupplier POWER_BANK_T1 = blockWithCustomItem("power_bank_t1", BlockBehaviour.Properties.of(), (p) -> new PowerBankBlock(p, (short) 1), new Item.Properties(), PowerBankItem::new);
 
     // CABLES/PIPES
     public static final BlockItemRegistrySupplier CABLE_T1 = blockWithItem("cable_t1", BlockBehaviour.Properties.of(), (p) -> new CableBlock(p, 20));
 
     // TECH
-    public static final BlockItemRegistrySupplier ELECTROLYZER = blockWithCustomItem("electrolyzer", BlockBehaviour.Properties.of(), ElectrolyzerBlock::new, new Item.Properties(), BlockItem::new);
+    public static final BlockItemRegistrySupplier ELECTROLYZER = blockWithItem("electrolyzer", BlockBehaviour.Properties.of(), ElectrolyzerBlock::new);
+    public static final BlockItemRegistrySupplier GRAVITY_MANIPULATOR = blockWithItem("gravity_manipulator", BlockBehaviour.Properties.of(), GravityManipulatorBlock::new);
 
     /**
      * Fluids
@@ -124,7 +125,7 @@ public final class BlocksRegistry {
 
     public static <B extends Block, I extends BlockItem> @NotNull BlockItemRegistrySupplier blockWithCustomItem(String name, BlockBehaviour.Properties properties,
                                                                                                                 Function<BlockBehaviour.Properties, B> blockFunc, Item.Properties itemProperties,
-                                                                                                                BiFunction<Block, Item.Properties, I> itemSupplier) {
+                                                                                                                BiFunction<B, Item.Properties, I> itemSupplier) {
         RegistrySupplier<B> block = block(name, properties, blockFunc);
         RegistrySupplier<Item> item = ItemsRegistry.item(name, itemProperties.arch$tab(CreativeTabsRegistry.STELLARIS_BLOCKS), p -> itemSupplier.apply(block.get(), p));
         return new BlockItemRegistrySupplier(block, item);

@@ -16,6 +16,7 @@ public class CapabilitiesRegistry {
         Capabilities.Energy.BLOCK.registerForBlockEntity(BlockEntitiesRegistry.POWER_BANKS);
         Capabilities.Energy.BLOCK.registerForBlockEntity(BlockEntitiesRegistry.VACUUMATOR);
         Capabilities.Energy.BLOCK.registerForBlockEntity(BlockEntitiesRegistry.ELECTROLYZER);
+        Capabilities.Energy.BLOCK.registerForBlockEntity(BlockEntitiesRegistry.GRAVITY_MANIPULATOR);
     }
 
     static void registerEnergyItems() {
