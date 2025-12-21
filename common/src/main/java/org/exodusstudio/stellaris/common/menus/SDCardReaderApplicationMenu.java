@@ -27,7 +27,7 @@ public class SDCardReaderApplicationMenu extends BaseContainer {
     }
 
     public SDCardReaderApplicationMenu(int syncId, Inventory playerInventory, Container container) {
-        super(MenuTypesRegistry.SD_CARD_READER_MENU.get(), syncId, 1, playerInventory, 27, 93);
+        super(MenuTypesRegistry.SD_CARD_READER.get(), syncId, 1, playerInventory, 27, 93);
 
         checkContainerSize(container, 1);
         this.inventory = container;

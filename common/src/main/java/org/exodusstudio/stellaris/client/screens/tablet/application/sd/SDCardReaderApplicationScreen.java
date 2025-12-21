@@ -1,8 +1,6 @@
 package org.exodusstudio.stellaris.client.screens.tablet.application.sd;
 
 import dev.architectury.networking.NetworkManager;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
@@ -21,7 +19,7 @@ import org.exodusstudio.stellaris.common.registries.DataComponentsRegistry;
 import org.exodusstudio.stellaris.common.registries.SDCardsRegistry;
 import org.exodusstudio.stellaris.common.utils.ResourceLocationUtils;
 
-@Environment(EnvType.CLIENT)
+
 public class SDCardReaderApplicationScreen extends AbstractContainerScreen<SDCardReaderApplicationMenu> {
 
     private static final ResourceLocation TEXTURE = ResourceLocationUtils.guiTexture("tablet/sd/sd_card_decoder");

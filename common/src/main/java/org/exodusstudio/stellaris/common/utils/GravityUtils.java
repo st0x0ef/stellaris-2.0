@@ -1,7 +1,6 @@
 package org.exodusstudio.stellaris.common.utils;
 
 import com.google.common.util.concurrent.AtomicDouble;
-import dev.architectury.networking.NetworkManager;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.world.entity.Entity;
@@ -13,7 +12,6 @@ import net.minecraft.world.level.Level;
 import org.exodusstudio.stellaris.common.blocks.entities.machines.GravityManipulatorBlockEntity;
 import org.exodusstudio.stellaris.common.data.Planet;
 import org.exodusstudio.stellaris.common.data.PlanetsData;
-import org.exodusstudio.stellaris.common.network.packets.RequestSyncGravityManipulatorDataPacket;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -63,10 +61,7 @@ public class GravityUtils {
         AtomicDouble normalize = new AtomicDouble(0.0);
         level.getChunkAt(entityPos).getBlockEntities().forEach((pos, blockEntity) -> {;
             if (blockEntity instanceof GravityManipulatorBlockEntity gravityManipulator) {
-                if (level.isClientSide()) {
-                    NetworkManager.sendToServer(new RequestSyncGravityManipulatorDataPacket(pos));
-                }
-                if (gravityManipulator.isActive) {
+                if (gravityManipulator.getEnergy(null).getEnergy() > 0) {
                     normalize.addAndGet(gravityManipulator.getDifferenceGravity(Double.parseDouble(planet.gravity())));
                 }
             }

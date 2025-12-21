@@ -94,6 +94,8 @@
   "stellaris.screen.energyContainer": "Energy",
   "stellaris.screen.empty_fluid": "Empty Fluid Tank",
 
+  "stellaris.screen.gravityManipulator.gravity": "Gravity: %s",
+
   "tooltip.item.stellaris.can.empty": "Empty",
   "tooltip.item.stellaris.can.nutrition": "Nutrition: %s/%s",
   "tooltip.item.stellaris.can.saturation": "Saturation: %s",

@@ -24,13 +24,6 @@ public class Events {
                 regenStellarisDim(server);
             }
         });
-
-//        EntityEvent.ADD.register((entity, level) -> {
-//            if(entity instanceof LivingEntity livingEntity) {
-//                GravityUtils.setGravity(livingEntity);
-//            }
-//            return EventResult.pass();
-//        });
     }
 
     public static void regenStellarisDim(MinecraftServer server) {
