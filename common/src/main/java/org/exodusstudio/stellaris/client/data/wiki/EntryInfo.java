@@ -64,13 +64,12 @@ public record EntryInfo(ResourceLocation id, ResourceLocation entryId, String ti
      * @param size the item size
      * @param onlyIcon If present, the item won't be shown in the wiki page but only on the enty button.
      */
-    public record ItemComponent(ItemStack stack, float size, Optional<Boolean> onlyIcon) {
+    public record ItemComponent(ItemStack stack, int size, Optional<Boolean> onlyIcon) {
         public static final Codec<ItemComponent> CODEC = RecordCodecBuilder.create(instance -> instance.group(
                 ItemStack.CODEC.fieldOf("stack").forGetter(ItemComponent::stack),
-                Codec.FLOAT.fieldOf("size").forGetter(ItemComponent::size),
+                Codec.INT.fieldOf("size").forGetter(ItemComponent::size),
                 Codec.BOOL.optionalFieldOf("onlyIcon").forGetter(ItemComponent::onlyIcon)
         ).apply(instance, ItemComponent::new));
-
     }
 
     /**
