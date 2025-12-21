@@ -54,7 +54,7 @@ public class Modules<M extends Module<M>> implements Serializable {
         return new Mutable(this);
     }
 
-    protected List<M> getModules() {
+    public List<M> getModules() {
         return modules;
     }
 

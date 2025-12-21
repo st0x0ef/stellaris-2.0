@@ -26,6 +26,7 @@ import net.minecraft.world.level.block.PowderSnowBlock;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.phys.Vec3;
+import org.exodusstudio.stellaris.common.module.rocket.RocketModules;
 import org.exodusstudio.stellaris.common.utils.InventorySaver;
 
 import java.util.Optional;
@@ -62,8 +63,17 @@ public abstract class VehicleEntity extends Entity implements HasCustomInventory
     }
 
     @Override
+    public void defineSynchedData(SynchedEntityData.Builder builder) {
+        builder.define(FUEL, 0);
+
+    }
+
+    @Override
     protected void readAdditionalSaveData(ValueInput input) {
         InventorySaver.readInventory(input, this.inventory);
+         input.getInt("fuel").ifPresent((fuel) -> {
+             this.entityData.set(FUEL, fuel);
+         });
     }
 
     @Override
@@ -72,6 +82,7 @@ public abstract class VehicleEntity extends Entity implements HasCustomInventory
         InventorySaver saver = InventorySaver.fromContainer(this.inventory);
         saver.saveInventory(output);
 
+        output.putInt("fuel", this.getFuel());
     }
 
     /** Interact with the Entity Gui,Spawn Egg... */
@@ -326,7 +337,9 @@ public abstract class VehicleEntity extends Entity implements HasCustomInventory
         vehicle.yRotO = vehicle.getYRot();
     }
 
-    public abstract int getFuel();
+    public int getFuel() {
+        return this.entityData.get(FUEL);
+    }
 
     @Override
     public Packet<ClientGamePacketListener> getAddEntityPacket(ServerEntity entity) {

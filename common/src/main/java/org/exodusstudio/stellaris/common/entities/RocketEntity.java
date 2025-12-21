@@ -6,57 +6,87 @@ import io.netty.buffer.Unpooled;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.syncher.EntityDataAccessor;
-import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.Container;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Pose;
+import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.phys.Vec3;
-import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.common.menus.RocketMenu;
+import org.exodusstudio.stellaris.common.module.Modules;
+import org.exodusstudio.stellaris.common.module.rocket.RocketModule;
+import org.exodusstudio.stellaris.common.module.rocket.RocketModules;
+import org.exodusstudio.stellaris.common.registries.DataComponentsRegistry;
 import org.exodusstudio.stellaris.common.registries.EntityDataSerializersRegistry;
-import org.exodusstudio.stellaris.common.rocket.RocketModules;
+import org.exodusstudio.stellaris.common.registries.EntityTypesRegistry;
+import org.exodusstudio.stellaris.common.registries.ItemsRegistry;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
+import java.util.Optional;
+
 
 public class RocketEntity extends VehicleEntity  {
 
-    public static final int[] MODULES_SLOT = new int[]{2, 3, 4, 5};
-    public static final EntityDataAccessor<RocketModules> ROCKET_MODULES = SynchedEntityData.defineId(RocketEntity.class, EntityDataSerializersRegistry.ROCKET_MODULES );
+    public static final EntityDataAccessor<Modules<RocketModule>> ROCKET_MODULES = SynchedEntityData.defineId(RocketEntity.class, EntityDataSerializersRegistry.ROCKET_MODULES );
+
+    public static RocketEntity fromItemStack (Level level, ItemStack stack) {
+        RocketEntity rocketEntity = new RocketEntity(EntityTypesRegistry.ROCKET.get(), level);
+        Modules<RocketModule> modulesOptional = stack.getOrDefault(DataComponentsRegistry.ROCKET_MODULES.get(), RocketModules.empty());
+        rocketEntity.setRocketModules(modulesOptional);
+        return rocketEntity;
+    }
 
     public RocketEntity(EntityType<?> entityType, Level level) {
         super(entityType, level);
-        this.inventory.addListener(this::containerChanged);
-        updateModuleFromContainer(this.inventory);
     }
 
+    public void setRocketModules(Modules<RocketModule> modules) {
+        this.entityData.set(ROCKET_MODULES, modules);
+    }
+
+    /**
+     * Drops all equipment stored in the rocket's inventory when destroyed.
+     * @param level The server level where the rocket is located.
+     */
+    protected void dropEquipment(ServerLevel level) {
+        for (int i = 0; i < this.inventory.getItems().size(); ++i) {
+            ItemStack itemstack = this.inventory.getItem(i);
+            if (!itemstack.isEmpty()) {
+                this.spawnAtLocation(level, itemstack);
+            }
+        }
+    }
+
+    /**
+     * Spawns the rocket item with its modules saved when the rocket entity is destroyed.
+     */
+    protected void spawnRocketItem() {
+        ItemStack rocketStack = new ItemStack(ItemsRegistry.ROCKET.get(), 1);
+        rocketStack.set(DataComponentsRegistry.ROCKET_MODULES.get(), this.entityData.get(ROCKET_MODULES));
+        ItemEntity entityToSpawn = new ItemEntity(this.level(), this.getX(), this.getY(), this.getZ(), rocketStack);
+        entityToSpawn.setPickUpDelay(10);
+
+        this.level().addFreshEntity(entityToSpawn);
+    }
+
+
     @Override
-    protected void defineSynchedData(SynchedEntityData.Builder builder) {
-        builder.define(FUEL, 0);
+    public void defineSynchedData(SynchedEntityData.Builder builder) {
+        super.defineSynchedData(builder);
         builder.define(ROCKET_MODULES, RocketModules.empty());
+
     }
 
-    @Override
-    public void tick() {
-        super.tick();
-        //this.updateModuleFromContainer(this.inventory);
-    }
-
-    @Override
-    public int getFuel() {
-        return this.entityData.get(FUEL);
-    }
 
     @Override
     public @NotNull Vec3 getPassengerRidingPosition(Entity entity) {
@@ -69,10 +99,24 @@ public class RocketEntity extends VehicleEntity  {
     }
 
     @Override
+    protected void addAdditionalSaveData(ValueOutput output) {
+        super.addAdditionalSaveData(output);
+
+        output.store("rocket_modules", RocketModules.CODEC, this.entityData.get(ROCKET_MODULES));
+    }
+
+    @Override
     protected void readAdditionalSaveData(ValueInput input) {
         super.readAdditionalSaveData(input);
+        Optional<Modules<RocketModule>>  modules = input.read("rocket_modules", RocketModules.CODEC);
+        modules.ifPresent(rocketModules -> this.entityData.set(ROCKET_MODULES, rocketModules));
+    }
 
-        updateModuleFromContainer(this.inventory);
+    @Override
+    public void kill(ServerLevel level) {
+        super.kill(level);
+        this.spawnRocketItem();
+        this.dropEquipment(level);
     }
 
     @Override
@@ -98,28 +142,6 @@ public class RocketEntity extends VehicleEntity  {
             });
         }
 
-    }
-
-
-    /**
-     * This is used to update the Rocket Modules when the inventory changes
-     */
-    public void containerChanged(Container container) {
-        updateModuleFromContainer(container);
-    }
-
-    public void updateModuleFromContainer(Container container) {
-        this.entityData.set(ROCKET_MODULES, RocketModules.empty());
-
-        ArrayList<ItemStack> modules = new ArrayList<>();
-        for(int slot : MODULES_SLOT) {
-            ItemStack stack = container.getItem(slot);
-            if(!stack.isEmpty() && !modules.contains(stack)) {
-                modules.add(stack);
-            }
-        }
-
-        this.entityData.set(ROCKET_MODULES, new RocketModules(modules));
     }
 
 }

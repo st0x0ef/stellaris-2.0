@@ -1,21 +1,37 @@
 package org.exodusstudio.stellaris.common.items;
 
 import net.minecraft.ChatFormatting;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
+import net.minecraft.util.Mth;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.MoverType;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.component.TooltipDisplay;
 import net.minecraft.world.item.context.UseOnContext;
-import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.Vec3;
+import net.minecraft.world.phys.shapes.Shapes;
+import net.minecraft.world.phys.shapes.VoxelShape;
+import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.common.blocks.RocketLaunchPadBlock;
+import org.exodusstudio.stellaris.common.entities.RocketEntity;
 import org.exodusstudio.stellaris.common.module.Modules;
 import org.exodusstudio.stellaris.common.module.rocket.RocketModule;
 import org.exodusstudio.stellaris.common.registries.BlocksRegistry;
 import org.exodusstudio.stellaris.common.registries.DataComponentsRegistry;
+import org.exodusstudio.stellaris.common.registries.EntityTypesRegistry;
 
+import java.util.List;
 import java.util.function.Consumer;
 
 public class RocketItem extends Item {
@@ -27,16 +43,75 @@ public class RocketItem extends Item {
     @Override
     public InteractionResult useOn(UseOnContext context) {
 
-        //TODO: Create the rocket
-        BlockState blockState = context.getLevel().getBlockState(context.getClickedPos());
+        Player player = context.getPlayer();
+        Level level = context.getLevel();
+        BlockPos blockpos = context.getClickedPos();
+        BlockState blockState = context.getLevel().getBlockState(blockpos);
+        ItemStack itemStack = context.getItemInHand();
 
         if(blockState.is(BlocksRegistry.ROCKET_LAUNCH_PAD.block().get()) && blockState.getValue(RocketLaunchPadBlock.STAGE)) {
+            //check if space is free above the launch pad. 0.3 is to avoid clipping into the block
+            Vec3 vec3 = Vec3.upFromBottomCenterOf(blockpos, 0.3);
+            //the size of the rocket's bounding box
+            AABB aabb = EntityTypesRegistry.ROCKET.get().getDimensions().makeBoundingBox(vec3.x(), vec3.y(), vec3.z());
 
+            if (level.noCollision(aabb)) {
+
+                /** POS */
+                int x = blockpos.getX();
+                int y = blockpos.getY();
+                int z = blockpos.getZ();
+
+                /** CHECK IF NO ENTITY ON THE LAUNCH PAD */
+                AABB scanAbove = new AABB(x, y, z, x + 1, y + 1, z + 1);
+                List<Entity> entities = level.getEntitiesOfClass(Entity.class, scanAbove);
+
+                if (entities.isEmpty()) {
+                    RocketEntity rocket = RocketEntity.fromItemStack(level, itemStack);
+                    /** SET PRE POS */
+                    rocket.setPos(blockpos.getX() + 0.5D, blockpos.getY() + 1.0D, blockpos.getZ() + 0.5D);
+
+                    //double yOffset = RocketItem.getYOffset(level, blockpos, true, rocket.getBoundingBox());
+                    double yOffset = 1.7D;
+                    float rocketRotation = (float) Mth.floor((Mth.wrapDegrees(context.getRotation() - 180.0F) + 45.0F) / 90.0F) * 90.0F;
+
+                    /** SET FINAL POS */
+                    rocket.setPos(new Vec3(blockpos.getX() + 0.5D, blockpos.getY() + yOffset, blockpos.getZ() + 0.5D));
+                    rocket.setYRot(rocketRotation);
+
+                    rocket.yRotO = rocket.getYRot();
+
+                    if (level.addFreshEntity(rocket)) {
+                        /** ITEM REMOVE */
+                        if (!player.getAbilities().instabuild) {
+                            itemStack.shrink(1);
+                        }
+
+                        /** PLACE SOUND */
+                        //this.rocketPlaceSound(pos, level);
+
+                        return InteractionResult.SUCCESS;
+                    }
+                }
+            }
 
         }
 
         return super.useOn(context);
     }
+
+
+    //TODO: why ?
+    protected static double getYOffset(LevelReader reader, BlockPos pos, boolean p_20628_, AABB p_20629_) {
+        AABB aabb = new AABB(pos);
+        if (p_20628_) {
+            aabb = aabb.expandTowards(0.0D, -1.0D, 0.0D);
+        }
+
+        Iterable<VoxelShape> iterable = reader.getCollisions(null, aabb);
+        return 1.0D + Shapes.collide(Direction.Axis.Y, p_20629_, iterable, p_20628_ ? -2.0D : -1.0D);
+    }
+
 
     @Override
     public void appendHoverText(ItemStack stack, TooltipContext context, TooltipDisplay tooltipDisplay, Consumer<Component> tooltipAdder, TooltipFlag flag) {
