@@ -1,6 +1,7 @@
 package org.exodusstudio.stellaris.common.items.modules;
 
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
@@ -11,7 +12,6 @@ import org.exodusstudio.stellaris.common.utils.ResourceLocationUtils;
 public class GalaxySkinModule extends Item implements RocketModule {
 
     public static final ResourceLocation SKIN_TEXTURE = ResourceLocationUtils.texture("entity/rocket/galaxy");
-
 
     public GalaxySkinModule(Properties properties) {
         super(properties);
@@ -29,6 +29,6 @@ public class GalaxySkinModule extends Item implements RocketModule {
 
     @Override
     public MutableComponent displayName() {
-        return null;
+        return Component.literal("Galaxy Skin Module");
     }
 }

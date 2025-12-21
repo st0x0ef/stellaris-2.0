@@ -13,6 +13,7 @@ public class RocketModules extends Modules<RocketModule> {
 
     public static final Codec<Modules<RocketModule>> CODEC =
             createCodec(StellarisRegistries.ROCKET_MODULE, RocketModules::new, rocketModuleModules -> rocketModuleModules.modules);
+
     public static final StreamCodec<RegistryFriendlyByteBuf, Modules<RocketModule>> STREAM_CODEC = createStreamCodec(CODEC);
 
     public static RocketModules empty() {

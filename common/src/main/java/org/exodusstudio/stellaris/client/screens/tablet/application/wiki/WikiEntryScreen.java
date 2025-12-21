@@ -28,7 +28,6 @@ public class WikiEntryScreen extends Screen {
         this.tabletScreen = tabletScreen;
         this.info = info;
         this.wikiState = wikiState;
-
     }
 
     @Override

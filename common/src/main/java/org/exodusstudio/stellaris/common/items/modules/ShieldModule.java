@@ -1,5 +1,6 @@
 package org.exodusstudio.stellaris.common.items.modules;
 
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.item.Item;
 import org.exodusstudio.stellaris.client.renderer.rockets.RocketRenderer;
@@ -24,6 +25,6 @@ public class ShieldModule extends Item implements RocketModule {
 
     @Override
     public MutableComponent displayName() {
-        return null;
+        return Component.literal("Shield Module");
     }
 }

@@ -3,7 +3,6 @@ package org.exodusstudio.stellaris.common.registries;
 import dev.architectury.registry.registries.Registrar;
 import dev.architectury.registry.registries.RegistrarManager;
 import org.exodusstudio.stellaris.Stellaris;
-import org.exodusstudio.stellaris.common.module.Module;
 import org.exodusstudio.stellaris.common.module.rocket.RocketModule;
 
 import static org.exodusstudio.stellaris.common.utils.ResourceLocationUtils.id;

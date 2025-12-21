@@ -49,7 +49,6 @@ public class WikiApplicationScreen extends Screen {
     public static Map<ResourceLocation, EntryInfo> ENTRY_COMPONENTS = new HashMap<>();
 
 
-
     public ScrollableContainer scrollableContainer;
 
     public MainTabletScreen mainTabletScreen;

@@ -10,14 +10,19 @@ import net.minecraft.world.item.BucketItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.material.Fluid;
+import org.exodusstudio.stellaris.common.items.RocketItem;
 import org.exodusstudio.stellaris.common.items.SDCardItem;
 import org.exodusstudio.stellaris.common.items.CanItem;
 import org.exodusstudio.stellaris.common.items.TabletItem;
 import org.exodusstudio.stellaris.common.items.modules.GalaxySkinModule;
 import org.exodusstudio.stellaris.common.items.modules.ShieldModule;
+import org.exodusstudio.stellaris.common.module.Modules;
+import org.exodusstudio.stellaris.common.module.rocket.RocketModule;
+import org.exodusstudio.stellaris.common.module.rocket.RocketModules;
 import org.exodusstudio.stellaris.common.utils.ResourceLocationUtils;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.List;
 import java.util.function.Function;
 
 import static org.exodusstudio.stellaris.Stellaris.MOD_ID;
@@ -37,6 +42,7 @@ public final class ItemsRegistry {
     public static final RegistrySupplier<GalaxySkinModule> GALAXY_SKIN = item("galaxy_skin", GalaxySkinModule::new);
 
     public static final RegistrySupplier<SDCardItem> SD_CARD = item("sd_card", SDCardItem::new);
+    public static final RegistrySupplier<RocketItem> ROCKET = item("rocket", new Item.Properties().component(DataComponentsRegistry.ROCKET_MODULES.get(), RocketModules.empty()), (p) -> new RocketItem(p));
 
     /** Cans */
     // Small cans

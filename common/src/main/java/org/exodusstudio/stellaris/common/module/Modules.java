@@ -24,6 +24,7 @@ public class Modules<M extends Module<M>> implements Serializable {
         this.modules = modules;
     }
 
+
     public List<? extends Item> items() {
         return this.modules.stream().map(Module::asItem).toList();
     }

@@ -66,35 +66,25 @@ public class ApplicationRegistry {
         TABLET_APPLICATION.key();
     }
 
-    public static class ApplicationFactory<T extends AbstractContainerMenu> {
+    public record ApplicationFactory<T extends AbstractContainerMenu>(MutableComponent name,
+                                                                      MutableComponent description,
+                                                                      ResourceLocation iconLocation,
+                                                                      ResourceLocation iconHoverLocation,
+                                                                      Function<MenuHolder<T>, Screen> screenFactory) {
 
-        private final MutableComponent name;
-        private final MutableComponent description;
-        private final ResourceLocation iconLocation;
-        private final ResourceLocation iconHoverLocation;
+            public ApplicationFactory(MutableComponent name, MutableComponent description, ResourceLocation iconLocation, ResourceLocation iconHoverLocation,
+                                      @Nullable Function<MenuHolder<T>, Screen> screenFactory) {
+                this.name = name;
+                this.description = description;
+                this.iconLocation = iconLocation;
+                this.screenFactory = screenFactory;
+                this.iconHoverLocation = iconHoverLocation;
+            }
 
-        private final Function<MenuHolder<T>, Screen> screenFactory;
-
-        public ApplicationFactory(MutableComponent name, MutableComponent description, ResourceLocation iconLocation,ResourceLocation iconHoverLocation,
-                                  @Nullable Function<MenuHolder<T>, Screen> screenFactory) {
-            this.name = name;
-            this.description = description;
-            this.iconLocation = iconLocation;
-            this.screenFactory = screenFactory;
-            this.iconHoverLocation = iconHoverLocation;
+            public Screen createScreen(MenuHolder<T> screen) {
+                return screenFactory.apply(screen);
+            }
         }
-
-        public MutableComponent getName() { return name; }
-        public MutableComponent getDescription() { return description; }
-        public ResourceLocation getIconLocation() { return iconLocation; }
-        public ResourceLocation getIconHoverLocation() {
-            return iconHoverLocation;
-        }
-
-        public Screen createScreen(MenuHolder<T> screen) {
-            return screenFactory.apply(screen);
-        }
-    }
 
     /**
      * Holder for the menu and inventory to be used in the application screens.

@@ -8,7 +8,7 @@ import java.util.Set;
 
 public interface Module<M extends Module<M>> extends Serializable, ItemLike, ModuleLike<M> {
 
-    MutableComponent displayName(); //TODO get name from translation key with registry
+     MutableComponent displayName(); //TODO get name from translation key with registry
 
     default Set<? extends Module<?>> requires() {
         return Set.of();
