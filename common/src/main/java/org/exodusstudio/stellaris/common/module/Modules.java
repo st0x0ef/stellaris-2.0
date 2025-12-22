@@ -9,14 +9,16 @@ import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import org.exodusstudio.stellaris.platform.RegistrarUtilPlatform;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.function.Function;
 
 @SuppressWarnings("unused")
-public class Modules<M extends Module<M>> implements Serializable {
+public class Modules<M extends Module<M>> implements Serializable, Iterable<M> {
 
     public final List<M> modules;
 
@@ -56,6 +58,11 @@ public class Modules<M extends Module<M>> implements Serializable {
 
     public List<M> getModules() {
         return modules;
+    }
+
+    @Override
+    public @NotNull Iterator<M> iterator() {
+        return this.modules.iterator();
     }
 
     public class Mutable {

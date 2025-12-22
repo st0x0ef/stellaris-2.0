@@ -1,5 +1,6 @@
 package org.exodusstudio.stellaris.common.module.rocket;
 
+import dev.architectury.fluid.FluidStack;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.renderer.RenderType;
@@ -74,4 +75,15 @@ public interface RocketModule extends Module<RocketModule> {
         MOTOR, //Fuel Type
         OTHER
     }
+
+    interface CustomFuelModule extends RocketModule {
+
+        /**
+         * Change the fuel of the rocket with this module.
+         * @return The fluid stack representing the fuel.
+         */
+        FluidStack getFuel();
+
+    }
+
 }

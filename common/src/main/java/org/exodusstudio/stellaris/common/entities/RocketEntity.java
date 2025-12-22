@@ -1,5 +1,6 @@
 package org.exodusstudio.stellaris.common.entities;
 
+import dev.architectury.fluid.FluidStack;
 import dev.architectury.networking.NetworkManager;
 import dev.architectury.registry.menu.ExtendedMenuProvider;
 import dev.architectury.registry.menu.MenuRegistry;
@@ -23,15 +24,13 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.phys.Vec3;
+import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.common.menus.RocketMenu;
 import org.exodusstudio.stellaris.common.module.Modules;
 import org.exodusstudio.stellaris.common.module.rocket.RocketModule;
 import org.exodusstudio.stellaris.common.module.rocket.RocketModules;
 import org.exodusstudio.stellaris.common.network.packets.SyncRocketModule;
-import org.exodusstudio.stellaris.common.registries.DataComponentsRegistry;
-import org.exodusstudio.stellaris.common.registries.EntityDataSerializersRegistry;
-import org.exodusstudio.stellaris.common.registries.EntityTypesRegistry;
-import org.exodusstudio.stellaris.common.registries.ItemsRegistry;
+import org.exodusstudio.stellaris.common.registries.*;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -55,6 +54,10 @@ public class RocketEntity extends VehicleEntity  {
 
     public void setRocketModules(Modules<RocketModule> modules) {
         this.entityData.set(ROCKET_MODULES, modules);
+    }
+
+    public Modules<RocketModule> getRocketModules() {
+        return this.entityData.get(ROCKET_MODULES);
     }
 
     /**
@@ -82,6 +85,19 @@ public class RocketEntity extends VehicleEntity  {
         this.level().addFreshEntity(entityToSpawn);
     }
 
+    /**
+     * Gets the fuel type of the rocket, considering any custom fuel modules.
+     * @return The FluidStack representing the rocket's fuel type.
+     */
+    public FluidStack getFuelType() {
+        FluidStack fuel = FluidStack.create(FluidsRegistry.HYDROGEN_STILL.get(), this.getFuel());
+        for (RocketModule module : this.getRocketModules()) {
+            if (module instanceof RocketModule.CustomFuelModule customFuelModule) {
+                fuel = customFuelModule.getFuel();
+            }
+        }
+        return fuel;
+    }
 
     @Override
     public void defineSynchedData(SynchedEntityData.Builder builder) {
@@ -152,7 +168,8 @@ public class RocketEntity extends VehicleEntity  {
 
     @Override
     public void openCustomInventoryScreen(Player player) {
-        if (player instanceof ServerPlayer serverPlayer) {
+        if (player instanceof ServerPlayer serverPlayer && !this.level().isClientSide) {
+            Stellaris.LOG.error("opening rocket menu for player {}", serverPlayer.getName().getString());
             MenuRegistry.openExtendedMenu(serverPlayer, new ExtendedMenuProvider() {
                 @Override
                 public void saveExtraData(FriendlyByteBuf buf) {
@@ -168,7 +185,7 @@ public class RocketEntity extends VehicleEntity  {
                 public @Nullable AbstractContainerMenu createMenu(int syncId, Inventory inv, Player player) {
                     FriendlyByteBuf packetBuffer = new FriendlyByteBuf(Unpooled.buffer());
                     packetBuffer.writeVarInt(RocketEntity.this.getId());
-                    return new RocketMenu(syncId, inv, inventory, RocketEntity.this.getId());
+                    return RocketMenu.create(syncId, inv, packetBuffer);
                 }
             });
         }

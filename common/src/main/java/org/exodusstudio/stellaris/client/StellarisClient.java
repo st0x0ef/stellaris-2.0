@@ -24,6 +24,8 @@ import org.exodusstudio.stellaris.common.utils.ResourceLocationUtils;
 
 public class StellarisClient {
 
+
+
     public static void initClient() {
         Platform.getMod(Stellaris.MOD_ID).registerConfigurationScreen(previous -> new ConfigScreen<>(previous, Stellaris.CONFIG));
         registerPack();

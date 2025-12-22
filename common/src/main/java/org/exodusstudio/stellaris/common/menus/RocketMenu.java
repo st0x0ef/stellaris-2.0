@@ -8,6 +8,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
+import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.common.entities.RocketEntity;
 import org.exodusstudio.stellaris.common.menus.slot.RocketModuleSlot;
 import org.exodusstudio.stellaris.common.registries.MenuTypesRegistry;
@@ -25,6 +26,7 @@ public class RocketMenu extends AbstractContainerMenu {
         super(MenuTypesRegistry.ROCKET_MENU.get(), syncId);
 
         this.rocket = (RocketEntity) playerInventory.player.level().getEntity(entityId);
+        Stellaris.LOG.error("RocketMenu: Rocket Entity ID: {}", rocket == null);
         checkContainerSize(container, 14);
         this.inventory = container;
 

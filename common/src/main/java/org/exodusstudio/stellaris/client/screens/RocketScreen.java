@@ -1,30 +1,31 @@
 package org.exodusstudio.stellaris.client.screens;
 
-import com.mojang.blaze3d.systems.RenderSystem;
+import dev.architectury.fluid.FluidStack;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
-import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Inventory;
+import org.exodusstudio.stellaris.Stellaris;
+import org.exodusstudio.stellaris.client.screens.components.GaugeChunkWidget;
 import org.exodusstudio.stellaris.client.screens.components.GaugeWidget;
 import org.exodusstudio.stellaris.client.screens.utils.GUISprites;
-import org.exodusstudio.stellaris.client.screens.utils.GUIUtils;
-import org.exodusstudio.stellaris.common.blocks.entities.machines.CoalGeneratorBlockEntity;
-import org.exodusstudio.stellaris.common.menus.CoalGeneratorMenu;
+import org.exodusstudio.stellaris.common.entities.RocketEntity;
 import org.exodusstudio.stellaris.common.menus.RocketMenu;
 import org.exodusstudio.stellaris.common.utils.ResourceLocationUtils;
+
+import java.util.List;
 
 @Environment(EnvType.CLIENT)
 public class RocketScreen extends AbstractContainerScreen<RocketMenu> {
 
     private static final ResourceLocation TEXTURE = ResourceLocationUtils.guiTexture("rocket");
-
+    private GaugeChunkWidget fuelGauge;
+    private FluidStack fuel;
 
     public RocketScreen(RocketMenu abstractContainerMenu, Inventory inventory, Component component) {
         super(abstractContainerMenu, inventory, component);
@@ -34,11 +35,24 @@ public class RocketScreen extends AbstractContainerScreen<RocketMenu> {
 
         titleLabelX = (180 - Minecraft.getInstance().font.width(title.getString())) / 2;
         titleLabelY = 2;
+
     }
 
     @Override
     protected void init() {
         super.init();
+
+        if (this.getRocket() == null) {
+            Stellaris.LOG.error("null");
+
+            return;
+        }
+
+
+        this.fuel = getRocket().getFuelType();
+        this.fuelGauge = new GaugeChunkWidget(leftPos + 146, topPos + 54, 12, 46, fuel, GUISprites.FLUID_TANK_OVERLAY, 3000, GaugeWidget.Direction4.DOWN_UP);
+        addRenderableWidget(fuelGauge);
+
 
     }
 
@@ -47,6 +61,10 @@ public class RocketScreen extends AbstractContainerScreen<RocketMenu> {
         renderBackground(graphics, mouseX, mouseY, partialTicks);
         super.render(graphics, mouseX, mouseY, partialTicks);
         renderTooltip(graphics, mouseX, mouseY);
+
+        //We're only updating the fuel amount since the user cannot change the fuel type while the GUI is open
+        if(this.fuelGauge != null) fuelGauge.updateAmount(getRocket().getFuelType());
+
     }
 
     @Override
@@ -58,10 +76,16 @@ public class RocketScreen extends AbstractContainerScreen<RocketMenu> {
     @Override
     protected void renderTooltip(GuiGraphics guiGraphics, int x, int y) {
         super.renderTooltip(guiGraphics, x, y);
+
+        if(this.fuelGauge != null) fuelGauge.renderTooltips(guiGraphics, x, y, this.font, List::of);
     }
 
     @Override
     protected void renderLabels(GuiGraphics guiGraphics, int mouseX, int mouseY) {
         guiGraphics.drawString(this.font, this.title, this.titleLabelX, this.titleLabelY, -11050641, false);
+    }
+
+    public RocketEntity getRocket() {
+        return menu.getRocket();
     }
 }
