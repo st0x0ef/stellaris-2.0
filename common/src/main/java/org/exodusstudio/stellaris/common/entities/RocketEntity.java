@@ -1,14 +1,18 @@
 package org.exodusstudio.stellaris.common.entities;
 
+import com.fej1fun.potentials.components.FluidAmountMapDataComponent;
+import dev.architectury.networking.NetworkManager;
 import dev.architectury.registry.menu.ExtendedMenuProvider;
 import dev.architectury.registry.menu.MenuRegistry;
 import io.netty.buffer.Unpooled;
+import net.minecraft.core.Direction;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Pose;
@@ -25,6 +29,7 @@ import org.exodusstudio.stellaris.common.menus.RocketMenu;
 import org.exodusstudio.stellaris.common.module.Modules;
 import org.exodusstudio.stellaris.common.module.rocket.RocketModule;
 import org.exodusstudio.stellaris.common.module.rocket.RocketModules;
+import org.exodusstudio.stellaris.common.network.packets.SyncRocketModule;
 import org.exodusstudio.stellaris.common.registries.DataComponentsRegistry;
 import org.exodusstudio.stellaris.common.registries.EntityDataSerializersRegistry;
 import org.exodusstudio.stellaris.common.registries.EntityTypesRegistry;
@@ -84,9 +89,37 @@ public class RocketEntity extends VehicleEntity  {
     public void defineSynchedData(SynchedEntityData.Builder builder) {
         super.defineSynchedData(builder);
         builder.define(ROCKET_MODULES, RocketModules.empty());
-
     }
 
+
+    @Override
+    public void tick() {
+        if(this.level().isClientSide ) {
+            return;
+        }
+        NetworkManager.sendToPlayers(level().getServer().getPlayerList().getPlayers(),
+                new SyncRocketModule(this.getId(), this.entityData.get(ROCKET_MODULES)));
+
+        super.tick();
+    }
+
+    @Override
+    public boolean hurtServer(ServerLevel level, DamageSource damageSource, float amount) {
+        Entity sourceEntity = damageSource.getEntity();
+
+        if (sourceEntity != null && sourceEntity.isCrouching() && !this.isVehicle()) {
+            this.spawnRocketItem();
+            this.dropEquipment(level);
+
+            if (!this.level().isClientSide) {
+                this.remove(RemovalReason.DISCARDED);
+            }
+
+            return true;
+        }
+
+        return super.hurtServer(level, damageSource, amount);
+    }
 
     @Override
     public @NotNull Vec3 getPassengerRidingPosition(Entity entity) {
@@ -109,7 +142,7 @@ public class RocketEntity extends VehicleEntity  {
     protected void readAdditionalSaveData(ValueInput input) {
         super.readAdditionalSaveData(input);
         Optional<Modules<RocketModule>>  modules = input.read("rocket_modules", RocketModules.CODEC);
-        modules.ifPresent(rocketModules -> this.entityData.set(ROCKET_MODULES, rocketModules));
+        modules.ifPresent(this::setRocketModules);
     }
 
     @Override

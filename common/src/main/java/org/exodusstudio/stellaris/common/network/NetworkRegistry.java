@@ -21,6 +21,8 @@ public interface NetworkRegistry {
 
     static void init() {
         registerS2C(OPEN_SCREEN_PACKET_TYPE, OpenScreenPacket.STREAM_CODEC, OpenScreenPacket::handle);
+        registerS2C(SyncRocketModule.TYPE, SyncRocketModule.STREAM_CODEC, SyncRocketModule::handle);
+
 
         registerC2S(OPEN_MENU_PACKET_TYPE, OpenMenuPacket.STREAM_CODEC, OpenMenuPacket::handle);
 
