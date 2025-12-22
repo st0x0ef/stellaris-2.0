@@ -16,7 +16,7 @@ import java.util.Optional;
 
 /**
  * Utility class to save and load the contents of an inventory (Container).
- * This allow to respect item stacks positions.
+ * This allows to respect item stacks positions.
  */
 public record InventorySaver(List<SavedItem> savedItems) {
 
@@ -66,9 +66,5 @@ public record InventorySaver(List<SavedItem> savedItems) {
                 ItemStack.OPTIONAL_STREAM_CODEC, SavedItem::itemStack,
                 SavedItem::new
         );
-
-
-
     }
-
 }

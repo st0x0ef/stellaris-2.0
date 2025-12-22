@@ -1,16 +1,12 @@
 package org.exodusstudio.stellaris.common.events;
 
-import dev.architectury.event.EventResult;
-import dev.architectury.event.events.common.EntityEvent;
 import dev.architectury.event.events.common.LifecycleEvent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
 import org.apache.commons.io.FileUtils;
 import org.exodusstudio.stellaris.Stellaris;
-import org.exodusstudio.stellaris.common.utils.GravityUtils;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -37,6 +33,11 @@ public class Events {
 //        });
     }
 
+    /**
+     * Regenerates specified dimensions by deleting their region, data, poi, and entities folders.
+     * Useful for development purposes to reset dimensions on server start.
+     * @param server
+     */
     public static void regenStellarisDim(MinecraftServer server) {
         List<ServerLevel> levelList = new ArrayList<>((Collection<ServerLevel>) server.getAllLevels());
         List<ResourceLocation> dimensionsToRegen = List.of(Stellaris.CONFIG.admin.dimensionsToRegen);
