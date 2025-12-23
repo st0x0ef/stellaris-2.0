@@ -17,6 +17,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class GravityUtils {
 
@@ -59,10 +60,12 @@ public class GravityUtils {
     public static double normalizeGravity(Planet planet, Level level, BigDecimal conversionRate, BlockPos entityPos) {
         // Check for Gravity Normalizer in the chunk
         AtomicDouble normalize = new AtomicDouble(0.0);
+        AtomicInteger manipulatorCount = new AtomicInteger(0);
         level.getChunkAt(entityPos).getBlockEntities().forEach((pos, blockEntity) -> {;
             if (blockEntity instanceof GravityManipulatorBlockEntity gravityManipulator) {
                 if (gravityManipulator.getEnergy(null).getEnergy() > 0) {
-                    normalize.addAndGet(gravityManipulator.getDifferenceGravity(Double.parseDouble(planet.gravity())));
+                    normalize.addAndGet(gravityManipulator.getDifferenceGravity(planet.gravity()));
+                    manipulatorCount.incrementAndGet();
                 }
             }
         });
@@ -71,7 +74,7 @@ public class GravityUtils {
             return 0.0;
         }
 
-        return MPS2ToMCG(conversionRate, normalize.get());
+        return MPS2ToMCG(conversionRate, normalize.get() / manipulatorCount.get());
     }
 
     public static void trySetBaseAttribute(LivingEntity entity, Holder<Attribute> attribute, double value) {
@@ -111,7 +114,7 @@ public class GravityUtils {
     }
 
     /// @param newGravity in m/s²
-    private static double computeSafeFallDistance(String newGravity) {
+    private static double computeSafeFallDistance(double newGravity) {
         return SAFE_FALL_DISTANCE_CONVERSION_RATE.divide(new BigDecimal(newGravity), 5, RoundingMode.HALF_UP).doubleValue();
     }
 
@@ -120,7 +123,7 @@ public class GravityUtils {
     }
 
     /// @param newGravity in m/s²
-    private static double computeFallDamageMult(String newGravity) {
+    private static double computeFallDamageMult(double newGravity) {
         return new BigDecimal(newGravity).divide(EARTH_GRAVITY, 5, RoundingMode.HALF_UP).doubleValue();
     }
 

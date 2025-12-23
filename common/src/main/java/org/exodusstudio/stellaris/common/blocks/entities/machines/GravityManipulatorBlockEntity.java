@@ -69,14 +69,14 @@ public class GravityManipulatorBlockEntity extends BaseEnergyContainerBlockEntit
         return Mth.clamp(this.gravity / 20.0, 0.0, 1.0);
     }
 
-    public void setGravity(double gravity, boolean shouldSync) {
+    public void setGravity(double gravity, boolean shouldSyncC2S) {
         if (Math.abs(getGravity() - gravity) < 0.01) {
             return;
         }
 
         this.gravity = Mth.floor(Mth.clamp(gravity, 0.0, 20.0) * 100.0) / 100.0;
 
-        if  (shouldSync) {
+        if  (shouldSyncC2S) {
             syncDataAccess();
         }
     }
