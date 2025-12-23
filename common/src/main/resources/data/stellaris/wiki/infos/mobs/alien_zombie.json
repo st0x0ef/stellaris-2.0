@@ -13,7 +13,7 @@
     }
   ],
   "iconType": "entity",
-  "id": "alien_zombie",
-  "entryId": "mobs",
+  "id": "stellaris:alien_zombie",
+  "entryId": "stellaris:mobs",
   "title": "Alien Zombie"
 }

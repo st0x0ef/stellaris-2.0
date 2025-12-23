@@ -13,7 +13,7 @@
     }
   ],
   "iconType": "entity",
-  "id": "mogler",
-  "entryId": "mobs",
+  "id": "stellaris:mogler",
+  "entryId": "stellaris:mobs",
   "title": "Mogler"
 }

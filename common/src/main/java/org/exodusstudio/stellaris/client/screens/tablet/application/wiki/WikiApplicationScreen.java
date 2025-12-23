@@ -53,7 +53,7 @@ public class WikiApplicationScreen extends Screen {
 
     public MainTabletScreen mainTabletScreen;
 
-    public WikiEntry currentEntry = null;
+    public WikiEntry currentEntry;
 
     //The list of the infos for the currentEntry
     public List<EntryInfo> INFOS;
