@@ -42,15 +42,9 @@ public class RocketScreen extends AbstractContainerScreen<RocketMenu> {
     protected void init() {
         super.init();
 
-        if (this.getRocket() == null) {
-            Stellaris.LOG.error("null");
-
-            return;
-        }
-
 
         this.fuel = getRocket().getFuelType();
-        this.fuelGauge = new GaugeChunkWidget(leftPos + 146, topPos + 54, 12, 46, fuel, GUISprites.FLUID_TANK_OVERLAY, 3000, GaugeWidget.Direction4.DOWN_UP);
+        this.fuelGauge = new GaugeChunkWidget(leftPos + 52, topPos + 30, 12, 46, fuel, GUISprites.FLUID_TANK_OVERLAY, 3000, GaugeWidget.Direction4.DOWN_UP);
         addRenderableWidget(fuelGauge);
 
 
@@ -77,7 +71,7 @@ public class RocketScreen extends AbstractContainerScreen<RocketMenu> {
     protected void renderTooltip(GuiGraphics guiGraphics, int x, int y) {
         super.renderTooltip(guiGraphics, x, y);
 
-        if(this.fuelGauge != null) fuelGauge.renderTooltips(guiGraphics, x, y, this.font, List::of);
+        fuelGauge.renderTooltips(guiGraphics, x, y, this.font, List::of);
     }
 
     @Override

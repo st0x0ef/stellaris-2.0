@@ -6,6 +6,7 @@ import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.inventory.HorseInventoryMenu;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import org.exodusstudio.stellaris.Stellaris;
@@ -19,17 +20,15 @@ public class RocketMenu extends AbstractContainerMenu {
     private final RocketEntity rocket;
 
     public static RocketMenu create(int syncId, Inventory inventory, FriendlyByteBuf buffer) {
-        return new RocketMenu(syncId, inventory, new SimpleContainer(15), buffer.readVarInt());
+        return new RocketMenu(syncId, inventory, new SimpleContainer(15), (RocketEntity) inventory.player.level().getEntity(buffer.readInt()));
     }
 
-    public RocketMenu(int syncId, Inventory playerInventory, Container container, int entityId) {
+    public RocketMenu(int syncId, Inventory playerInventory, Container container, RocketEntity rocket) {
         super(MenuTypesRegistry.ROCKET_MENU.get(), syncId);
 
-        this.rocket = (RocketEntity) playerInventory.player.level().getEntity(entityId);
-        Stellaris.LOG.error("RocketMenu: Rocket Entity ID: {}", rocket == null);
+        this.rocket = rocket;
         checkContainerSize(container, 14);
         this.inventory = container;
-
         addSlots(inventory);
 
         addPlayerHotbar(playerInventory);

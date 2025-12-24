@@ -1,12 +1,8 @@
 package org.exodusstudio.stellaris.common.entities;
 
+import com.fej1fun.potentials.providers.FluidProvider;
 import dev.architectury.fluid.FluidStack;
 import dev.architectury.networking.NetworkManager;
-import dev.architectury.registry.menu.ExtendedMenuProvider;
-import dev.architectury.registry.menu.MenuRegistry;
-import io.netty.buffer.Unpooled;
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.network.chat.Component;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
@@ -16,23 +12,24 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.item.ItemEntity;
-import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.item.BucketItem;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.phys.Vec3;
 import org.exodusstudio.stellaris.Stellaris;
-import org.exodusstudio.stellaris.common.menus.RocketMenu;
 import org.exodusstudio.stellaris.common.module.Modules;
 import org.exodusstudio.stellaris.common.module.rocket.RocketModule;
 import org.exodusstudio.stellaris.common.module.rocket.RocketModules;
+import org.exodusstudio.stellaris.common.network.packets.OpenRocketMenuPacket;
 import org.exodusstudio.stellaris.common.network.packets.SyncRocketModule;
 import org.exodusstudio.stellaris.common.registries.*;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.Optional;
 
@@ -99,6 +96,53 @@ public class RocketEntity extends VehicleEntity  {
         return fuel;
     }
 
+    /**
+     * Container logic to fill up the rocket's fuel tank using fuel items from its inventory.
+     * @return true if the rocket was successfully filled, false otherwise.
+     */
+    public boolean tryFillUpRocket() {
+        ItemStack item = this.getInventory().getItem(0);
+
+        int fuelLevel = getFuelLevel();
+        int tankCapacity = getTankCapacity();
+        FluidStack fuelType = getFuelType();
+
+
+        if (this.level().isClientSide) {
+            return false;
+        }
+
+        if (fuelLevel >= tankCapacity || item == null) {
+            return false;
+        }
+
+
+
+        if (item.getItem() instanceof BucketItem bucketItem) {
+
+            Fluid fluid = bucketItem.arch$getFluid();
+
+            // Check if the fluid from the bucket matches the rocket's fuel type or if the rocket has no specific fuel type set
+            if(fluid == null || (!fluid.isSame(fuelType.getFluid()) && !fuelType.isEmpty())) {
+                return false;
+            }
+
+            this.entityData.set(FUEL, fuelLevel + 1000);
+            if (getFuelLevel() > tankCapacity) {
+                this.entityData.set(FUEL, tankCapacity);
+            }
+
+            inventory.removeItem(0, 1);
+
+            inventory.setItem(1, new ItemStack(Items.BUCKET, inventory.getItem(1).getCount() + 1));
+
+            return true;
+        }
+        return false;
+    }
+
+
+
     @Override
     public void defineSynchedData(SynchedEntityData.Builder builder) {
         super.defineSynchedData(builder);
@@ -111,6 +155,8 @@ public class RocketEntity extends VehicleEntity  {
         if(this.level().isClientSide ) {
             return;
         }
+
+        tryFillUpRocket();
         NetworkManager.sendToPlayers(level().getServer().getPlayerList().getPlayers(),
                 new SyncRocketModule(this.getId(), this.entityData.get(ROCKET_MODULES)));
 
@@ -168,28 +214,20 @@ public class RocketEntity extends VehicleEntity  {
 
     @Override
     public void openCustomInventoryScreen(Player player) {
-        if (player instanceof ServerPlayer serverPlayer && !this.level().isClientSide) {
-            Stellaris.LOG.error("opening rocket menu for player {}", serverPlayer.getName().getString());
-            MenuRegistry.openExtendedMenu(serverPlayer, new ExtendedMenuProvider() {
-                @Override
-                public void saveExtraData(FriendlyByteBuf buf) {
-                    buf.writeInt(RocketEntity.this.getId());
-                }
+        NetworkManager.sendToServer(
+                new OpenRocketMenuPacket(this.getId()));
+    }
 
-                @Override
-                public Component getDisplayName() {
-                    return Component.translatable("entity.stellaris.rocket");
-                }
+    /**
+     * Gets the tank capacity of the rocket, considering any tank upgrade modules.
+     * @return The tank capacity in units.
+     */
+    public int getTankCapacity() {
+        return 3000;
+    }
 
-                @Override
-                public @Nullable AbstractContainerMenu createMenu(int syncId, Inventory inv, Player player) {
-                    FriendlyByteBuf packetBuffer = new FriendlyByteBuf(Unpooled.buffer());
-                    packetBuffer.writeVarInt(RocketEntity.this.getId());
-                    return RocketMenu.create(syncId, inv, packetBuffer);
-                }
-            });
-        }
-
+    public int getFuelLevel() {
+        return this.entityData.get(FUEL);
     }
 
 }
