@@ -47,10 +47,7 @@ public class OpenRocketMenuPacket implements CustomPacketPayload {
 
     public static void handle(OpenRocketMenuPacket packet, NetworkManager.PacketContext context) {
         if (context.getPlayer() instanceof ServerPlayer player) {
-            Stellaris.LOG.error("id: " + packet.rocketId);
             RocketEntity entity = (RocketEntity) player.level().getEntity(packet.rocketId);
-            Stellaris.LOG.error(entity.toString());
-
             MenuRegistry.openExtendedMenu(player, new ExtendedMenuProvider() {
                 @Override
                 public void saveExtraData(FriendlyByteBuf buf) {

@@ -1,5 +1,6 @@
 package org.exodusstudio.stellaris.common.entities;
 
+import com.fej1fun.potentials.components.FluidAmountMapDataComponent;
 import com.fej1fun.potentials.providers.FluidProvider;
 import dev.architectury.fluid.FluidStack;
 import dev.architectury.networking.NetworkManager;
@@ -14,7 +15,6 @@ import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BucketItem;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
@@ -31,6 +31,7 @@ import org.exodusstudio.stellaris.common.network.packets.SyncRocketModule;
 import org.exodusstudio.stellaris.common.registries.*;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.List;
 import java.util.Optional;
 
 
@@ -42,6 +43,14 @@ public class RocketEntity extends VehicleEntity  {
         RocketEntity rocketEntity = new RocketEntity(EntityTypesRegistry.ROCKET.get(), level);
         Modules<RocketModule> modulesOptional = stack.getOrDefault(DataComponentsRegistry.ROCKET_MODULES.get(), RocketModules.empty());
         rocketEntity.setRocketModules(modulesOptional);
+
+        //TODO: don't allow module fuel if the rocket has already fuel in it
+        //Only allow to change the fuel type when the rocket is empty
+        if(stack.has(DataComponentsRegistry.FLUID_LIST.get())) {
+            FluidAmountMapDataComponent fluidData = stack.get(DataComponentsRegistry.FLUID_LIST.get());
+
+            rocketEntity.entityData.set(FUEL, (int) fluidData.getAmount(0));
+        }
         return rocketEntity;
     }
 
@@ -76,7 +85,14 @@ public class RocketEntity extends VehicleEntity  {
     protected void spawnRocketItem() {
         ItemStack rocketStack = new ItemStack(ItemsRegistry.ROCKET.get(), 1);
         rocketStack.set(DataComponentsRegistry.ROCKET_MODULES.get(), this.entityData.get(ROCKET_MODULES));
+
+
+        FluidStack fuel = this.getFuelType();
+        rocketStack.set(DataComponentsRegistry.FLUID_LIST.get(),
+                new FluidAmountMapDataComponent(List.of(fuel.getFluid()), List.of(fuel.getAmount())));
+
         ItemEntity entityToSpawn = new ItemEntity(this.level(), this.getX(), this.getY(), this.getZ(), rocketStack);
+
         entityToSpawn.setPickUpDelay(10);
 
         this.level().addFreshEntity(entityToSpawn);
@@ -100,6 +116,7 @@ public class RocketEntity extends VehicleEntity  {
      * Container logic to fill up the rocket's fuel tank using fuel items from its inventory.
      * @return true if the rocket was successfully filled, false otherwise.
      */
+    @SuppressWarnings(value = "all")
     public boolean tryFillUpRocket() {
         ItemStack item = this.getInventory().getItem(0);
 

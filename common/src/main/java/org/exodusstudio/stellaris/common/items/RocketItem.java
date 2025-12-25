@@ -1,14 +1,15 @@
 package org.exodusstudio.stellaris.common.items;
 
+import com.fej1fun.potentials.fluid.ItemFluidStorage;
+import com.fej1fun.potentials.fluid.UniversalFluidItemStorage;
+import com.fej1fun.potentials.providers.FluidProvider;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.Mth;
-import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -22,7 +23,6 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.common.blocks.RocketLaunchPadBlock;
 import org.exodusstudio.stellaris.common.entities.RocketEntity;
 import org.exodusstudio.stellaris.common.module.Modules;
@@ -30,11 +30,13 @@ import org.exodusstudio.stellaris.common.module.rocket.RocketModule;
 import org.exodusstudio.stellaris.common.registries.BlocksRegistry;
 import org.exodusstudio.stellaris.common.registries.DataComponentsRegistry;
 import org.exodusstudio.stellaris.common.registries.EntityTypesRegistry;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 import java.util.function.Consumer;
 
-public class RocketItem extends Item {
+public class RocketItem extends Item implements FluidProvider.ITEM {
 
     public RocketItem(Properties properties) {
         super(properties);
@@ -125,5 +127,16 @@ public class RocketItem extends Item {
         } else {
             tooltipAdder.accept(Component.literal("No Modules"));
         }
+        tooltipAdder.accept(Component.literal("-----------").withStyle(ChatFormatting.GRAY));
+
+        UniversalFluidItemStorage storage = getFluidTank(stack);
+        tooltipAdder.accept(Component.literal(storage.getFluidInTank(0).getAmount() + " / " + storage.getTankCapacity(0) + "mb").withStyle(ChatFormatting.GRAY));
+        tooltipAdder.accept(Component.literal("Fuel: " + storage.getFluidInTank(0).getFluid().arch$registryName()).withStyle(ChatFormatting.GRAY));
+
+    }
+
+    @Override
+    public @Nullable UniversalFluidItemStorage getFluidTank(@NotNull ItemStack stack) {
+        return new ItemFluidStorage(DataComponentsRegistry.FLUID_LIST.get(), stack, 1, 3000);
     }
 }

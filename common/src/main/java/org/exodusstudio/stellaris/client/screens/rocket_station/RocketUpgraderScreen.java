@@ -7,8 +7,10 @@ import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
+import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.common.menus.UpgradeStationMenu;
 import org.exodusstudio.stellaris.common.utils.ResourceLocationUtils;
+import org.exodusstudio.stellaris.common.utils.Utils;
 
 public class RocketUpgraderScreen extends AbstractContainerScreen<UpgradeStationMenu> {
     private static final ResourceLocation GUI_LOCATION = ResourceLocationUtils.guiTexture("upgrade_station"); //temporary
@@ -28,6 +30,11 @@ public class RocketUpgraderScreen extends AbstractContainerScreen<UpgradeStation
         renderBackground(guiGraphics, mouseX, mouseY, partialTick);
         super.render(guiGraphics, mouseX, mouseY, partialTick);
         renderTooltip(guiGraphics, mouseX, mouseY);
+
+        UpgradeStationMenu.Error error = this.menu.canUpgradeFuel(menu.getInputModule(), menu.getInputRocket());
+        if(error != UpgradeStationMenu.Error.NONE) {
+            guiGraphics.drawCenteredString(Minecraft.getInstance().font, error.errorMessage, width / 2, topPos + 26, Utils.getMinecraftColor("red"));
+        }
     }
 
 

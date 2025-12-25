@@ -1,5 +1,6 @@
 package org.exodusstudio.stellaris.common.registries;
 
+import com.fej1fun.potentials.components.FluidAmountMapDataComponent;
 import com.mojang.serialization.Codec;
 import dev.architectury.registry.registries.DeferredRegister;
 import dev.architectury.registry.registries.Registrar;
@@ -23,6 +24,10 @@ public class DataComponentsRegistry {
 
     public static final RegistrySupplier<DataComponentType<Integer>> ENERGY =
             register("energy", builder -> builder.persistent(Codec.INT).networkSynchronized(ByteBufCodecs.INT));
+    public static final RegistrySupplier<DataComponentType<FluidAmountMapDataComponent>> FLUID_LIST = register("fluid", builder -> builder
+            .persistent(FluidAmountMapDataComponent.CODEC)
+            .networkSynchronized(FluidAmountMapDataComponent.STREAM_CODEC));
+
     public static final RegistrySupplier<DataComponentType<Integer>> SD_CARD_ID =
             register("sd_card_id", builder -> builder.persistent(Codec.INT).networkSynchronized(ByteBufCodecs.INT));
 

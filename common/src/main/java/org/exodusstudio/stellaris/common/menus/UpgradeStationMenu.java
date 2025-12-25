@@ -1,12 +1,16 @@
 package org.exodusstudio.stellaris.common.menus;
 
+import com.fej1fun.potentials.components.FluidAmountMapDataComponent;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.ContainerLevelAccess;
 import net.minecraft.world.inventory.ItemCombinerMenuSlotDefinition;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
+import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.common.items.RocketItem;
 import org.exodusstudio.stellaris.common.menus.base.BaseItemCombinerMenu;
 import org.exodusstudio.stellaris.common.module.Modules;
@@ -50,16 +54,21 @@ public class UpgradeStationMenu extends BaseItemCombinerMenu {
             return;
         }
 
+
         ItemStack itemToUpgrade = this.inputSlots.getItem(0).copy();
         ItemStack module = this.inputSlots.getItem(1);
+
+        if(itemToUpgrade.isEmpty() || module.isEmpty()) {
+            this.resultSlots.setItem(0, ItemStack.EMPTY);
+            return;
+        }
 
         Modules<RocketModule> rocketModule = itemToUpgrade.getOrDefault(DataComponentsRegistry.ROCKET_MODULES.get(), RocketModules.empty());
 
         if (module.getItem() instanceof RocketModule validModule) {
-            if (!itemToUpgrade.isEmpty() &&
-                    !module.isEmpty() &&
-
-                    !rocketModule.contains(validModule)
+            if (!itemToUpgrade.isEmpty() && !module.isEmpty()
+                    && !rocketModule.contains(validModule)
+                    && canUpgradeFuel(module, itemToUpgrade) == Error.NONE
                     //&& rocketModule.contains(validModule.requires())
             ) {
 
@@ -77,6 +86,34 @@ public class UpgradeStationMenu extends BaseItemCombinerMenu {
         }
     }
 
+    /**
+     * Check if the fuel can be upgraded.
+     * The rocket should be empty if the module is a custom fuel module.
+     * @param module the module to be installed
+     * @param rocket the rocket to be upgraded
+     * @return true if the fuel can be upgraded, false otherwise
+     */
+    public Error canUpgradeFuel(ItemStack module, ItemStack rocket) {
+        FluidAmountMapDataComponent fuelComponent = rocket.get(DataComponentsRegistry.FLUID_LIST.get());
+
+        if(module.getItem() instanceof RocketModule.CustomFuelModule) {
+
+            if(fuelComponent != null && fuelComponent.getAmount(0) > 0) {
+
+                return Error.FUEL_NOT_EMPTY;
+            }
+        }
+        return Error.NONE;
+    }
+
+    public ItemStack getInputModule() {
+        return this.inputSlots.getItem(1);
+    }
+
+    public ItemStack getInputRocket() {
+        return this.inputSlots.getItem(0);
+    }
+
 
     @Override
     protected @NotNull ItemCombinerMenuSlotDefinition createInputSlotDefinitions() {
@@ -85,5 +122,16 @@ public class UpgradeStationMenu extends BaseItemCombinerMenu {
                 .withSlot(1, 75, 48, itemStack -> itemStack.getItem() instanceof RocketModule)
                 .withResultSlot(2, 127, 48)
                 .build();
+    }
+
+    public enum Error {
+        NONE(Component.empty()),
+        FUEL_NOT_EMPTY(Component.translatable("menu.fuel_not_empty")),;
+
+        public final Component errorMessage;
+
+        Error(Component errorMessage) {
+            this.errorMessage = errorMessage;
+        }
     }
 }
