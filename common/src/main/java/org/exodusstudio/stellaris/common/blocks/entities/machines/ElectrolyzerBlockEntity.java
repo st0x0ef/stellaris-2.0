@@ -13,6 +13,7 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeManager;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.level.storage.ValueInput;
@@ -83,7 +84,7 @@ public class ElectrolyzerBlockEntity extends BaseEnergyContainerBlockEntity impl
     }
 
     @Override
-    public void tick() {
+    public void tick(Level level, BlockState state) {
         if (level == null) {
             return;
         }

@@ -11,6 +11,7 @@ import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.client.models.rockets.RocketModel;
 import org.exodusstudio.stellaris.client.renderer.rockets.RocketRenderer;
 import org.exodusstudio.stellaris.client.screens.RocketScreen;
+import org.exodusstudio.stellaris.client.screens.rocket_station.RocketStationScreen;
 import org.exodusstudio.stellaris.client.screens.rocket_station.RocketUpgraderScreen;
 import org.exodusstudio.stellaris.client.screens.tablet.MainTabletScreen;
 
@@ -42,6 +43,7 @@ public class StellarisClient {
         MenuRegistry.registerScreenFactory(MenuTypesRegistry.TABLET_MENU.get(), MainTabletScreen::new);
         MenuRegistry.registerScreenFactory(MenuTypesRegistry.ROCKET_MENU.get(), RocketScreen::new);
         MenuRegistry.registerScreenFactory(MenuTypesRegistry.ROCKET_UPGRADE.get(), RocketUpgraderScreen::new);
+        MenuRegistry.registerScreenFactory(MenuTypesRegistry.ROCKET_STATION.get(), RocketStationScreen::new);
 
     }
 
