@@ -9,6 +9,7 @@ import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
+import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.client.screens.components.GaugeWidget;
 import org.exodusstudio.stellaris.client.screens.components.TextureComponentButton;
 import org.exodusstudio.stellaris.client.screens.utils.GUISprites;
@@ -33,6 +34,8 @@ public class GravityManipulatorScreen extends AbstractContainerScreen<GravityMan
     TextureComponentButton marsButton;
     TextureComponentButton earthButton;
 
+    private double maxGravityValue;
+
     public GravityManipulatorScreen(GravityManipulatorMenu abstractContainerMenu, Inventory inventory, Component component) {
         super(abstractContainerMenu, inventory, component);
 
@@ -51,18 +54,20 @@ public class GravityManipulatorScreen extends AbstractContainerScreen<GravityMan
             return;
         }
 
+        maxGravityValue = Stellaris.CONFIG.gravityConfig.maxGravityManipulatorValue;
+
         energyGauge = new GaugeWidget(leftPos + 68, topPos + 20, 44, 6, Component.translatable("stellaris.screen.energyContainer"), GUISprites.SIDEWAYS_ENERGY_FULL, null, blockEntity.getEnergy(null).getMaxEnergy(), GaugeWidget.Direction4.LEFT_RIGHT);
         addRenderableWidget(energyGauge);
 
         gravitySlider = new AbstractSliderButton(leftPos + 30, topPos + 45, 120, 20, Component.translatable("stellaris.screen.gravityManipulator.gravity"), blockEntity.getNormalizedGravity()) {
             @Override
             protected void updateMessage() {
-                this.setMessage(Component.translatable("stellaris.screen.gravityManipulator.gravity", String.format("%.2f", this.value * 20.0)));
+                this.setMessage(Component.translatable("stellaris.screen.gravityManipulator.gravity", String.format("%.2f", this.value * maxGravityValue)));
             }
 
             @Override
             protected void applyValue() {
-                double gravityValue = this.value * 20.0; // Scale from 0.0-1.0 to 0.0-20.0, TODO: make max gravity configurable
+                double gravityValue = this.value * maxGravityValue; // Scale from 0.0-1.0 to 0.0-maxGravityValue
                 blockEntity.setGravity(gravityValue, true);
             }
 
@@ -71,7 +76,7 @@ public class GravityManipulatorScreen extends AbstractContainerScreen<GravityMan
                 boolean bl = keyCode == 263;
                 if (bl || keyCode == 262) {
                     float f = bl ? -1.0F : 1.0F;
-                    this.setValue(this.value + 0.1/20.0 * f); // adjust by 0.1 gravity
+                    this.setValue(this.value + 0.1 / maxGravityValue * f); // adjust by 0.1 gravity
                     return true;
                 }
 
@@ -129,19 +134,19 @@ public class GravityManipulatorScreen extends AbstractContainerScreen<GravityMan
         moonButton = new TextureComponentButton(leftPos + 50, topPos + 75, 20, 20, 14, 14,
                 GUISprites.MOON,
                 Component.translatable("stellaris.screen.gravityManipulator.planet.moon").getString(),
-                button -> gravitySlider.setValue(1.62 / 20.0),
+                button -> gravitySlider.setValue(1.62 / maxGravityValue),
                 DEFAULT_NARRATION);
 
         marsButton = new TextureComponentButton(leftPos + 80, topPos + 75, 20, 20, 14, 14,
                 GUISprites.MARS,
                 Component.translatable("stellaris.screen.gravityManipulator.planet.mars").getString(),
-                button -> gravitySlider.setValue(3.73 / 20.0),
+                button -> gravitySlider.setValue(3.73 / maxGravityValue),
                 DEFAULT_NARRATION);
 
         earthButton = new TextureComponentButton(leftPos + 110, topPos + 75, 20, 20, 14, 14,
                 GUISprites.EARTH,
                 Component.translatable("stellaris.screen.gravityManipulator.planet.earth").getString(),
-                button -> gravitySlider.setValue(9.81 / 20.0),
+                button -> gravitySlider.setValue(9.81 / maxGravityValue),
                 DEFAULT_NARRATION);
 
         addRenderableWidget(earthButton);

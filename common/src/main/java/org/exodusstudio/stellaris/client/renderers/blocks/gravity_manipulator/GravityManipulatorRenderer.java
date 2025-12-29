@@ -12,7 +12,7 @@ public class GravityManipulatorRenderer<T extends GravityManipulatorBlockEntity>
     public  GravityManipulatorRenderer(BlockEntityRendererProvider.Context context) {}
 
     @Override
-    public void render(GravityManipulatorBlockEntity blockEntity, float partialTick, PoseStack poseStack, MultiBufferSource bufferSource, int packedLight, int packedOverlay, Vec3 cameraPos) {
+    public void render(T blockEntity, float partialTick, PoseStack poseStack, MultiBufferSource bufferSource, int packedLight, int packedOverlay, Vec3 cameraPos) {
 
     }
 }

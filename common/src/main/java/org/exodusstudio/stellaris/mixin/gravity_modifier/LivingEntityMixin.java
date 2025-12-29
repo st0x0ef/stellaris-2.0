@@ -1,6 +1,7 @@
 package org.exodusstudio.stellaris.mixin.gravity_modifier;
 
 import net.minecraft.world.entity.LivingEntity;
+import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.common.utils.GravityUtils;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
@@ -15,12 +16,10 @@ public class LivingEntityMixin {
 
     @Unique
     private int stellaris$counter = 0;
-    @Unique
-    private final int stellaris$gravityUpdateInterval = 20;
 
     @Inject(method = "getDefaultGravity", at = @At("RETURN"))
     private void getDefaultGravity(CallbackInfoReturnable<Double> cir) {
-        if (stellaris$counter >= stellaris$gravityUpdateInterval) {
+        if (stellaris$counter >= Stellaris.CONFIG.gravityConfig.gravityUpdateInterval) {
             stellaris$counter = 0;
             GravityUtils.setLivingEntityGravity(stellaris$entity);
         }

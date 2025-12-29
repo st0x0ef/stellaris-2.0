@@ -12,6 +12,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.phys.AABB;
+import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.common.blocks.entities.machines.base.BaseEnergyContainerBlockEntity;
 import org.exodusstudio.stellaris.common.menus.GravityManipulatorMenu;
 import org.exodusstudio.stellaris.common.network.packets.SyncGravityManipulatorDataPacketC2S;
@@ -62,11 +63,11 @@ public class GravityManipulatorBlockEntity extends BaseEnergyContainerBlockEntit
     }
 
     public double getGravity() {
-        return Mth.clamp(this.gravity, 0.0, 20.0);
+        return Mth.clamp(this.gravity, 0.0, Stellaris.CONFIG.gravityConfig.maxGravityManipulatorValue);
     }
 
     public double getNormalizedGravity() {
-        return Mth.clamp(this.gravity / 20.0, 0.0, 1.0);
+        return Mth.clamp(this.gravity / Stellaris.CONFIG.gravityConfig.maxGravityManipulatorValue, 0.0, 1.0);
     }
 
     public void setGravity(double gravity, boolean shouldSyncC2S) {
@@ -74,7 +75,7 @@ public class GravityManipulatorBlockEntity extends BaseEnergyContainerBlockEntit
             return;
         }
 
-        this.gravity = Mth.floor(Mth.clamp(gravity, 0.0, 20.0) * 100.0) / 100.0;
+        this.gravity = (int)(Mth.clamp(gravity, 0.0, Stellaris.CONFIG.gravityConfig.maxGravityManipulatorValue) * 100.0 / 100.0);
 
         if  (shouldSyncC2S) {
             syncDataAccess();

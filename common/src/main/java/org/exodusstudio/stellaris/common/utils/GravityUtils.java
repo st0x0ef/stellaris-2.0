@@ -9,6 +9,7 @@ import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.level.Level;
+import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.common.blocks.entities.machines.GravityManipulatorBlockEntity;
 import org.exodusstudio.stellaris.common.data.Planet;
 import org.exodusstudio.stellaris.common.data.PlanetsData;
@@ -40,7 +41,7 @@ public class GravityUtils {
     public static void setLivingEntityGravity(LivingEntity entity) {
         Planet planet = PlanetsData.getPlanet(entity.level().dimension());
 
-        if (planet == null) {
+        if (planet == null || !Stellaris.CONFIG.gravityConfig.enableGravityEffects) {
             resetLivingEntityGravity(entity);
         } else {
             setLivingEntityGravity(entity, planet);
@@ -50,11 +51,11 @@ public class GravityUtils {
     public static double getEntityGravity(BigDecimal conversionRate, Entity entity) {
         Planet planet = PlanetsData.getPlanet(entity.level().dimension());
 
-        if (planet == null) {
-            return getGravity(conversionRate, PlanetsData.getPlanet(Level.OVERWORLD));
-        } else {
-            return getGravity(conversionRate, planet) + normalizeGravity(planet, entity.level(), conversionRate, entity.blockPosition());
+        if (planet == null || !Stellaris.CONFIG.gravityConfig.enableGravityEffects) {
+            planet = PlanetsData.getPlanet(Level.OVERWORLD);
         }
+        return getGravity(conversionRate, planet) + normalizeGravity(planet, entity.level(), conversionRate, entity.blockPosition());
+
     }
 
     public static double normalizeGravity(Planet planet, Level level, BigDecimal conversionRate, BlockPos entityPos) {
