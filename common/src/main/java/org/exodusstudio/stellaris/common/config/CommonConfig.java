@@ -5,7 +5,7 @@ import fr.tathan.exoconfig.common.infos.ScreenInfos;
 import net.minecraft.resources.ResourceLocation;
 import org.exodusstudio.stellaris.common.utils.ResourceLocationUtils;
 
-@ConfigInfos( name = "stellaris")
+@ConfigInfos(modDisplayName = "Stellaris", name = "stellaris")
 public class CommonConfig {
 
     public boolean debugMode = false;
@@ -21,6 +21,22 @@ public class CommonConfig {
         public int maxOil = 50000;
 
     }
+
+    @ScreenInfos.InnerConfig
+    @ScreenInfos.Description(value = "config.stellaris.gravityConfig.desc")
+    public GravityConfig gravityConfig = new GravityConfig();
+
+    public static class GravityConfig {
+        @ScreenInfos.Description(value = "config.stellaris.gravityConfig.enableGravityEffects.desc")
+        public boolean enableGravityEffects = true;
+
+        @ScreenInfos.Description(value = "config.stellaris.gravityConfig.gravityUpdateInterval.desc")
+        public int gravityUpdateInterval = 20;
+
+        @ScreenInfos.Description(value = "config.stellaris.gravityConfig.maxGravityManipulatorValue.desc")
+        public double maxGravityManipulatorValue = 20.0;
+    }
+
     @ScreenInfos.InnerConfig
     @ScreenInfos.Description(value = "The admin part of the config. Beware...", translate = false)
     public Admin admin = new Admin();

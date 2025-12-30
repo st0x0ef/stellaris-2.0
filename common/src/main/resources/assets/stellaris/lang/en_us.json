@@ -11,29 +11,25 @@
   "item.stellaris.packed_ice_bricks": "Packed Ice Bricks",
   "item.stellaris.packed_ice_pillar": "Packed Ice Pillar",
   "item.stellaris.polished_packed_ice": "Polished Packed Ice",
+  "item.stellaris.desh_ingot": "Desh Ingot",
+  "item.stellaris.raw_desh": "Raw Desh",
 
-  "block.stellaris.mars_rock": "Mars Rock",
-  "block.stellaris.mars_regolith": "Mars Regolith",
-  "block.stellaris.mars_sand": "Mars Sand",
-  "block.stellaris.mars_ice": "Mars Ice",
+  "item.stellaris.mars_rock": "Mars Rock",
+  "item.stellaris.mars_regolith": "Mars Regolith",
+  "item.stellaris.mars_sand": "Mars Sand",
+  "item.stellaris.mars_ice": "Mars Ice",
 
-  "biome.stellaris.red_desert": "Red Desert",
-  "biome.stellaris.ice_caps": "Ice Caps",
-  "biome.stellaris.mars_valleys": "Mars Valleys",
-  "biome.stellaris.velvet_forest": "Velvet Forest",
-  "biome.stellaris.mars_mountains": "Mars Mountains",
-  "biome.stellaris.green_sludge_lakes": "Green Sludge Lakes",
-  "biome.stellaris.green_cauldron_cave": "Green Cauldron Cave",
-  "biome.stellaris.tangled_ravine": "Tangled Ravine",
-  "biome.stellaris.green_forest": "Green Forest",
+  "item.stellaris.moon_rock": "Moon Rock",
 
-
+  "item.stellaris.desh_block": "Desh Block",
+  "item.stellaris.rusted_iron": "Rusted Iron",
 
   "item.stellaris.solar_panel": "Solar Panel",
   "item.stellaris.coal_generator": "Coal Generator",
 
   "item.stellaris.vacuumator": "Vacuumator",
   "item.stellaris.electrolyzer": "Electrolyzer",
+  "item.stellaris.gravity_manipulator": "Gravity Manipulator",
 
   "item.stellaris.power_bank_t1": "Tier 1 Power Bank",
 
@@ -83,11 +79,25 @@
   "fluid.stellaris.oxygen": "Oxygen",
   "fluid.stellaris.water": "Water",
 
+  "biome.stellaris.red_desert": "Red Desert",
+  "biome.stellaris.ice_caps": "Ice Caps",
+  "biome.stellaris.mars_valleys": "Mars Valleys",
+  "biome.stellaris.velvet_forest": "Velvet Forest",
+  "biome.stellaris.mars_mountains": "Mars Mountains",
+  "biome.stellaris.green_sludge_lakes": "Green Sludge Lakes",
+  "biome.stellaris.green_cauldron_cave": "Green Cauldron Cave",
+  "biome.stellaris.tangled_ravine": "Tangled Ravine",
+  "biome.stellaris.green_forest": "Green Forest",
 
   "gauge_text.stellaris.max_generation": "Max Generation : %s Fe/tick",
 
   "stellaris.screen.energyContainer": "Energy",
   "stellaris.screen.empty_fluid": "Empty Fluid Tank",
+
+  "stellaris.screen.gravityManipulator.gravity": "Gravity: %sm/s²",
+  "stellaris.screen.gravityManipulator.planet.moon": "Moon Gravity (1.62m/s²)",
+  "stellaris.screen.gravityManipulator.planet.mars": "Mars Gravity (3.73m/s²)",
+  "stellaris.screen.gravityManipulator.planet.earth": "Earth Gravity (9.81m/s²)",
 
   "tooltip.item.stellaris.can.empty": "Empty",
   "tooltip.item.stellaris.can.nutrition": "Nutrition: %s/%s",

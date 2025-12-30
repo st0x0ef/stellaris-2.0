@@ -1,7 +1,5 @@
 package org.exodusstudio.stellaris.client.screens;
 
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
@@ -16,7 +14,7 @@ import org.exodusstudio.stellaris.common.blocks.entities.machines.SolarPanelBloc
 import org.exodusstudio.stellaris.common.menus.SolarPanelMenu;
 import org.exodusstudio.stellaris.common.utils.ResourceLocationUtils;
 
-@Environment(EnvType.CLIENT)
+
 public class SolarPanelScreen extends AbstractContainerScreen<SolarPanelMenu> {
 
     public static final ResourceLocation TEXTURE = ResourceLocationUtils.guiTexture("solar_panel");
@@ -66,7 +64,7 @@ public class SolarPanelScreen extends AbstractContainerScreen<SolarPanelMenu> {
     @Override
     protected void renderTooltip(GuiGraphics guiGraphics, int x, int y) {
         super.renderTooltip(guiGraphics, x, y);
-        GUIUtils.renderEnergyGaugeTooltip(guiGraphics, energyGauge, getMenu().getBlockEntity().getEnergyGeneratedPT(), x, y, font);
+        GUIUtils.renderEnergyGeneratorGaugeTooltip(guiGraphics, energyGauge, getMenu().getBlockEntity().getEnergyGeneratedPT(), x, y, font);
     }
 
     @Override

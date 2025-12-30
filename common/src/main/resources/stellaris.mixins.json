@@ -4,15 +4,28 @@
   "compatibilityLevel": "JAVA_21",
   "minVersion": "0.8",
   "client": [
-    "client.HumanoidModelMixin"
+    "client.HumanoidModelMixin",
+    "client.CustomItemModelRenderer"
   ],
   "mixins": [
     "ChunkAccessMixin",
     "EntityMixinAttachment",
     "ChunkAccessMixin",
     "ConsumableMixin",
-    "EntityMixin"
-
+    "EntityMixin",
+    "gravity_modifier.AbstractArrowEntityMixin",
+    "gravity_modifier.AbstractBoatEntityMixin",
+    "gravity_modifier.AbstractMinecartEntityMixin",
+    "gravity_modifier.AbstractThrownPotionEntityMixin",
+    "gravity_modifier.ExperienceOrbEntityMixin",
+    "gravity_modifier.FallingBlockEntityMixin",
+    "gravity_modifier.ItemEntityMixin",
+    "gravity_modifier.LivingEntityMixin",
+    "gravity_modifier.LlamaSpitEntityMixin",
+    "gravity_modifier.PrimedTntEntityMixin",
+    "gravity_modifier.ShulkerBulletEntityMixin",
+    "gravity_modifier.ThrowableProjectileEntityMixin",
+    "gravity_modifier.ThrownExperienceBottleEntityMixin"
   ],
   "injectors": {
     "defaultRequire": 1

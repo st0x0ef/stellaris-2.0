@@ -5,8 +5,7 @@ import dev.architectury.registry.ReloadListenerRegistry;
 import dev.architectury.registry.client.level.entity.EntityModelLayerRegistry;
 import dev.architectury.registry.client.level.entity.EntityRendererRegistry;
 import dev.architectury.registry.menu.MenuRegistry;
-import fr.tathan.exoconfig.client.screen.ConfigScreen;
-import net.minecraft.server.packs.PackType;
+import fr.tathan.exoconfig.platform.PlatformClientHelper;
 import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.client.models.rockets.RocketModel;
 import org.exodusstudio.stellaris.client.renderer.rockets.RocketRenderer;
@@ -17,11 +16,9 @@ import org.exodusstudio.stellaris.client.screens.tablet.MainTabletScreen;
 
 import org.exodusstudio.stellaris.client.registry.FluidInfosRegistry;
 import org.exodusstudio.stellaris.client.screens.ElectrolyzerScreen;
-import org.exodusstudio.stellaris.client.data.wiki.WikiPacks;
 import org.exodusstudio.stellaris.client.screens.tablet.application.ApplicationRegistry;
 import org.exodusstudio.stellaris.common.registries.EntityTypesRegistry;
 import org.exodusstudio.stellaris.common.registries.MenuTypesRegistry;
-import org.exodusstudio.stellaris.common.utils.ResourceLocationUtils;
 
 public class StellarisClient {
 

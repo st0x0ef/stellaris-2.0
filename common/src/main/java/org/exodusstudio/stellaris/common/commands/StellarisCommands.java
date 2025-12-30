@@ -11,13 +11,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.chunk.ChunkAccess;
 import org.exodusstudio.stellaris.Stellaris;
-import org.exodusstudio.stellaris.client.utils.WikiEntryTextRenderer;
-import org.exodusstudio.stellaris.common.commands.helpers.ArgumentBuilder;
-import org.exodusstudio.stellaris.common.commands.helpers.CommandBuilder;
-import org.exodusstudio.stellaris.common.menus.MainTabletMenu;
-import org.exodusstudio.stellaris.common.network.packets.OpenScreenPacket;
 
-import java.util.ArrayList;
 import org.exodusstudio.stellaris.common.commands.arguments.PlanetArgument;
 import org.exodusstudio.stellaris.common.commands.helpers.ArgumentBuilder;
 import org.exodusstudio.stellaris.common.commands.helpers.CommandBuilder;
@@ -132,11 +126,7 @@ public class StellarisCommands {
                                     wrapper.getPlayer().displayClientMessage(Component.literal("Planet not found!"), false);
                                     return false;
                                 }
-                            }).findFirst().ifPresentOrElse(planet -> {
-                                wrapper.getPlayer().displayClientMessage(planet.getDisplayInfo(), false);
-                            }, () -> {
-                                wrapper.getPlayer().displayClientMessage(Component.literal("Planet not found!"), false);
-                            });
+                            }).findFirst().ifPresentOrElse(planet -> wrapper.getPlayer().displayClientMessage(planet.getDisplayInfo(), false), () -> wrapper.getPlayer().displayClientMessage(Component.literal("Planet not found!"), false));
                             return wrapper.success();
                         })
         );

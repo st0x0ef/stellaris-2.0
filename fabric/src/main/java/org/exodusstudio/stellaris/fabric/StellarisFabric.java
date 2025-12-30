@@ -2,7 +2,6 @@ package org.exodusstudio.stellaris.fabric;
 
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerChunkEvents;
-import net.minecraft.world.level.chunk.ImposterProtoChunk;
 
 import net.fabricmc.fabric.api.resource.IdentifiableResourceReloadListener;
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
@@ -29,7 +28,6 @@ public final class StellarisFabric implements ModInitializer {
         ServerChunkEvents.CHUNK_GENERATE.register((level, chunk) -> ChunkEvent.LOAD.invoker().load(chunk, level, true));
         ServerChunkEvents.CHUNK_LOAD.register((level, chunk) ->ChunkEvent.LOAD.invoker().load(chunk, level, false));
         onAddReloadListener();
-        StellarisFabricEvents.entityLoadEvent();
     }
 
     public static void onAddReloadListener() {

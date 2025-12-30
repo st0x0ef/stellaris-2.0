@@ -7,6 +7,7 @@ import com.google.gson.ToNumberPolicy;
 import fr.tathan.exoconfig.common.loader.ConfigsRegistry;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.PreparableReloadListener;
+import org.exodusstudio.stellaris.client.data.wiki.WikiPacks;
 import org.exodusstudio.stellaris.client.screens.tablet.application.ApplicationRegistry;
 import org.exodusstudio.stellaris.common.config.CommonConfig;
 import org.exodusstudio.stellaris.common.data.PlanetsData;
@@ -27,7 +28,7 @@ public final class Stellaris {
             .setObjectToNumberStrategy(ToNumberPolicy.LONG_OR_DOUBLE)
             .setStrictness(Strictness.LENIENT)
             .create();
-  
+
     public static CommonConfig CONFIG;
 
     public static void init() {
@@ -62,5 +63,8 @@ public final class Stellaris {
 
     public static void onAddReloadListenerEvent(BiConsumer<ResourceLocation, PreparableReloadListener> registry) {
         registry.accept(ResourceLocationUtils.id(PlanetsData.ID), new PlanetsData());
+
+        registry.accept(ResourceLocationUtils.id("wiki/entries"), new WikiPacks.WikiEntryPack());
+        registry.accept(ResourceLocationUtils.id("wiki/infos"), new WikiPacks.EntryInfoPack());
     }
 }

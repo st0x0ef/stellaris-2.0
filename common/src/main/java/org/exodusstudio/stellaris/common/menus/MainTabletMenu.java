@@ -19,7 +19,7 @@ public class MainTabletMenu extends AbstractContainerMenu {
     }
 
     public MainTabletMenu(int syncId, Inventory playerInventory) {
-        super(MenuTypesRegistry.TABLET_MENU.get(), syncId);
+        super(MenuTypesRegistry.TABLET.get(), syncId);
 
         this.playerInventory = playerInventory;
     }

@@ -1,0 +1,6 @@
+{
+  "description": "Machines and their properties",
+  "hoverIcon": "stellaris:textures/gui/tablet/book_page_hover.png",
+  "icon": "stellaris:textures/gui/tablet/book_page.png",
+  "id": "stellaris:machines"
+}
