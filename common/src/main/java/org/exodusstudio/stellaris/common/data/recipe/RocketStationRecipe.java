@@ -1,6 +1,5 @@
 package org.exodusstudio.stellaris.common.data.recipe;
 
-import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.HolderLookup;
@@ -48,7 +47,6 @@ public record RocketStationRecipe(List<Ingredient> recipeItems,
         return RecipesRegistry.ROCKET_STATION_TYPE.get();
     }
 
-    //TODO: What is this even for?
     @Override
     public @NotNull PlacementInfo placementInfo() {
         return PlacementInfo.create(this.recipeItems);

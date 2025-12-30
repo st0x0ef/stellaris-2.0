@@ -8,14 +8,14 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 import org.exodusstudio.stellaris.client.screens.components.TexturedButton;
-import org.exodusstudio.stellaris.common.menus.UpgradeStationMenu;
+import org.exodusstudio.stellaris.common.menus.rocket_station.RocketUpgradeMenu;
 import org.exodusstudio.stellaris.common.utils.ResourceLocationUtils;
 import org.exodusstudio.stellaris.common.utils.Utils;
 
-public class RocketUpgraderScreen extends AbstractContainerScreen<UpgradeStationMenu> {
-    private static final ResourceLocation GUI_LOCATION = ResourceLocationUtils.guiTexture("upgrade_station"); //temporary
+public class RocketUpgraderScreen extends AbstractContainerScreen<RocketUpgradeMenu> {
+    private static final ResourceLocation GUI_LOCATION = ResourceLocationUtils.guiTexture("upgrade_station");
 
-    public RocketUpgraderScreen(UpgradeStationMenu menu, Inventory playerInventory, Component title) {
+    public RocketUpgraderScreen(RocketUpgradeMenu menu, Inventory playerInventory, Component title) {
         super(menu, playerInventory, title);
         this.imageWidth = 180;
         this.imageHeight = 188;
@@ -43,8 +43,8 @@ public class RocketUpgraderScreen extends AbstractContainerScreen<UpgradeStation
         super.render(guiGraphics, mouseX, mouseY, partialTick);
         renderTooltip(guiGraphics, mouseX, mouseY);
 
-        UpgradeStationMenu.Error error = this.menu.canUpgradeFuel(menu.getInputModule(), menu.getInputRocket());
-        if(error != UpgradeStationMenu.Error.NONE) {
+        RocketUpgradeMenu.Error error = this.menu.canUpgradeFuel(menu.getInputModule(), menu.getInputRocket());
+        if(error != RocketUpgradeMenu.Error.NONE) {
             guiGraphics.drawCenteredString(Minecraft.getInstance().font, error.errorMessage, width / 2, topPos + 26, Utils.getMinecraftColor("red"));
         }
     }

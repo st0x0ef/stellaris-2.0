@@ -8,10 +8,8 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 import org.exodusstudio.stellaris.client.screens.components.TexturedButton;
-import org.exodusstudio.stellaris.common.menus.RocketStationMenu;
-import org.exodusstudio.stellaris.common.menus.UpgradeStationMenu;
+import org.exodusstudio.stellaris.common.menus.rocket_station.RocketStationMenu;
 import org.exodusstudio.stellaris.common.utils.ResourceLocationUtils;
-import org.exodusstudio.stellaris.common.utils.Utils;
 
 public class RocketStationScreen extends AbstractContainerScreen<RocketStationMenu> {
     private static final ResourceLocation GUI_LOCATION = ResourceLocationUtils.guiTexture("rocket_station"); //temporary

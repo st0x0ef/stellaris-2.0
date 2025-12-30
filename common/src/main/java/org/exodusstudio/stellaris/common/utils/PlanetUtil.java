@@ -7,6 +7,7 @@ import org.exodusstudio.stellaris.common.data.Planet;
 import org.exodusstudio.stellaris.common.data.PlanetsData;
 
 public class PlanetUtil {
+
     public static void teleportToPlanet(Entity entity, Planet planet, int yPos) {
         ServerLevel level = PlanetsData.getPlanetLevel(entity.getServer(), planet);
         if (level == null) {

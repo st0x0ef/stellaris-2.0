@@ -1,4 +1,4 @@
-package org.exodusstudio.stellaris.common.menus;
+package org.exodusstudio.stellaris.common.menus.rocket_station;
 
 import dev.architectury.networking.NetworkManager;
 import net.minecraft.core.BlockPos;
@@ -10,12 +10,11 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
-import org.exodusstudio.stellaris.Stellaris;
-import org.exodusstudio.stellaris.common.blocks.RocketStationBlock;
 import org.exodusstudio.stellaris.common.blocks.entities.machines.RocketStationBlockEntity;
 import org.exodusstudio.stellaris.common.menus.slot.ResultSlot;
 import org.exodusstudio.stellaris.common.network.packets.OpenRocketStationMenusPacket;
 import org.exodusstudio.stellaris.common.registries.MenuTypesRegistry;
+
 
 public class RocketStationMenu extends AbstractContainerMenu {
 

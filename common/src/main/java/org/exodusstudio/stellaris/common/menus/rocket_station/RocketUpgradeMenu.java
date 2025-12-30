@@ -1,4 +1,4 @@
-package org.exodusstudio.stellaris.common.menus;
+package org.exodusstudio.stellaris.common.menus.rocket_station;
 
 import com.fej1fun.potentials.components.FluidAmountMapDataComponent;
 import dev.architectury.networking.NetworkManager;
@@ -23,16 +23,16 @@ import org.exodusstudio.stellaris.common.registries.MenuTypesRegistry;
 import org.jetbrains.annotations.NotNull;
 
 
-public class UpgradeStationMenu extends BaseItemCombinerMenu {
+public class RocketUpgradeMenu extends BaseItemCombinerMenu {
 
     private final BlockPos rocketStationPos;
 
-    //TODO: change name
-    public static UpgradeStationMenu create(int containerId, Inventory playerInventory, FriendlyByteBuf buf) {
-        return new UpgradeStationMenu(containerId, playerInventory, ContainerLevelAccess.NULL, buf.readBlockPos());
+    public static RocketUpgradeMenu create(int containerId, Inventory playerInventory, FriendlyByteBuf buf) {
+        return new RocketUpgradeMenu(containerId, playerInventory, ContainerLevelAccess.NULL, buf.readBlockPos());
     }
 
-    public UpgradeStationMenu(int containerId, Inventory playerInventory, ContainerLevelAccess access, BlockPos pos) {
+    //We need to save the position of the rocket station to be able to open the crafting menu from here and get/save items in it.
+    public RocketUpgradeMenu(int containerId, Inventory playerInventory, ContainerLevelAccess access, BlockPos pos) {
         super(MenuTypesRegistry.ROCKET_UPGRADE.get(), containerId, playerInventory, access);
         this.rocketStationPos = pos;
     }
