@@ -1,5 +1,6 @@
 package org.exodusstudio.stellaris.common.data.recipe;
 
+import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.HolderLookup;
@@ -14,7 +15,6 @@ import org.exodusstudio.stellaris.common.data.recipe.input.RocketStationInput;
 import org.exodusstudio.stellaris.common.registries.RecipesRegistry;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public record RocketStationRecipe(List<Ingredient> recipeItems,

@@ -8,6 +8,7 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.level.ChunkPos;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
@@ -22,6 +23,7 @@ import org.exodusstudio.stellaris.common.registries.BlockEntitiesRegistry;
 import java.util.List;
 
 public class GravityManipulatorBlockEntity extends BaseEnergyContainerBlockEntity {
+
     private double gravity = 9.81;
 
     public GravityManipulatorBlockEntity(BlockPos pos, BlockState state) {
@@ -39,7 +41,7 @@ public class GravityManipulatorBlockEntity extends BaseEnergyContainerBlockEntit
     }
 
     @Override
-    public void tick() {
+    public void tick(Level level, BlockState state) {
         if  (isActive() && this.level != null) {
             this.energyContainer.extract(1, false); // TODO : adjust energy consumption based on new gravity
             syncDataAccess();

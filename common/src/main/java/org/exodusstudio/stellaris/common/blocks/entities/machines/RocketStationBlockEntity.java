@@ -46,7 +46,7 @@ public class RocketStationBlockEntity extends BaseContainerBlockEntity implement
 
     @Override
     protected AbstractContainerMenu createMenu(int i, Inventory inventory) {
-        return new RocketStationMenu(i, inventory, this);
+        return new RocketStationMenu(i, inventory, this, this);
     }
 
     @Override
@@ -108,8 +108,6 @@ public class RocketStationBlockEntity extends BaseContainerBlockEntity implement
 
             RocketStationInput input = new RocketStationInput(this, getItems());
             Optional<RecipeHolder<RocketStationRecipe>> recipeHolder = quickCheck.getRecipeFor(input, serverLevel);
-
-            Stellaris.LOG.error("is present {}", recipeHolder.isPresent());
 
             if (recipeHolder.isPresent()) {
 

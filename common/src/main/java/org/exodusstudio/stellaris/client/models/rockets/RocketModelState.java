@@ -38,4 +38,10 @@ public class RocketModelState extends EntityRenderState {
         }
         return type;
     }
+
+    public static RocketModelState create(List<RocketModule> modules) {
+        RocketModelState state = new RocketModelState();
+        state.modules = modules;
+        return state;
+    }
 }

@@ -26,9 +26,6 @@ public final class StellarisFabricClient implements ClientModInitializer {
 
     private void registerScreens() {
         //MenuRegistry.registerScreenFactory(MenuTypesRegistry.TABLET_MENU.get(), MainTabletScreen::new);
-        MenuRegistry.registerScreenFactory(MenuTypesRegistry.SD_CARD_READER_MENU.get(), SDCardReaderApplicationScreen::new);
-        MenuRegistry.registerScreenFactory(MenuTypesRegistry.SOLAR_PANEL_MENU.get(), SolarPanelScreen::new);
-        MenuRegistry.registerScreenFactory(MenuTypesRegistry.COAL_GENERATOR_MENU.get(), CoalGeneratorScreen::new);
 
         MenuRegistry.registerScreenFactory(MenuTypesRegistry.TABLET.get(), MainTabletScreen::new);
         MenuRegistry.registerScreenFactory(MenuTypesRegistry.SD_CARD_READER.get(), SDCardReaderApplicationScreen::new);

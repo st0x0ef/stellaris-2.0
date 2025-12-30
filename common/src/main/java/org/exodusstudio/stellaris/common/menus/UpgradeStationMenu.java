@@ -1,21 +1,22 @@
 package org.exodusstudio.stellaris.common.menus;
 
 import com.fej1fun.potentials.components.FluidAmountMapDataComponent;
+import dev.architectury.networking.NetworkManager;
+import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.ContainerLevelAccess;
 import net.minecraft.world.inventory.ItemCombinerMenuSlotDefinition;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
-import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.common.items.RocketItem;
 import org.exodusstudio.stellaris.common.menus.base.BaseItemCombinerMenu;
 import org.exodusstudio.stellaris.common.module.Modules;
 import org.exodusstudio.stellaris.common.module.rocket.RocketModule;
 import org.exodusstudio.stellaris.common.module.rocket.RocketModules;
+import org.exodusstudio.stellaris.common.network.packets.OpenRocketStationMenusPacket;
 import org.exodusstudio.stellaris.common.registries.BlocksRegistry;
 import org.exodusstudio.stellaris.common.registries.DataComponentsRegistry;
 import org.exodusstudio.stellaris.common.registries.MenuTypesRegistry;
@@ -24,12 +25,16 @@ import org.jetbrains.annotations.NotNull;
 
 public class UpgradeStationMenu extends BaseItemCombinerMenu {
 
+    private final BlockPos rocketStationPos;
+
+    //TODO: change name
     public static UpgradeStationMenu create(int containerId, Inventory playerInventory, FriendlyByteBuf buf) {
-        return new UpgradeStationMenu(containerId, playerInventory, ContainerLevelAccess.NULL);
+        return new UpgradeStationMenu(containerId, playerInventory, ContainerLevelAccess.NULL, buf.readBlockPos());
     }
 
-    public UpgradeStationMenu(int containerId, Inventory playerInventory, ContainerLevelAccess access) {
+    public UpgradeStationMenu(int containerId, Inventory playerInventory, ContainerLevelAccess access, BlockPos pos) {
         super(MenuTypesRegistry.ROCKET_UPGRADE.get(), containerId, playerInventory, access);
+        this.rocketStationPos = pos;
     }
 
     @Override
@@ -122,6 +127,12 @@ public class UpgradeStationMenu extends BaseItemCombinerMenu {
                 .withSlot(1, 75, 48, itemStack -> itemStack.getItem() instanceof RocketModule)
                 .withResultSlot(2, 127, 48)
                 .build();
+    }
+
+    public void openCraftingMenu() {
+        this.player.closeContainer();
+        NetworkManager.sendToServer(new OpenRocketStationMenusPacket("crafting", this.rocketStationPos));
+
     }
 
     public enum Error {

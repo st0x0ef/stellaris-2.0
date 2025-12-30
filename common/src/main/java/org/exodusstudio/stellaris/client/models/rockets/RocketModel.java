@@ -1,19 +1,11 @@
-package org.exodusstudio.stellaris.client.models.rockets;// Made with Blockbench 4.12.6
-// Exported for Minecraft version 1.17 or later with Mojang mappings
-// Paste this class into your mod and generate all required imports
-
+package org.exodusstudio.stellaris.client.models.rockets;
 
 import net.minecraft.client.model.EntityModel;
-import net.minecraft.client.model.HorseModel;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.animal.horse.Horse;
 import org.exodusstudio.stellaris.common.utils.ResourceLocationUtils;
-
-
 
 public class RocketModel extends EntityModel<RocketModelState> {
 	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(ResourceLocationUtils.id("rocket"), "main");

@@ -7,6 +7,7 @@ import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
+import org.exodusstudio.stellaris.client.screens.components.TexturedButton;
 import org.exodusstudio.stellaris.common.menus.RocketStationMenu;
 import org.exodusstudio.stellaris.common.menus.UpgradeStationMenu;
 import org.exodusstudio.stellaris.common.utils.ResourceLocationUtils;
@@ -23,6 +24,18 @@ public class RocketStationScreen extends AbstractContainerScreen<RocketStationMe
         this.titleLabelX = (180 - Minecraft.getInstance().font.width(title.getString())) / 2;
         this.titleLabelY = 2;
 
+    }
+
+    @Override
+    protected void init() {
+        super.init();
+
+        TexturedButton upgradeButton = new TexturedButton(this.leftPos + this.imageWidth, this.topPos + 50 , 40, 20,
+                Component.literal("Upgrade"),
+                button -> {
+                    menu.openUpgradeScreen();
+                });
+        this.addRenderableWidget(upgradeButton);
     }
 
     @Override

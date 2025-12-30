@@ -12,7 +12,6 @@
     "EntityMixinAttachment",
     "ChunkAccessMixin",
     "ConsumableMixin",
-    "EntityMixin",
     "gravity_modifier.AbstractArrowEntityMixin",
     "gravity_modifier.AbstractBoatEntityMixin",
     "gravity_modifier.AbstractMinecartEntityMixin",
