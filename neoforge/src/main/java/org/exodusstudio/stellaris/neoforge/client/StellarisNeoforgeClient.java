@@ -9,7 +9,8 @@ import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.client.StellarisClient;
 import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
-import org.exodusstudio.stellaris.client.renderers.blocks.gravity_manipulator.GravityManipulatorRenderer;
+import org.exodusstudio.stellaris.client.renderers.blocks.gravity_manipulator.GravityManipulatorModel;
+import org.exodusstudio.stellaris.client.renderers.blocks.gravity_manipulator.GravityManipulatorBlockRenderer;
 import org.exodusstudio.stellaris.client.screens.*;
 import org.exodusstudio.stellaris.client.screens.tablet.MainTabletScreen;
 import org.exodusstudio.stellaris.client.screens.tablet.application.sd.SDCardReaderApplicationScreen;
@@ -39,7 +40,12 @@ public class StellarisNeoforgeClient {
     @SuppressWarnings("unchecked")
     @SubscribeEvent
     public static void registerEntityRenderers(EntityRenderersEvent.RegisterRenderers event) {
-        event.registerBlockEntityRenderer((BlockEntityType<GravityManipulatorBlockEntity>)BlockEntitiesRegistry.GRAVITY_MANIPULATOR.get(), GravityManipulatorRenderer::new);
+        event.registerBlockEntityRenderer((BlockEntityType<GravityManipulatorBlockEntity>)BlockEntitiesRegistry.GRAVITY_MANIPULATOR.get(), GravityManipulatorBlockRenderer::new);
 
+    }
+
+    @SubscribeEvent
+    public static void registerEntityLayer(EntityRenderersEvent.RegisterLayerDefinitions event) {
+        event.registerLayerDefinition(GravityManipulatorModel.LAYER_LOCATION, GravityManipulatorModel::createBodyLayer);
     }
 }

@@ -1,6 +1,10 @@
 {
   "model": {
-    "type": "minecraft:model",
-    "model": "stellaris:item/gravity_manipulator"
+    "type": "minecraft:special",
+    "base": "stellaris:item/gravity_manipulator",
+    "model": {
+      "type": "stellaris:gravity_manipulator",
+      "texture": "stellaris:block/machines/gravity_manipulator"
+    }
   }
 }

@@ -40,7 +40,7 @@ public class GravityManipulatorBlockEntity extends BaseEnergyContainerBlockEntit
 
     @Override
     public void tick() {
-        if  (this.energyContainer.getEnergy() > 0 && this.level != null) {
+        if  (isActive() && this.level != null) {
             this.energyContainer.extract(1, false); // TODO : adjust energy consumption based on new gravity
             syncDataAccess();
         }
@@ -56,6 +56,10 @@ public class GravityManipulatorBlockEntity extends BaseEnergyContainerBlockEntit
     protected void loadAdditional(ValueInput input) {
         super.loadAdditional(input);
         setGravity(input.getDoubleOr("gravity", getGravity()), false); // can't sync since there's no player yet
+    }
+
+    public boolean isActive() {
+        return this.energyContainer.getEnergy() > 0;
     }
 
     public double getDifferenceGravity(double targetGravity) {
@@ -75,7 +79,7 @@ public class GravityManipulatorBlockEntity extends BaseEnergyContainerBlockEntit
             return;
         }
 
-        this.gravity = (int)(Mth.clamp(gravity, 0.0, Stellaris.CONFIG.gravityConfig.maxGravityManipulatorValue) * 100.0 / 100.0);
+        this.gravity = Mth.clamp(gravity, 0.0, Stellaris.CONFIG.gravityConfig.maxGravityManipulatorValue);
 
         if  (shouldSyncC2S) {
             syncDataAccess();

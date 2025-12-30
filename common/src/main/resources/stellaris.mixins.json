@@ -4,11 +4,11 @@
   "compatibilityLevel": "JAVA_21",
   "minVersion": "0.8",
   "client": [
+    "client.CustomItemModelRenderer"
   ],
   "mixins": [
     "ChunkAccessMixin",
     "ConsumableMixin",
-
     "gravity_modifier.AbstractArrowEntityMixin",
     "gravity_modifier.AbstractBoatEntityMixin",
     "gravity_modifier.AbstractMinecartEntityMixin",
