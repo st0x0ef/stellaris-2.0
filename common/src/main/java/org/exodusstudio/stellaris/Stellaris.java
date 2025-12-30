@@ -4,10 +4,8 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.Strictness;
 import com.google.gson.ToNumberPolicy;
-import dev.architectury.registry.ReloadListenerRegistry;
 import fr.tathan.exoconfig.common.loader.ConfigsRegistry;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.packs.PackType;
 import net.minecraft.server.packs.resources.PreparableReloadListener;
 import org.exodusstudio.stellaris.client.data.wiki.WikiPacks;
 import org.exodusstudio.stellaris.client.screens.tablet.application.ApplicationRegistry;
@@ -30,7 +28,7 @@ public final class Stellaris {
             .setObjectToNumberStrategy(ToNumberPolicy.LONG_OR_DOUBLE)
             .setStrictness(Strictness.LENIENT)
             .create();
-  
+
     public static CommonConfig CONFIG;
 
     public static void init() {

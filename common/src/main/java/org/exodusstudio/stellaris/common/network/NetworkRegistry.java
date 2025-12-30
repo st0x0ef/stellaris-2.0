@@ -28,6 +28,9 @@ public interface NetworkRegistry {
 
         registerS2C(SyncEnergyPacket.TYPE, SyncEnergyPacket.STREAM_CODEC, SyncEnergyPacket::handle);
         registerS2C(SyncEnergyPacketWithoutDirection.TYPE, SyncEnergyPacketWithoutDirection.STREAM_CODEC, SyncEnergyPacketWithoutDirection::handle);
+
+        registerS2C(SyncGravityManipulatorDataPacketS2C.TYPE_S2C, SyncGravityManipulatorDataPacketS2C.STREAM_CODEC, SyncGravityManipulatorDataPacketS2C::handle);
+        registerC2S(SyncGravityManipulatorDataPacketC2S.TYPE_C2S, SyncGravityManipulatorDataPacketC2S.STREAM_CODEC, SyncGravityManipulatorDataPacketC2S::handle);
     }
 
 

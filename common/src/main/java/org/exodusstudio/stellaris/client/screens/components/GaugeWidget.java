@@ -1,7 +1,5 @@
 package org.exodusstudio.stellaris.client.screens.components;
 
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractWidget;
@@ -19,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 
-@Environment(EnvType.CLIENT)
+
 public class GaugeWidget extends AbstractWidget {
 
     protected long capacity;

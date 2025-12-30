@@ -1,7 +1,5 @@
 package org.exodusstudio.stellaris.client.screens;
 
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
@@ -13,11 +11,12 @@ import net.minecraft.world.entity.player.Inventory;
 import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.client.screens.components.GaugeWidget;
 import org.exodusstudio.stellaris.client.screens.utils.GUISprites;
-import org.exodusstudio.stellaris.client.screens.utils.GUIUtils;
 import org.exodusstudio.stellaris.common.blocks.entities.machines.VacuumatorBlockEntity;
 import org.exodusstudio.stellaris.common.menus.VacuumatorMenu;
 
-@Environment(EnvType.CLIENT)
+import java.util.List;
+
+
 public class VacuumatorScreen extends AbstractContainerScreen<VacuumatorMenu> {
     public static final ResourceLocation texture = ResourceLocation.fromNamespaceAndPath(Stellaris.MOD_ID, "textures/gui/vacuumator.png");
 
@@ -74,7 +73,7 @@ public class VacuumatorScreen extends AbstractContainerScreen<VacuumatorMenu> {
     @Override
     protected void renderTooltip(GuiGraphics guiGraphics, int x, int y) {
         super.renderTooltip(guiGraphics, x, y);
-        GUIUtils.renderEnergyGaugeTooltip(guiGraphics, energyGauge, getMenu().getBlockEntity().getEnergy(null).getEnergy(), x, y, font);
+        energyGauge.renderTooltips(guiGraphics, x, y, font, List::of);
     }
 
     @Override

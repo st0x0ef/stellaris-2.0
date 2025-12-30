@@ -2,8 +2,6 @@ package org.exodusstudio.stellaris.client.screens.components;
 
 import com.fej1fun.potentials.fluid.UniversalFluidStorage;
 import dev.architectury.fluid.FluidStack;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.client.renderer.texture.SpriteContents;
@@ -16,7 +14,7 @@ import org.jetbrains.annotations.Nullable;
 /**
  * A Widget that render a big fluid gauge on the screen
  */
-@Environment(EnvType.CLIENT)
+
 public class GaugeChunkWidget extends GaugeWidget {
 
     protected boolean spriteChanged;

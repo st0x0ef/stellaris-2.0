@@ -29,6 +29,7 @@
 
   "item.stellaris.vacuumator": "Vacuumator",
   "item.stellaris.electrolyzer": "Electrolyzer",
+  "item.stellaris.gravity_manipulator": "Gravity Manipulator",
 
   "item.stellaris.power_bank_t1": "Tier 1 Power Bank",
 
@@ -92,6 +93,11 @@
 
   "stellaris.screen.energyContainer": "Energy",
   "stellaris.screen.empty_fluid": "Empty Fluid Tank",
+
+  "stellaris.screen.gravityManipulator.gravity": "Gravity: %sm/s²",
+  "stellaris.screen.gravityManipulator.planet.moon": "Moon Gravity (1.62m/s²)",
+  "stellaris.screen.gravityManipulator.planet.mars": "Mars Gravity (3.73m/s²)",
+  "stellaris.screen.gravityManipulator.planet.earth": "Earth Gravity (9.81m/s²)",
 
   "tooltip.item.stellaris.can.empty": "Empty",
   "tooltip.item.stellaris.can.nutrition": "Nutrition: %s/%s",
