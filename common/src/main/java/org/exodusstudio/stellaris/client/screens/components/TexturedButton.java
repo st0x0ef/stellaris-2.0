@@ -1,7 +1,5 @@
 package org.exodusstudio.stellaris.client.screens.components;
 
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
@@ -17,7 +15,7 @@ import org.jetbrains.annotations.Nullable;
 /**
  * A utility class to create custom textured button.
  */
-@Environment(EnvType.CLIENT)
+
 public class TexturedButton extends Button {
 
     /** Default Textures */

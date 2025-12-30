@@ -1,39 +1,81 @@
 package org.exodusstudio.stellaris.common.utils;
 
+import com.google.common.util.concurrent.AtomicDouble;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.level.Level;
+import org.exodusstudio.stellaris.Stellaris;
+import org.exodusstudio.stellaris.common.blocks.entities.machines.GravityManipulatorBlockEntity;
 import org.exodusstudio.stellaris.common.data.Planet;
 import org.exodusstudio.stellaris.common.data.PlanetsData;
-import org.jetbrains.annotations.NotNull;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class GravityUtils {
 
     public static final BigDecimal EARTH_GRAVITY = new BigDecimal("9.81");
-    public static final BigDecimal GRAVITY_CONVERSION_RATE = new BigDecimal("0.08").divide(EARTH_GRAVITY, 10, RoundingMode.HALF_UP);
     public static final BigDecimal SAFE_FALL_DISTANCE_CONVERSION_RATE = new BigDecimal("3").multiply(EARTH_GRAVITY);
 
-    private static final Map<Planet, Double> GRAVITY_CACHE = new HashMap<>();
+    public static final BigDecimal GRAVITY_LIVING_CONVERSION_RATE = new BigDecimal("0.08").divide(EARTH_GRAVITY, 10, RoundingMode.HALF_UP);
+    public static final BigDecimal GRAVITY_PROJECTILE_CONVERSION_RATE = new BigDecimal("0.05").divide(EARTH_GRAVITY, 10, RoundingMode.HALF_UP);
+    public static final BigDecimal GRAVITY_FALLING_CONVERSION_RATE = new BigDecimal("0.04").divide(EARTH_GRAVITY, 10, RoundingMode.HALF_UP);
+    public static final BigDecimal GRAVITY_XP_CONVERSION_RATE = new BigDecimal("0.03").divide(EARTH_GRAVITY, 10, RoundingMode.HALF_UP);
+    public static final BigDecimal GRAVITY_LLAMA_SPIT_CONVERSION_RATE = new BigDecimal("0.06").divide(EARTH_GRAVITY, 10, RoundingMode.HALF_UP);
+    public static final BigDecimal GRAVITY_XP_BOTTLE_CONVERSION_RATE = new BigDecimal("0.07").divide(EARTH_GRAVITY, 10, RoundingMode.HALF_UP);
+    public static final BigDecimal GRAVITY_WATER_MINECART_CONVERSION_RATE = new BigDecimal("0.005").divide(EARTH_GRAVITY, 10, RoundingMode.HALF_UP);
+
+
+    private static final Map<Planet, Map<BigDecimal, Double>> GRAVITY_CACHE = new HashMap<>();
     private static final Map<Planet, Double> SAFE_FALL_DISTANCE_CACHE = new HashMap<>();
     private static final Map<Planet, Double> FALL_DAMAGE_MULT_CACHE = new HashMap<>();
 
-    public static void setGravity(LivingEntity entity) {
-
+    public static void setLivingEntityGravity(LivingEntity entity) {
         Planet planet = PlanetsData.getPlanet(entity.level().dimension());
 
-        if (planet == null) {
-            resetEntityGravity(entity); // Resets gravity on dimensions like The Nether
-            return;
+        if (planet == null || !Stellaris.CONFIG.gravityConfig.enableGravityEffects) {
+            resetLivingEntityGravity(entity);
+        } else {
+            setLivingEntityGravity(entity, planet);
+        }
+    }
+
+    public static double getEntityGravity(BigDecimal conversionRate, Entity entity) {
+        Planet planet = PlanetsData.getPlanet(entity.level().dimension());
+
+        if (planet == null || !Stellaris.CONFIG.gravityConfig.enableGravityEffects) {
+            planet = PlanetsData.getPlanet(Level.OVERWORLD);
+        }
+        return getGravity(conversionRate, planet) + normalizeGravity(planet, entity.level(), conversionRate, entity.blockPosition());
+
+    }
+
+    public static double normalizeGravity(Planet planet, Level level, BigDecimal conversionRate, BlockPos entityPos) {
+        // Check for Gravity Normalizer in the chunk
+        AtomicDouble normalize = new AtomicDouble(0.0);
+        AtomicInteger manipulatorCount = new AtomicInteger(0);
+        level.getChunkAt(entityPos).getBlockEntities().forEach((pos, blockEntity) -> {;
+            if (blockEntity instanceof GravityManipulatorBlockEntity gravityManipulator) {
+                if (gravityManipulator.getEnergy(null).getEnergy() > 0) {
+                    normalize.addAndGet(gravityManipulator.getDifferenceGravity(planet.gravity()));
+                    manipulatorCount.incrementAndGet();
+                }
+            }
+        });
+
+        if (normalize.get() == 0.0) {
+            return 0.0;
         }
 
-        setEntityGravity(entity, planet);
+        return MPS2ToMCG(conversionRate, normalize.get() / manipulatorCount.get());
     }
 
     public static void trySetBaseAttribute(LivingEntity entity, Holder<Attribute> attribute, double value) {
@@ -42,23 +84,30 @@ public class GravityUtils {
         if (attributeInstance != null) {
             attributeInstance.setBaseValue(value);
         }
-
     }
 
-    public static void setEntityGravity(LivingEntity entity, Planet planet) {
-        trySetBaseAttribute(entity, Attributes.GRAVITY, getGravity(planet));
+    public static void setLivingEntityGravity(LivingEntity entity, Planet planet) {
+        trySetBaseAttribute(entity, Attributes.GRAVITY, getGravity(GRAVITY_LIVING_CONVERSION_RATE, planet) + normalizeGravity(planet, entity.level(), GRAVITY_LIVING_CONVERSION_RATE, entity.blockPosition()));
         trySetBaseAttribute(entity, Attributes.SAFE_FALL_DISTANCE, getSafeFallDistance(planet));
         trySetBaseAttribute(entity, Attributes.FALL_DAMAGE_MULTIPLIER, getFallDamageMult(planet));
     }
 
-    public static void resetEntityGravity(LivingEntity entity) {
+    public static void resetLivingEntityGravity(LivingEntity entity) {
         trySetBaseAttribute(entity, Attributes.GRAVITY, Attributes.GRAVITY.value().getDefaultValue());
         trySetBaseAttribute(entity, Attributes.SAFE_FALL_DISTANCE, Attributes.SAFE_FALL_DISTANCE.value().getDefaultValue());
         trySetBaseAttribute(entity, Attributes.FALL_DAMAGE_MULTIPLIER, Attributes.FALL_DAMAGE_MULTIPLIER.value().getDefaultValue());
     }
 
-    private static double getGravity(@NotNull Planet planet) {
-        return GRAVITY_CACHE.computeIfAbsent(planet, p -> MPS2ToMCG(p.gravity()));
+    private static double getGravity(BigDecimal conversionRate, Planet planet) {
+        if (GRAVITY_CACHE.containsKey(planet)) {
+            return GRAVITY_CACHE.get(planet).computeIfAbsent(conversionRate, c -> MPS2ToMCG(c, planet.gravity()));
+        } else {
+            Map<BigDecimal, Double> planetGravityMap = new HashMap<>();
+            double gravityValue = MPS2ToMCG(conversionRate, planet.gravity());
+            planetGravityMap.put(conversionRate, gravityValue);
+            GRAVITY_CACHE.put(planet, planetGravityMap);
+            return gravityValue;
+        }
     }
 
     private static double getSafeFallDistance(Planet planet) {
@@ -66,7 +115,7 @@ public class GravityUtils {
     }
 
     /// @param newGravity in m/s²
-    private static double computeSafeFallDistance(String newGravity) {
+    private static double computeSafeFallDistance(double newGravity) {
         return SAFE_FALL_DISTANCE_CONVERSION_RATE.divide(new BigDecimal(newGravity), 5, RoundingMode.HALF_UP).doubleValue();
     }
 
@@ -75,15 +124,31 @@ public class GravityUtils {
     }
 
     /// @param newGravity in m/s²
-    private static double computeFallDamageMult(String newGravity) {
+    private static double computeFallDamageMult(double newGravity) {
         return new BigDecimal(newGravity).divide(EARTH_GRAVITY, 5, RoundingMode.HALF_UP).doubleValue();
     }
 
     /**
-     * @param MPS2 m/s²
+     * @param MPS2 gravity in m/s²
      * @return Minecraft Gravity Unit (blocks/t²)
      */
-    public static double MPS2ToMCG(String MPS2) {
-        return GRAVITY_CONVERSION_RATE.multiply(new BigDecimal(MPS2)).setScale(5, RoundingMode.HALF_UP).doubleValue();
+    public static double MPS2ToMCG(BigDecimal conversionRate, String MPS2) {
+        return MPS2ToMCG(conversionRate, new BigDecimal(MPS2));
+    }
+
+    /**
+     * @param MPS2 gravity in m/s²
+     * @return Minecraft Gravity Unit (blocks/t²)
+     */
+    public static double MPS2ToMCG(BigDecimal conversionRate, double MPS2) {
+        return MPS2ToMCG(conversionRate, new BigDecimal(MPS2));
+    }
+
+    /**
+     * @param MPS2 gravity in m/s²
+     * @return Minecraft Gravity Unit (blocks/t²)
+     */
+    public static double MPS2ToMCG(BigDecimal conversionRate, BigDecimal MPS2) {
+        return conversionRate.multiply(MPS2).setScale(5, RoundingMode.HALF_UP).doubleValue();
     }
 }

@@ -1,5 +1,5 @@
 {
   "translation_key": "stellaris.planet.moon",
   "dimension": "stellaris:moon",
-  "gravity": "1.62"
+  "gravity": 1.62
 }

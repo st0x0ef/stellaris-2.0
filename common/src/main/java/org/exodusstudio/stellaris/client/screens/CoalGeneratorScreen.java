@@ -1,7 +1,5 @@
 package org.exodusstudio.stellaris.client.screens;
 
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
@@ -17,7 +15,7 @@ import org.exodusstudio.stellaris.common.blocks.entities.machines.CoalGeneratorB
 import org.exodusstudio.stellaris.common.menus.CoalGeneratorMenu;
 import org.exodusstudio.stellaris.common.utils.ResourceLocationUtils;
 
-@Environment(EnvType.CLIENT)
+
 public class CoalGeneratorScreen extends AbstractContainerScreen<CoalGeneratorMenu> {
 
     private static final ResourceLocation TEXTURE = ResourceLocationUtils.guiTexture("coal_generator");
@@ -73,7 +71,7 @@ public class CoalGeneratorScreen extends AbstractContainerScreen<CoalGeneratorMe
     @Override
     protected void renderTooltip(GuiGraphics guiGraphics, int x, int y) {
         super.renderTooltip(guiGraphics, x, y);
-        GUIUtils.renderEnergyGaugeTooltip(guiGraphics, energyGauge, getMenu().getBlockEntity().getEnergyGeneratedPT(), x, y, font);
+        GUIUtils.renderEnergyGeneratorGaugeTooltip(guiGraphics, energyGauge, getMenu().getBlockEntity().getEnergyGeneratedPT(), x, y, font);
     }
 
     @Override
