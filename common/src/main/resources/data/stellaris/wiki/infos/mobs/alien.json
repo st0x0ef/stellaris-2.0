@@ -23,7 +23,7 @@
     }
   ],
   "iconType": "entity",
-  "id": "alien",
-  "entryId": "mobs",
+  "id": "stellaris:alien",
+  "entryId": "stellaris:mobs",
   "title": "Alien"
 }

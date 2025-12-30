@@ -157,11 +157,7 @@ public class WikiEntryTextRenderer {
                 }
 
                 if (word.resourceLocation != null) {
-                    clickBoxConsumer.accept(new ActionBox(x + width.get(), y + (i * getFont().lineHeight), getFont().width(word.text), getFont().lineHeight, null, (info) -> {
-
-                        info.actionBox().changePage(info.infoWidget(), word.resourceLocation);
-
-                        }, (word.text + word.resourceLocation)));
+                    clickBoxConsumer.accept(new ActionBox(x + width.get(), y + (i * getFont().lineHeight), getFont().width(word.text), getFont().lineHeight, null, (info) -> info.actionBox().changePage(info.infoWidget(), word.resourceLocation), (word.text + word.resourceLocation)));
                     color = "blue";
                 }
                 if (word.tooltip != null) {

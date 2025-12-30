@@ -13,7 +13,7 @@
     }
   ],
   "iconType": "entity",
-  "id": "martian_raptor",
-  "title": "Martian Raptor",
+  "id": "stellaris:martian_raptor",
+  "title": "stellaris:Martian Raptor",
   "entryId": "mobs"
 }

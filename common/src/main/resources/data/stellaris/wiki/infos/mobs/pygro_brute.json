@@ -13,7 +13,7 @@
     }
   ],
   "iconType": "entity",
-  "id": "pygro_brute",
-  "entryId": "mobs",
+  "id": "stellaris:pygro_brute",
+  "entryId": "stellaris:mobs",
   "title": "Pygro Brute"
 }

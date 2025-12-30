@@ -17,8 +17,6 @@ public class ArgumentsTypesRegistry {
     public static void init() {
         ARGUMENT_TYPES.register();
 
-        PLANET.listen(info -> {
-            ArgumentTypeInfos.BY_CLASS.put(PlanetArgument.class, info);
-        });
+        PLANET.listen(info -> ArgumentTypeInfos.BY_CLASS.put(PlanetArgument.class, info));
     }
 }

@@ -2,13 +2,11 @@ package org.exodusstudio.stellaris.common.events;
 
 import dev.architectury.event.EventResult;
 import dev.architectury.event.events.common.BlockEvent;
-import dev.architectury.event.events.common.EntityEvent;
 import dev.architectury.event.events.common.LifecycleEvent;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -17,7 +15,6 @@ import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.common.blocks.entities.FlagBlockEntity;
 import org.exodusstudio.stellaris.common.registries.BlocksRegistry;
 import org.exodusstudio.stellaris.common.registries.DataComponentsRegistry;
-import org.exodusstudio.stellaris.common.utils.GravityUtils;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -35,13 +32,6 @@ public class Events {
                 regenStellarisDim(server);
             }
         });
-
-//        EntityEvent.ADD.register((entity, level) -> {
-//            if(entity instanceof LivingEntity livingEntity) {
-//                GravityUtils.setGravity(livingEntity);
-//            }
-//            return EventResult.pass();
-//        });
 
         blockEvents();
     }

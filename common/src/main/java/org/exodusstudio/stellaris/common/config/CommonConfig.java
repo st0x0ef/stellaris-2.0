@@ -5,7 +5,7 @@ import fr.tathan.exoconfig.common.infos.ScreenInfos;
 import net.minecraft.resources.ResourceLocation;
 import org.exodusstudio.stellaris.common.utils.ResourceLocationUtils;
 
-@ConfigInfos( name = "stellaris")
+@ConfigInfos(modDisplayName = "Stellaris", name = "stellaris")
 public class CommonConfig {
 
     public boolean debugMode = false;

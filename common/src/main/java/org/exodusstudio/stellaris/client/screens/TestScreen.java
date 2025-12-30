@@ -25,9 +25,7 @@ public class TestScreen extends Screen {
     @Override
     protected void init() {
 
-        Button testButton = Button.builder(Component.literal("Test Button"), button -> {
-            System.out.println("Button clicked!");
-        }).bounds(20, 20, 100, 20).build();
+        Button testButton = Button.builder(Component.literal("Test Button"), button -> System.out.println("Button clicked!")).bounds(20, 20, 100, 20).build();
         WikiInfosWidget wikiInfos = new WikiInfosWidget(20, 60, 200, 100);
 
         DraggableContainer container = new DraggableContainer(0, 0, 500, 500, testButton, wikiInfos);

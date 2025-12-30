@@ -13,7 +13,7 @@
     }
   ],
   "iconType": "entity",
-  "id": "star_crawler",
+  "id": "stellaris:star_crawler",
   "title": "Star Crawler",
-  "entryId": "mobs"
+  "entryId": "stellaris:mobs"
 }

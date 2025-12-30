@@ -13,7 +13,7 @@ import java.util.List;
  */
 public interface SyncedPack<T> {
 
-    public Codec<T> getCodec();
+    Codec<T> getCodec();
 
     StreamCodec<RegistryFriendlyByteBuf, T> getStreamCodec();
 
