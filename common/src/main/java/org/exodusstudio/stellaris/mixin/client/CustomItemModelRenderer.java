@@ -6,7 +6,6 @@ import net.minecraft.client.renderer.special.SpecialModelRenderers;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.ExtraCodecs;
 import org.exodusstudio.stellaris.client.renderer.rockets.RocketItemRenderer;
-import org.exodusstudio.stellaris.client.renderers.blocks.gravity_manipulator.GravityManipulatorItemRenderer;
 import org.exodusstudio.stellaris.client.renderers.flag.FlagItemRenderer;
 import org.exodusstudio.stellaris.client.renderers.gravity_manipulator.GravityManipulatorItemRenderer;
 import org.exodusstudio.stellaris.common.utils.ResourceLocationUtils;
