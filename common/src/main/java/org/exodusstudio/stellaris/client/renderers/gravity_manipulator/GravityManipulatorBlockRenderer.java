@@ -1,4 +1,4 @@
-package org.exodusstudio.stellaris.client.renderers.blocks.gravity_manipulator;
+package org.exodusstudio.stellaris.client.renderers.gravity_manipulator;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
@@ -17,11 +17,11 @@ import org.exodusstudio.stellaris.common.utils.ResourceLocationUtils;
 public class GravityManipulatorBlockRenderer<T extends GravityManipulatorBlockEntity> implements BlockEntityRenderer<T> {
     public static final ResourceLocation TEXTURE = ResourceLocationUtils.texture("block/machines/gravity_manipulator");
 
-    private final GravityManipulatorModel<GravityManipulatorBlockEntity> model;
+    private final GravityManipulatorModel model;
 
     public GravityManipulatorBlockRenderer(BlockEntityRendererProvider.Context context) {
         ModelPart modelPart = context.bakeLayer(GravityManipulatorModel.LAYER_LOCATION);
-        this.model = new GravityManipulatorModel<>(modelPart);
+        this.model = new GravityManipulatorModel(modelPart);
     }
 
     @Override

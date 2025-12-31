@@ -6,8 +6,11 @@ import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import org.exodusstudio.stellaris.client.StellarisClient;
-import org.exodusstudio.stellaris.client.renderers.blocks.gravity_manipulator.GravityManipulatorBlockRenderer;
-import org.exodusstudio.stellaris.client.renderers.blocks.gravity_manipulator.GravityManipulatorModel;
+import org.exodusstudio.stellaris.client.renderers.flag.FlagBlockModel;
+import org.exodusstudio.stellaris.client.renderers.flag.FlagBlockRenderer;
+import org.exodusstudio.stellaris.client.renderers.flag.FlagHeadModel;
+import org.exodusstudio.stellaris.client.renderers.gravity_manipulator.GravityManipulatorBlockRenderer;
+import org.exodusstudio.stellaris.client.renderers.gravity_manipulator.GravityManipulatorModel;
 import org.exodusstudio.stellaris.client.screens.*;
 import org.exodusstudio.stellaris.client.screens.tablet.MainTabletScreen;
 import org.exodusstudio.stellaris.client.screens.tablet.application.sd.SDCardReaderApplicationScreen;
@@ -39,9 +42,13 @@ public final class StellarisFabricClient implements ClientModInitializer {
     @SuppressWarnings("unchecked")
     private void registerEntityRenderer() {
         BlockEntityRenderers.register((BlockEntityType<GravityManipulatorBlockEntity>)BlockEntitiesRegistry.GRAVITY_MANIPULATOR.get(), GravityManipulatorBlockRenderer::new);
+        BlockEntityRenderers.register(BlockEntitiesRegistry.FLAG.get(), FlagBlockRenderer::new);
     }
 
     public static void registerEntityModelLayer() {
         EntityModelLayerRegistry.registerModelLayer(GravityManipulatorModel.LAYER_LOCATION, GravityManipulatorModel::createBodyLayer);
+        EntityModelLayerRegistry.registerModelLayer(FlagHeadModel.HUMANOID_LAYER_LOCATION, FlagHeadModel::createHumanoidHeadLayer);
+        EntityModelLayerRegistry.registerModelLayer(FlagHeadModel.MOB_LAYER_LOCATION, FlagHeadModel::createMobHeadLayer);
+        EntityModelLayerRegistry.registerModelLayer(FlagBlockModel.LAYER_LOCATION, FlagBlockModel::createBodyLayer);
     }
 }

@@ -1,4 +1,4 @@
-package org.exodusstudio.stellaris.client.renderers.blocks.gravity_manipulator;
+package org.exodusstudio.stellaris.client.renderers.gravity_manipulator;
 
 import net.minecraft.client.model.Model;
 import net.minecraft.client.model.geom.ModelLayerLocation;
@@ -7,10 +7,9 @@ import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.client.renderer.RenderType;
 import org.exodusstudio.stellaris.Stellaris;
-import org.exodusstudio.stellaris.common.blocks.entities.machines.GravityManipulatorBlockEntity;
 import org.exodusstudio.stellaris.common.utils.ResourceLocationUtils;
 
-public class GravityManipulatorModel<T extends GravityManipulatorBlockEntity> extends Model {
+public class GravityManipulatorModel extends Model {
     public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(ResourceLocationUtils.id("gravity_manipulator"), "main");
     private final ModelPart GravityCenter;
 
