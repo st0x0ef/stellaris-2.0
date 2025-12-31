@@ -1,4 +1,4 @@
-package org.exodusstudio.stellaris.client.renderers.blocks.gravity_manipulator;
+package org.exodusstudio.stellaris.client.renderers.gravity_manipulator;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.serialization.MapCodec;
@@ -11,13 +11,12 @@ import net.minecraft.client.renderer.special.NoDataSpecialModelRenderer;
 import net.minecraft.client.renderer.special.SpecialModelRenderer;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemDisplayContext;
-import org.exodusstudio.stellaris.common.blocks.entities.machines.GravityManipulatorBlockEntity;
 import org.jetbrains.annotations.NotNull;
 import org.joml.Vector3f;
 
 import java.util.Set;
 
-public record GravityManipulatorItemRenderer(ResourceLocation texture, GravityManipulatorModel<GravityManipulatorBlockEntity> model) implements NoDataSpecialModelRenderer {
+public record GravityManipulatorItemRenderer(ResourceLocation texture, GravityManipulatorModel model) implements NoDataSpecialModelRenderer {
 
     @Override
     public void render(ItemDisplayContext displayContext, PoseStack poseStack, MultiBufferSource bufferSource, int packedLight, int packedOverlay, boolean hasFoilType) {
@@ -50,7 +49,7 @@ public record GravityManipulatorItemRenderer(ResourceLocation texture, GravityMa
         public @NotNull NoDataSpecialModelRenderer bake(EntityModelSet modelSet) {
             return new GravityManipulatorItemRenderer(
                     this.texture,
-                    new GravityManipulatorModel<>(modelSet.bakeLayer(GravityManipulatorModel.LAYER_LOCATION))
+                    new GravityManipulatorModel(modelSet.bakeLayer(GravityManipulatorModel.LAYER_LOCATION))
             );
         }
 

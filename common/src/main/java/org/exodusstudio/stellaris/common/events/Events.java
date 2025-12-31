@@ -1,12 +1,19 @@
 package org.exodusstudio.stellaris.common.events;
 
+import dev.architectury.event.EventResult;
+import dev.architectury.event.events.common.BlockEvent;
 import dev.architectury.event.events.common.LifecycleEvent;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
 import org.apache.commons.io.FileUtils;
 import org.exodusstudio.stellaris.Stellaris;
+import org.exodusstudio.stellaris.common.blocks.entities.FlagBlockEntity;
+import org.exodusstudio.stellaris.common.registries.BlocksRegistry;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -24,6 +31,8 @@ public class Events {
                 regenStellarisDim(server);
             }
         });
+
+        blockEvents();
     }
 
     public static void regenStellarisDim(MinecraftServer server) {
@@ -61,5 +70,25 @@ public class Events {
                             });
                 });
         Stellaris.LOG.warn("---------- Dimension Regeneration Enabled ----------");
+    }
+
+    public static void blockEvents() {
+        BlockEvent.BREAK.register((level, pos, state, player, xp) -> {
+
+            if(level.getBlockEntity(pos) instanceof FlagBlockEntity flagBlock) {
+                ItemStack stack = new ItemStack(BlocksRegistry.FLAG.item().get());
+
+                if(player.isCrouching()) {
+                    stack.set(DataComponents.BASE_COLOR, flagBlock.getColor());
+                    if(flagBlock.getGameProfile() != null){
+                        stack.set(DataComponents.PROFILE, flagBlock.getGameProfile());
+                    }
+                }
+                Block.popResource(level, pos, stack);
+            }
+
+
+            return EventResult.pass();
+        });
     }
 }

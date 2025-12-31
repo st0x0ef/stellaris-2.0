@@ -4,6 +4,7 @@ import dev.architectury.registry.registries.DeferredRegister;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import org.exodusstudio.stellaris.Stellaris;
+import org.exodusstudio.stellaris.common.blocks.entities.FlagBlockEntity;
 import org.exodusstudio.stellaris.common.blocks.entities.machines.*;
 
 import java.util.Set;
@@ -32,5 +33,8 @@ public class BlockEntitiesRegistry {
 
     public static final Supplier<BlockEntityType<?>> GRAVITY_MANIPULATOR = BLOCK_ENTITY_TYPE.register("gravity_manipulator",
             () -> new BlockEntityType<>(GravityManipulatorBlockEntity::new, Set.of(BlocksRegistry.GRAVITY_MANIPULATOR.block().get())));
+
+    public static final Supplier<BlockEntityType<FlagBlockEntity>> FLAG = BLOCK_ENTITY_TYPE.register("flag",
+            () -> new BlockEntityType<>(FlagBlockEntity::new, Set.of(BlocksRegistry.FLAG.block().get())));
 
 }
