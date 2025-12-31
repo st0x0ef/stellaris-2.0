@@ -7,6 +7,7 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.client.model.geom.EntityModelSet;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.special.BannerSpecialRenderer;
 import net.minecraft.client.renderer.special.SpecialModelRenderer;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.resources.ResourceLocation;
@@ -36,7 +37,9 @@ public record FlagItemRenderer(ResourceLocation texture, FlagBlockModel baseMode
 
     @Override
     public void getExtents(Set<Vector3f> output) {
-
+        PoseStack poseStack = new PoseStack();
+        poseStack.translate(0.0D, 1.5D, 0.0D);
+        baseModel.root().getExtentsForGui(poseStack, output);
     }
 
     @Override
