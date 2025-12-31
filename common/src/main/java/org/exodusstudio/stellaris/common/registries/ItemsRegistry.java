@@ -77,6 +77,7 @@ public final class ItemsRegistry {
     public static final RegistrySupplier<CanItem> BIG_YELLOW_CAN = item("big_yellow_can", (p) -> new CanItem(p, 20));
 
     public static final RegistrySupplier<ArchitecturyBucketItem> HYDROGEN_BUCKET = item("hydrogen_bucket", (properties -> new ArchitecturyBucketItem(FluidsRegistry.HYDROGEN_STILL, properties)));
+    public static final RegistrySupplier<ArchitecturyBucketItem> FUEL_BUCKET = item("fuel_bucket", (properties -> new ArchitecturyBucketItem(FluidsRegistry.FUEL_STILL, properties)));
 
 
     public static RegistrySupplier<Item> item(String name) {

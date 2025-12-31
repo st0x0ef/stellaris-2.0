@@ -99,7 +99,7 @@ public class RocketEntity extends VehicleEntity  {
      * @return The FluidStack representing the rocket's fuel type.
      */
     public FluidStack getFuelType() {
-        FluidStack fuel = FluidStack.create(FluidsRegistry.HYDROGEN_STILL.get(), this.getFuel());
+        FluidStack fuel = FluidStack.create(FluidsRegistry.FUEL_STILL.get(), this.getFuel());
         for (RocketModule module : this.getRocketModules()) {
             if (module instanceof RocketModule.CustomFuelModule customFuelModule) {
                 fuel = customFuelModule.getFuel();

@@ -55,10 +55,29 @@ public class FluidsRegistry {
     public static final RegistrySupplier<FlowingFluid> OXYGEN_STILL = FLUIDS.register("oxygen", () -> new ArchitecturyFlowingFluid.Source(OXYGEN_ATTRIBUTES));
 
 
+    public static final ArchitecturyFluidAttributes FUEL_ATTRIBUTES = SimpleArchitecturyFluidAttributes.ofSupplier(() -> FluidsRegistry.FUEL_FLOWING, () -> FluidsRegistry.FUEL_STILL)
+            .blockSupplier(() -> BlocksRegistry.FUEL)
+            .slopeFindDistance(4)
+            .dropOff(1)
+            .tickDelay(8)
+            .viscosity(1500)
+            .explosionResistance(100)
+            .lighterThanAir(false)
+            .convertToSource(false)
+            .overlayTexture(ResourceLocationUtils.id("block/fluids/fuel_overlay"))
+            .sourceTexture(ResourceLocationUtils.id("block/fluids/fuel_still"))
+            .flowingTexture(ResourceLocationUtils.id("block/fluids/fuel_flow"));
+
+    public static final RegistrySupplier<FlowingFluid> FUEL_FLOWING = FLUIDS.register("flowing_fuel", () -> new ArchitecturyFlowingFluid.Flowing(FUEL_ATTRIBUTES));
+    public static final RegistrySupplier<FlowingFluid> FUEL_STILL = FLUIDS.register("fuel", () -> new ArchitecturyFlowingFluid.Source(FUEL_ATTRIBUTES));
+
+
     public static void init() {
         FLUIDS.register();
         FLUIDS_INFOS.add(OXYGEN_ATTRIBUTES);
         FLUIDS_INFOS.add(HYDROGEN_ATTRIBUTES);
+        FLUIDS_INFOS.add(FUEL_ATTRIBUTES);
+
     }
 
 }
