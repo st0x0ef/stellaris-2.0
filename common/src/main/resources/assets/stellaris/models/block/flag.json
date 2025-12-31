@@ -1,5 +1,102 @@
 {
+  "parent": "builtin/entity",
   "textures": {
     "particle": "stellaris:block/flag/flag"
+  },
+  "display": {
+    "thirdperson_righthand": {
+      "rotation": [
+        60,
+        -35,
+        0
+      ],
+      "scale": [
+        0.5,
+        0.5,
+        0.5
+      ]
+    },
+    "thirdperson_lefthand": {
+      "rotation": [
+        60,
+        145,
+        0
+      ],
+      "scale": [
+        0.5,
+        0.5,
+        0.5
+      ]
+    },
+    "firstperson_righthand": {
+      "rotation": [
+        0,
+        -25,
+        0
+      ],
+      "translation": [
+        2,
+        0,
+        0
+      ],
+      "scale": [
+        0.5,
+        0.5,
+        0.5
+      ]
+    },
+    "firstperson_lefthand": {
+      "rotation": [
+        0,
+        205,
+        0
+      ],
+      "translation": [
+        2,
+        0,
+        0
+      ],
+      "scale": [
+        0.5,
+        0.5,
+        0.5
+      ]
+    },
+    "gui": {
+      "rotation": [
+        30,
+        135,
+        0
+      ],
+      "translation": [
+        0,
+        -4.5,
+        0
+      ],
+      "scale": [
+        0.3,
+        0.3,
+        0.3
+      ]
+    },
+    "head": {
+      "translation": [
+        0,
+        14.25,
+        0
+      ]
+    },
+    "fixed": {
+      "translation": [
+        2.5,
+        -4.75,
+        -1.5
+      ],
+      "scale": [
+        0.3,
+        0.3,
+        0.3
+      ]
+    }
   }
 }

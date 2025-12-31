@@ -27,7 +27,6 @@ import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.common.blocks.entities.FlagBlockEntity;
-import org.exodusstudio.stellaris.common.registries.DataComponentsRegistry;
 import org.jetbrains.annotations.Nullable;
 
 
@@ -44,11 +43,6 @@ public class FlagBlock extends BaseEntityBlock implements SimpleWaterloggedBlock
     @Override
     protected MapCodec<? extends BaseEntityBlock> codec() {
         return BaseEntityBlock.simpleCodec(FlagBlock::new);
-    }
-
-    @Override
-    public RenderShape getRenderShape(BlockState state) {
-        return RenderShape.MODEL;
     }
 
     @Override
@@ -84,9 +78,8 @@ public class FlagBlock extends BaseEntityBlock implements SimpleWaterloggedBlock
             if(placer instanceof Player player) {
                 flagBlockEntity.setProfile(new ResolvableProfile(player.getGameProfile()));
             }
-            if(stack.has(DataComponentsRegistry.DYE_COLOR.get())) {
-
-                DyeColor dyeColor = stack.get(DataComponentsRegistry.DYE_COLOR.get());
+            if(stack.has(DataComponents.BASE_COLOR)) {
+                DyeColor dyeColor = stack.get(DataComponents.BASE_COLOR);
                 flagBlockEntity.setDyeColor(dyeColor);
             }
             if(stack.has(DataComponents.PROFILE)) {
@@ -153,5 +146,10 @@ public class FlagBlock extends BaseEntityBlock implements SimpleWaterloggedBlock
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> stateBuilder) {
         stateBuilder.add(FACING, WATERLOGGED);
+    }
+
+    @Override
+    protected RenderShape getRenderShape(BlockState state) {
+        return RenderShape.INVISIBLE; // we only want to render our custom model
     }
 }

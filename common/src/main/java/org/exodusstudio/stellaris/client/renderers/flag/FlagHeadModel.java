@@ -1,7 +1,5 @@
-package org.exodusstudio.stellaris.client.renderer.blocks.flag;
+package org.exodusstudio.stellaris.client.renderers.flag;
 
-import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.model.SkullModelBase;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.ModelLayerLocation;
@@ -17,7 +15,8 @@ public class FlagHeadModel extends SkullModelBase {
     private final ModelPart root;
     protected final ModelPart head;
 
-    public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(ResourceLocationUtils.id("flag_head"), "main");
+    public static final ModelLayerLocation HUMANOID_LAYER_LOCATION = new ModelLayerLocation(ResourceLocationUtils.id("flag_head"), "humanoid");
+    public static final ModelLayerLocation MOB_LAYER_LOCATION = new ModelLayerLocation(ResourceLocationUtils.id("flag_head"), "mob");
 
     public FlagHeadModel(ModelPart modelPart) {
         super(modelPart);

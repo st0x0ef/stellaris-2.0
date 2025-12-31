@@ -14,7 +14,6 @@ import org.apache.commons.io.FileUtils;
 import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.common.blocks.entities.FlagBlockEntity;
 import org.exodusstudio.stellaris.common.registries.BlocksRegistry;
-import org.exodusstudio.stellaris.common.registries.DataComponentsRegistry;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -80,7 +79,7 @@ public class Events {
                 ItemStack stack = new ItemStack(BlocksRegistry.FLAG.item().get());
 
                 if(player.isCrouching()) {
-                    stack.set(DataComponentsRegistry.DYE_COLOR.get(), flagBlock.getColor());
+                    stack.set(DataComponents.BASE_COLOR, flagBlock.getColor());
                     if(flagBlock.getGameProfile() != null){
                         stack.set(DataComponents.PROFILE, flagBlock.getGameProfile());
                     }
