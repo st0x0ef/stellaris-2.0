@@ -34,7 +34,9 @@ public record GravityManipulatorItemRenderer(ResourceLocation texture, GravityMa
 
     @Override
     public void getExtents(Set<Vector3f> output) {
-
+        PoseStack poseStack = new PoseStack();
+        poseStack.translate(0.0D, 1.5D, 0.0D);
+        model.root().getExtentsForGui(poseStack, output);
     }
 
     public record Unbaked(ResourceLocation texture) implements SpecialModelRenderer.Unbaked {
