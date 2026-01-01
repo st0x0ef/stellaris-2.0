@@ -6,7 +6,8 @@ import net.minecraft.client.renderer.special.SpecialModelRenderers;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.ExtraCodecs;
 import org.exodusstudio.stellaris.client.renderer.rockets.RocketItemRenderer;
-import org.exodusstudio.stellaris.client.renderers.blocks.gravity_manipulator.GravityManipulatorItemRenderer;
+import org.exodusstudio.stellaris.client.renderers.flag.FlagItemRenderer;
+import org.exodusstudio.stellaris.client.renderers.gravity_manipulator.GravityManipulatorItemRenderer;
 import org.exodusstudio.stellaris.common.utils.ResourceLocationUtils;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -24,7 +25,7 @@ public class CustomItemModelRenderer {
     @Inject(at = @At(value = "HEAD"), method = "bootstrap")
     private static void addCustomItemRenderer(CallbackInfo ci) {
         ID_MAPPER.put(ResourceLocationUtils.id("gravity_manipulator"), GravityManipulatorItemRenderer.Unbaked.MAP_CODEC);
+        ID_MAPPER.put(ResourceLocationUtils.id("flag"), FlagItemRenderer.Unbaked.MAP_CODEC);
         ID_MAPPER.put(ResourceLocationUtils.id("rocket"), RocketItemRenderer.Unbaked.MAP_CODEC);
-
     }
 }

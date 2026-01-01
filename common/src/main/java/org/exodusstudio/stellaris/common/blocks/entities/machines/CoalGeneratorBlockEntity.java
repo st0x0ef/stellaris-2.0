@@ -51,7 +51,7 @@ public class CoalGeneratorBlockEntity extends BaseGeneratorBlockEntity {
     };
 
     public CoalGeneratorBlockEntity(BlockPos blockPos, BlockState blockState) {
-        this(BlockEntitiesRegistry.COAL_GENERATOR.get(), blockPos, blockState, 1, 12800);
+        this(BlockEntitiesRegistry.COAL_GENERATOR.get(), blockPos, blockState, 3, 48000);
     }
 
     public CoalGeneratorBlockEntity(BlockEntityType<?> entityType, BlockPos blockPos, BlockState blockState, int energyGeneratedPT, int maxCapacity) {

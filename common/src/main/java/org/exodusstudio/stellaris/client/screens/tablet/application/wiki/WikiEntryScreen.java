@@ -40,7 +40,7 @@ public class WikiEntryScreen extends Screen {
     @Override
     protected void init() {
         super.init();
-        this.widget = new WikiInfosWidget(this.getLeftPos() + 40,  this.getTopPos() + 46,230, 128, this.info);
+        this.widget = new WikiInfosWidget(this.getLeftPos() + 40,  this.getTopPos() + 45,230, 128, this.info);
         this.addRenderableWidget(this.widget);
 
     }

@@ -91,6 +91,11 @@ public final class BlocksRegistry {
     public static final RegistrySupplier<ArchitecturyLiquidBlock> OXYGEN = block("oxygen_block", BlockBehaviour.Properties.ofFullCopy(Blocks.WATER), (p) -> new ArchitecturyLiquidBlock(FluidsRegistry.OXYGEN_STILL, p));
 
 
+    /**
+     * Decoration
+     */
+    public static final BlockItemRegistrySupplier FLAG = blockWithItem("flag", BlockBehaviour.Properties.of(), FlagBlock::new);
+
 
     public static <B extends Block> @NotNull RegistrySupplier<B> block(String name,
                                                                            BlockBehaviour.Properties properties,
