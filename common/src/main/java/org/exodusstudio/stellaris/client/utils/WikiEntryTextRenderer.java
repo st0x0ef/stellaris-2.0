@@ -149,7 +149,6 @@ public class WikiEntryTextRenderer {
             ArrayList<Word> words = lines.get(i);
             AtomicInteger width = new AtomicInteger(0);
             for (Word word : words) {
-
                 String color = "white";
 
                 if (word.color != null) {
@@ -186,7 +185,6 @@ public class WikiEntryTextRenderer {
     }
     
     public static class Word {
-
         public String text;
         public String color = null;
         public String resourceLocation = null;

@@ -3,6 +3,7 @@ package org.exodusstudio.stellaris.client.screens.components.wiki;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.InventoryScreen;
+import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -44,29 +45,32 @@ public class WikiInfosWidget extends ScrollableContainer {
         if(info == null) return;
 
         for(EntryInfo.InfoComponent component : info.components()) {
-
             switch (component.type().toLowerCase()) {
                 case "text" -> component.text().ifPresent((text) -> {
-                    int descriptionHeight = new WikiEntryTextRenderer(component.text().get(), getWidth() - 30)
+                    int descriptionHeight = new WikiEntryTextRenderer(component.text().get(), getWidth() - 40)
                             .renderWords(guiGraphics, this.getX() + 5, (int) (this.getOffsetHeight() + finalHeight.get() + 5), mouseX, mouseY, this::addClickBox);
-                    finalHeight.addAndGet(descriptionHeight);
+                    finalHeight.addAndGet(descriptionHeight + 5);
                 });
                 case "image" -> component.image().ifPresent((image) -> {
-                    int height = (int) (this.getOffsetHeight() + 40 + finalHeight.get() + 20);
-                    guiGraphics.blit(image.formatFileLocation(), this.getWidth() / 2 - image.width() / 2, height, 0, 0, image.width(), image.height(), image.width(), image.height());
-                    finalHeight.addAndGet(image.height() + 40);
+                    int height = (int) (this.getOffsetHeight() + finalHeight.get() + 35);
+                    guiGraphics.blit(RenderPipelines.GUI_TEXTURED, image.formatFileLocation(), this.getX() + this.getWidth() / 2 - image.width() / 2, height, 0, 0, image.width(), image.height(), image.width(), image.height());
+                    if (image.legend().isPresent()) {
+                        guiGraphics.drawCenteredString(Minecraft.getInstance().font, image.legend().get(), this.getX() + this.getWidth() / 2, height + image.height() + 5, 0xFFFFFFFF);
+                        int legendHeight = Minecraft.getInstance().font.lineHeight + 5;
+                        finalHeight.addAndGet(legendHeight);
+                    }
+                    finalHeight.addAndGet(image.height() + 35);
                 });
                 case "item" -> component.item().ifPresent((item) -> {
                     if (item.onlyIcon().isEmpty() || !item.onlyIcon().get()) {
-                        guiGraphics.renderItem(item.stack(), guiGraphics.guiWidth() / 2, (int) (this.getOffsetHeight() + finalHeight.get()));
-                        finalHeight.addAndGet(item.size() + 35);
+                        guiGraphics.renderItem(item.stack(), guiGraphics.guiWidth() / 2, (int) (this.getOffsetHeight() + finalHeight.get() + 14));
+                        finalHeight.addAndGet(30);
                     }
                 });
                 case "entity" -> component.entity().ifPresent((entity) -> {
                     int height = (int) (this.getOffsetHeight() + finalHeight.get() + entity.scale());
                     Entity entity1 = ClientUtils.createEntity(Minecraft.getInstance().level, entity.location());
                     if(entity1 instanceof LivingEntity livingEntity) {
-
                         int cornerX = guiGraphics.guiWidth() / 2 - 25;
 
                         InventoryScreen.renderEntityInInventoryFollowsMouse(guiGraphics, cornerX, height, cornerX + 50, height + entity.scale() + 30, entity.scale(), 0.25F, mouseX, mouseY, livingEntity);
@@ -75,6 +79,8 @@ public class WikiInfosWidget extends ScrollableContainer {
                 });
             }
         }
+
+        finalHeight.addAndGet(10); // Extra padding at the bottom
     }
 
     public void addClickBox(ActionBox box) {
