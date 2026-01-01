@@ -111,6 +111,24 @@ public class RocketUpgradeMenu extends BaseItemCombinerMenu {
         return Error.NONE;
     }
 
+    /**
+     * Check if errors exist when upgrading the rocket.
+     * @param module the module to be installed
+     * @param rocket the rocket to be upgraded
+     * @return the error message, or NONE if no errors exist
+     */
+    public Error getErrorMessage(ItemStack module, ItemStack rocket) {
+        Modules<RocketModule> rocketModule = rocket.getOrDefault(DataComponentsRegistry.ROCKET_MODULES.get(), RocketModules.empty());
+
+        if (module.getItem() instanceof RocketModule validModule) {
+            if( rocketModule.contains(validModule)) {
+                return Error.DUPLICATE_MODULE;
+            }
+            return canUpgradeFuel(module, rocket);
+        }
+        return Error.NONE;
+    }
+
     public ItemStack getInputModule() {
         return this.inputSlots.getItem(1);
     }
@@ -137,7 +155,8 @@ public class RocketUpgradeMenu extends BaseItemCombinerMenu {
 
     public enum Error {
         NONE(Component.empty()),
-        FUEL_NOT_EMPTY(Component.translatable("menu.fuel_not_empty")),;
+        DUPLICATE_MODULE(Component.translatable("menu.duplicate_module")),
+        FUEL_NOT_EMPTY(Component.translatable("menu.fuel_not_empty"));
 
         public final Component errorMessage;
 

@@ -2,12 +2,15 @@ package org.exodusstudio.stellaris.client.screens.rocket_station;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 import org.exodusstudio.stellaris.client.screens.components.TexturedButton;
+import org.exodusstudio.stellaris.client.screens.utils.GUISprites;
+import org.exodusstudio.stellaris.client.screens.utils.GUIUtils;
 import org.exodusstudio.stellaris.common.menus.rocket_station.RocketUpgradeMenu;
 import org.exodusstudio.stellaris.common.utils.ResourceLocationUtils;
 import org.exodusstudio.stellaris.common.utils.Utils;
@@ -28,11 +31,14 @@ public class RocketUpgraderScreen extends AbstractContainerScreen<RocketUpgradeM
     @Override
     protected void init() {
         super.init();
-        TexturedButton craftingButton = new TexturedButton(this.leftPos + this.imageWidth, this.topPos + 50 , 40, 20,
-                Component.literal("Crafting"),
+        TexturedButton craftingButton = new TexturedButton(this.leftPos + this.imageWidth, this.topPos + 50 , 16,16,
+                Component.empty(),
                 button -> {
                     menu.openCraftingMenu();
-                });
+                })
+                .tex(GUISprites.ROCKET_CRAFTING_TAB, GUISprites.ROCKET_CRAFTING_TAB_HOVER)
+                .tooltip(Tooltip.create(Component.literal("Rocket Crafting")))
+                .useSprite(true);
         this.addRenderableWidget(craftingButton);
 
     }
@@ -43,7 +49,7 @@ public class RocketUpgraderScreen extends AbstractContainerScreen<RocketUpgradeM
         super.render(guiGraphics, mouseX, mouseY, partialTick);
         renderTooltip(guiGraphics, mouseX, mouseY);
 
-        RocketUpgradeMenu.Error error = this.menu.canUpgradeFuel(menu.getInputModule(), menu.getInputRocket());
+        RocketUpgradeMenu.Error error = this.menu.getErrorMessage(menu.getInputModule(), menu.getInputRocket());
         if(error != RocketUpgradeMenu.Error.NONE) {
             guiGraphics.drawCenteredString(Minecraft.getInstance().font, error.errorMessage, width / 2, topPos + 26, Utils.getMinecraftColor("red"));
         }
