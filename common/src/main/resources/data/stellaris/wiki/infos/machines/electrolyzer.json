@@ -1,0 +1,34 @@
+{
+  "components": [
+    {
+      "type": "text",
+      "text": "The [color=yellow]Electrolyzer [color]is a machine that can be used to produce oxygen and hydrogen from water. It is commonly used in space stations and other structures to provide a sustainable source of breathable air and fuel."
+    },
+    {
+      "type": "image",
+      "image": {
+        "location": "stellaris:textures/wiki/rendered_blocks/electrolyzer",
+        "width": 96,
+        "height": 96,
+        "legend": "Electrolyzer"
+      }
+    },
+    {
+      "type": "text",
+      "text": "[br] [br] How to use : [br] Place the electrolyzer. Connect the machine to a power source, then open the GUI tto insert water in the second slot. The machine start producing oxygen and hydrogen automatically."
+    },
+    {
+      "type": "image",
+      "image": {
+        "location": "stellaris:textures/wiki/gui/electrolyzer_gui",
+        "width": 96,
+        "height": 119,
+        "legend": "Electrolyzer GUI"
+      }
+    }
+  ],
+  "iconType": "machines",
+  "id": "stellaris:electrolyzer",
+  "entryId": "stellaris:machines",
+  "title": "Machines : Electrolyzer"
+}

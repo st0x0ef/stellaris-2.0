@@ -23,6 +23,9 @@ public class ElectrolyzerMenu extends BaseContainer {
 
     public ElectrolyzerMenu(int containerId, Inventory inventory, Container container, ElectrolyzerBlockEntity blockEntity) {
         super(MenuTypesRegistry.ELECTROLYZER.get(), containerId, 4, inventory, 10, 142);
+
+        checkContainerSize(container, 4);
+
         this.container = container;
         this.blockEntity = blockEntity;
 

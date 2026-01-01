@@ -38,6 +38,7 @@ public class StellarisNeoforgeClient {
         event.register(MenuTypesRegistry.POWER_BANK_MENU.get(), PowerBankScreen::new);
         event.register(MenuTypesRegistry.VACUUMATOR.get(), VacuumatorScreen::new);
         event.register(MenuTypesRegistry.GRAVITY_MANIPULATOR.get(), GravityManipulatorScreen::new);
+        event.register(MenuTypesRegistry.ELECTROLYZER.get(), ElectrolyzerScreen::new);
     }
 
     @SuppressWarnings("unchecked")

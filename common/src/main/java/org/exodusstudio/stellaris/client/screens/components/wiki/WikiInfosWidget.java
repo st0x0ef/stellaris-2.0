@@ -52,14 +52,14 @@ public class WikiInfosWidget extends ScrollableContainer {
                     finalHeight.addAndGet(descriptionHeight + 5);
                 });
                 case "image" -> component.image().ifPresent((image) -> {
-                    int height = (int) (this.getOffsetHeight() + finalHeight.get() + 35);
+                    int height = (int) (this.getOffsetHeight() + finalHeight.get() + 20);
                     guiGraphics.blit(RenderPipelines.GUI_TEXTURED, image.formatFileLocation(), this.getX() + this.getWidth() / 2 - image.width() / 2, height, 0, 0, image.width(), image.height(), image.width(), image.height());
                     if (image.legend().isPresent()) {
                         guiGraphics.drawCenteredString(Minecraft.getInstance().font, image.legend().get(), this.getX() + this.getWidth() / 2, height + image.height() + 5, 0xFFFFFFFF);
                         int legendHeight = Minecraft.getInstance().font.lineHeight + 5;
                         finalHeight.addAndGet(legendHeight);
                     }
-                    finalHeight.addAndGet(image.height() + 35);
+                    finalHeight.addAndGet(image.height() + 20);
                 });
                 case "item" -> component.item().ifPresent((item) -> {
                     if (item.onlyIcon().isEmpty() || !item.onlyIcon().get()) {

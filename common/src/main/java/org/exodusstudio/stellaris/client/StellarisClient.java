@@ -14,13 +14,7 @@ public class StellarisClient {
         ApplicationRegistry.init();
 
         FluidInfosRegistry.init();
-        registerScreens();
 
         PlatformClientHelper.registerConfigScreen(Stellaris.MOD_ID, Stellaris.CONFIG);
-    }
-
-    //TODO make this loader abstract
-    private static void registerScreens() {
-        MenuRegistry.registerScreenFactory(MenuTypesRegistry.ELECTROLYZER.get(), ElectrolyzerScreen::new);
     }
 }
