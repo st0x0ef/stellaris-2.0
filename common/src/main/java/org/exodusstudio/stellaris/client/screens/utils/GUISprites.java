@@ -17,4 +17,10 @@ public class GUISprites {
     public static final ResourceLocation EARTH = ResourceLocationUtils.id("planets/earth");
     public static final ResourceLocation MARS = ResourceLocationUtils.id("planets/mars");
     public static final ResourceLocation MOON = ResourceLocationUtils.id("planets/moon");
+
+    public static final ResourceLocation MODULES_TAB = ResourceLocationUtils.id("icon/modules_tab" );
+    public static final ResourceLocation ROCKET_CRAFTING_TAB = ResourceLocationUtils.id("icon/rocket_crafting_tab" );
+    public static final ResourceLocation MODULES_TAB_HOVER = ResourceLocationUtils.id("icon/modules_tab_hover" );
+    public static final ResourceLocation ROCKET_CRAFTING_TAB_HOVER = ResourceLocationUtils.id("icon/rocket_crafting_tab_hover" );
+
 }

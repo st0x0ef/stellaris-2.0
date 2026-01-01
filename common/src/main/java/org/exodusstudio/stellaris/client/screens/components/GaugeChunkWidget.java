@@ -14,7 +14,7 @@ import org.jetbrains.annotations.Nullable;
 /**
  * A Widget that render a big fluid gauge on the screen
  */
-
+//TODO: change the system to stop using FluidInfo
 public class GaugeChunkWidget extends GaugeWidget {
 
     protected boolean spriteChanged;

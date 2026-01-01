@@ -30,7 +30,7 @@ public class MenuUtils {
             }
             @Override
             public Component getDisplayName() {
-                return Component.translatable("container.stellaris.rocket_crafting");
+                return Component.translatable("stellaris.screen.rocket_station");
             }
         };
     }
@@ -45,7 +45,7 @@ public class MenuUtils {
 
             @Override
             public Component getDisplayName() {
-                return Component.translatable("container.stellaris.rocket_station");
+                return Component.translatable("stellaris.screen.rocket_station");
             }
 
             @Override

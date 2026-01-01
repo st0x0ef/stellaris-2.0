@@ -40,7 +40,7 @@ public class RocketStationBlockEntity extends BaseContainerBlockEntity implement
 
     @Override
     protected Component getDefaultName() {
-        return Component.translatable("block.stellaris.rocket_station");
+        return Component.translatable("stellaris.screen.rocket_station");
     }
 
     @Override

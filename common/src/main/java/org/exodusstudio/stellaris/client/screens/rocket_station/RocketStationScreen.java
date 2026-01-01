@@ -2,12 +2,14 @@ package org.exodusstudio.stellaris.client.screens.rocket_station;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 import org.exodusstudio.stellaris.client.screens.components.TexturedButton;
+import org.exodusstudio.stellaris.client.screens.utils.GUISprites;
 import org.exodusstudio.stellaris.common.menus.rocket_station.RocketStationMenu;
 import org.exodusstudio.stellaris.common.utils.ResourceLocationUtils;
 
@@ -22,17 +24,21 @@ public class RocketStationScreen extends AbstractContainerScreen<RocketStationMe
         this.titleLabelX = (180 - Minecraft.getInstance().font.width(title.getString())) / 2;
         this.titleLabelY = 2;
 
+        this.inventoryLabelY = this.imageHeight - 94;
     }
 
     @Override
     protected void init() {
         super.init();
 
-        TexturedButton upgradeButton = new TexturedButton(this.leftPos + this.imageWidth, this.topPos + 50 , 40, 20,
-                Component.literal("Upgrade"),
+        TexturedButton upgradeButton = new TexturedButton(this.leftPos + this.imageWidth, this.topPos + 50 , 16,16,
+                Component.empty(),
                 button -> {
                     menu.openUpgradeScreen();
-                });
+                })
+                .tex(GUISprites.MODULES_TAB, GUISprites.MODULES_TAB_HOVER)
+                .tooltip(Tooltip.create(Component.literal("Rocket Upgrading")))
+                .useSprite(true);
         this.addRenderableWidget(upgradeButton);
     }
 

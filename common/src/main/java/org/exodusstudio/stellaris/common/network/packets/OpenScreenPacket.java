@@ -14,11 +14,9 @@ import org.jetbrains.annotations.NotNull;
 import java.util.HashMap;
 import java.util.function.Function;
 
-public class OpenScreenPacket implements CustomPacketPayload {
+public record OpenScreenPacket(String screenId) implements CustomPacketPayload {
 
     public static final ScreenType TEST_SCREEN = new ScreenType("test", (c) -> new TestScreen());
-
-    private final String screenId;
 
     public static final StreamCodec<RegistryFriendlyByteBuf, OpenScreenPacket> STREAM_CODEC = new StreamCodec<>() {
         @Override
@@ -33,11 +31,7 @@ public class OpenScreenPacket implements CustomPacketPayload {
     };
 
     public OpenScreenPacket(RegistryFriendlyByteBuf buffer) {
-        this.screenId = buffer.readUtf();
-    }
-
-    public OpenScreenPacket(String screenId) {
-        this.screenId = screenId;
+        this(buffer.readUtf());
     }
 
     public static void handle(OpenScreenPacket packet, NetworkManager.PacketContext context) {
@@ -45,18 +39,18 @@ public class OpenScreenPacket implements CustomPacketPayload {
     }
 
     @Override
-    public CustomPacketPayload.Type<? extends CustomPacketPayload> type() {
+    public Type<? extends CustomPacketPayload> type() {
         return NetworkRegistry.OPEN_SCREEN_PACKET_TYPE;
     }
 
     public record ScreenType(String id, Function<Component, Screen> screen) {
 
-       static final HashMap<String, ScreenType> TYPES = new HashMap<>();
+        static final HashMap<String, ScreenType> TYPES = new HashMap<>();
 
         public ScreenType(String id, Function<Component, Screen> screen) {
-                this.id = id;
-                this.screen = screen;
-                TYPES.put(this.id, this);
-            }
+            this.id = id;
+            this.screen = screen;
+            TYPES.put(this.id, this);
         }
+    }
 }
