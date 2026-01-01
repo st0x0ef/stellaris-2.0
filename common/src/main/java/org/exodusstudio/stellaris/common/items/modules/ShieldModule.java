@@ -3,7 +3,7 @@ package org.exodusstudio.stellaris.common.items.modules;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.item.Item;
-import org.exodusstudio.stellaris.client.renderer.rockets.RocketRenderer;
+import org.exodusstudio.stellaris.client.renderers.rockets.RocketRenderer;
 import org.exodusstudio.stellaris.common.module.rocket.RocketModule;
 
 public class ShieldModule extends Item implements RocketModule {

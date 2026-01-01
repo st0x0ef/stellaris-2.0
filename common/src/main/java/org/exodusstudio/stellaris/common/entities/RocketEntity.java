@@ -34,9 +34,9 @@ import java.util.Optional;
 
 public class RocketEntity extends VehicleEntity  {
 
-    public static final EntityDataAccessor<Modules<RocketModule>> ROCKET_MODULES = SynchedEntityData.defineId(RocketEntity.class, EntityDataSerializersRegistry.ROCKET_MODULES );
+    public static final EntityDataAccessor<Modules<RocketModule>> ROCKET_MODULES = SynchedEntityData.defineId(RocketEntity.class, EntityDataSerializersRegistry.ROCKET_MODULES);
 
-    public static RocketEntity fromItemStack (Level level, ItemStack stack) {
+    public static RocketEntity fromItemStack(Level level, ItemStack stack) {
         RocketEntity rocketEntity = new RocketEntity(EntityTypesRegistry.ROCKET.get(), level);
         Modules<RocketModule> modulesOptional = stack.getOrDefault(DataComponentsRegistry.ROCKET_MODULES.get(), RocketModules.empty());
         rocketEntity.setRocketModules(modulesOptional);
@@ -165,7 +165,7 @@ public class RocketEntity extends VehicleEntity  {
 
     @Override
     public void tick() {
-        if(this.level().isClientSide ) {
+        if (this.level().isClientSide) {
             return;
         }
 

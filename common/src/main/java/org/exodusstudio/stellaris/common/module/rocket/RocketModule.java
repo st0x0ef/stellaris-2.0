@@ -4,7 +4,7 @@ import dev.architectury.fluid.FluidStack;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.renderer.RenderType;
-import org.exodusstudio.stellaris.client.renderer.rockets.RocketRenderer;
+import org.exodusstudio.stellaris.client.renderers.rockets.RocketRenderer;
 import org.exodusstudio.stellaris.common.module.Module;
 import org.jetbrains.annotations.Nullable;
 

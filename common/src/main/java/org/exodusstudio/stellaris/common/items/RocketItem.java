@@ -23,6 +23,7 @@ import org.exodusstudio.stellaris.common.blocks.RocketLaunchPadBlock;
 import org.exodusstudio.stellaris.common.entities.RocketEntity;
 import org.exodusstudio.stellaris.common.module.Modules;
 import org.exodusstudio.stellaris.common.module.rocket.RocketModule;
+import org.exodusstudio.stellaris.common.module.rocket.RocketModules;
 import org.exodusstudio.stellaris.common.registries.BlocksRegistry;
 import org.exodusstudio.stellaris.common.registries.DataComponentsRegistry;
 import org.exodusstudio.stellaris.common.registries.EntityTypesRegistry;
@@ -35,7 +36,7 @@ import java.util.function.Consumer;
 public class RocketItem extends Item implements FluidProvider.ITEM {
 
     public RocketItem(Properties properties) {
-        super(properties);
+        super(properties.component(DataComponentsRegistry.ROCKET_MODULES.getOrNull(), RocketModules.empty()));
     }
 
     @Override

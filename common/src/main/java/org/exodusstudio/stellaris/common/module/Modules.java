@@ -8,6 +8,7 @@ import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import org.exodusstudio.stellaris.common.module.rocket.RocketModules;
 import org.exodusstudio.stellaris.platform.RegistrarUtilPlatform;
 import org.jetbrains.annotations.NotNull;
 
@@ -106,5 +107,19 @@ public class Modules<M extends Module<M>> implements Serializable, Iterable<M> {
 
     protected static <T extends Module<T>> StreamCodec<RegistryFriendlyByteBuf, Modules<T>> createStreamCodec(Codec<Modules<T>> codec) {
         return ByteBufCodecs.fromCodecWithRegistries(codec);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o instanceof Modules<?> other) {
+            return this.modules.equals(other.modules);
+        }
+
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
     }
 }

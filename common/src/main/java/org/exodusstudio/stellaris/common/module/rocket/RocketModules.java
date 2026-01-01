@@ -7,6 +7,7 @@ import org.exodusstudio.stellaris.common.module.Module;
 import org.exodusstudio.stellaris.common.module.Modules;
 import org.exodusstudio.stellaris.common.registries.StellarisRegistries;
 
+import java.io.Serializable;
 import java.util.List;
 
 public class RocketModules extends Modules<RocketModule> {
@@ -22,5 +23,19 @@ public class RocketModules extends Modules<RocketModule> {
 
     public RocketModules(List<RocketModule> modules) {
         super(modules);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o instanceof RocketModules other) {
+            return this.modules.equals(other.modules);
+        }
+
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
     }
 }

@@ -31,7 +31,7 @@ public abstract class VehicleEntity extends Entity implements HasCustomInventory
 
     //public FuelType.Type FUEL_TYPE = FuelType.Type.FUEL;
     public SimpleContainer inventory;
-    public static final EntityDataAccessor<Integer> FUEL = SynchedEntityData.defineId(RocketEntity.class, EntityDataSerializers.INT);
+    public static final EntityDataAccessor<Integer> FUEL = SynchedEntityData.defineId(VehicleEntity.class, EntityDataSerializers.INT);
 
     private int lerpSteps;
     private double lerpX;
