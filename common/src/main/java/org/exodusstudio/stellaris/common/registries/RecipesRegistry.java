@@ -8,6 +8,7 @@ import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.common.data.recipe.ElectrolyzeRecipe;
+import org.exodusstudio.stellaris.common.data.recipe.RocketStationRecipe;
 
 public class RecipesRegistry {
 
@@ -15,8 +16,10 @@ public class RecipesRegistry {
     private static final DeferredRegister<RecipeSerializer<?>> RECIPE_SERIALIZERS = DeferredRegister.create(Stellaris.MOD_ID, Registries.RECIPE_SERIALIZER);
 
     public static final RegistrySupplier<RecipeType<ElectrolyzeRecipe>> ELECTROLYZE_RECIPE_TYPE = RECIPE_TYPES.register("electrolyze", () -> new Type<>("electrolyze"));
-
     public static final RegistrySupplier<RecipeSerializer<ElectrolyzeRecipe>> ELECTROLYZE_RECIPE_SERIALIZER = RECIPE_SERIALIZERS.register("electrolyze", ElectrolyzeRecipe.Serializer::new);
+
+    public static final RegistrySupplier<RecipeType<RocketStationRecipe>> ROCKET_STATION_TYPE = RECIPE_TYPES.register("rocket_station", () -> new Type<>("rocket_station"));
+    public static final RegistrySupplier<RecipeSerializer<RocketStationRecipe>> ROCKET_STATION_SERIALIZER = RECIPE_SERIALIZERS.register("rocket_station", RocketStationRecipe.Serializer::new);
 
 
     public static void register() {

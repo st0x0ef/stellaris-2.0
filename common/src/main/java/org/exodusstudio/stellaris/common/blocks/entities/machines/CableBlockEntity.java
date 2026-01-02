@@ -1,6 +1,7 @@
 package org.exodusstudio.stellaris.common.blocks.entities.machines;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import org.exodusstudio.stellaris.common.blocks.CableBlock;
 import org.exodusstudio.stellaris.common.blocks.entities.machines.base.BaseEnergyBlockEntity;
@@ -17,7 +18,7 @@ public class CableBlockEntity extends BaseEnergyBlockEntity {
     }
 
     @Override
-    public void tick() {
+    public void tick(Level level, BlockState state) {
         EnergyUtil.distributeEnergyNearby(level, worldPosition, energyContainer.getEnergy());
     }
 }

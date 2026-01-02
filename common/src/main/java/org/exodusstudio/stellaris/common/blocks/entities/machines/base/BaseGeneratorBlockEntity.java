@@ -1,10 +1,14 @@
 package org.exodusstudio.stellaris.common.blocks.entities.machines.base;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import org.exodusstudio.stellaris.common.utils.capabilities.energy.EnergyUtil;
 
+/**
+ * Base class for generator block entities that produce energy over time.
+ */
 public abstract class BaseGeneratorBlockEntity extends BaseEnergyContainerBlockEntity {
 
     protected int energyGeneratedPT;
@@ -31,7 +35,7 @@ public abstract class BaseGeneratorBlockEntity extends BaseEnergyContainerBlockE
     public abstract boolean canGenerate();
 
     @Override
-    public void tick() {
+    public void tick(Level level, BlockState state) {
         if (canGenerate()) {
             energyContainer.insertWithoutLimits(energyGeneratedPT, false);
         }

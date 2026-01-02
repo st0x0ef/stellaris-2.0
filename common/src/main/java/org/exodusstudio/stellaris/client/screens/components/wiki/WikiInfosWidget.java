@@ -12,6 +12,7 @@ import org.exodusstudio.stellaris.client.screens.components.containers.Scrollabl
 import org.exodusstudio.stellaris.client.utils.ActionBox;
 import org.exodusstudio.stellaris.client.utils.ClientUtils;
 import org.exodusstudio.stellaris.client.utils.WikiEntryTextRenderer;
+import org.joml.Matrix3x2fStack;
 
 import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -62,9 +63,28 @@ public class WikiInfosWidget extends ScrollableContainer {
                     finalHeight.addAndGet(image.height() + 20);
                 });
                 case "item" -> component.item().ifPresent((item) -> {
+
                     if (item.onlyIcon().isEmpty() || !item.onlyIcon().get()) {
-                        guiGraphics.renderItem(item.stack(), guiGraphics.guiWidth() / 2, (int) (this.getOffsetHeight() + finalHeight.get() + 14));
-                        finalHeight.addAndGet(30);
+                        Matrix3x2fStack matrixStack = guiGraphics.pose();
+                        matrixStack.pushMatrix();
+
+                        float scale = item.scale().isPresent() ? item.scale().get() : 1;
+                        int itemSize = 16;
+                        int padding = 8;
+
+                        float centerX = this.getX() + this.getWidth() / 2f;
+                        int yPos = (int) (this.getOffsetHeight() + finalHeight.get() + padding);
+
+                        float tx = centerX - (itemSize * scale) / 2f;
+
+                        matrixStack.translate(tx, yPos);
+                        matrixStack.scale(scale, scale);
+
+                        guiGraphics.renderItem(item.stack(), 0, 0);
+
+                        finalHeight.addAndGet(Math.round(itemSize * scale) + (padding * 2));
+
+                        matrixStack.popMatrix();
                     }
                 });
                 case "entity" -> component.entity().ifPresent((entity) -> {

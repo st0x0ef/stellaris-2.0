@@ -1,0 +1,32 @@
+{
+  "components": [
+    {
+      "type": "text",
+      "text": "The rocket is one of the most [color=yellow]important [color]items in Stellaris."
+    },
+    {
+      "type": "entity",
+      "entity": {
+        "id": "stellaris:rocket",
+        "scale": 25
+      }
+    },
+    {
+      "type": "item",
+      "item": {
+        "stack": {
+          "count": 1,
+          "id": "stellaris:rocket"
+        }
+      }
+    },
+    {
+      "type": "text",
+      "text": "You can craft the rocket with the [ref=stellaris:machines/electrolyzer]Rocket Bench [ref] and use it to explore space and reach new planets."
+    }
+  ],
+  "iconType": "item",
+  "id": "stellaris:rocket",
+  "entryId": "stellaris:rocket",
+  "title": "Rocket"
+}

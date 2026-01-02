@@ -35,6 +35,11 @@ public class Events {
         blockEvents();
     }
 
+    /**
+     * Regenerates specified dimensions by deleting their region, data, poi, and entities folders.
+     * Useful for development purposes to reset dimensions on server start.
+     * @param server
+     */
     public static void regenStellarisDim(MinecraftServer server) {
         List<ServerLevel> levelList = new ArrayList<>((Collection<ServerLevel>) server.getAllLevels());
         List<ResourceLocation> dimensionsToRegen = List.of(Stellaris.CONFIG.admin.dimensionsToRegen);

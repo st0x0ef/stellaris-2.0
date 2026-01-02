@@ -2,6 +2,7 @@ package org.exodusstudio.stellaris.platform.fabric;
 
 import net.fabricmc.fabric.api.attachment.v1.AttachmentType;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.chunk.ChunkAccess;
 import org.exodusstudio.stellaris.fabric.common.registries.DataAttachmentRegistry;
 import org.jetbrains.annotations.Nullable;
@@ -20,6 +21,17 @@ public class DataAttachmentsPlatformImpl {
 
     public static boolean hasChunkData(ChunkAccess chunk, ResourceLocation key) {
         return chunk.hasAttached(getAttachment(key));
+    }
+
+    public static boolean hasEntityData(Entity entity, ResourceLocation key) {
+        return entity.getAttached(getAttachment(key));
+    }
+    public static <T> T getEntityData(Entity entity, ResourceLocation location, Class<T> clazz) {
+        return entity.getAttached(getAttachment(location));
+    }
+    public static <T> void saveEntityData(Entity entity, ResourceLocation key, T value) {
+        AttachmentType<T> attachmentType = getAttachment(key);
+        entity.setAttached(getAttachment(key), value);
     }
 
     public static <T> AttachmentType<T> getAttachment(ResourceLocation key) {

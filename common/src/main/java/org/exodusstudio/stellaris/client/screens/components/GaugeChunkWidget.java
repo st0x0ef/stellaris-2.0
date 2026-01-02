@@ -14,7 +14,7 @@ import org.jetbrains.annotations.Nullable;
 /**
  * A Widget that render a big fluid gauge on the screen
  */
-
+//TODO: change the system to stop using FluidInfo
 public class GaugeChunkWidget extends GaugeWidget {
 
     protected boolean spriteChanged;
@@ -98,9 +98,13 @@ public class GaugeChunkWidget extends GaugeWidget {
      * @param tank
      */
     public void updateAmount(UniversalFluidStorage storage, int tank) {
-        this.updateAmount(storage.getFluidInTank(tank).getAmount());
-        this.setMessage(FluidInfosRegistry.getFluidComponent(storage.getFluidInTank(tank).getFluid()));
-        this.updateSprite(FluidInfosRegistry.getFluidTexture(storage.getFluidInTank(tank)));
+        this.updateAmount(storage.getFluidInTank(tank));
+    }
+
+    public void updateAmount(FluidStack stack) {
+        this.updateAmount(stack.getAmount());
+        this.setMessage(FluidInfosRegistry.getFluidComponent(stack.getFluid()));
+        this.updateSprite(FluidInfosRegistry.getFluidTexture(stack));
     }
 
     @Override

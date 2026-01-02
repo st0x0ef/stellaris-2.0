@@ -7,9 +7,13 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
+import org.exodusstudio.stellaris.common.items.RocketItem;
 import org.exodusstudio.stellaris.common.items.SDCardItem;
 import org.exodusstudio.stellaris.common.items.CanItem;
 import org.exodusstudio.stellaris.common.items.TabletItem;
+import org.exodusstudio.stellaris.common.items.modules.GalaxySkinModule;
+import org.exodusstudio.stellaris.common.items.modules.HydrogenFuelModuleItem;
+import org.exodusstudio.stellaris.common.items.modules.ShieldModule;
 import org.exodusstudio.stellaris.common.utils.ResourceLocationUtils;
 import org.jetbrains.annotations.NotNull;
 
@@ -27,7 +31,12 @@ public final class ItemsRegistry {
     public static final RegistrySupplier<Item> RAW_DESH = item("raw_desh");
 
     public static final RegistrySupplier<TabletItem> TABLET = item("tablet", TabletItem::new);
+    public static final RegistrySupplier<ShieldModule> SHIELD_MODULE = item("shield_module", ShieldModule::new);
+    public static final RegistrySupplier<GalaxySkinModule> GALAXY_SKIN = item("galaxy_skin", GalaxySkinModule::new);
+    public static final RegistrySupplier<HydrogenFuelModuleItem> HYDROGEN_MOTOR = item("hydrogen_motor", HydrogenFuelModuleItem::new);
+
     public static final RegistrySupplier<SDCardItem> SD_CARD = item("sd_card", SDCardItem::new);
+    public static final RegistrySupplier<RocketItem> ROCKET = item("rocket", new Item.Properties().arch$tab(CreativeTabsRegistry.STELLARIS_MAIN).stacksTo(1), RocketItem::new);
 
     /** Cans */
     // Small cans
@@ -67,6 +76,7 @@ public final class ItemsRegistry {
     public static final RegistrySupplier<CanItem> BIG_YELLOW_CAN = item("big_yellow_can", (p) -> new CanItem(p, 20));
 
     public static final RegistrySupplier<ArchitecturyBucketItem> HYDROGEN_BUCKET = item("hydrogen_bucket", (properties -> new ArchitecturyBucketItem(FluidsRegistry.HYDROGEN_STILL, properties)));
+    public static final RegistrySupplier<ArchitecturyBucketItem> FUEL_BUCKET = item("fuel_bucket", (properties -> new ArchitecturyBucketItem(FluidsRegistry.FUEL_STILL, properties)));
 
 
     public static RegistrySupplier<Item> item(String name) {

@@ -4,6 +4,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import org.exodusstudio.stellaris.common.blocks.entities.machines.base.BaseGeneratorBlockEntity;
 import org.exodusstudio.stellaris.common.menus.SolarPanelMenu;
@@ -32,8 +33,8 @@ public class SolarPanelBlockEntity extends BaseGeneratorBlockEntity {
     }
 
     @Override
-    public void tick() {
-        super.tick();
+    public void tick(Level level, BlockState state) {
+        super.tick(level, state);
         EnergyUtil.moveEnergyToItem(getEnergy(null), items.getFirst(), 10);
     }
 

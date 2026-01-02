@@ -28,7 +28,6 @@ public class WikiEntryScreen extends Screen {
         this.tabletScreen = tabletScreen;
         this.info = info;
         this.wikiState = wikiState;
-
     }
 
     @Override
@@ -56,8 +55,6 @@ public class WikiEntryScreen extends Screen {
     @Override
     public void renderBackground(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
         super.renderBackground(guiGraphics, mouseX, mouseY, partialTick);
-        guiGraphics.blit(RenderPipelines.GUI_TEXTURED, ApplicationScreen.BLANCK_BACKGROUND, this.getLeftPos(), this.getTopPos(), 0, 0, this.tabletScreen.getImageWidth(), this.tabletScreen.getImageHeight(), this.tabletScreen.getImageWidth(),this.tabletScreen.getImageHeight());
-
         guiGraphics.blit(RenderPipelines.GUI_TEXTURED, ApplicationScreen.BLANCK_BACKGROUND, this.getLeftPos(), this.getTopPos(), 0, 0, this.tabletScreen.getImageWidth(), this.tabletScreen.getImageHeight(), this.tabletScreen.getImageWidth(),this.tabletScreen.getImageHeight());
 
     }

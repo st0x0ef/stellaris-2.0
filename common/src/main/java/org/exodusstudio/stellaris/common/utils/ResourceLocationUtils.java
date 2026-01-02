@@ -1,5 +1,7 @@
 package org.exodusstudio.stellaris.common.utils;
 
+import net.minecraft.core.Registry;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import org.exodusstudio.stellaris.Stellaris;
 
@@ -16,6 +18,9 @@ public class ResourceLocationUtils {
         return ResourceLocation.fromNamespaceAndPath(Stellaris.MOD_ID, path);
     }
 
+    public static <T> ResourceKey<T> resourceKey(ResourceKey<? extends Registry<T>> key, String path) {
+        return ResourceKey.create(key, id(path));
+    }
     public static String key(ResourceLocation loc) {
         return loc.toString().split(":")[1];
     }

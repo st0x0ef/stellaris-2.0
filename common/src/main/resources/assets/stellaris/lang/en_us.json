@@ -29,16 +29,27 @@
   "item.stellaris.vacuumator": "Vacuumator",
   "item.stellaris.electrolyzer": "Electrolyzer",
   "item.stellaris.gravity_manipulator": "Gravity Manipulator",
+  "item.stellaris.rocket_station": "Rocket Station",
 
   "item.stellaris.power_bank_t1": "Tier 1 Power Bank",
 
   "item.stellaris.hydrogen_bucket": "Hydrogen Bucket",
+  "item.stellaris.fuel_bucket": "Fuel Bucket",
+  "item.stellaris.oxygen_bucket": "Oxygen Bucket",
+  "item.stellaris.rocket_launch_pad": "Rocket Launch Pad",
 
 
   "item.stellaris.cable_t1": "Cable",
 
   "item.stellaris.tablet": "Tablet",
   "item.stellaris.sd_card": "SD Card",
+  "item.stellaris.rocket": "Rocket",
+
+  "item.stellaris.hydrogen_motor": "Hydrogen Motor",
+  "item.stellaris.galaxy_skin": "Galaxy Skin",
+  "item.stellaris.shield_module": "Shield Module",
+
+
 
   "item.stellaris.black_can": "Black Can",
   "item.stellaris.blue_can": "Blue Can",
@@ -76,8 +87,11 @@
 
   "item.stellaris.flag": "Flag",
 
+
+
   "fluid.stellaris.hydrogen": "Hydrogen",
   "fluid.stellaris.oxygen": "Oxygen",
+  "fluid.stellaris.fuel": "Fuel",
   "fluid.stellaris.water": "Water",
 
   "biome.stellaris.red_desert": "Red Desert",
@@ -95,11 +109,12 @@
   "stellaris.screen.energyContainer": "Energy",
   "stellaris.screen.empty_fluid": "Empty Fluid Tank",
 
+
   "stellaris.screen.gravityManipulator.gravity": "Gravity: %sm/s²",
   "stellaris.screen.gravityManipulator.planet.moon": "Moon Gravity (1.62m/s²)",
   "stellaris.screen.gravityManipulator.planet.mars": "Mars Gravity (3.73m/s²)",
   "stellaris.screen.gravityManipulator.planet.earth": "Earth Gravity (9.81m/s²)",
-
+  "stellaris.screen.rocket_station": "Rocket Station",
   "tooltip.item.stellaris.can.empty": "Empty",
   "tooltip.item.stellaris.can.nutrition": "Nutrition: %s/%s",
   "tooltip.item.stellaris.can.saturation": "Saturation: %s",
@@ -109,6 +124,10 @@
   "config.stellaris.regenDimension.desc": "When selected, all the dimensions in the dimensionsToRegen will be regenerated.",
   "config.stellaris.regenDimension": "Regenerate dimensions",
   "config.stellaris.dimensionsToRegen": "Dimensions to Regenerate",
+
+
+
+  "entity.stellaris.rocket": "Rocket",
 
   "stat.stellaris.space_traveled": "Space Traveled"
 }

@@ -32,18 +32,20 @@ public final class Stellaris {
     public static CommonConfig CONFIG;
 
     public static void init() {
+        StellarisRegistries.register();
         CONFIG = ConfigsRegistry.getInstance().registerConfig(new CommonConfig(), CONFIG);
 
         NetworkRegistry.init();
         FluidsRegistry.init();
 
         EffectsRegistry.register();
-
+        EntityDataSerializersRegistry.register();
         DataComponentsRegistry.DATA_COMPONENT_TYPE.register();
+        EntityTypesRegistry.ENTITY_TYPE.register();
         BlocksRegistry.BLOCKS.register();
         BlockEntitiesRegistry.BLOCK_ENTITY_TYPE.register();
         ItemsRegistry.ITEMS.register();
-
+        RocketModulesRegistry.init();
         CreativeTabsRegistry.register();
         SDCardsRegistry.register();
         StatsRegistry.STATS.register();

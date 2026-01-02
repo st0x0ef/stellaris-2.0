@@ -62,7 +62,7 @@ public class GravityUtils {
         // Check for Gravity Normalizer in the chunk
         AtomicDouble normalize = new AtomicDouble(0.0);
         AtomicInteger manipulatorCount = new AtomicInteger(0);
-        level.getChunkAt(entityPos).getBlockEntities().forEach((pos, blockEntity) -> {;
+        level.getChunkAt(entityPos).getBlockEntities().forEach((pos, blockEntity) -> {
             if (blockEntity instanceof GravityManipulatorBlockEntity gravityManipulator) {
                 if (gravityManipulator.getEnergy(null).getEnergy() > 0) {
                     normalize.addAndGet(gravityManipulator.getDifferenceGravity(planet.gravity()));

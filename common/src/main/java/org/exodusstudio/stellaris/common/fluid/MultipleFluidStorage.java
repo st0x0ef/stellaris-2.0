@@ -116,7 +116,6 @@ public abstract class MultipleFluidStorage extends BaseFluidStorage {
     }
 
 
-
     public void save(ValueOutput output, String name) {
         if (isEmpty()) {
             return;

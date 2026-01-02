@@ -4,9 +4,12 @@
   "compatibilityLevel": "JAVA_21",
   "minVersion": "0.8",
   "client": [
+    "client.HumanoidModelMixin",
     "client.CustomItemModelRenderer"
   ],
   "mixins": [
+    "ChunkAccessMixin",
+    "EntityMixinAttachment",
     "ChunkAccessMixin",
     "ConsumableMixin",
     "gravity_modifier.AbstractArrowEntityMixin",

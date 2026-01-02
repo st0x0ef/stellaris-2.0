@@ -48,7 +48,6 @@ public class WikiApplicationScreen extends Screen {
     public static Map<ResourceLocation, EntryInfo> ENTRY_COMPONENTS = new HashMap<>();
 
 
-
     public ScrollableContainer scrollableContainer;
 
     public MainTabletScreen mainTabletScreen;
@@ -210,7 +209,7 @@ public class WikiApplicationScreen extends Screen {
     }
 
     /**
-     * Setup the info buttons on the right side of the screen
+     * Set up the info buttons on the right side of the screen
      */
     private void setupInfosButton() {
         AtomicInteger row = new AtomicInteger(0);
