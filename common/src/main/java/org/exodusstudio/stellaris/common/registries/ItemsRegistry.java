@@ -37,7 +37,7 @@ public final class ItemsRegistry {
     public static final RegistrySupplier<HydrogenFuelModuleItem> HYDROGEN_MOTOR = item("hydrogen_motor", HydrogenFuelModuleItem::new);
 
     public static final RegistrySupplier<SDCardItem> SD_CARD = item("sd_card", SDCardItem::new);
-    public static final RegistrySupplier<RocketItem> ROCKET = item("rocket", RocketItem::new);
+    public static final RegistrySupplier<RocketItem> ROCKET = item("rocket", new Item.Properties().arch$tab(CreativeTabsRegistry.STELLARIS_MAIN).stacksTo(1), RocketItem::new);
 
     /** Cans */
     // Small cans
