@@ -1,8 +1,7 @@
-package org.exodusstudio.stellaris.client.models.rockets;
+package org.exodusstudio.stellaris.client.renderers.rockets;
 
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.state.EntityRenderState;
-import org.exodusstudio.stellaris.client.renderers.rockets.RocketRenderer;
 import org.exodusstudio.stellaris.common.module.rocket.RocketModule;
 
 import java.util.List;

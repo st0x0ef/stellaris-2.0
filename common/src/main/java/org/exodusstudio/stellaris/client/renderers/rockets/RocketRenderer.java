@@ -3,22 +3,14 @@ package org.exodusstudio.stellaris.client.renderers.rockets;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
-import net.minecraft.client.model.EndCrystalModel;
-import net.minecraft.client.model.geom.ModelLayers;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.culling.Frustum;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.phys.AABB;
-import org.exodusstudio.stellaris.Stellaris;
-import org.exodusstudio.stellaris.client.models.rockets.RocketModel;
-import org.exodusstudio.stellaris.client.models.rockets.RocketModelState;
 import org.exodusstudio.stellaris.common.entities.RocketEntity;
-import org.exodusstudio.stellaris.common.registries.EntityDataSerializersRegistry;
 import org.exodusstudio.stellaris.common.utils.ResourceLocationUtils;
 import org.jetbrains.annotations.NotNull;
 
@@ -49,8 +41,9 @@ public class RocketRenderer extends EntityRenderer<RocketEntity, RocketModelStat
         super.render(renderState, poseStack, bufferSource, packedLight);
 
         poseStack.pushPose();
-        poseStack.translate(0.0D, 0.0D, 0.0D);
+        poseStack.translate(0.0D, -0.3D, 0.0D);
         poseStack.mulPose(Axis.XP.rotationDegrees(180.0F));
+        poseStack.scale(0.8f, 0.8f, 0.8f);
 
 
         this.model.setDefaultModel();

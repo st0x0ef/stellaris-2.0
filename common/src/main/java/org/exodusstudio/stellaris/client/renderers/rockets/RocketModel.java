@@ -1,4 +1,4 @@
-package org.exodusstudio.stellaris.client.models.rockets;
+package org.exodusstudio.stellaris.client.renderers.rockets;
 
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.geom.ModelLayerLocation;
