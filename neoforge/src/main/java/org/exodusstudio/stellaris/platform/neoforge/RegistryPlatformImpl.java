@@ -6,8 +6,6 @@ import net.neoforged.neoforge.registries.DeferredRegister;
 import net.neoforged.neoforge.registries.NeoForgeRegistries;
 import org.exodusstudio.stellaris.Stellaris;
 
-import java.util.function.Supplier;
-
 public class RegistryPlatformImpl {
 
     public static DeferredRegister<EntityDataSerializer<?>> ENTITY_DATA_SERIALIZERS =

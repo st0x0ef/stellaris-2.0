@@ -3,11 +3,9 @@ package org.exodusstudio.stellaris.common.module.rocket;
 import com.mojang.serialization.Codec;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
-import org.exodusstudio.stellaris.common.module.Module;
 import org.exodusstudio.stellaris.common.module.Modules;
 import org.exodusstudio.stellaris.common.registries.StellarisRegistries;
 
-import java.io.Serializable;
 import java.util.List;
 
 public class RocketModules extends Modules<RocketModule> {

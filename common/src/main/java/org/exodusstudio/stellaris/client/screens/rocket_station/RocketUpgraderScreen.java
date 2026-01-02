@@ -10,7 +10,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 import org.exodusstudio.stellaris.client.screens.components.TexturedButton;
 import org.exodusstudio.stellaris.client.screens.utils.GUISprites;
-import org.exodusstudio.stellaris.client.screens.utils.GUIUtils;
 import org.exodusstudio.stellaris.common.menus.rocket_station.RocketUpgradeMenu;
 import org.exodusstudio.stellaris.common.utils.ResourceLocationUtils;
 import org.exodusstudio.stellaris.common.utils.Utils;
@@ -33,9 +32,7 @@ public class RocketUpgraderScreen extends AbstractContainerScreen<RocketUpgradeM
         super.init();
         TexturedButton craftingButton = new TexturedButton(this.leftPos + this.imageWidth, this.topPos + 50 , 16,16,
                 Component.empty(),
-                button -> {
-                    menu.openCraftingMenu();
-                })
+                button -> menu.openCraftingMenu())
                 .tex(GUISprites.ROCKET_CRAFTING_TAB, GUISprites.ROCKET_CRAFTING_TAB_HOVER)
                 .tooltip(Tooltip.create(Component.literal("Rocket Crafting")))
                 .useSprite(true);

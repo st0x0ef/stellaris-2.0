@@ -14,7 +14,6 @@ import org.exodusstudio.stellaris.common.items.TabletItem;
 import org.exodusstudio.stellaris.common.items.modules.GalaxySkinModule;
 import org.exodusstudio.stellaris.common.items.modules.HydrogenFuelModuleItem;
 import org.exodusstudio.stellaris.common.items.modules.ShieldModule;
-import org.exodusstudio.stellaris.common.module.rocket.RocketModules;
 import org.exodusstudio.stellaris.common.utils.ResourceLocationUtils;
 import org.jetbrains.annotations.NotNull;
 

@@ -39,8 +39,8 @@ import java.util.Optional;
 public class RocketEntity extends VehicleEntity  {
 
     public static final EntityDataAccessor<Modules<RocketModule>> ROCKET_MODULES = SynchedEntityData.defineId(RocketEntity.class, EntityDataSerializersRegistry.ROCKET_MODULES);
-    public static final EntityDataAccessor<Boolean> ROCKET_START = SynchedEntityData.defineId(RocketEntity.class, EntityDataSerializers.BOOLEAN);;
-    public static final EntityDataAccessor<Integer> ROCKET_START_TIMER = SynchedEntityData.defineId(RocketEntity.class, EntityDataSerializers.INT);;
+    public static final EntityDataAccessor<Boolean> ROCKET_START = SynchedEntityData.defineId(RocketEntity.class, EntityDataSerializers.BOOLEAN);
+    public static final EntityDataAccessor<Integer> ROCKET_START_TIMER = SynchedEntityData.defineId(RocketEntity.class, EntityDataSerializers.INT);
 
 
     public RocketEntity(EntityType<?> entityType, Level level) {

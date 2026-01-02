@@ -1,8 +1,6 @@
 package org.exodusstudio.stellaris.client.screens;
 
 import dev.architectury.fluid.FluidStack;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
@@ -10,7 +8,6 @@ import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
-import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.client.screens.components.GaugeChunkWidget;
 import org.exodusstudio.stellaris.client.screens.components.GaugeWidget;
 import org.exodusstudio.stellaris.client.screens.utils.GUISprites;
@@ -20,7 +17,7 @@ import org.exodusstudio.stellaris.common.utils.ResourceLocationUtils;
 
 import java.util.List;
 
-@Environment(EnvType.CLIENT)
+
 public class RocketScreen extends AbstractContainerScreen<RocketMenu> {
 
     private static final ResourceLocation TEXTURE = ResourceLocationUtils.guiTexture("rocket");

@@ -33,9 +33,7 @@ public class RocketStationScreen extends AbstractContainerScreen<RocketStationMe
 
         TexturedButton upgradeButton = new TexturedButton(this.leftPos + this.imageWidth, this.topPos + 50 , 16,16,
                 Component.empty(),
-                button -> {
-                    menu.openUpgradeScreen();
-                })
+                button -> menu.openUpgradeScreen())
                 .tex(GUISprites.MODULES_TAB, GUISprites.MODULES_TAB_HOVER)
                 .tooltip(Tooltip.create(Component.literal("Rocket Upgrading")))
                 .useSprite(true);

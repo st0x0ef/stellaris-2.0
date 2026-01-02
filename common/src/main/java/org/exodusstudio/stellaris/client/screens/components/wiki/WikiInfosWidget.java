@@ -7,8 +7,6 @@ import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import org.exodusstudio.stellaris.client.data.wiki.EntryInfo;
 import org.exodusstudio.stellaris.client.screens.components.containers.ScrollableContainer;
 import org.exodusstudio.stellaris.client.utils.ActionBox;

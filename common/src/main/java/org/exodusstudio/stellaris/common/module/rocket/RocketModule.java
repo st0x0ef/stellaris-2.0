@@ -1,8 +1,6 @@
 package org.exodusstudio.stellaris.common.module.rocket;
 
 import dev.architectury.fluid.FluidStack;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
 import net.minecraft.client.renderer.RenderType;
 import org.exodusstudio.stellaris.client.renderers.rockets.RocketRenderer;
 import org.exodusstudio.stellaris.common.module.Module;
@@ -44,14 +42,14 @@ public interface RocketModule extends Module<RocketModule> {
      * This method is fired before rendering the rocket model.
      * @param context the current rendering context
      */
-    @Environment(EnvType.CLIENT)
+    
     default void preRenderModel(RocketRenderer.RenderingContext context) {}
 
     /**
      * Render this module on the rocket.
      * @param context the current rendering context
      */
-    @Environment(EnvType.CLIENT)
+    
     default void renderModule(RocketRenderer.RenderingContext context) {}
 
     /**
@@ -62,14 +60,14 @@ public interface RocketModule extends Module<RocketModule> {
      * @return the render type, or null to use the default one
      */
     @Nullable
-    @Environment(EnvType.CLIENT)
+    
     default RenderType getRenderType(RocketRenderer.RenderingContext context) {
         return null;
     }
 
     // Might not be useful...
     // TODO we need to see how thing would be implemented in the future
-    public enum RocketFeature {
+    enum RocketFeature {
         SKIN,
         TANK,
         MOTOR, //Fuel Type

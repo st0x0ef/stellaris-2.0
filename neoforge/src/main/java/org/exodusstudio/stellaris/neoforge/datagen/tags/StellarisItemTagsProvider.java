@@ -29,7 +29,7 @@ public class StellarisItemTagsProvider extends BlockTagCopyingItemTagProvider {
         .replace() // for replace = true
         .remove(..Items) // for remove
 
-        copy tag from a item tag
+        copy tag from an item tag
         this.copy(EXAMPLE_Item_TAG, EXAMPLE_ITEM_TAG);
 
      */

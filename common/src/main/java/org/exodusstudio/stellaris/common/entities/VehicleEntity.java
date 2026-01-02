@@ -67,9 +67,7 @@ public abstract class VehicleEntity extends Entity implements HasCustomInventory
     @Override
     protected void readAdditionalSaveData(ValueInput input) {
         InventorySaver.readInventory(input, this.inventory);
-         input.getInt("fuel").ifPresent((fuel) -> {
-             this.entityData.set(FUEL, fuel);
-         });
+         input.getInt("fuel").ifPresent((fuel) -> this.entityData.set(FUEL, fuel));
     }
 
     @Override
