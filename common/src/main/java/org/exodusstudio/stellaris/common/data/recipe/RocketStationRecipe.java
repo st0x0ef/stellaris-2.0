@@ -16,10 +16,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
-public record RocketStationRecipe(List<Ingredient> recipeItems,
-                                  ItemStack output) implements Recipe<RocketStationInput> {
-
-    public static RecipeType<RocketStationRecipe> TYPE = RecipesRegistry.ROCKET_STATION_TYPE.get();
+public record RocketStationRecipe(List<Ingredient> recipeItems, ItemStack output) implements Recipe<RocketStationInput> {
 
     @Override
     public boolean matches(RocketStationInput container, Level level) {
@@ -65,8 +62,8 @@ public record RocketStationRecipe(List<Ingredient> recipeItems,
         ).apply(instance, RocketStationRecipe::new));
 
         public static final StreamCodec<RegistryFriendlyByteBuf, RocketStationRecipe> STREAM_CODEC = StreamCodec.composite(
-                Ingredient.CONTENTS_STREAM_CODEC.apply(ByteBufCodecs.list()), (r) -> r.recipeItems,
-                ItemStack.STREAM_CODEC, (r) -> r.output,
+                Ingredient.CONTENTS_STREAM_CODEC.apply(ByteBufCodecs.list()), r -> r.recipeItems,
+                ItemStack.STREAM_CODEC, r -> r.output,
                 RocketStationRecipe::new);
 
 
