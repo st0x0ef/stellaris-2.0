@@ -5,6 +5,7 @@ import net.neoforged.fml.common.Mod;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.AddServerReloadListenersEvent;
 import org.exodusstudio.stellaris.Stellaris;
+import org.exodusstudio.stellaris.platform.neoforge.RegistryPlatformImpl;
 
 @Mod(Stellaris.MOD_ID)
 public final class StellarisNeoForge {
@@ -13,6 +14,8 @@ public final class StellarisNeoForge {
         //DataAttachmentRegistry.register(); TODO : fix crash
 
         NeoForge.EVENT_BUS.addListener(StellarisNeoForge::onAddServerReloadListenersEvent);
+
+        RegistryPlatformImpl.ENTITY_DATA_SERIALIZERS.register(bus);
     }
 
     public static void onAddServerReloadListenersEvent(AddServerReloadListenersEvent event) {
