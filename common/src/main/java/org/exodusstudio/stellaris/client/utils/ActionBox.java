@@ -3,7 +3,7 @@ package org.exodusstudio.stellaris.client.utils;
 
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import org.exodusstudio.stellaris.client.screens.components.wiki.WikiInfosWidget;
 import org.exodusstudio.stellaris.client.screens.tablet.application.wiki.WikiApplicationScreen;
 import org.jetbrains.annotations.Nullable;
@@ -48,7 +48,7 @@ public record ActionBox(int x, int y, int width, int height, @Nullable Consumer<
     }
 
     public void changePage(WikiInfosWidget infos, String location) {
-        var entryInfo = WikiApplicationScreen.getEntryInfo(ResourceLocation.parse(location));
+        var entryInfo = WikiApplicationScreen.getEntryInfo(Identifier.parse(location));
         if (entryInfo != null && infos.info.id() != entryInfo.id()) {
             infos.refresh(entryInfo);
         }

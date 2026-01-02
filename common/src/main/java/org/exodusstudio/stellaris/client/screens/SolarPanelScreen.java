@@ -5,19 +5,19 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Inventory;
 import org.exodusstudio.stellaris.client.screens.components.GaugeWidget;
 import org.exodusstudio.stellaris.client.screens.utils.GUISprites;
 import org.exodusstudio.stellaris.client.screens.utils.GUIUtils;
 import org.exodusstudio.stellaris.common.blocks.entities.machines.SolarPanelBlockEntity;
 import org.exodusstudio.stellaris.common.menus.SolarPanelMenu;
-import org.exodusstudio.stellaris.common.utils.ResourceLocationUtils;
+import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
 
 
 public class SolarPanelScreen extends AbstractContainerScreen<SolarPanelMenu> {
 
-    public static final ResourceLocation TEXTURE = ResourceLocationUtils.guiTexture("solar_panel");
+    public static final Identifier TEXTURE = IdentifierUtils.guiTexture("solar_panel");
 
     private final SolarPanelBlockEntity blockEntity = getMenu().getBlockEntity();
     private GaugeWidget energyGauge;

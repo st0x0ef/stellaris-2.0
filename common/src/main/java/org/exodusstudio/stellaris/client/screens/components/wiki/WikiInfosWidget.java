@@ -3,6 +3,7 @@ package org.exodusstudio.stellaris.client.screens.components.wiki;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.InventoryScreen;
+import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.Entity;
@@ -114,7 +115,6 @@ public class WikiInfosWidget extends ScrollableContainer {
 
     @Override
     public void mouseMoved(double mouseX, double mouseY) {
-
         for (ActionBox clickBox : actionBoxes) {
 
             if (clickBox.isHovered(mouseX,mouseY, 0)) {
@@ -125,21 +125,18 @@ public class WikiInfosWidget extends ScrollableContainer {
     }
 
     @Override
-    public boolean mouseClicked(double mouseX, double mouseY, int button) {
+    public boolean mouseClicked(MouseButtonEvent event, boolean isDoubleClick) {
         for (ActionBox clickBox : actionBoxes) {
-            if (clickBox.isHovered(mouseX,mouseY, this.scrollAmount())) {
+            if (clickBox.isHovered(event.x(), event.y(), this.scrollAmount())) {
                 clickBox.onClick(this);
             }
         }
 
-        return super.mouseClicked(mouseX, mouseY, button);
+        return super.mouseClicked(event, isDoubleClick);
     }
-
 
     public void refresh(EntryInfo entryInfo) {
         this.info = entryInfo;
         this.setScrollAmount(0);
-
     }
-
 }

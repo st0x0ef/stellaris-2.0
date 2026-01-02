@@ -15,14 +15,14 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import org.exodusstudio.stellaris.common.entities.RocketEntity;
 import org.exodusstudio.stellaris.common.menus.RocketMenu;
-import org.exodusstudio.stellaris.common.utils.ResourceLocationUtils;
+import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public class OpenRocketMenuPacket implements CustomPacketPayload {
 
     public int rocketId;
-    public static final Type<OpenRocketMenuPacket> TYPE = new Type<>(ResourceLocationUtils.id("open_rocket_menu"));
+    public static final Type<OpenRocketMenuPacket> TYPE = new Type<>(IdentifierUtils.id("open_rocket_menu"));
 
     public static final StreamCodec<RegistryFriendlyByteBuf, OpenRocketMenuPacket> STREAM_CODEC = new StreamCodec<>() {
         @Override

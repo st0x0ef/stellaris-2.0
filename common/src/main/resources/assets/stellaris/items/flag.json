@@ -3,8 +3,8 @@
     "type": "minecraft:special",
     "base": "stellaris:item/flag",
     "model": {
-        "type": "stellaris:flag",
-        "texture": "stellaris:block/flag/flag"
+      "type": "stellaris:flag",
+      "texture": "stellaris:block/flag/flag"
     }
   }
 }

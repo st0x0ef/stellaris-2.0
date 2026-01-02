@@ -5,7 +5,7 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.screens.inventory.InventoryScreen;
 import net.minecraft.client.renderer.RenderPipelines;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import org.exodusstudio.stellaris.client.data.wiki.EntryInfo;
@@ -38,15 +38,14 @@ public class WikiInfoButton extends TexturedButton {
     }
 
     @Override
-    public void renderWidget(GuiGraphics graphics, int mouseX, int mouseY, float partialTicks) {
-
+    protected void renderContents(GuiGraphics graphics, int mouseX, int mouseY, float partialTick) {
         int i = this.yTexStart;
         if (this.isHoveredOrFocused()) {
             i += this.yDiffText;
         }
 
         /** TEXTURE MANAGER */
-        ResourceLocation texture = this.getTypeTexture();
+        Identifier texture = this.getTypeTexture();
 
         /** TEXTURE RENDERER */
 
@@ -66,10 +65,5 @@ public class WikiInfoButton extends TexturedButton {
                     }
                 });
         }
-    }
-
-    @Override
-    public void onPress() {
-        super.onPress();
     }
 }

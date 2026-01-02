@@ -5,6 +5,7 @@ import com.mojang.brigadier.arguments.ArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
+import net.minecraft.server.permissions.Permissions;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -72,7 +73,7 @@ public class CommandBuilder {
         }
 
         LiteralArgumentBuilder<CommandSourceStack> commandBuilder = Commands.literal(commandName)
-                .requires(source -> source.hasPermission(permissionLevel));
+                .requires(source -> source.permissions().hasPermission(Permissions.COMMANDS_ADMIN));
 
         commandBuilder.executes((c) -> this.commandFunction.apply(new CommandSourceWrapper(c)));
 

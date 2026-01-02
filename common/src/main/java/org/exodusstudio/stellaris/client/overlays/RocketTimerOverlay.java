@@ -4,29 +4,29 @@ import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.RenderPipelines;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.common.entities.RocketEntity;
-import org.exodusstudio.stellaris.common.utils.ResourceLocationUtils;
+import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
 
 
 public class RocketTimerOverlay {
 
-    public static final ResourceLocation TIMER_1 = ResourceLocationUtils.texture("overlay/timer/timer_1");
-    public static final ResourceLocation TIMER_2 = ResourceLocationUtils.texture("overlay/timer/timer_2");
-    public static final ResourceLocation TIMER_3 = ResourceLocationUtils.texture("overlay/timer/timer_3");
-    public static final ResourceLocation TIMER_4 = ResourceLocationUtils.texture("overlay/timer/timer_4");
-    public static final ResourceLocation TIMER_5 = ResourceLocationUtils.texture("overlay/timer/timer_5");
-    public static final ResourceLocation TIMER_6 = ResourceLocationUtils.texture("overlay/timer/timer_6");
-    public static final ResourceLocation TIMER_7 = ResourceLocationUtils.texture("overlay/timer/timer_7");
-    public static final ResourceLocation TIMER_8 = ResourceLocationUtils.texture("overlay/timer/timer_8");
-    public static final ResourceLocation TIMER_9 = ResourceLocationUtils.texture("overlay/timer/timer_9");
-    public static final ResourceLocation TIMER_10 = ResourceLocationUtils.texture("overlay/timer/timer_10");
+    public static final Identifier TIMER_1 = IdentifierUtils.texture("overlay/timer/timer_1");
+    public static final Identifier TIMER_2 = IdentifierUtils.texture("overlay/timer/timer_2");
+    public static final Identifier TIMER_3 = IdentifierUtils.texture("overlay/timer/timer_3");
+    public static final Identifier TIMER_4 = IdentifierUtils.texture("overlay/timer/timer_4");
+    public static final Identifier TIMER_5 = IdentifierUtils.texture("overlay/timer/timer_5");
+    public static final Identifier TIMER_6 = IdentifierUtils.texture("overlay/timer/timer_6");
+    public static final Identifier TIMER_7 = IdentifierUtils.texture("overlay/timer/timer_7");
+    public static final Identifier TIMER_8 = IdentifierUtils.texture("overlay/timer/timer_8");
+    public static final Identifier TIMER_9 = IdentifierUtils.texture("overlay/timer/timer_9");
+    public static final Identifier TIMER_10 = IdentifierUtils.texture("overlay/timer/timer_10");
 
 
-    private static final ResourceLocation[] TIMER_TEXTURES = {
+    private static final Identifier[] TIMER_TEXTURES = {
             TIMER_1, TIMER_2, TIMER_3, TIMER_4, TIMER_5,
             TIMER_6, TIMER_7, TIMER_8, TIMER_9, TIMER_10
     };

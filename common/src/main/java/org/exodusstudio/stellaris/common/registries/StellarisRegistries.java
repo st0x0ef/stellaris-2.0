@@ -5,7 +5,7 @@ import dev.architectury.registry.registries.RegistrarManager;
 import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.common.module.rocket.RocketModule;
 
-import static org.exodusstudio.stellaris.common.utils.ResourceLocationUtils.id;
+import static org.exodusstudio.stellaris.common.utils.IdentifierUtils.id;
 
 public class StellarisRegistries {
     public static final Registrar<RocketModule> ROCKET_MODULE;

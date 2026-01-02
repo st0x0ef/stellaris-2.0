@@ -11,5 +11,5 @@ dependencies {
     modImplementation "net.fabricmc:fabric-loader:$rootProject.fabric_loader_version"
     modImplementation "dev.architectury:architectury:$rootProject.architectury_api_version"
 
-    modImplementation "com.fej1fun.potentials:potentials-common-1.21.5:${potentials_version}"
+    modImplementation "com.fej1fun.potentials:potentials-common-$rootProject.minecraft_version:$rootProject.potentials_version"
 }

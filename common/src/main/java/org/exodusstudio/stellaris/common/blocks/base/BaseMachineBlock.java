@@ -36,7 +36,7 @@ public abstract class BaseMachineBlock extends BaseTickingEntityBlock {
 
     @Override
     public @NotNull InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult) {
-        if (!level.isClientSide) {
+        if (!level.isClientSide()) {
             BlockEntity blockEntity = level.getBlockEntity(pos);
             if (blockEntity instanceof BaseContainerBlockEntity) {
                 MenuRegistry.openExtendedMenu((ServerPlayer) player, getMenuProvider(state, level, pos));

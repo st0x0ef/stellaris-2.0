@@ -6,7 +6,7 @@ import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Inventory;
 import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.client.screens.components.sd.SDCardDecodeButton;
@@ -17,12 +17,12 @@ import org.exodusstudio.stellaris.common.menus.SDCardReaderApplicationMenu;
 import org.exodusstudio.stellaris.common.network.packets.OpenMenuPacket;
 import org.exodusstudio.stellaris.common.registries.DataComponentsRegistry;
 import org.exodusstudio.stellaris.common.registries.SDCardsRegistry;
-import org.exodusstudio.stellaris.common.utils.ResourceLocationUtils;
+import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
 
 
 public class SDCardReaderApplicationScreen extends AbstractContainerScreen<SDCardReaderApplicationMenu> {
 
-    private static final ResourceLocation TEXTURE = ResourceLocationUtils.guiTexture("tablet/sd/sd_card_decoder");
+    private static final Identifier TEXTURE = IdentifierUtils.guiTexture("tablet/sd/sd_card_decoder");
 
     public static SDCardReaderApplicationScreen create(ApplicationRegistry.MenuHolder<MainTabletMenu> menuHolder) {
         NetworkManager.sendToServer(new OpenMenuPacket("sd_card_reader"));

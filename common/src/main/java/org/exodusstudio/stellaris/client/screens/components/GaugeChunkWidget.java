@@ -1,12 +1,13 @@
 package org.exodusstudio.stellaris.client.screens.components;
 
 import com.fej1fun.potentials.fluid.UniversalFluidStorage;
+import com.mojang.blaze3d.textures.GpuTexture;
 import dev.architectury.fluid.FluidStack;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.RenderPipelines;
-import net.minecraft.client.renderer.texture.SpriteContents;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.util.Mth;
 import org.exodusstudio.stellaris.client.registry.FluidInfosRegistry;
 import org.jetbrains.annotations.Nullable;
@@ -22,13 +23,13 @@ public class GaugeChunkWidget extends GaugeWidget {
     protected int imageWidth;
     protected int imageHeight;
 
-    public GaugeChunkWidget(int x, int y, int width, int height, FluidStack fluidStack, @Nullable ResourceLocation overlay_sprite, long capacity, Direction4 direction) {
+    public GaugeChunkWidget(int x, int y, int width, int height, FluidStack fluidStack, @Nullable Identifier overlay_sprite, long capacity, Direction4 direction) {
         this(x, y,width, height, FluidInfosRegistry.getFluidComponent(fluidStack.getFluid()), FluidInfosRegistry.getFluidTexture(fluidStack), overlay_sprite, capacity, direction);
 
         spriteChanged = true;
     }
 
-    public GaugeChunkWidget(int x, int y, int width, int height, Component message, ResourceLocation sprite, @Nullable ResourceLocation overlay_sprite, long capacity, Direction4 direction) {
+    public GaugeChunkWidget(int x, int y, int width, int height, Component message, Identifier sprite, @Nullable Identifier overlay_sprite, long capacity, Direction4 direction) {
         super(x, y, width, height, message, sprite, overlay_sprite, capacity, direction);
 
         spriteChanged = true;
@@ -37,9 +38,9 @@ public class GaugeChunkWidget extends GaugeWidget {
     @Override
     protected void renderWidget(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
         if (spriteChanged) {
-            SpriteContents contents = guiGraphics.sprites.getSprite(sprite).contents();
-            this.imageHeight = contents.height();
-            this.imageWidth = contents.width();
+            GpuTexture texture = Minecraft.getInstance().getTextureManager().getTexture(sprite).getTexture();
+            this.imageHeight = texture.getHeight(10);
+            this.imageWidth = texture.getWidth(10);
 
             spriteChanged = false;
         }
@@ -108,7 +109,7 @@ public class GaugeChunkWidget extends GaugeWidget {
     }
 
     @Override
-    public void updateSprite(ResourceLocation sprite) {
+    public void updateSprite(Identifier sprite) {
         super.updateSprite(sprite);
         spriteChanged = true;
     }

@@ -76,7 +76,7 @@ public class FlagBlock extends BaseEntityBlock implements SimpleWaterloggedBlock
 
             //Handle Player Head
             if(placer instanceof Player player) {
-                flagBlockEntity.setProfile(new ResolvableProfile(player.getGameProfile()));
+                flagBlockEntity.setProfile(ResolvableProfile.createResolved(player.getGameProfile()));
             }
             if(stack.has(DataComponents.BASE_COLOR)) {
                 DyeColor dyeColor = stack.get(DataComponents.BASE_COLOR);

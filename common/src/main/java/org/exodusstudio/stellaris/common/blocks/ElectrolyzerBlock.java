@@ -26,7 +26,7 @@ public class ElectrolyzerBlock extends BaseLitMachineBlock {
 
     @Override
     public boolean hasTicker(Level level) {
-        return !level.isClientSide;
+        return !level.isClientSide();
     }
 
 }

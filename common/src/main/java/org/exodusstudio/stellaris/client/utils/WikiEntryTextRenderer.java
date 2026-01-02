@@ -111,7 +111,7 @@ public class WikiEntryTextRenderer {
                     wordObj.color = this.color;
                 }
                 if(this.referenceLocation != null) {
-                    wordObj.resourceLocation = this.referenceLocation;
+                    wordObj.Identifier = this.referenceLocation;
                 }
                 if(this.tooltip != null) {
                     wordObj.tooltip = this.tooltip;
@@ -155,8 +155,8 @@ public class WikiEntryTextRenderer {
                     color = word.color;
                 }
 
-                if (word.resourceLocation != null) {
-                    clickBoxConsumer.accept(new ActionBox(x + width.get(), y + (i * getFont().lineHeight), getFont().width(word.text), getFont().lineHeight, null, (info) -> info.actionBox().changePage(info.infoWidget(), word.resourceLocation), (word.text + word.resourceLocation)));
+                if (word.Identifier != null) {
+                    clickBoxConsumer.accept(new ActionBox(x + width.get(), y + (i * getFont().lineHeight), getFont().width(word.text), getFont().lineHeight, null, (info) -> info.actionBox().changePage(info.infoWidget(), word.Identifier), (word.text + word.Identifier)));
                     color = "blue";
                 }
                 if (word.tooltip != null) {
@@ -187,7 +187,7 @@ public class WikiEntryTextRenderer {
     public static class Word {
         public String text;
         public String color = null;
-        public String resourceLocation = null;
+        public String Identifier = null;
         public String tooltip = null;
 
         public Word(String word) {
@@ -196,11 +196,11 @@ public class WikiEntryTextRenderer {
 
         @Override
         public String toString() {
-            return (!this.onlyText() ? "{" : "") + (color != null ? "[color=" + color + "]" : "") + (tooltip != null ? "[tl=" + tooltip + "]" : "") + (resourceLocation != null ? " [ref=" + resourceLocation + "]" : "") + text + (!this.onlyText() ? "}" : "");
+            return (!this.onlyText() ? "{" : "") + (color != null ? "[color=" + color + "]" : "") + (tooltip != null ? "[tl=" + tooltip + "]" : "") + (Identifier != null ? " [ref=" + Identifier + "]" : "") + text + (!this.onlyText() ? "}" : "");
         }
 
         public boolean onlyText() {
-            return color == null && resourceLocation == null && tooltip == null;
+            return color == null && Identifier == null && tooltip == null;
         }
     }
 

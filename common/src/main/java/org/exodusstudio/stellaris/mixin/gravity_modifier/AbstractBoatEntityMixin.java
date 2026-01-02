@@ -1,6 +1,6 @@
 package org.exodusstudio.stellaris.mixin.gravity_modifier;
 
-import net.minecraft.world.entity.vehicle.AbstractBoat;
+import net.minecraft.world.entity.vehicle.boat.AbstractBoat;
 import org.exodusstudio.stellaris.common.utils.GravityUtils;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;

@@ -1,18 +1,18 @@
 package org.exodusstudio.stellaris.common.items.modules;
 
-import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.rendertype.RenderType;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.Item;
 import org.exodusstudio.stellaris.client.renderers.rockets.RocketRenderer;
 import org.exodusstudio.stellaris.common.module.rocket.RocketModule;
 
 public class RocketSkinModuleItem extends Item implements RocketModule {
 
-    private final ResourceLocation SKIN_TEXTURE;
+    private final Identifier SKIN_TEXTURE;
 
-    public RocketSkinModuleItem(Properties properties, MutableComponent displayName, final ResourceLocation skinTexture) {
+    public RocketSkinModuleItem(Properties properties, MutableComponent displayName, final Identifier skinTexture) {
         super(properties);
         this.SKIN_TEXTURE = skinTexture;
     }

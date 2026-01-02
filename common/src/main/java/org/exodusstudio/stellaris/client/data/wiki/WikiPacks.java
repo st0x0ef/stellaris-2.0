@@ -1,7 +1,7 @@
 package org.exodusstudio.stellaris.client.data.wiki;
 
 import net.minecraft.resources.FileToIdConverter;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.packs.resources.SimpleJsonResourceReloadListener;
 import net.minecraft.util.profiling.ProfilerFiller;
@@ -20,9 +20,9 @@ public class WikiPacks {
         }
 
         @Override
-        protected void apply(Map<ResourceLocation, WikiEntry> resourceLocationJsonElementMap, ResourceManager resourceManager, ProfilerFiller profiler) {
+        protected void apply(Map<Identifier, WikiEntry> IdentifierJsonElementMap, ResourceManager resourceManager, ProfilerFiller profiler) {
             Stellaris.LOG.error("Loading Assets for Tablet Pack");
-            resourceLocationJsonElementMap.forEach((key, entry) -> {
+            IdentifierJsonElementMap.forEach((key, entry) -> {
                 if (!WikiApplicationScreen.ENTRIES.contains(entry)) {
                     WikiApplicationScreen.ENTRIES.add(entry);
                 }
@@ -40,10 +40,10 @@ public class WikiPacks {
         }
 
         @Override
-        protected void apply(Map<ResourceLocation, EntryInfo> resourceLocationJsonElementMap, ResourceManager resourceManager, ProfilerFiller profiler) {
+        protected void apply(Map<Identifier, EntryInfo> IdentifierJsonElementMap, ResourceManager resourceManager, ProfilerFiller profiler) {
             Stellaris.LOG.error("Loading Assets for Tablet Pack");
 
-            WikiApplicationScreen.ENTRY_COMPONENTS.putAll(resourceLocationJsonElementMap);
+            WikiApplicationScreen.ENTRY_COMPONENTS.putAll(IdentifierJsonElementMap);
 
         }
     }

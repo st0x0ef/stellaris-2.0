@@ -4,7 +4,7 @@ import dev.architectury.event.EventResult;
 import dev.architectury.event.events.common.BlockEvent;
 import dev.architectury.event.events.common.LifecycleEvent;
 import net.minecraft.core.component.DataComponents;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.item.ItemStack;
@@ -42,7 +42,7 @@ public class Events {
      */
     public static void regenStellarisDim(MinecraftServer server) {
         List<ServerLevel> levelList = new ArrayList<>((Collection<ServerLevel>) server.getAllLevels());
-        List<ResourceLocation> dimensionsToRegen = List.of(Stellaris.CONFIG.admin.dimensionsToRegen);
+        List<Identifier> dimensionsToRegen = List.of(Stellaris.CONFIG.admin.dimensionsToRegen);
 
 
         Stellaris.LOG.warn("---------- Dimension Regeneration Enabled ----------");
@@ -54,7 +54,7 @@ public class Events {
 
         levelList.stream()
                 .map(Level::dimension)
-                .filter((level -> dimensionsToRegen.contains(level.location())))
+                .filter((level -> dimensionsToRegen.contains(level.identifier())))
                 .forEach((level) -> {
                     Path dimensionPath = server.storageSource.getDimensionPath(level);
                     String[] folderToDelete = new String[]{"region", "data", "poi", "entities"};
@@ -66,7 +66,7 @@ public class Events {
                                 try {
                                     if (Files.exists(file.toPath())) {
                                         FileUtils.deleteDirectory(file);
-                                        Stellaris.LOG.warn("    - {}", level.location());
+                                        Stellaris.LOG.warn("    - {}", level.identifier());
                                     }
                                 } catch(IOException e) {
                                     throw new RuntimeException(e);

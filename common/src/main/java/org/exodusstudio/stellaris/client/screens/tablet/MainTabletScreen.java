@@ -8,7 +8,7 @@ import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -16,14 +16,14 @@ import org.exodusstudio.stellaris.client.screens.components.TexturedButton;
 import org.exodusstudio.stellaris.client.screens.tablet.application.ApplicationRegistry;
 import org.exodusstudio.stellaris.client.utils.ClientUtils;
 import org.exodusstudio.stellaris.common.menus.MainTabletMenu;
-import org.exodusstudio.stellaris.common.utils.ResourceLocationUtils;
+import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
 
 import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class MainTabletScreen extends AbstractContainerScreen<MainTabletMenu> {
 
-    public static final ResourceLocation BACKGROUND = ResourceLocationUtils.guiTexture("tablet/tablet_background");
+    public static final Identifier BACKGROUND = IdentifierUtils.guiTexture("tablet/tablet_background");
 
     public final ArrayList<ArrayList<TexturedButton>> APPLICATIONS = new ArrayList<>();
     private int currentPage = 0;

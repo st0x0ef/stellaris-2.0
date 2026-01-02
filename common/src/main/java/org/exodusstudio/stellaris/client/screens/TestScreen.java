@@ -4,18 +4,18 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.util.ARGB;
 import net.minecraft.world.item.ItemStack;
 import org.exodusstudio.stellaris.client.screens.components.wiki.WikiInfosWidget;
 import org.exodusstudio.stellaris.client.screens.components.containers.DraggableContainer;
-import org.exodusstudio.stellaris.common.utils.ResourceLocationUtils;
+import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
 
 import static net.minecraft.world.item.Items.ALLAY_SPAWN_EGG;
 
 public class TestScreen extends Screen {
 
-    public static final ResourceLocation BACKGROUND = ResourceLocationUtils.guiTexture("tablet/tablet_background");
+    public static final Identifier BACKGROUND = IdentifierUtils.guiTexture("tablet/tablet_background");
 
 
     public TestScreen() {

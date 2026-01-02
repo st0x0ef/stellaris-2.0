@@ -6,7 +6,7 @@ import dev.architectury.registry.registries.RegistrySupplier;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import org.exodusstudio.stellaris.Stellaris;
@@ -15,7 +15,7 @@ import org.exodusstudio.stellaris.client.screens.tablet.application.sd.SDCardRea
 import org.exodusstudio.stellaris.client.screens.tablet.application.stats.StatsApplicationScreen;
 import org.exodusstudio.stellaris.client.screens.tablet.application.wiki.WikiApplicationScreen;
 import org.exodusstudio.stellaris.common.menus.MainTabletMenu;
-import org.exodusstudio.stellaris.common.utils.ResourceLocationUtils;
+import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Function;
@@ -25,39 +25,39 @@ public class ApplicationRegistry {
 
     public static final Registrar<ApplicationFactory<?>> TABLET_APPLICATION =
             RegistrarManager.get(Stellaris.MOD_ID)
-                    .<ApplicationFactory<?>>builder(ResourceLocation.parse("stellaris:applications")) // The type for builder should match the Registrar
+                    .<ApplicationFactory<?>>builder(Identifier.parse("stellaris:applications")) // The type for builder should match the Registrar
                     .syncToClients()
                     .build();
 
     public static RegistrySupplier<ApplicationFactory<MainTabletMenu>> WIKI = TABLET_APPLICATION.register(
-            ResourceLocation.parse("stellaris:applications/wiki"),
+            Identifier.parse("stellaris:applications/wiki"),
             () -> new ApplicationFactory<>(
                     Component.translatable("application.stellaris.wiki.name"),
                     Component.translatable("application.stellaris.wiki.description"),
-                    ResourceLocationUtils.id("icon/wiki_app"),
-                    ResourceLocationUtils.id("icon/wiki_app_hover"),
+                    IdentifierUtils.id("icon/wiki_app"),
+                    IdentifierUtils.id("icon/wiki_app_hover"),
                     WikiApplicationScreen::create
             )
     );
 
     public static RegistrySupplier<ApplicationFactory<MainTabletMenu>> SD_CARD_READER = TABLET_APPLICATION.register(
-            ResourceLocation.parse("stellaris:applications/sd_card_reader"),
+            Identifier.parse("stellaris:applications/sd_card_reader"),
             () -> new ApplicationFactory<>(
                     Component.translatable("application.stellaris.sd_card_reader.name"),
                     Component.translatable("application.stellaris.sd_card_reader.description"),
-                    ResourceLocationUtils.id("icon/wiki_app"),
-                    ResourceLocationUtils.id("icon/wiki_app_hover"),
+                    IdentifierUtils.id("icon/wiki_app"),
+                    IdentifierUtils.id("icon/wiki_app_hover"),
                     SDCardReaderApplicationScreen::create
             )
     );
 
     public static RegistrySupplier<ApplicationFactory<MainTabletMenu>> STATS = TABLET_APPLICATION.register(
-            ResourceLocation.parse("stellaris:applications/stats"),
+            Identifier.parse("stellaris:applications/stats"),
             () -> new ApplicationFactory<>(
                     Component.translatable("application.stellaris.stats.name"),
                     Component.translatable("application.stellaris.stats.description"),
-                    ResourceLocationUtils.id("icon/wiki_app"),
-                    ResourceLocationUtils.id("icon/wiki_app_hover"),
+                    IdentifierUtils.id("icon/wiki_app"),
+                    IdentifierUtils.id("icon/wiki_app_hover"),
                     StatsApplicationScreen::create
             )
     );
@@ -68,11 +68,11 @@ public class ApplicationRegistry {
 
     public record ApplicationFactory<T extends AbstractContainerMenu>(MutableComponent name,
                                                                       MutableComponent description,
-                                                                      ResourceLocation iconLocation,
-                                                                      ResourceLocation iconHoverLocation,
+                                                                      Identifier iconLocation,
+                                                                      Identifier iconHoverLocation,
                                                                       Function<MenuHolder<T>, Screen> screenFactory) {
 
-            public ApplicationFactory(MutableComponent name, MutableComponent description, ResourceLocation iconLocation, ResourceLocation iconHoverLocation,
+            public ApplicationFactory(MutableComponent name, MutableComponent description, Identifier iconLocation, Identifier iconHoverLocation,
                                       @Nullable Function<MenuHolder<T>, Screen> screenFactory) {
                 this.name = name;
                 this.description = description;

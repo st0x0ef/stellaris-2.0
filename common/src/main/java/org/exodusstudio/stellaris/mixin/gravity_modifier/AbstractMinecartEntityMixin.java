@@ -1,6 +1,6 @@
 package org.exodusstudio.stellaris.mixin.gravity_modifier;
 
-import net.minecraft.world.entity.vehicle.AbstractMinecart;
+import net.minecraft.world.entity.vehicle.minecart.AbstractMinecart;
 import org.exodusstudio.stellaris.common.utils.GravityUtils;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;

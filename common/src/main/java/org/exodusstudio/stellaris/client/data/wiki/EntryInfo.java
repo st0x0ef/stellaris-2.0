@@ -2,17 +2,17 @@ package org.exodusstudio.stellaris.client.data.wiki;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
 
 import java.util.List;
 import java.util.Optional;
 
-public record EntryInfo(ResourceLocation id, ResourceLocation entryId, String title, String iconType, List<InfoComponent> components) {
+public record EntryInfo(Identifier id, Identifier entryId, String title, String iconType, List<InfoComponent> components) {
 
     public static final Codec<EntryInfo> CODEC = RecordCodecBuilder.create(instance -> instance.group(
-            ResourceLocation.CODEC.fieldOf("id").forGetter(EntryInfo::id),
-            ResourceLocation.CODEC.fieldOf("entryId").forGetter(EntryInfo::entryId),
+            Identifier.CODEC.fieldOf("id").forGetter(EntryInfo::id),
+            Identifier.CODEC.fieldOf("entryId").forGetter(EntryInfo::entryId),
             Codec.STRING.fieldOf("title").forGetter(EntryInfo::title),
             Codec.STRING.fieldOf("iconType").forGetter(EntryInfo::iconType),
             InfoComponent.CODEC.listOf().fieldOf("components").forGetter(EntryInfo::components)
@@ -38,9 +38,9 @@ public record EntryInfo(ResourceLocation id, ResourceLocation entryId, String ti
      * @param width the width of the image
      * @param height the height of the image
      */
-    public record ImageComponent(ResourceLocation location, int width, int height, Optional<String> legend) {
+    public record ImageComponent(Identifier location, int width, int height, Optional<String> legend) {
         public static final Codec<ImageComponent> CODEC = RecordCodecBuilder.create(instance -> instance.group(
-                ResourceLocation.CODEC.fieldOf("location").forGetter(ImageComponent::location),
+                Identifier.CODEC.fieldOf("location").forGetter(ImageComponent::location),
                 Codec.INT.fieldOf("width").forGetter(ImageComponent::width),
                 Codec.INT.fieldOf("height").forGetter(ImageComponent::height),
                 Codec.STRING.optionalFieldOf("legend").forGetter(ImageComponent::legend)
@@ -50,7 +50,7 @@ public record EntryInfo(ResourceLocation id, ResourceLocation entryId, String ti
          * If the location don't have a .png at the end, we add it.
          * @return the resource location with .png at the end
          */
-        public ResourceLocation formatFileLocation() {
+        public Identifier formatFileLocation() {
             if(!this.location.getPath().endsWith(".png")) {
                 return location.withSuffix(".png");
             }
@@ -76,10 +76,10 @@ public record EntryInfo(ResourceLocation id, ResourceLocation entryId, String ti
      * @param location the location of the entity to render
      * @param scale the entity scale
      */
-    public record EntityComponent(ResourceLocation location, int scale) {
+    public record EntityComponent(Identifier location, int scale) {
 
         public static final Codec<EntityComponent> CODEC = RecordCodecBuilder.create(instance -> instance.group(
-                ResourceLocation.CODEC.fieldOf("id").forGetter(EntityComponent::location),
+                Identifier.CODEC.fieldOf("id").forGetter(EntityComponent::location),
                 Codec.INT.fieldOf("scale").forGetter(EntityComponent::scale)
         ).apply(instance, EntityComponent::new));
 

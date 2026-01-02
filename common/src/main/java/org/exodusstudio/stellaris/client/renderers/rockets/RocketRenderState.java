@@ -1,12 +1,12 @@
 package org.exodusstudio.stellaris.client.renderers.rockets;
 
-import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.state.EntityRenderState;
+import net.minecraft.client.renderer.rendertype.RenderType;
 import org.exodusstudio.stellaris.common.module.rocket.RocketModule;
 
 import java.util.List;
 
-public class RocketModelState extends EntityRenderState {
+public class RocketRenderState extends EntityRenderState {
 
     public List<RocketModule> modules;
 
@@ -38,8 +38,8 @@ public class RocketModelState extends EntityRenderState {
         return type;
     }
 
-    public static RocketModelState create(List<RocketModule> modules) {
-        RocketModelState state = new RocketModelState();
+    public static RocketRenderState create(List<RocketModule> modules) {
+        RocketRenderState state = new RocketRenderState();
         state.modules = modules;
         return state;
     }

@@ -1,8 +1,8 @@
 package org.exodusstudio.stellaris.client.screens.tablet.application.wiki;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.input.KeyEvent;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
 import org.exodusstudio.stellaris.client.data.wiki.EntryInfo;
@@ -46,10 +46,9 @@ public class WikiEntryScreen extends Screen {
     }
 
     @Override
-    public void resize(Minecraft minecraft, int width, int height) {
-        this.tabletScreen.resize(minecraft, width, height);
-        this.tabletScreen.init(minecraft, width, height);
-        super.resize(minecraft, width, height);
+    public void resize(int width, int height) {
+        this.tabletScreen.init(width, height);
+        super.resize(width, height);
     }
 
     @Override
@@ -67,15 +66,14 @@ public class WikiEntryScreen extends Screen {
     }
 
     @Override
-    public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
-        if(keyCode == GLFW.GLFW_KEY_ESCAPE) {
+    public boolean keyPressed(KeyEvent event) {
+        if(event.key() == GLFW.GLFW_KEY_ESCAPE) {
             this.minecraft.setScreen(this.wikiState.toScreen(this.tabletScreen));
             return true;
         }
 
-        return super.keyPressed(keyCode, scanCode, modifiers);
+        return super.keyPressed(event);
     }
-
 
     public int getLeftPos() {
         return this.tabletScreen.getLeftPos();

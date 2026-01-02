@@ -7,7 +7,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerPlayer;
 import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.common.utils.MenuUtils;
@@ -21,7 +21,7 @@ import java.util.function.Function;
  */
 public class OpenRocketStationMenusPacket implements CustomPacketPayload {
 
-    public static CustomPacketPayload.Type<OpenRocketStationMenusPacket> TYPE = new CustomPacketPayload.Type<>(ResourceLocation.fromNamespaceAndPath(Stellaris.MOD_ID, "open_rocket_station_menu"));
+    public static CustomPacketPayload.Type<OpenRocketStationMenusPacket> TYPE = new CustomPacketPayload.Type<>(Identifier.fromNamespaceAndPath(Stellaris.MOD_ID, "open_rocket_station_menu"));
 
     /**
      * Menu provider for rocket crafting station

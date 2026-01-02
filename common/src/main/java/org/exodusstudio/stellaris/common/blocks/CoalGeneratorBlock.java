@@ -31,7 +31,7 @@ public class CoalGeneratorBlock extends BaseLitMachineBlock {
 
     @Override
     public boolean hasTicker(Level level) {
-        return !level.isClientSide;
+        return !level.isClientSide();
     }
 
 

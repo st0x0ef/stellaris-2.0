@@ -5,7 +5,7 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Inventory;
 import org.exodusstudio.stellaris.client.screens.components.GaugeChunkWidget;
 import org.exodusstudio.stellaris.client.screens.components.GaugeWidget;
@@ -14,12 +14,12 @@ import org.exodusstudio.stellaris.common.blocks.entities.machines.ElectrolyzerBl
 import org.exodusstudio.stellaris.common.fluid.MultipleFluidStorage;
 import org.exodusstudio.stellaris.common.fluid.SingleFluidStorage;
 import org.exodusstudio.stellaris.common.menus.ElectrolyzerMenu;
-import org.exodusstudio.stellaris.common.utils.ResourceLocationUtils;
+import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
 
 import java.util.List;
 
 public class ElectrolyzerScreen extends AbstractContainerScreen<ElectrolyzerMenu> {
-    private static final ResourceLocation TEXTURE = ResourceLocationUtils.guiTexture("electrolyzer");
+    private static final Identifier TEXTURE = IdentifierUtils.guiTexture("electrolyzer");
 
     private final ElectrolyzerMenu menu;
     private final ElectrolyzerBlockEntity blockEntity;

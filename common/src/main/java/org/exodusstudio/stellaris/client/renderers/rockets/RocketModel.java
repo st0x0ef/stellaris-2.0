@@ -5,10 +5,10 @@ import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
-import org.exodusstudio.stellaris.common.utils.ResourceLocationUtils;
+import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
 
-public class RocketModel extends EntityModel<RocketModelState> {
-	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(ResourceLocationUtils.id("rocket"), "main");
+public class RocketModel extends EntityModel<RocketRenderState> {
+	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(IdentifierUtils.id("rocket"), "main");
     public final ModelPart MainBody;
     public final ModelPart tank_upgrade;
     public final ModelPart sunflare_protection;

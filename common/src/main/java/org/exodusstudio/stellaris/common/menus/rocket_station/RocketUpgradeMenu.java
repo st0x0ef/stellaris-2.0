@@ -55,7 +55,7 @@ public class RocketUpgradeMenu extends BaseItemCombinerMenu {
 
     @Override
     public void createResult() {
-        if (this.player.level().isClientSide) {
+        if (this.player.level().isClientSide()) {
             return;
         }
 

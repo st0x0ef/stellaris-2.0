@@ -1,34 +1,29 @@
 package org.exodusstudio.stellaris.client.renderers.rockets;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import net.minecraft.client.model.geom.EntityModelSet;
-import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.SubmitNodeCollector;
+import net.minecraft.client.renderer.rendertype.RenderType;
 import net.minecraft.client.renderer.special.SpecialModelRenderer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import org.exodusstudio.stellaris.common.module.rocket.RocketModule;
 import org.exodusstudio.stellaris.common.module.rocket.RocketModules;
 import org.exodusstudio.stellaris.common.registries.DataComponentsRegistry;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.joml.Vector3f;
+import org.joml.Vector3fc;
 
 import java.util.List;
-import java.util.Set;
+import java.util.function.Consumer;
 
-public record RocketItemRenderer(ResourceLocation texture, RocketModel model) implements SpecialModelRenderer<List<RocketModule>> {
-
+public record RocketItemRenderer(Identifier texture, RocketModel model) implements SpecialModelRenderer<List<RocketModule>> {
     @Override
-    public void render(@Nullable List<RocketModule> patterns, ItemDisplayContext displayContext, PoseStack poseStack, MultiBufferSource bufferSource, int packedLight, int packedOverlay, boolean hasFoilType) {
-        RocketModelState modelState = RocketModelState.create(patterns);
-        ResourceLocation defaultTexture = texture();
+    public void submit(@Nullable List<RocketModule> patterns, ItemDisplayContext displayContext, PoseStack poseStack, SubmitNodeCollector nodeCollector, int packedLight, int packedOverlay, boolean hasFoil, int outlineColor) {
+        RocketRenderState modelState = RocketRenderState.create(patterns);
         poseStack.pushPose();
 
         poseStack.mulPose(Axis.XP.rotationDegrees(180.0F));
@@ -44,20 +39,20 @@ public record RocketItemRenderer(ResourceLocation texture, RocketModel model) im
 
         this.model.setDefaultModel();
 
-        modelState.preRenderModules(new RocketRenderer.RenderingContext(poseStack, bufferSource, packedLight, this.model, defaultTexture));
+        RocketRenderer.RenderingContext renderingContext = new RocketRenderer.RenderingContext(poseStack, modelState.lightCoords, this.model, texture());
 
-        RenderType renderType = modelState.getRenderType(new RocketRenderer.RenderingContext(poseStack, bufferSource, packedLight, this.model, defaultTexture));
-        VertexConsumer vertexConsumer = bufferSource.getBuffer(renderType);
+        modelState.preRenderModules(renderingContext);
 
-        this.model.renderToBuffer(poseStack, vertexConsumer, packedLight, OverlayTexture.NO_OVERLAY);
+        RenderType renderType = modelState.getRenderType(renderingContext);
 
-        modelState.renderModules(new RocketRenderer.RenderingContext(poseStack, bufferSource, packedLight, this.model, defaultTexture));
+        nodeCollector.submitModelPart(this.model.root(), poseStack, renderType, modelState.lightCoords, OverlayTexture.NO_OVERLAY, null);
 
+        modelState.renderModules(renderingContext);
         poseStack.popPose();
     }
 
     @Override
-    public void getExtents(Set<Vector3f> output) {
+    public void getExtents(Consumer<Vector3fc> output) {
         PoseStack poseStack = new PoseStack();
         poseStack.scale(1.0F, -1.0F, -1.0F);
         this.model.root().getExtentsForGui(poseStack, output);
@@ -68,17 +63,17 @@ public record RocketItemRenderer(ResourceLocation texture, RocketModel model) im
         return stack.getOrDefault(DataComponentsRegistry.ROCKET_MODULES.get(), RocketModules.empty()).modules;
     }
 
-    public record Unbaked(ResourceLocation texture) implements SpecialModelRenderer.Unbaked {
+    public record Unbaked(Identifier texture) implements SpecialModelRenderer.Unbaked {
         public static final MapCodec<Unbaked> MAP_CODEC = RecordCodecBuilder.mapCodec(instance ->
                 instance.group(
-                        ResourceLocation.CODEC.fieldOf("texture").forGetter(RocketItemRenderer.Unbaked::texture)
+                        Identifier.CODEC.fieldOf("texture").forGetter(RocketItemRenderer.Unbaked::texture)
                 ).apply(instance, RocketItemRenderer.Unbaked::new)
         );
 
         @Override
-        public @NotNull RocketItemRenderer bake(EntityModelSet modelSet) {
+        public SpecialModelRenderer<?> bake(BakingContext context) {
             return new RocketItemRenderer(this.texture,
-                    new RocketModel(modelSet.bakeLayer(RocketModel.LAYER_LOCATION))
+                    new RocketModel(context.entityModelSet().bakeLayer(RocketModel.LAYER_LOCATION))
             );
         }
 

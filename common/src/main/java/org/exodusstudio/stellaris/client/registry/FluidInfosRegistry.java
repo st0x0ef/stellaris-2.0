@@ -2,7 +2,7 @@ package org.exodusstudio.stellaris.client.registry;
 
 import dev.architectury.fluid.FluidStack;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Fluids;
 import org.exodusstudio.stellaris.Stellaris;
@@ -18,7 +18,7 @@ import java.util.Map;
  */
 public class FluidInfosRegistry {
 
-    public static Map<ResourceLocation, FluidInfos> FLUIDS_INFO = new HashMap<>();
+    public static Map<Identifier, FluidInfos> FLUIDS_INFO = new HashMap<>();
 
     public static void register(Fluid fluid, FluidInfos fluidInfos, boolean overwrite) {
         boolean alreadyIn = FLUIDS_INFO.containsKey(fluid.arch$registryName());
@@ -37,7 +37,7 @@ public class FluidInfosRegistry {
      * @param fluidLocation
      * @param fluidInfos
      */
-    public static void register(ResourceLocation fluidLocation, FluidInfos fluidInfos) {
+    public static void register(Identifier fluidLocation, FluidInfos fluidInfos) {
         FLUIDS_INFO.put(fluidLocation, fluidInfos);
     }
 
@@ -45,11 +45,11 @@ public class FluidInfosRegistry {
     /**
      * Utility Methods to get fluids infos
      */
-    public static ResourceLocation getFluidTexture(FluidStack fluid) {
+    public static Identifier getFluidTexture(FluidStack fluid) {
         return getFluidTexture(fluid.getFluid());
     }
 
-    public static ResourceLocation getFluidTexture(Fluid fluid) {
+    public static Identifier getFluidTexture(Fluid fluid) {
 
         if(FLUIDS_INFO.containsKey(fluid.arch$registryName())) {
 
@@ -67,7 +67,6 @@ public class FluidInfosRegistry {
     }
 
     public static void init() {
-
         register(FluidsRegistry.HYDROGEN_STILL.get(),
                 new FluidInfos(GUISprites.HYDROGEN_OVERLAY,  Component.translatable("fluid.stellaris.hydrogen" )));
         register(FluidsRegistry.FUEL_STILL.get(),
@@ -79,10 +78,9 @@ public class FluidInfosRegistry {
                 new FluidInfos(GUISprites.WATER_OVERLAY,  Component.translatable("fluid.stellaris.water" )));
         register(Fluids.EMPTY,
                 new FluidInfos(GUISprites.WATER_OVERLAY,  Component.literal("Empty")));
-
     }
 
-    public record FluidInfos(ResourceLocation textureLocation, Component component) {
+    public record FluidInfos(Identifier textureLocation, Component component) {
 
     }
 }

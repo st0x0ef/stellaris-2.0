@@ -8,7 +8,7 @@ import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent
 import net.minecraft.client.gui.screens.inventory.tooltip.DefaultTooltipPositioner;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.util.ARGB;
 import org.exodusstudio.stellaris.client.screens.utils.GUIUtils;
 import org.jetbrains.annotations.Nullable;
@@ -22,11 +22,11 @@ import java.util.List;
 public class TextureComponentButton extends Button {
 
     /** Default Textures */
-    public static final ResourceLocation VANILLA_BACKGROUND_TEXTURE = ResourceLocation.withDefaultNamespace("widget/button");
-    public static final ResourceLocation VANILLA_HOVER_TEXTURE = ResourceLocation.withDefaultNamespace("widget/button_highlighted");
-    public static final ResourceLocation VANILLA_DISABLED_TEXTURE = ResourceLocation.withDefaultNamespace("widget/button_disabled");
+    public static final Identifier VANILLA_BACKGROUND_TEXTURE = Identifier.withDefaultNamespace("widget/button");
+    public static final Identifier VANILLA_HOVER_TEXTURE = Identifier.withDefaultNamespace("widget/button_highlighted");
+    public static final Identifier VANILLA_DISABLED_TEXTURE = Identifier.withDefaultNamespace("widget/button_disabled");
 
-    public ResourceLocation contentTexture;
+    public Identifier contentTexture;
 
     public int buttonWidth;
     public int buttonHeight;
@@ -35,7 +35,7 @@ public class TextureComponentButton extends Button {
 
     private String tooltipText;
 
-    public TextureComponentButton(int x, int y, int width, int height, int textureWidth, int textureHeight, ResourceLocation contentTexture, String tooltipText, OnPress onPressIn, CreateNarration onTooltipIn) {
+    public TextureComponentButton(int x, int y, int width, int height, int textureWidth, int textureHeight, Identifier contentTexture, String tooltipText, OnPress onPressIn, CreateNarration onTooltipIn) {
         super(x, y, width, height, Component.empty(), onPressIn, onTooltipIn);
         this.buttonWidth = width;
         this.buttonHeight = height;
@@ -53,15 +53,16 @@ public class TextureComponentButton extends Button {
     }
 
     @Override
-    public void renderWidget(GuiGraphics graphics, int mouseX, int mouseY, float partialTicks) {
+    protected void renderContents(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
         /** TEXTURE MANAGER */
-        ResourceLocation texture = this.getTypeTexture();
-        graphics.blitSprite(RenderPipelines.GUI_TEXTURED, texture, this.getX(), this.getY(), buttonWidth, buttonHeight, ARGB.white(this.alpha));
+        Identifier texture = this.getTypeTexture();
+        guiGraphics.blitSprite(RenderPipelines.GUI_TEXTURED, texture, this.getX(), this.getY(), buttonWidth, buttonHeight, ARGB.white(this.alpha));
 
         // Draw Content Texture (smaller texture inside the middle of the button)
         int contentX = this.getX() + (this.buttonWidth - this.textureWidth) / 2;
         int contentY = this.getY() + (this.buttonHeight - this.textureHeight) / 2;
-        graphics.blitSprite(RenderPipelines.GUI_TEXTURED, this.contentTexture, contentX, contentY, this.textureWidth, this.textureHeight, ARGB.white(this.alpha));
+        guiGraphics.blitSprite(RenderPipelines.GUI_TEXTURED, this.contentTexture, contentX, contentY, this.textureWidth, this.textureHeight, ARGB.white(this.alpha));
+
     }
 
     @Override
@@ -89,7 +90,7 @@ public class TextureComponentButton extends Button {
     }
 
     /** TYPE TEXTURE MANAGER */
-    public ResourceLocation getTypeTexture() {
+    public Identifier getTypeTexture() {
         if (!this.isActive()) {
             return VANILLA_DISABLED_TEXTURE;
         } else if (this.isHovered) {

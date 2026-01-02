@@ -6,13 +6,13 @@ import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import org.exodusstudio.stellaris.client.screens.components.containers.ScrollableContainer;
-import org.exodusstudio.stellaris.common.utils.ResourceLocationUtils;
+import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
 
 public class StatWidget extends AbstractWidget {
 
-    private static final ResourceLocation BACKGROUND = ResourceLocationUtils.guiTexture("tablet/stats/stat_entry");
+    private static final Identifier BACKGROUND = IdentifierUtils.guiTexture("tablet/stats/stat_entry");
 
     private final Component statName;
     private final Component statValue;

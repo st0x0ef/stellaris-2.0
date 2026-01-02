@@ -3,12 +3,12 @@ package org.exodusstudio.stellaris.mixin.client;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.client.renderer.special.SpecialModelRenderer;
 import net.minecraft.client.renderer.special.SpecialModelRenderers;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.util.ExtraCodecs;
 import org.exodusstudio.stellaris.client.renderers.rockets.RocketItemRenderer;
 import org.exodusstudio.stellaris.client.renderers.flag.FlagItemRenderer;
 import org.exodusstudio.stellaris.client.renderers.gravity_manipulator.GravityManipulatorItemRenderer;
-import org.exodusstudio.stellaris.common.utils.ResourceLocationUtils;
+import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -20,12 +20,12 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class CustomItemModelRenderer {
     @Shadow
     @Final
-    private static ExtraCodecs.LateBoundIdMapper<ResourceLocation, MapCodec<? extends SpecialModelRenderer.Unbaked>> ID_MAPPER;
+    private static ExtraCodecs.LateBoundIdMapper<Identifier, MapCodec<? extends SpecialModelRenderer.Unbaked>> ID_MAPPER;
 
     @Inject(at = @At(value = "HEAD"), method = "bootstrap")
     private static void addCustomItemRenderer(CallbackInfo ci) {
-        ID_MAPPER.put(ResourceLocationUtils.id("gravity_manipulator"), GravityManipulatorItemRenderer.Unbaked.MAP_CODEC);
-        ID_MAPPER.put(ResourceLocationUtils.id("flag"), FlagItemRenderer.Unbaked.MAP_CODEC);
-        ID_MAPPER.put(ResourceLocationUtils.id("rocket"), RocketItemRenderer.Unbaked.MAP_CODEC);
+        ID_MAPPER.put(IdentifierUtils.id("gravity_manipulator"), GravityManipulatorItemRenderer.Unbaked.MAP_CODEC);
+        ID_MAPPER.put(IdentifierUtils.id("flag"), FlagItemRenderer.Unbaked.MAP_CODEC);
+        ID_MAPPER.put(IdentifierUtils.id("rocket"), RocketItemRenderer.Unbaked.MAP_CODEC);
     }
 }

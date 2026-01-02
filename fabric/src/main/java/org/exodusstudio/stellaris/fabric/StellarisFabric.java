@@ -5,10 +5,8 @@ import net.fabricmc.fabric.api.event.lifecycle.v1.ServerChunkEvents;
 
 import net.fabricmc.fabric.api.resource.IdentifiableResourceReloadListener;
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.packs.PackType;
-import net.minecraft.server.packs.resources.PreparableReloadListener;
-import net.minecraft.server.packs.resources.ResourceManager;
 import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.common.events.custom.ChunkEvent;
 import org.exodusstudio.stellaris.fabric.common.registries.DataAttachmentRegistry;
@@ -33,13 +31,13 @@ public final class StellarisFabric implements ModInitializer {
     public static void onAddReloadListener() {
         Stellaris.onAddReloadListenerEvent((id, listener) -> ResourceManagerHelper.get(PackType.SERVER_DATA).registerReloadListener(new IdentifiableResourceReloadListener() {
             @Override
-            public ResourceLocation getFabricId() {
+            public Identifier getFabricId() {
                 return id;
             }
 
             @Override
-            public CompletableFuture<Void> reload(PreparableReloadListener.PreparationBarrier preparationBarrier, ResourceManager resourceManager, Executor prepareExecutor, Executor applyExecutor) {
-                return listener.reload(preparationBarrier, resourceManager, prepareExecutor, applyExecutor);
+            public CompletableFuture<Void> reload(SharedState sharedState, Executor exectutor, PreparationBarrier barrier, Executor applyExectutor) {
+                return listener.reload(sharedState, exectutor, barrier, applyExectutor);
             }
         }));
     }

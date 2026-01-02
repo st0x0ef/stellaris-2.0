@@ -9,7 +9,7 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.world.level.material.FlowingFluid;
 import net.minecraft.world.level.material.Fluid;
 import org.exodusstudio.stellaris.Stellaris;
-import org.exodusstudio.stellaris.common.utils.ResourceLocationUtils;
+import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,9 +31,9 @@ public class FluidsRegistry {
             .explosionResistance(100.0F)
             .lighterThanAir(true)
             .convertToSource(false)
-            .overlayTexture(ResourceLocationUtils.id("block/fluids/hydrogen_overlay"))
-            .sourceTexture(ResourceLocationUtils.id("block/fluids/hydrogen_still"))
-            .flowingTexture(ResourceLocationUtils.id("block/fluids/hydrogen_flow"));
+            .overlayTexture(IdentifierUtils.id("block/fluids/hydrogen_overlay"))
+            .sourceTexture(IdentifierUtils.id("block/fluids/hydrogen_still"))
+            .flowingTexture(IdentifierUtils.id("block/fluids/hydrogen_flow"));
 
     public static final RegistrySupplier<FlowingFluid> HYDROGEN_FLOWING = FLUIDS.register("flowing_hydrogen", () -> new ArchitecturyFlowingFluid.Flowing(HYDROGEN_ATTRIBUTES));
     public static final RegistrySupplier<FlowingFluid> HYDROGEN_STILL = FLUIDS.register("hydrogen", () -> new ArchitecturyFlowingFluid.Source(HYDROGEN_ATTRIBUTES));
@@ -47,9 +47,9 @@ public class FluidsRegistry {
             .explosionResistance(100)
             .lighterThanAir(true)
             .convertToSource(false)
-            .overlayTexture(ResourceLocationUtils.id("block/fluids/oxygen_overlay"))
-            .sourceTexture(ResourceLocationUtils.id("block/fluids/oxygen_still"))
-            .flowingTexture(ResourceLocationUtils.id("block/fluids/oxygen_flow"));
+            .overlayTexture(IdentifierUtils.id("block/fluids/oxygen_overlay"))
+            .sourceTexture(IdentifierUtils.id("block/fluids/oxygen_still"))
+            .flowingTexture(IdentifierUtils.id("block/fluids/oxygen_flow"));
 
     public static final RegistrySupplier<FlowingFluid> OXYGEN_FLOWING = FLUIDS.register("flowing_oxygen", () -> new ArchitecturyFlowingFluid.Flowing(OXYGEN_ATTRIBUTES));
     public static final RegistrySupplier<FlowingFluid> OXYGEN_STILL = FLUIDS.register("oxygen", () -> new ArchitecturyFlowingFluid.Source(OXYGEN_ATTRIBUTES));
@@ -64,9 +64,9 @@ public class FluidsRegistry {
             .explosionResistance(100)
             .lighterThanAir(false)
             .convertToSource(false)
-            .overlayTexture(ResourceLocationUtils.id("block/fluids/fuel_overlay"))
-            .sourceTexture(ResourceLocationUtils.id("block/fluids/fuel_still"))
-            .flowingTexture(ResourceLocationUtils.id("block/fluids/fuel_flow"));
+            .overlayTexture(IdentifierUtils.id("block/fluids/fuel_overlay"))
+            .sourceTexture(IdentifierUtils.id("block/fluids/fuel_still"))
+            .flowingTexture(IdentifierUtils.id("block/fluids/fuel_flow"));
 
     public static final RegistrySupplier<FlowingFluid> FUEL_FLOWING = FLUIDS.register("flowing_fuel", () -> new ArchitecturyFlowingFluid.Flowing(FUEL_ATTRIBUTES));
     public static final RegistrySupplier<FlowingFluid> FUEL_STILL = FLUIDS.register("fuel", () -> new ArchitecturyFlowingFluid.Source(FUEL_ATTRIBUTES));

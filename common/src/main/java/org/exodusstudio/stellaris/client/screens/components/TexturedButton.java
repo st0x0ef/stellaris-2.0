@@ -6,10 +6,9 @@ import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.util.ARGB;
-import net.minecraft.util.Mth;
-import org.exodusstudio.stellaris.common.utils.ResourceLocationUtils;
+import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
 import org.jetbrains.annotations.Nullable;
 
 /**
@@ -19,11 +18,11 @@ import org.jetbrains.annotations.Nullable;
 public class TexturedButton extends Button {
 
     /** Default Textures */
-    public static final ResourceLocation TEXTURE = ResourceLocationUtils.guiTexture("util/buttons/button");
-    public static final ResourceLocation HOVER_TEXTURE = ResourceLocationUtils.guiTexture("util/buttons/button");
+    public static final Identifier TEXTURE = IdentifierUtils.guiTexture("util/buttons/button");
+    public static final Identifier HOVER_TEXTURE = IdentifierUtils.guiTexture("util/buttons/button");
 
-    public ResourceLocation buttonTexture;
-    public ResourceLocation hoverButtonTexture;
+    public Identifier buttonTexture;
+    public Identifier hoverButtonTexture;
 
     public int xTexStart;
     public int yTexStart;
@@ -35,13 +34,11 @@ public class TexturedButton extends Button {
 
     public boolean useSprite = false;
 
-    public boolean showText = false;
-
     public TexturedButton(int x, int y, int widthIn, int heightIn, Button.OnPress onPressIn) {
         this(x, y, widthIn, heightIn, Component.empty(), onPressIn, DEFAULT_NARRATION);
     }
 
-    public TexturedButton(int x, int y, int widthIn, int heightIn, ResourceLocation buttonTexture, ResourceLocation hoverButtonTexture, Button.OnPress onPressIn) {
+    public TexturedButton(int x, int y, int widthIn, int heightIn, Identifier buttonTexture, Identifier hoverButtonTexture, Button.OnPress onPressIn) {
         this(x, y, widthIn, heightIn, Component.empty(), onPressIn, DEFAULT_NARRATION);
         this.buttonTexture = buttonTexture;
         this.hoverButtonTexture = hoverButtonTexture;
@@ -70,7 +67,7 @@ public class TexturedButton extends Button {
     }
 
     @Override
-    public void renderWidget(GuiGraphics graphics, int mouseX, int mouseY, float partialTicks) {
+    protected void renderContents(GuiGraphics graphics, int mouseX, int mouseY, float partialTick) {
         Minecraft minecraft = Minecraft.getInstance();
 
 
@@ -78,20 +75,13 @@ public class TexturedButton extends Button {
         if (this.isHoveredOrFocused()) i += this.yDiffText;
 
         /** TEXTURE MANAGER */
-        ResourceLocation texture = this.getTypeTexture();
+        Identifier texture = this.getTypeTexture();
 
         if(this.useSprite ) {
             graphics.blitSprite(RenderPipelines.GUI_TEXTURED, texture, this.getX(), this.getY(), this.getWidth(), this.getHeight(), ARGB.white(this.alpha));
         } else {
             graphics.blit(RenderPipelines.GUI_TEXTURED, texture, this.getX(), this.getY(), (float) this.xTexStart, (float) i,
                     this.width, this.height, this.textureWidth, this.textureHeight);
-        }
-
-        /** FONT RENDERER */
-        int color = this.isHovered ? 16777215 : 10526880;
-
-        if(this.showText) {
-            this.renderString(graphics, minecraft.font, color | Mth.ceil(this.alpha * 255.0F) << 24);
         }
     }
 
@@ -120,7 +110,7 @@ public class TexturedButton extends Button {
         return cast();
     }
 
-    public <T extends TexturedButton> T tex(ResourceLocation buttonTexture, ResourceLocation hoverTexture) {
+    public <T extends TexturedButton> T tex(Identifier buttonTexture, Identifier hoverTexture) {
         this.buttonTexture = buttonTexture;
         this.hoverButtonTexture = hoverTexture;
         return cast();
@@ -138,17 +128,12 @@ public class TexturedButton extends Button {
         return cast();
     }
 
-    public <T extends TexturedButton> T showText(boolean showText) {
-        this.showText = showText;
-        return cast();
-    }
-
     public void setYShift(int y) {
         this.yDiffText = y;
     }
 
     /** TYPE TEXTURE MANAGER */
-    public ResourceLocation getTypeTexture() {
+    public Identifier getTypeTexture() {
         if (this.isHovered) {
             return this.hoverButtonTexture;
         }

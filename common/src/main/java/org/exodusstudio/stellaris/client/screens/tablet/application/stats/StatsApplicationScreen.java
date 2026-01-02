@@ -6,7 +6,7 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.stats.Stats;
 import org.exodusstudio.stellaris.client.screens.components.containers.ScrollableContainer;
 import org.exodusstudio.stellaris.client.screens.components.stats.StatWidget;
@@ -14,11 +14,11 @@ import org.exodusstudio.stellaris.client.screens.tablet.MainTabletScreen;
 import org.exodusstudio.stellaris.client.screens.tablet.application.ApplicationRegistry;
 import org.exodusstudio.stellaris.common.menus.MainTabletMenu;
 import org.exodusstudio.stellaris.common.registries.StatsRegistry;
-import org.exodusstudio.stellaris.common.utils.ResourceLocationUtils;
+import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
 
 public class StatsApplicationScreen extends Screen {
 
-    private static final ResourceLocation BACKGROUND = ResourceLocationUtils.guiTexture("tablet/stats/stat_screen");
+    private static final Identifier BACKGROUND = IdentifierUtils.guiTexture("tablet/stats/stat_screen");
 
     private final MainTabletScreen mainTabletScreen;
 
@@ -57,7 +57,7 @@ public class StatsApplicationScreen extends Screen {
 
         int height = 5;
 
-        for (RegistrySupplier<ResourceLocation> val : StatsRegistry.STATS) {
+        for (RegistrySupplier<Identifier> val : StatsRegistry.STATS) {
             Component name = Component.translatable("stat.stellaris." + val.get().toString().split(":")[1]);
             Component value = Component.literal(String.valueOf(Minecraft.getInstance().player.getStats().getValue(Stats.CUSTOM.get(val.get()))));
 
@@ -77,9 +77,9 @@ public class StatsApplicationScreen extends Screen {
     }
 
     @Override
-    public void resize(Minecraft minecraft, int width, int height) {
-        this.mainTabletScreen.resize(minecraft, width, height);
-        super.resize(minecraft, width, height);
+    public void resize(int width, int height) {
+        this.mainTabletScreen.resize(width, height);
+        super.resize(width, height);
     }
 
     public int getLeftPos() {

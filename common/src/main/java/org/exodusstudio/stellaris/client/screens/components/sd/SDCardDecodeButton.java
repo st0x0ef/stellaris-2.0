@@ -1,6 +1,5 @@
 package org.exodusstudio.stellaris.client.screens.components.sd;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.network.chat.Component;
@@ -12,11 +11,8 @@ public class SDCardDecodeButton extends Button {
     }
 
     @Override
-    public void renderWidget(GuiGraphics ctx, int mouseX, int mouseY, float partialTicks) {
-        Minecraft mc = Minecraft.getInstance();
-
-        int color = this.active ? -1 : -6250336;
-        this.renderString(ctx, mc.font, color);
+    protected void renderContents(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
+        this.renderDefaultLabel(guiGraphics.textRendererForWidget(this, GuiGraphics.HoveredTextEffects.NONE));
     }
 
 }

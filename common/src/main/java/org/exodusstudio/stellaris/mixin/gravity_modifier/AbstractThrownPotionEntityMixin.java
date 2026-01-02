@@ -1,6 +1,6 @@
 package org.exodusstudio.stellaris.mixin.gravity_modifier;
 
-import net.minecraft.world.entity.projectile.AbstractThrownPotion;
+import net.minecraft.world.entity.projectile.throwableitemprojectile.AbstractThrownPotion;
 import org.exodusstudio.stellaris.common.utils.GravityUtils;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;

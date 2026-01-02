@@ -5,16 +5,25 @@ import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
-import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.blockentity.state.BlockEntityRenderState;
+import net.minecraft.client.renderer.rendertype.RenderType;
+import net.minecraft.client.renderer.rendertype.RenderTypes;
+import net.minecraft.resources.Identifier;
 import org.exodusstudio.stellaris.Stellaris;
-import org.exodusstudio.stellaris.common.utils.ResourceLocationUtils;
+import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
 
-public class GravityManipulatorModel extends Model {
-    public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(ResourceLocationUtils.id("gravity_manipulator"), "main");
+import java.util.function.Function;
+
+public class GravityManipulatorModel extends Model<BlockEntityRenderState> {
+    public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(IdentifierUtils.id("gravity_manipulator"), "main");
     private final ModelPart GravityCenter;
 
     public GravityManipulatorModel(ModelPart root) {
-        super(root, RenderType::entityCutout);
+        this(root, RenderTypes::entityCutout);
+    }
+
+    private GravityManipulatorModel(ModelPart root, Function<Identifier, RenderType> renderType) {
+        super(root, renderType);
 
         this.GravityCenter = root.getChild("GravityCenter");
     }
@@ -43,7 +52,7 @@ public class GravityManipulatorModel extends Model {
     }
 
     public void animateItemCore(float partialTick) {
-        GravityCenter.yRot += partialTick / 100f;
+        GravityCenter.yRot += partialTick;
     }
 
     public void animateBlockCore(float partialTick, double gravity) {

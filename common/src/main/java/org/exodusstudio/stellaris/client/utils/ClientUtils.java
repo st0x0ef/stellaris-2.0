@@ -1,7 +1,7 @@
 package org.exodusstudio.stellaris.client.utils;
 
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.EntityType;
@@ -18,7 +18,7 @@ public class ClientUtils {
      * @param location the location of the entity
      * @return The entity created
      */
-    public static Entity createEntity(Level level, ResourceLocation location) {
+    public static Entity createEntity(Level level, Identifier location) {
 
         Optional<EntityType<?>> maybeType = BuiltInRegistries.ENTITY_TYPE.getOptional(location);
         if (maybeType.isEmpty()) {

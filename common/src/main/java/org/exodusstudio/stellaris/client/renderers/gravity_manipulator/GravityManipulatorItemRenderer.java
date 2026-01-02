@@ -4,52 +4,50 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.model.geom.EntityModelSet;
-import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.SubmitNodeCollector;
+import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.client.renderer.special.NoDataSpecialModelRenderer;
 import net.minecraft.client.renderer.special.SpecialModelRenderer;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemDisplayContext;
-import org.jetbrains.annotations.NotNull;
-import org.joml.Vector3f;
+import org.joml.Vector3fc;
 
-import java.util.Set;
+import java.util.function.Consumer;
 
-public record GravityManipulatorItemRenderer(ResourceLocation texture, GravityManipulatorModel model) implements NoDataSpecialModelRenderer {
+public record GravityManipulatorItemRenderer(Identifier texture, GravityManipulatorModel model) implements NoDataSpecialModelRenderer {
 
     @Override
-    public void render(ItemDisplayContext displayContext, PoseStack poseStack, MultiBufferSource bufferSource, int packedLight, int packedOverlay, boolean hasFoilType) {
+    public void submit(ItemDisplayContext displayContext, PoseStack poseStack, SubmitNodeCollector nodeCollector, int packedLight, int packedOverlay, boolean hasFoil, int outlineColor) {
         poseStack.pushPose();
 
         poseStack.translate(0.5D, 1.5D, 0.5D);
         poseStack.scale(-1.0F, -1.0F, 1.0F);
 
-        model.animateItemCore(Minecraft.getInstance().getFrameTimeNs() / 1000000f);
+        model.animateItemCore(1f / Minecraft.getInstance().getFps());
 
-        this.model.renderToBuffer(poseStack, bufferSource.getBuffer(RenderType.entityCutout(GravityManipulatorBlockRenderer.TEXTURE)), packedLight, packedOverlay);
+        nodeCollector.submitModelPart(this.model.root(), poseStack, RenderTypes.entityCutout(GravityManipulatorBlockRenderer.TEXTURE), packedLight, packedOverlay, null);
         poseStack.popPose();
     }
 
     @Override
-    public void getExtents(Set<Vector3f> output) {
+    public void getExtents(Consumer<Vector3fc> output) {
         PoseStack poseStack = new PoseStack();
         poseStack.translate(0.0D, 1.5D, 0.0D);
         model.root().getExtentsForGui(poseStack, output);
     }
 
-    public record Unbaked(ResourceLocation texture) implements SpecialModelRenderer.Unbaked {
+    public record Unbaked(Identifier texture) implements SpecialModelRenderer.Unbaked {
         public static final MapCodec<GravityManipulatorItemRenderer.Unbaked> MAP_CODEC = RecordCodecBuilder.mapCodec(instance ->
                 instance.group(
-                        ResourceLocation.CODEC.fieldOf("texture").forGetter(GravityManipulatorItemRenderer.Unbaked::texture)
+                        Identifier.CODEC.fieldOf("texture").forGetter(GravityManipulatorItemRenderer.Unbaked::texture)
                 ).apply(instance, GravityManipulatorItemRenderer.Unbaked::new)
         );
 
         @Override
-        public @NotNull NoDataSpecialModelRenderer bake(EntityModelSet modelSet) {
+        public SpecialModelRenderer<?> bake(BakingContext context) {
             return new GravityManipulatorItemRenderer(
                     this.texture,
-                    new GravityManipulatorModel(modelSet.bakeLayer(GravityManipulatorModel.LAYER_LOCATION))
+                    new GravityManipulatorModel(context.entityModelSet().bakeLayer(GravityManipulatorModel.LAYER_LOCATION))
             );
         }
 
