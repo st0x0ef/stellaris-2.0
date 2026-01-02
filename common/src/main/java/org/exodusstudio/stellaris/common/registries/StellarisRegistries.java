@@ -24,7 +24,4 @@ public class StellarisRegistries {
 
         return RegistrarManager.get(Stellaris.MOD_ID).<T>builder(id(registryId)).build();
     }
-
-    private StellarisRegistries() {
-    }
 }

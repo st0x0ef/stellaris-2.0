@@ -14,7 +14,7 @@ public class RegistryPlatformImpl {
             DeferredRegister.create(NeoForgeRegistries.ENTITY_DATA_SERIALIZERS, Stellaris.MOD_ID);
 
     public static <T> void registerEntityDataSerializer(ResourceLocation location, EntityDataSerializer<T> serializer) {
-        Supplier<EntityDataSerializer<T>> register = ENTITY_DATA_SERIALIZERS.register(location.getPath(), () -> serializer);
+        ENTITY_DATA_SERIALIZERS.register(location.getPath(), () -> serializer);
     }
 
 }

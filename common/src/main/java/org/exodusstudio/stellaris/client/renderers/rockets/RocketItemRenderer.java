@@ -58,8 +58,6 @@ public record RocketItemRenderer(ResourceLocation texture, RocketModel model) im
         poseStack.popPose();
     }
 
-
-
     @Override
     public void getExtents(Set<Vector3f> output) {
         PoseStack poseStack = new PoseStack();
@@ -81,7 +79,6 @@ public record RocketItemRenderer(ResourceLocation texture, RocketModel model) im
 
         @Override
         public @NotNull RocketItemRenderer bake(EntityModelSet modelSet) {
-
             return new RocketItemRenderer(this.texture,
                     new RocketModel(modelSet.bakeLayer(RocketModel.LAYER_LOCATION))
             );
@@ -92,5 +89,4 @@ public record RocketItemRenderer(ResourceLocation texture, RocketModel model) im
             return MAP_CODEC;
         }
     }
-
 }

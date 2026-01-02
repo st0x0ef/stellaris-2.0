@@ -20,27 +20,16 @@ public class StellarisClient {
         ApplicationRegistry.init();
 
         FluidInfosRegistry.init();
-        KeyMappingsRegistry.init();
-        registerLayers();
-        registerRenderers();
+
         registerOverlays();
+
+        KeyMappingsRegistry.init();
         ClientTickEvent.CLIENT_POST.register(KeyMappingsRegistry::clientTick);
 
         PlatformClientHelper.registerConfigScreen(Stellaris.MOD_ID, Stellaris.CONFIG);
     }
 
-    private  static void registerRenderers() {
-        EntityRendererRegistry.register(EntityTypesRegistry.ROCKET, RocketRenderer::new);
-    }
-
-    private static void registerLayers() {
-        EntityModelLayerRegistry.register(RocketModel.LAYER_LOCATION, RocketModel::createBodyLayer);
-
-    }
-
     public static void registerOverlays() {
         ClientGuiEvent.RENDER_HUD.register(RocketTimerOverlay::render);
     }
-
-
 }
