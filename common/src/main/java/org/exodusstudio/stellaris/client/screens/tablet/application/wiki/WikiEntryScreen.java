@@ -57,8 +57,6 @@ public class WikiEntryScreen extends Screen {
         super.renderBackground(guiGraphics, mouseX, mouseY, partialTick);
         guiGraphics.blit(RenderPipelines.GUI_TEXTURED, ApplicationScreen.BLANCK_BACKGROUND, this.getLeftPos(), this.getTopPos(), 0, 0, this.tabletScreen.getImageWidth(), this.tabletScreen.getImageHeight(), this.tabletScreen.getImageWidth(),this.tabletScreen.getImageHeight());
 
-        guiGraphics.blit(RenderPipelines.GUI_TEXTURED, ApplicationScreen.BLANCK_BACKGROUND, this.getLeftPos(), this.getTopPos(), 0, 0, this.tabletScreen.getImageWidth(), this.tabletScreen.getImageHeight(), this.tabletScreen.getImageWidth(),this.tabletScreen.getImageHeight());
-
     }
 
     @Override

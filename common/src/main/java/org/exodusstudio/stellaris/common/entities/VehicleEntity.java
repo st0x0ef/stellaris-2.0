@@ -116,7 +116,7 @@ public abstract class VehicleEntity extends Entity implements HasCustomInventory
 
         this.xxa *= 0.98F;
         this.zza *= 0.98F;
-        this.travel(new Vec3(this.xxa, this.yya, this.zza));
+        //this.travel(new Vec3(this.xxa, this.yya, this.zza));
     }
 
     @Override
@@ -200,7 +200,7 @@ public abstract class VehicleEntity extends Entity implements HasCustomInventory
 
     /** Movement Physic */
     public void travel(Vec3 vec3) {
-        if (this.isLocalClientAuthoritative()) {
+        if (isLocalInstanceAuthoritative()) {
             double d0 = 0.08D;
 
             boolean flag = this.getDeltaMovement().y <= 0.0D;
@@ -350,7 +350,6 @@ public abstract class VehicleEntity extends Entity implements HasCustomInventory
     public void openCustomInventoryScreen(Player player) {
 
     }
-
 
     private SimpleContainer getBaseContainer() {
         return new SimpleContainer(15);

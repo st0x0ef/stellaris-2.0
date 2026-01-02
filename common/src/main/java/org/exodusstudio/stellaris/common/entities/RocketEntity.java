@@ -3,7 +3,11 @@ package org.exodusstudio.stellaris.common.entities;
 import com.fej1fun.potentials.components.FluidAmountMapDataComponent;
 import dev.architectury.fluid.FluidStack;
 import dev.architectury.networking.NetworkManager;
+import net.minecraft.core.particles.ParticleOptions;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.damagesource.DamageSource;
@@ -35,20 +39,9 @@ import java.util.Optional;
 public class RocketEntity extends VehicleEntity  {
 
     public static final EntityDataAccessor<Modules<RocketModule>> ROCKET_MODULES = SynchedEntityData.defineId(RocketEntity.class, EntityDataSerializersRegistry.ROCKET_MODULES);
+    public static final EntityDataAccessor<Boolean> ROCKET_START = SynchedEntityData.defineId(RocketEntity.class, EntityDataSerializers.BOOLEAN);;
+    public static final EntityDataAccessor<Integer> ROCKET_START_TIMER = SynchedEntityData.defineId(RocketEntity.class, EntityDataSerializers.INT);;
 
-    public static RocketEntity fromItemStack(Level level, ItemStack stack) {
-        RocketEntity rocketEntity = new RocketEntity(EntityTypesRegistry.ROCKET.get(), level);
-        Modules<RocketModule> modulesOptional = stack.getOrDefault(DataComponentsRegistry.ROCKET_MODULES.get(), RocketModules.empty());
-        rocketEntity.setRocketModules(modulesOptional);
-
-        //Only allow to change the fuel type when the rocket is empty
-        if(stack.has(DataComponentsRegistry.FLUID_LIST.get())) {
-            FluidAmountMapDataComponent fluidData = stack.get(DataComponentsRegistry.FLUID_LIST.get());
-
-            rocketEntity.entityData.set(FUEL, (int) fluidData.getAmount(0));
-        }
-        return rocketEntity;
-    }
 
     public RocketEntity(EntityType<?> entityType, Level level) {
         super(entityType, level);
@@ -155,16 +148,68 @@ public class RocketEntity extends VehicleEntity  {
     }
 
 
+    public void spawnParticle() {
+        if (this.level() instanceof ServerLevel level) {
+            Vec3 vec = this.getDeltaMovement();
+
+            if (this.isTimerOver()) {
+                level.sendParticles((ParticleOptions) ParticleTypes.FLAME, this.getX() - vec.x, this.getY() - vec.y - 2.2, this.getZ() - vec.z, 20, 0.1, 0.1, 0.1, 0.001);
+                level.sendParticles((ParticleOptions) ParticleTypes.FLAME, this.getX() - vec.x, this.getY() - vec.y - 3.2, this.getZ() - vec.z, 10, 0.1, 0.1, 0.1, 0.04);
+            } else {
+                level.sendParticles(ParticleTypes.CAMPFIRE_COSY_SMOKE, this.getX() - vec.x, this.getY() - vec.y - 0.1, this.getZ() - vec.z, 6, 0.1, 0.1, 0.1, 0.023);
+            }
+        }
+    }
+
+    public void startTimerAndFlyMovement() {
+        if (this.getTimer() < 200) {
+            this.entityData.set(ROCKET_START_TIMER, this.getTimer() +1 );
+        }
+
+        if (this.getTimer() == 200) {
+            if (this.getDeltaMovement().y < this.getRocketSpeed() - 0.1) {
+                this.setDeltaMovement(this.getDeltaMovement().x, this.getDeltaMovement().y + 0.1, this.getDeltaMovement().z);
+            } else {
+                this.setDeltaMovement(this.getDeltaMovement().x, this.getRocketSpeed(), this.getDeltaMovement().z);
+            }
+        }
+    }
+
+    public void startRocket() {
+        Entity entity = this.getPassengers().getFirst();
+
+        if (entity != null && entity instanceof Player player) {
+
+            if (this.getFuel() > 0 || player.isCreative()) {
+                if (!this.entityData.get(ROCKET_START)) {
+                    this.entityData.set(ROCKET_START, true);
+                    //player.awardStat(StatsRegistry.ROCKET_LAUNCHED.get());
+                    //TODO: sound
+                    //this.level().playSound(player, this, SoundRegistry.ROCKET_SOUND.get(), SoundSource.NEUTRAL, 1, 1);
+                }
+            }
+            else {
+                player.displayClientMessage(Component.literal("text.stellaris.rocket.fuel" + getFuelType().getFluid().arch$registryName()), true);
+            }
+        }
+    }
+
+
 
     @Override
     public void defineSynchedData(SynchedEntityData.Builder builder) {
         super.defineSynchedData(builder);
         builder.define(ROCKET_MODULES, RocketModules.empty());
+        builder.define(ROCKET_START, false);
+        builder.define(ROCKET_START_TIMER, 0);
+
     }
 
 
     @Override
     public void tick() {
+        super.tick();
+
         if (this.level().isClientSide) {
             return;
         }
@@ -173,7 +218,12 @@ public class RocketEntity extends VehicleEntity  {
         NetworkManager.sendToPlayers(level().getServer().getPlayerList().getPlayers(),
                 new SyncRocketModule(this.getId(), this.entityData.get(ROCKET_MODULES)));
 
-        super.tick();
+        //Handle rocket movement when started
+        if (this.entityData.get(ROCKET_START)) {
+            this.spawnParticle();
+            this.startTimerAndFlyMovement();
+        }
+
     }
 
     @Override
@@ -241,6 +291,33 @@ public class RocketEntity extends VehicleEntity  {
 
     public int getFuelLevel() {
         return this.entityData.get(FUEL);
+    }
+
+    public double getRocketSpeed() {
+        return 0.8;
+    }
+
+    public boolean isTimerOver() {
+        return this.entityData.get(ROCKET_START_TIMER) == 200;
+    }
+
+    public int getTimer() {
+        return this.entityData.get(ROCKET_START_TIMER);
+    }
+
+
+    public static RocketEntity fromItemStack(Level level, ItemStack stack) {
+        RocketEntity rocketEntity = new RocketEntity(EntityTypesRegistry.ROCKET.get(), level);
+        Modules<RocketModule> modulesOptional = stack.getOrDefault(DataComponentsRegistry.ROCKET_MODULES.get(), RocketModules.empty());
+        rocketEntity.setRocketModules(modulesOptional);
+
+        //Only allow to change the fuel type when the rocket is empty
+        if(stack.has(DataComponentsRegistry.FLUID_LIST.get())) {
+            FluidAmountMapDataComponent fluidData = stack.get(DataComponentsRegistry.FLUID_LIST.get());
+
+            rocketEntity.entityData.set(FUEL, (int) fluidData.getAmount(0));
+        }
+        return rocketEntity;
     }
 
 }
