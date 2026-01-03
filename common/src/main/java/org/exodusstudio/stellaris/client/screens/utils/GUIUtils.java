@@ -63,7 +63,18 @@ public class GUIUtils {
         return random.nextInt(0xFFFFFF + 1);
     }
 
-    public static void renderEnergyGaugeTooltip(GuiGraphics graphics, GaugeWidget widget, int energyGeneratedPerTicks, int x, int y, Font font) {
+    public static void renderEnergyGeneratorGaugeTooltip(GuiGraphics graphics, GaugeWidget widget, int energyGeneratedPerTicks, int x, int y, Font font) {
         widget.renderTooltips(graphics, x, y, font, list -> list.add(ClientTooltipComponent.create(Component.translatable("gauge_text.stellaris.max_generation", energyGeneratedPerTicks).getVisualOrderText())));
     }
+
+    /** gui convenience feature */
+
+    public static Component getMessageComponent(String text, int color) {
+        return Component.literal(text).setStyle(Style.EMPTY.withColor(TextColor.fromRgb(color)));
+    }
+
+    public static Component getMessageComponent(String text) {
+        return Component.literal(text).setStyle(Style.EMPTY);
+    }
+
 }

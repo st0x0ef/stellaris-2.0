@@ -1,0 +1,23 @@
+{
+  "type": "stellaris:rocket_station",
+  "ingredients": [
+    "minecraft:dirt",
+    "minecraft:dirt",
+    "minecraft:dirt",
+    "minecraft:dirt",
+    "minecraft:dirt",
+    "minecraft:dirt",
+    "minecraft:dirt",
+    "minecraft:dirt",
+    "minecraft:dirt",
+    "minecraft:dirt",
+    "minecraft:dirt",
+    "minecraft:dirt",
+    "minecraft:dirt",
+    "minecraft:dirt"
+  ],
+  "output": {
+    "id": "stellaris:rocket",
+    "count": 1
+  }
+}

@@ -20,6 +20,9 @@ import org.exodusstudio.stellaris.common.utils.capabilities.energy.EnergyStorage
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+/**
+ * Base class for block entities that have an energy storage and an inventory.
+ */
 public abstract class BaseEnergyContainerBlockEntity extends BaseContainerBlockEntity implements EnergyProvider.BLOCK, ImplementedInventory, TickingBlockEntity {
 
     public static final String ENERGY_TAG = "stellaris.energyContainer";
@@ -45,6 +48,9 @@ public abstract class BaseEnergyContainerBlockEntity extends BaseContainerBlockE
         this(type, pos, state, initialMaxCapacity, initialMaxCapacity, initialMaxCapacity);
     }
 
+    public BaseEnergyContainerBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
+        this(type, pos, state, 12800);
+    }
     @Override
     public NonNullList<ItemStack> getItems() {
         return items;

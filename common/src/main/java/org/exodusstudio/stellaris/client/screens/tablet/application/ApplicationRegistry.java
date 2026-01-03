@@ -29,9 +29,9 @@ public class ApplicationRegistry {
                     .syncToClients()
                     .build();
 
-    public static RegistrySupplier<ApplicationFactory> WIKI = TABLET_APPLICATION.register(
+    public static RegistrySupplier<ApplicationFactory<MainTabletMenu>> WIKI = TABLET_APPLICATION.register(
             ResourceLocation.parse("stellaris:applications/wiki"),
-            () -> new ApplicationFactory<MainTabletMenu>(
+            () -> new ApplicationFactory<>(
                     Component.translatable("application.stellaris.wiki.name"),
                     Component.translatable("application.stellaris.wiki.description"),
                     ResourceLocationUtils.id("icon/wiki_app"),
@@ -40,7 +40,7 @@ public class ApplicationRegistry {
             )
     );
 
-    public static RegistrySupplier<ApplicationFactory> SD_CARD_READER = TABLET_APPLICATION.register(
+    public static RegistrySupplier<ApplicationFactory<MainTabletMenu>> SD_CARD_READER = TABLET_APPLICATION.register(
             ResourceLocation.parse("stellaris:applications/sd_card_reader"),
             () -> new ApplicationFactory<>(
                     Component.translatable("application.stellaris.sd_card_reader.name"),
@@ -51,7 +51,7 @@ public class ApplicationRegistry {
             )
     );
 
-    public static RegistrySupplier<ApplicationFactory> STATS = TABLET_APPLICATION.register(
+    public static RegistrySupplier<ApplicationFactory<MainTabletMenu>> STATS = TABLET_APPLICATION.register(
             ResourceLocation.parse("stellaris:applications/stats"),
             () -> new ApplicationFactory<>(
                     Component.translatable("application.stellaris.stats.name"),
@@ -66,35 +66,25 @@ public class ApplicationRegistry {
         TABLET_APPLICATION.key();
     }
 
-    public static class ApplicationFactory<T extends AbstractContainerMenu> {
+    public record ApplicationFactory<T extends AbstractContainerMenu>(MutableComponent name,
+                                                                      MutableComponent description,
+                                                                      ResourceLocation iconLocation,
+                                                                      ResourceLocation iconHoverLocation,
+                                                                      Function<MenuHolder<T>, Screen> screenFactory) {
 
-        private final MutableComponent name;
-        private final MutableComponent description;
-        private final ResourceLocation iconLocation;
-        private final ResourceLocation iconHoverLocation;
+            public ApplicationFactory(MutableComponent name, MutableComponent description, ResourceLocation iconLocation, ResourceLocation iconHoverLocation,
+                                      @Nullable Function<MenuHolder<T>, Screen> screenFactory) {
+                this.name = name;
+                this.description = description;
+                this.iconLocation = iconLocation;
+                this.screenFactory = screenFactory;
+                this.iconHoverLocation = iconHoverLocation;
+            }
 
-        private final Function<MenuHolder<T>, Screen> screenFactory;
-
-        public ApplicationFactory(MutableComponent name, MutableComponent description, ResourceLocation iconLocation,ResourceLocation iconHoverLocation,
-                                  @Nullable Function<MenuHolder<T>, Screen> screenFactory) {
-            this.name = name;
-            this.description = description;
-            this.iconLocation = iconLocation;
-            this.screenFactory = screenFactory;
-            this.iconHoverLocation = iconHoverLocation;
+            public Screen createScreen(MenuHolder<T> screen) {
+                return screenFactory.apply(screen);
+            }
         }
-
-        public MutableComponent getName() { return name; }
-        public MutableComponent getDescription() { return description; }
-        public ResourceLocation getIconLocation() { return iconLocation; }
-        public ResourceLocation getIconHoverLocation() {
-            return iconHoverLocation;
-        }
-
-        public Screen createScreen(MenuHolder<T> screen) {
-            return screenFactory.apply(screen);
-        }
-    }
 
     /**
      * Holder for the menu and inventory to be used in the application screens.

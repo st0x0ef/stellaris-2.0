@@ -48,12 +48,11 @@ public class WikiApplicationScreen extends Screen {
     public static Map<ResourceLocation, EntryInfo> ENTRY_COMPONENTS = new HashMap<>();
 
 
-
     public ScrollableContainer scrollableContainer;
 
     public MainTabletScreen mainTabletScreen;
 
-    public WikiEntry currentEntry = null;
+    public WikiEntry currentEntry;
 
     //The list of the infos for the currentEntry
     public List<EntryInfo> INFOS;
@@ -109,9 +108,7 @@ public class WikiApplicationScreen extends Screen {
         int height = 5;
         for (WikiEntry entry : ENTRIES) {
             WikiEntryButton button = new WikiEntryButton(this.scrollableContainer.getX() + 5, this.scrollableContainer.getY() + height, 90, 20, entry,
-                    button1 -> {
-                        switchEntry(entry, 0);
-                    }).tex(ResourceLocationUtils.guiTexture("tablet/tablet_entry_button"), ResourceLocationUtils.guiTexture("tablet/tablet_entry_button"));
+                    button1 -> switchEntry(entry, 0)).tex(ResourceLocationUtils.guiTexture("tablet/tablet_entry_button"), ResourceLocationUtils.guiTexture("tablet/tablet_entry_button"));
             this.scrollableContainer.addChild(this, button);
             height += 25;
         }
@@ -212,7 +209,7 @@ public class WikiApplicationScreen extends Screen {
     }
 
     /**
-     * Setup the info buttons on the right side of the screen
+     * Set up the info buttons on the right side of the screen
      */
     private void setupInfosButton() {
         AtomicInteger row = new AtomicInteger(0);
@@ -220,7 +217,7 @@ public class WikiApplicationScreen extends Screen {
 
         var PAGES_BUTTONS = new ArrayList<WikiInfoButton>();
         INFOS.forEach((infos) -> {
-            WikiInfoButton entryButton = new WikiInfoButton(this.scrollableContainer.getRight() + 30 + (column.get() * 30), this.getTopPos() + 60 + (row.get() * 30), 20, 20, (b) -> {this.minecraft.setScreen(new WikiEntryScreen(this.mainTabletScreen, WikiState.fromWiki(this), infos));}, infos)
+            WikiInfoButton entryButton = new WikiInfoButton(this.scrollableContainer.getRight() + 30 + (column.get() * 30), this.getTopPos() + 60 + (row.get() * 30), 20, 20, (b) -> this.minecraft.setScreen(new WikiEntryScreen(this.mainTabletScreen, WikiState.fromWiki(this), infos)), infos)
                     .tex(BUTTON_TEXTURE, BUTTON_HOVERED_TEXTURE);
 
             if (column.get() == 3) {

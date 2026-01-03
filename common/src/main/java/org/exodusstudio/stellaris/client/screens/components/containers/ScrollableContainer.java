@@ -1,6 +1,5 @@
 package org.exodusstudio.stellaris.client.screens.components.containers;
 
-import com.mojang.blaze3d.pipeline.RenderPipeline;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractScrollArea;
 import net.minecraft.client.gui.components.AbstractWidget;
@@ -19,9 +18,6 @@ import java.util.HashMap;
 import java.util.List;
 
 public class ScrollableContainer extends AbstractScrollArea implements ContainerEventHandler {
-
-
-
     public HashMap<AbstractWidget, Integer> defaultPositions = new HashMap<>();
     public ArrayList<AbstractWidget> children = new ArrayList<>();
     public int contentHeight = 0;
@@ -76,7 +72,6 @@ public class ScrollableContainer extends AbstractScrollArea implements Container
 
 
         renderScrollbar(guiGraphics);
-
     }
 
     public void renderContent(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
@@ -96,7 +91,6 @@ public class ScrollableContainer extends AbstractScrollArea implements Container
 
     @Override
     public boolean mouseScrolled(double mouseX, double mouseY, double scrollX, double scrollY) {
-
         return super.mouseScrolled(mouseX, mouseY, scrollX, scrollY);
     }
 
@@ -209,8 +203,6 @@ public class ScrollableContainer extends AbstractScrollArea implements Container
 
     @FunctionalInterface
     public interface RenderInfo {
-
         void render(ScrollableContainer container,  GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick);
-
     }
 }

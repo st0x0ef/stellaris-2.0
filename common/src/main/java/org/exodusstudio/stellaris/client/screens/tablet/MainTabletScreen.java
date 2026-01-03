@@ -11,6 +11,7 @@ import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.AbstractContainerMenu;
 import org.exodusstudio.stellaris.client.screens.components.TexturedButton;
 import org.exodusstudio.stellaris.client.screens.tablet.application.ApplicationRegistry;
 import org.exodusstudio.stellaris.client.utils.ClientUtils;
@@ -62,21 +63,21 @@ public class MainTabletScreen extends AbstractContainerScreen<MainTabletMenu> {
         AtomicInteger column = new AtomicInteger(0);
 
         ApplicationRegistry.TABLET_APPLICATION.entrySet().forEach(entry -> {
-            ApplicationRegistry.ApplicationFactory infos = entry.getValue();
+            ApplicationRegistry.ApplicationFactory<?> infos = entry.getValue();
 
-            MutableComponent tooltip = infos.getName().copy();
-            tooltip.append("\n").append(infos.getDescription().withStyle(ChatFormatting.GRAY));
+            MutableComponent tooltip = infos.name().copy();
+            tooltip.append("\n").append(infos.description().withStyle(ChatFormatting.GRAY));
 
-            TexturedButton tabletButton = new TexturedButton(this.leftPos + 68 + (column.get() * 30), this.topPos + 60 + (row.get() * 30), 20, 20, infos.getName(), (button ->  {
+            TexturedButton tabletButton = new TexturedButton(this.leftPos + 68 + (column.get() * 30), this.topPos + 60 + (row.get() * 30), 20, 20, infos.name(), (button ->  {
                 Screen screen = infos.createScreen(this.createMenuHolder());
                 if (screen != null) {
                     minecraft.setScreen(screen);
                 }
 
             }))
-                    .tex(infos.getIconLocation(), infos.getIconHoverLocation())
+                    .tex(infos.iconLocation(), infos.iconHoverLocation())
                     .useSprite(true)
-                    .tooltip(Tooltip.create(tooltip, infos.getDescription()));
+                    .tooltip(Tooltip.create(tooltip, infos.description()));
 
             if (column.get() == 3) {
                 column.set(0);
@@ -118,7 +119,8 @@ public class MainTabletScreen extends AbstractContainerScreen<MainTabletMenu> {
         return player;
     }
 
-    public ApplicationRegistry.MenuHolder<?> createMenuHolder() {
-        return new ApplicationRegistry.MenuHolder<>(this.menu, this.inventory, this);
+    @SuppressWarnings("unchecked")
+    public <T extends AbstractContainerMenu> ApplicationRegistry.MenuHolder<T> createMenuHolder() {
+        return new ApplicationRegistry.MenuHolder<>((T) this.menu, this.inventory, this);
     }
 }

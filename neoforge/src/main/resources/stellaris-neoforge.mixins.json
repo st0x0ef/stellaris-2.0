@@ -1,0 +1,14 @@
+{
+  "required": true,
+  "package": "org.exodusstudio.stellaris.neoforge.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "minVersion": "0.8",
+  "client": [
+  ],
+  "mixins": [
+    "RegistrarMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

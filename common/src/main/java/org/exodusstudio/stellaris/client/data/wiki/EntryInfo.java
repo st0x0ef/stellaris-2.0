@@ -29,7 +29,6 @@ public record EntryInfo(ResourceLocation id, ResourceLocation entryId, String ti
                 EntityComponent.CODEC.optionalFieldOf("entity").forGetter(InfoComponent::entity)
 
         ).apply(instance, InfoComponent::new));
-
     }
 
 
@@ -39,12 +38,12 @@ public record EntryInfo(ResourceLocation id, ResourceLocation entryId, String ti
      * @param width the width of the image
      * @param height the height of the image
      */
-    public record ImageComponent(ResourceLocation location, int width, int height) {
-
+    public record ImageComponent(ResourceLocation location, int width, int height, Optional<String> legend) {
         public static final Codec<ImageComponent> CODEC = RecordCodecBuilder.create(instance -> instance.group(
                 ResourceLocation.CODEC.fieldOf("location").forGetter(ImageComponent::location),
                 Codec.INT.fieldOf("width").forGetter(ImageComponent::width),
-                Codec.INT.fieldOf("height").forGetter(ImageComponent::height)
+                Codec.INT.fieldOf("height").forGetter(ImageComponent::height),
+                Codec.STRING.optionalFieldOf("legend").forGetter(ImageComponent::legend)
         ).apply(instance, ImageComponent::new));
 
         /**
@@ -53,7 +52,7 @@ public record EntryInfo(ResourceLocation id, ResourceLocation entryId, String ti
          */
         public ResourceLocation formatFileLocation() {
             if(!this.location.getPath().endsWith(".png")) {
-                return location.withPrefix(".png");
+                return location.withSuffix(".png");
             }
             return location;
         }
@@ -62,28 +61,25 @@ public record EntryInfo(ResourceLocation id, ResourceLocation entryId, String ti
     /**
      * A component that render an item on the wiki.
      * @param stack the item to render
-     * @param size the item size
      * @param onlyIcon If present, the item won't be shown in the wiki page but only on the enty button.
      */
-    public record ItemComponent(ItemStack stack, float size, Optional<Boolean> onlyIcon) {
-
+    public record ItemComponent(ItemStack stack, Optional<Boolean> onlyIcon, Optional<Float> scale) {
         public static final Codec<ItemComponent> CODEC = RecordCodecBuilder.create(instance -> instance.group(
                 ItemStack.CODEC.fieldOf("stack").forGetter(ItemComponent::stack),
-                Codec.FLOAT.fieldOf("size").forGetter(ItemComponent::size),
-                Codec.BOOL.optionalFieldOf("onlyIcon").forGetter(ItemComponent::onlyIcon)
+                Codec.BOOL.optionalFieldOf("onlyIcon").forGetter(ItemComponent::onlyIcon),
+                Codec.FLOAT.optionalFieldOf("scale").forGetter(ItemComponent::scale)
         ).apply(instance, ItemComponent::new));
-
     }
 
     /**
      * A component that render an entity on the wiki.
-     * @param entity the location of the entity to render
+     * @param location the location of the entity to render
      * @param scale the entity scale
      */
-    public record EntityComponent(ResourceLocation entity, int scale) {
+    public record EntityComponent(ResourceLocation location, int scale) {
 
         public static final Codec<EntityComponent> CODEC = RecordCodecBuilder.create(instance -> instance.group(
-                ResourceLocation.CODEC.fieldOf("id").forGetter(EntityComponent::entity),
+                ResourceLocation.CODEC.fieldOf("id").forGetter(EntityComponent::location),
                 Codec.INT.fieldOf("scale").forGetter(EntityComponent::scale)
         ).apply(instance, EntityComponent::new));
 

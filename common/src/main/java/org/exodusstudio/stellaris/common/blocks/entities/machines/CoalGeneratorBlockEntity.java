@@ -7,6 +7,7 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.ValueInput;
@@ -50,7 +51,7 @@ public class CoalGeneratorBlockEntity extends BaseGeneratorBlockEntity {
     };
 
     public CoalGeneratorBlockEntity(BlockPos blockPos, BlockState blockState) {
-        this(BlockEntitiesRegistry.COAL_GENERATOR.get(), blockPos, blockState, 1, 12800);
+        this(BlockEntitiesRegistry.COAL_GENERATOR.get(), blockPos, blockState, 3, 48000);
     }
 
     public CoalGeneratorBlockEntity(BlockEntityType<?> entityType, BlockPos blockPos, BlockState blockState, int energyGeneratedPT, int maxCapacity) {
@@ -62,7 +63,7 @@ public class CoalGeneratorBlockEntity extends BaseGeneratorBlockEntity {
         return new CoalGeneratorMenu(containerId, inventory, this, this, dataAccess);
     }
 
-    public void tick() {
+    public void tick(Level level, BlockState blockState) {
         boolean wasLit = isLit();
         boolean shouldUpdate = false;
 

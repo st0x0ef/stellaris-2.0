@@ -1,12 +1,17 @@
 package org.exodusstudio.stellaris.common.commands;
 
 import com.mojang.brigadier.CommandDispatcher;
+import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import dev.architectury.registry.menu.MenuRegistry;
 import net.minecraft.commands.CommandBuildContext;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.level.chunk.ChunkAccess;
+import org.exodusstudio.stellaris.Stellaris;
+
 import org.exodusstudio.stellaris.common.commands.arguments.PlanetArgument;
 import org.exodusstudio.stellaris.common.commands.helpers.ArgumentBuilder;
 import org.exodusstudio.stellaris.common.commands.helpers.CommandBuilder;
@@ -33,7 +38,35 @@ public class StellarisCommands {
                                     return context.success();
                                 })
                         )
-        );
+                ).addSubCommand(builder.createSubCommand("oil")
+                        .addSubCommand(builder.createSubCommand("get").execute((context -> {
+                            if(!context.runByPlayer()) {
+                                return context.failure();
+                            }
+                            ChunkAccess access = context.getPlayer().level().getChunk(context.getPlayer().getOnPos());
+                            context.sendSuccess(Component.literal("Oil Level : " + access.stellaris$getChunkOilLevel()), true);
+
+                            return 0;
+                        })))
+                        .addSubCommand(builder.createSubCommand("set")
+                                .addArgument(ArgumentBuilder.of("quantity", IntegerArgumentType.integer(0, Stellaris.CONFIG.oilConfig.maxOil)))
+                                .execute((context -> {
+
+                                    ServerPlayer player = context.getPlayer();
+                                    if(!context.runByPlayer()) {
+                                        return context.failure();
+                                    }
+
+                                    int quantity = IntegerArgumentType.getInteger(context.context(), "quantity");
+                                    ChunkAccess access = player.level().getChunk(context.getPlayer().getOnPos());
+                                    access.stellaris$setChunkOilLevel(quantity);
+                                    context.sendSuccess(Component.literal("Oil Level : " + access.stellaris$getChunkOilLevel()), true);
+
+                                    return 0;
+                                })))
+                )
+                .register();
+
     }
 
     private void planetsCommand(CommandBuilder builder) {
@@ -93,11 +126,7 @@ public class StellarisCommands {
                                     wrapper.getPlayer().displayClientMessage(Component.literal("Planet not found!"), false);
                                     return false;
                                 }
-                            }).findFirst().ifPresentOrElse(planet -> {
-                                wrapper.getPlayer().displayClientMessage(planet.getDisplayInfo(), false);
-                            }, () -> {
-                                wrapper.getPlayer().displayClientMessage(Component.literal("Planet not found!"), false);
-                            });
+                            }).findFirst().ifPresentOrElse(planet -> wrapper.getPlayer().displayClientMessage(planet.getDisplayInfo(), false), () -> wrapper.getPlayer().displayClientMessage(Component.literal("Planet not found!"), false));
                             return wrapper.success();
                         })
         );

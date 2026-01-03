@@ -21,7 +21,7 @@ public abstract class BaseTickingEntityBlock extends BaseEntityBlock {
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> blockEntityType) {
         if (hasTicker(level)) {
             return createTickerHelper(blockEntityType, getBlockEntityType(), (level1, blockPos, blockState, blockEntity) ->
-                    ((TickingBlockEntity) blockEntity).tick());
+                    ((TickingBlockEntity) blockEntity).tick(level, state));
         }
         return null;
     }

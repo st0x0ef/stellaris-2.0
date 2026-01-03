@@ -4,6 +4,7 @@ import dev.architectury.registry.registries.DeferredRegister;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import org.exodusstudio.stellaris.Stellaris;
+import org.exodusstudio.stellaris.common.blocks.entities.FlagBlockEntity;
 import org.exodusstudio.stellaris.common.blocks.entities.machines.*;
 
 import java.util.Set;
@@ -26,4 +27,16 @@ public class BlockEntitiesRegistry {
 
     public static final Supplier<BlockEntityType<?>> CABLES = BLOCK_ENTITY_TYPE.register("cables",
             () -> new BlockEntityType<>(CableBlockEntity::new, Set.of(BlocksRegistry.CABLE_T1.block().get())));
+
+    public static final Supplier<BlockEntityType<?>> ELECTROLYZER = BLOCK_ENTITY_TYPE.register("electrolyzer",
+            () -> new BlockEntityType<>(ElectrolyzerBlockEntity::new, Set.of(BlocksRegistry.ELECTROLYZER.block().get())));
+
+    public static final Supplier<BlockEntityType<?>> ROCKET_STATION = BLOCK_ENTITY_TYPE.register("rocket_station",
+            () -> new BlockEntityType<>(RocketStationBlockEntity::new, Set.of(BlocksRegistry.ROCKET_STATION.block().get())));
+    public static final Supplier<BlockEntityType<?>> GRAVITY_MANIPULATOR = BLOCK_ENTITY_TYPE.register("gravity_manipulator",
+            () -> new BlockEntityType<>(GravityManipulatorBlockEntity::new, Set.of(BlocksRegistry.GRAVITY_MANIPULATOR.block().get())));
+
+    public static final Supplier<BlockEntityType<FlagBlockEntity>> FLAG = BLOCK_ENTITY_TYPE.register("flag",
+            () -> new BlockEntityType<>(FlagBlockEntity::new, Set.of(BlocksRegistry.FLAG.block().get())));
+
 }

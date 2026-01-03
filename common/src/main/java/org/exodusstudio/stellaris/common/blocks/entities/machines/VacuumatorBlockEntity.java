@@ -13,6 +13,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.alchemy.PotionContents;
 import net.minecraft.world.item.alchemy.Potions;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
@@ -110,7 +111,7 @@ public class VacuumatorBlockEntity extends BaseEnergyContainerBlockEntity {
     }
 
     @Override
-    public void tick() {
+    public void tick(Level level, BlockState state) {
         if (!isLit() && canCraft()) {
             ItemStack canStack = getItem(0);
             resultStack = new ItemStack(canStack.getItem());

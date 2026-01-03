@@ -149,7 +149,6 @@ public class WikiEntryTextRenderer {
             ArrayList<Word> words = lines.get(i);
             AtomicInteger width = new AtomicInteger(0);
             for (Word word : words) {
-
                 String color = "white";
 
                 if (word.color != null) {
@@ -157,11 +156,7 @@ public class WikiEntryTextRenderer {
                 }
 
                 if (word.resourceLocation != null) {
-                    clickBoxConsumer.accept(new ActionBox(x + width.get(), y + (i * getFont().lineHeight), getFont().width(word.text), getFont().lineHeight, null, (info) -> {
-
-                        info.actionBox().changePage(info.infoWidget(), word.resourceLocation);
-
-                        }, (word.text + word.resourceLocation)));
+                    clickBoxConsumer.accept(new ActionBox(x + width.get(), y + (i * getFont().lineHeight), getFont().width(word.text), getFont().lineHeight, null, (info) -> info.actionBox().changePage(info.infoWidget(), word.resourceLocation), (word.text + word.resourceLocation)));
                     color = "blue";
                 }
                 if (word.tooltip != null) {
@@ -190,7 +185,6 @@ public class WikiEntryTextRenderer {
     }
     
     public static class Word {
-
         public String text;
         public String color = null;
         public String resourceLocation = null;

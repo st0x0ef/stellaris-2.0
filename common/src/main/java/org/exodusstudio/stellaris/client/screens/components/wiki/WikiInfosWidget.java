@@ -3,6 +3,7 @@ package org.exodusstudio.stellaris.client.screens.components.wiki;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.InventoryScreen;
+import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -11,6 +12,7 @@ import org.exodusstudio.stellaris.client.screens.components.containers.Scrollabl
 import org.exodusstudio.stellaris.client.utils.ActionBox;
 import org.exodusstudio.stellaris.client.utils.ClientUtils;
 import org.exodusstudio.stellaris.client.utils.WikiEntryTextRenderer;
+import org.joml.Matrix3x2fStack;
 
 import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -44,29 +46,51 @@ public class WikiInfosWidget extends ScrollableContainer {
         if(info == null) return;
 
         for(EntryInfo.InfoComponent component : info.components()) {
-
             switch (component.type().toLowerCase()) {
                 case "text" -> component.text().ifPresent((text) -> {
-                    int descriptionHeight = new WikiEntryTextRenderer(component.text().get(), getWidth() - 30)
+                    int descriptionHeight = new WikiEntryTextRenderer(component.text().get(), getWidth() - 40)
                             .renderWords(guiGraphics, this.getX() + 5, (int) (this.getOffsetHeight() + finalHeight.get() + 5), mouseX, mouseY, this::addClickBox);
-                    finalHeight.addAndGet(descriptionHeight);
+                    finalHeight.addAndGet(descriptionHeight + 5);
                 });
                 case "image" -> component.image().ifPresent((image) -> {
-                    int height = (int) (this.getOffsetHeight() + 40 + finalHeight.get() + 20);
-                    guiGraphics.blit(image.formatFileLocation(), this.getWidth() / 2 - image.width() / 2, height, 0, 0, image.width(), image.height(), image.width(), image.height());
-                    finalHeight.addAndGet(image.height() + 40);
+                    int height = (int) (this.getOffsetHeight() + finalHeight.get() + 20);
+                    guiGraphics.blit(RenderPipelines.GUI_TEXTURED, image.formatFileLocation(), this.getX() + this.getWidth() / 2 - image.width() / 2, height, 0, 0, image.width(), image.height(), image.width(), image.height());
+                    if (image.legend().isPresent()) {
+                        guiGraphics.drawCenteredString(Minecraft.getInstance().font, image.legend().get(), this.getX() + this.getWidth() / 2, height + image.height() + 5, 0xFFFFFFFF);
+                        int legendHeight = Minecraft.getInstance().font.lineHeight + 5;
+                        finalHeight.addAndGet(legendHeight);
+                    }
+                    finalHeight.addAndGet(image.height() + 20);
                 });
                 case "item" -> component.item().ifPresent((item) -> {
+
                     if (item.onlyIcon().isEmpty() || !item.onlyIcon().get()) {
-                        guiGraphics.renderItem(item.stack(), guiGraphics.guiWidth() / 2, (int) (this.getOffsetHeight() + finalHeight.get()));
-                        finalHeight.addAndGet(35);
+                        Matrix3x2fStack matrixStack = guiGraphics.pose();
+                        matrixStack.pushMatrix();
+
+                        float scale = item.scale().isPresent() ? item.scale().get() : 1;
+                        int itemSize = 16;
+                        int padding = 8;
+
+                        float centerX = this.getX() + this.getWidth() / 2f;
+                        int yPos = (int) (this.getOffsetHeight() + finalHeight.get() + padding);
+
+                        float tx = centerX - (itemSize * scale) / 2f;
+
+                        matrixStack.translate(tx, yPos);
+                        matrixStack.scale(scale, scale);
+
+                        guiGraphics.renderItem(item.stack(), 0, 0);
+
+                        finalHeight.addAndGet(Math.round(itemSize * scale) + (padding * 2));
+
+                        matrixStack.popMatrix();
                     }
                 });
                 case "entity" -> component.entity().ifPresent((entity) -> {
                     int height = (int) (this.getOffsetHeight() + finalHeight.get() + entity.scale());
-                    Entity entity1 = ClientUtils.createEntity(Minecraft.getInstance().level, entity.entity());
+                    Entity entity1 = ClientUtils.createEntity(Minecraft.getInstance().level, entity.location());
                     if(entity1 instanceof LivingEntity livingEntity) {
-
                         int cornerX = guiGraphics.guiWidth() / 2 - 25;
 
                         InventoryScreen.renderEntityInInventoryFollowsMouse(guiGraphics, cornerX, height, cornerX + 50, height + entity.scale() + 30, entity.scale(), 0.25F, mouseX, mouseY, livingEntity);
@@ -75,6 +99,8 @@ public class WikiInfosWidget extends ScrollableContainer {
                 });
             }
         }
+
+        finalHeight.addAndGet(10); // Extra padding at the bottom
     }
 
     public void addClickBox(ActionBox box) {

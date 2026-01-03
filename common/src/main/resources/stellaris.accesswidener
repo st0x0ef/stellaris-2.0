@@ -5,11 +5,14 @@ accessible field net/minecraft/client/gui/screens/Screen renderables Ljava/util/
 accessible field net/minecraft/client/gui/components/AbstractSelectionList itemHeight I
 mutable field net/minecraft/client/gui/components/AbstractSelectionList itemHeight I
 accessible method net/minecraft/client/gui/screens/Screen addWidget (Lnet/minecraft/client/gui/components/events/GuiEventListener;)Lnet/minecraft/client/gui/components/events/GuiEventListener;
+extendable method net/minecraft/client/gui/components/AbstractSliderButton setValue (D)V
+accessible method net/minecraft/client/gui/components/AbstractSliderButton setValue (D)V
 accessible class net/minecraft/client/gui/Gui$HeartType
 
 accessible field net/minecraft/client/renderer/ScreenEffectRenderer itemActivationItem Lnet/minecraft/world/item/ItemStack;
 
 accessible method net/minecraft/world/level/block/entity/BlockEntityType <init> (Lnet/minecraft/world/level/block/entity/BlockEntityType$BlockEntitySupplier;Ljava/util/Set;)V
+accessible field net/minecraft/client/gui/GuiGraphics sprites Lnet/minecraft/client/gui/GuiSpriteManager;
 accessible field net/minecraft/server/MinecraftServer storageSource Lnet/minecraft/world/level/storage/LevelStorageSource$LevelStorageAccess;
 
 accessible field net/minecraft/commands/synchronization/ArgumentTypeInfos BY_CLASS Ljava/util/Map;

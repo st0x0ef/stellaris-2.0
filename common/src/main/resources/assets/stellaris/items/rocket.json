@@ -1,0 +1,10 @@
+{
+  "model": {
+    "type": "minecraft:special",
+    "base": "stellaris:item/rocket",
+    "model": {
+      "type": "stellaris:rocket",
+      "texture": "stellaris:entity/rocket/default"
+    }
+  }
+}

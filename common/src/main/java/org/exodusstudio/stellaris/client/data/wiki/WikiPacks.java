@@ -23,14 +23,11 @@ public class WikiPacks {
         protected void apply(Map<ResourceLocation, WikiEntry> resourceLocationJsonElementMap, ResourceManager resourceManager, ProfilerFiller profiler) {
             Stellaris.LOG.error("Loading Assets for Tablet Pack");
             resourceLocationJsonElementMap.forEach((key, entry) -> {
-
                 if (!WikiApplicationScreen.ENTRIES.contains(entry)) {
                     WikiApplicationScreen.ENTRIES.add(entry);
                 }
 
-
-                Stellaris.LOG.info("Loading tablet entry: {}", key);
-
+                Stellaris.LOG.info("Loaded tablet entry: {}", key);
             });
 
         }
