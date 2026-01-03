@@ -114,7 +114,7 @@ public class RocketEntity extends VehicleEntity  {
         FluidStack fuelType = getFuelType();
 
 
-        if (this.level().isClientSide) {
+        if (this.level().isClientSide()) {
             return false;
         }
 
@@ -210,7 +210,7 @@ public class RocketEntity extends VehicleEntity  {
     public void tick() {
         super.tick();
 
-        if (this.level().isClientSide) {
+        if (this.level().isClientSide()) {
             return;
         }
 
@@ -234,7 +234,7 @@ public class RocketEntity extends VehicleEntity  {
             this.spawnRocketItem();
             this.dropEquipment(level);
 
-            if (!this.level().isClientSide) {
+            if (!this.level().isClientSide()) {
                 this.remove(RemovalReason.DISCARDED);
             }
 

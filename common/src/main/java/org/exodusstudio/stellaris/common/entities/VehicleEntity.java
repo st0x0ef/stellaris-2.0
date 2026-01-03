@@ -157,7 +157,7 @@ public abstract class VehicleEntity extends Entity implements HasCustomInventory
                 && !this.isVehicle()) {
             this.dropEquipment(level);
 
-            if (!this.level().isClientSide) {
+            if (!this.level().isClientSide()) {
                 this.remove(RemovalReason.DISCARDED);
             }
 
@@ -250,7 +250,7 @@ public abstract class VehicleEntity extends Entity implements HasCustomInventory
                 float f4 = this.onGround() ? f3 * 0.91F : 0.91F;
                 Vec3 vec35 = this.handleRelativeFrictionAndCalculateMovement(vec3, f3);
                 double d2 = vec35.y;
-                if (this.level().isClientSide && !this.level().hasChunkAt(blockpos)) {
+                if (this.level().isClientSide() && !this.level().hasChunkAt(blockpos)) {
                     if (this.getY() > (double) this.level().getMinY()) {
                         d2 = -0.1D;
                     }

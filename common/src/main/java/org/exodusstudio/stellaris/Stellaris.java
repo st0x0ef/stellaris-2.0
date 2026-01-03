@@ -5,7 +5,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.Strictness;
 import com.google.gson.ToNumberPolicy;
 import fr.tathan.exoconfig.common.loader.ConfigsRegistry;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.packs.resources.PreparableReloadListener;
 import org.exodusstudio.stellaris.client.data.wiki.WikiPacks;
 import org.exodusstudio.stellaris.client.screens.tablet.application.ApplicationRegistry;
@@ -14,7 +14,7 @@ import org.exodusstudio.stellaris.common.data.PlanetsData;
 import org.exodusstudio.stellaris.common.events.Events;
 import org.exodusstudio.stellaris.common.network.NetworkRegistry;
 import org.exodusstudio.stellaris.common.registries.*;
-import org.exodusstudio.stellaris.common.utils.ResourceLocationUtils;
+import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -60,10 +60,10 @@ public final class Stellaris {
         RecipesRegistry.register();
     }
 
-    public static void onAddReloadListenerEvent(BiConsumer<ResourceLocation, PreparableReloadListener> registry) {
-        registry.accept(ResourceLocationUtils.id(PlanetsData.ID), new PlanetsData());
+    public static void onAddReloadListenerEvent(BiConsumer<Identifier, PreparableReloadListener> registry) {
+        registry.accept(IdentifierUtils.id(PlanetsData.ID), new PlanetsData());
 
-        registry.accept(ResourceLocationUtils.id("wiki/entries"), new WikiPacks.WikiEntryPack());
-        registry.accept(ResourceLocationUtils.id("wiki/infos"), new WikiPacks.EntryInfoPack());
+        registry.accept(IdentifierUtils.id("wiki/entries"), new WikiPacks.WikiEntryPack());
+        registry.accept(IdentifierUtils.id("wiki/infos"), new WikiPacks.EntryInfoPack());
     }
 }

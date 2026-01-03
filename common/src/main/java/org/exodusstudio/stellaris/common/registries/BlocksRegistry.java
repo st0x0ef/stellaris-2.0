@@ -5,7 +5,7 @@ import dev.architectury.registry.registries.DeferredRegister;
 import dev.architectury.registry.registries.RegistrySupplier;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
@@ -15,7 +15,7 @@ import net.minecraft.world.level.block.state.BlockBehaviour;
 import org.exodusstudio.stellaris.common.blocks.*;
 import org.exodusstudio.stellaris.common.items.PowerBankItem;
 import org.exodusstudio.stellaris.common.registries.utils.BlockItemRegistrySupplier;
-import org.exodusstudio.stellaris.common.utils.ResourceLocationUtils;
+import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.function.BiFunction;
@@ -101,7 +101,7 @@ public final class BlocksRegistry {
     public static <B extends Block> @NotNull RegistrySupplier<B> block(String name,
                                                                            BlockBehaviour.Properties properties,
                                                                            Function<BlockBehaviour.Properties, B> blockFunc) {
-        ResourceLocation id = ResourceLocationUtils.id(name);
+        Identifier id = IdentifierUtils.id(name);
         ResourceKey<Block> key = ResourceKey.create(Registries.BLOCK, id);
         return BLOCKS.register(id, () -> blockFunc.apply(properties.setId(key)));
     }

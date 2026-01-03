@@ -4,14 +4,14 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.Level;
 
-public record Planet(String translationKey, ResourceLocation dimension, double gravity) {
+public record Planet(String translationKey, Identifier dimension, double gravity) {
     public static final Codec<Planet> CODEC = RecordCodecBuilder.create(instance -> instance.group(
         Codec.STRING.fieldOf("translation_key").forGetter(Planet::translationKey),
-        ResourceLocation.CODEC.fieldOf("dimension").forGetter(Planet::dimension),
+        Identifier.CODEC.fieldOf("dimension").forGetter(Planet::dimension),
         Codec.DOUBLE.fieldOf("gravity").forGetter(Planet::gravity))
             .apply(instance, Planet::new)
     );
@@ -21,7 +21,7 @@ public record Planet(String translationKey, ResourceLocation dimension, double g
     }
 
     public boolean is(ResourceKey<Level> level) {
-        return level.location().equals(this.dimension);
+        return level.identifier().equals(this.dimension);
     }
 
     @Override

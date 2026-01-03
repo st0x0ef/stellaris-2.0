@@ -3,7 +3,7 @@ package org.exodusstudio.stellaris.common.data;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.FileToIdConverter;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.packs.resources.ResourceManager;
@@ -20,14 +20,14 @@ public class PlanetsData extends SimpleJsonResourceReloadListener<Planet> {
     public static final String ID = "planets";
 
     public static final List<Planet> PLANETS = new ArrayList<>();
-    public static final Map<ResourceLocation, ResourceKey<Level>> PLANETS_LEVEL = new HashMap<>();
+    public static final Map<Identifier, ResourceKey<Level>> PLANETS_LEVEL = new HashMap<>();
 
     public PlanetsData() {
         super(Planet.CODEC, FileToIdConverter.json(ID));
     }
 
     @Override
-    protected void apply(Map<ResourceLocation, Planet> planetMap, ResourceManager resourceManager, ProfilerFiller profiler) {
+    protected void apply(Map<Identifier, Planet> planetMap, ResourceManager resourceManager, ProfilerFiller profiler) {
         PLANETS.clear();
         PLANETS.addAll(planetMap.values());
 

@@ -11,12 +11,12 @@ import org.exodusstudio.stellaris.common.entities.RocketEntity;
 import org.exodusstudio.stellaris.common.module.Modules;
 import org.exodusstudio.stellaris.common.module.rocket.RocketModule;
 import org.exodusstudio.stellaris.common.module.rocket.RocketModules;
-import org.exodusstudio.stellaris.common.utils.ResourceLocationUtils;
+import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
 import org.jetbrains.annotations.NotNull;
 
 public record SyncRocketModule(int entityId, Modules<RocketModule> rocketModules) implements CustomPacketPayload {
 
-    public static final Type<SyncRocketModule> TYPE = new Type<>(ResourceLocationUtils.id("sync_rocket_module"));
+    public static final Type<SyncRocketModule> TYPE = new Type<>(IdentifierUtils.id("sync_rocket_module"));
     public static final StreamCodec<RegistryFriendlyByteBuf, SyncRocketModule> STREAM_CODEC = StreamCodec.composite(
             ByteBufCodecs.VAR_INT, SyncRocketModule::entityId,
             RocketModules.STREAM_CODEC, SyncRocketModule::rocketModules,

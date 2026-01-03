@@ -8,7 +8,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ItemLike;
-import org.exodusstudio.stellaris.common.utils.ResourceLocationUtils;
+import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
 
 import java.util.function.Supplier;
 
@@ -24,7 +24,7 @@ public class CreativeTabsRegistry {
 
     @SuppressWarnings("all")
     public static DeferredSupplier<CreativeModeTab> create(String name) {
-        return CreativeTabRegistry.defer(ResourceLocationUtils.id(name));
+        return CreativeTabRegistry.defer(IdentifierUtils.id(name));
     }
 
     public static void register() {

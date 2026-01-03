@@ -1,6 +1,6 @@
 package org.exodusstudio.stellaris.client.renderers.flag;
 
-import net.minecraft.client.model.SkullModelBase;
+import net.minecraft.client.model.Model;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.PartPose;
@@ -8,18 +8,20 @@ import net.minecraft.client.model.geom.builders.CubeListBuilder;
 import net.minecraft.client.model.geom.builders.LayerDefinition;
 import net.minecraft.client.model.geom.builders.MeshDefinition;
 import net.minecraft.client.model.geom.builders.PartDefinition;
-import org.exodusstudio.stellaris.common.utils.ResourceLocationUtils;
+import net.minecraft.client.renderer.blockentity.state.BlockEntityRenderState;
+import net.minecraft.client.renderer.rendertype.RenderTypes;
+import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
 
 
-public class FlagHeadModel extends SkullModelBase {
+public class FlagHeadModel extends Model<BlockEntityRenderState> {
     private final ModelPart root;
     protected final ModelPart head;
 
-    public static final ModelLayerLocation HUMANOID_LAYER_LOCATION = new ModelLayerLocation(ResourceLocationUtils.id("flag_head"), "humanoid");
-    public static final ModelLayerLocation MOB_LAYER_LOCATION = new ModelLayerLocation(ResourceLocationUtils.id("flag_head"), "mob");
+    public static final ModelLayerLocation HUMANOID_LAYER_LOCATION = new ModelLayerLocation(IdentifierUtils.id("flag_head"), "humanoid");
+    public static final ModelLayerLocation MOB_LAYER_LOCATION = new ModelLayerLocation(IdentifierUtils.id("flag_head"), "mob");
 
     public FlagHeadModel(ModelPart modelPart) {
-        super(modelPart);
+        super(modelPart, RenderTypes::entityTranslucent);
         this.root = modelPart;
         this.head = modelPart.getChild("head");
     }
@@ -43,12 +45,8 @@ public class FlagHeadModel extends SkullModelBase {
         return LayerDefinition.create(meshdefinition, 64, 64);
     }
 
-
     @Override
-    public void setupAnim(float mouthAnimation, float yRot, float xRot) {
-        this.head.yRot = yRot * ((float) Math.PI / 180F);
-        this.head.xRot = xRot * ((float) Math.PI / 180F);
+    public void setupAnim(BlockEntityRenderState renderState) {
 
     }
-
 }

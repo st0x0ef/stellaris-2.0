@@ -70,7 +70,7 @@ dependencies {
 
     modImplementation "dev.architectury:architectury-neoforge:$rootProject.architectury_api_version"
 
-    modImplementation "com.fej1fun.potentials:potentials-neoforge-1.21.5:${potentials_version}"
+    modImplementation "com.fej1fun.potentials:potentials-neoforge-$rootProject.minecraft_version:$rootProject.potentials_version"
 
     common(project(path: ':common', configuration: 'namedElements')) { transitive false }
     shadowBundle project(path: ':common', configuration: 'transformProductionNeoForge')

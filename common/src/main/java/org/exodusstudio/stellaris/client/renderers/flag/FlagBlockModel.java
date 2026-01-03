@@ -5,18 +5,27 @@ import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
-import net.minecraft.client.renderer.RenderType;
-import org.exodusstudio.stellaris.common.utils.ResourceLocationUtils;
+import net.minecraft.client.renderer.blockentity.state.BlockEntityRenderState;
+import net.minecraft.client.renderer.rendertype.RenderType;
+import net.minecraft.client.renderer.rendertype.RenderTypes;
+import net.minecraft.resources.Identifier;
+import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
 
-public class FlagBlockModel extends Model {
-    public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(ResourceLocationUtils.id("flag"), "main");
+import java.util.function.Function;
+
+public class FlagBlockModel extends Model<BlockEntityRenderState> {
+    public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(IdentifierUtils.id("flag"), "main");
 
     private final ModelPart flag;
     private final ModelPart pole;
     private final ModelPart base;
 
     public FlagBlockModel(ModelPart root) {
-        super(root, RenderType::entityCutout);
+        this(root, RenderTypes::entityCutout);
+    }
+
+    private FlagBlockModel(ModelPart root, Function<Identifier, RenderType> function) {
+        super(root, function);
 
         this.flag = root.getChild("flag");
         this.pole = root.getChild("pole");

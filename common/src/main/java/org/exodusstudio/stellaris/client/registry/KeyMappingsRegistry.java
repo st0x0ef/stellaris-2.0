@@ -9,10 +9,11 @@ import net.minecraft.world.entity.player.Player;
 import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.common.entities.RocketEntity;
 import org.exodusstudio.stellaris.common.network.packets.KeyHandlerPacket;
+import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
 
 public class KeyMappingsRegistry {
 
-    public static String CATEGORY = "category." + Stellaris.MOD_ID + ".default";
+    public static KeyMapping.Category CATEGORY = new KeyMapping.Category(IdentifierUtils.id("default"));
 
     public static KeyMapping ROCKET_START = new KeyMapping("key." + Stellaris.MOD_ID + ".rocket_start", InputConstants.KEY_SPACE, CATEGORY);
 

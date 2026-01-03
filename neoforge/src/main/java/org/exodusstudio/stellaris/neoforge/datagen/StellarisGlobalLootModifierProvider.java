@@ -2,7 +2,7 @@ package org.exodusstudio.stellaris.neoforge.datagen;
 
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.storage.loot.predicates.LootItemBlockStatePropertyCondition;
 import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
@@ -30,7 +30,7 @@ public class StellarisGlobalLootModifierProvider extends GlobalLootModifierProvi
 
         this.add("chisel_from_jungle_temple",
                 new AddItemModifier(new LootItemCondition[] {
-                        new LootTableIdCondition.Builder(ResourceLocation.withDefaultNamespace("chests/jungle_temple")).build()
+                        new LootTableIdCondition.Builder(Identifier.withDefaultNamespace("chests/jungle_temple")).build()
                 }, ItemsRegistry.DESH_INGOT.get()));
 
     }

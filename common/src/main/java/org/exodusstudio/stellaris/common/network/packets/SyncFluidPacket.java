@@ -14,13 +14,13 @@ import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import org.exodusstudio.stellaris.common.fluid.SingleFluidStorage;
-import org.exodusstudio.stellaris.common.utils.ResourceLocationUtils;
+import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
 import org.jetbrains.annotations.NotNull;
 
 public record SyncFluidPacket(FluidAmountMapDataComponent fluid, int tank, BlockPos pos,
                               Direction direction) implements CustomPacketPayload {
 
-    public static final Type<SyncFluidPacket> TYPE = new Type<>(ResourceLocationUtils.id("fluid_sync_packet"));
+    public static final Type<SyncFluidPacket> TYPE = new Type<>(IdentifierUtils.id("fluid_sync_packet"));
     public static final StreamCodec<RegistryFriendlyByteBuf, SyncFluidPacket> STREAM_CODEC = StreamCodec.composite(
             FluidAmountMapDataComponent.STREAM_CODEC, SyncFluidPacket::fluid,
             ByteBufCodecs.VAR_INT, SyncFluidPacket::tank,

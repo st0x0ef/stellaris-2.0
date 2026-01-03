@@ -8,10 +8,10 @@ import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.world.level.Level;
 import org.exodusstudio.stellaris.common.blocks.entities.machines.GravityManipulatorBlockEntity;
-import org.exodusstudio.stellaris.common.utils.ResourceLocationUtils;
+import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
 
 public record SyncGravityManipulatorDataPacketC2S(BlockPos gravityManipulatorPos, double gravity) implements CustomPacketPayload {
-    public static final Type<SyncGravityManipulatorDataPacketC2S> TYPE_C2S = new Type<>(ResourceLocationUtils.id("sync_gravity_manipulator_data_c2s"));
+    public static final Type<SyncGravityManipulatorDataPacketC2S> TYPE_C2S = new Type<>(IdentifierUtils.id("sync_gravity_manipulator_data_c2s"));
 
     public static final StreamCodec<ByteBuf, SyncGravityManipulatorDataPacketC2S> STREAM_CODEC = StreamCodec.composite(
             BlockPos.STREAM_CODEC, SyncGravityManipulatorDataPacketC2S::gravityManipulatorPos,

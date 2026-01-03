@@ -47,7 +47,7 @@ public class PowerBankBlock extends BaseMachineBlock {
 
     @Override
     public boolean hasTicker(Level level) {
-        return !level.isClientSide;
+        return !level.isClientSide();
     }
 
     @Override

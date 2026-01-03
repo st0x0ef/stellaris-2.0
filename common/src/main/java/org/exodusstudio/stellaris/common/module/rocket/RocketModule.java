@@ -1,7 +1,7 @@
 package org.exodusstudio.stellaris.common.module.rocket;
 
 import dev.architectury.fluid.FluidStack;
-import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.rendertype.RenderType;
 import org.exodusstudio.stellaris.client.renderers.rockets.RocketRenderer;
 import org.exodusstudio.stellaris.common.module.Module;
 import org.jetbrains.annotations.Nullable;
@@ -60,7 +60,6 @@ public interface RocketModule extends Module<RocketModule> {
      * @return the render type, or null to use the default one
      */
     @Nullable
-    
     default RenderType getRenderType(RocketRenderer.RenderingContext context) {
         return null;
     }

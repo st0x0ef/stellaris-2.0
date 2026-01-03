@@ -9,7 +9,7 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.Level;
@@ -60,7 +60,7 @@ public record ElectrolyzeRecipe(FluidStack ingredientStack, List<FluidStack> res
 
     public static class Serializer implements RecipeSerializer<ElectrolyzeRecipe> {
         private static final Codec<FluidStack> FLUID_STACK_CODEC = RecordCodecBuilder.create(instance -> instance.group(
-                ResourceLocation.CODEC.fieldOf("id").forGetter(stack -> BuiltInRegistries.FLUID.getKey(stack.getFluid())),
+                Identifier.CODEC.fieldOf("id").forGetter(stack -> BuiltInRegistries.FLUID.getKey(stack.getFluid())),
                 Codec.LONG.fieldOf("amount").forGetter(FluidStack::getAmount)
         ).apply(instance, (id, amount) -> {
             Fluid fluid = BuiltInRegistries.FLUID.getValue(id);

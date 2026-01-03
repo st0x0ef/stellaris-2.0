@@ -1,11 +1,10 @@
 package org.exodusstudio.stellaris.client.screens.tablet.application.wiki;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import org.exodusstudio.stellaris.client.data.wiki.EntryInfo;
 import org.exodusstudio.stellaris.client.data.wiki.WikiEntry;
 import org.exodusstudio.stellaris.client.screens.components.TexturedButton;
@@ -17,7 +16,7 @@ import org.exodusstudio.stellaris.client.screens.tablet.application.ApplicationR
 import org.exodusstudio.stellaris.client.screens.tablet.application.ApplicationScreen;
 import org.exodusstudio.stellaris.client.utils.ClientUtils;
 import org.exodusstudio.stellaris.common.menus.MainTabletMenu;
-import org.exodusstudio.stellaris.common.utils.ResourceLocationUtils;
+import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
 import org.exodusstudio.stellaris.common.utils.Utils;
 import org.jetbrains.annotations.Nullable;
 
@@ -34,18 +33,18 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class WikiApplicationScreen extends Screen {
 
     /** Textures */
-    public static final ResourceLocation BACK_ARROW = ResourceLocationUtils.guiTexture("tablet/back_page");
-    public static final ResourceLocation BACK_ARROW_HOVER = ResourceLocationUtils.guiTexture("tablet/back_page_hover");
-    public static final ResourceLocation NEXT_ARROW = ResourceLocationUtils.guiTexture("tablet/next_page");
-    public static final ResourceLocation NEXT_ARROW_HOVER = ResourceLocationUtils.guiTexture("tablet/next_page_hover");
-    public static final ResourceLocation BUTTON_TEXTURE = ResourceLocationUtils.guiTexture("tablet/button");
-    public static final ResourceLocation BUTTON_HOVERED_TEXTURE = ResourceLocationUtils.guiTexture("tablet/button_click");
+    public static final Identifier BACK_ARROW = IdentifierUtils.guiTexture("tablet/back_page");
+    public static final Identifier BACK_ARROW_HOVER = IdentifierUtils.guiTexture("tablet/back_page_hover");
+    public static final Identifier NEXT_ARROW = IdentifierUtils.guiTexture("tablet/next_page");
+    public static final Identifier NEXT_ARROW_HOVER = IdentifierUtils.guiTexture("tablet/next_page_hover");
+    public static final Identifier BUTTON_TEXTURE = IdentifierUtils.guiTexture("tablet/button");
+    public static final Identifier BUTTON_HOVERED_TEXTURE = IdentifierUtils.guiTexture("tablet/button_click");
 
 
     /** Variables */
     public static ArrayList<WikiEntry> ENTRIES = new ArrayList<>();
 
-    public static Map<ResourceLocation, EntryInfo> ENTRY_COMPONENTS = new HashMap<>();
+    public static Map<Identifier, EntryInfo> ENTRY_COMPONENTS = new HashMap<>();
 
 
     public ScrollableContainer scrollableContainer;
@@ -103,12 +102,12 @@ public class WikiApplicationScreen extends Screen {
 
     private void setupScrollableContainer() {
         this.scrollableContainer = new ScrollableContainer(this.getLeftPos() + 30, this.getTopPos() + 40, 100, this.mainTabletScreen.getImageHeight() - 70, Component.empty())
-                .setBackground(ResourceLocationUtils.guiTexture("tablet/tablet_entries_background"));
+                .setBackground(IdentifierUtils.guiTexture("tablet/tablet_entries_background"));
 
         int height = 5;
         for (WikiEntry entry : ENTRIES) {
             WikiEntryButton button = new WikiEntryButton(this.scrollableContainer.getX() + 5, this.scrollableContainer.getY() + height, 90, 20, entry,
-                    button1 -> switchEntry(entry, 0)).tex(ResourceLocationUtils.guiTexture("tablet/tablet_entry_button"), ResourceLocationUtils.guiTexture("tablet/tablet_entry_button"));
+                    button1 -> switchEntry(entry, 0)).tex(IdentifierUtils.guiTexture("tablet/tablet_entry_button"), IdentifierUtils.guiTexture("tablet/tablet_entry_button"));
             this.scrollableContainer.addChild(this, button);
             height += 25;
         }
@@ -138,8 +137,8 @@ public class WikiApplicationScreen extends Screen {
     }
 
 
-    public static @Nullable EntryInfo getEntryInfo(ResourceLocation resourceLocation) {
-        return ENTRY_COMPONENTS.getOrDefault(resourceLocation, null);
+    public static @Nullable EntryInfo getEntryInfo(Identifier Identifier) {
+        return ENTRY_COMPONENTS.getOrDefault(Identifier, null);
     }
 
     /**
@@ -240,11 +239,10 @@ public class WikiApplicationScreen extends Screen {
         showInfosButton(true);
     }
 
-
     @Override
-    public void resize(Minecraft minecraft, int width, int height) {
-        this.mainTabletScreen.resize(minecraft, width, height);
-        super.resize(minecraft, width, height);
+    public void resize(int width, int height) {
+        this.mainTabletScreen.resize(width, height);
+        super.resize(width, height);
     }
 
     public int getLeftPos() {

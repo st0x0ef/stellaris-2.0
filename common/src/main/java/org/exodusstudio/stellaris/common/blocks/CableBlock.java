@@ -43,7 +43,7 @@ public class CableBlock extends BaseCableBlock {
 
     @Override
     public boolean hasTicker(Level level) {
-        return !level.isClientSide;
+        return !level.isClientSide();
     }
 
     @Override

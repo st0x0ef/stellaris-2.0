@@ -9,8 +9,8 @@ import net.minecraft.client.gui.narration.NarrationElementOutput;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
-import org.exodusstudio.stellaris.common.utils.ResourceLocationUtils;
+import net.minecraft.resources.Identifier;
+import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
@@ -25,11 +25,11 @@ public class ScrollableContainer extends AbstractScrollArea implements Container
     public double scrollRate = 7;
     public boolean allowScrollingOnChildren = true;
 
-    private ResourceLocation scrollerSprite = ResourceLocationUtils.id("icon/scroller");
+    private Identifier scrollerSprite = IdentifierUtils.id("icon/scroller");
     @Nullable
-    private ResourceLocation scrollerBackground;
+    private Identifier scrollerBackground;
     @Nullable
-    private ResourceLocation background;
+    private Identifier background;
 
     public ScrollableContainer(int x, int y, int width, int height, Component component) {
         super(x, y, width, height, component);
@@ -71,7 +71,7 @@ public class ScrollableContainer extends AbstractScrollArea implements Container
         guiGraphics.pose().popMatrix();
 
 
-        renderScrollbar(guiGraphics);
+        renderScrollbar(guiGraphics, mouseX, mouseY);
     }
 
     public void renderContent(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
@@ -98,7 +98,7 @@ public class ScrollableContainer extends AbstractScrollArea implements Container
      * We Override this to allow changing textures
      */
     @Override
-    protected void renderScrollbar(GuiGraphics guiGraphics) {
+    protected void renderScrollbar(GuiGraphics guiGraphics, int mouseX, int mouseY) {
         if (this.scrollbarVisible()) {
             int i = this.scrollBarX();
             int j = this.scrollerHeight();
@@ -181,13 +181,13 @@ public class ScrollableContainer extends AbstractScrollArea implements Container
         return this;
     }
 
-    public ScrollableContainer setScrollerTexture(ResourceLocation sprite, @Nullable ResourceLocation background) {
+    public ScrollableContainer setScrollerTexture(Identifier sprite, @Nullable Identifier background) {
         this.scrollerSprite = sprite;
         this.scrollerBackground = background;
         return this;
     }
 
-    public ScrollableContainer setBackground(@Nullable ResourceLocation background) {
+    public ScrollableContainer setBackground(@Nullable Identifier background) {
         this.background = background;
         return this;
     }

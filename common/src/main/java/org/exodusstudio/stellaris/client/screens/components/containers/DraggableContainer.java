@@ -1,6 +1,7 @@
 package org.exodusstudio.stellaris.client.screens.components.containers;
 
 import net.minecraft.client.gui.components.AbstractWidget;
+import net.minecraft.client.input.MouseButtonEvent;
 
 /**
  * Utility class to make Draggable Container.
@@ -15,10 +16,10 @@ public class DraggableContainer extends BasicContainer {
     }
 
     @Override
-    public boolean mouseDragged(double mouseX, double mouseY, int button, double dragX, double dragY) {
+    public boolean mouseDragged(MouseButtonEvent event, double mouseX, double mouseY) {
         if(this.isHovered()) {
-            this.dragOffsetX += (int) dragX;
-            this.dragOffsetY += (int) dragY;
+            this.dragOffsetX += (int) event.x();
+            this.dragOffsetY += (int) event.y();
 
             updateChildrenPosition();
 
@@ -28,7 +29,7 @@ public class DraggableContainer extends BasicContainer {
             return true; // Indicate that the mouse was dragged
         }
 
-        return super.mouseDragged(mouseX, mouseY, button, dragX, dragY);
+        return super.mouseDragged(event, mouseX, mouseY);
     }
 
     @Override

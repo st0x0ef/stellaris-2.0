@@ -11,12 +11,12 @@ import net.minecraft.core.Direction;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
-import org.exodusstudio.stellaris.common.utils.ResourceLocationUtils;
+import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
 import org.jetbrains.annotations.NotNull;
 
 public record SyncEnergyPacket(int energy, BlockPos pos, Direction direction) implements CustomPacketPayload {
 
-    public static final Type<SyncEnergyPacket> TYPE = new Type<>(ResourceLocationUtils.id("energy_sync_packet"));
+    public static final Type<SyncEnergyPacket> TYPE = new Type<>(IdentifierUtils.id("energy_sync_packet"));
     public static final StreamCodec<ByteBuf, SyncEnergyPacket> STREAM_CODEC = StreamCodec.composite(
             ByteBufCodecs.VAR_INT, SyncEnergyPacket::energy,
             BlockPos.STREAM_CODEC, SyncEnergyPacket::pos,

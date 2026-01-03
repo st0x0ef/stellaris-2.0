@@ -5,9 +5,11 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractSliderButton;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
+import net.minecraft.client.input.KeyEvent;
+import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Inventory;
 import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.client.screens.components.GaugeWidget;
@@ -15,14 +17,14 @@ import org.exodusstudio.stellaris.client.screens.components.TextureComponentButt
 import org.exodusstudio.stellaris.client.screens.utils.GUISprites;
 import org.exodusstudio.stellaris.common.blocks.entities.machines.GravityManipulatorBlockEntity;
 import org.exodusstudio.stellaris.common.menus.GravityManipulatorMenu;
-import org.exodusstudio.stellaris.common.utils.ResourceLocationUtils;
+import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
 
 import java.util.List;
 
 
 public class GravityManipulatorScreen extends AbstractContainerScreen<GravityManipulatorMenu> {
 
-    private static final ResourceLocation TEXTURE = ResourceLocationUtils.guiTexture("gravity_manipulator");
+    private static final Identifier TEXTURE = IdentifierUtils.guiTexture("gravity_manipulator");
     private static final Button.CreateNarration DEFAULT_NARRATION = supplier -> supplier.get().append("Gravity Manipulator Button");
 
     private final GravityManipulatorBlockEntity blockEntity = getMenu().getBlockEntity();
@@ -72,9 +74,9 @@ public class GravityManipulatorScreen extends AbstractContainerScreen<GravityMan
             }
 
             @Override
-            public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
-                boolean bl = keyCode == 263;
-                if (bl || keyCode == 262) {
+            public boolean keyPressed(KeyEvent event) {
+                boolean bl = event.key() == 263;
+                if (bl || event.key() == 262) {
                     float f = bl ? -1.0F : 1.0F;
                     this.setValue(this.value + 0.1 / maxGravityValue * f); // adjust by 0.1 gravity
                     return true;
@@ -103,11 +105,11 @@ public class GravityManipulatorScreen extends AbstractContainerScreen<GravityMan
     }
 
     @Override
-    public boolean mouseDragged(double mouseX, double mouseY, int button, double dragX, double dragY) {
+    public boolean mouseDragged(MouseButtonEvent event, double mouseX, double mouseY) {
         if (gravitySlider.isHovered()) {
-            gravitySlider.mouseDragged(mouseX, mouseY, button, dragX, dragY);
+            gravitySlider.mouseDragged(event, mouseX, mouseY);
         }
-        return super.mouseDragged(mouseX, mouseY, button, dragX, dragY);
+        return super.mouseDragged(event, mouseX, mouseY);
     }
 
     @Override

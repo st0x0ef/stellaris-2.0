@@ -24,7 +24,7 @@ public class StellarisItemTagsProvider extends BlockTagCopyingItemTagProvider {
         this.tag(MY_TAG)
         .add(...Items) // one or more
         .addTags(...Item_TAG) //One or more
-        .add(TagEntry.optionalElement(ResourceLocation)) // Optional
+        .add(TagEntry.optionalElement(Identifier)) // Optional
         .addOptionalTags(...TagKey) // Optional Tags one or more
         .replace() // for replace = true
         .remove(..Items) // for remove

@@ -5,7 +5,7 @@ import dev.architectury.registry.registries.DeferredRegister;
 import dev.architectury.registry.registries.RegistrySupplier;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.Item;
 import org.exodusstudio.stellaris.common.items.RocketItem;
 import org.exodusstudio.stellaris.common.items.SDCardItem;
@@ -16,7 +16,7 @@ import org.exodusstudio.stellaris.common.items.infection.PathogenStorageCellItem
 import org.exodusstudio.stellaris.common.items.modules.GalaxySkinModule;
 import org.exodusstudio.stellaris.common.items.modules.HydrogenFuelModuleItem;
 import org.exodusstudio.stellaris.common.items.modules.ShieldModule;
-import org.exodusstudio.stellaris.common.utils.ResourceLocationUtils;
+import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.function.Function;
@@ -94,7 +94,7 @@ public final class ItemsRegistry {
     }
 
     public static <I extends Item> @NotNull RegistrySupplier<I> item(String name, Item.Properties properties, Function<Item.Properties, I> itemFunc) {
-        ResourceLocation id = ResourceLocationUtils.id(name);
+        Identifier id = IdentifierUtils.id(name);
         ResourceKey<Item> key = ResourceKey.create(Registries.ITEM, id);
         return ITEMS.register(id, () -> itemFunc.apply(properties.setId(key)));
     }

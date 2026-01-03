@@ -115,7 +115,7 @@ public abstract class BaseItemCombinerMenu extends AbstractContainerMenu {
     }
 
     public boolean stillValid(Player player) {
-        return this.access.evaluate((level, blockPos) -> this.isValidBlock(level.getBlockState(blockPos)) && player.canInteractWithBlock(blockPos, 4.0F), true);
+        return this.access.evaluate((level, blockPos) -> this.isValidBlock(level.getBlockState(blockPos)) && player.isWithinBlockInteractionRange(blockPos, 4.0F), true);
     }
 
     public ItemStack quickMoveStack(Player player, int index) {

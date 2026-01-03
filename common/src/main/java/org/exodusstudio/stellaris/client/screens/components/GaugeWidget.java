@@ -6,9 +6,10 @@ import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
 import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent;
 import net.minecraft.client.gui.screens.inventory.tooltip.DefaultTooltipPositioner;
+import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.util.Mth;
 import org.exodusstudio.stellaris.client.screens.utils.GUIUtils;
 import org.jetbrains.annotations.Nullable;
@@ -22,12 +23,12 @@ public class GaugeWidget extends AbstractWidget {
 
     protected long capacity;
     protected long amount = 0L;
-    protected ResourceLocation sprite;
-    protected ResourceLocation overlay_sprite;
+    protected Identifier sprite;
+    protected Identifier overlay_sprite;
     protected final Direction4 DIRECTION;
 
 
-    public GaugeWidget(int x, int y, int width, int height, Component message, ResourceLocation sprite, @Nullable ResourceLocation overlay_sprite, long capacity, Direction4 direction) {
+    public GaugeWidget(int x, int y, int width, int height, Component message, Identifier sprite, @Nullable Identifier overlay_sprite, long capacity, Direction4 direction) {
         super(x, y, width, height, message);
         this.sprite = sprite;
         this.overlay_sprite = overlay_sprite;
@@ -93,7 +94,7 @@ public class GaugeWidget extends AbstractWidget {
         this.amount = Math.min(this.amount, capacity);
     }
 
-    public void updateSprite(ResourceLocation sprite) {
+    public void updateSprite(Identifier sprite) {
         this.sprite = sprite;
     }
 
@@ -113,8 +114,7 @@ public class GaugeWidget extends AbstractWidget {
     }
 
     @Override
-    public boolean mouseClicked(double mouseX, double mouseY, int button) {
+    public boolean mouseClicked(MouseButtonEvent event, boolean isDoubleClick) {
         return false;
     }
-
 }

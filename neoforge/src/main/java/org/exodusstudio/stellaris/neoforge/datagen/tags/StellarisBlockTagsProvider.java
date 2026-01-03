@@ -23,7 +23,7 @@ public class StellarisBlockTagsProvider extends BlockTagsProvider {
         this.tag(MY_TAG)
         .add(...Blocks) // one or more
         .addTags(...BLOCK_TAG) //One or more
-        .add(TagEntry.optionalElement(ResourceLocation)) // Optional
+        .add(TagEntry.optionalElement(Identifier)) // Optional
         .addOptionalTags(...TagKey) // Optional Tags one or more
         .replace() // for replace = true
         .remove(..Blocks) // for remove

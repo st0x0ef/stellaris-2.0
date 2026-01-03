@@ -5,7 +5,7 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Inventory;
 import org.exodusstudio.stellaris.client.screens.components.GaugeWidget;
@@ -13,12 +13,12 @@ import org.exodusstudio.stellaris.client.screens.utils.GUISprites;
 import org.exodusstudio.stellaris.client.screens.utils.GUIUtils;
 import org.exodusstudio.stellaris.common.blocks.entities.machines.CoalGeneratorBlockEntity;
 import org.exodusstudio.stellaris.common.menus.CoalGeneratorMenu;
-import org.exodusstudio.stellaris.common.utils.ResourceLocationUtils;
+import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
 
 
 public class CoalGeneratorScreen extends AbstractContainerScreen<CoalGeneratorMenu> {
 
-    private static final ResourceLocation TEXTURE = ResourceLocationUtils.guiTexture("coal_generator");
+    private static final Identifier TEXTURE = IdentifierUtils.guiTexture("coal_generator");
 
     private final CoalGeneratorBlockEntity blockEntity = getMenu().getBlockEntity();
     private GaugeWidget energyGauge;

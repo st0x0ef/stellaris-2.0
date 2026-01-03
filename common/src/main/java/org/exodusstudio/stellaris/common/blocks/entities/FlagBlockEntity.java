@@ -71,7 +71,7 @@ public class FlagBlockEntity extends BlockEntity {
     @Override
     protected void applyImplicitComponents(DataComponentGetter componentGetter) {
         super.applyImplicitComponents(componentGetter);
-        this.profile = componentGetter.getOrDefault(DataComponents.PROFILE, new ResolvableProfile(new GameProfile(UUID.fromString("fe40f09c-fdaa-497f-8e2b-bed31180bfbd"), "TATHAN_06")));
+        this.profile = componentGetter.getOrDefault(DataComponents.PROFILE, ResolvableProfile.createResolved(new GameProfile(UUID.fromString("fe40f09c-fdaa-497f-8e2b-bed31180bfbd"), "TATHAN_06")));
 
     }
 

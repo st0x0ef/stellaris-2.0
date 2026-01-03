@@ -2,8 +2,8 @@ package org.exodusstudio.stellaris.common.config;
 
 import fr.tathan.exoconfig.common.infos.ConfigInfos;
 import fr.tathan.exoconfig.common.infos.ScreenInfos;
-import net.minecraft.resources.ResourceLocation;
-import org.exodusstudio.stellaris.common.utils.ResourceLocationUtils;
+import net.minecraft.resources.Identifier;
+import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
 
 @ConfigInfos(modDisplayName = "Stellaris", name = "stellaris")
 public class CommonConfig {
@@ -48,7 +48,7 @@ public class CommonConfig {
 
         @ScreenInfos.Description(value = "config.stellaris.regenDimension.desc")
         public boolean regenDimension = false;
-        public ResourceLocation[] dimensionsToRegen = new ResourceLocation[]{ResourceLocationUtils.id("moon")};
+        public Identifier[] dimensionsToRegen = new Identifier[]{IdentifierUtils.id("moon")};
 
     }
 
