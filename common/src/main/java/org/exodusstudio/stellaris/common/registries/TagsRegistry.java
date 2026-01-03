@@ -2,13 +2,13 @@ package org.exodusstudio.stellaris.common.registries;
 
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.Identifier;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
-import org.exodusstudio.stellaris.common.utils.ResourceLocationUtils;
+import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
 
 public class TagsRegistry {
     /** ITEMS */
@@ -61,11 +61,11 @@ public class TagsRegistry {
 
 
         public static TagKey<EntityType<?>> addTag(String path) {
-            return TagKey.create(Registries.ENTITY_TYPE, ResourceLocationUtils.id(path));
+            return TagKey.create(Registries.ENTITY_TYPE, IdentifierUtils.id(path));
         }
 
         public static TagKey<EntityType<?>> addTag(String path, String modid) {
-            return TagKey.create(Registries.ENTITY_TYPE, ResourceLocation.fromNamespaceAndPath(path, modid));
+            return TagKey.create(Registries.ENTITY_TYPE, Identifier.fromNamespaceAndPath(path, modid));
         }
 
         public static TagKey<EntityType<?>> addCTag(String path) {
