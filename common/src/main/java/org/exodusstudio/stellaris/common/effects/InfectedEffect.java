@@ -1,18 +1,18 @@
 package org.exodusstudio.stellaris.common.effects;
 
-import org.exodusstudio.stellaris.common.registries.TagsRegistry;
-import org.jetbrains.annotations.Nullable;
-
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import org.exodusstudio.stellaris.common.registries.TagsRegistry;
+import org.jetbrains.annotations.Nullable;
+import org.joml.Random;
 
-public class CorrosionEffect extends MobEffect {
-
-    public CorrosionEffect() {
-        super(MobEffectCategory.HARMFUL, 0x360101);
+public class InfectedEffect extends MobEffect {
+    public InfectedEffect() {
+        super(MobEffectCategory.HARMFUL, 0xAB49DB);
     }
 
     @Override
@@ -27,6 +27,6 @@ public class CorrosionEffect extends MobEffect {
 
     @Override
     public boolean shouldApplyEffectTickThisTick(int duration, int amplifier) {
-        return duration % 20 == 0; // TODO : make this value configurable
+        return RandomSource.create().nextInt(100) == 0; // TODO : make this value configurable
     }
 }

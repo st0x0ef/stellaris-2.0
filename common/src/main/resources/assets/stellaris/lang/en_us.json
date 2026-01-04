@@ -87,6 +87,8 @@
 
   "item.stellaris.flag": "Flag",
 
+  "item.stellaris.parasite": "Parasite",
+  "item.stellaris.pathogen_storage_cell": "Pathogen Storage Cell",
 
 
   "fluid.stellaris.hydrogen": "Hydrogen",
@@ -115,15 +117,19 @@
   "stellaris.screen.gravityManipulator.planet.mars": "Mars Gravity (3.73m/s²)",
   "stellaris.screen.gravityManipulator.planet.earth": "Earth Gravity (9.81m/s²)",
   "stellaris.screen.rocket_station": "Rocket Station",
+
   "tooltip.item.stellaris.can.empty": "Empty",
   "tooltip.item.stellaris.can.nutrition": "Nutrition: %s/%s",
   "tooltip.item.stellaris.can.saturation": "Saturation: %s",
+  "tooltip.item.stellaris.pathogen_storage_cell_info": "A sealed containment cell used to store parasites and support research toward an infection cure.",
 
   "config.stellaris.debugMode": "Debug Mode",
   "config.stellaris.debugMode.desc": "Select to enter the debug mode.",
   "config.stellaris.regenDimension.desc": "When selected, all the dimensions in the dimensionsToRegen will be regenerated.",
   "config.stellaris.regenDimension": "Regenerate dimensions",
   "config.stellaris.dimensionsToRegen": "Dimensions to Regenerate",
+
+  "effect.stellaris.infected": "Infected",
 
 
 

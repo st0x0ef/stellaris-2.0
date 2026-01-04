@@ -5,7 +5,9 @@
   "minVersion": "0.8",
   "client": [
     "client.HumanoidModelMixin",
-    "client.CustomItemModelRenderer"
+    "client.CustomItemModelRenderer",
+    "client.GuiMixin",
+    "client.ItemInHandRendererMixin"
   ],
   "mixins": [
     "ChunkAccessMixin",

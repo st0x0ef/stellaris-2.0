@@ -11,6 +11,8 @@ import org.exodusstudio.stellaris.common.items.RocketItem;
 import org.exodusstudio.stellaris.common.items.SDCardItem;
 import org.exodusstudio.stellaris.common.items.CanItem;
 import org.exodusstudio.stellaris.common.items.TabletItem;
+import org.exodusstudio.stellaris.common.items.infection.ParasiteItem;
+import org.exodusstudio.stellaris.common.items.infection.PathogenStorageCellItem;
 import org.exodusstudio.stellaris.common.items.modules.GalaxySkinModule;
 import org.exodusstudio.stellaris.common.items.modules.HydrogenFuelModuleItem;
 import org.exodusstudio.stellaris.common.items.modules.ShieldModule;
@@ -77,6 +79,10 @@ public final class ItemsRegistry {
 
     public static final RegistrySupplier<ArchitecturyBucketItem> HYDROGEN_BUCKET = item("hydrogen_bucket", (properties -> new ArchitecturyBucketItem(FluidsRegistry.HYDROGEN_STILL, properties)));
     public static final RegistrySupplier<ArchitecturyBucketItem> FUEL_BUCKET = item("fuel_bucket", (properties -> new ArchitecturyBucketItem(FluidsRegistry.FUEL_STILL, properties)));
+
+    // Moon lore items
+    public static final RegistrySupplier<ParasiteItem> PARASITE = item("parasite", ParasiteItem::new);
+    public static final RegistrySupplier<Item> PATHOGEN_STORAGE_CELL = item("pathogen_storage_cell", PathogenStorageCellItem::new);
 
 
     public static RegistrySupplier<Item> item(String name) {
