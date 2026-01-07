@@ -29,5 +29,6 @@ public class MenuTypesRegistry {
     public static final RegistrySupplier<MenuType<RocketStationMenu>> ROCKET_STATION = MENU_TYPE.register("rocket_station", () -> MenuRegistry.ofExtended(RocketStationMenu::createFromBuffer));
 
     public static final RegistrySupplier<MenuType<GravityManipulatorMenu>> GRAVITY_MANIPULATOR = MENU_TYPE.register("gravity_manipulator", () -> MenuRegistry.ofExtended(GravityManipulatorMenu::create));
+    public static final RegistrySupplier<MenuType<OxygenDistributorMenu>> OXYGEN_DISTRIBUTOR = MENU_TYPE.register("oxygen_distributor", () -> MenuRegistry.ofExtended(OxygenDistributorMenu::create));
 }
 

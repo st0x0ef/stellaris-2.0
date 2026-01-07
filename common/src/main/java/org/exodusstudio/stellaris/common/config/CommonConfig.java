@@ -38,6 +38,24 @@ public class CommonConfig {
     }
 
     @ScreenInfos.InnerConfig
+    @ScreenInfos.Description(value = "config.stellaris.oxygenConfig.desc")
+    public OxygenConfig oxygenConfig = new OxygenConfig();
+
+    public static class OxygenConfig {
+        @ScreenInfos.Description(value = "config.stellaris.oxygenConfig.enableOxygenSystem.desc")
+        public boolean enableOxygenSystem = true;
+
+        @ScreenInfos.Description(value = "config.stellaris.oxygenConfig.oxygenUpdateInterval.desc")
+        public int oxygenUpdateInterval = 20;
+
+        @ScreenInfos.Description(value = "config.stellaris.oxygenConfig.oxygenDamageInterval.desc")
+        public int oxygenDamageInterval = 20;
+
+        @ScreenInfos.Description(value = "config.stellaris.oxygenConfig.noOxygenDamage.desc")
+        public float noOxygenDamage = 0.5f;
+    }
+
+    @ScreenInfos.InnerConfig
     @ScreenInfos.Description(value = "The admin part of the config. Beware...", translate = false)
     public Admin admin = new Admin();
 

@@ -21,7 +21,7 @@
     "gravity_modifier.ExperienceOrbEntityMixin",
     "gravity_modifier.FallingBlockEntityMixin",
     "gravity_modifier.ItemEntityMixin",
-    "gravity_modifier.LivingEntityMixin",
+    "LivingEntityMixin",
     "gravity_modifier.LlamaSpitEntityMixin",
     "gravity_modifier.PrimedTntEntityMixin",
     "gravity_modifier.ShulkerBulletEntityMixin",

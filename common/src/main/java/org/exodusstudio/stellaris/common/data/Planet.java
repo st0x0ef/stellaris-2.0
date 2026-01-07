@@ -8,11 +8,12 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.Level;
 
-public record Planet(String translationKey, Identifier dimension, double gravity) {
+public record Planet(String translationKey, Identifier dimension, double gravity, boolean hasOxygen) {
     public static final Codec<Planet> CODEC = RecordCodecBuilder.create(instance -> instance.group(
         Codec.STRING.fieldOf("translation_key").forGetter(Planet::translationKey),
         Identifier.CODEC.fieldOf("dimension").forGetter(Planet::dimension),
-        Codec.DOUBLE.fieldOf("gravity").forGetter(Planet::gravity))
+        Codec.DOUBLE.fieldOf("gravity").forGetter(Planet::gravity),
+        Codec.BOOL.fieldOf("has_oxygen").forGetter(Planet::hasOxygen))
             .apply(instance, Planet::new)
     );
 
@@ -38,6 +39,7 @@ public record Planet(String translationKey, Identifier dimension, double gravity
         sb.append("Planet: ").append(translationKey).append("\n");
         sb.append("Dimension: ").append(dimension.toString()).append("\n");
         sb.append("Gravity: ").append(gravity).append(" m/s²").append("\n");
+        sb.append("Has Oxygen: ").append(hasOxygen ? "Yes" : "No").append("\n");
         sb.append("-----------------------");
         return Component.literal(sb.toString());
     }

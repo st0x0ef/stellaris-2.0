@@ -89,7 +89,6 @@ public class ElectrolyzerBlockEntity extends BaseEnergyContainerBlockEntity impl
             return;
         }
 
-
         //Move fluid to item for results tanks and ingredient tank
         FluidUtil.moveFluidToItem(0, resultTanks, 2, 2, items, 1000);
         FluidUtil.moveFluidToItem(1, resultTanks, 3, 3, items, 1000);
