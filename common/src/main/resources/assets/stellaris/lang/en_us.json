@@ -31,6 +31,9 @@
   "item.stellaris.gravity_manipulator": "Gravity Manipulator",
   "item.stellaris.rocket_station": "Rocket Station",
 
+  "item.stellaris.oxygen_distributor": "Oxygen Distributor",
+  "item.stellaris.oxygen_propagator": "Oxygen Propagator",
+
   "item.stellaris.power_bank_t1": "Tier 1 Power Bank",
 
   "item.stellaris.hydrogen_bucket": "Hydrogen Bucket",
@@ -49,7 +52,7 @@
   "item.stellaris.galaxy_skin": "Galaxy Skin",
   "item.stellaris.shield_module": "Shield Module",
 
-
+  "item.stellaris.fluid_cell": "Fluid Cell",
 
   "item.stellaris.black_can": "Black Can",
   "item.stellaris.blue_can": "Blue Can",

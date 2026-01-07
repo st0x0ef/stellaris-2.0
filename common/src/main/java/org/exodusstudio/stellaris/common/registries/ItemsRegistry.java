@@ -7,10 +7,7 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.Item;
-import org.exodusstudio.stellaris.common.items.RocketItem;
-import org.exodusstudio.stellaris.common.items.SDCardItem;
-import org.exodusstudio.stellaris.common.items.CanItem;
-import org.exodusstudio.stellaris.common.items.TabletItem;
+import org.exodusstudio.stellaris.common.items.*;
 import org.exodusstudio.stellaris.common.items.infection.ParasiteItem;
 import org.exodusstudio.stellaris.common.items.infection.PathogenStorageCellItem;
 import org.exodusstudio.stellaris.common.items.modules.GalaxySkinModule;
@@ -77,8 +74,11 @@ public final class ItemsRegistry {
     public static final RegistrySupplier<CanItem> BIG_WHITE_CAN = item("big_white_can", (p) -> new CanItem(p, 20));
     public static final RegistrySupplier<CanItem> BIG_YELLOW_CAN = item("big_yellow_can", (p) -> new CanItem(p, 20));
 
-    public static final RegistrySupplier<ArchitecturyBucketItem> HYDROGEN_BUCKET = item("hydrogen_bucket", (properties -> new ArchitecturyBucketItem(FluidsRegistry.HYDROGEN_STILL, properties)));
-    public static final RegistrySupplier<ArchitecturyBucketItem> FUEL_BUCKET = item("fuel_bucket", (properties -> new ArchitecturyBucketItem(FluidsRegistry.FUEL_STILL, properties)));
+
+    // Fluids
+    public static final RegistrySupplier<ArchitecturyBucketItem> HYDROGEN_BUCKET = item("hydrogen_bucket", properties -> new ArchitecturyBucketItem(FluidsRegistry.HYDROGEN_STILL, properties));
+    public static final RegistrySupplier<ArchitecturyBucketItem> FUEL_BUCKET = item("fuel_bucket", properties -> new ArchitecturyBucketItem(FluidsRegistry.FUEL_STILL, properties));
+    public static final RegistrySupplier<Item> FLUID_CELL = item("fluid_cell", properties -> new FluidCellItem(properties, 3000));
 
     // Moon lore items
     public static final RegistrySupplier<ParasiteItem> PARASITE = item("parasite", ParasiteItem::new);

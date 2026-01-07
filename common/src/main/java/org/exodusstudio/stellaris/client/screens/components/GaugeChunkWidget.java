@@ -39,8 +39,8 @@ public class GaugeChunkWidget extends GaugeWidget {
     protected void renderWidget(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
         if (spriteChanged) {
             GpuTexture texture = Minecraft.getInstance().getTextureManager().getTexture(sprite).getTexture();
-            this.imageHeight = texture.getHeight(10);
-            this.imageWidth = texture.getWidth(10);
+            this.imageHeight = texture.getHeight(0);
+            this.imageWidth = texture.getWidth(0);
 
             spriteChanged = false;
         }

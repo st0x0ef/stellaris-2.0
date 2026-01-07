@@ -11,10 +11,8 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.component.TooltipDisplay;
 import net.minecraft.world.level.Level;
-import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.common.components.PathogenStorageComponents;
 import org.exodusstudio.stellaris.common.registries.DataComponentsRegistry;
-import org.exodusstudio.stellaris.common.registries.ItemsRegistry;
 
 import java.util.function.Consumer;
 

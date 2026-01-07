@@ -79,10 +79,15 @@ public final class BlocksRegistry {
 
     // TECH
     public static final BlockItemRegistrySupplier ELECTROLYZER = blockWithCustomItem("electrolyzer", BlockBehaviour.Properties.of(), ElectrolyzerBlock::new, new Item.Properties(), BlockItem::new);
-    public static final BlockItemRegistrySupplier ROCKET_STATION = blockWithCustomItem("rocket_station", BlockBehaviour.Properties.of(), RocketStationBlock::new, new Item.Properties(), BlockItem::new);
-
-    public static final BlockItemRegistrySupplier ROCKET_LAUNCH_PAD = blockWithCustomItem("rocket_launch_pad", BlockBehaviour.Properties.of(), RocketLaunchPadBlock::new, new Item.Properties(), BlockItem::new);
     public static final BlockItemRegistrySupplier GRAVITY_MANIPULATOR = blockWithItem("gravity_manipulator", BlockBehaviour.Properties.of(), GravityManipulatorBlock::new);
+
+    // OXYGEN
+    public static final BlockItemRegistrySupplier OXYGEN_DISTRIBUTOR = blockWithItem("oxygen_distributor", BlockBehaviour.Properties.of(), OxygenDistributorBlock::new);
+    public static final BlockItemRegistrySupplier OXYGEN_PROPAGATOR = blockWithItem("oxygen_propagator", BlockBehaviour.Properties.of(), OxygenPropagatorBlock::new);
+
+    // ROCKET
+    public static final BlockItemRegistrySupplier ROCKET_STATION = blockWithCustomItem("rocket_station", BlockBehaviour.Properties.of(), RocketStationBlock::new, new Item.Properties(), BlockItem::new);
+    public static final BlockItemRegistrySupplier ROCKET_LAUNCH_PAD = blockWithCustomItem("rocket_launch_pad", BlockBehaviour.Properties.of(), RocketLaunchPadBlock::new, new Item.Properties(), BlockItem::new);
 
     /**
      * Fluids
