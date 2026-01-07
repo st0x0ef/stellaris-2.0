@@ -13,6 +13,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
+import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.common.blocks.entities.machines.base.BaseEnergyContainerBlockEntity;
 import org.exodusstudio.stellaris.common.menus.OxygenDistributorMenu;
 import org.exodusstudio.stellaris.common.registries.BlockEntitiesRegistry;
@@ -39,11 +40,15 @@ public class OxygenDistributorBlockEntity extends BaseEnergyContainerBlockEntity
 
     @Override
     public void tick(Level level, BlockState state) {
+        if (!Stellaris.CONFIG.oxygenConfig.enableOxygenSystem) {
+            return;
+        }
+
         if (oxygenDistributedTickCounter > 0) {
             oxygenDistributedTickCounter--;
             return;
         } else {
-            oxygenDistributedTickCounter = 20; // TODO : make configurable
+            oxygenDistributedTickCounter = Stellaris.CONFIG.oxygenConfig.oxygenUpdateInterval;
         }
 
         oxygenatedPosition.clear();
@@ -103,19 +108,7 @@ public class OxygenDistributorBlockEntity extends BaseEnergyContainerBlockEntity
     }
 
     public boolean isOxygenated(BlockPos pos) {
-        if (coversChunk(pos) && oxygenatedPosition.contains(pos)) {
-            return true;
-        }
-
-        // Verify adjacent blocks, the entity might be standing on the edge of a block
-        for (Direction direction : Direction.values()) {
-            BlockPos adjacentPos = pos.relative(direction).immutable();
-            if (coversChunk(adjacentPos) && oxygenatedPosition.contains(adjacentPos)) {
-                return true;
-            }
-        }
-
-        return false;
+        return coversChunk(pos) && oxygenatedPosition.contains(pos);
     }
 
     public boolean coversChunk(BlockPos pos) {

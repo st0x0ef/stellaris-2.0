@@ -34,16 +34,16 @@ public class LivingEntityMixin {
 
     @Inject(method = "tick", at = @At("HEAD"))
     private void tick(CallbackInfo ci) {
-        if (stellaris$entity.getType().is(TagsRegistry.EntityTags.NO_OXYGEN_NEEDED)) {
+        if (!Stellaris.CONFIG.oxygenConfig.enableOxygenSystem || stellaris$entity.getType().is(TagsRegistry.EntityTags.NO_OXYGEN_NEEDED)) {
             return;
         }
 
-        if (stellaris$oxygenCounter >= 20) { // TODO: Make damage interval configurable
+        if (stellaris$oxygenCounter >= Stellaris.CONFIG.oxygenConfig.oxygenDamageInterval) {
             stellaris$oxygenCounter = 0;
 
             if (stellaris$entity.level() instanceof ServerLevel serverLevel) {
                 if (!OxygenUtils.isOxygenated(stellaris$entity.level(), stellaris$entity.blockPosition())) {
-                    stellaris$entity.hurtServer(serverLevel, stellaris$entity.damageSources().generic(), 0.5f); // TODO : make damage configurable
+                    stellaris$entity.hurtServer(serverLevel, stellaris$entity.damageSources().generic(), Stellaris.CONFIG.oxygenConfig.noOxygenDamage);
                 }
             }
         }
