@@ -24,7 +24,7 @@ public class CapabilitiesRegistry {
     }
 
     private static void registerEnergyItems() {
-        Capabilities.Energy.ITEM.registerForItem(BlocksRegistry.POWER_BANK_T1.item());
+        Capabilities.Energy.ITEM.registerForItem(BlocksRegistry.POWER_BANK_T1.getAsItem());
     }
 
     private static void registerFluidItems() {

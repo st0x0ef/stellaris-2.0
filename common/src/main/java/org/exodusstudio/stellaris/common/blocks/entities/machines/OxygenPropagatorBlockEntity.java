@@ -3,10 +3,7 @@ package org.exodusstudio.stellaris.common.blocks.entities.machines;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
-import org.exodusstudio.stellaris.Stellaris;
-import org.exodusstudio.stellaris.common.blocks.CoalGeneratorBlock;
 import org.exodusstudio.stellaris.common.blocks.OxygenPropagatorBlock;
-import org.exodusstudio.stellaris.common.blocks.base.BaseLitMachineBlock;
 import org.exodusstudio.stellaris.common.blocks.entities.machines.base.BaseEnergyBlockEntity;
 import org.exodusstudio.stellaris.common.registries.BlockEntitiesRegistry;
 

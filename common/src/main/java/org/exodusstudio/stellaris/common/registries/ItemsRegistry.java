@@ -13,6 +13,7 @@ import org.exodusstudio.stellaris.common.items.infection.PathogenStorageCellItem
 import org.exodusstudio.stellaris.common.items.modules.GalaxySkinModule;
 import org.exodusstudio.stellaris.common.items.modules.HydrogenFuelModuleItem;
 import org.exodusstudio.stellaris.common.items.modules.ShieldModule;
+import org.exodusstudio.stellaris.common.items.tools.*;
 import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
 import org.jetbrains.annotations.NotNull;
 
@@ -36,11 +37,11 @@ public final class ItemsRegistry {
     public static final RegistrySupplier<Item> RAW_DESH = item("raw_desh");
 
     /** Tools */
-    public static final RegistrySupplier<Item> TITANIUM_PICKAXE = item("titanium_pickaxe", new Item.Properties().pickaxe(ToolMaterialsRegistry.TITANIUM, 1.0F, -2.8F).arch$tab(CreativeTabsRegistry.STELLARIS_MAIN));
-    public static final RegistrySupplier<Item> TITANIUM_AXE = item("titanium_axe", new Item.Properties().axe(ToolMaterialsRegistry.TITANIUM, 6.0F, -3.1F).arch$tab(CreativeTabsRegistry.STELLARIS_MAIN));
-    public static final RegistrySupplier<Item> TITANIUM_SHOVEL = item("titanium_shovel", new Item.Properties().shovel(ToolMaterialsRegistry.TITANIUM, 1.5F, -3.0F).arch$tab(CreativeTabsRegistry.STELLARIS_MAIN));
-    public static final RegistrySupplier<Item> TITANIUM_SWORD = item("titanium_sword", new Item.Properties().sword(ToolMaterialsRegistry.TITANIUM, 3, -2.4F).arch$tab(CreativeTabsRegistry.STELLARIS_MAIN));
-    public static final RegistrySupplier<Item> TITANIUM_HOE = item("titanium_hoe", new Item.Properties().hoe(ToolMaterialsRegistry.TITANIUM, -3.0F, 0.0F).arch$tab(CreativeTabsRegistry.STELLARIS_MAIN));
+    public static final RegistrySupplier<Item> TITANIUM_PICKAXE = item("titanium_pickaxe", p -> new CustomPickaxeItem(p, ToolMaterialsRegistry.TITANIUM, 1.0F, -2.8F));
+    public static final RegistrySupplier<Item> TITANIUM_AXE = item("titanium_axe", p -> new CustomAxeItem(p, ToolMaterialsRegistry.TITANIUM, 6.0F, -3.1F));
+    public static final RegistrySupplier<Item> TITANIUM_SHOVEL = item("titanium_shovel", p -> new CustomShovelItem(p, ToolMaterialsRegistry.TITANIUM, 1.5F, -3.0F));
+    public static final RegistrySupplier<Item> TITANIUM_SWORD = item("titanium_sword", p -> new CustomSwordItem(p, ToolMaterialsRegistry.TITANIUM, 3.0F, -2.4F));
+    public static final RegistrySupplier<Item> TITANIUM_HOE = item("titanium_hoe", p -> new CustomHoeItem(p, ToolMaterialsRegistry.TITANIUM, -3.0F, 0.0F));
 
 
     /** Special Items */
@@ -119,5 +120,4 @@ public final class ItemsRegistry {
         ResourceKey<Item> key = ResourceKey.create(Registries.ITEM, id);
         return ITEMS.register(id, () -> itemFunc.apply(properties.setId(key)));
     }
-    private ItemsRegistry() {}
 }
