@@ -16,6 +16,8 @@ public class TagsRegistry {
         public static final TagKey<Item> CAN = addTag("can");
 
 
+        public static final TagKey<Item> TITANIUM_MATERIALS = addCTag("titanium_materials");
+
         public static TagKey<Item> addTag(String path) {
             return TagKey.create(Registries.ITEM, IdentifierUtils.id(path));
         }
@@ -35,6 +37,9 @@ public class TagsRegistry {
     public static class BlockTags {
         public static final TagKey<Block> INFINIBURN_MOON = addTag("infiniburn_moon");
 
+
+        public static final TagKey<Block> INCORRECT_FOR_TITANIUM_TOOL = addCTag("incorrect_for_titanium_tool");
+
         public static TagKey<Block> addTag(String path) {
             return TagKey.create(Registries.BLOCK, IdentifierUtils.id(path));
         }
@@ -50,11 +55,10 @@ public class TagsRegistry {
 
     public static class EntityTags {
         // Add entities that are corrosion immune if they spawn on Mars
-
-        // Entities
         public static final TagKey<EntityType<?>> CORROSION_IMMUNE = addTag("corrosion_immune");
         public static final TagKey<EntityType<?>> INFECTION_IMMUNE = addTag("infection_immune");
         public static final TagKey<EntityType<?>> NO_OXYGEN_NEEDED = addTag("no_oxygen_needed");
+
 
         public static TagKey<EntityType<?>> addTag(String path) {
             return TagKey.create(Registries.ENTITY_TYPE, IdentifierUtils.id(path));
