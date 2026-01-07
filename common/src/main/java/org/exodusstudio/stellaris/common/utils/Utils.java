@@ -7,6 +7,7 @@ import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
+import org.exodusstudio.stellaris.common.registries.TagsRegistry;
 
 import java.util.Random;
 import java.util.Set;
@@ -84,12 +85,14 @@ public class Utils {
             );
 
             for (LivingEntity entity : level.getEntitiesOfClass(LivingEntity.class, aabb)) {
-                if (entity instanceof Player player) {
-                    if (!player.isCreative() && !player.isSpectator()) {
+                if (!entity.getType().is(TagsRegistry.EntityTags.NO_OXYGEN_NEEDED)) {
+                    if (entity instanceof Player player) {
+                        if (!player.isCreative() && !player.isSpectator()) {
+                            count++;
+                        }
+                    } else {
                         count++;
                     }
-                } else {
-                    count++;
                 }
             }
         }

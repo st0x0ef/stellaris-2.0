@@ -15,10 +15,6 @@ public class TagsRegistry {
 
         public static final TagKey<Item> CAN = addTag("can");
 
-        // Entities
-
-        // Add entities that are corrosion immune if they spawn on Mars
-        public static final TagKey<EntityType<?>> CORROSION_IMMUNE = addEntityTag("corrosion_immune");
 
         public static TagKey<Item> addTag(String path) {
             return TagKey.create(Registries.ITEM, IdentifierUtils.id(path));
@@ -54,9 +50,11 @@ public class TagsRegistry {
 
     public static class EntityTags {
         // Add entities that are corrosion immune if they spawn on Mars
+
+        // Entities
         public static final TagKey<EntityType<?>> CORROSION_IMMUNE = addTag("corrosion_immune");
         public static final TagKey<EntityType<?>> INFECTION_IMMUNE = addTag("infection_immune");
-
+        public static final TagKey<EntityType<?>> NO_OXYGEN_NEEDED = addTag("no_oxygen_needed");
 
         public static TagKey<EntityType<?>> addTag(String path) {
             return TagKey.create(Registries.ENTITY_TYPE, IdentifierUtils.id(path));

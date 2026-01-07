@@ -3,6 +3,7 @@ package org.exodusstudio.stellaris.mixin;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.LivingEntity;
 import org.exodusstudio.stellaris.Stellaris;
+import org.exodusstudio.stellaris.common.registries.TagsRegistry;
 import org.exodusstudio.stellaris.common.utils.GravityUtils;
 import org.exodusstudio.stellaris.common.utils.OxygenUtils;
 import org.spongepowered.asm.mixin.Mixin;
@@ -33,6 +34,10 @@ public class LivingEntityMixin {
 
     @Inject(method = "tick", at = @At("HEAD"))
     private void tick(CallbackInfo ci) {
+        if (stellaris$entity.getType().is(TagsRegistry.EntityTags.NO_OXYGEN_NEEDED)) {
+            return;
+        }
+
         if (stellaris$oxygenCounter >= 20) { // TODO: Make damage interval configurable
             stellaris$oxygenCounter = 0;
 
