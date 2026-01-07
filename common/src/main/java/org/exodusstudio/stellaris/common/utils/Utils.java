@@ -1,9 +1,16 @@
 package org.exodusstudio.stellaris.common.utils;
 
 import net.minecraft.util.ARGB;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.ChunkPos;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
+import org.exodusstudio.stellaris.common.registries.TagsRegistry;
 
 import java.util.Random;
+import java.util.Set;
 
 public class Utils {
 
@@ -67,4 +74,30 @@ public class Utils {
         int b = hex & 0xFF;
         return new Vec3(r / 255.0, g / 255.0, b / 255.0);
     }
+
+    public static int getSurvivalLivingEntityCountInChunks(Level level, Set<ChunkPos> chunks) {
+        int count = 0;
+
+        for (ChunkPos chunkPos : chunks) {
+            AABB aabb = new AABB(
+                    chunkPos.getMinBlockX(), level.getMinY(), chunkPos.getMinBlockZ(),
+                    chunkPos.getMaxBlockX() + 1, level.getMaxY() + 1, chunkPos.getMaxBlockZ() + 1
+            );
+
+            for (LivingEntity entity : level.getEntitiesOfClass(LivingEntity.class, aabb)) {
+                if (!entity.getType().is(TagsRegistry.EntityTags.NO_OXYGEN_NEEDED)) {
+                    if (entity instanceof Player player) {
+                        if (!player.isCreative() && !player.isSpectator()) {
+                            count++;
+                        }
+                    } else {
+                        count++;
+                    }
+                }
+            }
+        }
+
+        return count;
+    }
+
 }

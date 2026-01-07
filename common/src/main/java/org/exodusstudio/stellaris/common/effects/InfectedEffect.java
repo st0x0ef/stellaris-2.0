@@ -4,11 +4,8 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import org.exodusstudio.stellaris.common.registries.TagsRegistry;
-import org.jetbrains.annotations.Nullable;
-import org.joml.Random;
 
 public class InfectedEffect extends MobEffect {
     public InfectedEffect() {

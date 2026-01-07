@@ -19,7 +19,8 @@
     ],
     "client": [
       "org.exodusstudio.stellaris.fabric.client.StellarisFabricClient"
-    ]
+    ],
+    "modmenu": [ "org.exodusstudio.stellaris.fabric.client.ModMenuCompat" ]
   },
   "mixins": [
     "stellaris.mixins.json",

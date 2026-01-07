@@ -33,10 +33,19 @@ public class BlockEntitiesRegistry {
 
     public static final Supplier<BlockEntityType<?>> ROCKET_STATION = BLOCK_ENTITY_TYPE.register("rocket_station",
             () -> new BlockEntityType<>(RocketStationBlockEntity::new, Set.of(BlocksRegistry.ROCKET_STATION.block().get())));
+
     public static final Supplier<BlockEntityType<?>> GRAVITY_MANIPULATOR = BLOCK_ENTITY_TYPE.register("gravity_manipulator",
             () -> new BlockEntityType<>(GravityManipulatorBlockEntity::new, Set.of(BlocksRegistry.GRAVITY_MANIPULATOR.block().get())));
 
     public static final Supplier<BlockEntityType<FlagBlockEntity>> FLAG = BLOCK_ENTITY_TYPE.register("flag",
             () -> new BlockEntityType<>(FlagBlockEntity::new, Set.of(BlocksRegistry.FLAG.block().get())));
 
+    public static final Supplier<BlockEntityType<?>> OXYGEN_DISTRIBUTOR = BLOCK_ENTITY_TYPE.register("oxygen_distributor",
+            () -> new BlockEntityType<>(OxygenDistributorBlockEntity::new, Set.of(BlocksRegistry.OXYGEN_DISTRIBUTOR.block().get())));
+
+    public static final Supplier<BlockEntityType<?>> OXYGEN_PROPAGATOR = BLOCK_ENTITY_TYPE.register("oxygen_propagator",
+            () -> new BlockEntityType<>(OxygenPropagatorBlockEntity::new, Set.of(BlocksRegistry.OXYGEN_PROPAGATOR.block().get())));
+
+
 }
+

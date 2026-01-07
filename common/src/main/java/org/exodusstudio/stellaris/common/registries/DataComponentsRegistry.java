@@ -22,7 +22,7 @@ public class DataComponentsRegistry {
 
     public static final RegistrySupplier<DataComponentType<Integer>> ENERGY =
             register("energy", builder -> builder.persistent(Codec.INT).networkSynchronized(ByteBufCodecs.INT));
-    public static final RegistrySupplier<DataComponentType<FluidAmountMapDataComponent>> FLUID_LIST = register("fluid", builder -> builder
+    public static final RegistrySupplier<DataComponentType<FluidAmountMapDataComponent>> FLUID_LIST = register("fluids", builder -> builder
             .persistent(FluidAmountMapDataComponent.CODEC)
             .networkSynchronized(FluidAmountMapDataComponent.STREAM_CODEC));
 
@@ -41,5 +41,6 @@ public class DataComponentsRegistry {
     private static <T> RegistrySupplier<DataComponentType<T>> register(String name, UnaryOperator<DataComponentType.Builder<T>> builderOperator) {
         return DATA_COMPONENT_TYPE.register(name, () -> builderOperator.apply(DataComponentType.builder()).build());
     }
+
 
 }
