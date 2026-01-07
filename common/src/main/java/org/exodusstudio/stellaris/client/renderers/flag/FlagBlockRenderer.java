@@ -69,7 +69,7 @@ public class FlagBlockRenderer implements BlockEntityRenderer<FlagBlockEntity, B
         poseStack.scale(-1.0F, -1.0F, 1.0F);
         poseStack.mulPose(Axis.YP.rotationDegrees(yRot));
 
-        nodeCollector.submitModelPart(genericHeadModel.head, poseStack, renderType, renderState.lightCoords, OverlayTexture.NO_OVERLAY, materialSet.get(new Material(TextureAtlas.LOCATION_BLOCKS, null)));
+        nodeCollector.submitModelPart(genericHeadModel.head, poseStack, renderType, renderState.lightCoords, OverlayTexture.NO_OVERLAY, null);
         poseStack.popPose();
     }
 
