@@ -10,6 +10,10 @@ import net.minecraft.world.item.Item;
 import org.exodusstudio.stellaris.common.items.*;
 import org.exodusstudio.stellaris.common.items.infection.ParasiteItem;
 import org.exodusstudio.stellaris.common.items.infection.PathogenStorageCellItem;
+import org.exodusstudio.stellaris.common.items.jet_suit.JetSuitChestplate;
+import org.exodusstudio.stellaris.common.items.jet_suit.JetSuitHelmet;
+import org.exodusstudio.stellaris.common.items.jet_suit.JetSuitLeggings;
+import org.exodusstudio.stellaris.common.items.jet_suit.JetSuitBoots;
 import org.exodusstudio.stellaris.common.items.modules.GalaxySkinModule;
 import org.exodusstudio.stellaris.common.items.modules.HydrogenFuelModuleItem;
 import org.exodusstudio.stellaris.common.items.modules.ShieldModule;
@@ -99,6 +103,12 @@ public final class ItemsRegistry {
     // Moon lore items
     public static final RegistrySupplier<ParasiteItem> PARASITE = item("parasite", ParasiteItem::new);
     public static final RegistrySupplier<Item> PATHOGEN_STORAGE_CELL = item("pathogen_storage_cell", PathogenStorageCellItem::new);
+
+    /** JetSuit */
+    public static final RegistrySupplier<Item> JETSUIT_HELMET = item("jet_suit_helmet",  JetSuitHelmet::new);
+    public static final RegistrySupplier<Item> JETSUIT_SUIT = item("jet_suit_chestplate", JetSuitChestplate::new);
+    public static final RegistrySupplier<Item> JETSUIT_LEGGINGS = item("jet_suit_leggings", JetSuitLeggings::new);
+    public static final RegistrySupplier<Item> JETSUIT_BOOTS = item("jet_suit_boots", JetSuitBoots::new);
 
 
     public static RegistrySupplier<Item> item(String name) {

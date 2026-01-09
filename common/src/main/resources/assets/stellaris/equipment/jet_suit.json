@@ -1,0 +1,14 @@
+{
+  "layers": {
+    "humanoid": [
+      {
+        "texture": "stellaris:jet_suit_layer_1"
+      }
+    ],
+    "humanoid_leggings": [
+      {
+        "texture": "stellaris:jet_suit_layer_2"
+      }
+    ]
+  }
+}
