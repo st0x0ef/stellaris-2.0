@@ -95,7 +95,7 @@ public class CoalGeneratorBlockEntity extends BaseGeneratorBlockEntity {
             setChanged();
         }
         if (isLit()) {
-            energyContainer.insertWithoutLimits(energyGeneratedPT, false);
+            energyContainer.insert(energyGeneratedPT, false);
         }
 
         EnergyUtil.distributeEnergyNearby(level, worldPosition, maxCapacity);

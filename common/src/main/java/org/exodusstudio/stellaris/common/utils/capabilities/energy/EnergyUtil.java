@@ -10,7 +10,6 @@ import net.minecraft.world.level.Level;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
-@SuppressWarnings("all")
 public class EnergyUtil {
 
     public static int moveEnergyToItem(UniversalEnergyStorage from, ItemStack stackTo, int amount) {
@@ -93,9 +92,8 @@ public class EnergyUtil {
         }
 
         int receivers = toSend.size();
-        int toDistribute = finalAmount;
         for (UniversalEnergyStorage to : toSend) {
-            toDistribute -= moveEnergy(from, to, finalAmount / receivers);
+            moveEnergy(from, to, finalAmount / receivers);
         }
     }
 
@@ -104,9 +102,7 @@ public class EnergyUtil {
         if (inserted > 0) {
             from.extract(inserted, false);
             to.insert(inserted, false);
-
-            return inserted;
         }
-        return 0;
+        return inserted;
     }
 }
