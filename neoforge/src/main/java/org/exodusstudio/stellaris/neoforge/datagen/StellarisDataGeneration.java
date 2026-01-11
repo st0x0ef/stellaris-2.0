@@ -1,27 +1,41 @@
 package org.exodusstudio.stellaris.neoforge.datagen;
 
+import net.minecraft.core.HolderLookup;
+import net.minecraft.core.RegistrySetBuilder;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.data.DataGenerator;
+import net.minecraft.data.PackOutput;
 import net.minecraft.data.loot.LootTableProvider;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.common.data.DatapackBuiltinEntriesProvider;
 import net.neoforged.neoforge.data.event.GatherDataEvent;
+import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.neoforge.datagen.loottables.StellarisLootTableSubProvider;
 import org.exodusstudio.stellaris.neoforge.datagen.tags.StellarisBlockTagsProvider;
 import org.exodusstudio.stellaris.neoforge.datagen.tags.StellarisItemTagsProvider;
+import org.exodusstudio.stellaris.util.worldgen.StellarisFeatureUtil;
+import org.exodusstudio.stellaris.util.worldgen.StellarisPlacementUtil;
 
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.CompletableFuture;
 
 import static org.exodusstudio.stellaris.Stellaris.MOD_ID;
 
 @EventBusSubscriber(modid = MOD_ID)
 public class StellarisDataGeneration {
 
+    private static final RegistrySetBuilder BUILDER = new RegistrySetBuilder()
+            .add(Registries.CONFIGURED_FEATURE, StellarisFeatureUtil::bootstrap)
+            .add(Registries.PLACED_FEATURE, StellarisPlacementUtil::bootstrap);
+
     @SubscribeEvent
     public static void gatherClientData(GatherDataEvent.Client event) {
-//        DataGenerator generator = event.getGenerator();
-//        PackOutput packOutput = generator.getPackOutput();
-//        CompletableFuture<HolderLookup.Provider> lookupProvider = event.getLookupProvider();
+        DataGenerator generator = event.getGenerator();
+        PackOutput packOutput = generator.getPackOutput();
+        CompletableFuture<HolderLookup.Provider> lookupProvider = event.getLookupProvider();
 //
 //        //LootTable
 //        generator.addProvider(true , new LootTableProvider(packOutput, Collections.emptySet(),
@@ -43,27 +57,29 @@ public class StellarisDataGeneration {
 //        generator.addProvider(true, new StellarisGlobalLootModifierProvider(packOutput, lookupProvider));
 
         // Recipes (Can make multiple classes for different recipe according to new system)
-        event.createProvider(StellarisRecipeProvider.Runner::new);
+//        event.createProvider(StellarisRecipeProvider.Runner::new);
         //Loot Tables
-        event.createProvider((output,lookupProvider) -> new LootTableProvider(
-                output,
-                Set.of(),
-                List.of(
-                        new LootTableProvider.SubProviderEntry(
-                                StellarisLootTableSubProvider::new,
-                                LootContextParamSets.BLOCK
-                        )
-                ),
-                lookupProvider
-        ));
+//        event.createProvider((output,lookupProvider) -> new LootTableProvider(
+//                output,
+//                Set.of(),
+//                List.of(
+//                        new LootTableProvider.SubProviderEntry(
+//                                StellarisLootTableSubProvider::new,
+//                                LootContextParamSets.BLOCK
+//                        )
+//                ),
+//                lookupProvider
+//        ));
         //Tags
-        event.createBlockAndItemTags(StellarisBlockTagsProvider::new, StellarisItemTagsProvider::new);
+//        event.createBlockAndItemTags(StellarisBlockTagsProvider::new, StellarisItemTagsProvider::new);
         // Models
 //         event.createProvider(StellarisModelProvider::new);
         // Datapacks
-        event.createProvider(StellarisDataPackProvider::new);
+//        event.createProvider(StellarisDataPackProvider::new);
 
 //        event.createProvider(StellarisGlobalLootModifierProvider::new);
+
+        event.addProvider(new DatapackBuiltinEntriesProvider(packOutput, lookupProvider,BUILDER , Set.of(MOD_ID)));
     }
 
 

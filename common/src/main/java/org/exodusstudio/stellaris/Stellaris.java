@@ -15,6 +15,8 @@ import org.exodusstudio.stellaris.common.events.Events;
 import org.exodusstudio.stellaris.common.network.NetworkRegistry;
 import org.exodusstudio.stellaris.common.registries.*;
 import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
+import org.exodusstudio.stellaris.util.worldgen.StellarisFeatureUtil;
+import org.exodusstudio.stellaris.worldgen.feature.StellarisBaseFeatures;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -54,6 +56,7 @@ public final class Stellaris {
         CommandsRegistry.init();
         ApplicationRegistry.init();
         CapabilitiesRegistry.init();
+        StellarisBaseFeatures.init();
 
         Events.init();
 

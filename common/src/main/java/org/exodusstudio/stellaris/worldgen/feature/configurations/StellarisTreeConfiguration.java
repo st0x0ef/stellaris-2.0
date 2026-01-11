@@ -43,7 +43,7 @@ public class StellarisTreeConfiguration extends TreeConfiguration {
         this.maxHeight = maxHeight;
     }
 
-    public static class Builder<T extends Builder> {
+    public static class Builder<T extends Builder<?>> {
         protected BlockStateProvider trunkProvider;
         protected BlockStateProvider foliageProvider;
         protected BlockStateProvider vineProvider;

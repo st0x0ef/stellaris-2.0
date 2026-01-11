@@ -71,7 +71,7 @@ public class StellarisTreeFeature<FC extends StellarisTreeConfiguration> extends
     public boolean setVine(LevelAccessor world, RandomSource rand, BlockPos pos, Direction side, int length, FC config)
     {
         BlockState vine = config.vineProvider.getState(rand, pos);
-        BlockState directedVine = vine.getBlock() instanceof VineBlock ? vine.setValue(VineBlock.NORTH, Boolean.valueOf(side == Direction.NORTH)).setValue(VineBlock.EAST, Boolean.valueOf(side == Direction.EAST)).setValue(VineBlock.SOUTH, Boolean.valueOf(side == Direction.SOUTH)).setValue(VineBlock.WEST, Boolean.valueOf(side == Direction.WEST)) : vine;
+        BlockState directedVine = vine.getBlock() instanceof VineBlock ? vine.setValue(VineBlock.NORTH, side == Direction.NORTH).setValue(VineBlock.EAST, side == Direction.EAST).setValue(VineBlock.SOUTH, side == Direction.SOUTH).setValue(VineBlock.WEST, side == Direction.WEST) : vine;
         boolean setOne = false;
         while (world.getBlockState(pos).isAir() && length > 0 && rand.nextInt(12) > 0)
         {
@@ -118,13 +118,13 @@ public class StellarisTreeFeature<FC extends StellarisTreeConfiguration> extends
         });
     }
 
-    protected Property getLogAxisProperty(LevelAccessor level, BlockPos pos, FC config)
+    protected Property<?> getLogAxisProperty(LevelAccessor level, BlockPos pos, FC config)
     {
         BlockState log = config.trunkProvider.getState(level.getRandom(), pos);
 
-        for (Property property : log.getProperties())
+        for (Property<?> property : log.getProperties())
         {
-            Collection allowedValues = property.getPossibleValues();
+            Collection<?> allowedValues = property.getPossibleValues();
             if (allowedValues.contains(Direction.Axis.X) && allowedValues.contains(Direction.Axis.Y) && allowedValues.contains(Direction.Axis.Z))
             {
                 return property;
