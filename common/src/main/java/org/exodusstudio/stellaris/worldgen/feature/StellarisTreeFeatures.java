@@ -19,7 +19,7 @@ public class StellarisTreeFeatures {
 
 
     public static void bootstrap(BootstrapContext<@NotNull ConfiguredFeature<?,?>> context) {
-        register(context, StellarisTreeFeatures.DEAD_TREE, StellarisBaseFeatures.DEAD_TREE, createTaigaLikeTree(Blocks.OAK_LOG).minHeight(10).maxHeight(30).build());
+        register(context, StellarisTreeFeatures.DEAD_TREE, StellarisBaseFeatures.DEAD_TREE.get(), createTaigaLikeTree(Blocks.OAK_LOG).minHeight(10).maxHeight(30).build());
     }
 
     private static StellarisTreeConfiguration.Builder createTaigaLikeTree(Block logBlock, Block leafBlock) {

@@ -5,20 +5,13 @@ import net.minecraft.core.RegistrySetBuilder;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.PackOutput;
-import net.minecraft.data.loot.LootTableProvider;
-import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.common.data.DatapackBuiltinEntriesProvider;
 import net.neoforged.neoforge.data.event.GatherDataEvent;
-import org.exodusstudio.stellaris.Stellaris;
-import org.exodusstudio.stellaris.neoforge.datagen.loottables.StellarisLootTableSubProvider;
-import org.exodusstudio.stellaris.neoforge.datagen.tags.StellarisBlockTagsProvider;
-import org.exodusstudio.stellaris.neoforge.datagen.tags.StellarisItemTagsProvider;
 import org.exodusstudio.stellaris.util.worldgen.StellarisFeatureUtil;
 import org.exodusstudio.stellaris.util.worldgen.StellarisPlacementUtil;
 
-import java.util.List;
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 
