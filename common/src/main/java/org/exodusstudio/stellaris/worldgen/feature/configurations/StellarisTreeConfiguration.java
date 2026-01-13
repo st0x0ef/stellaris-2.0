@@ -43,7 +43,7 @@ public class StellarisTreeConfiguration extends TreeConfiguration {
         this.maxHeight = maxHeight;
     }
 
-    public static class Builder<T extends Builder<?>> {
+    public static class Builder {
         protected BlockStateProvider trunkProvider;
         protected BlockStateProvider foliageProvider;
         protected BlockStateProvider vineProvider;
@@ -67,58 +67,58 @@ public class StellarisTreeConfiguration extends TreeConfiguration {
             this.decorators = Lists.newArrayList();
         }
 
-        public T trunk(BlockStateProvider provider)
+        public <T extends Builder> T trunk(BlockStateProvider provider)
         {
             this.trunkProvider = provider;
             return (T)this;
         }
 
-        public T foliage(BlockStateProvider provider)
+        public <T extends Builder> T foliage(BlockStateProvider provider)
         {
             this.foliageProvider = provider;
             return (T)this;
         }
 
-        public T vine(BlockStateProvider provider)
+        public Builder vine(BlockStateProvider provider)
         {
             this.vineProvider = provider;
-            return (T)this;
+            return this;
         }
 
-        public T hanging(BlockStateProvider provider)
+        public Builder hanging(BlockStateProvider provider)
         {
             this.hangingProvider = provider;
-            return (T)this;
+            return this;
         }
 
-        public T trunkFruit(BlockStateProvider provider)
+        public Builder trunkFruit(BlockStateProvider provider)
         {
             this.trunkFruitProvider = provider;
-            return (T)this;
+            return this;
         }
 
-        public T altFoliage(BlockStateProvider a)
+        public Builder altFoliage(BlockStateProvider a)
         {
             this.altFoliageProvider = a;
-            return (T)this;
+            return this;
         }
 
-        public T minHeight(int a)
+        public Builder minHeight(int a)
         {
             this.minHeight = a;
-            return (T)this;
+            return this;
         }
 
-        public T maxHeight(int a)
+        public Builder maxHeight(int a)
         {
             this.maxHeight = a;
-            return (T)this;
+            return this;
         }
 
-        public T decorator(TreeDecorator decorator)
+        public Builder decorator(TreeDecorator decorator)
         {
             this.decorators.add(decorator);
-            return (T)this;
+            return this;
         }
 
         public StellarisTreeConfiguration build() {

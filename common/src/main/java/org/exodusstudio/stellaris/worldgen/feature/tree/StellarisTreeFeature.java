@@ -54,7 +54,7 @@ public class StellarisTreeFeature<FC extends StellarisTreeConfiguration> extends
 
     public boolean placeLog(LevelAccessor level, BlockPos pos, Direction.Axis axis, BiConsumer<BlockPos, BlockState> logs, FC config)
     {
-        Property logAxisProperty = this.getLogAxisProperty(level, pos, config);
+        Property<Direction.Axis> logAxisProperty = this.getLogAxisProperty(level, pos, config);
         BlockState log = config.trunkProvider.getState(level.getRandom(), pos);
         BlockState directedLog = (axis != null && logAxisProperty != null) ? log.setValue(logAxisProperty, axis) : log;
 
@@ -118,7 +118,7 @@ public class StellarisTreeFeature<FC extends StellarisTreeConfiguration> extends
         });
     }
 
-    protected Property<?> getLogAxisProperty(LevelAccessor level, BlockPos pos, FC config)
+    protected Property<Direction.Axis> getLogAxisProperty(LevelAccessor level, BlockPos pos, FC config)
     {
         BlockState log = config.trunkProvider.getState(level.getRandom(), pos);
 
@@ -127,7 +127,7 @@ public class StellarisTreeFeature<FC extends StellarisTreeConfiguration> extends
             Collection<?> allowedValues = property.getPossibleValues();
             if (allowedValues.contains(Direction.Axis.X) && allowedValues.contains(Direction.Axis.Y) && allowedValues.contains(Direction.Axis.Z))
             {
-                return property;
+                return (Property<Direction.Axis>) property;
             }
         }
         return null;

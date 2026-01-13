@@ -30,7 +30,7 @@ public class SpreadTreeConfiguration extends StellarisTreeConfiguration{
         this.trunkWidth = trunkWidth;
     }
 
-    public static class Builder extends StellarisTreeConfiguration.Builder<Builder> {
+    public static class Builder extends StellarisTreeConfiguration.Builder {
         private int trunkWidth;
 
         public Builder() {

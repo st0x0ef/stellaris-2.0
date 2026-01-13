@@ -17,20 +17,20 @@ import java.util.List;
 
 public class StellarisTreePlacements {
     public static final ResourceKey<PlacedFeature> DEAD_TREE_CHECKED = StellarisPlacementUtil.createKey("dead_tree");
-    public static final ResourceKey<PlacedFeature> DEAD_TREE_MEDIUM_CHECKED = StellarisPlacementUtil.createKey("dead_tree_medium");
-    public static final ResourceKey<PlacedFeature> DEAD_TREE_LARGE_CHECKED = StellarisPlacementUtil.createKey("dead_tree_large");
+//    public static final ResourceKey<PlacedFeature> DEAD_TREE_MEDIUM_CHECKED = StellarisPlacementUtil.createKey("dead_tree_medium");
+//    public static final ResourceKey<PlacedFeature> DEAD_TREE_LARGE_CHECKED = StellarisPlacementUtil.createKey("dead_tree_large");
 
     public static void bootstrap(BootstrapContext<PlacedFeature> context) {
         HolderGetter<ConfiguredFeature<?, ?>> configuredFeatureGetter = context.lookup(Registries.CONFIGURED_FEATURE);
 
         final Holder<ConfiguredFeature<?, ?>> DEAD_TREE = configuredFeatureGetter.getOrThrow(StellarisTreeFeatures.DEAD_TREE);
-        final Holder<ConfiguredFeature<?, ?>> DEAD_TREE_MEDIUM = configuredFeatureGetter.getOrThrow(StellarisTreeFeatures.DEAD_TREE_MEDIUM);
-        final Holder<ConfiguredFeature<?, ?>> DEAD_TREE_LARGE = configuredFeatureGetter.getOrThrow(StellarisTreeFeatures.DEAD_TREE_LARGE);
+//        final Holder<ConfiguredFeature<?, ?>> DEAD_TREE_MEDIUM = configuredFeatureGetter.getOrThrow(StellarisTreeFeatures.DEAD_TREE_MEDIUM);
+//        final Holder<ConfiguredFeature<?, ?>> DEAD_TREE_LARGE = configuredFeatureGetter.getOrThrow(StellarisTreeFeatures.DEAD_TREE_LARGE);
 
 
         register(context, StellarisTreePlacements.DEAD_TREE_CHECKED, DEAD_TREE, List.of(PlacementUtils.filteredByBlockSurvival(Blocks.OAK_SAPLING)));
-        register(context, StellarisTreePlacements.DEAD_TREE_MEDIUM_CHECKED, DEAD_TREE_MEDIUM, List.of(PlacementUtils.filteredByBlockSurvival(Blocks.OAK_SAPLING)));
-        register(context, StellarisTreePlacements.DEAD_TREE_LARGE_CHECKED, DEAD_TREE_LARGE, List.of(PlacementUtils.filteredByBlockSurvival(Blocks.OAK_SAPLING)));
+//        register(context, StellarisTreePlacements.DEAD_TREE_MEDIUM_CHECKED, DEAD_TREE_MEDIUM, List.of(PlacementUtils.filteredByBlockSurvival(Blocks.OAK_SAPLING)));
+//        register(context, StellarisTreePlacements.DEAD_TREE_LARGE_CHECKED, DEAD_TREE_LARGE, List.of(PlacementUtils.filteredByBlockSurvival(Blocks.OAK_SAPLING)));
 
     }
 

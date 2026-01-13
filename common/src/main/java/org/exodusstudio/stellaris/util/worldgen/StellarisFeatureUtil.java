@@ -13,7 +13,7 @@ public class StellarisFeatureUtil {
     public static void bootstrap(BootstrapContext<@NotNull ConfiguredFeature<?, ?>> context) {
         StellarisTreeFeatures.bootstrap(context);
     }
-    public static ResourceKey<ConfiguredFeature<?, ?>> createKey(String name)
+    public static ResourceKey<@NotNull ConfiguredFeature<?, ?>> createKey(String name)
     {
         return ResourceKey.create(Registries.CONFIGURED_FEATURE, Identifier.fromNamespaceAndPath(Stellaris.MOD_ID, name));
     }
