@@ -39,13 +39,13 @@ public record RocketItemRenderer(Identifier texture, RocketModel model) implemen
 
         this.model.setDefaultModel();
 
-        RocketRenderer.RenderingContext renderingContext = new RocketRenderer.RenderingContext(poseStack, modelState.lightCoords, this.model, texture());
+        RocketRenderer.RenderingContext renderingContext = new RocketRenderer.RenderingContext(poseStack, packedLight, this.model, texture());
 
         modelState.preRenderModules(renderingContext);
 
         RenderType renderType = modelState.getRenderType(renderingContext);
 
-        nodeCollector.submitModelPart(this.model.root(), poseStack, renderType, modelState.lightCoords, OverlayTexture.NO_OVERLAY, null);
+        nodeCollector.submitModelPart(this.model.root(), poseStack, renderType, packedLight, OverlayTexture.NO_OVERLAY, null);
 
         modelState.renderModules(renderingContext);
         poseStack.popPose();
