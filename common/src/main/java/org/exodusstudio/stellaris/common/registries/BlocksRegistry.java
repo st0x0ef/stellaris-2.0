@@ -86,7 +86,7 @@ public final class BlocksRegistry {
     public static final BlockItemRegistrySupplier OXYGEN_PROPAGATOR = blockWithItem("oxygen_propagator", BlockBehaviour.Properties.of(), OxygenPropagatorBlock::new);
 
     // ROCKET
-    public static final BlockItemRegistrySupplier ROCKET_STATION = blockWithCustomItem("rocket_station", BlockBehaviour.Properties.of(), RocketStationBlock::new, new Item.Properties(), BlockItem::new);
+    public static final BlockItemRegistrySupplier ENGINEERING_STATION = blockWithCustomItem("engineering_station", BlockBehaviour.Properties.of(), EngineeringStationBlock::new, new Item.Properties(), BlockItem::new);
     public static final BlockItemRegistrySupplier ROCKET_LAUNCH_PAD = blockWithCustomItem("rocket_launch_pad", BlockBehaviour.Properties.of(), RocketLaunchPadBlock::new, new Item.Properties(), BlockItem::new);
 
     /**

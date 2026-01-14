@@ -41,7 +41,7 @@
   "item.stellaris.vacuumator": "Vacuumator",
   "item.stellaris.electrolyzer": "Electrolyzer",
   "item.stellaris.gravity_manipulator": "Gravity Manipulator",
-  "item.stellaris.rocket_station": "Rocket Station",
+  "item.stellaris.engineering_station": "Engineering Station",
 
   "item.stellaris.oxygen_distributor": "Oxygen Distributor",
   "item.stellaris.oxygen_propagator": "Oxygen Propagator",
@@ -136,7 +136,7 @@
   "stellaris.screen.gravityManipulator.planet.moon": "Moon Gravity (1.62m/s²)",
   "stellaris.screen.gravityManipulator.planet.mars": "Mars Gravity (3.73m/s²)",
   "stellaris.screen.gravityManipulator.planet.earth": "Earth Gravity (9.81m/s²)",
-  "stellaris.screen.rocket_station": "Rocket Station",
+  "stellaris.screen.engineering_station": "Engineering Station",
 
   "tooltip.item.stellaris.can.empty": "Empty",
   "tooltip.item.stellaris.can.nutrition": "Nutrition: %s/%s",

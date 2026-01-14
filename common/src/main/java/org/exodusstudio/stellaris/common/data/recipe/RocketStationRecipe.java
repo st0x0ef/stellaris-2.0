@@ -9,7 +9,7 @@ import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.Level;
-import org.exodusstudio.stellaris.common.blocks.entities.machines.RocketStationBlockEntity;
+import org.exodusstudio.stellaris.common.blocks.entities.machines.EngineeringStationBlockEntity;
 import org.exodusstudio.stellaris.common.data.recipe.input.RocketStationInput;
 import org.exodusstudio.stellaris.common.registries.RecipesRegistry;
 import org.jetbrains.annotations.NotNull;
@@ -20,7 +20,7 @@ public record RocketStationRecipe(List<Ingredient> recipeItems, ItemStack output
 
     @Override
     public boolean matches(RocketStationInput container, Level level) {
-        for (int i = 0; i < ((RocketStationBlockEntity) container.entity()).getContainerSize() - 1; i++) {
+        for (int i = 0; i < ((EngineeringStationBlockEntity) container.entity()).getContainerSize() - 1; i++) {
             if (!recipeItems.get(i).test(container.getItem(i))) {
                 return false;
             }

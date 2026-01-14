@@ -21,7 +21,7 @@ import org.exodusstudio.stellaris.common.blocks.entities.machines.base.Implement
 import org.exodusstudio.stellaris.common.blocks.entities.machines.base.TickingBlockEntity;
 import org.exodusstudio.stellaris.common.data.recipe.RocketStationRecipe;
 import org.exodusstudio.stellaris.common.data.recipe.input.RocketStationInput;
-import org.exodusstudio.stellaris.common.menus.rocket_station.RocketStationMenu;
+import org.exodusstudio.stellaris.common.menus.engineering_station.RocketStationMenu;
 import org.exodusstudio.stellaris.common.registries.BlockEntitiesRegistry;
 import org.exodusstudio.stellaris.common.registries.RecipesRegistry;
 import org.jetbrains.annotations.NotNull;
@@ -29,18 +29,18 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Optional;
 
-public class RocketStationBlockEntity extends BaseContainerBlockEntity implements ImplementedInventory, RecipeInput, TickingBlockEntity {
+public class EngineeringStationBlockEntity extends BaseContainerBlockEntity implements ImplementedInventory, RecipeInput, TickingBlockEntity {
 
     private NonNullList<ItemStack> items = NonNullList.withSize(15, ItemStack.EMPTY);
     private final RecipeManager.CachedCheck<RocketStationInput, RocketStationRecipe> quickCheck = RecipeManager.createCheck(RecipesRegistry.ROCKET_STATION_TYPE.get());
 
-    public RocketStationBlockEntity(BlockPos blockPos, BlockState blockState) {
-        super(BlockEntitiesRegistry.ROCKET_STATION.get(), blockPos, blockState);
+    public EngineeringStationBlockEntity(BlockPos blockPos, BlockState blockState) {
+        super(BlockEntitiesRegistry.ENGINEERING_STATION.get(), blockPos, blockState);
     }
 
     @Override
     protected Component getDefaultName() {
-        return Component.translatable("stellaris.screen.rocket_station");
+        return Component.translatable("stellaris.screen.engineering_station");
     }
 
     @Override

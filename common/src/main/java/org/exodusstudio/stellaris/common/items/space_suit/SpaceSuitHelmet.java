@@ -56,7 +56,7 @@ public class SpaceSuitHelmet extends Item implements FluidProvider.ITEM {
         UniversalFluidItemStorage fluidTank = getFluidTank(stack);
         if (oxygenCapacity > 0 && fluidTank != null) {
             tooltipAdder.accept(Component.literal("-- Oxygen Module --").withColor(Utils.getMinecraftColor("cyan")));
-            tooltipAdder.accept(Component.literal("Oxygen " + fluidTank.getFluidInTank(0) + " / " + oxygenCapacity + " mb").withColor(Utils.getMinecraftColor("cyan")));
+            tooltipAdder.accept(Component.literal("Oxygen " + fluidTank.getFluidInTank(0).getAmount() + " / " + oxygenCapacity + " mb").withColor(Utils.getMinecraftColor("cyan")));
         }
     }
 }

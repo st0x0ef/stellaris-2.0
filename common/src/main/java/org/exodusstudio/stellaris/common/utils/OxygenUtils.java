@@ -1,16 +1,24 @@
 package org.exodusstudio.stellaris.common.utils;
 
+import com.fej1fun.potentials.fluid.UniversalFluidItemStorage;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.chunk.LevelChunk;
+import net.minecraft.world.phys.AABB;
 import org.exodusstudio.stellaris.common.blocks.entities.machines.OxygenDistributorBlockEntity;
 import org.exodusstudio.stellaris.common.blocks.entities.machines.OxygenPropagatorBlockEntity;
 import org.exodusstudio.stellaris.common.data.Planet;
 import org.exodusstudio.stellaris.common.data.PlanetsData;
+import org.exodusstudio.stellaris.common.items.space_suit.SpaceSuitHelmet;
+import org.exodusstudio.stellaris.common.registries.TagsRegistry;
 
 import java.util.*;
 
@@ -165,5 +173,37 @@ public class OxygenUtils {
 
     public static List<ChunkPos> getBasicAllowedChunks(BlockPos pos) {
         return getBasicAllowedChunks(new ChunkPos(pos));
+    }
+
+    public static int getEntityWhoNeedsOxygen(Level level, Set<ChunkPos> chunks) {
+        int count = 0;
+
+        for (ChunkPos chunkPos : chunks) {
+            AABB aabb = new AABB(
+                    chunkPos.getMinBlockX(), level.getMinY(), chunkPos.getMinBlockZ(),
+                    chunkPos.getMaxBlockX() + 1, level.getMaxY() + 1, chunkPos.getMaxBlockZ() + 1
+            );
+
+            for (LivingEntity entity : level.getEntitiesOfClass(LivingEntity.class, aabb)) {
+                if (!entity.getType().is(TagsRegistry.EntityTags.NO_OXYGEN_NEEDED)) {
+                    ItemStack headSlot = entity.getItemBySlot(EquipmentSlot.HEAD);
+                    if (Utils.isLivingInSpaceSuit(entity) && headSlot.getItem() instanceof SpaceSuitHelmet helmet) {
+                        UniversalFluidItemStorage oxygenTank = helmet.getFluidTank(headSlot);
+                        if (!oxygenTank.getFluidInTank(0).isEmpty()) {
+                            continue;
+                        }
+                    }
+                    if (entity instanceof Player player) {
+                        if (!player.isCreative() && !player.isSpectator()) {
+                            count++;
+                        }
+                    } else {
+                        count++;
+                    }
+                }
+            }
+        }
+
+        return count;
     }
 }

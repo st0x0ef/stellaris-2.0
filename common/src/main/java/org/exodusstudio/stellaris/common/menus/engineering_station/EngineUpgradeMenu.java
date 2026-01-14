@@ -1,4 +1,4 @@
-package org.exodusstudio.stellaris.common.menus.rocket_station;
+package org.exodusstudio.stellaris.common.menus.engineering_station;
 
 import com.fej1fun.potentials.components.FluidAmountMapDataComponent;
 import dev.architectury.networking.NetworkManager;
@@ -12,10 +12,13 @@ import net.minecraft.world.inventory.ItemCombinerMenuSlotDefinition;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
 import org.exodusstudio.stellaris.common.items.RocketItem;
+import org.exodusstudio.stellaris.common.items.space_suit.SpaceSuitHelmet;
 import org.exodusstudio.stellaris.common.menus.base.BaseItemCombinerMenu;
 import org.exodusstudio.stellaris.common.modules.Modules;
 import org.exodusstudio.stellaris.common.modules.rocket.RocketModule;
 import org.exodusstudio.stellaris.common.modules.rocket.RocketModules;
+import org.exodusstudio.stellaris.common.modules.space_suit.SpaceSuitModule;
+import org.exodusstudio.stellaris.common.modules.space_suit.SpaceSuitModules;
 import org.exodusstudio.stellaris.common.network.packets.OpenRocketStationMenusPacket;
 import org.exodusstudio.stellaris.common.registries.BlocksRegistry;
 import org.exodusstudio.stellaris.common.registries.DataComponentsRegistry;
@@ -23,18 +26,18 @@ import org.exodusstudio.stellaris.common.registries.MenuTypesRegistry;
 import org.jetbrains.annotations.NotNull;
 
 
-public class RocketUpgradeMenu extends BaseItemCombinerMenu {
+public class EngineUpgradeMenu extends BaseItemCombinerMenu {
 
-    private final BlockPos rocketStationPos;
+    private final BlockPos engineeringStationPos;
 
-    public static RocketUpgradeMenu create(int containerId, Inventory playerInventory, FriendlyByteBuf buf) {
-        return new RocketUpgradeMenu(containerId, playerInventory, ContainerLevelAccess.NULL, buf.readBlockPos());
+    public static EngineUpgradeMenu create(int containerId, Inventory playerInventory, FriendlyByteBuf buf) {
+        return new EngineUpgradeMenu(containerId, playerInventory, ContainerLevelAccess.NULL, buf.readBlockPos());
     }
 
     //We need to save the position of the rocket station to be able to open the crafting menu from here and get/save items in it.
-    public RocketUpgradeMenu(int containerId, Inventory playerInventory, ContainerLevelAccess access, BlockPos pos) {
-        super(MenuTypesRegistry.ROCKET_UPGRADE.get(), containerId, playerInventory, access);
-        this.rocketStationPos = pos;
+    public EngineUpgradeMenu(int containerId, Inventory playerInventory, ContainerLevelAccess access, BlockPos pos) {
+        super(MenuTypesRegistry.ENGINE_UPGRADE.get(), containerId, playerInventory, access);
+        this.engineeringStationPos = pos;
     }
 
     @Override
@@ -50,7 +53,7 @@ public class RocketUpgradeMenu extends BaseItemCombinerMenu {
 
     @Override
     protected boolean isValidBlock(BlockState state) {
-        return state.is(BlocksRegistry.ROCKET_STATION.block().get());
+        return state.is(BlocksRegistry.ENGINEERING_STATION.block().get());
     }
 
     @Override
@@ -61,19 +64,20 @@ public class RocketUpgradeMenu extends BaseItemCombinerMenu {
 
 
         ItemStack itemToUpgrade = this.inputSlots.getItem(0).copy();
-        ItemStack module = this.inputSlots.getItem(1);
+        ItemStack module = this.inputSlots.getItem(1).copy();
 
         if(itemToUpgrade.isEmpty() || module.isEmpty()) {
             this.resultSlots.setItem(0, ItemStack.EMPTY);
             return;
         }
 
+        /** ROCKET MODULES HANDLING */
         Modules<RocketModule> rocketModule = itemToUpgrade.getOrDefault(DataComponentsRegistry.ROCKET_MODULES.get(), RocketModules.empty());
 
         if (module.getItem() instanceof RocketModule validModule) {
             if (!itemToUpgrade.isEmpty() && !module.isEmpty()
                     && !rocketModule.contains(validModule)
-                    && canUpgradeFuel(module, itemToUpgrade) == Error.NONE
+                    && canUpgradeFuel(module, itemToUpgrade).equals(Error.NONE)
                     //&& rocketModule.contains(validModule.requires())
             ) {
 
@@ -84,6 +88,29 @@ public class RocketUpgradeMenu extends BaseItemCombinerMenu {
                 this.resultSlots.setItem(0, itemToUpgrade);
                 this.broadcastChanges();
 
+            }
+            else {
+                this.resultSlots.setItem(0, ItemStack.EMPTY);
+            }
+        }
+
+        /* --------------------------------------------------------------- */
+
+        /** SPACE SUITS MODULES HANDLING */
+        Modules<SpaceSuitModule> spaceSuitModules = itemToUpgrade.getOrDefault(DataComponentsRegistry.SPACE_SUIT_MODULES.get(), SpaceSuitModules.empty());
+
+        if (module.getItem() instanceof SpaceSuitModule validModule) {
+            if (!itemToUpgrade.isEmpty() && !module.isEmpty()
+                    && !spaceSuitModules.contains(validModule)
+                    && canUpgradeFuel(module, itemToUpgrade).equals(Error.NONE)
+            ) {
+
+                Modules<SpaceSuitModule>.Mutable mutable = spaceSuitModules.toMutable();
+                mutable.insert(validModule);
+                itemToUpgrade.set(DataComponentsRegistry.SPACE_SUIT_MODULES.get(), mutable.toImmutable());
+
+                this.resultSlots.setItem(0, itemToUpgrade);
+                this.broadcastChanges();
             }
             else {
                 this.resultSlots.setItem(0, ItemStack.EMPTY);
@@ -102,9 +129,7 @@ public class RocketUpgradeMenu extends BaseItemCombinerMenu {
         FluidAmountMapDataComponent fuelComponent = rocket.get(DataComponentsRegistry.FLUID_LIST.get());
 
         if(module.getItem() instanceof RocketModule.CustomFuelModule) {
-
             if(fuelComponent != null && fuelComponent.getAmount(0) > 0) {
-
                 return Error.FUEL_NOT_EMPTY;
             }
         }
@@ -133,7 +158,7 @@ public class RocketUpgradeMenu extends BaseItemCombinerMenu {
         return this.inputSlots.getItem(1);
     }
 
-    public ItemStack getInputRocket() {
+    public ItemStack getInputStack() {
         return this.inputSlots.getItem(0);
     }
 
@@ -141,15 +166,15 @@ public class RocketUpgradeMenu extends BaseItemCombinerMenu {
     @Override
     protected @NotNull ItemCombinerMenuSlotDefinition createInputSlotDefinitions() {
         return ItemCombinerMenuSlotDefinition.create()
-                .withSlot(0, 31, 48, itemStack -> itemStack.getItem() instanceof RocketItem)
-                .withSlot(1, 75, 48, itemStack -> itemStack.getItem() instanceof RocketModule)
+                .withSlot(0, 31, 48, itemStack -> itemStack.getItem() instanceof RocketItem || itemStack.getItem() instanceof SpaceSuitHelmet)
+                .withSlot(1, 75, 48, itemStack -> itemStack.getItem() instanceof RocketModule || itemStack.getItem() instanceof SpaceSuitModule)
                 .withResultSlot(2, 127, 48)
                 .build();
     }
 
     public void openCraftingMenu() {
         this.player.closeContainer();
-        NetworkManager.sendToServer(new OpenRocketStationMenusPacket("crafting", this.rocketStationPos));
+        NetworkManager.sendToServer(new OpenRocketStationMenusPacket("crafting", this.engineeringStationPos));
 
     }
 

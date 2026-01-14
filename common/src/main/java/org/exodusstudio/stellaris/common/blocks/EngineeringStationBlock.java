@@ -13,23 +13,23 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import org.exodusstudio.stellaris.common.blocks.base.BaseMachineBlock;
 import org.exodusstudio.stellaris.common.registries.BlockEntitiesRegistry;
 
-public class RocketStationBlock extends BaseMachineBlock {
+public class EngineeringStationBlock extends BaseMachineBlock {
 
-    public static final MapCodec<RocketStationBlock> CODEC = simpleCodec(RocketStationBlock::new);
+    public static final MapCodec<EngineeringStationBlock> CODEC = simpleCodec(EngineeringStationBlock::new);
     private static final VoxelShape SHAPE = Block.box(0,0,0,16,12,16);
 
-    public RocketStationBlock(Properties properties) {
+    public EngineeringStationBlock(Properties properties) {
         super(properties);
     }
 
     @Override
     protected MapCodec<? extends BaseEntityBlock> codec() {
-        return simpleCodec(RocketStationBlock::new);
+        return simpleCodec(EngineeringStationBlock::new);
     }
 
     @Override
     public BlockEntityType<?> getBlockEntityType() {
-        return BlockEntitiesRegistry.ROCKET_STATION.get();
+        return BlockEntitiesRegistry.ENGINEERING_STATION.get();
     }
 
     @Override

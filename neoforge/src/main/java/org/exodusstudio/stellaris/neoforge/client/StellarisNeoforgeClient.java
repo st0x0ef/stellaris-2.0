@@ -18,8 +18,8 @@ import org.exodusstudio.stellaris.client.renderers.gravity_manipulator.GravityMa
 import org.exodusstudio.stellaris.client.renderers.gravity_manipulator.GravityManipulatorBlockRenderer;
 import org.exodusstudio.stellaris.client.renderers.rockets.RocketRenderer;
 import org.exodusstudio.stellaris.client.screens.*;
-import org.exodusstudio.stellaris.client.screens.rocket_station.RocketStationScreen;
-import org.exodusstudio.stellaris.client.screens.rocket_station.RocketUpgraderScreen;
+import org.exodusstudio.stellaris.client.screens.engineering_station.RocketStationScreen;
+import org.exodusstudio.stellaris.client.screens.engineering_station.EngineUpgraderScreen;
 import org.exodusstudio.stellaris.client.screens.tablet.MainTabletScreen;
 import org.exodusstudio.stellaris.client.screens.tablet.application.sd.SDCardReaderApplicationScreen;
 import org.exodusstudio.stellaris.common.blocks.entities.machines.GravityManipulatorBlockEntity;
@@ -45,9 +45,10 @@ public class StellarisNeoforgeClient {
         event.register(MenuTypesRegistry.VACUUMATOR.get(), VacuumatorScreen::new);
         event.register(MenuTypesRegistry.GRAVITY_MANIPULATOR.get(), GravityManipulatorScreen::new);
         event.register(MenuTypesRegistry.ELECTROLYZER.get(), ElectrolyzerScreen::new);
-        event.register(MenuTypesRegistry.ROCKET_STATION.get(), RocketStationScreen::new);
-        event.register(MenuTypesRegistry.ROCKET_UPGRADE.get(), RocketUpgraderScreen::new);
         event.register(MenuTypesRegistry.OXYGEN_DISTRIBUTOR.get(), OxygenDistributorScreen::new);
+
+        event.register(MenuTypesRegistry.ROCKET_STATION.get(), RocketStationScreen::new);
+        event.register(MenuTypesRegistry.ENGINE_UPGRADE.get(), EngineUpgraderScreen::new);
 
         event.register(MenuTypesRegistry.ROCKET_MENU.get(), RocketScreen::new);
     }

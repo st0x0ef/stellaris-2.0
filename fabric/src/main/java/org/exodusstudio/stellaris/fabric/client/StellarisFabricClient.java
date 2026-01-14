@@ -16,8 +16,8 @@ import org.exodusstudio.stellaris.client.renderers.gravity_manipulator.GravityMa
 import org.exodusstudio.stellaris.client.renderers.gravity_manipulator.GravityManipulatorModel;
 import org.exodusstudio.stellaris.client.renderers.rockets.RocketRenderer;
 import org.exodusstudio.stellaris.client.screens.*;
-import org.exodusstudio.stellaris.client.screens.rocket_station.RocketStationScreen;
-import org.exodusstudio.stellaris.client.screens.rocket_station.RocketUpgraderScreen;
+import org.exodusstudio.stellaris.client.screens.engineering_station.RocketStationScreen;
+import org.exodusstudio.stellaris.client.screens.engineering_station.EngineUpgraderScreen;
 import org.exodusstudio.stellaris.client.screens.tablet.MainTabletScreen;
 import org.exodusstudio.stellaris.client.screens.tablet.application.sd.SDCardReaderApplicationScreen;
 import org.exodusstudio.stellaris.common.blocks.entities.machines.GravityManipulatorBlockEntity;
@@ -45,7 +45,7 @@ public final class StellarisFabricClient implements ClientModInitializer {
         MenuScreenRegistry.registerScreenFactory(MenuTypesRegistry.GRAVITY_MANIPULATOR.get(), GravityManipulatorScreen::new);
         MenuScreenRegistry.registerScreenFactory(MenuTypesRegistry.ELECTROLYZER.get(), ElectrolyzerScreen::new);
         MenuScreenRegistry.registerScreenFactory(MenuTypesRegistry.ROCKET_STATION.get(), RocketStationScreen::new);
-        MenuScreenRegistry.registerScreenFactory(MenuTypesRegistry.ROCKET_UPGRADE.get(), RocketUpgraderScreen::new);
+        MenuScreenRegistry.registerScreenFactory(MenuTypesRegistry.ENGINE_UPGRADE.get(), EngineUpgraderScreen::new);
         MenuScreenRegistry.registerScreenFactory(MenuTypesRegistry.OXYGEN_DISTRIBUTOR.get(), OxygenDistributorScreen::new);
 
         MenuScreenRegistry.registerScreenFactory(MenuTypesRegistry.ROCKET_MENU.get(), RocketScreen::new);

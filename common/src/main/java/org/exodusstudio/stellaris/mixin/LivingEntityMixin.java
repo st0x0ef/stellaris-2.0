@@ -10,6 +10,7 @@ import org.exodusstudio.stellaris.common.items.space_suit.SpaceSuitHelmet;
 import org.exodusstudio.stellaris.common.registries.TagsRegistry;
 import org.exodusstudio.stellaris.common.utils.GravityUtils;
 import org.exodusstudio.stellaris.common.utils.OxygenUtils;
+import org.exodusstudio.stellaris.common.utils.Utils;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -48,7 +49,7 @@ public class LivingEntityMixin {
             if (stellaris$entity.level() instanceof ServerLevel serverLevel) {
                 if (!OxygenUtils.isOxygenated(stellaris$entity.level(), stellaris$entity.blockPosition())) {
                     ItemStack headSlot = stellaris$entity.getItemBySlot(EquipmentSlot.HEAD);
-                    if (headSlot.getItem() instanceof SpaceSuitHelmet helmet) {
+                    if (Utils.isLivingInSpaceSuit(stellaris$entity) && headSlot.getItem() instanceof SpaceSuitHelmet helmet) {
                         UniversalFluidItemStorage oxygenTank = helmet.getFluidTank(headSlot);
 
                         if (oxygenTank != null && !oxygenTank.getFluidInTank(0).isEmpty()) {

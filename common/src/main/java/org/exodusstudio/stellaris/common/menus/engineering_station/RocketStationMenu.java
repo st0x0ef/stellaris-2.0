@@ -1,4 +1,4 @@
-package org.exodusstudio.stellaris.common.menus.rocket_station;
+package org.exodusstudio.stellaris.common.menus.engineering_station;
 
 import dev.architectury.networking.NetworkManager;
 import net.minecraft.core.BlockPos;
@@ -10,7 +10,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
-import org.exodusstudio.stellaris.common.blocks.entities.machines.RocketStationBlockEntity;
+import org.exodusstudio.stellaris.common.blocks.entities.machines.EngineeringStationBlockEntity;
 import org.exodusstudio.stellaris.common.menus.slot.ResultSlot;
 import org.exodusstudio.stellaris.common.network.packets.OpenRocketStationMenusPacket;
 import org.exodusstudio.stellaris.common.registries.MenuTypesRegistry;
@@ -20,20 +20,18 @@ public class RocketStationMenu extends AbstractContainerMenu {
 
     private final Container inventory;
     private final Player player;
-    private final RocketStationBlockEntity blockEntity;
+    private final EngineeringStationBlockEntity blockEntity;
 
-    public static RocketStationMenu createFromBuffer(int syncId, Inventory inventory, FriendlyByteBuf buffer) {
-        RocketStationBlockEntity blockEntity = (RocketStationBlockEntity) inventory.player.level().getBlockEntity(buffer.readBlockPos());
-
-        return new RocketStationMenu(syncId, inventory, new SimpleContainer(15), blockEntity);
+    public static RocketStationMenu create(int syncId, Inventory inventory, FriendlyByteBuf buffer) {
+        return create(syncId, inventory, buffer.readBlockPos());
     }
 
     public static RocketStationMenu create(int syncId, Inventory inventory, BlockPos pos) {
-        RocketStationBlockEntity blockEntity = (RocketStationBlockEntity) inventory.player.level().getBlockEntity(pos);
+        EngineeringStationBlockEntity blockEntity = (EngineeringStationBlockEntity) inventory.player.level().getBlockEntity(pos);
         return new RocketStationMenu(syncId, inventory, new SimpleContainer(15), blockEntity);
     }
 
-    public RocketStationMenu(int syncId, Inventory playerInventory, Container container, RocketStationBlockEntity blockEntity) {
+    public RocketStationMenu(int syncId, Inventory playerInventory, Container container, EngineeringStationBlockEntity blockEntity) {
         super(MenuTypesRegistry.ROCKET_STATION.get(), syncId);
 
         checkContainerSize(container, 15);
