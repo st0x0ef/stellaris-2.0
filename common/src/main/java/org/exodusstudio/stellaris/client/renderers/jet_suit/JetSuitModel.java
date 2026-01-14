@@ -9,6 +9,7 @@ import net.minecraft.client.renderer.entity.state.HumanoidRenderState;
 import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.HumanoidArm;
 import net.minecraft.world.item.ItemStack;
 import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
 import org.jetbrains.annotations.Nullable;
@@ -143,5 +144,13 @@ public class JetSuitModel extends HumanoidModel<HumanoidRenderState> {
                 this.rightShoe.visible = true;
             }
         }
+    }
+
+    @Override
+    public ModelPart getArm(HumanoidArm side) {
+        return switch (side) {
+            case LEFT -> this.leftArm;
+            case RIGHT -> this.rightArm;
+        };
     }
 }
