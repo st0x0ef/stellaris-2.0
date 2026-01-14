@@ -12,7 +12,7 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import org.exodusstudio.stellaris.client.renderers.jet_suit.JetSuitModel;
+import org.exodusstudio.stellaris.client.renderers.space_suit.SpaceSuitModel;
 import org.exodusstudio.stellaris.common.utils.Utils;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -30,11 +30,11 @@ public class ArmRendererMixin {
 
         ItemStack stack = player.getItemBySlot(EquipmentSlot.CHEST);
 
-        if (Utils.isJetSuitPart(stack)) {
-            ModelLayerLocation layer = JetSuitModel.LAYER_LOCATION;
-            Identifier texture = JetSuitModel.TEXTURE;
+        if (Utils.isSpaceSuitPart(stack)) {
+            ModelLayerLocation layer = SpaceSuitModel.LAYER_LOCATION;
+            Identifier texture = SpaceSuitModel.TEXTURE;
             ModelPart rootPart = Minecraft.getInstance().getEntityModels().bakeLayer(layer);
-            JetSuitModel model = new JetSuitModel(rootPart, EquipmentSlot.CHEST, stack, null);
+            SpaceSuitModel model = new SpaceSuitModel(rootPart, EquipmentSlot.CHEST, stack, null);
 
             nodeCollector.submitModelPart(model.getArm(player.getMainArm()), poseStack, RenderTypes.armorTranslucent(texture), packedLight, OverlayTexture.NO_OVERLAY, null);
             ci.cancel();

@@ -10,13 +10,14 @@ import net.minecraft.world.item.Item;
 import org.exodusstudio.stellaris.common.items.*;
 import org.exodusstudio.stellaris.common.items.infection.ParasiteItem;
 import org.exodusstudio.stellaris.common.items.infection.PathogenStorageCellItem;
-import org.exodusstudio.stellaris.common.items.jet_suit.JetSuitChestplate;
-import org.exodusstudio.stellaris.common.items.jet_suit.JetSuitHelmet;
-import org.exodusstudio.stellaris.common.items.jet_suit.JetSuitLeggings;
-import org.exodusstudio.stellaris.common.items.jet_suit.JetSuitBoots;
-import org.exodusstudio.stellaris.common.items.modules.GalaxySkinModule;
-import org.exodusstudio.stellaris.common.items.modules.HydrogenFuelModuleItem;
-import org.exodusstudio.stellaris.common.items.modules.ShieldModule;
+import org.exodusstudio.stellaris.common.items.modules.space_suit.OxygenModuleItem;
+import org.exodusstudio.stellaris.common.items.space_suit.SpaceSuitChestplate;
+import org.exodusstudio.stellaris.common.items.space_suit.SpaceSuitHelmet;
+import org.exodusstudio.stellaris.common.items.space_suit.SpaceSuitLeggings;
+import org.exodusstudio.stellaris.common.items.space_suit.SpaceSuitBoots;
+import org.exodusstudio.stellaris.common.items.modules.rocket.GalaxySkinModule;
+import org.exodusstudio.stellaris.common.items.modules.rocket.HydrogenFuelModuleItem;
+import org.exodusstudio.stellaris.common.items.modules.rocket.ShieldModule;
 import org.exodusstudio.stellaris.common.items.tools.*;
 import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
 import org.jetbrains.annotations.NotNull;
@@ -50,12 +51,27 @@ public final class ItemsRegistry {
 
     /** Special Items */
     public static final RegistrySupplier<TabletItem> TABLET = item("tablet", TabletItem::new);
+
+    public static final RegistrySupplier<SDCardItem> SD_CARD = item("sd_card", SDCardItem::new);
+
+    /** Rocket Items */
+    public static final RegistrySupplier<RocketItem> ROCKET = item("rocket", new Item.Properties().arch$tab(CreativeTabsRegistry.STELLARIS_MAIN).stacksTo(1), RocketItem::new);
+
+    // Rocket Modules
     public static final RegistrySupplier<ShieldModule> SHIELD_MODULE = item("shield_module", ShieldModule::new);
     public static final RegistrySupplier<GalaxySkinModule> GALAXY_SKIN = item("galaxy_skin", GalaxySkinModule::new);
     public static final RegistrySupplier<HydrogenFuelModuleItem> HYDROGEN_MOTOR = item("hydrogen_motor", HydrogenFuelModuleItem::new);
 
-    public static final RegistrySupplier<SDCardItem> SD_CARD = item("sd_card", SDCardItem::new);
-    public static final RegistrySupplier<RocketItem> ROCKET = item("rocket", new Item.Properties().arch$tab(CreativeTabsRegistry.STELLARIS_MAIN).stacksTo(1), RocketItem::new);
+    /** Space Suit Items */
+    public static final RegistrySupplier<Item> SPACE_SUIT_HELMET = item("space_suit_helmet",  SpaceSuitHelmet::new);
+    public static final RegistrySupplier<Item> SPACE_SUIT_CHESTPLATE = item("space_suit_chestplate", SpaceSuitChestplate::new);
+    public static final RegistrySupplier<Item> SPACE_SUIT_LEGGINGS = item("space_suit_leggings", SpaceSuitLeggings::new);
+    public static final RegistrySupplier<Item> SPACE_SUIT_BOOTS = item("space_suit_boots", SpaceSuitBoots::new);
+
+    // Space Suit Modules
+    public static final RegistrySupplier<OxygenModuleItem> SPACE_SUIT_OXYGEN_MODULE_T1 = item("space_suit_oxygen_module_tier_1", p -> new OxygenModuleItem(p, 1200));
+    public static final RegistrySupplier<OxygenModuleItem> SPACE_SUIT_OXYGEN_MODULE_T2 = item("space_suit_oxygen_module_tier_2", p -> new OxygenModuleItem(p, 3600));
+    public static final RegistrySupplier<OxygenModuleItem> SPACE_SUIT_OXYGEN_MODULE_T3 = item("space_suit_oxygen_module_tier_3", p -> new OxygenModuleItem(p, 14400));
 
     /** Cans */
     // Small cans
@@ -103,13 +119,6 @@ public final class ItemsRegistry {
     // Moon lore items
     public static final RegistrySupplier<ParasiteItem> PARASITE = item("parasite", ParasiteItem::new);
     public static final RegistrySupplier<Item> PATHOGEN_STORAGE_CELL = item("pathogen_storage_cell", PathogenStorageCellItem::new);
-
-    /** JetSuit */
-    public static final RegistrySupplier<Item> JETSUIT_HELMET = item("jet_suit_helmet",  JetSuitHelmet::new);
-    public static final RegistrySupplier<Item> JETSUIT_SUIT = item("jet_suit_chestplate", JetSuitChestplate::new);
-    public static final RegistrySupplier<Item> JETSUIT_LEGGINGS = item("jet_suit_leggings", JetSuitLeggings::new);
-    public static final RegistrySupplier<Item> JETSUIT_BOOTS = item("jet_suit_boots", JetSuitBoots::new);
-
 
     public static RegistrySupplier<Item> item(String name) {
         return item(name, new Item.Properties().arch$tab(CreativeTabsRegistry.STELLARIS_MAIN));

@@ -1,4 +1,4 @@
-package org.exodusstudio.stellaris.client.renderers.jet_suit;
+package org.exodusstudio.stellaris.client.renderers.space_suit;
 
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.geom.ModelLayerLocation;
@@ -14,10 +14,10 @@ import net.minecraft.world.item.ItemStack;
 import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
 import org.jetbrains.annotations.Nullable;
 
-public class JetSuitModel extends HumanoidModel<HumanoidRenderState> {
+public class SpaceSuitModel extends HumanoidModel<HumanoidRenderState> {
 
-    public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(IdentifierUtils.id("jet_suit"), "main");
-    public static final Identifier TEXTURE = IdentifierUtils.texture("entity/equipment/jet_suit");
+    public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(IdentifierUtils.id("space_suit"), "main");
+    public static final Identifier TEXTURE = IdentifierUtils.texture("entity/equipment/space_suit");
 
     private final ModelPart head;
     private final ModelPart body;
@@ -34,7 +34,7 @@ public class JetSuitModel extends HumanoidModel<HumanoidRenderState> {
 
     private final EquipmentSlot slot;
 
-    public JetSuitModel(ModelPart root, EquipmentSlot slot, ItemStack stack, @Nullable HumanoidModel<HumanoidRenderState> parentModel) {
+    public SpaceSuitModel(ModelPart root, EquipmentSlot slot, ItemStack stack, @Nullable HumanoidModel<HumanoidRenderState> parentModel) {
         super(root, RenderTypes::armorTranslucent);
 
         this.head = root.getChild("head");

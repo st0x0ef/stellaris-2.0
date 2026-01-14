@@ -104,12 +104,12 @@ public class Utils {
         return count;
     }
 
-    public static boolean isLivingInJetSuit(LivingEntity entity) {
-        return isLivingInArmor(entity, EquipmentSlot.FEET, ItemsRegistry.JETSUIT_BOOTS.get()) && isLivingInArmor(entity, EquipmentSlot.HEAD, ItemsRegistry.JETSUIT_HELMET.get()) && isLivingInArmor(entity, EquipmentSlot.CHEST, ItemsRegistry.JETSUIT_SUIT.get()) && isLivingInArmor(entity, EquipmentSlot.LEGS, ItemsRegistry.JETSUIT_LEGGINGS.get());
+    public static boolean isLivingInSpaceSuit(LivingEntity entity) {
+        return isLivingInArmor(entity, EquipmentSlot.FEET, ItemsRegistry.SPACE_SUIT_BOOTS.get()) && isLivingInArmor(entity, EquipmentSlot.HEAD, ItemsRegistry.SPACE_SUIT_HELMET.get()) && isLivingInArmor(entity, EquipmentSlot.CHEST, ItemsRegistry.SPACE_SUIT_CHESTPLATE.get()) && isLivingInArmor(entity, EquipmentSlot.LEGS, ItemsRegistry.SPACE_SUIT_LEGGINGS.get());
     }
 
-    public static boolean isJetSuitPart(ItemStack stack) {
-        return stack.is(ItemsRegistry.JETSUIT_BOOTS.get()) || stack.is(ItemsRegistry.JETSUIT_HELMET.get()) || stack.is(ItemsRegistry.JETSUIT_SUIT.get()) || stack.is(ItemsRegistry.JETSUIT_LEGGINGS.get());
+    public static boolean isSpaceSuitPart(ItemStack stack) {
+        return stack.is(ItemsRegistry.SPACE_SUIT_BOOTS.get()) || stack.is(ItemsRegistry.SPACE_SUIT_HELMET.get()) || stack.is(ItemsRegistry.SPACE_SUIT_CHESTPLATE.get()) || stack.is(ItemsRegistry.SPACE_SUIT_LEGGINGS.get());
     }
 
     public static boolean isLivingInArmor(LivingEntity entity, EquipmentSlot slot, Item item) {

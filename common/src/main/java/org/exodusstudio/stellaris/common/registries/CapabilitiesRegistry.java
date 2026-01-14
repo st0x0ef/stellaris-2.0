@@ -29,5 +29,6 @@ public class CapabilitiesRegistry {
 
     private static void registerFluidItems() {
         Capabilities.Fluid.ITEM.registerForItem(ItemsRegistry.FLUID_CELL);
+        Capabilities.Fluid.ITEM.registerForItem(ItemsRegistry.SPACE_SUIT_HELMET);
     }
 }

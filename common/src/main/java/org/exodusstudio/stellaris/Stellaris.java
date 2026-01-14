@@ -45,7 +45,7 @@ public final class Stellaris {
         BlocksRegistry.BLOCKS.register();
         BlockEntitiesRegistry.BLOCK_ENTITY_TYPE.register();
         ItemsRegistry.ITEMS.register();
-        RocketModulesRegistry.init();
+        ModulesRegistry.init();
         CreativeTabsRegistry.register();
         SDCardsRegistry.register();
         StatsRegistry.STATS.register();

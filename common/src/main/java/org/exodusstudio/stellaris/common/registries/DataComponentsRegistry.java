@@ -10,9 +10,11 @@ import net.minecraft.network.codec.ByteBufCodecs;
 import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.common.components.PathogenStorageComponents;
 import org.exodusstudio.stellaris.common.components.TimerComponents;
-import org.exodusstudio.stellaris.common.module.Modules;
-import org.exodusstudio.stellaris.common.module.rocket.RocketModule;
-import org.exodusstudio.stellaris.common.module.rocket.RocketModules;
+import org.exodusstudio.stellaris.common.modules.Modules;
+import org.exodusstudio.stellaris.common.modules.rocket.RocketModule;
+import org.exodusstudio.stellaris.common.modules.rocket.RocketModules;
+import org.exodusstudio.stellaris.common.modules.space_suit.SpaceSuitModule;
+import org.exodusstudio.stellaris.common.modules.space_suit.SpaceSuitModules;
 
 import java.util.function.UnaryOperator;
 
@@ -32,6 +34,11 @@ public class DataComponentsRegistry {
     public static final RegistrySupplier<DataComponentType<Modules<RocketModule>>> ROCKET_MODULES =
             register("rocket_modules", builder -> builder
                     .persistent(RocketModules.CODEC).networkSynchronized(RocketModules.STREAM_CODEC).cacheEncoding());
+
+    public static final RegistrySupplier<DataComponentType<Modules<SpaceSuitModule>>> SPACE_SUIT_MODULES =
+            register("space_suit_modules", builder -> builder
+                    .persistent(SpaceSuitModules.CODEC).networkSynchronized(SpaceSuitModules.STREAM_CODEC).cacheEncoding());
+
     public static final RegistrySupplier<DataComponentType<TimerComponents>> TIMER =
             register("timer", builder -> builder.persistent(TimerComponents.CODEC).networkSynchronized(TimerComponents.STREAM_CODEC));
     public static final RegistrySupplier<DataComponentType<PathogenStorageComponents>> PATHOGEN_STORED =

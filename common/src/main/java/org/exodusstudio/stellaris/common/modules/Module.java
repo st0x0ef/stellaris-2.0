@@ -1,4 +1,4 @@
-package org.exodusstudio.stellaris.common.module;
+package org.exodusstudio.stellaris.common.modules;
 
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.level.ItemLike;

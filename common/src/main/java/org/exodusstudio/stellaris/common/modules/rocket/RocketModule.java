@@ -1,9 +1,9 @@
-package org.exodusstudio.stellaris.common.module.rocket;
+package org.exodusstudio.stellaris.common.modules.rocket;
 
 import dev.architectury.fluid.FluidStack;
 import net.minecraft.client.renderer.rendertype.RenderType;
 import org.exodusstudio.stellaris.client.renderers.rockets.RocketRenderer;
-import org.exodusstudio.stellaris.common.module.Module;
+import org.exodusstudio.stellaris.common.modules.Module;
 import org.jetbrains.annotations.Nullable;
 
 public interface RocketModule extends Module<RocketModule> {

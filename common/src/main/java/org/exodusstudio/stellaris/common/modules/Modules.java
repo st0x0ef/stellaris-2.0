@@ -1,4 +1,4 @@
-package org.exodusstudio.stellaris.common.module;
+package org.exodusstudio.stellaris.common.modules;
 
 import com.mojang.serialization.Codec;
 import dev.architectury.registry.registries.Registrar;

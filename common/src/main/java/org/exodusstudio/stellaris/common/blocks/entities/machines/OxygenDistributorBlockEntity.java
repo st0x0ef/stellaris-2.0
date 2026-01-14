@@ -26,7 +26,7 @@ import java.util.Set;
 public class OxygenDistributorBlockEntity extends BaseEnergyContainerBlockEntity {
 
     private final Set<BlockPos> oxygenatedPosition;
-    private Set<ChunkPos> coveredChunks;
+    private final Set<ChunkPos> coveredChunks;
 
     private int oxygenDistributedTickCounter = 0;
 

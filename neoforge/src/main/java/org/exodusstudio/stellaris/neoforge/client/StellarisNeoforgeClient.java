@@ -9,7 +9,7 @@ import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.client.StellarisClient;
 import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
-import org.exodusstudio.stellaris.client.renderers.jet_suit.JetSuitModel;
+import org.exodusstudio.stellaris.client.renderers.space_suit.SpaceSuitModel;
 import org.exodusstudio.stellaris.client.renderers.rockets.RocketModel;
 import org.exodusstudio.stellaris.client.renderers.flag.FlagBlockModel;
 import org.exodusstudio.stellaris.client.renderers.flag.FlagBlockRenderer;
@@ -68,6 +68,6 @@ public class StellarisNeoforgeClient {
         event.registerLayerDefinition(FlagHeadModel.MOB_LAYER_LOCATION, FlagHeadModel::createMobHeadLayer);
         event.registerLayerDefinition(FlagBlockModel.LAYER_LOCATION, FlagBlockModel::createBodyLayer);
         event.registerLayerDefinition(RocketModel.LAYER_LOCATION, RocketModel::createBodyLayer);
-        event.registerLayerDefinition(JetSuitModel.LAYER_LOCATION, JetSuitModel::createBodyLayer);
+        event.registerLayerDefinition(SpaceSuitModel.LAYER_LOCATION, SpaceSuitModel::createBodyLayer);
     }
 }
