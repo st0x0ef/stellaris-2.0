@@ -4,6 +4,7 @@ import dev.architectury.event.events.client.ClientGuiEvent;
 import dev.architectury.event.events.client.ClientTickEvent;
 import fr.tathan.exoconfig.platform.PlatformClientHelper;
 import org.exodusstudio.stellaris.Stellaris;
+import org.exodusstudio.stellaris.client.overlay.OxygenTankOverlay;
 import org.exodusstudio.stellaris.client.overlays.RocketTimerOverlay;
 import org.exodusstudio.stellaris.client.registry.FluidInfosRegistry;
 import org.exodusstudio.stellaris.client.registry.KeyMappingsRegistry;
@@ -30,6 +31,7 @@ public class StellarisClient {
 
     public static void registerOverlays() {
         ClientGuiEvent.RENDER_HUD.register(RocketTimerOverlay::render);
+        ClientGuiEvent.RENDER_HUD.register(OxygenTankOverlay::render);
     }
 
     public static void registerArmors() {

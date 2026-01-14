@@ -35,7 +35,7 @@ public class SpaceSuitHelmet extends Item implements FluidProvider.ITEM {
         return stack.getOrDefault(DataComponentsRegistry.SPACE_SUIT_MODULES.get(), SpaceSuitModules.empty());
     }
 
-    private int getOxygenCapacity(ItemStack stack) {
+    public int getOxygenCapacity(ItemStack stack) {
         AtomicInteger oxygenCapacity = new AtomicInteger(0);
         this.getModules(stack).getModules().forEach(module -> {
             if (module instanceof SpaceSuitModule.OxygenModule oxygenModule) {
