@@ -1,12 +1,16 @@
 package org.exodusstudio.stellaris.common.utils;
 
 import net.minecraft.util.ARGB;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
+import org.exodusstudio.stellaris.common.registries.ItemsRegistry;
 import org.exodusstudio.stellaris.common.registries.TagsRegistry;
 
 import java.util.Random;
@@ -99,4 +103,17 @@ public class Utils {
 
         return count;
     }
+
+    public static boolean isLivingInJetSuit(LivingEntity entity) {
+        return isLivingInArmor(entity, EquipmentSlot.FEET, ItemsRegistry.JETSUIT_BOOTS.get()) && isLivingInArmor(entity, EquipmentSlot.HEAD, ItemsRegistry.JETSUIT_HELMET.get()) && isLivingInArmor(entity, EquipmentSlot.CHEST, ItemsRegistry.JETSUIT_SUIT.get()) && isLivingInArmor(entity, EquipmentSlot.LEGS, ItemsRegistry.JETSUIT_LEGGINGS.get());
+    }
+
+    public static boolean isJetSuitPart(ItemStack stack) {
+        return stack.is(ItemsRegistry.JETSUIT_BOOTS.get()) || stack.is(ItemsRegistry.JETSUIT_HELMET.get()) || stack.is(ItemsRegistry.JETSUIT_SUIT.get()) || stack.is(ItemsRegistry.JETSUIT_LEGGINGS.get());
+    }
+
+    public static boolean isLivingInArmor(LivingEntity entity, EquipmentSlot slot, Item item) {
+        return entity.getItemBySlot(slot).getItem().equals(item);
+    }
+
 }

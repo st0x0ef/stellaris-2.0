@@ -17,7 +17,7 @@ public class ArmorPlatform {
     }
 
     @ExpectPlatform
-    public static void registerArmor(ModelLayerLocation layer, ArmorFactory factory, Identifier identifier, Item... items) {
+    public static void registerArmor(ModelLayerLocation layer, ArmorFactory factory, Identifier texture, Item... items) {
         throw new AssertionError();
     }
 }

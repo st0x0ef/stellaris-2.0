@@ -12,12 +12,12 @@ import net.minecraft.world.item.Item;
 import org.exodusstudio.stellaris.platform.ArmorPlatform;
 
 public class ArmorPlatformImpl {
-    public static void registerArmor(ModelLayerLocation layer, ArmorPlatform.ArmorFactory factory, Identifier identifier, Item... items) {
+    public static void registerArmor(ModelLayerLocation layer, ArmorPlatform.ArmorFactory factory, Identifier texture, Item... items) {
         ArmorRenderer.register((poseStack, nodeCollector, stack, state, slot, packedLight, original) -> {
             ModelPart root = Minecraft.getInstance().getEntityModels().bakeLayer(layer);
             HumanoidModel<?> model = factory.create(root, slot, stack, original);
             model.copyTransforms(original);
-            nodeCollector.submitModelPart(model.root(), poseStack, RenderTypes.armorTranslucent(identifier), packedLight, OverlayTexture.NO_OVERLAY, null);
+            nodeCollector.submitModelPart(model.root(), poseStack, RenderTypes.armorTranslucent(texture), packedLight, OverlayTexture.NO_OVERLAY, null);
         }, items);
     }
 }
