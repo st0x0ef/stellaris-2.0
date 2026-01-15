@@ -71,6 +71,20 @@ public class FluidsRegistry {
     public static final RegistrySupplier<FlowingFluid> FUEL_FLOWING = FLUIDS.register("flowing_fuel", () -> new ArchitecturyFlowingFluid.Flowing(FUEL_ATTRIBUTES));
     public static final RegistrySupplier<FlowingFluid> FUEL_STILL = FLUIDS.register("fuel", () -> new ArchitecturyFlowingFluid.Source(FUEL_ATTRIBUTES));
 
+    /** OIL FLUIDS **/
+    public static final ArchitecturyFluidAttributes OIL_ATTRIBUTES = SimpleArchitecturyFluidAttributes.ofSupplier(() -> FluidsRegistry.FLOWING_OIL, () -> FluidsRegistry.OIL_STILL)
+            .blockSupplier(() -> BlocksRegistry.OIL)
+            .bucketItemSupplier(() -> ItemsRegistry.OIL_BUCKET)
+            .slopeFindDistance(4)
+            .dropOff(1)
+            .tickDelay(8)
+            .explosionResistance(100.0F)
+            .convertToSource(true)
+            .sourceTexture(IdentifierUtils.id("block/fluids/oil_still"))
+            .flowingTexture(IdentifierUtils.id("block/fluids/oil_flow"));
+
+    public static final RegistrySupplier<FlowingFluid> FLOWING_OIL = FLUIDS.register("flowing_oil", () -> new ArchitecturyFlowingFluid.Flowing(OIL_ATTRIBUTES));
+    public static final RegistrySupplier<FlowingFluid> OIL_STILL = FLUIDS.register("oil", () -> new ArchitecturyFlowingFluid.Source(OIL_ATTRIBUTES));
 
     public static void init() {
         FLUIDS.register();

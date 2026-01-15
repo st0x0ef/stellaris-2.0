@@ -47,6 +47,7 @@ public class StellarisNeoforgeClient {
         event.register(MenuTypesRegistry.ROCKET_STATION.get(), RocketStationScreen::new);
         event.register(MenuTypesRegistry.ROCKET_UPGRADE.get(), RocketUpgraderScreen::new);
         event.register(MenuTypesRegistry.OXYGEN_DISTRIBUTOR.get(), OxygenDistributorScreen::new);
+        event.register(MenuTypesRegistry.PUMPJACK.get(), PumpjackScreen::new);
 
         event.register(MenuTypesRegistry.ROCKET_MENU.get(), RocketScreen::new);
     }

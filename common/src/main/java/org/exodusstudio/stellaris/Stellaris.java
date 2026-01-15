@@ -54,6 +54,7 @@ public final class Stellaris {
         CommandsRegistry.init();
         ApplicationRegistry.init();
         CapabilitiesRegistry.init();
+        BiomeModificationsRegistry.register();
 
         Events.init();
 
