@@ -6,6 +6,7 @@ import dev.architectury.core.fluid.SimpleArchitecturyFluidAttributes;
 import dev.architectury.registry.registries.DeferredRegister;
 import dev.architectury.registry.registries.RegistrySupplier;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.level.material.FlowingFluid;
 import net.minecraft.world.level.material.Fluid;
 import org.exodusstudio.stellaris.Stellaris;
@@ -74,7 +75,6 @@ public class FluidsRegistry {
     /** OIL FLUIDS **/
     public static final ArchitecturyFluidAttributes OIL_ATTRIBUTES = SimpleArchitecturyFluidAttributes.ofSupplier(() -> FluidsRegistry.FLOWING_OIL, () -> FluidsRegistry.OIL_STILL)
             .blockSupplier(() -> BlocksRegistry.OIL)
-            .bucketItemSupplier(() -> ItemsRegistry.OIL_BUCKET)
             .slopeFindDistance(4)
             .dropOff(1)
             .tickDelay(8)
@@ -85,6 +85,21 @@ public class FluidsRegistry {
 
     public static final RegistrySupplier<FlowingFluid> FLOWING_OIL = FLUIDS.register("flowing_oil", () -> new ArchitecturyFlowingFluid.Flowing(OIL_ATTRIBUTES));
     public static final RegistrySupplier<FlowingFluid> OIL_STILL = FLUIDS.register("oil", () -> new ArchitecturyFlowingFluid.Source(OIL_ATTRIBUTES));
+
+    public static final ArchitecturyFluidAttributes DIESEL_ATTRIBUTES = SimpleArchitecturyFluidAttributes.ofSupplier(() -> FluidsRegistry.FLOWING_DIESEL, () -> FluidsRegistry.DIESEL_STILL)
+            .blockSupplier(() -> BlocksRegistry.DIESEL)
+            .slopeFindDistance(4)
+            .dropOff(1)
+            .tickDelay(8)
+            .explosionResistance(100.0F)
+            .luminosity(3)
+            .convertToSource(false)
+            .sourceTexture(IdentifierUtils.id("block/fluids/diesel_still"))
+            .flowingTexture(IdentifierUtils.id("block/fluids/diesel_flow"));
+
+
+    public static final RegistrySupplier<FlowingFluid> FLOWING_DIESEL = FLUIDS.register("flowing_diesel", () -> new ArchitecturyFlowingFluid.Flowing(DIESEL_ATTRIBUTES));
+    public static final RegistrySupplier<FlowingFluid> DIESEL_STILL = FLUIDS.register("diesel", () -> new ArchitecturyFlowingFluid.Source(DIESEL_ATTRIBUTES));
 
     public static void init() {
         FLUIDS.register();

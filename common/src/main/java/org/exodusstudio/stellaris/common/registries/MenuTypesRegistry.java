@@ -26,6 +26,7 @@ public class MenuTypesRegistry {
     public static final RegistrySupplier<MenuType<VacuumatorMenu>> VACUUMATOR = MENU_TYPE.register("vacuumator", () -> MenuRegistry.ofExtended(VacuumatorMenu::create));
     public static final RegistrySupplier<MenuType<RocketUpgradeMenu>> ROCKET_UPGRADE = MENU_TYPE.register("rocket_upgrade", () -> MenuRegistry.ofExtended(RocketUpgradeMenu::create));
     public static final RegistrySupplier<MenuType<PumpjackMenu>> PUMPJACK = MENU_TYPE.register("pumpjack", () -> MenuRegistry.ofExtended(PumpjackMenu::create));
+    public static final RegistrySupplier<MenuType<FuelRefineryMenu>> FUEL_REFINERY = MENU_TYPE.register("fuel_refinery", () -> MenuRegistry.ofExtended(FuelRefineryMenu::create));
 
     public static final RegistrySupplier<MenuType<RocketStationMenu>> ROCKET_STATION = MENU_TYPE.register("rocket_station", () -> MenuRegistry.ofExtended(RocketStationMenu::createFromBuffer));
 

@@ -17,12 +17,11 @@ public class ChunkAccessMixin implements ChunkOilLevelGetter {
         ChunkAccess access = (ChunkAccess) (Object) this;
         Integer oil = DataAttachmentsPlatform.getChunkData(access, IdentifierUtils.id("oil"), Integer.class);
 
-        if (oil != null) {
-            if (oil == -1) stellaris$setChunkOilLevel(OilUtils.getRandomOilLevel());
-            return DataAttachmentsPlatform.getChunkData(access, IdentifierUtils.id("oil"), Integer.class);
+        if (oil == null || oil == -1) {
+            stellaris$setChunkOilLevel(OilUtils.getRandomOilLevel());
         }
 
-        return -1;
+        return DataAttachmentsPlatform.getChunkData(access, IdentifierUtils.id("oil"), Integer.class);
     }
 
     @Override

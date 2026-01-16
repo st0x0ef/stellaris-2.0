@@ -12,6 +12,7 @@ public class GUISprites {
     public static final Identifier SIDEWAYS_ENERGY_FULL = IdentifierUtils.id("progress_indicator/sideway_energy_full");
     public static final Identifier OIL_OVERLAY = IdentifierUtils.id("util/oil_gui_overlay");
     public static final Identifier FUEL_OVERLAY = IdentifierUtils.id("util/fuel_overlay");
+    public static final Identifier DIESEL_OVERLAY = IdentifierUtils.id("util/diesel_overlay");
 
     public static final Identifier VACUUMATOR_PROGRESS_SPRITE = IdentifierUtils.id("progress_indicator/vacuumator_progress_full");
     public static final Identifier COAL_GENERATOR_LIT_PROGRESS_SPRITE = IdentifierUtils.id("progress_indicator/coal_generator_fire_full");

@@ -39,7 +39,7 @@ public class OilFinderItem extends Item implements EnergyProvider.ITEM {
 
         int oilLevel = level.getChunk(player.getOnPos()).stellaris$getChunkOilLevel();
 
-        MutableComponent component = Component.literal("Found Oil " + level.getChunk(player.getOnPos()).stellaris$getChunkOilLevel() + "mb");
+        MutableComponent component = Component.literal("Found Oil " + oilLevel + "mb");
         if (oilLevel == 0) {
             component = Component.literal("No oil found");
         }
