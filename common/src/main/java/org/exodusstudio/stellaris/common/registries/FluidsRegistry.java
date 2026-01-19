@@ -58,6 +58,7 @@ public class FluidsRegistry {
 
     public static final ArchitecturyFluidAttributes FUEL_ATTRIBUTES = SimpleArchitecturyFluidAttributes.ofSupplier(() -> FluidsRegistry.FUEL_FLOWING, () -> FluidsRegistry.FUEL_STILL)
             .blockSupplier(() -> BlocksRegistry.FUEL)
+            .bucketItem(() -> Optional.of(ItemsRegistry.FUEL_BUCKET.get()))
             .slopeFindDistance(4)
             .dropOff(1)
             .tickDelay(8)
@@ -75,6 +76,7 @@ public class FluidsRegistry {
     /** OIL FLUIDS **/
     public static final ArchitecturyFluidAttributes OIL_ATTRIBUTES = SimpleArchitecturyFluidAttributes.ofSupplier(() -> FluidsRegistry.FLOWING_OIL, () -> FluidsRegistry.OIL_STILL)
             .blockSupplier(() -> BlocksRegistry.OIL)
+            .bucketItem(() -> Optional.of(ItemsRegistry.OIL_BUCKET.get()))
             .slopeFindDistance(4)
             .dropOff(1)
             .tickDelay(8)
@@ -88,6 +90,7 @@ public class FluidsRegistry {
 
     public static final ArchitecturyFluidAttributes DIESEL_ATTRIBUTES = SimpleArchitecturyFluidAttributes.ofSupplier(() -> FluidsRegistry.FLOWING_DIESEL, () -> FluidsRegistry.DIESEL_STILL)
             .blockSupplier(() -> BlocksRegistry.DIESEL)
+            .bucketItem(() -> Optional.of(ItemsRegistry.DIESEL_BUCKET.get()))
             .slopeFindDistance(4)
             .dropOff(1)
             .tickDelay(8)
