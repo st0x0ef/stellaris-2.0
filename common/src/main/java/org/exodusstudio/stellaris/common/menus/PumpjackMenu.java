@@ -46,24 +46,4 @@ public class PumpjackMenu extends BaseContainer {
         return blockEntity;
     }
 
-    private class PumpjackSlot extends Slot {
-
-        private final PumpjackBlockEntity be;
-
-        public PumpjackSlot(Container container, int slot, int x, int y, PumpjackBlockEntity be) {
-            super(container, slot, x, y);
-            this.be = be;
-        }
-
-        @Override
-        public boolean mayPlace(ItemStack stack) {
-            UniversalFluidStorage fluidStorage = Capabilities.Fluid.ITEM.getCapability(stack);
-            if (fluidStorage == null) {
-                return false;
-            }
-            return fluidStorage.isFluidValid(0, be.getResultTank().getFluidInTank(0));
-        }
-
-    }
-
 }
