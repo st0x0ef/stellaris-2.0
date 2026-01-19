@@ -17,7 +17,6 @@ import net.minecraft.world.level.chunk.ChunkAccess;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 import org.exodusstudio.stellaris.common.blocks.CoalGeneratorBlock;
-import org.exodusstudio.stellaris.common.blocks.ElectrolyzerBlock;
 import org.exodusstudio.stellaris.common.blocks.PumpjackBlock;
 import org.exodusstudio.stellaris.common.blocks.entities.machines.base.BaseEnergyContainerBlockEntity;
 import org.exodusstudio.stellaris.common.fluid.FluidUtil;
