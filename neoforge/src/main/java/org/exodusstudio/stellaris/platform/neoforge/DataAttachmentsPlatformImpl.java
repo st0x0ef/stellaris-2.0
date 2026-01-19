@@ -35,7 +35,7 @@ public class DataAttachmentsPlatformImpl {
     }
 
     public static <T> AttachmentType<T> getAttachment(Identifier key) {
-        return (AttachmentType<T>) DataAttachmentRegistry.ATTACHMENTS.get(key);
+        return (AttachmentType<T>) DataAttachmentRegistry.ATTACHMENTS.get(key).get();
     }
 
 }
