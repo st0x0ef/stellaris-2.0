@@ -7,7 +7,6 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.Items;
 import org.exodusstudio.stellaris.common.items.*;
 import org.exodusstudio.stellaris.common.items.infection.ParasiteItem;
 import org.exodusstudio.stellaris.common.items.infection.PathogenStorageCellItem;
