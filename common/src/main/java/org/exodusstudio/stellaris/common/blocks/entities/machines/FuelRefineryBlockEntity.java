@@ -122,7 +122,7 @@ public class FuelRefineryBlockEntity extends BaseEnergyContainerBlockEntity impl
 
     @Override
     protected @NotNull Component getDefaultName() {
-        return Component.translatable("block.stellaris.fuel_refinery");
+        return Component.translatable("item.stellaris.fuel_refinery");
     }
 
     @Override
