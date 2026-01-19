@@ -57,6 +57,7 @@ public class FluidsRegistry {
 
     public static final ArchitecturyFluidAttributes FUEL_ATTRIBUTES = SimpleArchitecturyFluidAttributes.ofSupplier(() -> FluidsRegistry.FUEL_FLOWING, () -> FluidsRegistry.FUEL_STILL)
             .blockSupplier(() -> BlocksRegistry.FUEL)
+            .bucketItem(() -> Optional.of(ItemsRegistry.FUEL_BUCKET.get()))
             .slopeFindDistance(4)
             .dropOff(1)
             .tickDelay(8)
@@ -71,6 +72,36 @@ public class FluidsRegistry {
     public static final RegistrySupplier<FlowingFluid> FUEL_FLOWING = FLUIDS.register("flowing_fuel", () -> new ArchitecturyFlowingFluid.Flowing(FUEL_ATTRIBUTES));
     public static final RegistrySupplier<FlowingFluid> FUEL_STILL = FLUIDS.register("fuel", () -> new ArchitecturyFlowingFluid.Source(FUEL_ATTRIBUTES));
 
+    /** OIL FLUIDS **/
+    public static final ArchitecturyFluidAttributes OIL_ATTRIBUTES = SimpleArchitecturyFluidAttributes.ofSupplier(() -> FluidsRegistry.FLOWING_OIL, () -> FluidsRegistry.OIL_STILL)
+            .blockSupplier(() -> BlocksRegistry.OIL)
+            .bucketItem(() -> Optional.of(ItemsRegistry.OIL_BUCKET.get()))
+            .slopeFindDistance(4)
+            .dropOff(1)
+            .tickDelay(8)
+            .explosionResistance(100.0F)
+            .convertToSource(true)
+            .sourceTexture(IdentifierUtils.id("block/fluids/oil_still"))
+            .flowingTexture(IdentifierUtils.id("block/fluids/oil_flow"));
+
+    public static final RegistrySupplier<FlowingFluid> FLOWING_OIL = FLUIDS.register("flowing_oil", () -> new ArchitecturyFlowingFluid.Flowing(OIL_ATTRIBUTES));
+    public static final RegistrySupplier<FlowingFluid> OIL_STILL = FLUIDS.register("oil", () -> new ArchitecturyFlowingFluid.Source(OIL_ATTRIBUTES));
+
+    public static final ArchitecturyFluidAttributes DIESEL_ATTRIBUTES = SimpleArchitecturyFluidAttributes.ofSupplier(() -> FluidsRegistry.FLOWING_DIESEL, () -> FluidsRegistry.DIESEL_STILL)
+            .blockSupplier(() -> BlocksRegistry.DIESEL)
+            .bucketItem(() -> Optional.of(ItemsRegistry.DIESEL_BUCKET.get()))
+            .slopeFindDistance(4)
+            .dropOff(1)
+            .tickDelay(8)
+            .explosionResistance(100.0F)
+            .luminosity(3)
+            .convertToSource(false)
+            .sourceTexture(IdentifierUtils.id("block/fluids/diesel_still"))
+            .flowingTexture(IdentifierUtils.id("block/fluids/diesel_flow"));
+
+
+    public static final RegistrySupplier<FlowingFluid> FLOWING_DIESEL = FLUIDS.register("flowing_diesel", () -> new ArchitecturyFlowingFluid.Flowing(DIESEL_ATTRIBUTES));
+    public static final RegistrySupplier<FlowingFluid> DIESEL_STILL = FLUIDS.register("diesel", () -> new ArchitecturyFlowingFluid.Source(DIESEL_ATTRIBUTES));
 
     public static void init() {
         FLUIDS.register();
