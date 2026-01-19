@@ -50,7 +50,7 @@ public final class ItemsRegistry {
     public static final RegistrySupplier<ShieldModule> SHIELD_MODULE = item("shield_module", ShieldModule::new);
     public static final RegistrySupplier<GalaxySkinModule> GALAXY_SKIN = item("galaxy_skin", GalaxySkinModule::new);
     public static final RegistrySupplier<HydrogenFuelModuleItem> HYDROGEN_MOTOR = item("hydrogen_motor", HydrogenFuelModuleItem::new);
-    public static final RegistrySupplier<OilFinderItem> OIL_FINDER = item("oil_finder", OilFinderItem::new);
+    public static final RegistrySupplier<Item> OIL_FINDER = item("oil_finder", OilFinderItem::new);
 
     public static final RegistrySupplier<SDCardItem> SD_CARD = item("sd_card", SDCardItem::new);
     public static final RegistrySupplier<RocketItem> ROCKET = item("rocket", new Item.Properties().arch$tab(CreativeTabsRegistry.STELLARIS_MAIN).stacksTo(1), RocketItem::new);

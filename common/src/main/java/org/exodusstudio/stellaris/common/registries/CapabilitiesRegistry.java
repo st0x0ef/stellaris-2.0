@@ -25,6 +25,7 @@ public class CapabilitiesRegistry {
 
     private static void registerEnergyItems() {
         Capabilities.Energy.ITEM.registerForItem(BlocksRegistry.POWER_BANK_T1.getAsItem());
+        Capabilities.Energy.ITEM.registerForItem(ItemsRegistry.OIL_FINDER);
     }
 
     private static void registerFluidItems() {
