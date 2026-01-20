@@ -62,7 +62,7 @@ public class MainTabletScreen extends AbstractContainerScreen<MainTabletMenu> {
         AtomicInteger row = new AtomicInteger(0);
         AtomicInteger column = new AtomicInteger(0);
 
-        ApplicationRegistry.TABLET_APPLICATION.entrySet().forEach(entry -> {
+        ApplicationRegistry.getApplications().entrySet().forEach(entry -> {
             ApplicationRegistry.ApplicationFactory<?> infos = entry.getValue();
 
             MutableComponent tooltip = infos.name().copy();

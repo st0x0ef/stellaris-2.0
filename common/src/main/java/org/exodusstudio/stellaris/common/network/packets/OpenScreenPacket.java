@@ -7,6 +7,8 @@ import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
+import net.minecraft.resources.Identifier;
+import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.client.screens.TestScreen;
 import org.exodusstudio.stellaris.common.network.NetworkRegistry;
 import org.jetbrains.annotations.NotNull;
@@ -15,6 +17,7 @@ import java.util.HashMap;
 import java.util.function.Function;
 
 public record OpenScreenPacket(String screenId) implements CustomPacketPayload {
+    public static CustomPacketPayload.Type<OpenScreenPacket> TYPE = new CustomPacketPayload.Type<>(Identifier.fromNamespaceAndPath(Stellaris.MOD_ID, "open_screen"));
 
     public static final ScreenType TEST_SCREEN = new ScreenType("test", (c) -> new TestScreen());
 
@@ -40,7 +43,7 @@ public record OpenScreenPacket(String screenId) implements CustomPacketPayload {
 
     @Override
     public Type<? extends CustomPacketPayload> type() {
-        return NetworkRegistry.OPEN_SCREEN_PACKET_TYPE;
+        return TYPE;
     }
 
     public record ScreenType(String id, Function<Component, Screen> screen) {

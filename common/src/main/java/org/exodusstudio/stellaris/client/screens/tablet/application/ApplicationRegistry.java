@@ -1,15 +1,11 @@
 package org.exodusstudio.stellaris.client.screens.tablet.application;
 
-import dev.architectury.registry.registries.Registrar;
-import dev.architectury.registry.registries.RegistrarManager;
-import dev.architectury.registry.registries.RegistrySupplier;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.AbstractContainerMenu;
-import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.client.screens.tablet.MainTabletScreen;
 import org.exodusstudio.stellaris.client.screens.tablet.application.sd.SDCardReaderApplicationScreen;
 import org.exodusstudio.stellaris.client.screens.tablet.application.stats.StatsApplicationScreen;
@@ -18,20 +14,25 @@ import org.exodusstudio.stellaris.common.menus.MainTabletMenu;
 import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.HashMap;
 import java.util.function.Function;
 
 public class ApplicationRegistry {
 
+    private static HashMap<Identifier, ApplicationFactory<? extends AbstractContainerMenu>> applications = new HashMap<>();
 
-    public static final Registrar<ApplicationFactory<?>> TABLET_APPLICATION =
-            RegistrarManager.get(Stellaris.MOD_ID)
-                    .<ApplicationFactory<?>>builder(Identifier.parse("stellaris:applications")) // The type for builder should match the Registrar
-                    .syncToClients()
-                    .build();
+    public static HashMap<Identifier, ApplicationFactory<? extends AbstractContainerMenu>> getApplications() {
+        return applications;
+    }
 
-    public static RegistrySupplier<ApplicationFactory<MainTabletMenu>> WIKI = TABLET_APPLICATION.register(
+    public static <T extends AbstractContainerMenu> ApplicationFactory<T> register(Identifier id, ApplicationFactory<T> factory) {
+        applications.put(id, factory);
+        return factory;
+    }
+
+    public static ApplicationFactory<MainTabletMenu> WIKI = register(
             Identifier.parse("stellaris:applications/wiki"),
-            () -> new ApplicationFactory<>(
+            new ApplicationFactory<>(
                     Component.translatable("application.stellaris.wiki.name"),
                     Component.translatable("application.stellaris.wiki.description"),
                     IdentifierUtils.id("icon/wiki_app"),
@@ -40,9 +41,9 @@ public class ApplicationRegistry {
             )
     );
 
-    public static RegistrySupplier<ApplicationFactory<MainTabletMenu>> SD_CARD_READER = TABLET_APPLICATION.register(
+    public static ApplicationFactory<MainTabletMenu> SD_CARD_READER = register(
             Identifier.parse("stellaris:applications/sd_card_reader"),
-            () -> new ApplicationFactory<>(
+            new ApplicationFactory<>(
                     Component.translatable("application.stellaris.sd_card_reader.name"),
                     Component.translatable("application.stellaris.sd_card_reader.description"),
                     IdentifierUtils.id("icon/wiki_app"),
@@ -51,9 +52,9 @@ public class ApplicationRegistry {
             )
     );
 
-    public static RegistrySupplier<ApplicationFactory<MainTabletMenu>> STATS = TABLET_APPLICATION.register(
+    public static ApplicationFactory<MainTabletMenu> STATS = register(
             Identifier.parse("stellaris:applications/stats"),
-            () -> new ApplicationFactory<>(
+            new ApplicationFactory<>(
                     Component.translatable("application.stellaris.stats.name"),
                     Component.translatable("application.stellaris.stats.description"),
                     IdentifierUtils.id("icon/wiki_app"),
@@ -63,7 +64,7 @@ public class ApplicationRegistry {
     );
 
     public static void init() {
-        TABLET_APPLICATION.key();
+
     }
 
     public record ApplicationFactory<T extends AbstractContainerMenu>(MutableComponent name,

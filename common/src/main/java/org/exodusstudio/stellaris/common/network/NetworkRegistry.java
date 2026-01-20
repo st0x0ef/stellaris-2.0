@@ -16,7 +16,6 @@ import java.util.List;
 
 public interface NetworkRegistry {
 
-    CustomPacketPayload.Type<OpenScreenPacket> OPEN_SCREEN_PACKET_TYPE = new CustomPacketPayload.Type<>(Identifier.fromNamespaceAndPath(Stellaris.MOD_ID, "open_screen"));
     CustomPacketPayload.Type<OpenMenuPacket> OPEN_MENU_PACKET_TYPE = new CustomPacketPayload.Type<>(Identifier.fromNamespaceAndPath(Stellaris.MOD_ID, "open_menu"));
 
     static void init() {
