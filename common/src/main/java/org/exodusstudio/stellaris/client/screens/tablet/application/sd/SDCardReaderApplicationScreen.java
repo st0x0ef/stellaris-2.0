@@ -14,14 +14,16 @@ import org.exodusstudio.stellaris.client.screens.components.sd.SDCardInfoWidget;
 import org.exodusstudio.stellaris.client.screens.tablet.application.ApplicationRegistry;
 import org.exodusstudio.stellaris.common.menus.MainTabletMenu;
 import org.exodusstudio.stellaris.common.menus.SDCardReaderApplicationMenu;
+import org.exodusstudio.stellaris.common.network.packets.AwardStatPacket;
 import org.exodusstudio.stellaris.common.network.packets.OpenMenuPacket;
 import org.exodusstudio.stellaris.common.registries.DataComponentsRegistry;
 import org.exodusstudio.stellaris.common.registries.SDCardsRegistry;
 import org.exodusstudio.stellaris.common.registries.StatsRegistry;
 import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
+import org.jetbrains.annotations.NotNull;
 
 
-public class SDCardReaderApplicationScreen extends AbstractContainerScreen<SDCardReaderApplicationMenu> {
+public class SDCardReaderApplicationScreen extends AbstractContainerScreen<@NotNull SDCardReaderApplicationMenu> {
 
     private static final Identifier TEXTURE = IdentifierUtils.guiTexture("tablet/sd/sd_card_decoder");
 
@@ -62,7 +64,8 @@ public class SDCardReaderApplicationScreen extends AbstractContainerScreen<SDCar
                 card.run(this.menu.getPlayer(), cardItemStack);
                 cardInfoWidget.setCard(card);
                 cardInfoWidget.active = true;
-                this.menu.getPlayer().awardStat(StatsRegistry.SD_CARD_READ.get());
+
+                NetworkManager.sendToServer(new AwardStatPacket(StatsRegistry.SD_CARD_READ.get()));
             }
         });
         this.addRenderableWidget(decodeButton);

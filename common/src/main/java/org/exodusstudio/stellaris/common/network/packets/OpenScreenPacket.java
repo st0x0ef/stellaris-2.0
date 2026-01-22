@@ -1,10 +1,12 @@
 package org.exodusstudio.stellaris.common.network.packets;
 
 import dev.architectury.networking.NetworkManager;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.Identifier;
@@ -21,21 +23,10 @@ public record OpenScreenPacket(String screenId) implements CustomPacketPayload {
 
     public static final ScreenType TEST_SCREEN = new ScreenType("test", (c) -> new TestScreen());
 
-    public static final StreamCodec<RegistryFriendlyByteBuf, OpenScreenPacket> STREAM_CODEC = new StreamCodec<>() {
-        @Override
-        public @NotNull OpenScreenPacket decode(RegistryFriendlyByteBuf buf) {
-            return new OpenScreenPacket(buf);
-        }
-
-        @Override
-        public void encode(RegistryFriendlyByteBuf buf, OpenScreenPacket packet) {
-            buf.writeUtf(packet.screenId);
-        }
-    };
-
-    public OpenScreenPacket(RegistryFriendlyByteBuf buffer) {
-        this(buffer.readUtf());
-    }
+    public static final StreamCodec<ByteBuf, OpenScreenPacket> STREAM_CODEC = StreamCodec.composite(
+            ByteBufCodecs.STRING_UTF8, OpenScreenPacket::screenId,
+            OpenScreenPacket::new
+    );
 
     public static void handle(OpenScreenPacket packet, NetworkManager.PacketContext context) {
         Minecraft.getInstance().setScreen(ScreenType.TYPES.get(packet.screenId).screen.apply(Component.empty()));

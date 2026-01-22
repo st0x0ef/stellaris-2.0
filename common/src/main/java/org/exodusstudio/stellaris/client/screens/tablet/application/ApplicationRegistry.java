@@ -46,8 +46,8 @@ public class ApplicationRegistry {
             new ApplicationFactory<>(
                     Component.translatable("application.stellaris.sd_card_reader.name"),
                     Component.translatable("application.stellaris.sd_card_reader.description"),
-                    IdentifierUtils.id("icon/stats_app"),
-                    IdentifierUtils.id("icon/stats_app_hover"),
+                    IdentifierUtils.id("icon/sd_card_reader_app"),
+                    IdentifierUtils.id("icon/sd_card_reader_app_hover"),
                     SDCardReaderApplicationScreen::create
             )
     );
@@ -57,8 +57,9 @@ public class ApplicationRegistry {
             new ApplicationFactory<>(
                     Component.translatable("application.stellaris.stats.name"),
                     Component.translatable("application.stellaris.stats.description"),
-                    IdentifierUtils.id("icon/sd_card_reader_app"),
-                    IdentifierUtils.id("icon/sd_card_reader_app_hover"),
+                    IdentifierUtils.id("icon/stats_app"),
+                    IdentifierUtils.id("icon/stats_app_hover"),
+
                     StatsApplicationScreen::create
             )
     );
