@@ -29,9 +29,19 @@
     {
       "type": "text",
       "text": "[br] [br] Stats : [br] - Power Consumption : 1 FE/t [br]"
+    },
+    {
+      "type": "item",
+      "item": {
+        "stack": {
+          "count": 1,
+          "id": "stellaris:gravity_manipulator"
+        }
+      },
+      "onlyIcon": true
     }
   ],
-  "iconType": "machines",
+  "iconType": "item",
   "id": "stellaris:gravity_manipulator",
   "entryId": "stellaris:machines",
   "title": "Machines : Gravity Manipulator"
