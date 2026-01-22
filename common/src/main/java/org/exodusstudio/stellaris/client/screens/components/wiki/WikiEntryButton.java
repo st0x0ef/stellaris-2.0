@@ -1,5 +1,6 @@
 package org.exodusstudio.stellaris.client.screens.components.wiki;
 
+import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ActiveTextCollector;
 import net.minecraft.client.gui.Font;
@@ -24,7 +25,7 @@ public class WikiEntryButton extends TexturedButton {
         setTooltip(Tooltip.create(
                 MutableComponent.create(entry.getTitle().getContents())
                         .append("\n")
-                        .append(entry.description())
+                        .append(Component.literal(entry.description()).withStyle(ChatFormatting.GRAY))
         ));
     }
 

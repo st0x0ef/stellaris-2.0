@@ -143,6 +143,19 @@
   "stellaris.screen.gravityManipulator.planet.earth": "Earth Gravity (9.81m/s²)",
   "stellaris.screen.rocket_station": "Rocket Station",
 
+  "application.stellaris.stats.name": "Stats",
+  "application.stellaris.stats.description": "View various statistics about your space adventure.",
+
+  "application.stellaris.sd_card_reader.name": "SD Card Reader",
+  "application.stellaris.sd_card_reader.description": "Read SD Cards.",
+
+  "application.stellaris.wiki.name": "Space Wiki",
+  "application.stellaris.wiki.description": "Access information about space exploration and Stellaris mod features.",
+
+  "wiki.stellaris.mobs.title": "Mobs",
+  "wiki.stellaris.rocket.title": "Rocket",
+  "wiki.stellaris.machines.title": "Machine",
+
   "tooltip.item.stellaris.can.empty": "Empty",
   "tooltip.item.stellaris.can.nutrition": "Nutrition: %s/%s",
   "tooltip.item.stellaris.can.saturation": "Saturation: %s",
@@ -162,5 +175,7 @@
 
   "entity.stellaris.rocket": "Rocket",
 
-  "stat.stellaris.space_traveled": "Space Traveled"
+  "stat.stellaris.space_traveled": "Space Traveled",
+  "stat.stellaris.sd_card_read": "Sd Cards Read"
+
 }

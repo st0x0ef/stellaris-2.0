@@ -17,6 +17,7 @@ import org.exodusstudio.stellaris.common.menus.SDCardReaderApplicationMenu;
 import org.exodusstudio.stellaris.common.network.packets.OpenMenuPacket;
 import org.exodusstudio.stellaris.common.registries.DataComponentsRegistry;
 import org.exodusstudio.stellaris.common.registries.SDCardsRegistry;
+import org.exodusstudio.stellaris.common.registries.StatsRegistry;
 import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
 
 
@@ -61,6 +62,7 @@ public class SDCardReaderApplicationScreen extends AbstractContainerScreen<SDCar
                 card.run(this.menu.getPlayer(), cardItemStack);
                 cardInfoWidget.setCard(card);
                 cardInfoWidget.active = true;
+                this.menu.getPlayer().awardStat(StatsRegistry.SD_CARD_READ.get());
             }
         });
         this.addRenderableWidget(decodeButton);
