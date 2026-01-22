@@ -38,9 +38,8 @@ public record AwardStatPacket(Identifier stat, int amount) implements CustomPack
 
     public static void handle(AwardStatPacket packet, NetworkManager.PacketContext context) {
         Player player = context.getPlayer();
-        context.queue(() -> {
-            player.awardStat(packet.stat, packet.amount);
-        });
+        player.awardStat(packet.stat, packet.amount);
+
     }
 
     @Override
