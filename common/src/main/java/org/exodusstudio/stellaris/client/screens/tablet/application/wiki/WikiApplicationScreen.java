@@ -5,6 +5,7 @@ import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
+import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.client.data.wiki.EntryInfo;
 import org.exodusstudio.stellaris.client.data.wiki.WikiEntry;
 import org.exodusstudio.stellaris.client.data.wiki.WikiPacks;
@@ -67,6 +68,7 @@ public class WikiApplicationScreen extends Screen {
         super(Component.literal("Wiki"));
         this.mainTabletScreen = mainTabletScreen;
         this.currentEntry = currentEntry;
+
     }
 
     public static WikiApplicationScreen create(ApplicationRegistry.MenuHolder<MainTabletMenu> menuHolder) {
@@ -80,6 +82,10 @@ public class WikiApplicationScreen extends Screen {
         if(!WikiPacks.ENTRIES.isEmpty()) {
             setupScrollableContainer();
             setupNavigationButtons();
+
+            if(currentEntry != null) {
+                switchEntry(currentEntry, this.currentInfosPage);
+            }
         }
     }
 
@@ -258,6 +264,7 @@ public class WikiApplicationScreen extends Screen {
         public WikiApplicationScreen toScreen(MainTabletScreen mainTabletScreen) {
             var screen = new WikiApplicationScreen(mainTabletScreen, currentEntry);
             screen.currentInfosPage = currentInfoPage;
+
             return screen;
         }
 
