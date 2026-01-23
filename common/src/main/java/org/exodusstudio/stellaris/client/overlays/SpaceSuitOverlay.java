@@ -1,4 +1,4 @@
-package org.exodusstudio.stellaris.client.overlay;
+package org.exodusstudio.stellaris.client.overlays;
 
 import com.fej1fun.potentials.fluid.UniversalFluidStorage;
 import net.minecraft.ChatFormatting;
@@ -17,7 +17,7 @@ import org.exodusstudio.stellaris.common.items.space_suit.SpaceSuitHelmet;
 import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
 import org.exodusstudio.stellaris.common.utils.Utils;
 
-public class OxygenTankOverlay {
+public class SpaceSuitOverlay {
 
     public static final Identifier OXYGEN_TANK = IdentifierUtils.texture("overlay/oxygen_tank");
     public static final Identifier OXYGEN_TANK_FULL = IdentifierUtils.texture("overlay/oxygen_tank_full");
@@ -58,8 +58,6 @@ public class OxygenTankOverlay {
                 Component text = Component.translatable("fluid.stellaris.oxygen").append(": ").withStyle(ChatFormatting.BLUE).append("§7" + Math.round(((float) oxygen / maxOxygen) * 100) + "%");
                 graphics.drawString(font, text, (x + (textureWidth - font.width(text)) / 2), y + textureHeight + 3, 0xFFFFFFFF);
             }
-
         }
-
     }
 }
