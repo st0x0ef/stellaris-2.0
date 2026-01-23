@@ -15,7 +15,6 @@ public class DataAttachmentsPlatformImpl {
     }
 
     public static <T> void saveChunkData(ChunkAccess chunk, Identifier key, T value) {
-        AttachmentType<T> attachmentType = getAttachment(key);
         chunk.setData(getAttachment(key), value);
     }
 
@@ -26,16 +25,16 @@ public class DataAttachmentsPlatformImpl {
     public static boolean hasEntityData(Entity entity, Identifier key) {
         return entity.hasData(getAttachment(key));
     }
+
     public static <T> T getEntityData(Entity entity, Identifier location, Class<T> clazz) {
         return entity.getData(getAttachment(location));
     }
     public static <T> void saveEntityData(Entity entity, Identifier key, T value) {
-        AttachmentType<T> attachmentType = getAttachment(key);
         entity.setData(getAttachment(key), value);
     }
 
     public static <T> AttachmentType<T> getAttachment(Identifier key) {
-        return (AttachmentType<T>) DataAttachmentRegistry.ATTACHMENTS.get(key);
+        return (AttachmentType<T>) DataAttachmentRegistry.ATTACHMENTS.get(key).get();
     }
 
 }
