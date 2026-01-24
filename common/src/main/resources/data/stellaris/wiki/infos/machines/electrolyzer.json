@@ -25,9 +25,19 @@
         "height": 119,
         "legend": "Electrolyzer GUI"
       }
+    },
+    {
+      "type": "item",
+      "item": {
+        "stack": {
+          "count": 1,
+          "id": "stellaris:electrolyzer"
+        }
+      },
+      "onlyIcon": true
     }
   ],
-  "iconType": "machines",
+  "iconType": "item",
   "id": "stellaris:electrolyzer",
   "entryId": "stellaris:machines",
   "title": "Machines : Electrolyzer"

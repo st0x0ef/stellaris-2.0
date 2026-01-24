@@ -8,7 +8,6 @@ import fr.tathan.exoconfig.common.loader.ConfigsRegistry;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.packs.resources.PreparableReloadListener;
 import org.exodusstudio.stellaris.client.data.wiki.WikiPacks;
-import org.exodusstudio.stellaris.client.screens.tablet.application.ApplicationRegistry;
 import org.exodusstudio.stellaris.common.config.CommonConfig;
 import org.exodusstudio.stellaris.common.data.PlanetsData;
 import org.exodusstudio.stellaris.common.events.Events;
@@ -52,7 +51,6 @@ public final class Stellaris {
         MenuTypesRegistry.MENU_TYPE.register();
         ArgumentsTypesRegistry.init();
         CommandsRegistry.init();
-        ApplicationRegistry.init();
         CapabilitiesRegistry.init();
         BiomeModificationsRegistry.register();
 

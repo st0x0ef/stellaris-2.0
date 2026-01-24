@@ -8,19 +8,24 @@ import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.item.ItemStack;
 import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.client.screens.components.sd.SDCardDecodeButton;
 import org.exodusstudio.stellaris.client.screens.components.sd.SDCardInfoWidget;
 import org.exodusstudio.stellaris.client.screens.tablet.application.ApplicationRegistry;
 import org.exodusstudio.stellaris.common.menus.MainTabletMenu;
 import org.exodusstudio.stellaris.common.menus.SDCardReaderApplicationMenu;
+import org.exodusstudio.stellaris.common.network.packets.AwardStatPacket;
 import org.exodusstudio.stellaris.common.network.packets.OpenMenuPacket;
 import org.exodusstudio.stellaris.common.registries.DataComponentsRegistry;
 import org.exodusstudio.stellaris.common.registries.SDCardsRegistry;
+import org.exodusstudio.stellaris.common.registries.StatsRegistry;
+import org.exodusstudio.stellaris.common.sd_cards.SDCard;
 import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
+import org.jetbrains.annotations.NotNull;
 
 
-public class SDCardReaderApplicationScreen extends AbstractContainerScreen<SDCardReaderApplicationMenu> {
+public class SDCardReaderApplicationScreen extends AbstractContainerScreen<@NotNull SDCardReaderApplicationMenu> {
 
     private static final Identifier TEXTURE = IdentifierUtils.guiTexture("tablet/sd/sd_card_decoder");
 
@@ -47,20 +52,25 @@ public class SDCardReaderApplicationScreen extends AbstractContainerScreen<SDCar
 
         decodeButton = new SDCardDecodeButton(width / 2 - 76, height / 2 - 48, 100, 21, (btn) -> {
             if (this.getMenu().hasCard()) {
-                var cardItemStack = this.getMenu().getCard();
+
+
+                ItemStack cardItemStack = this.getMenu().getCard();
                 var component = cardItemStack.get(DataComponentsRegistry.SD_CARD_ID.get());
                 if (component == null) {
                     Stellaris.LOG.error("SD Card data component (SD_CARD_ID) is null!");
                     return;
                 }
 
-                var card = SDCardsRegistry.get(component);
-                if (cardInfoWidget.getCard() == card) return;
+                SDCard card = SDCardsRegistry.get(component);
+
+                // If the card is already decoded, do nothing
+                if (card == null || cardInfoWidget.getCard() == card) return;
 
 
                 card.run(this.menu.getPlayer(), cardItemStack);
                 cardInfoWidget.setCard(card);
                 cardInfoWidget.active = true;
+                NetworkManager.sendToServer(new AwardStatPacket(StatsRegistry.SD_CARD_READ.get()));
             }
         });
         this.addRenderableWidget(decodeButton);

@@ -5,7 +5,9 @@ import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.input.KeyEvent;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
+import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.client.data.wiki.EntryInfo;
+import org.exodusstudio.stellaris.client.screens.components.TexturedButton;
 import org.exodusstudio.stellaris.client.screens.components.wiki.WikiInfosWidget;
 import org.exodusstudio.stellaris.client.screens.tablet.MainTabletScreen;
 import org.exodusstudio.stellaris.client.screens.tablet.application.ApplicationScreen;
@@ -40,7 +42,13 @@ public class WikiEntryScreen extends Screen {
     @Override
     protected void init() {
         super.init();
-        this.widget = new WikiInfosWidget(this.getLeftPos() + 40,  this.getTopPos() + 45,230, 128, this.info);
+
+        int wikiEntryX = this.getLeftPos() + 40;
+        int wikiEntryY = this.getTopPos() + 45;
+
+        this.addRenderableWidget(new TexturedButton(wikiEntryX - 18,  wikiEntryY - 18, 16, 16, (b) -> this.minecraft.setScreen(this.wikiState.toScreen(this.tabletScreen))));
+
+        this.widget = new WikiInfosWidget(wikiEntryX,  wikiEntryY,230, 128, this.info);
         this.addRenderableWidget(this.widget);
 
     }

@@ -10,6 +10,11 @@ import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.common.entities.RocketEntity;
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * Packet to handle key inputs from client to server.
+ * This send the key identifier and a condition (pressed or released).
+ *
+ */
 public class KeyHandlerPacket implements CustomPacketPayload {
 
     public final String key;

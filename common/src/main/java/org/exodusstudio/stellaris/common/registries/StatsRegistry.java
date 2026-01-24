@@ -13,8 +13,10 @@ public class StatsRegistry {
     public static final DeferredRegister<Identifier> STATS = DeferredRegister.create(Stellaris.MOD_ID, Registries.CUSTOM_STAT);
 
     // region Test Stats
-    //public static RegistrySupplier<Identifier> SPACE_TRAVELED = register("space_traveled", (value) -> value + " km");
-    //public static RegistrySupplier<Identifier> SPACE_TRAVELED1 = register("space_traveled1", (value) -> value + " km");
+
+    public static RegistrySupplier<Identifier> SPACE_TRAVELED = register("space_traveled", (value) -> value + " km");
+    public static RegistrySupplier<Identifier> SD_CARD_READ = register("sd_card_read");
+
     //public static RegistrySupplier<Identifier> SPACE_TRAVELED2 = register("space_traveled2", (value) -> value + " km");
     //public static RegistrySupplier<Identifier> SPACE_TRAVELED3 = register("space_traveled3", (value) -> value + " km");
     //public static RegistrySupplier<Identifier> SPACE_TRAVELED4 = register("space_traveled4", (value) -> value + " km");
