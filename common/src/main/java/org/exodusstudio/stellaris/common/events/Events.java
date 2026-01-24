@@ -43,9 +43,7 @@ public class Events {
             Stellaris.LOG.error("Entity entered section {}, {}, {}", sectionX, sectionY, sectionZ);
             if (entity instanceof Player player) {
                 ItemStack headStack = player.getItemBySlot(EquipmentSlot.HEAD);
-                if (headStack.getItem() instanceof SpaceSuitHelmet spaceSuitHelmet && ModuleUtils.hasSpaceSuitModule(headStack, SpaceSuitModule.OilFinderModule.class)) {
-                    spaceSuitHelmet.getEnergy(headStack).extract(1, false);
-                }
+                SpaceSuitHelmet.tickOilFinderEnergy(headStack);
             }
         });
 

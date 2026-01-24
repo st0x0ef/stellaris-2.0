@@ -77,4 +77,12 @@ public class SpaceSuitHelmet extends Item implements FluidProvider.ITEM, EnergyP
     public @Nullable UniversalEnergyStorage getEnergy(@NotNull ItemStack stack) {
         return new ItemEnergyStorage(stack, DataComponentsRegistry.ENERGY.get(), 1000, 20, 1);
     }
+
+    public static void tickOilFinderEnergy(ItemStack stack) {
+        SpaceSuitModule.OilFinderModule oilFinderModule = ModuleUtils.getSpaceSuitModule(stack, SpaceSuitModule.OilFinderModule.class);
+
+        if (stack.getItem() instanceof SpaceSuitHelmet spaceSuitHelmet && oilFinderModule != null) {
+            spaceSuitHelmet.getEnergy(stack).extract(oilFinderModule.getRange() * oilFinderModule.getRange(), false);
+        }
+    }
 }
