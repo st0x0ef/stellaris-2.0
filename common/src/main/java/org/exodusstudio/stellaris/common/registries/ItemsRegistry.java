@@ -13,6 +13,7 @@ import org.exodusstudio.stellaris.common.items.infection.PathogenStorageCellItem
 import org.exodusstudio.stellaris.common.items.modules.rocket.GalaxySkinModule;
 import org.exodusstudio.stellaris.common.items.modules.rocket.HydrogenFuelModuleItem;
 import org.exodusstudio.stellaris.common.items.modules.rocket.ShieldModule;
+import org.exodusstudio.stellaris.common.items.modules.space_suit.OilFinderModuleItem;
 import org.exodusstudio.stellaris.common.items.modules.space_suit.OxygenModuleItem;
 import org.exodusstudio.stellaris.common.items.space_suit.SpaceSuitBoots;
 import org.exodusstudio.stellaris.common.items.space_suit.SpaceSuitChestplate;
@@ -66,9 +67,15 @@ public final class ItemsRegistry {
     public static final RegistrySupplier<Item> SPACE_SUIT_BOOTS = item("space_suit_boots", SpaceSuitBoots::new);
 
     // Space Suit Modules
+    // Oxygen Modules
     public static final RegistrySupplier<OxygenModuleItem> SPACE_SUIT_OXYGEN_MODULE_T1 = item("space_suit_oxygen_module_tier_1", p -> new OxygenModuleItem(p, 1200));
     public static final RegistrySupplier<OxygenModuleItem> SPACE_SUIT_OXYGEN_MODULE_T2 = item("space_suit_oxygen_module_tier_2", p -> new OxygenModuleItem(p, 3600));
     public static final RegistrySupplier<OxygenModuleItem> SPACE_SUIT_OXYGEN_MODULE_T3 = item("space_suit_oxygen_module_tier_3", p -> new OxygenModuleItem(p, 14400));
+
+    // Oil Finder Modules
+    public static final RegistrySupplier<OilFinderModuleItem> SPACE_SUIT_OIL_FINDER_MODULE_T1 = item("space_suit_oil_finder_module_tier_1", p -> new OilFinderModuleItem(p, 5));
+    public static final RegistrySupplier<OilFinderModuleItem> SPACE_SUIT_OIL_FINDER_MODULE_T2 = item("space_suit_oil_finder_module_tier_2", p -> new OilFinderModuleItem(p, 3));
+    public static final RegistrySupplier<OilFinderModuleItem> SPACE_SUIT_OIL_FINDER_MODULE_T3 = item("space_suit_oil_finder_module_tier_3", p -> new OilFinderModuleItem(p, 1));
 
 
     /** Cans */

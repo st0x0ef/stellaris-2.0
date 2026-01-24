@@ -36,7 +36,7 @@ import java.util.function.Consumer;
 public class RocketItem extends Item implements FluidProvider.ITEM {
 
     public RocketItem(Properties properties) {
-        super(properties.component(DataComponentsRegistry.ROCKET_MODULES.getOrNull(), RocketModules.empty()));
+        super(properties.component(DataComponentsRegistry.ROCKET_MODULES.get(), RocketModules.empty()));
     }
 
     @Override

@@ -15,7 +15,7 @@ public class CommonConfig {
 
 
     public static class OilConfig {
-        public int chunkOilChance = 16;
+        public int chunkOilChance = 32;
 
         public int minOil = 10;
         public int maxOil = 50000;
