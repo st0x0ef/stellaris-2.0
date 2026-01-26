@@ -40,8 +40,7 @@ public class Events {
         });
 
         EntityEvent.ENTER_SECTION.register((entity, sectionX, sectionY, sectionZ, prevX, prevY, prevZ) -> {
-            Stellaris.LOG.error("Entity entered section {}, {}, {}", sectionX, sectionY, sectionZ);
-            if (entity instanceof Player player) {
+            if (entity instanceof Player player && (sectionX != prevX || sectionZ != prevZ)) {
                 ItemStack headStack = player.getItemBySlot(EquipmentSlot.HEAD);
                 SpaceSuitHelmet.tickOilFinderEnergy(headStack);
             }
