@@ -1,12 +1,9 @@
 package org.exodusstudio.stellaris.common.modules.space_suit;
 
 import net.minecraft.client.renderer.rendertype.RenderType;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.material.Fluid;
 import org.exodusstudio.stellaris.client.renderers.rockets.RocketRenderer;
 import org.exodusstudio.stellaris.common.modules.Module;
-import org.exodusstudio.stellaris.common.modules.Modules;
-import org.exodusstudio.stellaris.common.registries.DataComponentsRegistry;
 import org.jetbrains.annotations.Nullable;
 
 public interface SpaceSuitModule extends Module<SpaceSuitModule> {

@@ -13,8 +13,7 @@ import org.exodusstudio.stellaris.common.items.infection.PathogenStorageCellItem
 import org.exodusstudio.stellaris.common.items.modules.rocket.GalaxySkinModule;
 import org.exodusstudio.stellaris.common.items.modules.rocket.HydrogenFuelModuleItem;
 import org.exodusstudio.stellaris.common.items.modules.rocket.ShieldModule;
-import org.exodusstudio.stellaris.common.items.modules.space_suit.OilFinderModuleItem;
-import org.exodusstudio.stellaris.common.items.modules.space_suit.OxygenModuleItem;
+import org.exodusstudio.stellaris.common.items.modules.space_suit.*;
 import org.exodusstudio.stellaris.common.items.space_suit.SpaceSuitBoots;
 import org.exodusstudio.stellaris.common.items.space_suit.SpaceSuitChestplate;
 import org.exodusstudio.stellaris.common.items.space_suit.SpaceSuitHelmet;
@@ -77,6 +76,16 @@ public final class ItemsRegistry {
     public static final RegistrySupplier<OilFinderModuleItem> SPACE_SUIT_OIL_FINDER_MODULE_T2 = item("space_suit_oil_finder_module_tier_2", p -> new OilFinderModuleItem(p, 3));
     public static final RegistrySupplier<OilFinderModuleItem> SPACE_SUIT_OIL_FINDER_MODULE_T3 = item("space_suit_oil_finder_module_tier_3", p -> new OilFinderModuleItem(p, 1));
 
+
+    // Diesel Tank Modules
+    public static final RegistrySupplier<TankModuleItem> SPACE_SUIT_DIESEL_TANK_MODULE_T1 = item("space_suit_diesel_tank_module_tier_1", p -> new DieselTankModuleItem(p, 1000));
+    public static final RegistrySupplier<TankModuleItem> SPACE_SUIT_DIESEL_TANK_MODULE_T2 = item("space_suit_diesel_tank_module_tier_2", p -> new DieselTankModuleItem(p, 2000));
+    public static final RegistrySupplier<TankModuleItem> SPACE_SUIT_DIESEL_TANK_MODULE_T3 = item("space_suit_diesel_tank_module_tier_3", p -> new DieselTankModuleItem(p, 3000));
+
+    // Hydrogen Tank Modules
+    public static final RegistrySupplier<TankModuleItem> SPACE_SUIT_HYDROGEN_TANK_MODULE_T1 = item("space_suit_hydrogen_tank_module_tier_1", p -> new HydrogenTankModuleItem(p, 1000));
+    public static final RegistrySupplier<TankModuleItem> SPACE_SUIT_HYDROGEN_TANK_MODULE_T2 = item("space_suit_hydrogen_tank_module_tier_2", p -> new HydrogenTankModuleItem(p, 2000));
+    public static final RegistrySupplier<TankModuleItem> SPACE_SUIT_HYDROGEN_TANK_MODULE_T3 = item("space_suit_hydrogen_tank_module_tier_3", p -> new HydrogenTankModuleItem(p, 3000));
 
     /** Cans */
     // Small cans

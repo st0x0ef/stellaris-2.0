@@ -6,16 +6,12 @@ import com.fej1fun.potentials.fluid.ItemFluidStorage;
 import com.fej1fun.potentials.fluid.UniversalFluidItemStorage;
 import com.fej1fun.potentials.providers.EnergyProvider;
 import com.fej1fun.potentials.providers.FluidProvider;
-import dev.architectury.platform.Mod;
 import net.minecraft.network.chat.Component;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.component.TooltipDisplay;
 import net.minecraft.world.item.equipment.ArmorType;
-import org.exodusstudio.stellaris.common.modules.Modules;
 import org.exodusstudio.stellaris.common.modules.space_suit.SpaceSuitModule;
-import org.exodusstudio.stellaris.common.modules.space_suit.SpaceSuitModules;
 import org.exodusstudio.stellaris.common.registries.ArmorMaterialsRegistry;
 import org.exodusstudio.stellaris.common.registries.DataComponentsRegistry;
 import org.exodusstudio.stellaris.common.utils.ModuleUtils;
@@ -26,9 +22,9 @@ import org.jetbrains.annotations.Nullable;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Consumer;
 
-public class SpaceSuitHelmet extends Item implements FluidProvider.ITEM, EnergyProvider.ITEM {
+public class SpaceSuitHelmet extends SpaceSuitItem implements FluidProvider.ITEM, EnergyProvider.ITEM {
     public SpaceSuitHelmet(Properties properties) {
-        super(properties.humanoidArmor(ArmorMaterialsRegistry.JET_SUIT, ArmorType.HELMET));
+        super(properties.humanoidArmor(ArmorMaterialsRegistry.SPACE_SUIT, ArmorType.HELMET));
     }
 
     @Override

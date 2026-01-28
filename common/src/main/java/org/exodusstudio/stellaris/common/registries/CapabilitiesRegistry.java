@@ -26,11 +26,14 @@ public class CapabilitiesRegistry {
     private static void registerEnergyItems() {
         Capabilities.Energy.ITEM.registerForItem(BlocksRegistry.POWER_BANK_T1.getAsItem());
         Capabilities.Energy.ITEM.registerForItem(ItemsRegistry.OIL_FINDER);
+
         Capabilities.Energy.ITEM.registerForItem(ItemsRegistry.SPACE_SUIT_HELMET);
     }
 
     private static void registerFluidItems() {
         Capabilities.Fluid.ITEM.registerForItem(ItemsRegistry.FLUID_CELL);
+
         Capabilities.Fluid.ITEM.registerForItem(ItemsRegistry.SPACE_SUIT_HELMET);
+        Capabilities.Fluid.ITEM.registerForItem(ItemsRegistry.SPACE_SUIT_CHESTPLATE);
     }
 }

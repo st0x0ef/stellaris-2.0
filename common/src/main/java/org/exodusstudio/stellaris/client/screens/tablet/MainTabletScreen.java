@@ -62,13 +62,13 @@ public class MainTabletScreen extends AbstractContainerScreen<MainTabletMenu> {
         AtomicInteger row = new AtomicInteger(0);
         AtomicInteger column = new AtomicInteger(0);
 
-        ApplicationRegistry.getApplications().entrySet().forEach(entry -> {
-            ApplicationRegistry.ApplicationFactory<?> infos = entry.getValue();
+        ApplicationRegistry.getApplications().forEach((key, value) -> {
+            ApplicationRegistry.ApplicationFactory<?> infos = value;
 
             MutableComponent tooltip = infos.name().copy();
             tooltip.append("\n").append(infos.description().withStyle(ChatFormatting.GRAY));
 
-            TexturedButton tabletButton = new TexturedButton(this.leftPos + 68 + (column.get() * 30), this.topPos + 60 + (row.get() * 30), 20, 20, infos.name(), (button ->  {
+            TexturedButton tabletButton = new TexturedButton(this.leftPos + 68 + (column.get() * 30), this.topPos + 60 + (row.get() * 30), 20, 20, infos.name(), (button -> {
                 Screen screen = infos.createScreen(this.createMenuHolder());
                 if (screen != null) {
                     minecraft.setScreen(screen);
@@ -82,8 +82,7 @@ public class MainTabletScreen extends AbstractContainerScreen<MainTabletMenu> {
             if (column.get() == 3) {
                 column.set(0);
                 row.getAndIncrement();
-            }
-            else {
+            } else {
                 column.getAndIncrement();
             }
 

@@ -14,19 +14,21 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import org.exodusstudio.stellaris.common.items.modules.space_suit.OilFinderModuleItem;
+import org.exodusstudio.stellaris.common.items.space_suit.SpaceSuitChestplate;
 import org.exodusstudio.stellaris.common.items.space_suit.SpaceSuitHelmet;
 import org.exodusstudio.stellaris.common.modules.space_suit.SpaceSuitModule;
 import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
 import org.exodusstudio.stellaris.common.utils.ModuleUtils;
 import org.exodusstudio.stellaris.common.utils.Utils;
 
-import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.Locale;
 
 public class SpaceSuitOverlay {
 
     public static final Identifier OXYGEN_TANK = IdentifierUtils.texture("overlay/oxygen_tank");
     public static final Identifier OXYGEN_TANK_FULL = IdentifierUtils.texture("overlay/oxygen_tank_full");
+
+    public static final Identifier EMPTY_TANK = IdentifierUtils.texture("overlay/empty_tank");
 
 
     public static void render(GuiGraphics graphics, DeltaTracker deltaTracker) {
@@ -39,6 +41,7 @@ public class SpaceSuitOverlay {
 
             yOffset += tryRenderOxygenOverlay(graphics, player, font, yOffset);
             yOffset += tryRenderOilFinderOverlay(graphics, player, font, yOffset);
+            yOffset += tryRenderFuelTankOverlay(graphics, player, font, yOffset);
         }
     }
 
@@ -57,8 +60,8 @@ public class SpaceSuitOverlay {
 
             int x = 5;
 
-            int textureWidth = 62;
-            int textureHeight = 52;
+            int textureWidth = 124 / 2;
+            int textureHeight = 104 / 2;
 
             /** DRAW OXYGEN TANK */
             graphics.blit(RenderPipelines.GUI_TEXTURED, OXYGEN_TANK, x, yOffset, 0, 0, textureWidth, textureHeight, textureWidth, textureHeight);
@@ -69,9 +72,9 @@ public class SpaceSuitOverlay {
 
             /** OXYGEN AMOUNT TEXT */
             Component text = Component.translatable("fluid.stellaris.oxygen").append(": ").withStyle(ChatFormatting.BLUE).append("§7" + Math.round(((float) oxygen / maxOxygen) * 100) + "%");
-            graphics.drawString(font, text, (x + (textureWidth - font.width(text)) / 2), yOffset + textureHeight + 3, 0xFFFFFFFF);
+            graphics.drawString(font, text, x, yOffset + textureHeight + 3, 0xFFFFFFFF);
 
-            return textureHeight + 5;
+            return textureHeight + font.lineHeight + 5;
         }
 
         return 0;
@@ -102,21 +105,22 @@ public class SpaceSuitOverlay {
                 Component energyText = Component.translatable("tooltip.item.stellaris.energy", energy.getEnergy(), energy.getMaxEnergy()).withStyle(ChatFormatting.YELLOW);
 
                 int height = 0;
+                int x = 5;
 
                 if (energy.getEnergy() < 1) {
-                    graphics.drawString(font, cantSearchText, 5, yOffset, Utils.getMinecraftColor("red"));
+                    graphics.drawString(font, cantSearchText, x, yOffset, Utils.getMinecraftColor("red"));
                     height += font.lineHeight + 1;
                 } else {
                     if (oilLevel > 0) {
-                        graphics.drawString(font, oilFoundText, 5, yOffset, Utils.getMinecraftColor("green"));
+                        graphics.drawString(font, oilFoundText, x, yOffset, Utils.getMinecraftColor("green"));
                         height += font.lineHeight + 1;
                     } else {
-                        graphics.drawString(font, noOilText, 5, yOffset, Utils.getMinecraftColor("red"));
+                        graphics.drawString(font, noOilText, x, yOffset, Utils.getMinecraftColor("red"));
                         height += font.lineHeight + 1;
                     }
                 }
 
-                graphics.drawString(font, energyText, 5, yOffset + height, Utils.getMinecraftColor("yellow"));
+                graphics.drawString(font, energyText, x, yOffset + height, Utils.getMinecraftColor("yellow"));
                 height += font.lineHeight + 1;
 
                 return height + 5;
@@ -125,4 +129,45 @@ public class SpaceSuitOverlay {
 
         return 0;
     }
+
+    private static int tryRenderFuelTankOverlay(GuiGraphics graphics, Player player, Font font, int yOffset) {
+        ItemStack chestplateStack = player.getItemBySlot(EquipmentSlot.CHEST);
+        SpaceSuitModule.CustomFuelModule tankModule = ModuleUtils.getSpaceSuitModule(chestplateStack, SpaceSuitModule.CustomFuelModule.class);
+
+        if (tankModule != null && chestplateStack.getItem() instanceof SpaceSuitChestplate chestplate && chestplate.getFuelCapacity(tankModule) > 0) {
+            UniversalFluidStorage fuelStorage = chestplate.getFluidTank(chestplateStack);
+
+            if (fuelStorage == null) {
+                return 0;
+            }
+
+            long fuel = fuelStorage.getFluidInTank(0).getAmount();
+            long maxFuel = fuelStorage.getTankCapacity(0);
+
+            int x = 5;
+
+            int textureWidth = 84 / 2;
+            int textureHeight = 104 / 2;
+
+            /** DRAW FUEL TANK */
+            graphics.blit(RenderPipelines.GUI_TEXTURED, EMPTY_TANK, x, yOffset, 0, 0, textureWidth, textureHeight, textureWidth, textureHeight);
+
+            int filledHeight = (int)Mth.clamp(((float) fuel / maxFuel) * textureHeight, 0, textureHeight);
+            int yFilledOffset = textureHeight - filledHeight;
+
+            String fuelName = fuelStorage.getFluidInTank(0).getName().getString();
+            Identifier tankFullTexture = IdentifierUtils.texture("overlay/" + fuelName.toLowerCase(Locale.ROOT) + "_tank_full");
+
+            graphics.blit(RenderPipelines.GUI_TEXTURED, tankFullTexture, x, yOffset + yFilledOffset, 0, yFilledOffset, textureWidth, filledHeight, textureWidth, textureHeight);
+
+            /** FUEL AMOUNT TEXT */
+            Component text = Component.literal(fuelName).append(": ").withStyle(ChatFormatting.RED).append("§7" + Math.round(((float) fuel / maxFuel) * 100) + "%");
+            graphics.drawString(font, text, x, yOffset + textureHeight + 3, 0xFFFFFFFF);
+
+            return textureHeight + font.lineHeight + 5;
+        }
+
+        return 0;
+    }
+
 }

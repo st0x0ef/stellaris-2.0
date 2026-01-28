@@ -12,7 +12,7 @@ import net.minecraft.world.inventory.ItemCombinerMenuSlotDefinition;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
 import org.exodusstudio.stellaris.common.items.RocketItem;
-import org.exodusstudio.stellaris.common.items.space_suit.SpaceSuitHelmet;
+import org.exodusstudio.stellaris.common.items.space_suit.SpaceSuitItem;
 import org.exodusstudio.stellaris.common.menus.base.BaseItemCombinerMenu;
 import org.exodusstudio.stellaris.common.modules.Modules;
 import org.exodusstudio.stellaris.common.modules.rocket.RocketModule;
@@ -166,7 +166,7 @@ public class EngineUpgradeMenu extends BaseItemCombinerMenu {
     @Override
     protected @NotNull ItemCombinerMenuSlotDefinition createInputSlotDefinitions() {
         return ItemCombinerMenuSlotDefinition.create()
-                .withSlot(0, 31, 48, itemStack -> itemStack.getItem() instanceof RocketItem || itemStack.getItem() instanceof SpaceSuitHelmet)
+                .withSlot(0, 31, 48, itemStack -> itemStack.getItem() instanceof RocketItem || itemStack.getItem() instanceof SpaceSuitItem)
                 .withSlot(1, 75, 48, itemStack -> itemStack.getItem() instanceof RocketModule || itemStack.getItem() instanceof SpaceSuitModule)
                 .withResultSlot(2, 127, 48)
                 .build();

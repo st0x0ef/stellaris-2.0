@@ -29,9 +29,7 @@ public class WikiInfoButton extends TexturedButton {
         Component title = Component.literal(info.title());
         switch (info.iconType()) {
             case "item":
-                info.components().stream().filter((c) -> c.type().equals("item")).findFirst().ifPresentOrElse(c -> {
-                    this.tooltip(Tooltip.create(c.item().get().stack().getHoverName()));
-                }, () -> this.tooltip(Tooltip.create(title)));
+                info.components().stream().filter((c) -> c.type().equals("item")).findFirst().ifPresentOrElse(c -> this.tooltip(Tooltip.create(c.item().get().stack().getHoverName())), () -> this.tooltip(Tooltip.create(title)));
                 break;
             case "entity":
                 info.components().stream().filter((c) -> c.type().equals("entity")).findFirst().ifPresent((entity) -> {
