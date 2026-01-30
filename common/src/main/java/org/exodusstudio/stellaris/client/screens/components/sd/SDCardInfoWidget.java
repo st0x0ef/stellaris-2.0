@@ -44,8 +44,8 @@ public class SDCardInfoWidget extends AbstractContainerWidget {
 
     public void setupTextWidgets(SDCard card) {
         if (card == null) return;
-        this.nameContainer = new ScrollableTextWidget(this.getX(), this.getY(), this.getWidth(), 26, card.getCardInfo().name());
-        this.descriptionContainer = new ScrollableTextWidget(this.getX(), this.getY() + 28, this.getWidth(), 110, card.getCardInfo().description());
+        this.nameContainer = new ScrollableTextWidget(this.getX(), this.getY(), this.getWidth(), 26, card.getName());
+        this.descriptionContainer = new ScrollableTextWidget(this.getX(), this.getY() + 28, this.getWidth(), 110, card.getDescription());
     }
 
     @Override

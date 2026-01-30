@@ -67,6 +67,7 @@ public final class BlocksRegistry {
     // ENERGY GENERATORS
     public static final BlockItemRegistrySupplier SOLAR_PANEL = blockWithItem("solar_panel", BlockBehaviour.Properties.of(), SolarPanelBlock::new);
     public static final BlockItemRegistrySupplier COAL_GENERATOR = blockWithItem("coal_generator", BlockBehaviour.Properties.of(), CoalGeneratorBlock::new);
+    public static final BlockItemRegistrySupplier DIESEL_GENERATOR = blockWithItem("diesel_generator", BlockBehaviour.Properties.of(), DieselGeneratorBlock::new);
 
     // FOOD PROCESSING
     public static final BlockItemRegistrySupplier VACUUMATOR = blockWithItem("vacuumator", BlockBehaviour.Properties.of(), VacuumatorBlock::new);
@@ -80,6 +81,8 @@ public final class BlocksRegistry {
     // TECH
     public static final BlockItemRegistrySupplier ELECTROLYZER = blockWithCustomItem("electrolyzer", BlockBehaviour.Properties.of(), ElectrolyzerBlock::new, new Item.Properties(), BlockItem::new);
     public static final BlockItemRegistrySupplier GRAVITY_MANIPULATOR = blockWithItem("gravity_manipulator", BlockBehaviour.Properties.of(), GravityManipulatorBlock::new);
+    public static final BlockItemRegistrySupplier PUMPJACK = blockWithCustomItem("pumpjack", BlockBehaviour.Properties.of(), PumpjackBlock::new, new Item.Properties(), BlockItem::new);
+    public static final BlockItemRegistrySupplier FUEL_REFINERY = blockWithCustomItem("fuel_refinery", BlockBehaviour.Properties.of(), FuelRefineryBlock::new, new Item.Properties(), BlockItem::new);
 
     // OXYGEN
     public static final BlockItemRegistrySupplier OXYGEN_DISTRIBUTOR = blockWithItem("oxygen_distributor", BlockBehaviour.Properties.of(), OxygenDistributorBlock::new);
@@ -93,8 +96,10 @@ public final class BlocksRegistry {
      * Fluids
      */
     public static final RegistrySupplier<ArchitecturyLiquidBlock> HYDROGEN = block("hydrogen_block", BlockBehaviour.Properties.ofFullCopy(Blocks.WATER), (p) -> new ArchitecturyLiquidBlock(FluidsRegistry.HYDROGEN_STILL, p));
+    public static final RegistrySupplier<ArchitecturyLiquidBlock> OIL = block("oil", BlockBehaviour.Properties.ofFullCopy(Blocks.WATER), (p) -> new ArchitecturyLiquidBlock(FluidsRegistry.OIL_STILL, p));
     public static final RegistrySupplier<ArchitecturyLiquidBlock> OXYGEN = block("oxygen_block", BlockBehaviour.Properties.ofFullCopy(Blocks.WATER), (p) -> new ArchitecturyLiquidBlock(FluidsRegistry.OXYGEN_STILL, p));
     public static final RegistrySupplier<ArchitecturyLiquidBlock> FUEL = block("fuel_block", BlockBehaviour.Properties.ofFullCopy(Blocks.WATER), (p) -> new ArchitecturyLiquidBlock(FluidsRegistry.FUEL_STILL, p));
+    public static final RegistrySupplier<ArchitecturyLiquidBlock> DIESEL = block("diesel", BlockBehaviour.Properties.ofFullCopy(Blocks.WATER), (p) -> new ArchitecturyLiquidBlock(FluidsRegistry.DIESEL_STILL, p));
 
 
     /**

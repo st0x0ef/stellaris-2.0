@@ -40,6 +40,7 @@ public class StellarisNeoforgeClient {
 
         event.register(MenuTypesRegistry.SOLAR_PANEL.get(), SolarPanelScreen::new);
         event.register(MenuTypesRegistry.COAL_GENERATOR.get(), CoalGeneratorScreen::new);
+        event.register(MenuTypesRegistry.DIESEL_GENERATOR.get(), DieselGeneratorScreen::new);
         event.register(MenuTypesRegistry.POWER_BANK_MENU.get(), PowerBankScreen::new);
         event.register(MenuTypesRegistry.VACUUMATOR.get(), VacuumatorScreen::new);
         event.register(MenuTypesRegistry.GRAVITY_MANIPULATOR.get(), GravityManipulatorScreen::new);
@@ -47,6 +48,8 @@ public class StellarisNeoforgeClient {
         event.register(MenuTypesRegistry.ROCKET_STATION.get(), RocketStationScreen::new);
         event.register(MenuTypesRegistry.ROCKET_UPGRADE.get(), RocketUpgraderScreen::new);
         event.register(MenuTypesRegistry.OXYGEN_DISTRIBUTOR.get(), OxygenDistributorScreen::new);
+        event.register(MenuTypesRegistry.PUMPJACK.get(), PumpjackScreen::new);
+        event.register(MenuTypesRegistry.FUEL_REFINERY.get(), FuelRefineryScreen::new);
 
         event.register(MenuTypesRegistry.ROCKET_MENU.get(), RocketScreen::new);
     }

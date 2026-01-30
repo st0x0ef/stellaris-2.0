@@ -17,9 +17,16 @@ public class BlockEntitiesRegistry {
             () -> new BlockEntityType<>(SolarPanelBlockEntity::new, Set.of(BlocksRegistry.SOLAR_PANEL.block().get())));
     public static final Supplier<BlockEntityType<?>> COAL_GENERATOR = BLOCK_ENTITY_TYPE.register("coal_generator",
             () -> new BlockEntityType<>(CoalGeneratorBlockEntity::new, Set.of(BlocksRegistry.COAL_GENERATOR.block().get())));
+    public static final Supplier<BlockEntityType<?>> DIESEL_GENERATOR = BLOCK_ENTITY_TYPE.register("diesel_generator",
+            () -> new BlockEntityType<>(DieselGeneratorBlockEntity::new, Set.of(BlocksRegistry.DIESEL_GENERATOR.block().get())));
 
     public static final Supplier<BlockEntityType<?>> VACUUMATOR = BLOCK_ENTITY_TYPE.register("vacuumator",
             () -> new BlockEntityType<>(VacuumatorBlockEntity::new, Set.of(BlocksRegistry.VACUUMATOR.block().get())));
+
+    public static final Supplier<BlockEntityType<?>> PUMPJACK = BLOCK_ENTITY_TYPE.register("pumpjack",
+            () -> new BlockEntityType<>(PumpjackBlockEntity::new, Set.of(BlocksRegistry.PUMPJACK.block().get())));
+    public static final Supplier<BlockEntityType<?>> FUEL_REFINERY = BLOCK_ENTITY_TYPE.register("fuel_refinery",
+            () -> new BlockEntityType<>(FuelRefineryBlockEntity::new, Set.of(BlocksRegistry.FUEL_REFINERY.block().get())));
 
 
     public static final Supplier<BlockEntityType<?>> POWER_BANKS = BLOCK_ENTITY_TYPE.register("power_bank",

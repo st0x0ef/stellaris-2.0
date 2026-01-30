@@ -37,9 +37,12 @@
 
   "item.stellaris.solar_panel": "Solar Panel",
   "item.stellaris.coal_generator": "Coal Generator",
+  "item.stellaris.diesel_generator": "Diesel Generator",
 
   "item.stellaris.vacuumator": "Vacuumator",
   "item.stellaris.electrolyzer": "Electrolyzer",
+  "item.stellaris.pumpjack": "Pumpjack",
+  "item.stellaris.fuel_refinery": "Fuel Refinery",
   "item.stellaris.gravity_manipulator": "Gravity Manipulator",
   "item.stellaris.rocket_station": "Rocket Station",
 
@@ -51,6 +54,8 @@
   "item.stellaris.hydrogen_bucket": "Hydrogen Bucket",
   "item.stellaris.fuel_bucket": "Fuel Bucket",
   "item.stellaris.oxygen_bucket": "Oxygen Bucket",
+  "item.stellaris.oil_bucket": "Oil Bucket",
+  "item.stellaris.diesel_bucket": "Diesel Bucket",
   "item.stellaris.rocket_launch_pad": "Rocket Launch Pad",
 
 
@@ -105,10 +110,13 @@
   "item.stellaris.parasite": "Parasite",
   "item.stellaris.pathogen_storage_cell": "Pathogen Storage Cell",
 
+  "item.stellaris.oil_finder": "Oil Finder",
 
   "fluid.stellaris.hydrogen": "Hydrogen",
   "fluid.stellaris.oxygen": "Oxygen",
   "fluid.stellaris.fuel": "Fuel",
+  "fluid.stellaris.oil": "Oil",
+  "fluid.stellaris.diesel": "Diesel",
   "fluid.stellaris.water": "Water",
 
   "biome.stellaris.red_desert": "Red Desert",
@@ -125,6 +133,9 @@
 
   "stellaris.screen.energyContainer": "Energy",
   "stellaris.screen.empty_fluid": "Empty Fluid Tank",
+  "stellaris.screen.oil": "Oil",
+  "stellaris.screen.diesel": "Diesel",
+  "stellaris.screen.fuel": "Fuel",
 
 
   "stellaris.screen.gravityManipulator.gravity": "Gravity: %sm/s²",
@@ -133,10 +144,25 @@
   "stellaris.screen.gravityManipulator.planet.earth": "Earth Gravity (9.81m/s²)",
   "stellaris.screen.rocket_station": "Rocket Station",
 
+  "application.stellaris.stats.name": "Stats",
+  "application.stellaris.stats.description": "View various statistics about your space adventure.",
+
+  "application.stellaris.sd_card_reader.name": "SD Card Reader",
+  "application.stellaris.sd_card_reader.description": "Read SD Cards.",
+
+  "application.stellaris.wiki.name": "Space Wiki",
+  "application.stellaris.wiki.description": "Access information about space exploration and Stellaris mod features.",
+
+  "wiki.stellaris.mobs.title": "Mobs",
+  "wiki.stellaris.rocket.title": "Rocket",
+  "wiki.stellaris.machines.title": "Machine",
+
   "tooltip.item.stellaris.can.empty": "Empty",
   "tooltip.item.stellaris.can.nutrition": "Nutrition: %s/%s",
   "tooltip.item.stellaris.can.saturation": "Saturation: %s",
   "tooltip.item.stellaris.pathogen_storage_cell_info": "A sealed containment cell used to store parasites and support research toward an infection cure.",
+  "tooltip.item.stellaris.energy": "⚡ Energy: §e%s§r§f/§r§e%s§r FE",
+  "tooltip.item.stellaris.oil_finder": "Right click on a block to check if there is oil",
 
   "config.stellaris.debugMode": "Debug Mode",
   "config.stellaris.debugMode.desc": "Select to enter the debug mode.",
@@ -150,5 +176,7 @@
 
   "entity.stellaris.rocket": "Rocket",
 
-  "stat.stellaris.space_traveled": "Space Traveled"
+  "stat.stellaris.space_traveled": "Space Traveled",
+  "stat.stellaris.sd_card_read": "Sd Cards Read"
+
 }

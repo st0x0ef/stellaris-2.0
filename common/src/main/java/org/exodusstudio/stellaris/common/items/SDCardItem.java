@@ -13,8 +13,13 @@ import java.util.function.Consumer;
 public class SDCardItem extends Item {
 
     public SDCardItem(Properties properties) {
-        super(properties.component(DataComponentsRegistry.SD_CARD_ID.get(), 0));
+        this(properties, 0);
     }
+
+    public SDCardItem(Properties properties, int id) {
+        super(properties.component(DataComponentsRegistry.SD_CARD_ID.get(), id));
+    }
+
 
     @Override
     public void appendHoverText(ItemStack stack, Item.TooltipContext context, TooltipDisplay tooltipDisplay, Consumer<Component> tooltipAdder, TooltipFlag flag) {

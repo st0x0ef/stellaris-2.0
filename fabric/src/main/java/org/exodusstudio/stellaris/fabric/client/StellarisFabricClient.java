@@ -39,6 +39,7 @@ public final class StellarisFabricClient implements ClientModInitializer {
 
         MenuScreenRegistry.registerScreenFactory(MenuTypesRegistry.SOLAR_PANEL.get(), SolarPanelScreen::new);
         MenuScreenRegistry.registerScreenFactory(MenuTypesRegistry.COAL_GENERATOR.get(), CoalGeneratorScreen::new);
+        MenuScreenRegistry.registerScreenFactory(MenuTypesRegistry.DIESEL_GENERATOR.get(), DieselGeneratorScreen::new);
         MenuScreenRegistry.registerScreenFactory(MenuTypesRegistry.POWER_BANK_MENU.get(), PowerBankScreen::new);
         MenuScreenRegistry.registerScreenFactory(MenuTypesRegistry.VACUUMATOR.get(), VacuumatorScreen::new);
         MenuScreenRegistry.registerScreenFactory(MenuTypesRegistry.GRAVITY_MANIPULATOR.get(), GravityManipulatorScreen::new);
@@ -46,6 +47,8 @@ public final class StellarisFabricClient implements ClientModInitializer {
         MenuScreenRegistry.registerScreenFactory(MenuTypesRegistry.ROCKET_STATION.get(), RocketStationScreen::new);
         MenuScreenRegistry.registerScreenFactory(MenuTypesRegistry.ROCKET_UPGRADE.get(), RocketUpgraderScreen::new);
         MenuScreenRegistry.registerScreenFactory(MenuTypesRegistry.OXYGEN_DISTRIBUTOR.get(), OxygenDistributorScreen::new);
+        MenuScreenRegistry.registerScreenFactory(MenuTypesRegistry.PUMPJACK.get(), PumpjackScreen::new);
+        MenuScreenRegistry.registerScreenFactory(MenuTypesRegistry.FUEL_REFINERY.get(), FuelRefineryScreen::new);
 
         MenuScreenRegistry.registerScreenFactory(MenuTypesRegistry.ROCKET_MENU.get(), RocketScreen::new);
     }

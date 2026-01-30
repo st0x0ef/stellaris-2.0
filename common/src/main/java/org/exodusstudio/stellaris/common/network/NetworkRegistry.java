@@ -16,17 +16,18 @@ import java.util.List;
 
 public interface NetworkRegistry {
 
-    CustomPacketPayload.Type<OpenScreenPacket> OPEN_SCREEN_PACKET_TYPE = new CustomPacketPayload.Type<>(Identifier.fromNamespaceAndPath(Stellaris.MOD_ID, "open_screen"));
     CustomPacketPayload.Type<OpenMenuPacket> OPEN_MENU_PACKET_TYPE = new CustomPacketPayload.Type<>(Identifier.fromNamespaceAndPath(Stellaris.MOD_ID, "open_menu"));
 
     static void init() {
         registerC2S(OPEN_MENU_PACKET_TYPE, OpenMenuPacket.STREAM_CODEC, OpenMenuPacket::handle);
         registerC2S(OpenRocketStationMenusPacket.TYPE, OpenRocketStationMenusPacket.STREAM_CODEC, OpenRocketStationMenusPacket::handle);
         registerC2S(KeyHandlerPacket.TYPE, KeyHandlerPacket.STREAM_CODEC, KeyHandlerPacket::handle);
+        registerS2C(SyncOilLevelPacket.TYPE, SyncOilLevelPacket.STREAM_CODEC, SyncOilLevelPacket::handle);
 
         registerC2S(OpenRocketMenuPacket.TYPE, OpenRocketMenuPacket.STREAM_CODEC, OpenRocketMenuPacket::handle);
 
         registerS2C(SyncFluidPacket.TYPE, SyncFluidPacket.STREAM_CODEC, SyncFluidPacket::handle);
+        registerS2C(SyncFluidPacketWithoutDirection.TYPE, SyncFluidPacketWithoutDirection.STREAM_CODEC, SyncFluidPacketWithoutDirection::handle);
         //registerS2C(OPEN_SCREEN_PACKET_TYPE, OpenScreenPacket.STREAM_CODEC, OpenScreenPacket::handle);
         registerS2C(SyncRocketModule.TYPE, SyncRocketModule.STREAM_CODEC, SyncRocketModule::handle);
         registerS2C(SyncEnergyPacket.TYPE, SyncEnergyPacket.STREAM_CODEC, SyncEnergyPacket::handle);
@@ -34,6 +35,8 @@ public interface NetworkRegistry {
 
         registerS2C(SyncGravityManipulatorDataPacketS2C.TYPE_S2C, SyncGravityManipulatorDataPacketS2C.STREAM_CODEC, SyncGravityManipulatorDataPacketS2C::handle);
         registerC2S(SyncGravityManipulatorDataPacketC2S.TYPE_C2S, SyncGravityManipulatorDataPacketC2S.STREAM_CODEC, SyncGravityManipulatorDataPacketC2S::handle);
+        registerC2S(AwardStatPacket.TYPE, AwardStatPacket.STREAM_CODEC, AwardStatPacket::handle);
+
     }
 
 

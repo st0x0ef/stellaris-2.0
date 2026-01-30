@@ -6,11 +6,16 @@ import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.packs.resources.SimpleJsonResourceReloadListener;
 import net.minecraft.util.profiling.ProfilerFiller;
 import org.exodusstudio.stellaris.Stellaris;
-import org.exodusstudio.stellaris.client.screens.tablet.application.wiki.WikiApplicationScreen;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 public class WikiPacks {
+
+    public static ArrayList<WikiEntry> ENTRIES = new ArrayList<>();
+
+    public static Map<Identifier, EntryInfo> ENTRY_COMPONENTS = new HashMap<>();
 
 
     public static class WikiEntryPack extends SimpleJsonResourceReloadListener<WikiEntry> {
@@ -23,8 +28,8 @@ public class WikiPacks {
         protected void apply(Map<Identifier, WikiEntry> IdentifierJsonElementMap, ResourceManager resourceManager, ProfilerFiller profiler) {
             Stellaris.LOG.error("Loading Assets for Tablet Pack");
             IdentifierJsonElementMap.forEach((key, entry) -> {
-                if (!WikiApplicationScreen.ENTRIES.contains(entry)) {
-                    WikiApplicationScreen.ENTRIES.add(entry);
+                if (!WikiPacks.ENTRIES.contains(entry)) {
+                    WikiPacks.ENTRIES.add(entry);
                 }
 
                 Stellaris.LOG.info("Loaded tablet entry: {}", key);
@@ -43,7 +48,7 @@ public class WikiPacks {
         protected void apply(Map<Identifier, EntryInfo> IdentifierJsonElementMap, ResourceManager resourceManager, ProfilerFiller profiler) {
             Stellaris.LOG.error("Loading Assets for Tablet Pack");
 
-            WikiApplicationScreen.ENTRY_COMPONENTS.putAll(IdentifierJsonElementMap);
+            WikiPacks.ENTRY_COMPONENTS.putAll(IdentifierJsonElementMap);
 
         }
     }
