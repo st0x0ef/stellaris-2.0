@@ -1,33 +1,33 @@
 {
   "variants": {
     "facing=east,lit=false": {
-      "model": "stellaris:custom/pumpjack",
+      "model": "stellaris:block/diesel_generator",
       "y": 90
     },
     "facing=east,lit=true": {
-      "model": "stellaris:custom/pumpjack_on",
+      "model": "stellaris:block/diesel_generator",
       "y": 90
     },
     "facing=north,lit=false": {
-      "model": "stellaris:custom/pumpjack"
+      "model": "stellaris:block/diesel_generator"
     },
     "facing=north,lit=true": {
-      "model": "stellaris:custom/pumpjack_on"
+      "model": "stellaris:block/diesel_generator"
     },
     "facing=south,lit=false": {
-      "model": "stellaris:custom/pumpjack",
+      "model": "stellaris:block/diesel_generator",
       "y": 180
     },
     "facing=south,lit=true": {
-      "model": "stellaris:custom/pumpjack_on",
+      "model": "stellaris:block/diesel_generator",
       "y": 180
     },
     "facing=west,lit=false": {
-      "model": "stellaris:custom/pumpjack",
+      "model": "stellaris:block/diesel_generator",
       "y": 270
     },
     "facing=west,lit=true": {
-      "model": "stellaris:custom/pumpjack_on",
+      "model": "stellaris:block/diesel_generator",
       "y": 270
     }
   }

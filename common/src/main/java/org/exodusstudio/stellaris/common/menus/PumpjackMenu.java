@@ -1,14 +1,10 @@
 package org.exodusstudio.stellaris.common.menus;
 
-import com.fej1fun.potentials.capabilities.Capabilities;
-import com.fej1fun.potentials.fluid.UniversalFluidStorage;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.Container;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.inventory.Slot;
-import net.minecraft.world.item.ItemStack;
 import org.exodusstudio.stellaris.common.blocks.entities.machines.PumpjackBlockEntity;
 import org.exodusstudio.stellaris.common.menus.base.BaseContainer;
 import org.exodusstudio.stellaris.common.menus.slot.ResultSlot;

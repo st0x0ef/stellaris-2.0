@@ -5,15 +5,17 @@ import com.fej1fun.potentials.capabilities.Capabilities;
 public class CapabilitiesRegistry {
 
     public static void init() {
-        registerEnergyItems();
         registerEnergyBlockEntities();
+        registerEnergyItems();
 
+        registerFluidBlockEntities();
         registerFluidItems();
     }
 
     private static void registerEnergyBlockEntities() {
         Capabilities.Energy.BLOCK.registerForBlockEntity(BlockEntitiesRegistry.SOLAR_PANEL);
         Capabilities.Energy.BLOCK.registerForBlockEntity(BlockEntitiesRegistry.COAL_GENERATOR);
+        Capabilities.Energy.BLOCK.registerForBlockEntity(BlockEntitiesRegistry.DIESEL_GENERATOR);
         Capabilities.Energy.BLOCK.registerForBlockEntity(BlockEntitiesRegistry.CABLES);
         Capabilities.Energy.BLOCK.registerForBlockEntity(BlockEntitiesRegistry.POWER_BANKS);
         Capabilities.Energy.BLOCK.registerForBlockEntity(BlockEntitiesRegistry.VACUUMATOR);
@@ -21,11 +23,20 @@ public class CapabilitiesRegistry {
         Capabilities.Energy.BLOCK.registerForBlockEntity(BlockEntitiesRegistry.GRAVITY_MANIPULATOR);
         Capabilities.Energy.BLOCK.registerForBlockEntity(BlockEntitiesRegistry.OXYGEN_DISTRIBUTOR);
         Capabilities.Energy.BLOCK.registerForBlockEntity(BlockEntitiesRegistry.OXYGEN_PROPAGATOR);
+        Capabilities.Energy.BLOCK.registerForBlockEntity(BlockEntitiesRegistry.FUEL_REFINERY);
+        Capabilities.Energy.BLOCK.registerForBlockEntity(BlockEntitiesRegistry.PUMPJACK);
     }
 
     private static void registerEnergyItems() {
         Capabilities.Energy.ITEM.registerForItem(BlocksRegistry.POWER_BANK_T1.getAsItem());
         Capabilities.Energy.ITEM.registerForItem(ItemsRegistry.OIL_FINDER);
+    }
+
+    private static void registerFluidBlockEntities() {
+        Capabilities.Fluid.BLOCK.registerForBlockEntity(BlockEntitiesRegistry.ELECTROLYZER);
+        Capabilities.Fluid.BLOCK.registerForBlockEntity(BlockEntitiesRegistry.DIESEL_GENERATOR);
+        Capabilities.Fluid.BLOCK.registerForBlockEntity(BlockEntitiesRegistry.FUEL_REFINERY);
+        Capabilities.Fluid.BLOCK.registerForBlockEntity(BlockEntitiesRegistry.PUMPJACK);
     }
 
     private static void registerFluidItems() {
