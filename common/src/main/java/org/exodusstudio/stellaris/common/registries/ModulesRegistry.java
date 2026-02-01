@@ -5,10 +5,7 @@ import dev.architectury.registry.registries.RegistrySupplier;
 import org.exodusstudio.stellaris.common.items.modules.rocket.GalaxySkinModule;
 import org.exodusstudio.stellaris.common.items.modules.rocket.HydrogenFuelModuleItem;
 import org.exodusstudio.stellaris.common.items.modules.rocket.ShieldModule;
-import org.exodusstudio.stellaris.common.items.modules.space_suit.JetModuleItem;
-import org.exodusstudio.stellaris.common.items.modules.space_suit.OilFinderModuleItem;
-import org.exodusstudio.stellaris.common.items.modules.space_suit.OxygenModuleItem;
-import org.exodusstudio.stellaris.common.items.modules.space_suit.TankModuleItem;
+import org.exodusstudio.stellaris.common.items.modules.space_suit.*;
 import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
 
 public class ModulesRegistry {
@@ -37,6 +34,10 @@ public class ModulesRegistry {
     public static final RegistrySupplier<JetModuleItem> JET_MODULE_T1 = StellarisRegistries.SPACE_SUIT_MODULES.register(IdentifierUtils.id("jet_module_tier_1"), ItemsRegistry.SPACE_SUIT_JET_MODULE_T1);
     public static final RegistrySupplier<JetModuleItem> JET_MODULE_T2 = StellarisRegistries.SPACE_SUIT_MODULES.register(IdentifierUtils.id("jet_module_tier_2"), ItemsRegistry.SPACE_SUIT_JET_MODULE_T2);
     public static final RegistrySupplier<JetModuleItem> JET_MODULE_T3 = StellarisRegistries.SPACE_SUIT_MODULES.register(IdentifierUtils.id("jet_module_tier_3"), ItemsRegistry.SPACE_SUIT_JET_MODULE_T3);
+
+    public static final RegistrySupplier<DamageProtectionModuleItem> DAMAGE_PROTECTION_MODULE_T1 = StellarisRegistries.SPACE_SUIT_MODULES.register(IdentifierUtils.id("damage_protection_module_tier_1"), ItemsRegistry.SPACE_SUIT_DAMAGE_PROTECTION_MODULE_T1);
+    public static final RegistrySupplier<DamageProtectionModuleItem> DAMAGE_PROTECTION_MODULE_T2 = StellarisRegistries.SPACE_SUIT_MODULES.register(IdentifierUtils.id("damage_protection_module_tier_2"), ItemsRegistry.SPACE_SUIT_DAMAGE_PROTECTION_MODULE_T2);
+    public static final RegistrySupplier<DamageProtectionModuleItem> DAMAGE_PROTECTION_MODULE_T3 = StellarisRegistries.SPACE_SUIT_MODULES.register(IdentifierUtils.id("damage_protection_module_tier_3"), ItemsRegistry.SPACE_SUIT_DAMAGE_PROTECTION_MODULE_T3);
 
     public static void init() {}
 }

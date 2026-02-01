@@ -2,6 +2,7 @@ package org.exodusstudio.stellaris.common.modules.space_suit;
 
 import net.minecraft.client.renderer.rendertype.RenderType;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.equipment.ArmorMaterial;
 import net.minecraft.world.level.material.Fluid;
 import org.exodusstudio.stellaris.client.renderers.rockets.RocketRenderer;
 import org.exodusstudio.stellaris.common.modules.Module;
@@ -83,5 +84,16 @@ public interface SpaceSuitModule extends Module<SpaceSuitModule> {
          * @return The consumption of the jetpack.
          */
         long getConsumptionPerTick();
+    }
+
+    interface DamageProtectionModule extends SpaceSuitModule {
+
+        /**
+         * Change the armor material of the space suit with this module.
+         * @return The armor material equivalent.
+         */
+        ArmorMaterial getArmorMaterialEquivalent();
+
+        String getMaterialName();
     }
 }

@@ -47,8 +47,8 @@ public class EngineUpgradeMenu extends BaseItemCombinerMenu {
 
     @Override
     protected void onTake(Player player, ItemStack stack) {
-        this.inputSlots.setItem(0, ItemStack.EMPTY);
-        this.inputSlots.setItem(1, ItemStack.EMPTY);
+        inputSlots.getItem(0).shrink(stack.getCount());
+        inputSlots.getItem(1).shrink(stack.getCount());
     }
 
     @Override
@@ -67,7 +67,6 @@ public class EngineUpgradeMenu extends BaseItemCombinerMenu {
         ItemStack module = this.inputSlots.getItem(1).copy();
 
         if(itemToUpgrade.isEmpty() || module.isEmpty()) {
-            this.resultSlots.setItem(0, ItemStack.EMPTY);
             return;
         }
 
@@ -110,11 +109,12 @@ public class EngineUpgradeMenu extends BaseItemCombinerMenu {
                 mutable.insert(validModule);
                 itemToUpgrade.set(DataComponentsRegistry.SPACE_SUIT_MODULES.get(), mutable.toImmutable());
 
+                if (itemToUpgrade.getItem() instanceof SpaceSuitItem spaceSuitItem) {
+                    spaceSuitItem.onAddModule(itemToUpgrade, validModule);
+                }
+
                 this.resultSlots.setItem(0, itemToUpgrade);
                 this.broadcastChanges();
-            }
-            else {
-                this.resultSlots.setItem(0, ItemStack.EMPTY);
             }
         }
     }

@@ -17,11 +17,11 @@ public class ArmorMaterialsRegistry {
     public static final ArmorMaterial SPACE_SUIT = new ArmorMaterial(
             10,
             Util.make(new EnumMap<>(ArmorType.class), map -> {
-                map.put(ArmorType.BOOTS, 3);
-                map.put(ArmorType.LEGGINGS, 6);
-                map.put(ArmorType.CHESTPLATE, 8);
-                map.put(ArmorType.HELMET, 3);
-                map.put(ArmorType.BODY, 11);
+                map.put(ArmorType.BOOTS, 0);
+                map.put(ArmorType.LEGGINGS, 0);
+                map.put(ArmorType.CHESTPLATE, 0);
+                map.put(ArmorType.HELMET, 0);
+                map.put(ArmorType.BODY, 0);
             }),
             10,
             SoundEvents.ARMOR_EQUIP_GENERIC,

@@ -10,7 +10,6 @@ import net.minecraft.world.item.component.TooltipDisplay;
 import net.minecraft.world.item.equipment.ArmorType;
 import org.exodusstudio.stellaris.common.fluid.SpaceSuitItemFluidStorage;
 import org.exodusstudio.stellaris.common.modules.space_suit.SpaceSuitModule;
-import org.exodusstudio.stellaris.common.registries.ArmorMaterialsRegistry;
 import org.exodusstudio.stellaris.common.registries.DataComponentsRegistry;
 import org.exodusstudio.stellaris.common.utils.ModuleUtils;
 import org.exodusstudio.stellaris.common.utils.Utils;
@@ -21,7 +20,7 @@ import java.util.function.Consumer;
 
 public class SpaceSuitChestplate extends SpaceSuitItem implements FluidProvider.ITEM {
     public SpaceSuitChestplate(Properties properties) {
-        super(properties.humanoidArmor(ArmorMaterialsRegistry.SPACE_SUIT, ArmorType.CHESTPLATE));
+        super(properties, ArmorType.CHESTPLATE);
     }
 
     @Override

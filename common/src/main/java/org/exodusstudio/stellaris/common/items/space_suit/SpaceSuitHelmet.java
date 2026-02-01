@@ -12,7 +12,6 @@ import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.component.TooltipDisplay;
 import net.minecraft.world.item.equipment.ArmorType;
 import org.exodusstudio.stellaris.common.modules.space_suit.SpaceSuitModule;
-import org.exodusstudio.stellaris.common.registries.ArmorMaterialsRegistry;
 import org.exodusstudio.stellaris.common.registries.DataComponentsRegistry;
 import org.exodusstudio.stellaris.common.utils.ModuleUtils;
 import org.exodusstudio.stellaris.common.utils.Utils;
@@ -24,7 +23,7 @@ import java.util.function.Consumer;
 
 public class SpaceSuitHelmet extends SpaceSuitItem implements FluidProvider.ITEM, EnergyProvider.ITEM {
     public SpaceSuitHelmet(Properties properties) {
-        super(properties.humanoidArmor(ArmorMaterialsRegistry.SPACE_SUIT, ArmorType.HELMET));
+        super(properties, ArmorType.HELMET);
     }
 
     @Override
@@ -65,7 +64,7 @@ public class SpaceSuitHelmet extends SpaceSuitItem implements FluidProvider.ITEM
         SpaceSuitModule.OilFinderModule oilFinderModule = ModuleUtils.getSpaceSuitModule(stack, SpaceSuitModule.OilFinderModule.class);
         if (oilFinderModule != null) {
             tooltipAdder.accept(Component.literal("-- Oil Finder Module --").withColor(Utils.getMinecraftColor("gold")));
-            tooltipAdder.accept(Component.literal("Allows detection of oil deposits in the surrounding " + oilFinderModule.getRange() +  " x " + oilFinderModule.getRange() + " area ").withColor(Utils.getMinecraftColor("gold")));
+            tooltipAdder.accept(Component.literal("Allows detection of oil deposits in the surrounding " + oilFinderModule.getRange() +  " x " + oilFinderModule.getRange() + " area").withColor(Utils.getMinecraftColor("gold")));
         }
     }
 

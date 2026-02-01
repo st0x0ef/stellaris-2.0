@@ -21,7 +21,6 @@ import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.common.components.JetComponent;
 import org.exodusstudio.stellaris.common.keybinds.KeyVariables;
 import org.exodusstudio.stellaris.common.modules.space_suit.SpaceSuitModule;
-import org.exodusstudio.stellaris.common.registries.ArmorMaterialsRegistry;
 import org.exodusstudio.stellaris.common.registries.DataComponentsRegistry;
 import org.exodusstudio.stellaris.common.utils.ModuleUtils;
 import org.exodusstudio.stellaris.common.utils.Utils;
@@ -31,7 +30,7 @@ import java.util.function.Consumer;
 
 public class SpaceSuitBoots extends SpaceSuitItem {
     public SpaceSuitBoots(Properties properties) {
-        super(properties.humanoidArmor(ArmorMaterialsRegistry.SPACE_SUIT, ArmorType.BOOTS));
+        super(properties, ArmorType.BOOTS);
     }
 
     public float spacePressTime = 0.0f;
