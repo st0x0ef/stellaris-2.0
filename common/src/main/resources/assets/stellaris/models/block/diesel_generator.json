@@ -1,0 +1,12 @@
+{
+  "parent": "minecraft:block/cube",
+  "textures": {
+    "down": "stellaris:block/machines/diesel_generator/diesel_generator_bottom",
+    "east": "stellaris:block/machines/diesel_generator/diesel_generator_side",
+    "north": "stellaris:block/machines/diesel_generator/diesel_generator_front",
+    "particle": "stellaris:block/machines/diesel_generator/diesel_generator_side",
+    "south": "stellaris:block/machines/diesel_generator/diesel_generator_side",
+    "up": "stellaris:block/machines/diesel_generator/diesel_generator_top",
+    "west": "stellaris:block/machines/diesel_generator/diesel_generator_side"
+  }
+}

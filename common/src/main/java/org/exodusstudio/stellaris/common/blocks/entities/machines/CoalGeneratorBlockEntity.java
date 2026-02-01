@@ -63,6 +63,7 @@ public class CoalGeneratorBlockEntity extends BaseGeneratorBlockEntity {
         return new CoalGeneratorMenu(containerId, inventory, this, this, dataAccess);
     }
 
+    @Override
     public void tick(Level level, BlockState blockState) {
         boolean wasLit = isLit();
         boolean shouldUpdate = false;
@@ -73,7 +74,7 @@ public class CoalGeneratorBlockEntity extends BaseGeneratorBlockEntity {
 
         ItemStack stack = getItems().getFirst();
         if (!isLit() && !stack.isEmpty()) {
-            litTime = getBurnDuration(stack);
+            litTime = getBurnDuration(stack) / 9;
             litDuration = litTime;
             if (isLit()) {
                 shouldUpdate = true;
