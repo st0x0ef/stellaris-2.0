@@ -87,6 +87,11 @@ public final class ItemsRegistry {
     public static final RegistrySupplier<TankModuleItem> SPACE_SUIT_HYDROGEN_TANK_MODULE_T2 = item("space_suit_hydrogen_tank_module_tier_2", p -> new HydrogenTankModuleItem(p, 2000));
     public static final RegistrySupplier<TankModuleItem> SPACE_SUIT_HYDROGEN_TANK_MODULE_T3 = item("space_suit_hydrogen_tank_module_tier_3", p -> new HydrogenTankModuleItem(p, 3000));
 
+    // Jet Modules
+    public static final RegistrySupplier<JetModuleItem> SPACE_SUIT_JET_MODULE_T1 = item("space_suit_jet_module_tier_1", p -> new JetModuleItem(p, 10));
+    public static final RegistrySupplier<JetModuleItem> SPACE_SUIT_JET_MODULE_T2 = item("space_suit_jet_module_tier_2", p -> new JetModuleItem(p, 6));
+    public static final RegistrySupplier<JetModuleItem> SPACE_SUIT_JET_MODULE_T3 = item("space_suit_jet_module_tier_3", p -> new JetModuleItem(p, 2));
+
     /** Cans */
     // Small cans
     public static final RegistrySupplier<CanItem> BLACK_CAN = item("black_can", (p) -> new CanItem(p, 10));

@@ -5,21 +5,21 @@ import net.minecraft.world.item.ItemStack;
 import org.exodusstudio.stellaris.common.modules.space_suit.SpaceSuitModule;
 import org.exodusstudio.stellaris.common.registries.ItemsRegistry;
 
-public class OxygenModuleItem extends Item implements SpaceSuitModule.OxygenModule {
-    private final int oxygenCapacity;
+public class JetModuleItem extends Item implements SpaceSuitModule.JetModule {
+    private final long consumptionPerTick;
 
-    public OxygenModuleItem(Properties properties, int oxygenCapacity) {
+    public JetModuleItem(Properties properties, long consumptionPerTick) {
         super(properties);
-        this.oxygenCapacity = oxygenCapacity;
+        this.consumptionPerTick = consumptionPerTick;
     }
 
     @Override
-    public int getCapacity() {
-        return oxygenCapacity;
+    public long getConsumptionPerTick() {
+        return consumptionPerTick;
     }
 
     @Override
     public boolean canBeAppliedToSpaceSuitPart(ItemStack part) {
-        return part.is(ItemsRegistry.SPACE_SUIT_HELMET.get());
+        return part.is(ItemsRegistry.SPACE_SUIT_BOOTS.get());
     }
 }

@@ -9,19 +9,19 @@ import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.Identifier;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import org.exodusstudio.stellaris.common.items.space_suit.SpaceSuitBoots;
 import org.exodusstudio.stellaris.common.items.space_suit.SpaceSuitChestplate;
 import org.exodusstudio.stellaris.common.items.space_suit.SpaceSuitHelmet;
 import org.exodusstudio.stellaris.common.modules.space_suit.SpaceSuitModule;
 import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
 import org.exodusstudio.stellaris.common.utils.ModuleUtils;
 import org.exodusstudio.stellaris.common.utils.Utils;
-
-import java.util.Locale;
 
 public class SpaceSuitOverlay {
 
@@ -42,6 +42,7 @@ public class SpaceSuitOverlay {
             yOffset += tryRenderOxygenOverlay(graphics, player, font, yOffset);
             yOffset += tryRenderOilFinderOverlay(graphics, player, font, yOffset);
             yOffset += tryRenderFuelTankOverlay(graphics, player, font, yOffset);
+            yOffset += tryRenderJetModeOverlay(graphics, player, font, yOffset);
         }
     }
 
@@ -144,27 +145,27 @@ public class SpaceSuitOverlay {
             long fuel = fuelStorage.getFluidInTank(0).getAmount();
             long maxFuel = fuelStorage.getTankCapacity(0);
 
-            int x = 5;
-
-            int textureWidth = 84 / 2;
-            int textureHeight = 104 / 2;
-
-            /** DRAW FUEL TANK */
-            graphics.blit(RenderPipelines.GUI_TEXTURED, EMPTY_TANK, x, yOffset, 0, 0, textureWidth, textureHeight, textureWidth, textureHeight);
-
-            int filledHeight = (int)Mth.clamp(((float) fuel / maxFuel) * textureHeight, 0, textureHeight);
-            int yFilledOffset = textureHeight - filledHeight;
-
-            String fuelName = fuelStorage.getFluidInTank(0).getName().getString();
-            Identifier tankFullTexture = IdentifierUtils.texture("overlay/" + fuelName.toLowerCase(Locale.ROOT) + "_tank_full");
-
-            graphics.blit(RenderPipelines.GUI_TEXTURED, tankFullTexture, x, yOffset + yFilledOffset, 0, yFilledOffset, textureWidth, filledHeight, textureWidth, textureHeight);
-
             /** FUEL AMOUNT TEXT */
+            String fuelName = fuelStorage.getFluidInTank(0).getName().getString();
             Component text = Component.literal(fuelName).append(": ").withStyle(ChatFormatting.RED).append("§7" + Math.round(((float) fuel / maxFuel) * 100) + "%");
-            graphics.drawString(font, text, x, yOffset + textureHeight + 3, 0xFFFFFFFF);
+            graphics.drawString(font, text, 5, yOffset, 0xFFFFFFFF);
 
-            return textureHeight + font.lineHeight + 5;
+            return font.lineHeight + 5;
+        }
+
+        return 0;
+    }
+
+    private static int tryRenderJetModeOverlay(GuiGraphics graphics, Player player, Font font, int yOffset) {
+        ItemStack feetStack = player.getItemBySlot(EquipmentSlot.FEET);
+
+        SpaceSuitModule.JetModule jetModule = ModuleUtils.getSpaceSuitModule(feetStack, SpaceSuitModule.JetModule.class);
+        if (jetModule != null) {
+            MutableComponent mode = SpaceSuitBoots.getModeType(feetStack).getMutableComponent();
+            Component text = Component.translatable("text.stellaris.jet.mode").append(": ").withStyle(ChatFormatting.GRAY).append(mode);
+            graphics.drawString(font, text, 5, yOffset, Utils.getMinecraftColor("white"));
+
+            return font.lineHeight + 5;
         }
 
         return 0;

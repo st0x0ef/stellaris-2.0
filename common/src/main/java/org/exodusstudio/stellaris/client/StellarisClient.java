@@ -4,6 +4,7 @@ import dev.architectury.event.events.client.ClientGuiEvent;
 import dev.architectury.event.events.client.ClientTickEvent;
 import fr.tathan.exoconfig.platform.PlatformClientHelper;
 import org.exodusstudio.stellaris.Stellaris;
+import org.exodusstudio.stellaris.client.events.ClientEvents;
 import org.exodusstudio.stellaris.client.overlays.SpaceSuitOverlay;
 import org.exodusstudio.stellaris.client.overlays.RocketTimerOverlay;
 import org.exodusstudio.stellaris.client.registry.FluidInfosRegistry;
@@ -25,6 +26,8 @@ public class StellarisClient {
 
         KeyMappingsRegistry.init();
         ClientTickEvent.CLIENT_POST.register(KeyMappingsRegistry::clientTick);
+
+        ClientEvents.init();
 
         PlatformClientHelper.registerConfigScreen(Stellaris.MOD_ID, Stellaris.CONFIG);
     }

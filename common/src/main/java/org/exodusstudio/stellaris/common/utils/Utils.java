@@ -1,8 +1,10 @@
 package org.exodusstudio.stellaris.common.utils;
 
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.ARGB;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.Vec3;
@@ -48,8 +50,7 @@ public class Utils {
             case "turquoise" -> 0x40E0D0;
             case "salmon" -> 0xFA8072;
             case "khaki" -> 0xF0E68C;
-            case "darkred" -> 0x8B0000;
-            case "dark_red" -> 0x8B0000;
+            case "darkred", "dark_red" -> 0x8B0000;
             case "rainbow" -> Utils.generateRandomHexColor();
             default -> 0xFFFFFF;
         };
@@ -85,4 +86,9 @@ public class Utils {
         return entity.getItemBySlot(slot).getItem().equals(item);
     }
 
+    public static void disableFlyAntiCheat(Player player) {
+        if (player instanceof ServerPlayer serverPlayer) {
+            serverPlayer.connection.aboveGroundTickCount = 0;
+        }
+    }
 }

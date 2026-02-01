@@ -8,8 +8,9 @@ import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.codec.ByteBufCodecs;
 import org.exodusstudio.stellaris.Stellaris;
-import org.exodusstudio.stellaris.common.components.PathogenStorageComponents;
-import org.exodusstudio.stellaris.common.components.TimerComponents;
+import org.exodusstudio.stellaris.common.components.JetComponent;
+import org.exodusstudio.stellaris.common.components.PathogenStorageComponent;
+import org.exodusstudio.stellaris.common.components.TimerComponent;
 import org.exodusstudio.stellaris.common.modules.Modules;
 import org.exodusstudio.stellaris.common.modules.rocket.RocketModule;
 import org.exodusstudio.stellaris.common.modules.rocket.RocketModules;
@@ -38,11 +39,14 @@ public class DataComponentsRegistry {
     public static final RegistrySupplier<DataComponentType<Modules<SpaceSuitModule>>> SPACE_SUIT_MODULES =
             register("space_suit_modules", builder -> builder
                     .persistent(SpaceSuitModules.CODEC).networkSynchronized(SpaceSuitModules.STREAM_CODEC).cacheEncoding());
+    public static final RegistrySupplier<DataComponentType<JetComponent>> JET_COMPONENT =
+            register("jet_component", builder -> builder
+                    .persistent(JetComponent.CODEC).networkSynchronized(JetComponent.STREAM_CODEC));
 
-    public static final RegistrySupplier<DataComponentType<TimerComponents>> TIMER =
-            register("timer", builder -> builder.persistent(TimerComponents.CODEC).networkSynchronized(TimerComponents.STREAM_CODEC));
-    public static final RegistrySupplier<DataComponentType<PathogenStorageComponents>> PATHOGEN_STORED =
-            register("pathogen_stored", builder -> builder.persistent(PathogenStorageComponents.CODEC).networkSynchronized(PathogenStorageComponents.STREAM_CODEC));
+    public static final RegistrySupplier<DataComponentType<TimerComponent>> TIMER =
+            register("timer", builder -> builder.persistent(TimerComponent.CODEC).networkSynchronized(TimerComponent.STREAM_CODEC));
+    public static final RegistrySupplier<DataComponentType<PathogenStorageComponent>> PATHOGEN_STORED =
+            register("pathogen_stored", builder -> builder.persistent(PathogenStorageComponent.CODEC).networkSynchronized(PathogenStorageComponent.STREAM_CODEC));
 
 
     private static <T> RegistrySupplier<DataComponentType<T>> register(String name, UnaryOperator<DataComponentType.Builder<T>> builderOperator) {

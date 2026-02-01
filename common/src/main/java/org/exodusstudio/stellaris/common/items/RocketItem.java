@@ -107,7 +107,8 @@ public class RocketItem extends Item implements FluidProvider.ITEM {
         if (modules != null && !modules.items().isEmpty()) {
             tooltipAdder.accept(Component.literal("Modules:"));
             for (RocketModule module : modules.modules) {
-                tooltipAdder.accept(Component.literal("- ").append( module.displayName()).withStyle(ChatFormatting.GRAY));
+                // TODO: Fix module tooltips
+                //tooltipAdder.accept(Component.literal("- ").append( module.displayName()).withStyle(ChatFormatting.GRAY));
             }
         } else {
             tooltipAdder.accept(Component.literal("No Modules"));

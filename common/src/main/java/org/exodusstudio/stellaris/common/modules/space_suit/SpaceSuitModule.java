@@ -1,6 +1,7 @@
 package org.exodusstudio.stellaris.common.modules.space_suit;
 
 import net.minecraft.client.renderer.rendertype.RenderType;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.material.Fluid;
 import org.exodusstudio.stellaris.client.renderers.rockets.RocketRenderer;
 import org.exodusstudio.stellaris.common.modules.Module;
@@ -16,6 +17,8 @@ public interface SpaceSuitModule extends Module<SpaceSuitModule> {
     default boolean isCompatibleWith(SpaceSuitModule module) {
         return true;
     }
+
+    boolean canBeAppliedToSpaceSuitPart(ItemStack part);
 
 
     /**
@@ -70,5 +73,15 @@ public interface SpaceSuitModule extends Module<SpaceSuitModule> {
          * @return The range of the oil finder.
          */
         int getRange();
+    }
+
+    interface JetModule extends SpaceSuitModule {
+
+        /**
+         * Change the jetpack fuel consumption of the space suit with this module.
+         *
+         * @return The consumption of the jetpack.
+         */
+        long getConsumptionPerTick();
     }
 }

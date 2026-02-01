@@ -13,7 +13,6 @@ public class CommonConfig {
     @ScreenInfos.InnerConfig
     public OilConfig oilConfig = new OilConfig();
 
-
     public static class OilConfig {
         public int chunkOilChance = 32;
 
@@ -53,6 +52,15 @@ public class CommonConfig {
 
         @ScreenInfos.Description(value = "config.stellaris.oxygenConfig.noOxygenDamage.desc")
         public float noOxygenDamage = 0.5f;
+    }
+
+    @ScreenInfos.InnerConfig
+    @ScreenInfos.Description("config.stellaris.spaceSuitConfig.desc")
+    public SpaceSuitConfig spaceSuitConfig = new SpaceSuitConfig();
+
+    public static class SpaceSuitConfig {
+        @ScreenInfos.Description(value = "config.stellaris.spaceSuitConfig.jetFuelConsumptionInterval.desc")
+        public int jetFuelConsumptionInterval = 20;
     }
 
     @ScreenInfos.InnerConfig

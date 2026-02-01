@@ -103,6 +103,7 @@ public class EngineUpgradeMenu extends BaseItemCombinerMenu {
             if (!itemToUpgrade.isEmpty() && !module.isEmpty()
                     && !spaceSuitModules.contains(validModule)
                     && canUpgradeFuel(module, itemToUpgrade).equals(Error.NONE)
+                    && validModule.canBeAppliedToSpaceSuitPart(itemToUpgrade)
             ) {
 
                 Modules<SpaceSuitModule>.Mutable mutable = spaceSuitModules.toMutable();

@@ -11,13 +11,13 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.component.TooltipDisplay;
 import net.minecraft.world.level.Level;
-import org.exodusstudio.stellaris.common.components.PathogenStorageComponents;
+import org.exodusstudio.stellaris.common.components.PathogenStorageComponent;
 import org.exodusstudio.stellaris.common.registries.DataComponentsRegistry;
 
 import java.util.function.Consumer;
 
 public class PathogenStorageCellItem extends Item {
-    private static final PathogenStorageComponents DEFAULT_COMPONENT = new PathogenStorageComponents(0, 100); // TODO : make max capacity configurable
+    private static final PathogenStorageComponent DEFAULT_COMPONENT = new PathogenStorageComponent(0, 100); // TODO : make max capacity configurable
 
     public PathogenStorageCellItem(Properties properties) {
         super(properties.component(DataComponentsRegistry.PATHOGEN_STORED.get(), DEFAULT_COMPONENT));
@@ -27,7 +27,7 @@ public class PathogenStorageCellItem extends Item {
     public void appendHoverText(ItemStack stack, TooltipContext context, TooltipDisplay tooltipDisplay, Consumer<Component> tooltipAdder, TooltipFlag flag) {
         super.appendHoverText(stack, context, tooltipDisplay, tooltipAdder, flag);
 
-        PathogenStorageComponents pathogenStorageComponents = stack.getOrDefault(DataComponentsRegistry.PATHOGEN_STORED.get(), DEFAULT_COMPONENT);
+        PathogenStorageComponent pathogenStorageComponents = stack.getOrDefault(DataComponentsRegistry.PATHOGEN_STORED.get(), DEFAULT_COMPONENT);
         String stored = String.valueOf(pathogenStorageComponents.stored());
         String capacity = String.valueOf(pathogenStorageComponents.capacity());
 
@@ -41,14 +41,14 @@ public class PathogenStorageCellItem extends Item {
             Inventory inventory = player.getInventory();
 
             ItemStack storageCellStack = player.getItemInHand(hand);
-            PathogenStorageComponents pathogenStorageComponents = storageCellStack.getOrDefault(DataComponentsRegistry.PATHOGEN_STORED.get(), DEFAULT_COMPONENT);
+            PathogenStorageComponent pathogenStorageComponents = storageCellStack.getOrDefault(DataComponentsRegistry.PATHOGEN_STORED.get(), DEFAULT_COMPONENT);
 
             for (int i = 0; i < inventory.getContainerSize(); i++) {
                 if (inventory.getItem(i).getItem() instanceof ParasiteItem) {
                     if (pathogenStorageComponents.stored() < pathogenStorageComponents.capacity()) {
                         inventory.removeItem(i, 1);
 
-                        pathogenStorageComponents = new PathogenStorageComponents(
+                        pathogenStorageComponents = new PathogenStorageComponent(
                                 pathogenStorageComponents.stored() + 1,
                                 pathogenStorageComponents.capacity()
                         );

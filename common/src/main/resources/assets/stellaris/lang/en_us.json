@@ -137,9 +137,15 @@
   "gauge_text.stellaris.max_generation": "Max Generation : %s Fe/tick",
 
   "text.stellaris.oil_finder.no_oil": "No oil detected here.",
-  "text.stellaris.oil_finder.cant_search": "Cannot search (no energy).",
+  "text.stellaris.oil_finder.cant_search": "Cannot search for oil (no energy).",
   "text.stellaris.oil_finder.oil_found": "Oil detected",
   "text.stellaris.oil_finder.energy": "Oil found at Y=%s",
+
+  "text.stellaris.jet.mode": "Jet Mode",
+  "text.stellaris.jet.mode.disabled": "Disabled",
+  "text.stellaris.jet.mode.normal": "Normal",
+  "text.stellaris.jet.mode.hover": "Hover",
+  "text.stellaris.jet.mode.elytra": "Elytra",
 
   "stellaris.screen.energyContainer": "Energy",
   "stellaris.screen.empty_fluid": "Empty Fluid Tank",
@@ -182,11 +188,12 @@
 
   "effect.stellaris.infected": "Infected",
 
-
-
   "entity.stellaris.rocket": "Rocket",
 
   "stat.stellaris.space_traveled": "Space Traveled",
-  "stat.stellaris.sd_card_read": "Sd Cards Read"
+  "stat.stellaris.sd_card_read": "Sd Cards Read",
+
+  "key.stellaris.rocket_start": "Start Rocket",
+  "key.stellaris.jet_switch_mode": "Switch Jet Mode"
 
 }
