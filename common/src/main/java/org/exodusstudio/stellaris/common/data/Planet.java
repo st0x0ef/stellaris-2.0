@@ -43,4 +43,6 @@ public record Planet(String translationKey, Identifier dimension, double gravity
         sb.append("-----------------------");
         return Component.literal(sb.toString());
     }
+
+
 }

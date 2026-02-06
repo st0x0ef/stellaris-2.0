@@ -18,6 +18,7 @@ import org.exodusstudio.stellaris.client.screens.*;
 import org.exodusstudio.stellaris.client.screens.rocket_station.RocketStationScreen;
 import org.exodusstudio.stellaris.client.screens.rocket_station.RocketUpgraderScreen;
 import org.exodusstudio.stellaris.client.screens.tablet.MainTabletScreen;
+import org.exodusstudio.stellaris.client.screens.tablet.application.planets.PlanetSelectionAppScreen;
 import org.exodusstudio.stellaris.client.screens.tablet.application.sd.SDCardReaderApplicationScreen;
 import org.exodusstudio.stellaris.common.blocks.entities.machines.GravityManipulatorBlockEntity;
 import org.exodusstudio.stellaris.common.registries.BlockEntitiesRegistry;

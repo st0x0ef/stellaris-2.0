@@ -56,6 +56,15 @@ public class WikiEntryTextRenderer {
 
             // Handle line breaks
             if (word.contains("[br]")) {
+
+                //remove the tag and check if there's any text left, if not just break the line
+                word = word.replace("[br]", "");
+                if(!word.isEmpty()) {
+                    Word wordObj = createWord(word);
+
+                    wordsInLine.add(wordObj);
+                }
+
                 lines.add(wordsInLine);
                 wordsInLine = new ArrayList<>();
                 width.set(0);
@@ -104,20 +113,7 @@ public class WikiEntryTextRenderer {
                 }
 
                 // Create a new Word object for the current word
-                Word wordObj = new Word(word);
-
-                //Add color and reference location if they are set
-                if(this.color != null) {
-                    wordObj.color = this.color;
-                }
-                if(this.referenceLocation != null) {
-                    wordObj.Identifier = this.referenceLocation;
-                }
-                if(this.tooltip != null) {
-                    wordObj.tooltip = this.tooltip;
-                }
-
-
+                Word wordObj = createWord(word);
 
                 if (wordWidth + width.get() < maxWidth) {
                     if (remainingWords.get() == 0) {
@@ -138,6 +134,28 @@ public class WikiEntryTextRenderer {
             }
         }
         return lines;
+    }
+
+    /**
+     * Create a Word object from a string, applying the current color and reference location if they are set.
+     * @param word The text of the word to create.
+     * @return A Word object with the appropriate color and reference location applied.
+     */
+    public Word createWord(String word) {
+        Word wordObj = new Word(word);
+
+        //Add color and reference location if they are set
+        if(this.color != null) {
+            wordObj.color = this.color;
+        }
+        if(this.referenceLocation != null) {
+            wordObj.Identifier = this.referenceLocation;
+        }
+        if(this.tooltip != null) {
+            wordObj.tooltip = this.tooltip;
+        }
+
+        return wordObj;
     }
 
     public int getTextHeight() {
