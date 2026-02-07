@@ -3,6 +3,7 @@ package org.exodusstudio.stellaris.client.utils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
+import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.common.utils.Utils;
 
 import java.util.ArrayList;
@@ -31,7 +32,7 @@ public class WikiEntryTextRenderer {
     }
 
     /**
-     *  Return a list of word in a line.
+     * Return a list of word in a line.
      * @param message The message we want to render
      * @param maxWidth The width of the place we want our text to be rendered
      * @return A list of line containing a list of words.
@@ -158,9 +159,6 @@ public class WikiEntryTextRenderer {
         return wordObj;
     }
 
-    public int getTextHeight() {
-        return lines.size() * getFont().lineHeight;
-    }
 
     public int renderWords(GuiGraphics guiGraphics, int x, int y, int mouseX, int mouseY, Consumer<ActionBox> clickBoxConsumer) {
         for (int i = 0; i < lines.size(); i++) {
@@ -222,4 +220,57 @@ public class WikiEntryTextRenderer {
         }
     }
 
+    /**
+     * A builder class to create a WikiEntryTextRenderer object. It provides a more convenient way to create a WikiEntryTextRenderer object by allowing us to add text, colored text, line breaks, and conditionally colored text in a more fluent way.
+     * TATHAN's Note : this is a bit overkill :)
+     */
+    public static class Builder {
+        private StringBuilder textBuilder = new StringBuilder();
+
+        public Builder addText(String text) {
+            textBuilder.append(" ").append(text);
+            return this;
+        }
+        public Builder addText(Object text) {
+            textBuilder.append(" ").append(text);
+            return this;
+        }
+
+        public Builder addColoredText(String text, String color) {
+            textBuilder.append(" [color=").append(color).append("] ").append(text).append(" [color]");
+            return this;
+        }
+
+        public Builder breakL() {
+            textBuilder.append(" [br] ");
+            return this;
+        }
+
+        public Builder conditionColorText(String text, String color, boolean condition) {
+            if(condition) {
+                addColoredText(text, color);
+            } else {
+                addText(text);
+            }
+            return this;
+        }
+
+        public Builder conditionColorText(String text, String color, String color2, boolean condition) {
+            if(condition) {
+                addColoredText(text, color);
+            } else {
+                Stellaris.LOG.error(color2);
+                addColoredText(text, color2);
+            }
+            return this;
+        }
+
+        public String toString() {
+            return textBuilder.toString();
+        }
+
+        public WikiEntryTextRenderer build(int maxWidth) {
+            return new WikiEntryTextRenderer(textBuilder.toString(), maxWidth);
+        }
+     }
 }

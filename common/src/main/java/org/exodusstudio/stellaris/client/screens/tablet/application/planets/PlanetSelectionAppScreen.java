@@ -5,7 +5,9 @@ import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
+import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.client.screens.components.Padding;
+import org.exodusstudio.stellaris.client.screens.components.TexturedButton;
 import org.exodusstudio.stellaris.client.screens.components.containers.ScrollableContainer;
 import org.exodusstudio.stellaris.client.screens.tablet.MainTabletScreen;
 import org.exodusstudio.stellaris.client.screens.tablet.application.ApplicationRegistry;
@@ -21,17 +23,33 @@ public class PlanetSelectionAppScreen extends Screen {
 
     private ScrollableContainer container;
     private final MainTabletScreen mainTabletScreen;
+    private TexturedButton teleportButton;
     private Planet selectedPlanet;
+    private final boolean inSpace;
 
     public PlanetSelectionAppScreen(MainTabletScreen mainTabletScreen) {
-        super(Component.literal(""));
+        this(mainTabletScreen, false);
+    }
+
+    public PlanetSelectionAppScreen(MainTabletScreen mainTabletScreen, boolean inSpace) {
+        super(Component.empty());
         this.mainTabletScreen = mainTabletScreen;
+        this.inSpace = inSpace;
     }
 
     @Override
     protected void init() {
         super.init();
         setPlanets();
+
+        this.teleportButton = new TexturedButton(this.getLeftPos() + 165, this.container.getBottom() - 20, 100, 20, btn -> {
+            if (this.selectedPlanet != null && this.inSpace) {
+                Stellaris.LOG.error("Teleporting to planet: {}", this.selectedPlanet.translationKey());
+            }
+        }).tex(IdentifierUtils.guiTexture("tablet/tablet_entry_button"), IdentifierUtils.guiTexture("tablet/tablet_entry_button")).setText(Component.translatable("application.stellaris.planet_selection.teleport_button"));
+        this.teleportButton.visible = this.isTeleportButtonVisible();
+
+        this.addRenderableWidget(this.teleportButton);
     }
 
 
@@ -68,15 +86,15 @@ public class PlanetSelectionAppScreen extends Screen {
 
         int i = 0;
         for(Planet planet : PlanetsData.PLANETS) {
-            this.container.addChild(this, new Button.Builder(Component.translatable(planet.translationKey()), btn -> {
+
+            TexturedButton button = new TexturedButton(container.getX() + 5, (this.getTopPos() + 5) + i * 25, 95, 20, btn -> {
                 this.selectedPlanet = planet;
-            }).size(95, 20)
-                    .pos(container.getX() + 5, (container.getY() + 5) + i * 25)
-                    .build());
+            }).tex(IdentifierUtils.guiTexture("tablet/tablet_entry_button"), IdentifierUtils.guiTexture("tablet/tablet_entry_button")).setText(Component.translatable(planet.translationKey()));
+            this.container.addChild(this, button);
             i++;
         }
 
-        container.setContentHeight(20 * 25)
+        container.setContentHeight(i * 25)
                 .setBackground(IdentifierUtils.guiTexture("tablet/tablet_entries_background"));
         this.addRenderableWidget(container);
     }
@@ -86,8 +104,9 @@ public class PlanetSelectionAppScreen extends Screen {
      * @param guiGraphics The GuiGraphics object used for rendering the planet information.
      */
     public void renderPlanetInfo(GuiGraphics guiGraphics) {
-        if (this.selectedPlanet != null) {
 
+        this.teleportButton.visible = this.isTeleportButtonVisible();
+        if (this.selectedPlanet != null) {
 
             //guiGraphics.blit(RenderPipelines.GUI_TEXTURED, ApplicationScreen.BLANCK_BACKGROUND, this.getLeftPos(), this.getTopPos(), 0, 0, this.mainTabletScreen.getImageWidth(), this.mainTabletScreen.getImageHeight(), this.mainTabletScreen.getImageWidth(),this.mainTabletScreen.getImageHeight());
 
@@ -104,16 +123,16 @@ public class PlanetSelectionAppScreen extends Screen {
     public void renderInfo(GuiGraphics guiGraphics, int x, int y) {
         if(this.selectedPlanet == null) return;
 
-        StringBuilder sb = new StringBuilder();
-        sb.append("----- Planet Info -----").append("[br] ");
-        sb.append("Planet: ").append(this.selectedPlanet.translationKey()).append("[br] ");
-        sb.append("Dimension: ").append(this.selectedPlanet.dimension().toString()).append("[br] ");
-        sb.append("Gravity: ").append(this.selectedPlanet.gravity()).append(" m/s²").append("[br] ");
-        sb.append("Has Oxygen: ").append(this.selectedPlanet.hasOxygen() ? "Yes" : "No").append("[br] ");
-        sb.append("-----------------------");
+        WikiEntryTextRenderer.Builder builder = new WikiEntryTextRenderer.Builder();
 
-        WikiEntryTextRenderer textRenderer =  new WikiEntryTextRenderer(sb.toString(), 300);
-        textRenderer.renderWords(guiGraphics, x, y, 0, 0, (s) -> {});
+        builder.addText("----- Planet Info -----").breakL();
+        builder.addText("Planet:").addText(this.selectedPlanet.translationKey()).breakL();
+        builder.addText("Dimension: ").addText(this.selectedPlanet.dimension().toString()).breakL();
+        builder.addText("Gravity:").addText(this.selectedPlanet.gravity()).addText("m/s²").breakL();
+        builder.addText("Has Oxygen:").conditionColorText(this.selectedPlanet.hasOxygen() ? "Yes" : "No", "green", "red", this.selectedPlanet.hasOxygen()).breakL();
+        builder.addText("-----------------------");
+
+        builder.build(300).renderWords(guiGraphics, x, y, 0, 0, (s) -> {});
     }
 
     public int getLeftPos() {
@@ -122,5 +141,13 @@ public class PlanetSelectionAppScreen extends Screen {
 
     public int getTopPos() {
         return this.mainTabletScreen.getTopPos();
+    }
+
+    /**
+     * The teleport button should only be visible if a planet is selected and the player is in space. This method checks those conditions and returns true if the button should be visible, false otherwise.
+     * @return true if the teleport button should be visible, false otherwise.
+     */
+    public boolean isTeleportButtonVisible() {
+        return (this.selectedPlanet != null) && this.inSpace;
     }
 }
