@@ -1,11 +1,11 @@
 package org.exodusstudio.stellaris.client.screens.tablet.application.planets;
 
+import dev.architectury.networking.NetworkManager;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
-import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.client.screens.components.Padding;
 import org.exodusstudio.stellaris.client.screens.components.TexturedButton;
 import org.exodusstudio.stellaris.client.screens.components.containers.ScrollableContainer;
@@ -16,6 +16,7 @@ import org.exodusstudio.stellaris.client.utils.WikiEntryTextRenderer;
 import org.exodusstudio.stellaris.common.data.Planet;
 import org.exodusstudio.stellaris.common.data.PlanetsData;
 import org.exodusstudio.stellaris.common.menus.MainTabletMenu;
+import org.exodusstudio.stellaris.common.network.packets.TeleportToPlanetPacket;
 import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
 import org.exodusstudio.stellaris.common.utils.Utils;
 
@@ -28,13 +29,14 @@ public class PlanetSelectionAppScreen extends Screen {
     private final boolean inSpace;
 
     public PlanetSelectionAppScreen(MainTabletScreen mainTabletScreen) {
-        this(mainTabletScreen, false);
+        this(mainTabletScreen, true /* TODO: change this depending if we open this with the rocket */);
     }
 
     public PlanetSelectionAppScreen(MainTabletScreen mainTabletScreen, boolean inSpace) {
         super(Component.empty());
         this.mainTabletScreen = mainTabletScreen;
         this.inSpace = inSpace;
+        Utils.startFade(Minecraft.getInstance().player);
     }
 
     @Override
@@ -43,8 +45,8 @@ public class PlanetSelectionAppScreen extends Screen {
         setPlanets();
 
         this.teleportButton = new TexturedButton(this.getLeftPos() + 165, this.container.getBottom() - 20, 100, 20, btn -> {
-            if (this.selectedPlanet != null && this.inSpace) {
-                Stellaris.LOG.error("Teleporting to planet: {}", this.selectedPlanet.translationKey());
+            if (this.selectedPlanet != null && this.inSpace && this.canTeleportToPlanet()) {
+                NetworkManager.sendToServer(new TeleportToPlanetPacket(this.selectedPlanet));
             }
         }).tex(IdentifierUtils.guiTexture("tablet/tablet_entry_button"), IdentifierUtils.guiTexture("tablet/tablet_entry_button")).setText(Component.translatable("application.stellaris.planet_selection.teleport_button"));
         this.teleportButton.visible = this.isTeleportButtonVisible();
@@ -149,5 +151,14 @@ public class PlanetSelectionAppScreen extends Screen {
      */
     public boolean isTeleportButtonVisible() {
         return (this.selectedPlanet != null) && this.inSpace;
+    }
+
+    /**
+     * Checks if the player can teleport to the selected planet..
+     * @return true if the player can teleport to the selected planet, false otherwise.
+     */
+    public boolean canTeleportToPlanet(){
+        //TODO: create the real check for teleportation, this is just a placeholder that always returns true.
+        return true;
     }
 }

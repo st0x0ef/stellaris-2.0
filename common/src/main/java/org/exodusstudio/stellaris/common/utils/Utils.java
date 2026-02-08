@@ -1,5 +1,7 @@
 package org.exodusstudio.stellaris.common.utils;
 
+import dev.architectury.networking.NetworkManager;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.ARGB;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -7,6 +9,9 @@ import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
+import org.exodusstudio.stellaris.client.overlays.FadingHolder;
+import org.exodusstudio.stellaris.common.network.NetworkRegistry;
+import org.exodusstudio.stellaris.common.network.packets.StartFadePacket;
 import org.exodusstudio.stellaris.common.registries.TagsRegistry;
 
 import java.util.Random;
@@ -98,6 +103,24 @@ public class Utils {
         }
 
         return count;
+    }
+
+    public static void startFade(Player player) {
+        var fadingHolder = new FadingHolder(true, 0);
+        if(player instanceof ServerPlayer serverPlayer) {
+            NetworkManager.sendToPlayer(serverPlayer, new StartFadePacket(fadingHolder));
+        } else {
+            player.saveDataAttachments(IdentifierUtils.id("player_fade"), fadingHolder);
+        }
+    }
+
+    public static void stopFade(Player player) {
+        var fadingHolder = new FadingHolder(false, 1);
+        if(player instanceof ServerPlayer serverPlayer) {
+            NetworkManager.sendToPlayer(serverPlayer, new StartFadePacket(fadingHolder));
+        } else {
+            player.saveDataAttachments(IdentifierUtils.id("player_fade"), fadingHolder);
+        }
     }
 
 }

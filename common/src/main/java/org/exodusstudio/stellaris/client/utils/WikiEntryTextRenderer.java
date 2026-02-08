@@ -259,7 +259,6 @@ public class WikiEntryTextRenderer {
             if(condition) {
                 addColoredText(text, color);
             } else {
-                Stellaris.LOG.error(color2);
                 addColoredText(text, color2);
             }
             return this;

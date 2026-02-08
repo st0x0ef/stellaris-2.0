@@ -36,6 +36,7 @@ public interface NetworkRegistry {
         registerS2C(SyncGravityManipulatorDataPacketS2C.TYPE_S2C, SyncGravityManipulatorDataPacketS2C.STREAM_CODEC, SyncGravityManipulatorDataPacketS2C::handle);
         registerC2S(SyncGravityManipulatorDataPacketC2S.TYPE_C2S, SyncGravityManipulatorDataPacketC2S.STREAM_CODEC, SyncGravityManipulatorDataPacketC2S::handle);
         registerC2S(AwardStatPacket.TYPE, AwardStatPacket.STREAM_CODEC, AwardStatPacket::handle);
+        registerC2S(TeleportToPlanetPacket.TYPE, TeleportToPlanetPacket.STREAM_CODEC, TeleportToPlanetPacket::handle);
 
     }
 
