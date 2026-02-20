@@ -22,7 +22,9 @@ import org.exodusstudio.stellaris.common.data.PlanetsData;
 import org.exodusstudio.stellaris.common.menus.MainTabletMenu;
 import org.exodusstudio.stellaris.common.network.packets.StartFadePacket;
 import org.exodusstudio.stellaris.common.registries.DataComponentsRegistry;
+import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
 import org.exodusstudio.stellaris.common.utils.PlanetUtil;
+import org.exodusstudio.stellaris.common.utils.Utils;
 
 public class StellarisCommands {
 
@@ -152,6 +154,16 @@ public class StellarisCommands {
                         .addSubCommand(builder.createSubCommand("unfade")
                                 .execute((context) -> {
                                     NetworkManager.sendToPlayer(context.getPlayer(), new StartFadePacket(new FadingHolder(false, 1f)));
+                                    return context.success();
+                                })
+                        )
+                        .addSubCommand(builder.createSubCommand("afterfade")
+                                .execute(context -> {
+
+                                    Utils.executeWithFade(context.getPlayer(), () -> {
+                                        MenuRegistry.openExtendedMenu(context.getPlayer(), MainTabletMenu.createProvider(IdentifierUtils.id("applications/planet_selection")));
+                                    }, true);
+
                                     return context.success();
                                 })
                         )

@@ -6,6 +6,7 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
+import org.exodusstudio.stellaris.client.overlays.FadingHolder;
 import org.exodusstudio.stellaris.client.screens.components.Padding;
 import org.exodusstudio.stellaris.client.screens.components.TexturedButton;
 import org.exodusstudio.stellaris.client.screens.components.containers.ScrollableContainer;
@@ -36,7 +37,7 @@ public class PlanetSelectionAppScreen extends Screen {
         super(Component.empty());
         this.mainTabletScreen = mainTabletScreen;
         this.inSpace = inSpace;
-        Utils.startFade(Minecraft.getInstance().player);
+
     }
 
     @Override
@@ -160,5 +161,15 @@ public class PlanetSelectionAppScreen extends Screen {
     public boolean canTeleportToPlanet(){
         //TODO: create the real check for teleportation, this is just a placeholder that always returns true.
         return true;
+    }
+
+    @Override
+    public void onClose() {
+        FadingHolder fadingHolder = mainTabletScreen.player.getDataAttachments(IdentifierUtils.id("player_fade"), FadingHolder.class);
+
+        if(fadingHolder != null && fadingHolder.fadeAmount() == 1.0f) {
+            Utils.stopFade(mainTabletScreen.player);
+        }
+        super.onClose();
     }
 }

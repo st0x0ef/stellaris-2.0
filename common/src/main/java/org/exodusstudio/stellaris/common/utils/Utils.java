@@ -123,4 +123,18 @@ public class Utils {
         }
     }
 
+    // Executes the given action after a 2-second delay, with a fade effect for the player.
+    public static void executeWithFade(Player player, Runnable action, boolean startFade) {
+        if(startFade) startFade(player);
+        else stopFade(player);
+        player.level().getServer().execute(() -> {
+            try {
+                Thread.sleep(2000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            action.run();
+        });
+    }
+
 }
