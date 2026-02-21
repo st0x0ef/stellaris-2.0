@@ -50,6 +50,11 @@ public class MainTabletMenu extends AbstractContainerMenu {
         return createProvider(null);
     }
 
+    /**
+     * Use this method to create the tablet and optionally specify the application to open.
+     * @param identifier the identifier to a registered application, if null it will just open the tablet without any application
+     * @return an ExtendedMenuProvider that can be used to open the tablet
+     */
     public static ExtendedMenuProvider createProvider(@Nullable
                                                       Identifier identifier) {
         return new ExtendedMenuProvider() {
