@@ -10,6 +10,7 @@ import org.exodusstudio.stellaris.client.screens.components.TexturedButton;
 import org.exodusstudio.stellaris.client.screens.components.wiki.WikiInfosWidget;
 import org.exodusstudio.stellaris.client.screens.tablet.MainTabletScreen;
 import org.exodusstudio.stellaris.client.screens.tablet.application.ApplicationScreen;
+import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
 import org.exodusstudio.stellaris.common.utils.Utils;
 import org.lwjgl.glfw.GLFW;
 
@@ -45,7 +46,9 @@ public class WikiEntryScreen extends Screen {
         int wikiEntryX = this.getLeftPos() + 40;
         int wikiEntryY = this.getTopPos() + 45;
 
-        this.addRenderableWidget(new TexturedButton(wikiEntryX - 18,  wikiEntryY - 18, 16, 16, (b) -> this.minecraft.setScreen(this.wikiState.toScreen(this.tabletScreen))));
+        this.addRenderableWidget(new TexturedButton(wikiEntryX - 18,  wikiEntryY - 18, 16, 16,
+                (b) -> this.minecraft.setScreen(this.wikiState.toScreen(this.tabletScreen)))
+                .tex(IdentifierUtils.texture("gui/tablet/back_page"), IdentifierUtils.texture("gui/tablet/back_page_hover")));
 
         this.widget = new WikiInfosWidget(wikiEntryX,  wikiEntryY,230, 128, this.info);
         this.addRenderableWidget(this.widget);

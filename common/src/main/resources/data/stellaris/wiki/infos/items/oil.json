@@ -1,0 +1,30 @@
+{
+  "components": [
+    {
+      "type": "text",
+      "text": "Oil is the [color=yellow]base [color]for traveling in space."
+    },
+    {
+      "type": "item",
+      "item": {
+        "scale": 4,
+        "stack": {
+          "count": 1,
+          "id": "stellaris:oil_bucket"
+        }
+      }
+    },
+    {
+      "type": "text",
+      "text": "You can find oil in chunk with the [ref=stellaris:items/oil_finder]Oil Finder [ref]. [br] You can then use it to create diesel fuel, which is required to power the rocket and explore space."
+    },
+    {
+      "type": "text",
+      "text": "When you find oil in a chunk, you can extract it with a [ref=stellaris:machines/pumpjack]Pumpjack [ref]."
+    }
+  ],
+  "iconType": "item",
+  "id": "stellaris:oil",
+  "entryId": "stellaris:items",
+  "title": "Oil"
+}
