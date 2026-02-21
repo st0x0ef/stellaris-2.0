@@ -23,7 +23,7 @@
       ],
       "object_rotation": [
         0.0,
-        0.0,
+        180.0,
         0.0
       ],
       "height": 100,
@@ -31,6 +31,23 @@
       "texture": "stellaris:earth",
       "blend": false,
       "size": 40.0
+    },
+    {
+      "rotation": [
+        100.0,
+        0.0,
+        100.0
+      ],
+      "object_rotation": [
+        0.0,
+        180.0,
+        0.0
+      ],
+      "height": 100,
+      "rotation_type": "DAY",
+      "texture": "sun",
+      "blend": true,
+      "size": 50.0
     }
   ]
 }

@@ -26,5 +26,8 @@
   "min_height": 0,
   "ambiant_light": 0.1,
   "infiniburn": "#stellaris:infiniburn_moon",
-  "effects": "minecraft:the_end"
+  "effects": "minecraft:the_end",
+  "timelines": [
+    "stellaris:moon"
+  ]
 }
