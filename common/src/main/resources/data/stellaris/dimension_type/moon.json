@@ -2,13 +2,18 @@
   "ultrawarm": true,
   "natural": true,
   "coordinate_scale": 1,
-  "has_skylight": false,
+  "has_skylight": true,
   "has_ceiling": false,
   "ambient_light": 0,
   "monster_spawn_light_level": {
     "type": "minecraft:uniform",
     "max_inclusive": 7,
     "min_inclusive": 0
+  },
+  "attrbitues": {
+    "minecraft:visual/sky_light_color": "#7a7aff",
+    "minecraft:visual/sky_color": "#D09EFF"
+
   },
   "min_y": 0,
   "monster_spawn_block_light_limit": 0,
@@ -19,6 +24,7 @@
   "height": 256,
   "logical_height": 256,
   "min_height": 0,
+  "ambiant_light": 0.1,
   "infiniburn": "#stellaris:infiniburn_moon",
   "effects": "minecraft:the_end"
 }
