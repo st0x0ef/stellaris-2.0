@@ -5,12 +5,22 @@
       "text": "The [color=yellow]Pumpjack [color]is the machine that allow you to extract oil from the ground. It is an essential machine for space exploration, as oil is required to create diesel fuel, which powers the rocket."
     },
     {
+      "type": "image",
+      "image": {
+        "location": "stellaris:textures/wiki/rendered_blocks/pumpjack",
+        "width": 96,
+        "height": 96,
+        "legend": "Pumpjack"
+      }
+    },
+    {
       "type": "item",
       "item": {
         "stack": {
           "count": 1,
           "id": "stellaris:pumpjack"
-        }
+        },
+        "onlyIcon": true
       }
     },
     {

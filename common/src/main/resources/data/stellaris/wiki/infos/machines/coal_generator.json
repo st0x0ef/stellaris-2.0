@@ -23,9 +23,10 @@
         "stack": {
           "count": 1,
           "id": "stellaris:coal_generator"
-        }
-      },
-      "onlyIcon": true
+        },
+        "onlyIcon": true
+      }
+
     }
   ],
   "iconType": "item",
