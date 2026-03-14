@@ -1,10 +1,14 @@
 package org.exodusstudio.stellaris.common.blocks.entities.machines.base;
 
+import com.fej1fun.potentials.fluid.UniversalFluidStorage;
 import com.fej1fun.potentials.providers.FluidProvider;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import org.exodusstudio.stellaris.common.fluid.SingleFluidStorage;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.List;
 
 /**
  * Base class for block entities that have an energy storage and an inventory.
@@ -19,4 +23,7 @@ public abstract class BaseFluidContainerBlockEntity extends BaseEnergyContainerB
         super(type, pos, state, initialMaxCapacity);
         this.resultTank = resultTank;
     }
+
+
+
 }

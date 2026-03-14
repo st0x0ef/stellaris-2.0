@@ -16,7 +16,7 @@ public abstract class BasicContainer extends AbstractWidget {
     public BasicContainer(int baseX, int baseY, int width, int height, AbstractWidget ...children) {
         super(baseX, baseY, width, height, Component.empty());
         this.children = new ArrayList<>(Arrays.asList(children));
-        this.children = addDefaultChildren(this.children);
+        //this.children = addDefaultChildren(this.children);
     }
 
     public BasicContainer(int baseX, int baseY, int width, int height) {
@@ -27,11 +27,10 @@ public abstract class BasicContainer extends AbstractWidget {
      * Override this method to add default children to the container.
      * This can be useful for making moveable window.
      *
-     * @param children The list of children to which default widgets can be added. Contains existing added via the constructor.
      * @return The modified list of children with default widgets added.
      */
-    public ArrayList<AbstractWidget> addDefaultChildren(ArrayList<AbstractWidget> children) {
-        return children;
+    public BasicContainer addDefaultChildren() {
+        return this;
     }
 
     @Override

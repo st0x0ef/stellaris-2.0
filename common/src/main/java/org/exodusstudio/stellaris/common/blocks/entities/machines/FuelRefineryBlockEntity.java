@@ -17,6 +17,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 import org.exodusstudio.stellaris.common.blocks.entities.machines.base.BaseEnergyContainerBlockEntity;
+import org.exodusstudio.stellaris.common.blocks.entities.machines.base.FluidOutputable;
 import org.exodusstudio.stellaris.common.data.recipe.FuelRefineryRecipe;
 import org.exodusstudio.stellaris.common.data.recipe.input.FluidInput;
 import org.exodusstudio.stellaris.common.fluid.FluidUtil;
@@ -32,7 +33,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 import java.util.Optional;
 
-public class FuelRefineryBlockEntity extends BaseEnergyContainerBlockEntity implements FluidProvider.BLOCK {
+public class FuelRefineryBlockEntity extends BaseEnergyContainerBlockEntity implements FluidOutputable {
 
     private final SingleFluidStorage inputTank;
     private final SingleFluidStorage outputFuelTank;
