@@ -77,6 +77,7 @@ public final class BlocksRegistry {
 
     // CABLES/PIPES
     public static final BlockItemRegistrySupplier CABLE_T1 = blockWithItem("cable_t1", BlockBehaviour.Properties.of(), (p) -> new CableBlock(p, 20));
+    public static final BlockItemRegistrySupplier T1_PIPE = blockWithItem("pipe_t1", BlockBehaviour.Properties.ofFullCopy(Blocks.IRON_CHAIN), (p) -> new PipeBlock(p, 1000, 250, 250));
 
     // TECH
     public static final BlockItemRegistrySupplier ELECTROLYZER = blockWithCustomItem("electrolyzer", BlockBehaviour.Properties.of(), ElectrolyzerBlock::new, new Item.Properties(), BlockItem::new);
