@@ -18,9 +18,10 @@ import org.exodusstudio.stellaris.client.screens.*;
 import org.exodusstudio.stellaris.client.screens.rocket_station.RocketStationScreen;
 import org.exodusstudio.stellaris.client.screens.rocket_station.RocketUpgraderScreen;
 import org.exodusstudio.stellaris.client.screens.tablet.MainTabletScreen;
-import org.exodusstudio.stellaris.client.screens.tablet.application.planets.PlanetSelectionAppScreen;
 import org.exodusstudio.stellaris.client.screens.tablet.application.sd.SDCardReaderApplicationScreen;
+import org.exodusstudio.stellaris.client.screens.tablet.application.wiki.WikiApplicationScreen;
 import org.exodusstudio.stellaris.common.blocks.entities.machines.GravityManipulatorBlockEntity;
+import org.exodusstudio.stellaris.common.menus.WikiApplicationMenu;
 import org.exodusstudio.stellaris.common.registries.BlockEntitiesRegistry;
 import org.exodusstudio.stellaris.common.registries.EntityTypesRegistry;
 import org.exodusstudio.stellaris.common.registries.MenuTypesRegistry;
@@ -37,6 +38,10 @@ public final class StellarisFabricClient implements ClientModInitializer {
     private void registerScreens() {
         MenuScreenRegistry.registerScreenFactory(MenuTypesRegistry.TABLET.get(), MainTabletScreen::new);
         MenuScreenRegistry.registerScreenFactory(MenuTypesRegistry.SD_CARD_READER.get(), SDCardReaderApplicationScreen::new);
+        MenuScreenRegistry.registerScreenFactory(
+                MenuTypesRegistry.WIKI.get(),
+                (MenuScreenRegistry.ScreenFactory<WikiApplicationMenu, WikiApplicationScreen>) WikiApplicationScreen::new
+        );
 
         MenuScreenRegistry.registerScreenFactory(MenuTypesRegistry.SOLAR_PANEL.get(), SolarPanelScreen::new);
         MenuScreenRegistry.registerScreenFactory(MenuTypesRegistry.COAL_GENERATOR.get(), CoalGeneratorScreen::new);

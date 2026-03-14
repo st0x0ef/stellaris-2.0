@@ -10,6 +10,7 @@ import org.exodusstudio.stellaris.client.screens.components.TexturedButton;
 import org.exodusstudio.stellaris.client.screens.components.wiki.WikiInfosWidget;
 import org.exodusstudio.stellaris.client.screens.tablet.MainTabletScreen;
 import org.exodusstudio.stellaris.client.screens.tablet.application.ApplicationScreen;
+import org.exodusstudio.stellaris.common.menus.WikiApplicationMenu;
 import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
 import org.exodusstudio.stellaris.common.utils.Utils;
 import org.lwjgl.glfw.GLFW;
@@ -22,12 +23,12 @@ public class WikiEntryScreen extends Screen {
 
     public EntryInfo info;
     public WikiInfosWidget widget;
-    public MainTabletScreen tabletScreen;
+    public WikiApplicationScreen wikiApplicationScreen;
     public WikiApplicationScreen.WikiState wikiState;
 
-    protected WikiEntryScreen(MainTabletScreen tabletScreen, WikiApplicationScreen.WikiState wikiState, EntryInfo info) {
+    protected WikiEntryScreen(WikiApplicationScreen wikiApplicationScreen, WikiApplicationScreen.WikiState wikiState, EntryInfo info) {
         super(Component.literal(info.title()));
-        this.tabletScreen = tabletScreen;
+        this.wikiApplicationScreen = wikiApplicationScreen;
         this.info = info;
         this.wikiState = wikiState;
     }
@@ -47,7 +48,7 @@ public class WikiEntryScreen extends Screen {
         int wikiEntryY = this.getTopPos() + 45;
 
         this.addRenderableWidget(new TexturedButton(wikiEntryX - 18,  wikiEntryY - 18, 16, 16,
-                (b) -> this.minecraft.setScreen(this.wikiState.toScreen(this.tabletScreen)))
+                (b) -> this.minecraft.setScreen(this.wikiState.toScreen(wikiApplicationScreen)))
                 .tex(IdentifierUtils.texture("gui/tablet/back_page"), IdentifierUtils.texture("gui/tablet/back_page_hover")));
 
         this.widget = new WikiInfosWidget(wikiEntryX,  wikiEntryY,230, 128, this.info);
@@ -57,14 +58,14 @@ public class WikiEntryScreen extends Screen {
 
     @Override
     public void resize(int width, int height) {
-        this.tabletScreen.init(width, height);
+        this.wikiApplicationScreen.resize(width, height);
         super.resize(width, height);
     }
 
     @Override
     public void renderBackground(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
         super.renderBackground(guiGraphics, mouseX, mouseY, partialTick);
-        guiGraphics.blit(RenderPipelines.GUI_TEXTURED, ApplicationScreen.BLANCK_BACKGROUND, this.getLeftPos(), this.getTopPos(), 0, 0, this.tabletScreen.getImageWidth(), this.tabletScreen.getImageHeight(), this.tabletScreen.getImageWidth(),this.tabletScreen.getImageHeight());
+        guiGraphics.blit(RenderPipelines.GUI_TEXTURED, ApplicationScreen.BLANCK_BACKGROUND, this.getLeftPos(), this.getTopPos(), 0, 0, wikiApplicationScreen.getImageWidth(), this.wikiApplicationScreen.getImageHeight(), this.wikiApplicationScreen.getImageWidth(),this.wikiApplicationScreen.getImageHeight());
 
     }
 
@@ -78,19 +79,19 @@ public class WikiEntryScreen extends Screen {
     @Override
     public boolean keyPressed(KeyEvent event) {
         if(event.key() == GLFW.GLFW_KEY_ESCAPE) {
-            this.minecraft.setScreen(this.wikiState.toScreen(this.tabletScreen));
-            return true;
+            this.minecraft.setScreen(this.wikiState.toScreen(this.wikiApplicationScreen));
+            //return true;
         }
 
         return super.keyPressed(event);
     }
 
     public int getLeftPos() {
-        return this.tabletScreen.getLeftPos();
+        return this.wikiApplicationScreen.getLeftPos();
     }
 
     public int getTopPos() {
-        return this.tabletScreen.getTopPos();
+        return this.wikiApplicationScreen.getTopPos();
     }
 
 }

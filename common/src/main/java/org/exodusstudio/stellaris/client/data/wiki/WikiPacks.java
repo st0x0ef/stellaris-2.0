@@ -15,7 +15,7 @@ public class WikiPacks {
 
     public static ArrayList<WikiEntry> ENTRIES = new ArrayList<>();
 
-    public static Map<Identifier, EntryInfo> ENTRY_COMPONENTS = new HashMap<>();
+    public static HashMap<Identifier, EntryInfo> ENTRY_COMPONENTS = new HashMap<>();
 
 
     public static class WikiEntryPack extends SimpleJsonResourceReloadListener<WikiEntry> {

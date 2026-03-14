@@ -16,6 +16,7 @@ public class MenuTypesRegistry {
 
     public static final RegistrySupplier<MenuType<MainTabletMenu>> TABLET = MENU_TYPE.register("tablet", () -> MenuRegistry.ofExtended(MainTabletMenu::new));
     public static final RegistrySupplier<MenuType<SDCardReaderApplicationMenu>> SD_CARD_READER = MENU_TYPE.register("sd_card_reader", () -> MenuRegistry.ofExtended(SDCardReaderApplicationMenu::create));
+    public static final RegistrySupplier<MenuType<WikiApplicationMenu>> WIKI = MENU_TYPE.register("wiki", () -> MenuRegistry.ofExtended(WikiApplicationMenu::create));
 
     public static final RegistrySupplier<MenuType<SolarPanelMenu>> SOLAR_PANEL = MENU_TYPE.register("solar_panel", () -> MenuRegistry.ofExtended(SolarPanelMenu::create));
     public static final RegistrySupplier<MenuType<CoalGeneratorMenu>> COAL_GENERATOR = MENU_TYPE.register("coal_generator", () -> MenuRegistry.ofExtended(CoalGeneratorMenu::create));

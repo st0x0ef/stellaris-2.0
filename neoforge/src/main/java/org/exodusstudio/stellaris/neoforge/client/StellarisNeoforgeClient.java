@@ -21,7 +21,9 @@ import org.exodusstudio.stellaris.client.screens.rocket_station.RocketStationScr
 import org.exodusstudio.stellaris.client.screens.rocket_station.RocketUpgraderScreen;
 import org.exodusstudio.stellaris.client.screens.tablet.MainTabletScreen;
 import org.exodusstudio.stellaris.client.screens.tablet.application.sd.SDCardReaderApplicationScreen;
+import org.exodusstudio.stellaris.client.screens.tablet.application.wiki.WikiApplicationScreen;
 import org.exodusstudio.stellaris.common.blocks.entities.machines.GravityManipulatorBlockEntity;
+import org.exodusstudio.stellaris.common.menus.WikiApplicationMenu;
 import org.exodusstudio.stellaris.common.registries.BlockEntitiesRegistry;
 import org.exodusstudio.stellaris.common.registries.EntityTypesRegistry;
 import org.exodusstudio.stellaris.common.registries.MenuTypesRegistry;
@@ -37,6 +39,7 @@ public class StellarisNeoforgeClient {
     public static void registerScreen(RegisterMenuScreensEvent event) {
         event.register(MenuTypesRegistry.TABLET.get(), MainTabletScreen::new);
         event.register(MenuTypesRegistry.SD_CARD_READER.get(), SDCardReaderApplicationScreen::new);
+        event.register(MenuTypesRegistry.WIKI.get(), WikiApplicationScreen::new);
 
         event.register(MenuTypesRegistry.SOLAR_PANEL.get(), SolarPanelScreen::new);
         event.register(MenuTypesRegistry.COAL_GENERATOR.get(), CoalGeneratorScreen::new);

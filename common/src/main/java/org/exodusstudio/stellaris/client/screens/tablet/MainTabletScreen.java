@@ -35,7 +35,6 @@ public class MainTabletScreen extends AbstractContainerScreen<MainTabletMenu> {
     public final Inventory inventory;
 
 
-
     public MainTabletScreen(MainTabletMenu menu, Inventory playerInventory, Component title) {
 
         super(menu, playerInventory, title);
@@ -47,10 +46,7 @@ public class MainTabletScreen extends AbstractContainerScreen<MainTabletMenu> {
         this.inventory = playerInventory;
         this.inventoryLabelY = -this.imageHeight;
         this.titleLabelY = -this.imageHeight;
-
-
-
-    }
+  }
 
     @Override
     protected void init() {
@@ -110,7 +106,6 @@ public class MainTabletScreen extends AbstractContainerScreen<MainTabletMenu> {
         if(nextScreen != null) {
             ApplicationRegistry.ApplicationFactory<?> infos = ApplicationRegistry.getApplications().get(nextScreen);
             if (infos != null) {
-                Stellaris.LOG.error("Opening nss sext screen: " + nextScreen);
 
                 Screen screen = infos.createScreen(this.createMenuHolder());
                 if (screen != null) {
