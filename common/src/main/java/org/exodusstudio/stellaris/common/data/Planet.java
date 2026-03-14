@@ -2,11 +2,16 @@ package org.exodusstudio.stellaris.common.data;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.Level;
+import org.exodusstudio.stellaris.common.module.rocket.RocketModules;
+import org.exodusstudio.stellaris.common.network.packets.SyncRocketModule;
 
 public record Planet(String translationKey, Identifier dimension, double gravity, boolean hasOxygen) {
     public static final Codec<Planet> CODEC = RecordCodecBuilder.create(instance -> instance.group(
@@ -16,6 +21,15 @@ public record Planet(String translationKey, Identifier dimension, double gravity
         Codec.BOOL.fieldOf("has_oxygen").forGetter(Planet::hasOxygen))
             .apply(instance, Planet::new)
     );
+
+    public static final StreamCodec<RegistryFriendlyByteBuf, Planet> STREAM_CODEC = StreamCodec.composite(
+            ByteBufCodecs.STRING_UTF8, Planet::translationKey,
+            Identifier.STREAM_CODEC, Planet::dimension,
+            ByteBufCodecs.DOUBLE, Planet::gravity,
+            ByteBufCodecs.BOOL, Planet::hasOxygen,
+            Planet::new
+    );
+
 
     public boolean is(ServerLevel level) {
         return is(level.dimension());
@@ -43,4 +57,6 @@ public record Planet(String translationKey, Identifier dimension, double gravity
         sb.append("-----------------------");
         return Component.literal(sb.toString());
     }
+
+
 }

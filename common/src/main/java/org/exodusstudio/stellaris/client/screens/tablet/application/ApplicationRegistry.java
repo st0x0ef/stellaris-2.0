@@ -7,6 +7,7 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import org.exodusstudio.stellaris.client.screens.tablet.MainTabletScreen;
+import org.exodusstudio.stellaris.client.screens.tablet.application.planets.PlanetSelectionAppScreen;
 import org.exodusstudio.stellaris.client.screens.tablet.application.sd.SDCardReaderApplicationScreen;
 import org.exodusstudio.stellaris.client.screens.tablet.application.stats.StatsApplicationScreen;
 import org.exodusstudio.stellaris.client.screens.tablet.application.wiki.WikiApplicationScreen;
@@ -52,6 +53,17 @@ public class ApplicationRegistry {
             )
     );
 
+    public static ApplicationFactory<MainTabletMenu> PLANET_SELECTION = register(
+            Identifier.parse("stellaris:applications/planet_selection"),
+            new ApplicationFactory<>(
+                    Component.translatable("application.stellaris.planet_selection.name"),
+                    Component.translatable("application.stellaris.planet_selection.description"),
+                    IdentifierUtils.id("icon/planet_selection_app"),
+                    IdentifierUtils.id("icon/planet_selection_app_hover"),
+                    PlanetSelectionAppScreen::create
+            )
+    );
+
     public static ApplicationFactory<MainTabletMenu> STATS = register(
             Identifier.parse("stellaris:applications/stats"),
             new ApplicationFactory<>(
@@ -59,7 +71,6 @@ public class ApplicationRegistry {
                     Component.translatable("application.stellaris.stats.description"),
                     IdentifierUtils.id("icon/stats_app"),
                     IdentifierUtils.id("icon/stats_app_hover"),
-
                     StatsApplicationScreen::create
             )
     );

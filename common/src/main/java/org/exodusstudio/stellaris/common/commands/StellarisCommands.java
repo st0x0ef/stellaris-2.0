@@ -3,6 +3,7 @@ package org.exodusstudio.stellaris.common.commands;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
+import dev.architectury.networking.NetworkManager;
 import dev.architectury.registry.menu.MenuRegistry;
 import net.minecraft.commands.CommandBuildContext;
 import net.minecraft.commands.CommandSourceStack;
@@ -12,13 +13,18 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.chunk.ChunkAccess;
 import org.exodusstudio.stellaris.Stellaris;
 
+import org.exodusstudio.stellaris.client.overlays.FadingHolder;
 import org.exodusstudio.stellaris.common.commands.arguments.PlanetArgument;
 import org.exodusstudio.stellaris.common.commands.helpers.ArgumentBuilder;
 import org.exodusstudio.stellaris.common.commands.helpers.CommandBuilder;
 import org.exodusstudio.stellaris.common.data.Planet;
 import org.exodusstudio.stellaris.common.data.PlanetsData;
 import org.exodusstudio.stellaris.common.menus.MainTabletMenu;
+import org.exodusstudio.stellaris.common.network.packets.StartFadePacket;
+import org.exodusstudio.stellaris.common.registries.DataComponentsRegistry;
+import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
 import org.exodusstudio.stellaris.common.utils.PlanetUtil;
+import org.exodusstudio.stellaris.common.utils.Utils;
 
 public class StellarisCommands {
 
@@ -26,6 +32,7 @@ public class StellarisCommands {
         CommandBuilder builder = CommandBuilder.of(dispatcher, "stellaris").permission(2);
         screenCommand(builder);
         planetsCommand(builder);
+        testCommand(builder);
         builder.register();
     }
 
@@ -132,5 +139,34 @@ public class StellarisCommands {
         );
 
         builder.addSubCommand(infoNoArg);
+    }
+
+    private void testCommand(CommandBuilder builder) {
+        builder.addSubCommand(
+                builder.createSubCommand("test")
+                        .addSubCommand(builder.createSubCommand("fade")
+                                .execute((context) -> {
+
+                                    NetworkManager.sendToPlayer(context.getPlayer(), new StartFadePacket(new FadingHolder(true, 0f)));
+                                    return context.success();
+                                })
+                        )
+                        .addSubCommand(builder.createSubCommand("unfade")
+                                .execute((context) -> {
+                                    NetworkManager.sendToPlayer(context.getPlayer(), new StartFadePacket(new FadingHolder(false, 1f)));
+                                    return context.success();
+                                })
+                        )
+                        .addSubCommand(builder.createSubCommand("afterfade")
+                                .execute(context -> {
+
+                                    Utils.executeWithFade(context.getPlayer(), () -> {
+                                        MenuRegistry.openExtendedMenu(context.getPlayer(), MainTabletMenu.createProvider(IdentifierUtils.id("applications/planet_selection")));
+                                    }, true);
+
+                                    return context.success();
+                                })
+                        )
+        );
     }
 }

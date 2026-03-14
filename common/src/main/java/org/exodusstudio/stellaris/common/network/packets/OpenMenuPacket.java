@@ -9,6 +9,7 @@ import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.server.level.ServerPlayer;
+import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.common.menus.MainTabletMenu;
 import org.exodusstudio.stellaris.common.menus.SDCardReaderApplicationMenu;
 import org.exodusstudio.stellaris.common.network.NetworkRegistry;
@@ -32,6 +33,7 @@ public record OpenMenuPacket(String menuId) implements CustomPacketPayload {
 
     public static void handle(OpenMenuPacket packet, NetworkManager.PacketContext context) {
         if (context.getPlayer() instanceof ServerPlayer player) {
+            Stellaris.LOG.error("Received OpenMenuPacket with menuId: " + packet.menuId);
             MenuRegistry.openExtendedMenu(player, MenuType.TYPES.get(packet.menuId).menu);
         }
     }

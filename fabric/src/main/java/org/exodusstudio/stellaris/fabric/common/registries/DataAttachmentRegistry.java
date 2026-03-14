@@ -6,6 +6,7 @@ import net.fabricmc.fabric.api.attachment.v1.AttachmentSyncPredicate;
 import net.fabricmc.fabric.api.attachment.v1.AttachmentType;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.resources.Identifier;
+import org.exodusstudio.stellaris.client.overlays.FadingHolder;
 import org.exodusstudio.stellaris.common.module.Modules;
 import org.exodusstudio.stellaris.common.module.rocket.RocketModule;
 import org.exodusstudio.stellaris.common.module.rocket.RocketModules;
@@ -20,6 +21,7 @@ public class DataAttachmentRegistry {
 
     public static final AttachmentType<Integer> OIL;
     public static final AttachmentType<? extends Modules<RocketModule>> ROCKET_MODULES;
+    public static final AttachmentType<FadingHolder> FADE;
 
     public static void register() {
 
@@ -32,6 +34,15 @@ public class DataAttachmentRegistry {
                         .initializer(() -> 20) // start with a default value like hunger
                         .persistent(Codec.INT) // persist across restarts
                         .syncWith(ByteBufCodecs.INT, AttachmentSyncPredicate.all()) // only the player's own client needs the value for rendering
+        );
+
+
+        FADE = AttachmentRegistry.create(
+                IdentifierUtils.id("player_fade"),
+                builder -> builder
+                        .initializer(() -> new FadingHolder(false, 0)) // start with a default value like hunger
+                        .persistent(FadingHolder.CODEC) // persist across restarts
+                        .syncWith(FadingHolder.STREAM_CODEC, AttachmentSyncPredicate.all()) // only the player's own client needs the value for rendering
         );
 
         ROCKET_MODULES = AttachmentRegistry.create(
