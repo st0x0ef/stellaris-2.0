@@ -246,7 +246,7 @@ public class RocketEntity extends VehicleEntity  {
 
     @Override
     public @NotNull Vec3 getPassengerRidingPosition(Entity entity) {
-        return super.getPassengerRidingPosition(entity).subtract(0, 3f, 0);
+        return super.getPassengerRidingPosition(entity).subtract(0f, 3.75f, 0f); // TODO : replace with the model upgrade offset
     }
 
     @Override

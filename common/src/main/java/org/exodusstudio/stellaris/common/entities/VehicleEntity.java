@@ -358,6 +358,6 @@ public abstract class VehicleEntity extends Entity implements HasCustomInventory
     }
 
     public Pose getRiderPose() {
-        return Pose.SITTING;
+        return Pose.STANDING;
     }
 }
