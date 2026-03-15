@@ -15,6 +15,7 @@ import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 import org.exodusstudio.stellaris.Stellaris;
@@ -85,11 +86,15 @@ public class FuelRefineryBlockEntity extends BaseEnergyContainerBlockEntity impl
         };
 
         this.outputManager = new FluidOutputManager(this);
+
+        this.outputManager.setDefault(
+                new FluidOutputManager.FluidOutputEntry(Direction.NORTH, FluidStack.create(FluidsRegistry.FUEL_STILL.get(), 1)),
+                new FluidOutputManager.FluidOutputEntry(Direction.SOUTH, FluidStack.create(FluidsRegistry.DIESEL_STILL.get(), 1))
+        );
     }
 
     @Override
     public void tick(Level level, BlockState state) {
-        this.outputManager.loadDefaultConfiguration();
 
         FluidUtil.moveFluidFromItem(0, 0, 1, items, inputTank, 1000);
         FluidUtil.moveFluidToItem(0, inputTank, 0, 1, items, 1000);
@@ -187,8 +192,9 @@ public class FuelRefineryBlockEntity extends BaseEnergyContainerBlockEntity impl
     }
 
 
-    public List<UniversalFluidStorage> getIndexedStorages() {
-        return List.of(inputTank, outputFuelTank, outputDieselTank);
+    @Override
+    public List<Fluid> getFluidsOutput() {
+        return List.of(FluidsRegistry.DIESEL_STILL.get(), FluidsRegistry.FUEL_STILL.get());
     }
 
 

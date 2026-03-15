@@ -23,15 +23,14 @@ public class FluidOutputManager {
 
     public FluidOutputManager(FluidOutputable blockEntity) {
         this.blockEntity = blockEntity;
-        this.loadDefaultConfiguration();
     }
 
-    public void loadDefaultConfiguration() {
+    //TODO replace this with an interface or something
+    public void setDefault(FluidOutputEntry... entries) {
         if(!outputs.isEmpty()) return;
 
-        for (Direction direction : Direction.values()) {
-            UniversalFluidStorage storage = blockEntity.getFluidTank(direction);
-            outputs.putIfAbsent(direction, storage.getFluidInTank(0));
+        for (FluidOutputEntry entry : entries) {
+            outputs.put(entry.direction, entry.fluid);
         }
     }
 
@@ -44,15 +43,6 @@ public class FluidOutputManager {
         }
     }
 
-    public UniversalFluidStorage getStorageWithFluid(FluidStack fluid) {
-        for(UniversalFluidStorage storage : this.blockEntity.getIndexedStorages()) {
-            //TODO check this
-            if(storage.getFluidInTank(0).isFluidEqual(fluid)) {
-                return storage;
-            }
-        }
-        return null;
-    }
 
     public void save(ValueOutput output) {
         ValueOutput.TypedOutputList<FluidOutputEntry> fluidOutput = output.list("fluid-output", FluidOutputEntry.CODEC);
@@ -67,30 +57,13 @@ public class FluidOutputManager {
 
     public void load(ValueInput input) {
        Optional<ValueInput.TypedInputList<FluidOutputEntry>>  fluidOutput = input.list("fluid-output", FluidOutputEntry.CODEC);
-       fluidOutput.ifPresentOrElse(list -> {
+       fluidOutput.ifPresent(list -> {
              for(FluidOutputEntry entry : list) {
                  outputs.put(entry.direction, entry.fluid);
              }
-       }, this::loadDefaultConfiguration);
+       });
     }
 
-    public final int getIdFromStorage(UniversalFluidStorage storage) {
-        List<UniversalFluidStorage> storages = this.blockEntity.getIndexedStorages();
-        for (int i = 0; i < storages.size(); i++) {
-            if (storages.get(i) == storage) {
-                return i;
-            }
-        }
-        return -1;
-    }
-
-    public final @Nullable UniversalFluidStorage getStorageFromId(int id) {
-        List<UniversalFluidStorage> storages = this.blockEntity.getIndexedStorages();
-        if (id < 0 || id >= storages.size()) {
-            return null;
-        }
-        return storages.get(id);
-    }
 
     public record FluidOutputEntry(Direction direction, FluidStack fluid) {
 
