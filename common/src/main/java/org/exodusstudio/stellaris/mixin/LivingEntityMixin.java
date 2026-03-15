@@ -57,12 +57,9 @@ public class LivingEntityMixin {
 
     @Inject(at = @At(value = "HEAD"), method = "rideTick")
     private void getPassengerRidingPosition(CallbackInfo ci) {
-        Stellaris.LOG.error("1");
         if(stellaris$entity.getVehicle() instanceof VehicleEntity vehicleEntity) {
-            Stellaris.LOG.error("2");
-            Stellaris.LOG.error(vehicleEntity.getRiderPose().name());
             stellaris$entity.setPose(vehicleEntity.getRiderPose());
-            Stellaris.LOG.error(stellaris$entity.getPose().name());
+            stellaris$entity.refreshDimensions();
         }
     }
 }
