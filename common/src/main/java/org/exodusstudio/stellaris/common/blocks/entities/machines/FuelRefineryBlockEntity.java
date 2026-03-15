@@ -27,11 +27,6 @@ import org.exodusstudio.stellaris.common.fluid.FluidUtil;
 import org.exodusstudio.stellaris.common.fluid.SingleFluidStorage;
 import org.exodusstudio.stellaris.common.menus.FuelRefineryMenu;
 import org.exodusstudio.stellaris.common.network.packets.SyncFluidPacket;
-import net.minecraft.core.HolderLookup;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.protocol.Packet;
-import net.minecraft.network.protocol.game.ClientGamePacketListener;
-import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import org.exodusstudio.stellaris.common.registries.BlockEntitiesRegistry;
 import org.exodusstudio.stellaris.common.registries.FluidsRegistry;
 import org.exodusstudio.stellaris.common.registries.RecipesRegistry;
@@ -66,6 +61,8 @@ public class FuelRefineryBlockEntity extends BaseEnergyContainerBlockEntity impl
                 return stack.getFluid().isSame(FluidsRegistry.OIL_STILL.get());
             }
         };
+
+
         this.outputFuelTank = new SingleFluidStorage(10000) {
             @Override
             protected void onChange() {
@@ -92,6 +89,8 @@ public class FuelRefineryBlockEntity extends BaseEnergyContainerBlockEntity impl
 
     @Override
     public void tick(Level level, BlockState state) {
+        this.outputManager.loadDefaultConfiguration();
+
         FluidUtil.moveFluidFromItem(0, 0, 1, items, inputTank, 1000);
         FluidUtil.moveFluidToItem(0, inputTank, 0, 1, items, 1000);
         FluidUtil.moveFluidToItem(0, outputFuelTank, 2, 3, items, 1000);
@@ -148,18 +147,9 @@ public class FuelRefineryBlockEntity extends BaseEnergyContainerBlockEntity impl
             NetworkManager.sendToPlayer(serverPlayer, new SyncFluidPacket(
                     new com.fej1fun.potentials.components.FluidAmountMapDataComponent(List.of(outputDieselTank.getFluidInTank(0).getFluid()), List.of(outputDieselTank.getFluidValueInTank())),
                     0, getBlockPos(), Direction.SOUTH));
+            Stellaris.LOG.error("eee");
         }
         return new FuelRefineryMenu(containerId, inventory, this, this);
-    }
-
-    @Override
-    public Packet<ClientGamePacketListener> getUpdatePacket() {
-        return ClientboundBlockEntityDataPacket.create(this);
-    }
-
-    @Override
-    public CompoundTag getUpdateTag(HolderLookup.Provider registries) {
-        return this.saveWithFullMetadata(registries);
     }
 
     @Override
