@@ -1,6 +1,7 @@
 package org.exodusstudio.stellaris.client.screens.components;
 
 import dev.architectury.fluid.FluidStack;
+import dev.architectury.networking.NetworkManager;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.components.Button;
@@ -9,10 +10,13 @@ import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.material.Fluid;
 import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.client.screens.components.containers.DraggableContainer;
+import org.exodusstudio.stellaris.common.blocks.entities.machines.FuelRefineryBlockEntity;
 import org.exodusstudio.stellaris.common.blocks.entities.machines.base.FluidOutputManager;
+import org.exodusstudio.stellaris.common.network.packets.SyncOutputManager;
 
 import java.util.*;
 
@@ -20,12 +24,14 @@ public class FluidOutputManagerWidget extends DraggableContainer {
 
     public FluidOutputManager fluidOutputManager;
     public Screen screen;
+    public BlockEntity blockEntity;
     private final HashMap<Direction, Button> directionButtons = new HashMap<>();
 
-    public FluidOutputManagerWidget(int x, int y, int width, int height, FluidOutputManager fluidOutputManager, Screen screen) {
+    public FluidOutputManagerWidget(int x, int y, int width, int height, FluidOutputManager fluidOutputManager, Screen screen, BlockEntity blockEntity) {
         super(x, y, width, height);
         this.fluidOutputManager = fluidOutputManager;
         this.screen = screen;
+        this.blockEntity = blockEntity;
     }
 
     @Override
@@ -51,6 +57,8 @@ public class FluidOutputManagerWidget extends DraggableContainer {
                     }
                 }
 
+                NetworkManager.sendToServer(new SyncOutputManager.C2S(this.blockEntity.getBlockPos(), dir, this.fluidOutputManager.outputs.getOrDefault(dir, FluidStack.empty())));
+
             });
             if (i < 3) {
                 buttonToAdd.bounds(getX() + 10 + 22 * i, getY() + 22 * 2, 20, 20);
@@ -70,6 +78,7 @@ public class FluidOutputManagerWidget extends DraggableContainer {
     @Override
     protected void renderWidget(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
         super.renderWidget(guiGraphics, mouseX, mouseY, partialTick);
+
         // Mise à jour dynamique des tooltips à chaque frame
         for (Direction direction : directionButtons.keySet()) {
             Button button = directionButtons.get(direction);

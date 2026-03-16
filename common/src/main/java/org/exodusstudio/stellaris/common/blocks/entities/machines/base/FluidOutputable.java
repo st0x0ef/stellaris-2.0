@@ -13,5 +13,6 @@ public interface FluidOutputable extends FluidProvider.BLOCK {
         return List.of();
     }
 
+    FluidOutputManager getFluidOutputManager();
 
 }

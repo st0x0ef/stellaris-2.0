@@ -4,12 +4,17 @@ import com.fej1fun.potentials.fluid.UniversalFluidStorage;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.architectury.fluid.FluidStack;
+import dev.architectury.networking.NetworkManager;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
+import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.common.fluid.FluidUtil;
+import org.exodusstudio.stellaris.common.network.packets.SyncOutputManager;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.HashMap;
@@ -50,6 +55,7 @@ public class FluidOutputManager {
         for(Direction direction : outputs.keySet()) {
             FluidStack fluid = outputs.get(direction);
             if(fluid != null) {
+                System.err.println("Saving Fluid: " + fluid.getName().getString() + " at direction: " + direction);
                 fluidOutput.add(new FluidOutputEntry(direction, fluid));
             }
         }
@@ -57,13 +63,39 @@ public class FluidOutputManager {
 
     public void load(ValueInput input) {
        Optional<ValueInput.TypedInputList<FluidOutputEntry>>  fluidOutput = input.list("fluid-output", FluidOutputEntry.CODEC);
-       fluidOutput.ifPresent(list -> {
+        Stellaris.LOG.error("Before load \n " + this);
+
+        fluidOutput.ifPresent(list -> {
              for(FluidOutputEntry entry : list) {
                  outputs.put(entry.direction, entry.fluid);
              }
+           Stellaris.LOG.error("After load \n " + this);
        });
     }
 
+    public void syncWithPlayer(ServerPlayer player, BlockEntity blockEntity) {
+        for(Direction direction : outputs.keySet()) {
+            FluidStack fluid = outputs.get(direction);
+            if(fluid != null) {
+                NetworkManager.sendToPlayer(player, new SyncOutputManager.S2C(blockEntity.getBlockPos(), direction, fluid));
+                continue;
+            }
+            NetworkManager.sendToPlayer(player, new SyncOutputManager.S2C(blockEntity.getBlockPos(), direction, FluidStack.empty()));
+
+        }
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder builder = new StringBuilder();
+        for(Direction direction : outputs.keySet()) {
+            FluidStack fluid = outputs.get(direction);
+            if(fluid != null) {
+                builder.append(direction.toString()).append(": ").append(fluid.getName().getString()).append("\n");
+            }
+        }
+        return builder.toString();
+    }
 
     public record FluidOutputEntry(Direction direction, FluidStack fluid) {
 

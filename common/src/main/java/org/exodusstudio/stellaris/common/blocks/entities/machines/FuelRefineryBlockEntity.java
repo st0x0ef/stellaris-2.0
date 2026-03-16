@@ -8,6 +8,9 @@ import dev.architectury.networking.NetworkManager;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.protocol.Packet;
+import net.minecraft.network.protocol.game.ClientGamePacketListener;
+import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -133,6 +136,8 @@ public class FuelRefineryBlockEntity extends BaseEnergyContainerBlockEntity impl
                 }
             }
         }
+
+        getFluidOutputManager().distributeFluids(level, getBlockPos());
     }
 
     @Override
@@ -197,6 +202,15 @@ public class FuelRefineryBlockEntity extends BaseEnergyContainerBlockEntity impl
         return List.of(FluidsRegistry.DIESEL_STILL.get(), FluidsRegistry.FUEL_STILL.get());
     }
 
+    @Override
+    public ClientboundBlockEntityDataPacket getUpdatePacket() {
+        return ClientboundBlockEntityDataPacket.create(this);
+    }
+
+    @Override
+    public FluidOutputManager getFluidOutputManager() {
+        return outputManager;
+    }
 
     @Override
     public @Nullable SingleFluidStorage getFluidTank(@Nullable Direction direction) {
