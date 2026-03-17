@@ -69,7 +69,7 @@ public class WikiInfosWidget extends ScrollableContainer {
                         Matrix3x2fStack matrixStack = guiGraphics.pose();
                         matrixStack.pushMatrix();
 
-                        float scale = item.scale().isPresent() ? item.scale().get() : 1;
+                        float scale = item.scale().orElse(1f);
                         int itemSize = 16;
                         int padding = 8;
 

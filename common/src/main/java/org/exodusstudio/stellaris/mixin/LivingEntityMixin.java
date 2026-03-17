@@ -1,17 +1,14 @@
 package org.exodusstudio.stellaris.mixin;
 
-import com.fej1fun.potentials.fluid.UniversalFluidItemStorage;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.phys.Vec3;
 import org.exodusstudio.stellaris.Stellaris;
-import org.exodusstudio.stellaris.common.items.space_suit.SpaceSuitHelmet;
+import org.exodusstudio.stellaris.common.entities.VehicleEntity;
 import org.exodusstudio.stellaris.common.registries.TagsRegistry;
 import org.exodusstudio.stellaris.common.utils.GravityUtils;
 import org.exodusstudio.stellaris.common.utils.OxygenUtils;
-import org.exodusstudio.stellaris.common.utils.Utils;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -71,5 +68,14 @@ public class LivingEntityMixin {
         }
 
         stellaris$oxygenCounter++;
+    }
+
+
+    @Inject(at = @At(value = "HEAD"), method = "rideTick")
+    private void getPassengerRidingPosition(CallbackInfo ci) {
+        if(stellaris$entity.getVehicle() instanceof VehicleEntity vehicleEntity) {
+            stellaris$entity.setPose(vehicleEntity.getRiderPose());
+            stellaris$entity.refreshDimensions();
+        }
     }
 }

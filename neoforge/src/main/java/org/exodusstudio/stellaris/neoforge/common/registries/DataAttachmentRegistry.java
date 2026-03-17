@@ -8,6 +8,7 @@ import net.neoforged.neoforge.attachment.AttachmentType;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.neoforged.neoforge.registries.NeoForgeRegistries;
 import org.exodusstudio.stellaris.Stellaris;
+import org.exodusstudio.stellaris.client.overlays.FadingHolder;
 import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
 
 import java.util.HashMap;
@@ -22,8 +23,14 @@ public class DataAttachmentRegistry {
             "oil", () -> AttachmentType.builder(() -> -1).serialize(Codec.INT.fieldOf("oil")).sync(ByteBufCodecs.INT).build()
     );
 
+    private static final Supplier<AttachmentType<?>> PLAYER_FADE = ATTACHMENT_TYPES.register(
+            "player_fade", () -> AttachmentType.builder(() -> new FadingHolder(false, 0f)).serialize(FadingHolder.CODEC.fieldOf("player_fade")).sync(FadingHolder.STREAM_CODEC).build()
+    );
+
     public static void register(IEventBus bus) {
         ATTACHMENTS.put(IdentifierUtils.id("oil"), OIL);
+        ATTACHMENTS.put(IdentifierUtils.id("player_fade"), PLAYER_FADE);
+
         ATTACHMENT_TYPES.register(bus);
     }
 }

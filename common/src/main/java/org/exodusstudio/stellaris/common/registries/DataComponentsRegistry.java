@@ -48,6 +48,8 @@ public class DataComponentsRegistry {
     public static final RegistrySupplier<DataComponentType<PathogenStorageComponent>> PATHOGEN_STORED =
             register("pathogen_stored", builder -> builder.persistent(PathogenStorageComponent.CODEC).networkSynchronized(PathogenStorageComponent.STREAM_CODEC));
 
+    public static final RegistrySupplier<DataComponentType<Float>> PLAYER_FADE =
+            register("player_fade", builder -> builder.persistent(Codec.FLOAT).networkSynchronized(ByteBufCodecs.FLOAT));
 
     private static <T> RegistrySupplier<DataComponentType<T>> register(String name, UnaryOperator<DataComponentType.Builder<T>> builderOperator) {
         return DATA_COMPONENT_TYPE.register(name, () -> builderOperator.apply(DataComponentType.builder()).build());

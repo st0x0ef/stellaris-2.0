@@ -44,8 +44,6 @@ public class RocketTimerOverlay {
             if (vehicle instanceof RocketEntity rocket) {
                 timer = rocket.getTimer();
 
-                Stellaris.LOG.error("Rocket Timer: {}", timer);
-
                 /** CHECK IF ROCKET IS STARTED */
                 if (!rocket.getEntityData().get(RocketEntity.ROCKET_START)) {
                     return;

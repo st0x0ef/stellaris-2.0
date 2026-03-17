@@ -1,16 +1,21 @@
 package org.exodusstudio.stellaris.common.utils;
 
+import dev.architectury.networking.NetworkManager;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.ARGB;
-import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.ChunkPos;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
-import org.exodusstudio.stellaris.common.registries.ItemsRegistry;
+import org.exodusstudio.stellaris.client.overlays.FadingHolder;
+import org.exodusstudio.stellaris.common.network.NetworkRegistry;
+import org.exodusstudio.stellaris.common.network.packets.StartFadePacket;
+import org.exodusstudio.stellaris.common.registries.TagsRegistry;
 
 import java.util.Random;
+import java.util.Set;
 
 public class Utils {
 
@@ -50,7 +55,8 @@ public class Utils {
             case "turquoise" -> 0x40E0D0;
             case "salmon" -> 0xFA8072;
             case "khaki" -> 0xF0E68C;
-            case "darkred", "dark_red" -> 0x8B0000;
+            case "darkred" -> 0x8B0000;
+            case "dark_red" -> 0x8B0000;
             case "rainbow" -> Utils.generateRandomHexColor();
             default -> 0xFFFFFF;
         };
@@ -72,6 +78,63 @@ public class Utils {
         int g = (hex >> 8) & 0xFF;
         int b = hex & 0xFF;
         return new Vec3(r / 255.0, g / 255.0, b / 255.0);
+    }
+
+    public static int getSurvivalLivingEntityCountInChunks(Level level, Set<ChunkPos> chunks) {
+        int count = 0;
+
+        for (ChunkPos chunkPos : chunks) {
+            AABB aabb = new AABB(
+                    chunkPos.getMinBlockX(), level.getMinY(), chunkPos.getMinBlockZ(),
+                    chunkPos.getMaxBlockX() + 1, level.getMaxY() + 1, chunkPos.getMaxBlockZ() + 1
+            );
+
+            for (LivingEntity entity : level.getEntitiesOfClass(LivingEntity.class, aabb)) {
+                if (!entity.getType().is(TagsRegistry.EntityTags.NO_OXYGEN_NEEDED)) {
+                    if (entity instanceof Player player) {
+                        if (!player.isCreative() && !player.isSpectator()) {
+                            count++;
+                        }
+                    } else {
+                        count++;
+                    }
+                }
+            }
+        }
+
+        return count;
+    }
+
+    public static void startFade(Player player) {
+        var fadingHolder = new FadingHolder(true, 0);
+        if(player instanceof ServerPlayer serverPlayer) {
+            NetworkManager.sendToPlayer(serverPlayer, new StartFadePacket(fadingHolder));
+        } else {
+            player.saveDataAttachments(IdentifierUtils.id("player_fade"), fadingHolder);
+        }
+    }
+
+    public static void stopFade(Player player) {
+        var fadingHolder = new FadingHolder(false, 1);
+        if(player instanceof ServerPlayer serverPlayer) {
+            NetworkManager.sendToPlayer(serverPlayer, new StartFadePacket(fadingHolder));
+        } else {
+            player.saveDataAttachments(IdentifierUtils.id("player_fade"), fadingHolder);
+        }
+    }
+
+    // Executes the given action after a 2-second delay, with a fade effect for the player.
+    public static void executeWithFade(Player player, Runnable action, boolean startFade) {
+        if(startFade) startFade(player);
+        else stopFade(player);
+        player.level().getServer().execute(() -> {
+            try {
+                Thread.sleep(2000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            action.run();
+        });
     }
 
     public static boolean isLivingInSpaceSuit(LivingEntity entity) {

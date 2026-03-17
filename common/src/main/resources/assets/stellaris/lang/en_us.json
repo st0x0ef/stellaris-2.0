@@ -172,6 +172,7 @@
   "wiki.stellaris.mobs.title": "Mobs",
   "wiki.stellaris.rocket.title": "Rocket",
   "wiki.stellaris.machines.title": "Machine",
+  "wiki.stellaris.items.title": "Blocks and Items",
 
   "tooltip.item.stellaris.can.empty": "Empty",
   "tooltip.item.stellaris.can.nutrition": "Nutrition: %s/%s",

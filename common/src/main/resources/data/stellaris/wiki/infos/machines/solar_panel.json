@@ -23,9 +23,9 @@
         "stack": {
           "count": 1,
           "id": "stellaris:solar_panel"
-        }
-      },
-      "onlyIcon": true
+        },
+        "onlyIcon": true
+      }
     }
   ],
   "iconType": "item",

@@ -7,7 +7,6 @@
     "client.ArmRendererMixin",
     "client.CustomItemModelRenderer",
     "client.GuiMixin",
-    "client.HumanoidModelMixin",
     "client.ItemInHandRendererMixin"
   ],
   "mixins": [

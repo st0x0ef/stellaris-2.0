@@ -26,6 +26,7 @@ public class DataAttachmentsPlatform {
     public static boolean hasEntityData(Entity entity, Identifier key) {
         throw new AssertionError();
     }
+
     @ExpectPlatform
     public static <T> T getEntityData(Entity entity, Identifier location, Class<T> clazz) {
         throw new AssertionError();
