@@ -7,9 +7,11 @@ import net.fabricmc.fabric.api.attachment.v1.AttachmentType;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.resources.Identifier;
 import org.exodusstudio.stellaris.client.overlays.FadingHolder;
-import org.exodusstudio.stellaris.common.module.Modules;
-import org.exodusstudio.stellaris.common.module.rocket.RocketModule;
-import org.exodusstudio.stellaris.common.module.rocket.RocketModules;
+import org.exodusstudio.stellaris.common.modules.Modules;
+import org.exodusstudio.stellaris.common.modules.rocket.RocketModule;
+import org.exodusstudio.stellaris.common.modules.rocket.RocketModules;
+import org.exodusstudio.stellaris.common.modules.space_suit.SpaceSuitModule;
+import org.exodusstudio.stellaris.common.modules.space_suit.SpaceSuitModules;
 import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
 
 import java.util.HashMap;
@@ -21,6 +23,7 @@ public class DataAttachmentRegistry {
 
     public static final AttachmentType<Integer> OIL;
     public static final AttachmentType<? extends Modules<RocketModule>> ROCKET_MODULES;
+    public static final AttachmentType<? extends Modules<SpaceSuitModule>> SPACE_SUIT_MODULES;
     public static final AttachmentType<FadingHolder> FADE;
 
     public static void register() {
@@ -36,13 +39,12 @@ public class DataAttachmentRegistry {
                         .syncWith(ByteBufCodecs.INT, AttachmentSyncPredicate.all()) // only the player's own client needs the value for rendering
         );
 
-
-        FADE = AttachmentRegistry.create(
-                IdentifierUtils.id("player_fade"),
+        SPACE_SUIT_MODULES = AttachmentRegistry.create(
+                IdentifierUtils.id("space_suit_modules"),
                 builder -> builder
-                        .initializer(() -> new FadingHolder(false, 0)) // start with a default value like hunger
-                        .persistent(FadingHolder.CODEC) // persist across restarts
-                        .syncWith(FadingHolder.STREAM_CODEC, AttachmentSyncPredicate.all()) // only the player's own client needs the value for rendering
+                        .initializer(SpaceSuitModules::empty) // start with a default value like hunger
+                        .persistent(SpaceSuitModules.CODEC) // persist across restarts
+                        .syncWith(SpaceSuitModules.STREAM_CODEC, AttachmentSyncPredicate.all()) // only the player's own client needs the value for rendering
         );
 
         ROCKET_MODULES = AttachmentRegistry.create(
@@ -51,6 +53,15 @@ public class DataAttachmentRegistry {
                         .initializer(RocketModules::empty) // start with a default value like hunger
                         .persistent(RocketModules.CODEC) // persist across restarts
                         .syncWith(RocketModules.STREAM_CODEC, AttachmentSyncPredicate.all()) // only the player's own client needs the value for rendering
+        );
+
+
+        FADE = AttachmentRegistry.create(
+                IdentifierUtils.id("player_fade"),
+                builder -> builder
+                        .initializer(() -> new FadingHolder(false, 0)) // start with a default value like hunger
+                        .persistent(FadingHolder.CODEC) // persist across restarts
+                        .syncWith(FadingHolder.STREAM_CODEC, AttachmentSyncPredicate.all()) // only the player's own client needs the value for rendering
         );
 
         ATTACHMENT_TYPES.put(OIL.identifier(), OIL);

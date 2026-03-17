@@ -10,8 +10,6 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.Level;
-import org.exodusstudio.stellaris.common.module.rocket.RocketModules;
-import org.exodusstudio.stellaris.common.network.packets.SyncRocketModule;
 
 public record Planet(String translationKey, Identifier dimension, double gravity, boolean hasOxygen) {
     public static final Codec<Planet> CODEC = RecordCodecBuilder.create(instance -> instance.group(
