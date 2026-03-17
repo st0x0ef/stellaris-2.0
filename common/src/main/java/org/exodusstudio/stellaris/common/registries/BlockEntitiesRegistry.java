@@ -5,6 +5,7 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.common.blocks.entities.FlagBlockEntity;
+import org.exodusstudio.stellaris.common.blocks.entities.FluidTankBlockEntity;
 import org.exodusstudio.stellaris.common.blocks.entities.PipeBlockEntity;
 import org.exodusstudio.stellaris.common.blocks.entities.machines.*;
 
@@ -56,6 +57,9 @@ public class BlockEntitiesRegistry {
 
     public static final Supplier<BlockEntityType<?>> PIPE_ENTITY = BLOCK_ENTITY_TYPE.register("pipe",
             () -> new BlockEntityType<>(PipeBlockEntity::create, Set.of(BlocksRegistry.T1_PIPE.block().get())));
+
+    public static final Supplier<BlockEntityType<?>> FLUID_TANK = BLOCK_ENTITY_TYPE.register("fluid_tank",
+            () -> new BlockEntityType<>(FluidTankBlockEntity::new, Set.of(BlocksRegistry.FLUID_TANK_T1.block().get())));
 
 }
 

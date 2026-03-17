@@ -75,9 +75,10 @@ public final class BlocksRegistry {
     // POWER STORAGE
     public static final BlockItemRegistrySupplier POWER_BANK_T1 = blockWithCustomItem("power_bank_t1", BlockBehaviour.Properties.of(), (p) -> new PowerBankBlock(p, (short) 1), new Item.Properties(), PowerBankItem::new);
 
-    // CABLES/PIPES
+    // CABLES/PIPES/FLUIDS
     public static final BlockItemRegistrySupplier CABLE_T1 = blockWithItem("cable_t1", BlockBehaviour.Properties.of(), (p) -> new CableBlock(p, 20));
     public static final BlockItemRegistrySupplier T1_PIPE = blockWithItem("pipe_t1", BlockBehaviour.Properties.ofFullCopy(Blocks.IRON_CHAIN), (p) -> new PipeBlock(p, 1000, 250, 250));
+    public static final BlockItemRegistrySupplier FLUID_TANK_T1 = blockWithCustomItem("fluid_tank_t1", BlockBehaviour.Properties.of(), (p) -> new FluidTankBlock(p, 5000), new Item.Properties(), BlockItem::new);
 
     // TECH
     public static final BlockItemRegistrySupplier ELECTROLYZER = blockWithCustomItem("electrolyzer", BlockBehaviour.Properties.of(), ElectrolyzerBlock::new, new Item.Properties(), BlockItem::new);
