@@ -230,10 +230,9 @@ public class RocketEntity extends VehicleEntity  {
         Entity sourceEntity = damageSource.getEntity();
 
         if (sourceEntity != null && sourceEntity.isCrouching() && !this.isVehicle()) {
-            this.spawnRocketItem();
-            this.dropEquipment(level);
-
             if (!this.level().isClientSide()) {
+                this.spawnRocketItem();
+                this.dropEquipment(level);
                 this.remove(RemovalReason.DISCARDED);
             }
 
@@ -272,6 +271,7 @@ public class RocketEntity extends VehicleEntity  {
         super.kill(level);
         this.spawnRocketItem();
         this.dropEquipment(level);
+        this.remove(RemovalReason.DISCARDED);
     }
 
     @Override
