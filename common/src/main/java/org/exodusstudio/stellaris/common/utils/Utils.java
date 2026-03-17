@@ -60,7 +60,6 @@ public class Utils {
             case "salmon" -> 0xFA8072;
             case "khaki" -> 0xF0E68C;
             case "darkred" -> 0x8B0000;
-            case "dark_red" -> 0x8B0000;
             case "rainbow" -> Utils.generateRandomHexColor();
             default -> 0xFFFFFF;
         };

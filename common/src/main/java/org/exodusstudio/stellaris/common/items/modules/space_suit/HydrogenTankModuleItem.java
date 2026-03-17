@@ -1,8 +1,15 @@
 package org.exodusstudio.stellaris.common.items.modules.space_suit;
 
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.component.TooltipDisplay;
 import net.minecraft.world.level.material.Fluid;
 import org.exodusstudio.stellaris.common.modules.space_suit.SpaceSuitModule;
 import org.exodusstudio.stellaris.common.registries.FluidsRegistry;
+import org.exodusstudio.stellaris.common.utils.Utils;
+
+import java.util.function.Consumer;
 
 public class HydrogenTankModuleItem extends TankModuleItem {
     public HydrogenTankModuleItem(Properties properties, int hydrogenCapacity) {
@@ -17,5 +24,11 @@ public class HydrogenTankModuleItem extends TankModuleItem {
     @Override
     public boolean isCompatibleWith(SpaceSuitModule module) {
         return !(module instanceof SpaceSuitModule.CustomFuelModule);
+    }
+
+    @Override
+    public void appendHoverText(ItemStack stack, TooltipContext context, TooltipDisplay tooltipDisplay, Consumer<Component> tooltipAdder, TooltipFlag flag) {
+        tooltipAdder.accept(Component.literal("Store up to " + this.capacity + "mb of hydrogen on your space suit.").withColor(Utils.getMinecraftColor("gray")));
+        super.appendHoverText(stack, context, tooltipDisplay, tooltipAdder, flag);
     }
 }

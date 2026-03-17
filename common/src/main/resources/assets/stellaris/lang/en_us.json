@@ -74,6 +74,30 @@
   "item.stellaris.space_suit_leggings": "Space Suit Leggings",
   "item.stellaris.space_suit_boots": "Space Suit Boots",
 
+  "item.stellaris.space_suit_oxygen_module_tier_1": "Oxygen Module T1",
+  "item.stellaris.space_suit_oxygen_module_tier_2": "Oxygen Module T2",
+  "item.stellaris.space_suit_oxygen_module_tier_3": "Oxygen Module T3",
+
+  "item.stellaris.space_suit_oil_finder_module_tier_1": "Oil Finder Module T1",
+  "item.stellaris.space_suit_oil_finder_module_tier_2": "Oil Finder Module T2",
+  "item.stellaris.space_suit_oil_finder_module_tier_3": "Oil Finder Module T3",
+
+  "item.stellaris.space_suit_diesel_tank_module_tier_1": "Diesel Tank Module T1",
+  "item.stellaris.space_suit_diesel_tank_module_tier_2": "Diesel Tank Module T2",
+  "item.stellaris.space_suit_diesel_tank_module_tier_3": "Diesel Tank Module T3",
+
+  "item.stellaris.space_suit_hydrogen_tank_module_tier_1": "Hydrogen Tank Module T1",
+  "item.stellaris.space_suit_hydrogen_tank_module_tier_2": "Hydrogen Tank Module T2",
+  "item.stellaris.space_suit_hydrogen_tank_module_tier_3": "Hydrogen Tank Module T3",
+
+  "item.stellaris.space_suit_jet_module_tier_1": "Jet Module T1",
+  "item.stellaris.space_suit_jet_module_tier_2": "Jet Module T2",
+  "item.stellaris.space_suit_jet_module_tier_3": "Jet Module T3",
+
+  "item.stellaris.space_suit_damage_protection_module_tier_1": "Damage Protection Module T1",
+  "item.stellaris.space_suit_damage_protection_module_tier_2": "Damage Protection Module T2",
+  "item.stellaris.space_suit_damage_protection_module_tier_3": "Damage Protection Module T3",
+
   "item.stellaris.fluid_cell": "Fluid Cell",
 
   "item.stellaris.black_can": "Black Can",
@@ -179,7 +203,9 @@
   "tooltip.item.stellaris.can.saturation": "Saturation: %s",
   "tooltip.item.stellaris.pathogen_storage_cell_info": "A sealed containment cell used to store parasites and support research toward an infection cure.",
   "tooltip.item.stellaris.energy": "⚡ Energy: §e%s§r§f/§r§e%s§r FE",
-  "tooltip.item.stellaris.oil_finder": "Right click on a block to check if there is oil",
+  "tooltip.item.stellaris.oil_finder": "Right click on a block to check if there is oil.",
+  "tooltip.item.stellaris.can_be_applied_to_spacesuit_module": "This module can be applied to the space suit.",
+  "tooltip.item.stellaris.can_be_applied_to_rocket_module": "This module can be applied to the rocket.",
 
   "config.stellaris.debugMode": "Debug Mode",
   "config.stellaris.debugMode.desc": "Select to enter the debug mode.",

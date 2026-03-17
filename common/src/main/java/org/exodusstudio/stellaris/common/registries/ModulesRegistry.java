@@ -2,15 +2,15 @@ package org.exodusstudio.stellaris.common.registries;
 
 
 import dev.architectury.registry.registries.RegistrySupplier;
-import org.exodusstudio.stellaris.common.items.modules.rocket.GalaxySkinModule;
 import org.exodusstudio.stellaris.common.items.modules.rocket.HydrogenFuelModuleItem;
+import org.exodusstudio.stellaris.common.items.modules.rocket.RocketSkinModuleItem;
 import org.exodusstudio.stellaris.common.items.modules.rocket.ShieldModule;
 import org.exodusstudio.stellaris.common.items.modules.space_suit.*;
 import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
 
 public class ModulesRegistry {
     /** Rocket Modules */
-    public static final RegistrySupplier<GalaxySkinModule> GALAXY_SKIN = StellarisRegistries.ROCKET_MODULES.register(IdentifierUtils.id("galaxy_skin"), ItemsRegistry.GALAXY_SKIN);
+    public static final RegistrySupplier<RocketSkinModuleItem> GALAXY_SKIN = StellarisRegistries.ROCKET_MODULES.register(IdentifierUtils.id("galaxy_skin"), ItemsRegistry.GALAXY_SKIN);
     public static final RegistrySupplier<ShieldModule> SHIELD_MODULE = StellarisRegistries.ROCKET_MODULES.register(IdentifierUtils.id("shield"), ItemsRegistry.SHIELD_MODULE);
     public static final RegistrySupplier<HydrogenFuelModuleItem> HYDROGEN_MOTOR = StellarisRegistries.ROCKET_MODULES.register(IdentifierUtils.id("hydrogen_motor"), ItemsRegistry.HYDROGEN_MOTOR);
 
