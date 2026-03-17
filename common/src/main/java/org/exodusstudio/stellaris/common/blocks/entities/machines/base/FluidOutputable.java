@@ -6,6 +6,9 @@ import net.minecraft.world.level.material.Fluid;
 
 import java.util.List;
 
+/**
+ * An interface for block entities that can output fluids. This is used to manage the fluid outputs of a machine.
+ */
 public interface FluidOutputable extends FluidProvider.BLOCK {
 
 
@@ -14,5 +17,7 @@ public interface FluidOutputable extends FluidProvider.BLOCK {
     }
 
     FluidOutputManager getFluidOutputManager();
+
+    List<UniversalFluidStorage> getOutputFluidsTank();
 
 }

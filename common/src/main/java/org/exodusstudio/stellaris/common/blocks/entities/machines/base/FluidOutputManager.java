@@ -20,7 +20,13 @@ import org.jetbrains.annotations.Nullable;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
+/**
+ * This class is used to manage the fluid outputs of a machine.
+ * It saved which fluid is outputted in which direction and can distribute the fluids to nearby blocks.
+ * It also handles saving and loading the fluid outputs and syncing with the client.
+ */
 public class FluidOutputManager {
 
     public final FluidOutputable blockEntity;
@@ -30,7 +36,11 @@ public class FluidOutputManager {
         this.blockEntity = blockEntity;
     }
 
-    //TODO replace this with an interface or something
+    /**
+     * Use to set the default fluid outputs of a machine. This should be called in the constructor of the block entity.
+     * We can't use FluidProvider.BLOCK#getFluidTank because at the start the tanks are empty
+     * @param entries the default fluid outputs to set. The direction of the output is determined by the direction field of the entry.
+     */
     public void setDefault(FluidOutputEntry... entries) {
         if(!outputs.isEmpty()) return;
 
@@ -40,11 +50,19 @@ public class FluidOutputManager {
     }
 
     public void distributeFluids(Level level, BlockPos pos) {
-        for (Direction direction : outputs.keySet()) {
-            UniversalFluidStorage  storage = blockEntity.getFluidTank(direction);
-            if(storage == null) return;
 
-            FluidUtil.distributeFluidNearby(level, pos, storage.getFluidInTank(0), List.of(direction));
+
+        for (Direction direction : Direction.values()) {
+            List<UniversalFluidStorage> storages = blockEntity.getOutputFluidsTank();
+            FluidStack currentFluid = outputs.get(direction);
+
+            if(currentFluid == null) continue;
+
+            for(UniversalFluidStorage storage : storages) {
+                if(storage.getFluidInTank(0).isFluidEqual(currentFluid)) {
+                    FluidUtil.distributeFluidNearby(level, pos, storage.getFluidInTank(0), List.of(direction));
+                }
+            }
         }
     }
 
@@ -55,7 +73,6 @@ public class FluidOutputManager {
         for(Direction direction : outputs.keySet()) {
             FluidStack fluid = outputs.get(direction);
             if(fluid != null) {
-                System.err.println("Saving Fluid: " + fluid.getName().getString() + " at direction: " + direction);
                 fluidOutput.add(new FluidOutputEntry(direction, fluid));
             }
         }
@@ -63,13 +80,10 @@ public class FluidOutputManager {
 
     public void load(ValueInput input) {
        Optional<ValueInput.TypedInputList<FluidOutputEntry>>  fluidOutput = input.list("fluid-output", FluidOutputEntry.CODEC);
-        Stellaris.LOG.error("Before load \n " + this);
-
         fluidOutput.ifPresent(list -> {
              for(FluidOutputEntry entry : list) {
                  outputs.put(entry.direction, entry.fluid);
              }
-           Stellaris.LOG.error("After load \n " + this);
        });
     }
 

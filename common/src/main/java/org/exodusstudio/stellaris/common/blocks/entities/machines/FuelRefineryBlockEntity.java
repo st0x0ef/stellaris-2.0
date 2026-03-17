@@ -203,6 +203,11 @@ public class FuelRefineryBlockEntity extends BaseEnergyContainerBlockEntity impl
     }
 
     @Override
+    public List<UniversalFluidStorage> getOutputFluidsTank() {
+        return List.of(outputFuelTank, outputDieselTank);
+    }
+
+    @Override
     public ClientboundBlockEntityDataPacket getUpdatePacket() {
         return ClientboundBlockEntityDataPacket.create(this);
     }

@@ -11,7 +11,6 @@ import org.exodusstudio.stellaris.client.screens.components.FluidOutputManagerWi
 import org.exodusstudio.stellaris.client.screens.components.GaugeWidget;
 import org.exodusstudio.stellaris.client.screens.utils.GUISprites;
 import org.exodusstudio.stellaris.common.blocks.entities.machines.FuelRefineryBlockEntity;
-import org.exodusstudio.stellaris.common.blocks.entities.machines.base.FluidOutputManager;
 import org.exodusstudio.stellaris.common.fluid.SingleFluidStorage;
 import org.exodusstudio.stellaris.common.menus.FuelRefineryMenu;
 import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
