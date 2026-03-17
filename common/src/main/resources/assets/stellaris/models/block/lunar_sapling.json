@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/cross",
+  "textures": {
+    "cross": "stellaris:block/lunar_forest/lunar_sapling"
+  }
+}

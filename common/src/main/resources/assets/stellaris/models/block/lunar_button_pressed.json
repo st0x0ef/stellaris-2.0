@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/button_pressed",
+  "textures": {
+    "texture": "stellaris:block/lunar_forest/lunar_planks"
+  }
+}
