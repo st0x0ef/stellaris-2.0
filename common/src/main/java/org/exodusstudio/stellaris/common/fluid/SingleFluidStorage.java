@@ -79,9 +79,6 @@ public abstract class SingleFluidStorage implements UniversalFluidStorage {
             return FluidStack.empty();
         }
 
-        Stellaris.LOG.error(getFluidInTank(0).getName().getString());
-        Stellaris.LOG.error(stack.getName().getString());
-
         if (!getFluidInTank(0).isFluidEqual(stack)) {
             return FluidStack.empty();
         }
