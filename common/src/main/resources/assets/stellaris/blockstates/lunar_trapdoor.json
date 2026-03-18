@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "facing=north,half=bottom,open=false": {
+      "model": "stellaris:block/lunar_trapdoor_bottom"
+    }
+  }
+}

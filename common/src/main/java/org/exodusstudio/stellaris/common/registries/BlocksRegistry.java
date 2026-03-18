@@ -3,21 +3,31 @@ package org.exodusstudio.stellaris.common.registries;
 import dev.architectury.core.block.ArchitecturyLiquidBlock;
 import dev.architectury.registry.registries.DeferredRegister;
 import dev.architectury.registry.registries.RegistrySupplier;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.Identifier;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.RotatedPillarBlock;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.block.*;
+import net.minecraft.world.level.block.TintedParticleLeavesBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.block.grower.TreeGrower;
+import net.minecraft.world.item.SignItem;
+import net.minecraft.world.item.HangingSignItem;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.material.MapColor;
+import net.minecraft.world.level.material.PushReaction;
 import org.exodusstudio.stellaris.common.blocks.*;
 import org.exodusstudio.stellaris.common.items.PowerBankItem;
 import org.exodusstudio.stellaris.common.registries.utils.BlockItemRegistrySupplier;
 import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
+import org.exodusstudio.stellaris.common.world.ModConfiguredFeatures;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Optional;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 
@@ -38,6 +48,34 @@ public final class BlocksRegistry {
     public static final BlockItemRegistrySupplier MOON_STONE_IRON_ORE = blockWithItem("moon_stone_iron_ore", ofFullCopy(Blocks.STONE));
 
     public static final BlockItemRegistrySupplier LUNAR_STONED_WOOD_LOG = blockWithItem("lunar_stoned_wood_log", ofFullCopy(Blocks.STONE), RotatedPillarBlock::new);
+
+    // LUNAR FOREST
+    public static final BlockItemRegistrySupplier LUNAR_LOG = blockWithItem("lunar_log", ofFullCopy(Blocks.OAK_LOG), RotatedPillarBlock::new);
+    public static final BlockItemRegistrySupplier LUNAR_WOOD = blockWithItem("lunar_wood", ofFullCopy(Blocks.OAK_WOOD), RotatedPillarBlock::new);
+    public static final BlockItemRegistrySupplier STRIPPED_LUNAR_LOG = blockWithItem("stripped_lunar_log", ofFullCopy(Blocks.STRIPPED_OAK_LOG), RotatedPillarBlock::new);
+    public static final BlockItemRegistrySupplier STRIPPED_LUNAR_WOOD = blockWithItem("stripped_lunar_wood", ofFullCopy(Blocks.STRIPPED_OAK_WOOD), RotatedPillarBlock::new);
+
+    public static final BlockItemRegistrySupplier LUNAR_PLANKS = blockWithItem("lunar_planks", ofFullCopy(Blocks.OAK_PLANKS));
+    public static final BlockItemRegistrySupplier LUNAR_STAIRS = blockWithItem("lunar_stairs", ofFullCopy(Blocks.OAK_STAIRS), p -> new StairBlock(LUNAR_PLANKS.block().get().defaultBlockState(), p));
+    public static final BlockItemRegistrySupplier LUNAR_SLAB = blockWithItem("lunar_slab", ofFullCopy(Blocks.OAK_SLAB), SlabBlock::new);
+
+    public static final BlockItemRegistrySupplier LUNAR_FENCE = blockWithItem("lunar_fence", ofFullCopy(Blocks.OAK_FENCE), FenceBlock::new);
+    public static final BlockItemRegistrySupplier LUNAR_FENCE_GATE = blockWithItem("lunar_fence_gate", ofFullCopy(Blocks.OAK_FENCE_GATE), p -> new FenceGateBlock(ModWoodTypes.LUNAR_WOOD_TYPE, p));
+
+    public static final BlockItemRegistrySupplier LUNAR_DOOR = blockWithItem("lunar_door", ofFullCopy(Blocks.OAK_DOOR), p -> new DoorBlock(ModWoodTypes.LUNAR, p));
+    public static final BlockItemRegistrySupplier LUNAR_TRAPDOOR = blockWithItem("lunar_trapdoor", ofFullCopy(Blocks.OAK_TRAPDOOR), p -> new TrapDoorBlock(ModWoodTypes.LUNAR, p));
+
+    public static final BlockItemRegistrySupplier LUNAR_PRESSURE_PLATE = blockWithItem("lunar_pressure_plate", ofFullCopy(Blocks.OAK_PRESSURE_PLATE), p -> new PressurePlateBlock(ModWoodTypes.LUNAR, p));
+    public static final BlockItemRegistrySupplier LUNAR_BUTTON = blockWithItem("lunar_button", ofFullCopy(Blocks.OAK_BUTTON), p -> new ButtonBlock(ModWoodTypes.LUNAR, 30, p));
+
+    public static final BlockItemRegistrySupplier LUNAR_LEAVES = blockWithItem("lunar_leaves", ofFullCopy(Blocks.OAK_LEAVES), p -> new TintedParticleLeavesBlock(0.01F, p.mapColor(MapColor.PLANT).strength(0.2F).randomTicks().sound(SoundType.GRASS).noOcclusion().isValidSpawn(BlocksRegistry::ocelotOrParrot).isSuffocating(BlocksRegistry::never).isViewBlocking(BlocksRegistry::never).ignitedByLava().pushReaction(PushReaction.DESTROY).isRedstoneConductor(BlocksRegistry::never)));
+    public static final BlockItemRegistrySupplier LUNAR_SAPLING = blockWithItem("lunar_sapling", ofFullCopy(Blocks.OAK_SAPLING), p -> new LunarSaplingBlock(new TreeGrower("lunar", Optional.empty(), Optional.of(ModConfiguredFeatures.LUNAR_TREE), Optional.empty()), p));
+
+    public static final RegistrySupplier<Block> LUNAR_SIGN = block("lunar_sign", ofFullCopy(Blocks.OAK_SIGN), p -> new StandingSignBlock(ModWoodTypes.LUNAR_WOOD_TYPE, p));
+    public static final RegistrySupplier<Block> LUNAR_WALL_SIGN = block("lunar_wall_sign", ofFullCopy(Blocks.OAK_WALL_SIGN), p -> new WallSignBlock(ModWoodTypes.LUNAR_WOOD_TYPE, p));
+    public static final RegistrySupplier<Block> LUNAR_HANGING_SIGN = block("lunar_hanging_sign", ofFullCopy(Blocks.OAK_HANGING_SIGN), p -> new CeilingHangingSignBlock(ModWoodTypes.LUNAR_WOOD_TYPE, p));
+    public static final RegistrySupplier<Block> LUNAR_WALL_HANGING_SIGN = block("lunar_wall_hanging_sign", ofFullCopy(Blocks.OAK_WALL_HANGING_SIGN), p -> new WallHangingSignBlock(ModWoodTypes.LUNAR_WOOD_TYPE, p));
+
 
     public static final BlockItemRegistrySupplier ICED_MAGMA_BLOCK = blockWithItem("iced_magma_block", ofFullCopy(Blocks.MAGMA_BLOCK), IcedMagmaBlock::new);
 
@@ -148,5 +186,14 @@ public final class BlocksRegistry {
         RegistrySupplier<B> block = block(name, properties, blockFunc);
         RegistrySupplier<BlockItem> item = ItemsRegistry.item(name, itemProperties.arch$tab(CreativeTabsRegistry.STELLARIS_BLOCKS), p -> itemSupplier.apply(block.get(), p));
         return new BlockItemRegistrySupplier(block, item);
+    }
+
+    // Utils from vanilla blocks class
+    private static Boolean ocelotOrParrot(BlockState state, BlockGetter level, BlockPos pos, EntityType<?> entity) {
+        return entity == EntityType.OCELOT || entity == EntityType.PARROT;
+    }
+
+    private static boolean never(BlockState state, BlockGetter blockGetter, BlockPos pos) {
+        return false;
     }
 }

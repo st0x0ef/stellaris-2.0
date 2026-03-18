@@ -1,0 +1,16 @@
+{
+  "variants": {
+    "axis=y": {
+      "model": "stellaris:block/stripped_lunar_wood"
+    },
+    "axis=z": {
+      "model": "stellaris:block/stripped_lunar_wood",
+      "x": 90
+    },
+    "axis=x": {
+      "model": "stellaris:block/stripped_lunar_wood",
+      "x": 90,
+      "y": 90
+    }
+  }
+}

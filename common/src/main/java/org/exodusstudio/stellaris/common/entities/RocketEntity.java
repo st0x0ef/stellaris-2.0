@@ -13,6 +13,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
@@ -24,6 +25,7 @@ import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.phys.Vec3;
+import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.common.module.Modules;
 import org.exodusstudio.stellaris.common.module.rocket.RocketModule;
 import org.exodusstudio.stellaris.common.module.rocket.RocketModules;
@@ -162,24 +164,25 @@ public class RocketEntity extends VehicleEntity  {
     }
 
     public void startTimerAndFlyMovement() {
-        if (this.getTimer() < 200) {
-            this.entityData.set(ROCKET_START_TIMER, this.getTimer() +1 );
+        if (this.getTimer() < 200 && !this.level().isClientSide()) {
+            this.entityData.set(ROCKET_START_TIMER, this.getTimer() + 1);
         }
 
         if (this.getTimer() == 200) {
             if (this.getDeltaMovement().y < this.getRocketSpeed() - 0.1) {
-                this.setDeltaMovement(this.getDeltaMovement().x, this.getDeltaMovement().y + 0.1, this.getDeltaMovement().z);
+                this.addDeltaMovement(new Vec3(0, 0.1, 0));
             } else {
-                this.setDeltaMovement(this.getDeltaMovement().x, this.getRocketSpeed(), this.getDeltaMovement().z);
+                this.setDeltaMovement(new Vec3(0, this.getRocketSpeed(), 0));
             }
+
+            this.move(MoverType.SELF, this.getDeltaMovement());
         }
     }
 
     public void startRocket() {
         Entity entity = this.getPassengers().getFirst();
 
-        if (entity != null && entity instanceof Player player) {
-
+        if (entity instanceof Player player) {
             if (this.getFuel() > 0 || player.isCreative()) {
                 if (!this.entityData.get(ROCKET_START)) {
                     this.entityData.set(ROCKET_START, true);
@@ -187,8 +190,7 @@ public class RocketEntity extends VehicleEntity  {
                     //TODO: sound
                     //this.level().playSound(player, this, SoundRegistry.ROCKET_SOUND.get(), SoundSource.NEUTRAL, 1, 1);
                 }
-            }
-            else {
+            } else {
                 player.displayClientMessage(Component.literal("text.stellaris.rocket.fuel" + getFuelType().getFluid().arch$registryName()), true);
             }
         }
@@ -202,7 +204,6 @@ public class RocketEntity extends VehicleEntity  {
         builder.define(ROCKET_MODULES, RocketModules.empty());
         builder.define(ROCKET_START, false);
         builder.define(ROCKET_START_TIMER, 0);
-
     }
 
 
@@ -210,13 +211,11 @@ public class RocketEntity extends VehicleEntity  {
     public void tick() {
         super.tick();
 
-        if (this.level().isClientSide()) {
-            return;
+        if (!this.level().isClientSide()) {
+            tryFillUpRocket();
+            NetworkManager.sendToPlayers(level().getServer().getPlayerList().getPlayers(),
+                    new SyncRocketModule(this.getId(), this.entityData.get(ROCKET_MODULES)));
         }
-
-        tryFillUpRocket();
-        NetworkManager.sendToPlayers(level().getServer().getPlayerList().getPlayers(),
-                new SyncRocketModule(this.getId(), this.entityData.get(ROCKET_MODULES)));
 
         //Handle rocket movement when started
         if (this.entityData.get(ROCKET_START)) {
@@ -231,10 +230,9 @@ public class RocketEntity extends VehicleEntity  {
         Entity sourceEntity = damageSource.getEntity();
 
         if (sourceEntity != null && sourceEntity.isCrouching() && !this.isVehicle()) {
-            this.spawnRocketItem();
-            this.dropEquipment(level);
-
             if (!this.level().isClientSide()) {
+                this.spawnRocketItem();
+                this.dropEquipment(level);
                 this.remove(RemovalReason.DISCARDED);
             }
 
@@ -273,6 +271,7 @@ public class RocketEntity extends VehicleEntity  {
         super.kill(level);
         this.spawnRocketItem();
         this.dropEquipment(level);
+        this.remove(RemovalReason.DISCARDED);
     }
 
     @Override
@@ -319,5 +318,4 @@ public class RocketEntity extends VehicleEntity  {
         }
         return rocketEntity;
     }
-
 }

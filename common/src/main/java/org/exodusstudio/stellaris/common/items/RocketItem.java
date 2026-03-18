@@ -66,31 +66,34 @@ public class RocketItem extends Item implements FluidProvider.ITEM {
                 List<Entity> entities = level.getEntitiesOfClass(Entity.class, scanAbove);
 
                 if (entities.isEmpty()) {
-                    RocketEntity rocket = RocketEntity.fromItemStack(level, itemStack);
-                    /** SET PRE POS */
-                    rocket.setPos(blockpos.getX() + 0.5D, blockpos.getY() + 1.0D, blockpos.getZ() + 0.5D);
+                    if (!level.isClientSide()) {
+                        RocketEntity rocket = RocketEntity.fromItemStack(level, itemStack);
+                        /** SET PRE POS */
+                        rocket.setPos(blockpos.getX() + 0.5D, blockpos.getY() + 1.0D, blockpos.getZ() + 0.5D);
 
-                    //double yOffset = RocketItem.getYOffset(level, blockpos, true, rocket.getBoundingBox());
-                    double yOffset = 1.7D;
-                    float rocketRotation = (float) Mth.floor((Mth.wrapDegrees(context.getRotation() - 180.0F) + 45.0F) / 90.0F) * 90.0F;
+                        //double yOffset = RocketItem.getYOffset(level, blockpos, true, rocket.getBoundingBox());
+                        double yOffset = 1.7D;
+                        float rocketRotation = (float) Mth.floor((Mth.wrapDegrees(context.getRotation() - 180.0F) + 45.0F) / 90.0F) * 90.0F;
 
-                    /** SET FINAL POS */
-                    rocket.setPos(new Vec3(blockpos.getX() + 0.5D, blockpos.getY() + yOffset, blockpos.getZ() + 0.5D));
-                    rocket.setYRot(rocketRotation);
+                        /** SET FINAL POS */
+                        rocket.setPos(new Vec3(blockpos.getX() + 0.5D, blockpos.getY() + yOffset, blockpos.getZ() + 0.5D));
+                        rocket.setYRot(rocketRotation);
+                        rocket.yRotO = rocket.getYRot();
 
-                    rocket.yRotO = rocket.getYRot();
+                        if (level.addFreshEntity(rocket)) {
+                            /** ITEM REMOVE */
+                             if (!player.getAbilities().instabuild) {
+                                itemStack.shrink(1);
+                            }
 
-                    if (level.addFreshEntity(rocket)) {
-                        /** ITEM REMOVE */
-                        if (!player.getAbilities().instabuild) {
-                            itemStack.shrink(1);
+                            /** PLACE SOUND */
+                            //this.rocketPlaceSound(pos, level);
+
+                            return InteractionResult.CONSUME;
                         }
-
-                        /** PLACE SOUND */
-                        //this.rocketPlaceSound(pos, level);
-
-                        return InteractionResult.SUCCESS;
                     }
+
+                    return InteractionResult.SUCCESS;
                 }
             }
 
