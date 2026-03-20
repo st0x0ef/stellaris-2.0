@@ -26,4 +26,6 @@ public class GUISprites {
     public static final Identifier MODULES_TAB_HOVER = IdentifierUtils.id("icon/modules_tab_hover" );
     public static final Identifier ROCKET_CRAFTING_TAB_HOVER = IdentifierUtils.id("icon/rocket_crafting_tab_hover" );
 
+    public static final Identifier OUTPUT_BUTTON = IdentifierUtils.id("util/output_button" );
+
 }

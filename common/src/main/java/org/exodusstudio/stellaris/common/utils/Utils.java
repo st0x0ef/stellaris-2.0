@@ -1,6 +1,7 @@
 package org.exodusstudio.stellaris.common.utils;
 
 import dev.architectury.networking.NetworkManager;
+import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.ARGB;
 import net.minecraft.world.entity.LivingEntity;
@@ -10,7 +11,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import org.exodusstudio.stellaris.client.overlays.FadingHolder;
-import org.exodusstudio.stellaris.common.network.NetworkRegistry;
 import org.exodusstudio.stellaris.common.network.packets.StartFadePacket;
 import org.exodusstudio.stellaris.common.registries.TagsRegistry;
 
@@ -135,6 +135,47 @@ public class Utils {
             }
             action.run();
         });
+    }
+
+    public static String capitalizeFirstLetter(String input) {
+        if (input == null || input.isEmpty()) {
+            return input;
+        }
+        return input.substring(0, 1).toUpperCase() + input.substring(1);
+    }
+
+    public static String getRelativeDirection(Direction looking, Direction direction) {
+        if (looking == null || direction == null) {
+            return null;
+        }
+
+        if (looking == direction) {
+            return "Front";
+        }
+        if (looking == direction.getOpposite()) {
+            return "Back";
+        }
+
+        // Vertical targets are not left/right relative to horizontal facing.
+        if (direction == Direction.UP) {
+            return "Up";
+        }
+        if (direction == Direction.DOWN) {
+            return "Down";
+        }
+
+        if (!looking.getAxis().isHorizontal()) {
+            return "Unknown";
+        }
+
+        if (direction == looking.getCounterClockWise()) {
+            return "Left";
+        }
+        if (direction == looking.getClockWise()) {
+            return "Right";
+        }
+
+        return null;
     }
 
 }
