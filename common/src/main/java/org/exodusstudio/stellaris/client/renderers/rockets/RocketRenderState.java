@@ -8,6 +8,8 @@ import java.util.List;
 
 public class RocketRenderState extends EntityRenderState {
 
+    public boolean rocketStart;
+    public float bodyRotation;
     public List<RocketModule> modules;
 
     public void preRenderModules(RocketRenderer.RenderingContext context) {

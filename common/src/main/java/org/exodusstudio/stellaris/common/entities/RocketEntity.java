@@ -25,7 +25,6 @@ import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.phys.Vec3;
-import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.common.module.Modules;
 import org.exodusstudio.stellaris.common.module.rocket.RocketModule;
 import org.exodusstudio.stellaris.common.module.rocket.RocketModules;
@@ -221,6 +220,7 @@ public class RocketEntity extends VehicleEntity  {
         if (this.entityData.get(ROCKET_START)) {
             this.spawnParticle();
             this.startTimerAndFlyMovement();
+
         }
 
     }
