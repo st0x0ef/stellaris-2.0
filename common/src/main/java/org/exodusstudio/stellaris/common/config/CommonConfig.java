@@ -10,6 +10,9 @@ public class CommonConfig {
 
     public boolean debugMode = false;
 
+    public int rocketTpHeight = 600;
+
+
     @ScreenInfos.InnerConfig
     public OilConfig oilConfig = new OilConfig();
 

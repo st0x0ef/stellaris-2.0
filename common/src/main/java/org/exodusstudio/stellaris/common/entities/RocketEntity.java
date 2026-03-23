@@ -3,6 +3,7 @@ package org.exodusstudio.stellaris.common.entities;
 import com.fej1fun.potentials.components.FluidAmountMapDataComponent;
 import dev.architectury.fluid.FluidStack;
 import dev.architectury.networking.NetworkManager;
+import dev.architectury.registry.menu.MenuRegistry;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
@@ -10,11 +11,9 @@ import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.MoverType;
-import net.minecraft.world.entity.Pose;
+import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BucketItem;
@@ -25,13 +24,15 @@ import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.phys.Vec3;
-import org.exodusstudio.stellaris.Stellaris;
+import org.exodusstudio.stellaris.common.menus.MainTabletMenu;
 import org.exodusstudio.stellaris.common.module.Modules;
 import org.exodusstudio.stellaris.common.module.rocket.RocketModule;
 import org.exodusstudio.stellaris.common.module.rocket.RocketModules;
 import org.exodusstudio.stellaris.common.network.packets.OpenRocketMenuPacket;
 import org.exodusstudio.stellaris.common.network.packets.SyncRocketModule;
 import org.exodusstudio.stellaris.common.registries.*;
+import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
+import org.exodusstudio.stellaris.common.utils.Utils;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -211,6 +212,7 @@ public class RocketEntity extends VehicleEntity  {
     public void tick() {
         super.tick();
 
+
         if (!this.level().isClientSide()) {
             tryFillUpRocket();
             NetworkManager.sendToPlayers(level().getServer().getPlayerList().getPlayers(),
@@ -222,6 +224,17 @@ public class RocketEntity extends VehicleEntity  {
             this.spawnParticle();
             this.startTimerAndFlyMovement();
         }
+
+
+        if(!this.getPassengers().isEmpty()){
+            Entity passenger = this.getPassengers().getFirst();
+
+            if(passenger instanceof Player player && this.getY() >= 300) {
+                openPlanetSelectionScreen(player);
+            }
+        }
+
+
 
     }
 
@@ -278,6 +291,20 @@ public class RocketEntity extends VehicleEntity  {
     public void openCustomInventoryScreen(Player player) {
         NetworkManager.sendToServer(
                 new OpenRocketMenuPacket(this.getId()));
+    }
+
+    public void openPlanetSelectionScreen(Player player) {
+
+        if(!player.stellaris$isPlanetMenuOpen() && player instanceof ServerPlayer serverPlayer) {
+            Utils.executeWithFade(serverPlayer, () -> {
+                MenuRegistry.openExtendedMenu(serverPlayer, MainTabletMenu.createProvider(IdentifierUtils.id("applications/planet_selection")));
+                player.stellaris$setPlanetMenuOpen(true, player, true);
+                this.setNoGravity(true);
+
+            }, true);
+
+
+        }
     }
 
     /**

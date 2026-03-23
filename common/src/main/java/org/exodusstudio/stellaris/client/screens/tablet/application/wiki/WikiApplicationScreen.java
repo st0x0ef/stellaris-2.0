@@ -71,7 +71,7 @@ public class WikiApplicationScreen extends AbstractContainerScreen<WikiApplicati
 
     }
 
-    public WikiApplicationScreen(WikiApplicationMenu menu, Inventory inventory, @Nullable WikiEntry currentEntry, @Nullable Identifier entryInfo) {
+    private WikiApplicationScreen(WikiApplicationMenu menu, Inventory inventory, @Nullable WikiEntry currentEntry, @Nullable Identifier entryInfo) {
         super(menu, inventory, Component.literal("Wiki"));
         this.currentEntry = currentEntry;
         this.menu = menu;
