@@ -6,7 +6,6 @@
   "client": [
     "client.CustomItemModelRenderer",
     "client.GuiMixin",
-    "client.HumanoidModelMixin",
     "client.ItemInHandRendererMixin"
   ],
   "mixins": [
@@ -14,6 +13,7 @@
     "ConsumableMixin",
     "EntityMixinAttachment",
     "LivingEntityMixin",
+    "PlayerMixin",
     "gravity_modifier.AbstractArrowEntityMixin",
     "gravity_modifier.AbstractBoatEntityMixin",
     "gravity_modifier.AbstractMinecartEntityMixin",

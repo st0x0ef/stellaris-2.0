@@ -1,8 +1,11 @@
 package org.exodusstudio.stellaris.mixin;
 
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.phys.Vec3;
 import org.exodusstudio.stellaris.Stellaris;
+import org.exodusstudio.stellaris.common.entities.VehicleEntity;
 import org.exodusstudio.stellaris.common.registries.TagsRegistry;
 import org.exodusstudio.stellaris.common.utils.GravityUtils;
 import org.exodusstudio.stellaris.common.utils.OxygenUtils;
@@ -49,5 +52,14 @@ public class LivingEntityMixin {
         }
 
         stellaris$oxygenCounter++;
+    }
+
+
+    @Inject(at = @At(value = "HEAD"), method = "rideTick")
+    private void getPassengerRidingPosition(CallbackInfo ci) {
+        if(stellaris$entity.getVehicle() instanceof VehicleEntity vehicleEntity) {
+            stellaris$entity.setPose(vehicleEntity.getRiderPose());
+            stellaris$entity.refreshDimensions();
+        }
     }
 }

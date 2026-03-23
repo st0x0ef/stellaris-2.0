@@ -28,6 +28,5 @@ public class StellarisClient {
     public static void registerOverlays() {
         ClientGuiEvent.RENDER_HUD.register(RocketTimerOverlay::render);
         ClientGuiEvent.RENDER_HUD.register(FadeOverlay::render);
-
     }
 }

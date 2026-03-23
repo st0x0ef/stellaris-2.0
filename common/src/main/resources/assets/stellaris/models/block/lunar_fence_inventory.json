@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/fence_inventory",
+  "textures": {
+    "texture": "stellaris:block/lunar_forest/lunar_planks"
+  }
+}

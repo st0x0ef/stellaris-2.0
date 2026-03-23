@@ -3,6 +3,7 @@ package org.exodusstudio.stellaris.common.entities;
 import com.fej1fun.potentials.components.FluidAmountMapDataComponent;
 import dev.architectury.fluid.FluidStack;
 import dev.architectury.networking.NetworkManager;
+import dev.architectury.registry.menu.MenuRegistry;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
@@ -10,10 +11,9 @@ import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.Pose;
+import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BucketItem;
@@ -24,12 +24,15 @@ import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.phys.Vec3;
+import org.exodusstudio.stellaris.common.menus.MainTabletMenu;
 import org.exodusstudio.stellaris.common.module.Modules;
 import org.exodusstudio.stellaris.common.module.rocket.RocketModule;
 import org.exodusstudio.stellaris.common.module.rocket.RocketModules;
 import org.exodusstudio.stellaris.common.network.packets.OpenRocketMenuPacket;
 import org.exodusstudio.stellaris.common.network.packets.SyncRocketModule;
 import org.exodusstudio.stellaris.common.registries.*;
+import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
+import org.exodusstudio.stellaris.common.utils.Utils;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -162,24 +165,25 @@ public class RocketEntity extends VehicleEntity  {
     }
 
     public void startTimerAndFlyMovement() {
-        if (this.getTimer() < 200) {
-            this.entityData.set(ROCKET_START_TIMER, this.getTimer() +1 );
+        if (this.getTimer() < 200 && !this.level().isClientSide()) {
+            this.entityData.set(ROCKET_START_TIMER, this.getTimer() + 1);
         }
 
         if (this.getTimer() == 200) {
             if (this.getDeltaMovement().y < this.getRocketSpeed() - 0.1) {
-                this.setDeltaMovement(this.getDeltaMovement().x, this.getDeltaMovement().y + 0.1, this.getDeltaMovement().z);
+                this.addDeltaMovement(new Vec3(0, 0.1, 0));
             } else {
-                this.setDeltaMovement(this.getDeltaMovement().x, this.getRocketSpeed(), this.getDeltaMovement().z);
+                this.setDeltaMovement(new Vec3(0, this.getRocketSpeed(), 0));
             }
+
+            this.move(MoverType.SELF, this.getDeltaMovement());
         }
     }
 
     public void startRocket() {
         Entity entity = this.getPassengers().getFirst();
 
-        if (entity != null && entity instanceof Player player) {
-
+        if (entity instanceof Player player) {
             if (this.getFuel() > 0 || player.isCreative()) {
                 if (!this.entityData.get(ROCKET_START)) {
                     this.entityData.set(ROCKET_START, true);
@@ -187,8 +191,7 @@ public class RocketEntity extends VehicleEntity  {
                     //TODO: sound
                     //this.level().playSound(player, this, SoundRegistry.ROCKET_SOUND.get(), SoundSource.NEUTRAL, 1, 1);
                 }
-            }
-            else {
+            } else {
                 player.displayClientMessage(Component.literal("text.stellaris.rocket.fuel" + getFuelType().getFluid().arch$registryName()), true);
             }
         }
@@ -202,7 +205,6 @@ public class RocketEntity extends VehicleEntity  {
         builder.define(ROCKET_MODULES, RocketModules.empty());
         builder.define(ROCKET_START, false);
         builder.define(ROCKET_START_TIMER, 0);
-
     }
 
 
@@ -210,19 +212,29 @@ public class RocketEntity extends VehicleEntity  {
     public void tick() {
         super.tick();
 
-        if (this.level().isClientSide()) {
-            return;
-        }
 
-        tryFillUpRocket();
-        NetworkManager.sendToPlayers(level().getServer().getPlayerList().getPlayers(),
-                new SyncRocketModule(this.getId(), this.entityData.get(ROCKET_MODULES)));
+        if (!this.level().isClientSide()) {
+            tryFillUpRocket();
+            NetworkManager.sendToPlayers(level().getServer().getPlayerList().getPlayers(),
+                    new SyncRocketModule(this.getId(), this.entityData.get(ROCKET_MODULES)));
+        }
 
         //Handle rocket movement when started
         if (this.entityData.get(ROCKET_START)) {
             this.spawnParticle();
             this.startTimerAndFlyMovement();
         }
+
+
+        if(!this.getPassengers().isEmpty()){
+            Entity passenger = this.getPassengers().getFirst();
+
+            if(passenger instanceof Player player && this.getY() >= 300) {
+                openPlanetSelectionScreen(player);
+            }
+        }
+
+
 
     }
 
@@ -231,10 +243,9 @@ public class RocketEntity extends VehicleEntity  {
         Entity sourceEntity = damageSource.getEntity();
 
         if (sourceEntity != null && sourceEntity.isCrouching() && !this.isVehicle()) {
-            this.spawnRocketItem();
-            this.dropEquipment(level);
-
             if (!this.level().isClientSide()) {
+                this.spawnRocketItem();
+                this.dropEquipment(level);
                 this.remove(RemovalReason.DISCARDED);
             }
 
@@ -246,7 +257,7 @@ public class RocketEntity extends VehicleEntity  {
 
     @Override
     public @NotNull Vec3 getPassengerRidingPosition(Entity entity) {
-        return super.getPassengerRidingPosition(entity).subtract(0, 3f, 0);
+        return super.getPassengerRidingPosition(entity).subtract(0f, 3.75f, 0f); // TODO : replace with the model upgrade offset
     }
 
     @Override
@@ -273,12 +284,27 @@ public class RocketEntity extends VehicleEntity  {
         super.kill(level);
         this.spawnRocketItem();
         this.dropEquipment(level);
+        this.remove(RemovalReason.DISCARDED);
     }
 
     @Override
     public void openCustomInventoryScreen(Player player) {
         NetworkManager.sendToServer(
                 new OpenRocketMenuPacket(this.getId()));
+    }
+
+    public void openPlanetSelectionScreen(Player player) {
+
+        if(!player.stellaris$isPlanetMenuOpen() && player instanceof ServerPlayer serverPlayer) {
+            Utils.executeWithFade(serverPlayer, () -> {
+                MenuRegistry.openExtendedMenu(serverPlayer, MainTabletMenu.createProvider(IdentifierUtils.id("applications/planet_selection")));
+                player.stellaris$setPlanetMenuOpen(true, player, true);
+                this.setNoGravity(true);
+
+            }, true);
+
+
+        }
     }
 
     /**
@@ -319,5 +345,4 @@ public class RocketEntity extends VehicleEntity  {
         }
         return rocketEntity;
     }
-
 }

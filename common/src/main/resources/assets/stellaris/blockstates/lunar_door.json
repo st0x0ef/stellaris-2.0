@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "facing=east,half=lower,hinge=left,open=false": {
+      "model": "stellaris:block/lunar_door_bottom"
+    }
+  }
+}
