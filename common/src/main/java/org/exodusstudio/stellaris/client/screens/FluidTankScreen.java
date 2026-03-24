@@ -9,6 +9,7 @@ import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Inventory;
+import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.client.screens.components.GaugeChunkWidget;
 import org.exodusstudio.stellaris.client.screens.components.GaugeWidget;
 import org.exodusstudio.stellaris.client.screens.utils.GUISprites;
@@ -23,7 +24,7 @@ public class FluidTankScreen extends AbstractContainerScreen<FluidTankMenu> {
     private static final Identifier TEXTURE = IdentifierUtils.guiTexture("fluid_tank");
 
     private final FluidTankBlockEntity blockEntity = getMenu().getBlockEntity();
-    private GaugeWidget fluidGauge;
+    private GaugeChunkWidget fluidGauge;
 
     public FluidTankScreen(FluidTankMenu menu, Inventory playerInventory, Component title) {
         super(menu, playerInventory, Component.translatable("stellaris.screen.fluid_tank"));

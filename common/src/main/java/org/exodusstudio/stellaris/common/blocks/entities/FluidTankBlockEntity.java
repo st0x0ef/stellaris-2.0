@@ -15,11 +15,13 @@ import net.minecraft.world.level.block.entity.BaseContainerBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
+import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.common.blocks.FluidTankBlock;
 import org.exodusstudio.stellaris.common.blocks.entities.machines.base.TickingBlockEntity;
 import org.exodusstudio.stellaris.common.fluid.FluidUtil;
 import org.exodusstudio.stellaris.common.fluid.SingleFluidStorage;
 import org.exodusstudio.stellaris.common.menus.FluidTankMenu;
+import org.exodusstudio.stellaris.common.network.packets.SyncFluidPacket;
 import org.exodusstudio.stellaris.common.network.packets.SyncFluidPacketWithoutDirection;
 import org.exodusstudio.stellaris.common.registries.BlockEntitiesRegistry;
 import org.jetbrains.annotations.Nullable;
@@ -32,8 +34,6 @@ public class FluidTankBlockEntity extends BaseContainerBlockEntity implements Fl
     private final SingleFluidStorage fluidTank;
     protected NonNullList<ItemStack> items = NonNullList.withSize(2, ItemStack.EMPTY);
 
-    private int renderStage = -1; // -1 to force update on first tick
-
     public FluidTankBlockEntity(BlockPos pos, BlockState state) {
         this(pos, state, ((FluidTankBlock)state.getBlock()).capacity);
     }
@@ -44,10 +44,12 @@ public class FluidTankBlockEntity extends BaseContainerBlockEntity implements Fl
             @Override
             protected void onChange() {
                 setChanged();
+
                 if (level != null && level.getServer() != null && !level.getServer().getPlayerList().getPlayers().isEmpty()) {
                     NetworkManager.sendToPlayers(level.getServer().getPlayerList().getPlayers(),
                             new SyncFluidPacketWithoutDirection(new FluidAmountMapDataComponent(List.of(getFluidInTank(0).getFluid()), List.of(getFluidValueInTank())), 0, getBlockPos()));
                 }
+
             }
         };
     }
@@ -55,7 +57,7 @@ public class FluidTankBlockEntity extends BaseContainerBlockEntity implements Fl
     @Override
     protected void saveAdditional(ValueOutput output) {
         super.saveAdditional(output);
-        fluidTank.save(output, "fluid-tank");
+        fluidTank.save(output, "fluid_tank");
     }
 
     @Override
@@ -82,7 +84,6 @@ public class FluidTankBlockEntity extends BaseContainerBlockEntity implements Fl
 
     @Override
     public void tick(Level level, BlockState state) {
-        int initialRenderStage = renderStage;
 
         //First - Insert slot
         if (!items.getFirst().isEmpty())
@@ -95,12 +96,17 @@ public class FluidTankBlockEntity extends BaseContainerBlockEntity implements Fl
         FluidUtil.distributeFluidNearby(level, worldPosition, fluidTank.getFluidInTank(0).copyWithAmount(fluidTank.getFluidValueInTank() / 20));
 
         //Update render stage
-        renderStage = Math.toIntExact((fluidTank.getFluidValueInTank() * 9) / fluidTank.getTankCapacity(0));
-
-        if (initialRenderStage != renderStage) {
-            state.setValue(FluidTankBlock.STAGE, renderStage);
-            level.setBlock(getBlockPos(), state, 3);
+        int initialRenderStage = Math.toIntExact((fluidTank.getFluidValueInTank() * 9) / fluidTank.getTankCapacity(0));
+        if (initialRenderStage != state.getValue(FluidTankBlock.STAGE)) {
+            BlockState newState = state.setValue(FluidTankBlock.STAGE, initialRenderStage);
+            level.setBlock(getBlockPos(), newState, 3);
             setChanged();
+        }
+
+        //TODO this is weird because in other block we don"t need this.
+        if (level != null && level.getServer() != null && !level.getServer().getPlayerList().getPlayers().isEmpty()) {
+            NetworkManager.sendToPlayers(level.getServer().getPlayerList().getPlayers(),
+                    new SyncFluidPacketWithoutDirection(new FluidAmountMapDataComponent(List.of(fluidTank.getFluidInTank(0).getFluid()), List.of(fluidTank.getFluidValueInTank())), 0, getBlockPos()));
         }
     }
 
