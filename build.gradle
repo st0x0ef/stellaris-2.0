@@ -45,6 +45,7 @@ subprojects {
         }
 
         modImplementation "fr.tathan.exoconfig:exoconfig-$modLoader-${rootProject.minecraft_version}:${rootProject.exoconfig_version}"
+        modImplementation "fr.tathan.sky-aesthetics:sky-aesthetics-$modLoader-${rootProject.minecraft_version}:${rootProject.skyaesthetics_version}"
 
     }
 

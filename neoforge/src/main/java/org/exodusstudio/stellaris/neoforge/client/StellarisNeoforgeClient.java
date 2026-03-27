@@ -1,5 +1,7 @@
 package org.exodusstudio.stellaris.neoforge.client;
 
+import net.minecraft.client.renderer.ItemBlockRenderTypes;
+import net.minecraft.client.renderer.chunk.ChunkSectionLayer;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -26,6 +28,7 @@ import org.exodusstudio.stellaris.client.screens.tablet.application.wiki.WikiApp
 import org.exodusstudio.stellaris.common.blocks.entities.machines.GravityManipulatorBlockEntity;
 import org.exodusstudio.stellaris.common.menus.WikiApplicationMenu;
 import org.exodusstudio.stellaris.common.registries.BlockEntitiesRegistry;
+import org.exodusstudio.stellaris.common.registries.BlocksRegistry;
 import org.exodusstudio.stellaris.common.registries.EntityTypesRegistry;
 import org.exodusstudio.stellaris.common.registries.MenuTypesRegistry;
 
@@ -33,7 +36,15 @@ import org.exodusstudio.stellaris.common.registries.MenuTypesRegistry;
 public class StellarisNeoforgeClient {
     @SubscribeEvent
     public static void clientSetup(FMLClientSetupEvent event) {
-        event.enqueueWork(StellarisClient::initClient);
+        event.enqueueWork(() -> {
+            StellarisClient.initClient();
+            registerRenderLayers();
+        });
+    }
+    private static void registerRenderLayers() {
+        ItemBlockRenderTypes.setRenderLayer(BlocksRegistry.LUNAR_SAPLING.block().get(), ChunkSectionLayer.CUTOUT);
+        ItemBlockRenderTypes.setRenderLayer(BlocksRegistry.LUNAR_DOOR.block().get(), ChunkSectionLayer.CUTOUT);
+        ItemBlockRenderTypes.setRenderLayer(BlocksRegistry.LUNAR_TRAPDOOR.block().get(), ChunkSectionLayer.CUTOUT);
     }
 
     @SubscribeEvent

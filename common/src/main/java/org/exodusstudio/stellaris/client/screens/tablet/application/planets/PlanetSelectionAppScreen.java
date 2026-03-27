@@ -30,7 +30,7 @@ public class PlanetSelectionAppScreen extends Screen {
     private final boolean inSpace;
 
     public PlanetSelectionAppScreen(MainTabletScreen mainTabletScreen) {
-        this(mainTabletScreen, true /* TODO: change this depending if we open this with the rocket */);
+        this(mainTabletScreen, mainTabletScreen.player.stellaris$isPlanetMenuOpen());
     }
 
     public PlanetSelectionAppScreen(MainTabletScreen mainTabletScreen, boolean inSpace) {
@@ -170,6 +170,7 @@ public class PlanetSelectionAppScreen extends Screen {
         if(fadingHolder != null && fadingHolder.fadeAmount() == 1.0f) {
             Utils.stopFade(mainTabletScreen.player);
         }
+        this.mainTabletScreen.player.stellaris$setPlanetMenuOpen(false, this.mainTabletScreen.player, true);
         super.onClose();
     }
 }

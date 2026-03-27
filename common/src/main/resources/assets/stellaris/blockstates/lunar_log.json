@@ -1,0 +1,16 @@
+{
+  "variants": {
+    "axis=y": {
+      "model": "stellaris:block/lunar_log"
+    },
+    "axis=z": {
+      "model": "stellaris:block/lunar_log",
+      "x": 90
+    },
+    "axis=x": {
+      "model": "stellaris:block/lunar_log",
+      "x": 90,
+      "y": 90
+    }
+  }
+}

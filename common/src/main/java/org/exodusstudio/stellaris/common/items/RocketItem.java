@@ -19,6 +19,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
+import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.common.blocks.RocketLaunchPadBlock;
 import org.exodusstudio.stellaris.common.entities.RocketEntity;
 import org.exodusstudio.stellaris.common.modules.Modules;
@@ -54,7 +55,9 @@ public class RocketItem extends Item implements FluidProvider.ITEM {
             //the size of the rocket's bounding box
             AABB aabb = EntityTypesRegistry.ROCKET.get().getDimensions().makeBoundingBox(vec3.x(), vec3.y(), vec3.z());
 
-            if (level.noCollision(aabb)) {
+            List<RocketEntity> existingRockets = level.getEntities(EntityTypesRegistry.ROCKET.get(), aabb, Entity::isAlive);
+
+            if (existingRockets.isEmpty()) {
 
                 /** POS */
                 int x = blockpos.getX();

@@ -1,0 +1,25 @@
+{
+  "period_ticks": 24000,
+  "tracks": {
+    "minecraft:visual/sun_angle": {
+      "ease": {
+        "cubic_bezier": [
+          0.362,
+          0.241,
+          0.638,
+          0.759
+        ]
+      },
+      "keyframes": [
+        {
+          "ticks": 6000,
+          "value": 360.0
+        },
+        {
+          "ticks": 6000,
+          "value": 0.0
+        }
+      ]
+    }
+  }
+}
