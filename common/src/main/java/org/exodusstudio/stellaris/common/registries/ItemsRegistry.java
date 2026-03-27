@@ -13,9 +13,9 @@ import net.minecraft.world.item.equipment.ArmorMaterials;
 import org.exodusstudio.stellaris.common.items.*;
 import org.exodusstudio.stellaris.common.items.infection.ParasiteItem;
 import org.exodusstudio.stellaris.common.items.infection.PathogenStorageCellItem;
-import org.exodusstudio.stellaris.common.items.modules.GalaxySkinModule;
-import org.exodusstudio.stellaris.common.items.modules.HydrogenFuelModuleItem;
-import org.exodusstudio.stellaris.common.items.modules.ShieldModule;
+import org.exodusstudio.stellaris.common.items.modules.rocket.HydrogenFuelModuleItem;
+import org.exodusstudio.stellaris.common.items.modules.rocket.RocketSkinModuleItem;
+import org.exodusstudio.stellaris.common.items.modules.rocket.ShieldModule;
 import org.exodusstudio.stellaris.common.items.modules.space_suit.*;
 import org.exodusstudio.stellaris.common.items.space_suit.SpaceSuitBoots;
 import org.exodusstudio.stellaris.common.items.space_suit.SpaceSuitChestplate;
@@ -55,7 +55,7 @@ public final class ItemsRegistry {
     /** Special Items */
     public static final RegistrySupplier<TabletItem> TABLET = item("tablet", TabletItem::new);
     public static final RegistrySupplier<ShieldModule> SHIELD_MODULE = item("shield_module", ShieldModule::new);
-    public static final RegistrySupplier<GalaxySkinModule> GALAXY_SKIN = item("galaxy_skin", GalaxySkinModule::new);
+    public static final RegistrySupplier<RocketSkinModuleItem> GALAXY_SKIN = item("galaxy_skin", p -> new RocketSkinModuleItem(p, RocketSkinModuleItem.GALAXY_SKIN_TEXTURE));
     public static final RegistrySupplier<HydrogenFuelModuleItem> HYDROGEN_MOTOR = item("hydrogen_motor", HydrogenFuelModuleItem::new);
     public static final RegistrySupplier<Item> OIL_FINDER = item("oil_finder", OilFinderItem::new);
 

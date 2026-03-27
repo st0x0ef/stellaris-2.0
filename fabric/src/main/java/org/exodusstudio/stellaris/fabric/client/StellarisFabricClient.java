@@ -2,9 +2,11 @@ package org.exodusstudio.stellaris.fabric.client;
 
 import dev.architectury.registry.client.gui.MenuScreenRegistry;
 import net.fabricmc.api.ClientModInitializer;
+import net.fabricmc.fabric.api.client.rendering.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
+import net.minecraft.client.renderer.chunk.ChunkSectionLayer;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import org.exodusstudio.stellaris.client.StellarisClient;
 import org.exodusstudio.stellaris.client.renderers.space_suit.SpaceSuitModel;
@@ -24,6 +26,7 @@ import org.exodusstudio.stellaris.client.screens.tablet.application.wiki.WikiApp
 import org.exodusstudio.stellaris.common.blocks.entities.machines.GravityManipulatorBlockEntity;
 import org.exodusstudio.stellaris.common.menus.WikiApplicationMenu;
 import org.exodusstudio.stellaris.common.registries.BlockEntitiesRegistry;
+import org.exodusstudio.stellaris.common.registries.BlocksRegistry;
 import org.exodusstudio.stellaris.common.registries.EntityTypesRegistry;
 import org.exodusstudio.stellaris.common.registries.MenuTypesRegistry;
 
@@ -33,7 +36,14 @@ public final class StellarisFabricClient implements ClientModInitializer {
         StellarisClient.initClient();
         registerScreens();
         registerEntityRenderer();
+        registerRenderLayers();
         registerEntityModelLayer();
+    }
+
+    private void registerRenderLayers() {
+        BlockRenderLayerMap.putBlock(BlocksRegistry.LUNAR_SAPLING.block().get(), ChunkSectionLayer.CUTOUT);
+        BlockRenderLayerMap.putBlock(BlocksRegistry.LUNAR_DOOR.block().get(), ChunkSectionLayer.CUTOUT);
+        BlockRenderLayerMap.putBlock(BlocksRegistry.LUNAR_TRAPDOOR.block().get(), ChunkSectionLayer.CUTOUT);
     }
 
     private void registerScreens() {
