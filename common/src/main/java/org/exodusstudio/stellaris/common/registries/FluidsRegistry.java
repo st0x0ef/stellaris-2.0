@@ -31,6 +31,7 @@ public class FluidsRegistry {
             .explosionResistance(100.0F)
             .lighterThanAir(true)
             .convertToSource(false)
+
             .overlayTexture(IdentifierUtils.id("block/fluids/hydrogen_overlay"))
             .sourceTexture(IdentifierUtils.id("block/fluids/hydrogen_still"))
             .flowingTexture(IdentifierUtils.id("block/fluids/hydrogen_flow"));

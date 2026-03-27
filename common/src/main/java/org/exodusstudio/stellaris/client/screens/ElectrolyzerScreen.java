@@ -79,10 +79,10 @@ public class ElectrolyzerScreen extends AbstractContainerScreen<ElectrolyzerMenu
             return;
         }
 
-        ingredientTankGauge.updateAmount(blockEntity.ingredientTank, 0);
-        firstIngredientGauge.updateAmount(blockEntity.resultTanks, 0);
-        secondIngredientGauge.updateAmount(blockEntity.resultTanks, 1);
-        energyGauge.updateAmount(blockEntity.getEnergy(null).getEnergy());
+        if(ingredientTankGauge != null) ingredientTankGauge.updateAmount(blockEntity.ingredientTank, 0);
+        if(firstIngredientGauge != null)firstIngredientGauge.updateAmount(blockEntity.resultTanks, 0);
+        if(secondIngredientGauge != null)secondIngredientGauge.updateAmount(blockEntity.resultTanks, 1);
+        if(energyGauge != null)energyGauge.updateAmount(blockEntity.getEnergy(null).getEnergy());
     }
 
     @Override
