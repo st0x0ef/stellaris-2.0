@@ -20,7 +20,7 @@ public class DataAttachmentRegistry {
     public static final DeferredRegister<AttachmentType<?>> ATTACHMENT_TYPES = DeferredRegister.create(NeoForgeRegistries.ATTACHMENT_TYPES, Stellaris.MOD_ID);
 
     private static final Supplier<AttachmentType<?>> OIL = ATTACHMENT_TYPES.register(
-            "oil", () -> AttachmentType.builder(() -> 0).serialize(Codec.INT.fieldOf("mana")).sync(ByteBufCodecs.INT).build()
+            "oil", () -> AttachmentType.builder(() -> -1).serialize(Codec.INT.fieldOf("oil")).sync(ByteBufCodecs.INT).build()
     );
 
     private static final Supplier<AttachmentType<?>> PLAYER_FADE = ATTACHMENT_TYPES.register(

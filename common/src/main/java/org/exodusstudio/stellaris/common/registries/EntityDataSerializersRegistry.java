@@ -1,9 +1,9 @@
 package org.exodusstudio.stellaris.common.registries;
 
 import net.minecraft.network.syncher.EntityDataSerializer;
-import org.exodusstudio.stellaris.common.module.Modules;
-import org.exodusstudio.stellaris.common.module.rocket.RocketModule;
-import org.exodusstudio.stellaris.common.module.rocket.RocketModules;
+import org.exodusstudio.stellaris.common.modules.Modules;
+import org.exodusstudio.stellaris.common.modules.rocket.RocketModule;
+import org.exodusstudio.stellaris.common.modules.rocket.RocketModules;
 import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
 import org.exodusstudio.stellaris.platform.RegistryPlatform;
 

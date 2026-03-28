@@ -22,9 +22,9 @@ import net.minecraft.world.phys.Vec3;
 import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.common.blocks.RocketLaunchPadBlock;
 import org.exodusstudio.stellaris.common.entities.RocketEntity;
-import org.exodusstudio.stellaris.common.module.Modules;
-import org.exodusstudio.stellaris.common.module.rocket.RocketModule;
-import org.exodusstudio.stellaris.common.module.rocket.RocketModules;
+import org.exodusstudio.stellaris.common.modules.Modules;
+import org.exodusstudio.stellaris.common.modules.rocket.RocketModule;
+import org.exodusstudio.stellaris.common.modules.rocket.RocketModules;
 import org.exodusstudio.stellaris.common.registries.BlocksRegistry;
 import org.exodusstudio.stellaris.common.registries.DataComponentsRegistry;
 import org.exodusstudio.stellaris.common.registries.EntityTypesRegistry;
@@ -37,7 +37,7 @@ import java.util.function.Consumer;
 public class RocketItem extends Item implements FluidProvider.ITEM {
 
     public RocketItem(Properties properties) {
-        super(properties.component(DataComponentsRegistry.ROCKET_MODULES.getOrNull(), RocketModules.empty()));
+        super(properties.component(DataComponentsRegistry.ROCKET_MODULES.get(), RocketModules.empty()));
     }
 
     @Override
@@ -113,7 +113,8 @@ public class RocketItem extends Item implements FluidProvider.ITEM {
         if (modules != null && !modules.items().isEmpty()) {
             tooltipAdder.accept(Component.literal("Modules:"));
             for (RocketModule module : modules.modules) {
-                tooltipAdder.accept(Component.literal("- ").append( module.displayName()).withStyle(ChatFormatting.GRAY));
+                // TODO: Fix module tooltips
+                //tooltipAdder.accept(Component.literal("- ").append( module.displayName()).withStyle(ChatFormatting.GRAY));
             }
         } else {
             tooltipAdder.accept(Component.literal("No Modules"));

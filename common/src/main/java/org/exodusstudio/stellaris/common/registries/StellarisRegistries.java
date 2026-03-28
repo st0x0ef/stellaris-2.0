@@ -3,19 +3,23 @@ package org.exodusstudio.stellaris.common.registries;
 import dev.architectury.registry.registries.Registrar;
 import dev.architectury.registry.registries.RegistrarManager;
 import org.exodusstudio.stellaris.Stellaris;
-import org.exodusstudio.stellaris.common.module.rocket.RocketModule;
+import org.exodusstudio.stellaris.common.modules.rocket.RocketModule;
+import org.exodusstudio.stellaris.common.modules.space_suit.SpaceSuitModule;
 
 import static org.exodusstudio.stellaris.common.utils.IdentifierUtils.id;
 
 public class StellarisRegistries {
-    public static final Registrar<RocketModule> ROCKET_MODULE;
+    public static final Registrar<RocketModule> ROCKET_MODULES;
+    public static final Registrar<SpaceSuitModule> SPACE_SUIT_MODULES;
 
     static {
-        ROCKET_MODULE = register("rocket_module", true);
+        ROCKET_MODULES = register("rocket_modules", true);
+        SPACE_SUIT_MODULES = register("space_suit_modules", true);
     }
 
     public static void register() {
-        ROCKET_MODULE.key();
+        ROCKET_MODULES.key();
+        SPACE_SUIT_MODULES.key();
     }
 
     private static <T> Registrar<T> register(String registryId, boolean syncToClients) {

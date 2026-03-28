@@ -17,7 +17,6 @@ import org.exodusstudio.stellaris.common.blocks.entities.machines.base.BaseEnerg
 import org.exodusstudio.stellaris.common.menus.OxygenDistributorMenu;
 import org.exodusstudio.stellaris.common.registries.BlockEntitiesRegistry;
 import org.exodusstudio.stellaris.common.utils.OxygenUtils;
-import org.exodusstudio.stellaris.common.utils.Utils;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashSet;
@@ -26,7 +25,7 @@ import java.util.Set;
 public class OxygenDistributorBlockEntity extends BaseEnergyContainerBlockEntity {
 
     private final Set<BlockPos> oxygenatedPosition;
-    private Set<ChunkPos> coveredChunks;
+    private final Set<ChunkPos> coveredChunks;
 
     private int oxygenDistributedTickCounter = 0;
 
@@ -67,7 +66,7 @@ public class OxygenDistributorBlockEntity extends BaseEnergyContainerBlockEntity
             Set<ChunkPos> allowedChunks = OxygenUtils.getAllowedChunks(level, worldPosition);
             coveredChunks.addAll(allowedChunks);
 
-            int livingEntitiesCount = Utils.getSurvivalLivingEntityCountInChunks(level, coveredChunks);
+            int livingEntitiesCount = OxygenUtils.getEntityWhoNeedsOxygen(level, coveredChunks);
             if (livingEntitiesCount > 0 && fluidStack.getAmount() >= livingEntitiesCount) {
                 Set<BlockPos> newOxygenatedPosition = OxygenUtils.propagateOxygen(level, worldPosition, coveredChunks);
                 if (!newOxygenatedPosition.isEmpty()) {

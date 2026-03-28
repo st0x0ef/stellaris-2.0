@@ -39,8 +39,8 @@ public class BlockEntitiesRegistry {
     public static final Supplier<BlockEntityType<?>> ELECTROLYZER = BLOCK_ENTITY_TYPE.register("electrolyzer",
             () -> new BlockEntityType<>(ElectrolyzerBlockEntity::new, Set.of(BlocksRegistry.ELECTROLYZER.block().get())));
 
-    public static final Supplier<BlockEntityType<?>> ROCKET_STATION = BLOCK_ENTITY_TYPE.register("rocket_station",
-            () -> new BlockEntityType<>(RocketStationBlockEntity::new, Set.of(BlocksRegistry.ROCKET_STATION.block().get())));
+    public static final Supplier<BlockEntityType<?>> ENGINEERING_STATION = BLOCK_ENTITY_TYPE.register("engineering_station",
+            () -> new BlockEntityType<>(EngineeringStationBlockEntity::new, Set.of(BlocksRegistry.ENGINEERING_STATION.block().get())));
 
     public static final Supplier<BlockEntityType<?>> GRAVITY_MANIPULATOR = BLOCK_ENTITY_TYPE.register("gravity_manipulator",
             () -> new BlockEntityType<>(GravityManipulatorBlockEntity::new, Set.of(BlocksRegistry.GRAVITY_MANIPULATOR.block().get())));

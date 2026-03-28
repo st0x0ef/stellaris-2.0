@@ -2,7 +2,7 @@ package org.exodusstudio.stellaris.mixin.client;
 
 import net.minecraft.client.renderer.ItemInHandRenderer;
 import net.minecraft.world.item.ItemStack;
-import org.exodusstudio.stellaris.common.components.TimerComponents;
+import org.exodusstudio.stellaris.common.components.TimerComponent;
 import org.exodusstudio.stellaris.common.items.infection.ParasiteItem;
 import org.exodusstudio.stellaris.common.registries.DataComponentsRegistry;
 import org.spongepowered.asm.mixin.Mixin;
@@ -15,8 +15,8 @@ public abstract class ItemInHandRendererMixin {
     @Inject(method = "shouldInstantlyReplaceVisibleItem", at = @At("HEAD"), cancellable = true)
     private void stellaris$preventParasiteAnimation(ItemStack oldItem, ItemStack newItem, CallbackInfoReturnable<Boolean> cir) {
         if (oldItem.getItem() instanceof ParasiteItem && newItem.getItem() instanceof ParasiteItem) {
-            TimerComponents oldTimer = oldItem.get(DataComponentsRegistry.TIMER.get());
-            TimerComponents newTimer = newItem.get(DataComponentsRegistry.TIMER.get());
+            TimerComponent oldTimer = oldItem.get(DataComponentsRegistry.TIMER.get());
+            TimerComponent newTimer = newItem.get(DataComponentsRegistry.TIMER.get());
             if (oldTimer != null && newTimer != null && oldTimer.tick().timeLeft() == newTimer.timeLeft()) {
                 cir.setReturnValue(true); // We cancel the animation when the parasite is just ticking down
             }

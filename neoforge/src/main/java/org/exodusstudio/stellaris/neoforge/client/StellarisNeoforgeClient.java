@@ -8,23 +8,25 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
-import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
 import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.client.StellarisClient;
+import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
+import org.exodusstudio.stellaris.client.renderers.space_suit.SpaceSuitModel;
+import org.exodusstudio.stellaris.client.renderers.rockets.RocketModel;
 import org.exodusstudio.stellaris.client.renderers.flag.FlagBlockModel;
 import org.exodusstudio.stellaris.client.renderers.flag.FlagBlockRenderer;
 import org.exodusstudio.stellaris.client.renderers.flag.FlagHeadModel;
-import org.exodusstudio.stellaris.client.renderers.gravity_manipulator.GravityManipulatorBlockRenderer;
 import org.exodusstudio.stellaris.client.renderers.gravity_manipulator.GravityManipulatorModel;
-import org.exodusstudio.stellaris.client.renderers.rockets.RocketModel;
+import org.exodusstudio.stellaris.client.renderers.gravity_manipulator.GravityManipulatorBlockRenderer;
 import org.exodusstudio.stellaris.client.renderers.rockets.RocketRenderer;
 import org.exodusstudio.stellaris.client.screens.*;
-import org.exodusstudio.stellaris.client.screens.rocket_station.RocketStationScreen;
-import org.exodusstudio.stellaris.client.screens.rocket_station.RocketUpgraderScreen;
+import org.exodusstudio.stellaris.client.screens.engineering_station.RocketStationScreen;
+import org.exodusstudio.stellaris.client.screens.engineering_station.EngineUpgraderScreen;
 import org.exodusstudio.stellaris.client.screens.tablet.MainTabletScreen;
 import org.exodusstudio.stellaris.client.screens.tablet.application.sd.SDCardReaderApplicationScreen;
 import org.exodusstudio.stellaris.client.screens.tablet.application.wiki.WikiApplicationScreen;
 import org.exodusstudio.stellaris.common.blocks.entities.machines.GravityManipulatorBlockEntity;
+import org.exodusstudio.stellaris.common.menus.WikiApplicationMenu;
 import org.exodusstudio.stellaris.common.registries.BlockEntitiesRegistry;
 import org.exodusstudio.stellaris.common.registries.BlocksRegistry;
 import org.exodusstudio.stellaris.common.registries.EntityTypesRegistry;
@@ -39,7 +41,6 @@ public class StellarisNeoforgeClient {
             registerRenderLayers();
         });
     }
-
     private static void registerRenderLayers() {
         ItemBlockRenderTypes.setRenderLayer(BlocksRegistry.LUNAR_SAPLING.block().get(), ChunkSectionLayer.CUTOUT);
         ItemBlockRenderTypes.setRenderLayer(BlocksRegistry.LUNAR_DOOR.block().get(), ChunkSectionLayer.CUTOUT);
@@ -59,11 +60,12 @@ public class StellarisNeoforgeClient {
         event.register(MenuTypesRegistry.VACUUMATOR.get(), VacuumatorScreen::new);
         event.register(MenuTypesRegistry.GRAVITY_MANIPULATOR.get(), GravityManipulatorScreen::new);
         event.register(MenuTypesRegistry.ELECTROLYZER.get(), ElectrolyzerScreen::new);
-        event.register(MenuTypesRegistry.ROCKET_STATION.get(), RocketStationScreen::new);
-        event.register(MenuTypesRegistry.ROCKET_UPGRADE.get(), RocketUpgraderScreen::new);
         event.register(MenuTypesRegistry.OXYGEN_DISTRIBUTOR.get(), OxygenDistributorScreen::new);
         event.register(MenuTypesRegistry.PUMPJACK.get(), PumpjackScreen::new);
         event.register(MenuTypesRegistry.FUEL_REFINERY.get(), FuelRefineryScreen::new);
+
+        event.register(MenuTypesRegistry.ROCKET_STATION.get(), RocketStationScreen::new);
+        event.register(MenuTypesRegistry.ENGINE_UPGRADE.get(), EngineUpgraderScreen::new);
 
         event.register(MenuTypesRegistry.ROCKET_MENU.get(), RocketScreen::new);
     }
@@ -84,5 +86,6 @@ public class StellarisNeoforgeClient {
         event.registerLayerDefinition(FlagHeadModel.MOB_LAYER_LOCATION, FlagHeadModel::createMobHeadLayer);
         event.registerLayerDefinition(FlagBlockModel.LAYER_LOCATION, FlagBlockModel::createBodyLayer);
         event.registerLayerDefinition(RocketModel.LAYER_LOCATION, RocketModel::createBodyLayer);
+        event.registerLayerDefinition(SpaceSuitModel.LAYER_LOCATION, SpaceSuitModel::createBodyLayer);
     }
 }
