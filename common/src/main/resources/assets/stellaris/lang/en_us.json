@@ -64,7 +64,7 @@
   "item.stellaris.pumpjack": "Pumpjack",
   "item.stellaris.fuel_refinery": "Fuel Refinery",
   "item.stellaris.gravity_manipulator": "Gravity Manipulator",
-  "item.stellaris.rocket_station": "Rocket Station",
+  "item.stellaris.engineering_station": "Engineering Station",
 
   "item.stellaris.oxygen_distributor": "Oxygen Distributor",
   "item.stellaris.oxygen_propagator": "Oxygen Propagator",
@@ -88,6 +88,35 @@
   "item.stellaris.hydrogen_motor": "Hydrogen Motor",
   "item.stellaris.galaxy_skin": "Galaxy Skin",
   "item.stellaris.shield_module": "Shield Module",
+
+  "item.stellaris.space_suit_helmet": "Space Suit Helmet",
+  "item.stellaris.space_suit_chestplate": "Space Suit Chestplate",
+  "item.stellaris.space_suit_leggings": "Space Suit Leggings",
+  "item.stellaris.space_suit_boots": "Space Suit Boots",
+
+  "item.stellaris.space_suit_oxygen_module_tier_1": "Oxygen Module T1",
+  "item.stellaris.space_suit_oxygen_module_tier_2": "Oxygen Module T2",
+  "item.stellaris.space_suit_oxygen_module_tier_3": "Oxygen Module T3",
+
+  "item.stellaris.space_suit_oil_finder_module_tier_1": "Oil Finder Module T1",
+  "item.stellaris.space_suit_oil_finder_module_tier_2": "Oil Finder Module T2",
+  "item.stellaris.space_suit_oil_finder_module_tier_3": "Oil Finder Module T3",
+
+  "item.stellaris.space_suit_diesel_tank_module_tier_1": "Diesel Tank Module T1",
+  "item.stellaris.space_suit_diesel_tank_module_tier_2": "Diesel Tank Module T2",
+  "item.stellaris.space_suit_diesel_tank_module_tier_3": "Diesel Tank Module T3",
+
+  "item.stellaris.space_suit_hydrogen_tank_module_tier_1": "Hydrogen Tank Module T1",
+  "item.stellaris.space_suit_hydrogen_tank_module_tier_2": "Hydrogen Tank Module T2",
+  "item.stellaris.space_suit_hydrogen_tank_module_tier_3": "Hydrogen Tank Module T3",
+
+  "item.stellaris.space_suit_jet_module_tier_1": "Jet Module T1",
+  "item.stellaris.space_suit_jet_module_tier_2": "Jet Module T2",
+  "item.stellaris.space_suit_jet_module_tier_3": "Jet Module T3",
+
+  "item.stellaris.space_suit_damage_protection_module_tier_1": "Damage Protection Module T1",
+  "item.stellaris.space_suit_damage_protection_module_tier_2": "Damage Protection Module T2",
+  "item.stellaris.space_suit_damage_protection_module_tier_3": "Damage Protection Module T3",
 
   "item.stellaris.fluid_cell": "Fluid Cell",
 
@@ -151,6 +180,17 @@
 
   "gauge_text.stellaris.max_generation": "Max Generation : %s Fe/tick",
 
+  "text.stellaris.oil_finder.no_oil": "No oil detected here.",
+  "text.stellaris.oil_finder.cant_search": "Cannot search for oil (no energy).",
+  "text.stellaris.oil_finder.oil_found": "Oil detected",
+  "text.stellaris.oil_finder.energy": "Oil found at Y=%s",
+
+  "text.stellaris.jet.mode": "Jet Mode",
+  "text.stellaris.jet.mode.disabled": "Disabled",
+  "text.stellaris.jet.mode.normal": "Normal",
+  "text.stellaris.jet.mode.hover": "Hover",
+  "text.stellaris.jet.mode.elytra": "Elytra",
+
   "stellaris.screen.energyContainer": "Energy",
   "stellaris.screen.empty_fluid": "Empty Fluid Tank",
   "stellaris.screen.oil": "Oil",
@@ -162,7 +202,7 @@
   "stellaris.screen.gravityManipulator.planet.moon": "Moon Gravity (1.62m/s²)",
   "stellaris.screen.gravityManipulator.planet.mars": "Mars Gravity (3.73m/s²)",
   "stellaris.screen.gravityManipulator.planet.earth": "Earth Gravity (9.81m/s²)",
-  "stellaris.screen.rocket_station": "Rocket Station",
+  "stellaris.screen.engineering_station": "Engineering Station",
 
   "application.stellaris.stats.name": "Stats",
   "application.stellaris.stats.description": "View various statistics about your space adventure.",
@@ -183,7 +223,9 @@
   "tooltip.item.stellaris.can.saturation": "Saturation: %s",
   "tooltip.item.stellaris.pathogen_storage_cell_info": "A sealed containment cell used to store parasites and support research toward an infection cure.",
   "tooltip.item.stellaris.energy": "⚡ Energy: §e%s§r§f/§r§e%s§r FE",
-  "tooltip.item.stellaris.oil_finder": "Right click on a block to check if there is oil",
+  "tooltip.item.stellaris.oil_finder": "Right click on a block to check if there is oil.",
+  "tooltip.item.stellaris.can_be_applied_to_spacesuit_module": "This module can be applied to the space suit.",
+  "tooltip.item.stellaris.can_be_applied_to_rocket_module": "This module can be applied to the rocket.",
 
   "config.stellaris.debugMode": "Debug Mode",
   "config.stellaris.debugMode.desc": "Select to enter the debug mode.",
@@ -193,11 +235,12 @@
 
   "effect.stellaris.infected": "Infected",
 
-
-
   "entity.stellaris.rocket": "Rocket",
 
   "stat.stellaris.space_traveled": "Space Traveled",
-  "stat.stellaris.sd_card_read": "Sd Cards Read"
+  "stat.stellaris.sd_card_read": "Sd Cards Read",
+
+  "key.stellaris.rocket_start": "Start Rocket",
+  "key.stellaris.jet_switch_mode": "Switch Jet Mode"
 
 }

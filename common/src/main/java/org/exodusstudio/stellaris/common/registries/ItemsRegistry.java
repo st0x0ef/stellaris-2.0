@@ -9,12 +9,18 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.HangingSignItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.SignItem;
+import net.minecraft.world.item.equipment.ArmorMaterials;
 import org.exodusstudio.stellaris.common.items.*;
 import org.exodusstudio.stellaris.common.items.infection.ParasiteItem;
 import org.exodusstudio.stellaris.common.items.infection.PathogenStorageCellItem;
-import org.exodusstudio.stellaris.common.items.modules.GalaxySkinModule;
-import org.exodusstudio.stellaris.common.items.modules.HydrogenFuelModuleItem;
-import org.exodusstudio.stellaris.common.items.modules.ShieldModule;
+import org.exodusstudio.stellaris.common.items.modules.rocket.HydrogenFuelModuleItem;
+import org.exodusstudio.stellaris.common.items.modules.rocket.RocketSkinModuleItem;
+import org.exodusstudio.stellaris.common.items.modules.rocket.ShieldModule;
+import org.exodusstudio.stellaris.common.items.modules.space_suit.*;
+import org.exodusstudio.stellaris.common.items.space_suit.SpaceSuitBoots;
+import org.exodusstudio.stellaris.common.items.space_suit.SpaceSuitChestplate;
+import org.exodusstudio.stellaris.common.items.space_suit.SpaceSuitHelmet;
+import org.exodusstudio.stellaris.common.items.space_suit.SpaceSuitLeggings;
 import org.exodusstudio.stellaris.common.items.tools.*;
 import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
 import org.jetbrains.annotations.NotNull;
@@ -49,12 +55,50 @@ public final class ItemsRegistry {
     /** Special Items */
     public static final RegistrySupplier<TabletItem> TABLET = item("tablet", TabletItem::new);
     public static final RegistrySupplier<ShieldModule> SHIELD_MODULE = item("shield_module", ShieldModule::new);
-    public static final RegistrySupplier<GalaxySkinModule> GALAXY_SKIN = item("galaxy_skin", GalaxySkinModule::new);
+    public static final RegistrySupplier<RocketSkinModuleItem> GALAXY_SKIN = item("galaxy_skin", p -> new RocketSkinModuleItem(p, RocketSkinModuleItem.GALAXY_SKIN_TEXTURE));
     public static final RegistrySupplier<HydrogenFuelModuleItem> HYDROGEN_MOTOR = item("hydrogen_motor", HydrogenFuelModuleItem::new);
     public static final RegistrySupplier<Item> OIL_FINDER = item("oil_finder", OilFinderItem::new);
 
     public static final RegistrySupplier<SDCardItem> SD_CARD = item("sd_card", (p) -> new SDCardItem(p, -1));
     public static final RegistrySupplier<RocketItem> ROCKET = item("rocket", new Item.Properties().arch$tab(CreativeTabsRegistry.STELLARIS_MAIN).stacksTo(1), RocketItem::new);
+
+    /** Space Suit Items */
+    public static final RegistrySupplier<Item> SPACE_SUIT_HELMET = item("space_suit_helmet",  SpaceSuitHelmet::new);
+    public static final RegistrySupplier<Item> SPACE_SUIT_CHESTPLATE = item("space_suit_chestplate", SpaceSuitChestplate::new);
+    public static final RegistrySupplier<Item> SPACE_SUIT_LEGGINGS = item("space_suit_leggings", SpaceSuitLeggings::new);
+    public static final RegistrySupplier<Item> SPACE_SUIT_BOOTS = item("space_suit_boots", SpaceSuitBoots::new);
+
+    // Space Suit Modules
+    // Oxygen Modules
+    public static final RegistrySupplier<OxygenModuleItem> SPACE_SUIT_OXYGEN_MODULE_T1 = item("space_suit_oxygen_module_tier_1", p -> new OxygenModuleItem(p, 1200));
+    public static final RegistrySupplier<OxygenModuleItem> SPACE_SUIT_OXYGEN_MODULE_T2 = item("space_suit_oxygen_module_tier_2", p -> new OxygenModuleItem(p, 3600));
+    public static final RegistrySupplier<OxygenModuleItem> SPACE_SUIT_OXYGEN_MODULE_T3 = item("space_suit_oxygen_module_tier_3", p -> new OxygenModuleItem(p, 14400));
+
+    // Oil Finder Modules
+    public static final RegistrySupplier<OilFinderModuleItem> SPACE_SUIT_OIL_FINDER_MODULE_T1 = item("space_suit_oil_finder_module_tier_1", p -> new OilFinderModuleItem(p, 5));
+    public static final RegistrySupplier<OilFinderModuleItem> SPACE_SUIT_OIL_FINDER_MODULE_T2 = item("space_suit_oil_finder_module_tier_2", p -> new OilFinderModuleItem(p, 3));
+    public static final RegistrySupplier<OilFinderModuleItem> SPACE_SUIT_OIL_FINDER_MODULE_T3 = item("space_suit_oil_finder_module_tier_3", p -> new OilFinderModuleItem(p, 1));
+
+
+    // Diesel Tank Modules
+    public static final RegistrySupplier<TankModuleItem> SPACE_SUIT_DIESEL_TANK_MODULE_T1 = item("space_suit_diesel_tank_module_tier_1", p -> new DieselTankModuleItem(p, 1000));
+    public static final RegistrySupplier<TankModuleItem> SPACE_SUIT_DIESEL_TANK_MODULE_T2 = item("space_suit_diesel_tank_module_tier_2", p -> new DieselTankModuleItem(p, 2000));
+    public static final RegistrySupplier<TankModuleItem> SPACE_SUIT_DIESEL_TANK_MODULE_T3 = item("space_suit_diesel_tank_module_tier_3", p -> new DieselTankModuleItem(p, 3000));
+
+    // Hydrogen Tank Modules
+    public static final RegistrySupplier<TankModuleItem> SPACE_SUIT_HYDROGEN_TANK_MODULE_T1 = item("space_suit_hydrogen_tank_module_tier_1", p -> new HydrogenTankModuleItem(p, 1000));
+    public static final RegistrySupplier<TankModuleItem> SPACE_SUIT_HYDROGEN_TANK_MODULE_T2 = item("space_suit_hydrogen_tank_module_tier_2", p -> new HydrogenTankModuleItem(p, 2000));
+    public static final RegistrySupplier<TankModuleItem> SPACE_SUIT_HYDROGEN_TANK_MODULE_T3 = item("space_suit_hydrogen_tank_module_tier_3", p -> new HydrogenTankModuleItem(p, 3000));
+
+    // Jet Modules
+    public static final RegistrySupplier<JetModuleItem> SPACE_SUIT_JET_MODULE_T1 = item("space_suit_jet_module_tier_1", p -> new JetModuleItem(p, 10));
+    public static final RegistrySupplier<JetModuleItem> SPACE_SUIT_JET_MODULE_T2 = item("space_suit_jet_module_tier_2", p -> new JetModuleItem(p, 6));
+    public static final RegistrySupplier<JetModuleItem> SPACE_SUIT_JET_MODULE_T3 = item("space_suit_jet_module_tier_3", p -> new JetModuleItem(p, 2));
+
+    // Damage Protection Modules
+    public static final RegistrySupplier<DamageProtectionModuleItem> SPACE_SUIT_DAMAGE_PROTECTION_MODULE_T1 = item("space_suit_damage_protection_module_tier_1", p -> new DamageProtectionModuleItem(p, ArmorMaterials.IRON, "iron"));
+    public static final RegistrySupplier<DamageProtectionModuleItem> SPACE_SUIT_DAMAGE_PROTECTION_MODULE_T2 = item("space_suit_damage_protection_module_tier_2", p -> new DamageProtectionModuleItem(p, ArmorMaterials.DIAMOND, "diamond"));
+    public static final RegistrySupplier<DamageProtectionModuleItem> SPACE_SUIT_DAMAGE_PROTECTION_MODULE_T3 = item("space_suit_damage_protection_module_tier_3", p -> new DamageProtectionModuleItem(p, ArmorMaterials.NETHERITE, "netherite"));
 
     /** Cans */
     // Small cans

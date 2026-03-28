@@ -8,8 +8,8 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerLevelAccess;
-import org.exodusstudio.stellaris.common.menus.rocket_station.RocketStationMenu;
-import org.exodusstudio.stellaris.common.menus.rocket_station.RocketUpgradeMenu;
+import org.exodusstudio.stellaris.common.menus.engineering_station.RocketStationMenu;
+import org.exodusstudio.stellaris.common.menus.engineering_station.EngineUpgradeMenu;
 import org.jetbrains.annotations.Nullable;
 
 /**
@@ -30,7 +30,7 @@ public class MenuUtils {
             }
             @Override
             public Component getDisplayName() {
-                return Component.translatable("stellaris.screen.rocket_station");
+                return Component.translatable("stellaris.screen.engine_station");
             }
         };
     }
@@ -45,12 +45,12 @@ public class MenuUtils {
 
             @Override
             public Component getDisplayName() {
-                return Component.translatable("stellaris.screen.rocket_station");
+                return Component.translatable("stellaris.screen.engine_station");
             }
 
             @Override
             public @Nullable AbstractContainerMenu createMenu(int containerId, Inventory inventory, Player player) {
-                return new RocketUpgradeMenu(containerId, inventory, ContainerLevelAccess.NULL, pos);
+                return new EngineUpgradeMenu(containerId, inventory, ContainerLevelAccess.NULL, pos);
             }
         };
 

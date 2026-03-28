@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "stellaris:item/space_suit/space_suit_damage_protection_module_tier_1"
+  }
+}

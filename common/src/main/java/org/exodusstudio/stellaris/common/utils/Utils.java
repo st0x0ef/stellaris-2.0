@@ -3,8 +3,11 @@ package org.exodusstudio.stellaris.common.utils;
 import dev.architectury.networking.NetworkManager;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.ARGB;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
@@ -12,6 +15,7 @@ import net.minecraft.world.phys.Vec3;
 import org.exodusstudio.stellaris.client.overlays.FadingHolder;
 import org.exodusstudio.stellaris.common.network.NetworkRegistry;
 import org.exodusstudio.stellaris.common.network.packets.StartFadePacket;
+import org.exodusstudio.stellaris.common.registries.ItemsRegistry;
 import org.exodusstudio.stellaris.common.registries.TagsRegistry;
 
 import java.util.Random;
@@ -56,7 +60,6 @@ public class Utils {
             case "salmon" -> 0xFA8072;
             case "khaki" -> 0xF0E68C;
             case "darkred" -> 0x8B0000;
-            case "dark_red" -> 0x8B0000;
             case "rainbow" -> Utils.generateRandomHexColor();
             default -> 0xFFFFFF;
         };
@@ -137,4 +140,21 @@ public class Utils {
         });
     }
 
+    public static boolean isLivingInSpaceSuit(LivingEntity entity) {
+        return isLivingInArmor(entity, EquipmentSlot.FEET, ItemsRegistry.SPACE_SUIT_BOOTS.get()) && isLivingInArmor(entity, EquipmentSlot.HEAD, ItemsRegistry.SPACE_SUIT_HELMET.get()) && isLivingInArmor(entity, EquipmentSlot.CHEST, ItemsRegistry.SPACE_SUIT_CHESTPLATE.get()) && isLivingInArmor(entity, EquipmentSlot.LEGS, ItemsRegistry.SPACE_SUIT_LEGGINGS.get());
+    }
+
+    public static boolean isSpaceSuitPart(ItemStack stack) {
+        return stack.is(ItemsRegistry.SPACE_SUIT_BOOTS.get()) || stack.is(ItemsRegistry.SPACE_SUIT_HELMET.get()) || stack.is(ItemsRegistry.SPACE_SUIT_CHESTPLATE.get()) || stack.is(ItemsRegistry.SPACE_SUIT_LEGGINGS.get());
+    }
+
+    public static boolean isLivingInArmor(LivingEntity entity, EquipmentSlot slot, Item item) {
+        return entity.getItemBySlot(slot).getItem().equals(item);
+    }
+
+    public static void disableFlyAntiCheat(Player player) {
+        if (player instanceof ServerPlayer serverPlayer) {
+            serverPlayer.connection.aboveGroundTickCount = 0;
+        }
+    }
 }
