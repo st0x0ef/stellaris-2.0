@@ -1,5 +1,5 @@
 {
-  "parent": "minecraft:block/door_bottom",
+  "parent": "minecraft:block/door_bottom_left",
   "textures": {
     "bottom": "stellaris:block/lunar_forest/lunar_door_bottom",
     "top": "stellaris:block/lunar_forest/lunar_door_top"
