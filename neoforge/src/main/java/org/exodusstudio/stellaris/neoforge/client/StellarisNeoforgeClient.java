@@ -1,41 +1,44 @@
 package org.exodusstudio.stellaris.neoforge.client;
 
+import net.minecraft.client.model.geom.ModelLayerLocation;
+import net.minecraft.client.model.object.boat.BoatModel;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
-import net.minecraft.client.renderer.Sheets;
+import net.minecraft.client.renderer.blockentity.HangingSignRenderer;
+import net.minecraft.client.renderer.blockentity.SignRenderer;
 import net.minecraft.client.renderer.chunk.ChunkSectionLayer;
+import net.minecraft.client.renderer.entity.BoatRenderer;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
-import org.exodusstudio.stellaris.Stellaris;
-import org.exodusstudio.stellaris.common.blocks.entities.ModSignBlockEntity;
-import org.exodusstudio.stellaris.common.blocks.entities.ModHangingSignBlockEntity;
-import net.minecraft.client.renderer.blockentity.SignRenderer;
-import net.minecraft.client.renderer.blockentity.HangingSignRenderer;
-import org.exodusstudio.stellaris.client.StellarisClient;
 import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
-import org.exodusstudio.stellaris.client.renderers.space_suit.SpaceSuitModel;
-import org.exodusstudio.stellaris.client.renderers.rockets.RocketModel;
+import org.exodusstudio.stellaris.Stellaris;
+import org.exodusstudio.stellaris.client.StellarisClient;
+import org.exodusstudio.stellaris.client.registry.BoatModelLayerRegistry;
 import org.exodusstudio.stellaris.client.renderers.flag.FlagBlockModel;
 import org.exodusstudio.stellaris.client.renderers.flag.FlagBlockRenderer;
 import org.exodusstudio.stellaris.client.renderers.flag.FlagHeadModel;
-import org.exodusstudio.stellaris.client.renderers.gravity_manipulator.GravityManipulatorModel;
 import org.exodusstudio.stellaris.client.renderers.gravity_manipulator.GravityManipulatorBlockRenderer;
+import org.exodusstudio.stellaris.client.renderers.gravity_manipulator.GravityManipulatorModel;
+import org.exodusstudio.stellaris.client.renderers.rockets.RocketModel;
 import org.exodusstudio.stellaris.client.renderers.rockets.RocketRenderer;
+import org.exodusstudio.stellaris.client.renderers.space_suit.SpaceSuitModel;
 import org.exodusstudio.stellaris.client.screens.*;
-import org.exodusstudio.stellaris.client.screens.engineering_station.RocketStationScreen;
 import org.exodusstudio.stellaris.client.screens.engineering_station.EngineUpgraderScreen;
+import org.exodusstudio.stellaris.client.screens.engineering_station.RocketStationScreen;
 import org.exodusstudio.stellaris.client.screens.tablet.MainTabletScreen;
 import org.exodusstudio.stellaris.client.screens.tablet.application.sd.SDCardReaderApplicationScreen;
 import org.exodusstudio.stellaris.client.screens.tablet.application.wiki.WikiApplicationScreen;
+import org.exodusstudio.stellaris.common.blocks.entities.ModHangingSignBlockEntity;
+import org.exodusstudio.stellaris.common.blocks.entities.ModSignBlockEntity;
 import org.exodusstudio.stellaris.common.blocks.entities.machines.GravityManipulatorBlockEntity;
-import org.exodusstudio.stellaris.common.menus.WikiApplicationMenu;
 import org.exodusstudio.stellaris.common.registries.BlockEntitiesRegistry;
 import org.exodusstudio.stellaris.common.registries.BlocksRegistry;
 import org.exodusstudio.stellaris.common.registries.EntityTypesRegistry;
 import org.exodusstudio.stellaris.common.registries.MenuTypesRegistry;
+import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
 
 @EventBusSubscriber(modid = Stellaris.MOD_ID, value = Dist.CLIENT)
 public class StellarisNeoforgeClient {
@@ -79,11 +82,13 @@ public class StellarisNeoforgeClient {
     @SubscribeEvent
     public static void registerEntityRenderers(EntityRenderersEvent.RegisterRenderers event) {
         event.registerBlockEntityRenderer((BlockEntityType<GravityManipulatorBlockEntity>)BlockEntitiesRegistry.GRAVITY_MANIPULATOR.get(), GravityManipulatorBlockRenderer::new);
-        event.registerBlockEntityRenderer((BlockEntityType<ModSignBlockEntity>)BlockEntitiesRegistry.MOD_SIGN.get(), SignRenderer::new);
-        event.registerBlockEntityRenderer((BlockEntityType<ModHangingSignBlockEntity>)BlockEntitiesRegistry.MOD_HANGING_SIGN.get(), HangingSignRenderer::new);
+        event.registerBlockEntityRenderer(BlockEntitiesRegistry.MOD_SIGN.get(), SignRenderer::new);
+        event.registerBlockEntityRenderer(BlockEntitiesRegistry.MOD_HANGING_SIGN.get(), HangingSignRenderer::new);
         event.registerBlockEntityRenderer(BlockEntitiesRegistry.FLAG.get(), FlagBlockRenderer::new);
 
         event.registerEntityRenderer(EntityTypesRegistry.ROCKET.get(), RocketRenderer::new);
+        event.registerEntityRenderer(EntityTypesRegistry.LUNAR_BOAT.get(), (c) -> new BoatRenderer(c, new ModelLayerLocation(IdentifierUtils.id("lunar_boat"), "main")));
+        event.registerEntityRenderer(EntityTypesRegistry.LUNAR_CHEST_BOAT.get(), (c) -> new BoatRenderer(c, new ModelLayerLocation(IdentifierUtils.id("lunar_chest_boat"), "main")));
     }
 
     @SubscribeEvent
@@ -94,5 +99,8 @@ public class StellarisNeoforgeClient {
         event.registerLayerDefinition(FlagBlockModel.LAYER_LOCATION, FlagBlockModel::createBodyLayer);
         event.registerLayerDefinition(RocketModel.LAYER_LOCATION, RocketModel::createBodyLayer);
         event.registerLayerDefinition(SpaceSuitModel.LAYER_LOCATION, SpaceSuitModel::createBodyLayer);
+        event.registerLayerDefinition(BoatModelLayerRegistry.LUNAR_BOAT, BoatModel::createBoatModel);
+        event.registerLayerDefinition(BoatModelLayerRegistry.LUNAR_CHEST_BOAT, BoatModel::createChestBoatModel);
+
     }
 }

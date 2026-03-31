@@ -161,6 +161,8 @@
 
   "item.stellaris.oil_finder": "Oil Finder",
 
+
+
   "fluid.stellaris.hydrogen": "Hydrogen",
   "fluid.stellaris.oxygen": "Oxygen",
   "fluid.stellaris.fuel": "Fuel",
@@ -236,6 +238,9 @@
   "effect.stellaris.infected": "Infected",
 
   "entity.stellaris.rocket": "Rocket",
+  "entity.stellaris.lunar_boat": "Lunar Boat",
+  "entity.stellaris.lunar_chest_boat": "Lunar Chest Boat",
+
 
   "stat.stellaris.space_traveled": "Space Traveled",
   "stat.stellaris.sd_card_read": "Sd Cards Read",

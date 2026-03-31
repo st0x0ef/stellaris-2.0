@@ -6,6 +6,9 @@ import dev.architectury.registry.registries.RegistrySupplier;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.vehicle.boat.AbstractBoat;
+import net.minecraft.world.item.BoatItem;
 import net.minecraft.world.item.HangingSignItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.SignItem;
@@ -150,8 +153,8 @@ public final class ItemsRegistry {
     public static final RegistrySupplier<Item> PATHOGEN_STORAGE_CELL = item("pathogen_storage_cell", PathogenStorageCellItem::new);
 
     /** Lunar Forest Items */
-    public static final RegistrySupplier<Item> LUNAR_BOAT = item("lunar_boat", Item::new); // Functionality pending EntityType
-    public static final RegistrySupplier<Item> LUNAR_CHEST_BOAT = item("lunar_chest_boat", Item::new); // Functionality pending EntityType
+    public static final RegistrySupplier<Item> LUNAR_BOAT = item("lunar_boat", p -> new BoatItem((EntityType<? extends AbstractBoat>) EntityTypesRegistry.LUNAR_BOAT.get(), p));
+    public static final RegistrySupplier<Item> LUNAR_CHEST_BOAT = item("lunar_chest_boat", p -> new BoatItem((EntityType<? extends AbstractBoat>) EntityTypesRegistry.LUNAR_CHEST_BOAT.get(), p));
 
     public static final RegistrySupplier<Item> LUNAR_SIGN = ItemsRegistry.item("lunar_sign", p -> new SignItem(BlocksRegistry.LUNAR_SIGN.get(), BlocksRegistry.LUNAR_WALL_SIGN.get(), p));
     public static final RegistrySupplier<Item> LUNAR_HANGING_SIGN = ItemsRegistry.item("lunar_hanging_sign", p -> new HangingSignItem(BlocksRegistry.LUNAR_HANGING_SIGN.get(), BlocksRegistry.LUNAR_WALL_HANGING_SIGN.get(), p));
@@ -176,3 +179,4 @@ public final class ItemsRegistry {
         return ITEMS.register(id, () -> itemFunc.apply(properties.setId(key)));
     }
 }
+
