@@ -16,6 +16,18 @@
             "depth": 0.0,
             "offset": 0.0
           }
+        },
+        {
+          "biome": "stellaris:lunar_forest",
+          "parameters": {
+            "temperature": [-1.0, 0.55],
+            "humidity": [-0.35, 1.0],
+            "continentalness": [0.3, 1.0],
+            "erosion": [0.55, 1.0],
+            "weirdness": [-0.85, -0.2],
+            "depth": 0.0,
+            "offset": 0.0
+          }
         }
       ]
     },
