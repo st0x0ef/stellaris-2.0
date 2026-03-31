@@ -36,14 +36,29 @@ public class FluidUtil {
         if (items.get(slot).isEmpty()) {
             return;
         }
+
+        ItemStack actualRemainingItems = items.get(remainingItemSlot);
+        if (actualRemainingItems.getCount() == actualRemainingItems.getMaxStackSize()) {
+            return;
+        }
+
         UniversalFluidItemStorage from = Capabilities.Fluid.ITEM.getCapability(items.get(slot));
         if (from == null) {
             return;
         }
         amount = Math.min(amount, to.getTankCapacity(tank) - to.getFluidInTank(tank).getAmount());
-        moveFluid(from, to, from.getFluidInTank(tank).copyWithAmount(amount));
-        if (slot != remainingItemSlot) items.set(slot, ItemStack.EMPTY);
-        items.set(remainingItemSlot, from.getContainer());
+        FluidStack fluidMoved = moveFluid(from, to, from.getFluidInTank(tank).copyWithAmount(amount));
+        if (!fluidMoved.isEmpty() && slot != remainingItemSlot) items.set(slot, ItemStack.EMPTY);
+
+        if (!fluidMoved.isEmpty() && actualRemainingItems.isEmpty()) {
+            items.set(remainingItemSlot, from.getContainer());
+        } else if (!fluidMoved.isEmpty() && actualRemainingItems.is(from.getContainer().getItem())) {
+            if (actualRemainingItems.getCount() + from.getContainer().getCount() < actualRemainingItems.getMaxStackSize()) {
+                items.set(remainingItemSlot, actualRemainingItems.copyWithCount(actualRemainingItems.getCount() + from.getContainer().getCount()));
+            }  else {
+                items.set(remainingItemSlot, actualRemainingItems.copyWithCount(actualRemainingItems.getMaxStackSize()));
+            }
+        }
     }
 
     public static FluidStack moveFluid(UniversalFluidStorage from, UniversalFluidStorage to, FluidStack stack) {
