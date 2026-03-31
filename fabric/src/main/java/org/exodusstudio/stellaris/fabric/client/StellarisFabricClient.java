@@ -6,6 +6,8 @@ import net.fabricmc.fabric.api.client.rendering.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
+import net.minecraft.client.renderer.blockentity.HangingSignRenderer;
+import net.minecraft.client.renderer.blockentity.SignRenderer;
 import net.minecraft.client.renderer.chunk.ChunkSectionLayer;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import org.exodusstudio.stellaris.client.StellarisClient;
@@ -23,6 +25,8 @@ import org.exodusstudio.stellaris.client.screens.engineering_station.EngineUpgra
 import org.exodusstudio.stellaris.client.screens.tablet.MainTabletScreen;
 import org.exodusstudio.stellaris.client.screens.tablet.application.sd.SDCardReaderApplicationScreen;
 import org.exodusstudio.stellaris.client.screens.tablet.application.wiki.WikiApplicationScreen;
+import org.exodusstudio.stellaris.common.blocks.entities.ModHangingSignBlockEntity;
+import org.exodusstudio.stellaris.common.blocks.entities.ModSignBlockEntity;
 import org.exodusstudio.stellaris.common.blocks.entities.machines.GravityManipulatorBlockEntity;
 import org.exodusstudio.stellaris.common.menus.WikiApplicationMenu;
 import org.exodusstudio.stellaris.common.registries.BlockEntitiesRegistry;
@@ -73,6 +77,8 @@ public final class StellarisFabricClient implements ClientModInitializer {
     @SuppressWarnings("unchecked")
     private void registerEntityRenderer() {
         BlockEntityRenderers.register((BlockEntityType<GravityManipulatorBlockEntity>)BlockEntitiesRegistry.GRAVITY_MANIPULATOR.get(), GravityManipulatorBlockRenderer::new);
+        BlockEntityRenderers.register(BlockEntitiesRegistry.MOD_SIGN.get(), SignRenderer::new);
+        BlockEntityRenderers.register(BlockEntitiesRegistry.MOD_HANGING_SIGN.get(), HangingSignRenderer::new);
         BlockEntityRenderers.register(BlockEntitiesRegistry.FLAG.get(), FlagBlockRenderer::new);
 
         EntityRendererRegistry.register(EntityTypesRegistry.ROCKET.get(), RocketRenderer::new);

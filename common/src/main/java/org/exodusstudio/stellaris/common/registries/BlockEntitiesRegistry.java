@@ -6,6 +6,8 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.common.blocks.entities.FlagBlockEntity;
 import org.exodusstudio.stellaris.common.blocks.entities.machines.*;
+import org.exodusstudio.stellaris.common.blocks.entities.ModSignBlockEntity;
+import org.exodusstudio.stellaris.common.blocks.entities.ModHangingSignBlockEntity;
 
 import java.util.Set;
 import java.util.function.Supplier;
@@ -48,10 +50,15 @@ public class BlockEntitiesRegistry {
     public static final Supplier<BlockEntityType<FlagBlockEntity>> FLAG = BLOCK_ENTITY_TYPE.register("flag",
             () -> new BlockEntityType<>(FlagBlockEntity::new, Set.of(BlocksRegistry.FLAG.block().get())));
 
+    public static final Supplier<BlockEntityType<ModSignBlockEntity>> MOD_SIGN = BLOCK_ENTITY_TYPE.register("sign",
+            () -> new BlockEntityType<>(ModSignBlockEntity::new, Set.of(BlocksRegistry.LUNAR_SIGN.get(), BlocksRegistry.LUNAR_WALL_SIGN.get())));
+
+    public static final Supplier<BlockEntityType<ModHangingSignBlockEntity>> MOD_HANGING_SIGN = BLOCK_ENTITY_TYPE.register("hanging_sign",
+            () -> new BlockEntityType<>(ModHangingSignBlockEntity::new, Set.of(BlocksRegistry.LUNAR_HANGING_SIGN.get(), BlocksRegistry.LUNAR_WALL_HANGING_SIGN.get())));
+
     public static final Supplier<BlockEntityType<?>> OXYGEN_DISTRIBUTOR = BLOCK_ENTITY_TYPE.register("oxygen_distributor",
             () -> new BlockEntityType<>(OxygenDistributorBlockEntity::new, Set.of(BlocksRegistry.OXYGEN_DISTRIBUTOR.block().get())));
 
     public static final Supplier<BlockEntityType<?>> OXYGEN_PROPAGATOR = BLOCK_ENTITY_TYPE.register("oxygen_propagator",
             () -> new BlockEntityType<>(OxygenPropagatorBlockEntity::new, Set.of(BlocksRegistry.OXYGEN_PROPAGATOR.block().get())));
 }
-

@@ -3,6 +3,7 @@ package org.exodusstudio.stellaris.client;
 import dev.architectury.event.events.client.ClientGuiEvent;
 import dev.architectury.event.events.client.ClientTickEvent;
 import fr.tathan.exoconfig.platform.PlatformClientHelper;
+import net.minecraft.client.renderer.Sheets;
 import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.client.events.ClientEvents;
 import org.exodusstudio.stellaris.client.overlays.FadeOverlay;
@@ -12,6 +13,7 @@ import org.exodusstudio.stellaris.client.registry.KeyMappingsRegistry;
 import org.exodusstudio.stellaris.client.renderers.space_suit.SpaceSuitModel;
 import org.exodusstudio.stellaris.client.screens.tablet.application.ApplicationRegistry;
 import org.exodusstudio.stellaris.common.registries.ItemsRegistry;
+import org.exodusstudio.stellaris.common.registries.WoodTypesRegister;
 import org.exodusstudio.stellaris.platform.ArmorPlatform;
 
 public class StellarisClient {
@@ -20,6 +22,8 @@ public class StellarisClient {
         ApplicationRegistry.init();
 
         FluidInfosRegistry.init();
+        
+        WoodTypesRegister.register();
 
         registerOverlays();
         registerArmors();

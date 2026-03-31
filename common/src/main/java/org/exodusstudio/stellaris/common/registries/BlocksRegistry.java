@@ -15,8 +15,6 @@ import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.TintedParticleLeavesBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.grower.TreeGrower;
-import net.minecraft.world.item.SignItem;
-import net.minecraft.world.item.HangingSignItem;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.level.material.PushReaction;
@@ -60,21 +58,21 @@ public final class BlocksRegistry {
     public static final BlockItemRegistrySupplier LUNAR_SLAB = blockWithItem("lunar_slab", ofFullCopy(Blocks.OAK_SLAB), SlabBlock::new);
 
     public static final BlockItemRegistrySupplier LUNAR_FENCE = blockWithItem("lunar_fence", ofFullCopy(Blocks.OAK_FENCE), FenceBlock::new);
-    public static final BlockItemRegistrySupplier LUNAR_FENCE_GATE = blockWithItem("lunar_fence_gate", ofFullCopy(Blocks.OAK_FENCE_GATE), p -> new FenceGateBlock(ModWoodTypes.LUNAR_WOOD_TYPE, p));
+    public static final BlockItemRegistrySupplier LUNAR_FENCE_GATE = blockWithItem("lunar_fence_gate", ofFullCopy(Blocks.OAK_FENCE_GATE), p -> new FenceGateBlock(WoodTypesRegister.LUNAR_WOOD_TYPE, p));
 
-    public static final BlockItemRegistrySupplier LUNAR_DOOR = blockWithItem("lunar_door", ofFullCopy(Blocks.OAK_DOOR), p -> new DoorBlock(ModWoodTypes.LUNAR, p));
-    public static final BlockItemRegistrySupplier LUNAR_TRAPDOOR = blockWithItem("lunar_trapdoor", ofFullCopy(Blocks.OAK_TRAPDOOR), p -> new TrapDoorBlock(ModWoodTypes.LUNAR, p));
+    public static final BlockItemRegistrySupplier LUNAR_DOOR = blockWithItem("lunar_door", ofFullCopy(Blocks.OAK_DOOR), p -> new DoorBlock(WoodTypesRegister.LUNAR, p));
+    public static final BlockItemRegistrySupplier LUNAR_TRAPDOOR = blockWithItem("lunar_trapdoor", ofFullCopy(Blocks.OAK_TRAPDOOR), p -> new TrapDoorBlock(WoodTypesRegister.LUNAR, p));
 
-    public static final BlockItemRegistrySupplier LUNAR_PRESSURE_PLATE = blockWithItem("lunar_pressure_plate", ofFullCopy(Blocks.OAK_PRESSURE_PLATE), p -> new PressurePlateBlock(ModWoodTypes.LUNAR, p));
-    public static final BlockItemRegistrySupplier LUNAR_BUTTON = blockWithItem("lunar_button", ofFullCopy(Blocks.OAK_BUTTON), p -> new ButtonBlock(ModWoodTypes.LUNAR, 30, p));
+    public static final BlockItemRegistrySupplier LUNAR_PRESSURE_PLATE = blockWithItem("lunar_pressure_plate", ofFullCopy(Blocks.OAK_PRESSURE_PLATE), p -> new PressurePlateBlock(WoodTypesRegister.LUNAR, p));
+    public static final BlockItemRegistrySupplier LUNAR_BUTTON = blockWithItem("lunar_button", ofFullCopy(Blocks.OAK_BUTTON), p -> new ButtonBlock(WoodTypesRegister.LUNAR, 30, p));
 
     public static final BlockItemRegistrySupplier LUNAR_LEAVES = blockWithItem("lunar_leaves", ofFullCopy(Blocks.OAK_LEAVES), p -> new TintedParticleLeavesBlock(0.01F, p.mapColor(MapColor.PLANT).strength(0.2F).randomTicks().sound(SoundType.GRASS).noOcclusion().isValidSpawn(BlocksRegistry::ocelotOrParrot).isSuffocating(BlocksRegistry::never).isViewBlocking(BlocksRegistry::never).ignitedByLava().pushReaction(PushReaction.DESTROY).isRedstoneConductor(BlocksRegistry::never)));
     public static final BlockItemRegistrySupplier LUNAR_SAPLING = blockWithItem("lunar_sapling", ofFullCopy(Blocks.OAK_SAPLING), p -> new LunarSaplingBlock(new TreeGrower("lunar", Optional.empty(), Optional.of(ModConfiguredFeatures.LUNAR_TREE), Optional.empty()), p));
 
-    public static final RegistrySupplier<Block> LUNAR_SIGN = block("lunar_sign", ofFullCopy(Blocks.OAK_SIGN), p -> new StandingSignBlock(ModWoodTypes.LUNAR_WOOD_TYPE, p));
-    public static final RegistrySupplier<Block> LUNAR_WALL_SIGN = block("lunar_wall_sign", ofFullCopy(Blocks.OAK_WALL_SIGN), p -> new WallSignBlock(ModWoodTypes.LUNAR_WOOD_TYPE, p));
-    public static final RegistrySupplier<Block> LUNAR_HANGING_SIGN = block("lunar_hanging_sign", ofFullCopy(Blocks.OAK_HANGING_SIGN), p -> new CeilingHangingSignBlock(ModWoodTypes.LUNAR_WOOD_TYPE, p));
-    public static final RegistrySupplier<Block> LUNAR_WALL_HANGING_SIGN = block("lunar_wall_hanging_sign", ofFullCopy(Blocks.OAK_WALL_HANGING_SIGN), p -> new WallHangingSignBlock(ModWoodTypes.LUNAR_WOOD_TYPE, p));
+    public static final RegistrySupplier<Block> LUNAR_SIGN = block("lunar_sign", ofFullCopy(Blocks.OAK_SIGN), p -> new ModStandingSignBlock(WoodTypesRegister.LUNAR_WOOD_TYPE, p));
+    public static final RegistrySupplier<Block> LUNAR_WALL_SIGN = block("lunar_wall_sign", ofFullCopy(Blocks.OAK_WALL_SIGN), p -> new ModWallSignBlock(WoodTypesRegister.LUNAR_WOOD_TYPE, p));
+    public static final RegistrySupplier<Block> LUNAR_HANGING_SIGN = block("lunar_hanging_sign", ofFullCopy(Blocks.OAK_HANGING_SIGN), p -> new ModCeilingHangingSignBlock(WoodTypesRegister.LUNAR_WOOD_TYPE, p));
+    public static final RegistrySupplier<Block> LUNAR_WALL_HANGING_SIGN = block("lunar_wall_hanging_sign", ofFullCopy(Blocks.OAK_WALL_HANGING_SIGN), p -> new ModWallHangingSignBlock(WoodTypesRegister.LUNAR_WOOD_TYPE, p));
 
 
     public static final BlockItemRegistrySupplier ICED_MAGMA_BLOCK = blockWithItem("iced_magma_block", ofFullCopy(Blocks.MAGMA_BLOCK), IcedMagmaBlock::new);

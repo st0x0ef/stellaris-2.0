@@ -15,3 +15,5 @@ accessible field net/minecraft/server/MinecraftServer storageSource Lnet/minecra
 accessible field net/minecraft/commands/synchronization/ArgumentTypeInfos BY_CLASS Ljava/util/Map;
 
 accessible field net/minecraft/server/network/ServerGamePacketListenerImpl aboveGroundTickCount I
+
+accessible method net/minecraft/world/level/block/state/properties/WoodType register (Lnet/minecraft/world/level/block/state/properties/WoodType;)Lnet/minecraft/world/level/block/state/properties/WoodType;

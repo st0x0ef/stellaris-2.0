@@ -1,6 +1,7 @@
 package org.exodusstudio.stellaris.neoforge.client;
 
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
+import net.minecraft.client.renderer.Sheets;
 import net.minecraft.client.renderer.chunk.ChunkSectionLayer;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.neoforged.api.distmarker.Dist;
@@ -9,6 +10,10 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 import org.exodusstudio.stellaris.Stellaris;
+import org.exodusstudio.stellaris.common.blocks.entities.ModSignBlockEntity;
+import org.exodusstudio.stellaris.common.blocks.entities.ModHangingSignBlockEntity;
+import net.minecraft.client.renderer.blockentity.SignRenderer;
+import net.minecraft.client.renderer.blockentity.HangingSignRenderer;
 import org.exodusstudio.stellaris.client.StellarisClient;
 import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
 import org.exodusstudio.stellaris.client.renderers.space_suit.SpaceSuitModel;
@@ -74,6 +79,8 @@ public class StellarisNeoforgeClient {
     @SubscribeEvent
     public static void registerEntityRenderers(EntityRenderersEvent.RegisterRenderers event) {
         event.registerBlockEntityRenderer((BlockEntityType<GravityManipulatorBlockEntity>)BlockEntitiesRegistry.GRAVITY_MANIPULATOR.get(), GravityManipulatorBlockRenderer::new);
+        event.registerBlockEntityRenderer((BlockEntityType<ModSignBlockEntity>)BlockEntitiesRegistry.MOD_SIGN.get(), SignRenderer::new);
+        event.registerBlockEntityRenderer((BlockEntityType<ModHangingSignBlockEntity>)BlockEntitiesRegistry.MOD_HANGING_SIGN.get(), HangingSignRenderer::new);
         event.registerBlockEntityRenderer(BlockEntitiesRegistry.FLAG.get(), FlagBlockRenderer::new);
 
         event.registerEntityRenderer(EntityTypesRegistry.ROCKET.get(), RocketRenderer::new);
