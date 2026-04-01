@@ -50,17 +50,14 @@ public class FluidInfosRegistry {
     }
 
     public static Identifier getFluidTexture(Fluid fluid) {
-
-        if(FLUIDS_INFO.containsKey(fluid.arch$registryName())) {
-
+        if (FLUIDS_INFO.containsKey(fluid.arch$registryName())) {
             return FLUIDS_INFO.get(fluid.arch$registryName()).textureLocation();
         }
         return GUISprites.WATER_OVERLAY;
     }
 
     public static Component getFluidComponent(Fluid fluid) {
-        if(FLUIDS_INFO.containsKey(fluid.arch$registryName())) {
-
+        if (FLUIDS_INFO.containsKey(fluid.arch$registryName())) {
             return FLUIDS_INFO.get(fluid.arch$registryName()).component();
         }
         return Component.literal("Empty");
@@ -68,18 +65,13 @@ public class FluidInfosRegistry {
 
     public static void init() {
         register(FluidsRegistry.HYDROGEN_STILL.get(),
-                new FluidInfos(GUISprites.HYDROGEN_OVERLAY, Component.translatable("fluid.stellaris.hydrogen" )));
+                new FluidInfos(GUISprites.HYDROGEN_OVERLAY, Component.translatable("fluid.stellaris.hydrogen")));
         register(FluidsRegistry.FUEL_STILL.get(),
-                new FluidInfos(GUISprites.WATER_OVERLAY, Component.translatable("fluid.stellaris.fuel" )));
+                new FluidInfos(GUISprites.WATER_OVERLAY, Component.translatable("fluid.stellaris.fuel")));
         register(FluidsRegistry.OXYGEN_STILL.get(),
-                new FluidInfos(GUISprites.OXYGEN_OVERLAY, Component.translatable("fluid.stellaris.oxygen" )));
+                new FluidInfos(GUISprites.OXYGEN_OVERLAY, Component.translatable("fluid.stellaris.oxygen")));
         register(FluidsRegistry.OIL_STILL.get(),
-                new FluidInfos(GUISprites.OIL_OVERLAY, Component.translatable("fluid.stellaris.oil" )));
-
-                new FluidInfos(GUISprites.OXYGEN_OVERLAY,  Component.translatable("fluid.stellaris.oxygen" )));
-        register(FluidsRegistry.BLUE_LIQUID_STILL.get(),
-                new FluidInfos(GUISprites.WATER_OVERLAY,  Component.translatable("fluid.stellaris.blue_liquid" )));
-
+                new FluidInfos(GUISprites.OIL_OVERLAY, Component.translatable("fluid.stellaris.oil")));
         register(Fluids.WATER,
                 new FluidInfos(GUISprites.WATER_OVERLAY,  Component.translatable("fluid.stellaris.water" )));
         register(Fluids.EMPTY,
