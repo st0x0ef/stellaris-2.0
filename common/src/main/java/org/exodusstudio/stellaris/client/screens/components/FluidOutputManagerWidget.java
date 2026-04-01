@@ -19,6 +19,7 @@ import net.minecraft.world.level.block.HorizontalDirectionalBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluid;
+import org.exodusstudio.stellaris.client.StellarisClient;
 import org.exodusstudio.stellaris.client.screens.components.containers.DraggableContainer;
 import org.exodusstudio.stellaris.client.screens.utils.GUISprites;
 import org.exodusstudio.stellaris.common.blocks.entities.machines.base.FluidOutputManager;
@@ -26,6 +27,7 @@ import org.exodusstudio.stellaris.common.blocks.entities.machines.base.FluidOutp
 import org.exodusstudio.stellaris.common.network.packets.SyncOutputManager;
 import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
 import org.exodusstudio.stellaris.common.utils.Utils;
+import org.joml.Matrix3x2fStack;
 
 import java.util.*;
 
@@ -39,7 +41,6 @@ public class FluidOutputManagerWidget extends DraggableContainer {
     public BlockEntity blockEntity;
     private final HashMap<Direction, TexturedButton> directionButtons = new HashMap<>();
 
-    public static String[] COLOR_LIST = new String[]{"red", "lime", "blue", "yellow", "cyan", "magenta"};
     public static int BUTTON_WIDTH = 16;
 
     public FluidOutputManagerWidget(int x, int y, int width, int height, FluidOutputManager fluidOutputManager, Screen screen, BlockEntity blockEntity) {
@@ -132,15 +133,28 @@ public class FluidOutputManagerWidget extends DraggableContainer {
     public int getColor(FluidStack fluid) {
         if(fluid != null &&  this.blockEntity instanceof FluidOutputable outputable) {
             int index = outputable.getFluidsOutput().indexOf(fluid.getFluid());
-            return Utils.getMinecraftColor(COLOR_LIST[index % COLOR_LIST.length]);
+
+            String[] colors = StellarisClient.CLIENT_CONFIG.fluidOutputConfig.fluidsColors;
+
+            return Utils.getMinecraftColor(colors[index % colors.length]);
         }
         return ARGB.white(1f);
     }
 
     public void renderNeighboredBlock(GuiGraphics guiGraphics, int x, int y, Direction direction) {
         BlockState neighbor = this.blockEntity.getLevel().getBlockState(this.blockEntity.getBlockPos().relative(direction));
+        Matrix3x2fStack matrixStack = guiGraphics.pose();
+        matrixStack.pushMatrix();
+
+        float tx = x + 8 - (16 * 0.7f) / 2f;
+
+        matrixStack.translate(tx, y + 2);
+        matrixStack.scale(0.7f, 0.7f);
+
         if(!neighbor.is(BlockTags.AIR)) {
-            guiGraphics.renderItem(neighbor.getBlock().asItem().getDefaultInstance(), x, y);
+            guiGraphics.renderItem(neighbor.getBlock().asItem().getDefaultInstance(), 0, 0);
         }
+
+        matrixStack.popMatrix();
     }
 }
