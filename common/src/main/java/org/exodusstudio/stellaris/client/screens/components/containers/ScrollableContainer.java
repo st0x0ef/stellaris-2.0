@@ -10,6 +10,7 @@ import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
+import org.exodusstudio.stellaris.client.screens.components.Padding;
 import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
 import org.jetbrains.annotations.Nullable;
 
@@ -31,14 +32,19 @@ public class ScrollableContainer extends AbstractScrollArea implements Container
     @Nullable
     private Identifier background;
 
+    public Padding padding = new Padding(0);
+
     public ScrollableContainer(int x, int y, int width, int height, Component component) {
         super(x, y, width, height, component);
     }
 
     @Override
     protected int contentHeight() {
-        return contentHeight;
+        // Include vertical padding in the reported content height
+        return contentHeight + padding.top + padding.bottom;
     }
+
+
 
     @Override
     protected double scrollRate() {
@@ -53,25 +59,32 @@ public class ScrollableContainer extends AbstractScrollArea implements Container
 
     public void updateChildrenPosition() {
         for (AbstractWidget child : this.children) {
-            child.setY((int) (this.defaultPositions.get(child) - this.scrollAmount()));
+            // Apply vertical padding when positioning children
+            Integer defaultY = this.defaultPositions.get(child);
+            if (defaultY == null) continue;
+            child.setY((int) (defaultY - this.scrollAmount()));
         }
     }
 
 
     @Override
     protected void renderWidget(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
-        guiGraphics.pose().pushMatrix();
-        guiGraphics.enableScissor(this.getX(), this.getY(), this.getRight(), this.getBottom());
 
-        if(this.background != null) guiGraphics.blit(RenderPipelines.GUI_TEXTURED, this.background, this.getX(), this.getY(), 0, 0, this.getWidth(), this.getBottom(), this.getWidth(), this.getHeight());
+        if(this.background != null) guiGraphics.blit(RenderPipelines.GUI_TEXTURED, this.background, this.getX(), this.getY(), 0, 0, this.getWidth(), this.getHeight(), this.getWidth(), this.getHeight());
+
+
+        guiGraphics.pose().pushMatrix();
+        guiGraphics.enableScissor(this.getX() + this.padding.left,
+                this.getY() + this.padding.left, this.getRight() - this.padding.right, this.getBottom() - this.padding.bottom);
+
 
         renderContent(guiGraphics, mouseX, mouseY, partialTick);
+        renderScrollbar(guiGraphics, mouseX, mouseY);
 
         guiGraphics.disableScissor();
         guiGraphics.pose().popMatrix();
 
 
-        renderScrollbar(guiGraphics, mouseX, mouseY);
     }
 
     public void renderContent(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
@@ -100,8 +113,8 @@ public class ScrollableContainer extends AbstractScrollArea implements Container
     @Override
     protected void renderScrollbar(GuiGraphics guiGraphics, int mouseX, int mouseY) {
         if (this.scrollbarVisible()) {
-            int i = this.scrollBarX();
-            int j = this.scrollerHeight();
+            int i = this.scrollBarX() - this.padding.right;
+            int j = this.scrollerHeight() + this.padding.top;
             int k = this.scrollBarY();
             if(this.scrollerBackground != null) guiGraphics.blitSprite(RenderPipelines.GUI_TEXTURED, this.scrollerBackground, i, this.getY(), 6, this.getHeight());
             guiGraphics.blitSprite(RenderPipelines.GUI_TEXTURED, this.scrollerSprite, i, k, 6, j);
@@ -192,11 +205,25 @@ public class ScrollableContainer extends AbstractScrollArea implements Container
         return this;
     }
 
+    /**
+     * Add a child to the container. We apply current padding to the child position
+     */
     public ScrollableContainer addChild(Screen parent, AbstractWidget child) {
         parent.addWidget(child);
+        child.setY(child.getY());
+        child.setX(child.getX());
         this.children.add(child);
         this.defaultPositions.put(child, child.getY());
         return this;
+    }
+
+    public ScrollableContainer setPadding(Padding padding) {
+        this.padding = padding;
+        return this;
+    }
+
+    public Padding getPadding() {
+        return this.padding;
     }
 
 

@@ -21,7 +21,7 @@ import java.util.function.Function;
  */
 public class OpenRocketStationMenusPacket implements CustomPacketPayload {
 
-    public static CustomPacketPayload.Type<OpenRocketStationMenusPacket> TYPE = new CustomPacketPayload.Type<>(Identifier.fromNamespaceAndPath(Stellaris.MOD_ID, "open_rocket_station_menu"));
+    public static CustomPacketPayload.Type<OpenRocketStationMenusPacket> TYPE = new CustomPacketPayload.Type<>(Identifier.fromNamespaceAndPath(Stellaris.MOD_ID, "open_engine_station_menu"));
 
     /**
      * Menu provider for rocket crafting station

@@ -8,6 +8,8 @@ import org.exodusstudio.stellaris.common.blocks.entities.FlagBlockEntity;
 import org.exodusstudio.stellaris.common.blocks.entities.FluidTankBlockEntity;
 import org.exodusstudio.stellaris.common.blocks.entities.PipeBlockEntity;
 import org.exodusstudio.stellaris.common.blocks.entities.machines.*;
+import org.exodusstudio.stellaris.common.blocks.entities.ModSignBlockEntity;
+import org.exodusstudio.stellaris.common.blocks.entities.ModHangingSignBlockEntity;
 
 import java.util.Set;
 import java.util.function.Supplier;
@@ -15,6 +17,7 @@ import java.util.function.Supplier;
 public class BlockEntitiesRegistry {
     public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITY_TYPE = DeferredRegister.create(Stellaris.MOD_ID, Registries.BLOCK_ENTITY_TYPE);
 
+    /** MACHINES */
     public static final Supplier<BlockEntityType<?>> SOLAR_PANEL = BLOCK_ENTITY_TYPE.register("solar_panel",
             () -> new BlockEntityType<>(SolarPanelBlockEntity::new, Set.of(BlocksRegistry.SOLAR_PANEL.block().get())));
     public static final Supplier<BlockEntityType<?>> COAL_GENERATOR = BLOCK_ENTITY_TYPE.register("coal_generator",
@@ -40,14 +43,20 @@ public class BlockEntitiesRegistry {
     public static final Supplier<BlockEntityType<?>> ELECTROLYZER = BLOCK_ENTITY_TYPE.register("electrolyzer",
             () -> new BlockEntityType<>(ElectrolyzerBlockEntity::new, Set.of(BlocksRegistry.ELECTROLYZER.block().get())));
 
-    public static final Supplier<BlockEntityType<?>> ROCKET_STATION = BLOCK_ENTITY_TYPE.register("rocket_station",
-            () -> new BlockEntityType<>(RocketStationBlockEntity::new, Set.of(BlocksRegistry.ROCKET_STATION.block().get())));
+    public static final Supplier<BlockEntityType<?>> ENGINEERING_STATION = BLOCK_ENTITY_TYPE.register("engineering_station",
+            () -> new BlockEntityType<>(EngineeringStationBlockEntity::new, Set.of(BlocksRegistry.ENGINEERING_STATION.block().get())));
 
     public static final Supplier<BlockEntityType<?>> GRAVITY_MANIPULATOR = BLOCK_ENTITY_TYPE.register("gravity_manipulator",
             () -> new BlockEntityType<>(GravityManipulatorBlockEntity::new, Set.of(BlocksRegistry.GRAVITY_MANIPULATOR.block().get())));
 
     public static final Supplier<BlockEntityType<FlagBlockEntity>> FLAG = BLOCK_ENTITY_TYPE.register("flag",
             () -> new BlockEntityType<>(FlagBlockEntity::new, Set.of(BlocksRegistry.FLAG.block().get())));
+
+    public static final Supplier<BlockEntityType<ModSignBlockEntity>> MOD_SIGN = BLOCK_ENTITY_TYPE.register("sign",
+            () -> new BlockEntityType<>(ModSignBlockEntity::new, Set.of(BlocksRegistry.LUNAR_SIGN.get(), BlocksRegistry.LUNAR_WALL_SIGN.get())));
+
+    public static final Supplier<BlockEntityType<ModHangingSignBlockEntity>> MOD_HANGING_SIGN = BLOCK_ENTITY_TYPE.register("hanging_sign",
+            () -> new BlockEntityType<>(ModHangingSignBlockEntity::new, Set.of(BlocksRegistry.LUNAR_HANGING_SIGN.get(), BlocksRegistry.LUNAR_WALL_HANGING_SIGN.get())));
 
     public static final Supplier<BlockEntityType<?>> OXYGEN_DISTRIBUTOR = BLOCK_ENTITY_TYPE.register("oxygen_distributor",
             () -> new BlockEntityType<>(OxygenDistributorBlockEntity::new, Set.of(BlocksRegistry.OXYGEN_DISTRIBUTOR.block().get())));
@@ -62,4 +71,3 @@ public class BlockEntitiesRegistry {
             () -> new BlockEntityType<>(FluidTankBlockEntity::new, Set.of(BlocksRegistry.FLUID_TANK_T1.block().get())));
 
 }
-

@@ -1,10 +1,12 @@
 package org.exodusstudio.stellaris.client.screens.tablet.application.wiki;
 
+import dev.architectury.networking.NetworkManager;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
+import net.minecraft.world.entity.player.Inventory;
 import org.exodusstudio.stellaris.client.data.wiki.EntryInfo;
 import org.exodusstudio.stellaris.client.data.wiki.WikiEntry;
 import org.exodusstudio.stellaris.client.data.wiki.WikiPacks;
@@ -12,11 +14,12 @@ import org.exodusstudio.stellaris.client.screens.components.TexturedButton;
 import org.exodusstudio.stellaris.client.screens.components.wiki.WikiEntryButton;
 import org.exodusstudio.stellaris.client.screens.components.containers.ScrollableContainer;
 import org.exodusstudio.stellaris.client.screens.components.wiki.WikiInfoButton;
-import org.exodusstudio.stellaris.client.screens.tablet.MainTabletScreen;
 import org.exodusstudio.stellaris.client.screens.tablet.application.ApplicationRegistry;
 import org.exodusstudio.stellaris.client.screens.tablet.application.ApplicationScreen;
 import org.exodusstudio.stellaris.client.utils.ClientUtils;
 import org.exodusstudio.stellaris.common.menus.MainTabletMenu;
+import org.exodusstudio.stellaris.common.menus.WikiApplicationMenu;
+import org.exodusstudio.stellaris.common.network.packets.OpenMenuPacket;
 import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
 import org.exodusstudio.stellaris.common.utils.Utils;
 import org.jetbrains.annotations.Nullable;
@@ -29,7 +32,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  * Wiki Application Screen
  * This screen displays a list of wiki entries and allows navigation between them.
  */
-public class WikiApplicationScreen extends Screen {
+public class WikiApplicationScreen extends AbstractContainerScreen<WikiApplicationMenu> {
 
     /** Textures */
     public static final Identifier BACK_ARROW = IdentifierUtils.guiTexture("tablet/back_page");
@@ -41,13 +44,12 @@ public class WikiApplicationScreen extends Screen {
 
 
     /** Variables */
+     public ScrollableContainer scrollableContainer;
 
-
-    public ScrollableContainer scrollableContainer;
-
-    public MainTabletScreen mainTabletScreen;
 
     public WikiEntry currentEntry;
+    public Identifier openedInfo;
+
 
     //The list of the infos for the currentEntry
     public List<EntryInfo> INFOS;
@@ -60,21 +62,41 @@ public class WikiApplicationScreen extends Screen {
     public TexturedButton nextButton;
     public TexturedButton backButton;
 
+    public WikiApplicationMenu menu;
+    public Inventory inventory;
 
-    public WikiApplicationScreen(MainTabletScreen mainTabletScreen, @Nullable WikiEntry currentEntry) {
-        super(Component.literal("Wiki"));
-        this.mainTabletScreen = mainTabletScreen;
+    public WikiApplicationScreen(WikiApplicationMenu menu, Inventory inventory, Component component) {
+        this(menu, inventory, null, null);
+
+
+    }
+
+    private WikiApplicationScreen(WikiApplicationMenu menu, Inventory inventory, @Nullable WikiEntry currentEntry, @Nullable Identifier entryInfo) {
+        super(menu, inventory, Component.literal("Wiki"));
         this.currentEntry = currentEntry;
+        this.menu = menu;
+        this.inventory = inventory;
+
+        this.imageHeight = 192;
+        this.imageWidth = 310;
+        this.inventoryLabelY = -this.imageHeight;
+        this.titleLabelY = -this.imageHeight;
+        this.openedInfo = menu.openedEntryInfo;
 
     }
 
     public static WikiApplicationScreen create(ApplicationRegistry.MenuHolder<MainTabletMenu> menuHolder) {
-        return new WikiApplicationScreen(menuHolder.mainTabletScreen(), null);
+        NetworkManager.sendToServer(new OpenMenuPacket("wiki"));
+        return null;
     }
 
     @Override
     protected void init() {
         super.init();
+
+        if(this.openedInfo != null) {
+           this.setEntryInfo(WikiPacks.ENTRY_COMPONENTS.get(this.openedInfo));
+        }
 
         if(!WikiPacks.ENTRIES.isEmpty()) {
             setupScrollableContainer();
@@ -88,9 +110,8 @@ public class WikiApplicationScreen extends Screen {
 
 
     @Override
-    public void renderBackground(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
-        super.renderBackground(guiGraphics, mouseX, mouseY, partialTick);
-        guiGraphics.blit(RenderPipelines.GUI_TEXTURED, ApplicationScreen.BLANCK_BACKGROUND, this.getLeftPos(), this.getTopPos(), 0, 0, this.mainTabletScreen.getImageWidth(), this.mainTabletScreen.getImageHeight(), this.mainTabletScreen.getImageWidth(),this.mainTabletScreen.getImageHeight());
+    protected void renderBg(GuiGraphics guiGraphics, float partialTick, int mouseX, int mouseY) {
+        guiGraphics.blit(RenderPipelines.GUI_TEXTURED, ApplicationScreen.BLANCK_BACKGROUND, this.leftPos, this.topPos, 0, 0, imageWidth, imageHeight, imageWidth, imageHeight);
         updateNavigationButtons();
 
         if(currentEntry == null) {
@@ -98,11 +119,12 @@ public class WikiApplicationScreen extends Screen {
         } else if (INFOS == null || INFOS.isEmpty()) {
             guiGraphics.drawCenteredString(this.font, "This entry is empty ;(", this.width / 2 + 40, this.height / 2 - 5, Utils.getMinecraftColor("white"));
         }
+
     }
 
 
     private void setupScrollableContainer() {
-        this.scrollableContainer = new ScrollableContainer(this.getLeftPos() + 30, this.getTopPos() + 40, 100, this.mainTabletScreen.getImageHeight() - 70, Component.empty())
+        this.scrollableContainer = new ScrollableContainer(this.leftPos + 30, this.topPos + 40, 100, imageHeight - 70, Component.empty())
                 .setBackground(IdentifierUtils.guiTexture("tablet/tablet_entries_background"));
 
         int height = 5;
@@ -217,7 +239,7 @@ public class WikiApplicationScreen extends Screen {
 
         var PAGES_BUTTONS = new ArrayList<WikiInfoButton>();
         INFOS.forEach((infos) -> {
-            WikiInfoButton entryButton = new WikiInfoButton(this.scrollableContainer.getRight() + 30 + (column.get() * 30), this.getTopPos() + 60 + (row.get() * 30), 20, 20, (b) -> this.minecraft.setScreen(new WikiEntryScreen(this.mainTabletScreen, WikiState.fromWiki(this), infos)), infos)
+            WikiInfoButton entryButton = new WikiInfoButton(this.scrollableContainer.getRight() + 30 + (column.get() * 30), this.topPos + 60 + (row.get() * 30), 20, 20, (b) -> setEntryInfo(infos), infos)
                     .tex(BUTTON_TEXTURE, BUTTON_HOVERED_TEXTURE);
 
             if (column.get() == 3) {
@@ -240,27 +262,38 @@ public class WikiApplicationScreen extends Screen {
         showInfosButton(true);
     }
 
+    public void setEntryInfo(EntryInfo entryInfo) {
+        if(entryInfo == null) return;
+        this.minecraft.setScreen(new WikiEntryScreen(this, WikiState.fromWiki(this), entryInfo));
+    }
+
     @Override
     public void resize(int width, int height) {
-        this.mainTabletScreen.resize(width, height);
         super.resize(width, height);
     }
 
+    public int getImageWidth() {
+        return this.imageWidth;
+    }
+
+    public int getImageHeight() {
+        return this.imageHeight;
+    }
+
     public int getLeftPos() {
-        return this.mainTabletScreen.getLeftPos();
+        return this.leftPos;
     }
 
     public int getTopPos() {
-        return this.mainTabletScreen.getTopPos();
+        return this.topPos;
     }
-
-
 
     public record WikiState(WikiEntry currentEntry, int currentInfoPage) {
 
-        public WikiApplicationScreen toScreen(MainTabletScreen mainTabletScreen) {
-            var screen = new WikiApplicationScreen(mainTabletScreen, currentEntry);
+        public WikiApplicationScreen toScreen(WikiApplicationScreen wikiScreen) {
+            var screen = new WikiApplicationScreen(wikiScreen.menu, wikiScreen.inventory, currentEntry, null);
             screen.currentInfosPage = currentInfoPage;
+            screen.openedInfo = null;
 
             return screen;
         }

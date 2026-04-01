@@ -1,6 +1,8 @@
 package org.exodusstudio.stellaris.client.screens.components;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.ActiveTextCollector;
+import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.Tooltip;
@@ -10,6 +12,8 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.util.ARGB;
 import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.Objects;
 
 /**
  * A utility class to create custom textured button.
@@ -33,6 +37,7 @@ public class TexturedButton extends Button {
     public int textureHeight;
 
     public boolean useSprite = false;
+    public Component text = Component.empty();
 
     public TexturedButton(int x, int y, int widthIn, int heightIn, Button.OnPress onPressIn) {
         this(x, y, widthIn, heightIn, Component.empty(), onPressIn, DEFAULT_NARRATION);
@@ -83,6 +88,13 @@ public class TexturedButton extends Button {
             graphics.blit(RenderPipelines.GUI_TEXTURED, texture, this.getX(), this.getY(), (float) this.xTexStart, (float) i,
                     this.width, this.height, this.textureWidth, this.textureHeight);
         }
+
+        if(!Objects.equals(this.text, Component.empty())) {
+            Font font = minecraft.font;
+            renderScrollingStringOverContents(graphics.textRendererForWidget(this,
+                    GuiGraphics.HoveredTextEffects.NONE), this.text, this.getX() + 2, (this.getY() + getHeight() / 2) - font.lineHeight / 2);
+        }
+
     }
 
     @Override
@@ -128,7 +140,13 @@ public class TexturedButton extends Button {
         return cast();
     }
 
-    public void setYShift(int y) {
+    public <T extends TexturedButton> T setText(Component text) {
+        this.text = text;
+        return cast();
+    }
+
+
+        public void setYShift(int y) {
         this.yDiffText = y;
     }
 
@@ -140,6 +158,13 @@ public class TexturedButton extends Button {
         else {
             return this.buttonTexture;
         }
+    }
+
+    protected void renderScrollingStringOverContents(ActiveTextCollector activeTextCollector, Component text, int x, int y) {
+        int endX = this.getX() + this.getWidth() - 5;
+        int endY = y + Minecraft.getInstance().font.lineHeight;
+
+        activeTextCollector.acceptScrollingWithDefaultCenter(text, x, endX, y, endY);
     }
 
 

@@ -4,9 +4,9 @@
   "compatibilityLevel": "JAVA_21",
   "minVersion": "0.8",
   "client": [
+    "client.ArmRendererMixin",
     "client.CustomItemModelRenderer",
     "client.GuiMixin",
-    "client.HumanoidModelMixin",
     "client.ItemInHandRendererMixin"
   ],
   "mixins": [
@@ -14,6 +14,7 @@
     "ConsumableMixin",
     "EntityMixinAttachment",
     "LivingEntityMixin",
+    "PlayerMixin",
     "gravity_modifier.AbstractArrowEntityMixin",
     "gravity_modifier.AbstractBoatEntityMixin",
     "gravity_modifier.AbstractMinecartEntityMixin",

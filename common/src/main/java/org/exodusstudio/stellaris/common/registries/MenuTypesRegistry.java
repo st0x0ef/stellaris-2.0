@@ -7,8 +7,8 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.world.inventory.MenuType;
 import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.common.menus.*;
-import org.exodusstudio.stellaris.common.menus.rocket_station.RocketStationMenu;
-import org.exodusstudio.stellaris.common.menus.rocket_station.RocketUpgradeMenu;
+import org.exodusstudio.stellaris.common.menus.engineering_station.RocketStationMenu;
+import org.exodusstudio.stellaris.common.menus.engineering_station.EngineUpgradeMenu;
 
 public class MenuTypesRegistry {
 
@@ -16,6 +16,7 @@ public class MenuTypesRegistry {
 
     public static final RegistrySupplier<MenuType<MainTabletMenu>> TABLET = MENU_TYPE.register("tablet", () -> MenuRegistry.ofExtended(MainTabletMenu::new));
     public static final RegistrySupplier<MenuType<SDCardReaderApplicationMenu>> SD_CARD_READER = MENU_TYPE.register("sd_card_reader", () -> MenuRegistry.ofExtended(SDCardReaderApplicationMenu::create));
+    public static final RegistrySupplier<MenuType<WikiApplicationMenu>> WIKI = MENU_TYPE.register("wiki", () -> MenuRegistry.ofExtended(WikiApplicationMenu::create));
 
     public static final RegistrySupplier<MenuType<SolarPanelMenu>> SOLAR_PANEL = MENU_TYPE.register("solar_panel", () -> MenuRegistry.ofExtended(SolarPanelMenu::create));
     public static final RegistrySupplier<MenuType<CoalGeneratorMenu>> COAL_GENERATOR = MENU_TYPE.register("coal_generator", () -> MenuRegistry.ofExtended(CoalGeneratorMenu::create));
@@ -26,11 +27,12 @@ public class MenuTypesRegistry {
 
     public static final RegistrySupplier<MenuType<ElectrolyzerMenu>> ELECTROLYZER = MENU_TYPE.register("electrolyzer", () -> MenuRegistry.ofExtended(ElectrolyzerMenu::create));
     public static final RegistrySupplier<MenuType<VacuumatorMenu>> VACUUMATOR = MENU_TYPE.register("vacuumator", () -> MenuRegistry.ofExtended(VacuumatorMenu::create));
-    public static final RegistrySupplier<MenuType<RocketUpgradeMenu>> ROCKET_UPGRADE = MENU_TYPE.register("rocket_upgrade", () -> MenuRegistry.ofExtended(RocketUpgradeMenu::create));
+
+    public static final RegistrySupplier<MenuType<EngineUpgradeMenu>> ENGINE_UPGRADE = MENU_TYPE.register("engine_upgrade", () -> MenuRegistry.ofExtended(EngineUpgradeMenu::create));
+    public static final RegistrySupplier<MenuType<RocketStationMenu>> ROCKET_STATION = MENU_TYPE.register("rocket_station", () -> MenuRegistry.ofExtended(RocketStationMenu::create));
+
     public static final RegistrySupplier<MenuType<PumpjackMenu>> PUMPJACK = MENU_TYPE.register("pumpjack", () -> MenuRegistry.ofExtended(PumpjackMenu::create));
     public static final RegistrySupplier<MenuType<FuelRefineryMenu>> FUEL_REFINERY = MENU_TYPE.register("fuel_refinery", () -> MenuRegistry.ofExtended(FuelRefineryMenu::create));
-
-    public static final RegistrySupplier<MenuType<RocketStationMenu>> ROCKET_STATION = MENU_TYPE.register("rocket_station", () -> MenuRegistry.ofExtended(RocketStationMenu::createFromBuffer));
 
     public static final RegistrySupplier<MenuType<GravityManipulatorMenu>> GRAVITY_MANIPULATOR = MENU_TYPE.register("gravity_manipulator", () -> MenuRegistry.ofExtended(GravityManipulatorMenu::create));
     public static final RegistrySupplier<MenuType<OxygenDistributorMenu>> OXYGEN_DISTRIBUTOR = MENU_TYPE.register("oxygen_distributor", () -> MenuRegistry.ofExtended(OxygenDistributorMenu::create));

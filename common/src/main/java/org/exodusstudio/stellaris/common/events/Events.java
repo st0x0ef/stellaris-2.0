@@ -2,17 +2,21 @@ package org.exodusstudio.stellaris.common.events;
 
 import dev.architectury.event.EventResult;
 import dev.architectury.event.events.common.BlockEvent;
+import dev.architectury.event.events.common.EntityEvent;
 import dev.architectury.event.events.common.LifecycleEvent;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import org.apache.commons.io.FileUtils;
 import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.common.blocks.entities.FlagBlockEntity;
+import org.exodusstudio.stellaris.common.items.space_suit.SpaceSuitHelmet;
 import org.exodusstudio.stellaris.common.registries.BlocksRegistry;
 
 import java.io.IOException;
@@ -29,6 +33,13 @@ public class Events {
         LifecycleEvent.SERVER_STARTING.register((MinecraftServer server) -> {
             if(Stellaris.CONFIG.admin.debugMode && Stellaris.CONFIG.admin.regenDimension) {
                 regenStellarisDim(server);
+            }
+        });
+
+        EntityEvent.ENTER_SECTION.register((entity, sectionX, sectionY, sectionZ, prevX, prevY, prevZ) -> {
+            if (entity instanceof Player player && (sectionX != prevX || sectionZ != prevZ)) {
+                ItemStack headStack = player.getItemBySlot(EquipmentSlot.HEAD);
+                SpaceSuitHelmet.tickOilFinderEnergy(headStack);
             }
         });
 

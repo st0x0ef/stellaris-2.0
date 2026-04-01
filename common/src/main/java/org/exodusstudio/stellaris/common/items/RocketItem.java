@@ -21,9 +21,9 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import org.exodusstudio.stellaris.common.blocks.RocketLaunchPadBlock;
 import org.exodusstudio.stellaris.common.entities.RocketEntity;
-import org.exodusstudio.stellaris.common.module.Modules;
-import org.exodusstudio.stellaris.common.module.rocket.RocketModule;
-import org.exodusstudio.stellaris.common.module.rocket.RocketModules;
+import org.exodusstudio.stellaris.common.modules.Modules;
+import org.exodusstudio.stellaris.common.modules.rocket.RocketModule;
+import org.exodusstudio.stellaris.common.modules.rocket.RocketModules;
 import org.exodusstudio.stellaris.common.registries.BlocksRegistry;
 import org.exodusstudio.stellaris.common.registries.DataComponentsRegistry;
 import org.exodusstudio.stellaris.common.registries.EntityTypesRegistry;
@@ -36,7 +36,7 @@ import java.util.function.Consumer;
 public class RocketItem extends Item implements FluidProvider.ITEM {
 
     public RocketItem(Properties properties) {
-        super(properties.component(DataComponentsRegistry.ROCKET_MODULES.getOrNull(), RocketModules.empty()));
+        super(properties.component(DataComponentsRegistry.ROCKET_MODULES.get(), RocketModules.empty()));
     }
 
     @Override
@@ -54,7 +54,9 @@ public class RocketItem extends Item implements FluidProvider.ITEM {
             //the size of the rocket's bounding box
             AABB aabb = EntityTypesRegistry.ROCKET.get().getDimensions().makeBoundingBox(vec3.x(), vec3.y(), vec3.z());
 
-            if (level.noCollision(aabb)) {
+            List<RocketEntity> existingRockets = level.getEntities(EntityTypesRegistry.ROCKET.get(), aabb, Entity::isAlive);
+
+            if (existingRockets.isEmpty()) {
 
                 /** POS */
                 int x = blockpos.getX();
@@ -66,31 +68,34 @@ public class RocketItem extends Item implements FluidProvider.ITEM {
                 List<Entity> entities = level.getEntitiesOfClass(Entity.class, scanAbove);
 
                 if (entities.isEmpty()) {
-                    RocketEntity rocket = RocketEntity.fromItemStack(level, itemStack);
-                    /** SET PRE POS */
-                    rocket.setPos(blockpos.getX() + 0.5D, blockpos.getY() + 1.0D, blockpos.getZ() + 0.5D);
+                    if (!level.isClientSide()) {
+                        RocketEntity rocket = RocketEntity.fromItemStack(level, itemStack);
+                        /** SET PRE POS */
+                        rocket.setPos(blockpos.getX() + 0.5D, blockpos.getY() + 1.0D, blockpos.getZ() + 0.5D);
 
-                    //double yOffset = RocketItem.getYOffset(level, blockpos, true, rocket.getBoundingBox());
-                    double yOffset = 1.7D;
-                    float rocketRotation = (float) Mth.floor((Mth.wrapDegrees(context.getRotation() - 180.0F) + 45.0F) / 90.0F) * 90.0F;
+                        //double yOffset = RocketItem.getYOffset(level, blockpos, true, rocket.getBoundingBox());
+                        double yOffset = 1.7D;
+                        float rocketRotation = (float) Mth.floor((Mth.wrapDegrees(context.getRotation() - 180.0F) + 45.0F) / 90.0F) * 90.0F;
 
-                    /** SET FINAL POS */
-                    rocket.setPos(new Vec3(blockpos.getX() + 0.5D, blockpos.getY() + yOffset, blockpos.getZ() + 0.5D));
-                    rocket.setYRot(rocketRotation);
+                        /** SET FINAL POS */
+                        rocket.setPos(new Vec3(blockpos.getX() + 0.5D, blockpos.getY() + yOffset, blockpos.getZ() + 0.5D));
+                        rocket.setYRot(rocketRotation);
+                        rocket.yRotO = rocket.getYRot();
 
-                    rocket.yRotO = rocket.getYRot();
+                        if (level.addFreshEntity(rocket)) {
+                            /** ITEM REMOVE */
+                             if (!player.getAbilities().instabuild) {
+                                itemStack.shrink(1);
+                            }
 
-                    if (level.addFreshEntity(rocket)) {
-                        /** ITEM REMOVE */
-                        if (!player.getAbilities().instabuild) {
-                            itemStack.shrink(1);
+                            /** PLACE SOUND */
+                            //this.rocketPlaceSound(pos, level);
+
+                            return InteractionResult.CONSUME;
                         }
-
-                        /** PLACE SOUND */
-                        //this.rocketPlaceSound(pos, level);
-
-                        return InteractionResult.SUCCESS;
                     }
+
+                    return InteractionResult.SUCCESS;
                 }
             }
 
@@ -107,7 +112,8 @@ public class RocketItem extends Item implements FluidProvider.ITEM {
         if (modules != null && !modules.items().isEmpty()) {
             tooltipAdder.accept(Component.literal("Modules:"));
             for (RocketModule module : modules.modules) {
-                tooltipAdder.accept(Component.literal("- ").append( module.displayName()).withStyle(ChatFormatting.GRAY));
+                // TODO: Fix module tooltips
+                //tooltipAdder.accept(Component.literal("- ").append( module.displayName()).withStyle(ChatFormatting.GRAY));
             }
         } else {
             tooltipAdder.accept(Component.literal("No Modules"));

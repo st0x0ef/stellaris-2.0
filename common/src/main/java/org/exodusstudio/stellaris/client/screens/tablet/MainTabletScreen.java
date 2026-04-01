@@ -1,6 +1,7 @@
 package org.exodusstudio.stellaris.client.screens.tablet;
 
 import net.minecraft.ChatFormatting;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.screens.Screen;
@@ -17,6 +18,7 @@ import org.exodusstudio.stellaris.client.screens.tablet.application.ApplicationR
 import org.exodusstudio.stellaris.client.utils.ClientUtils;
 import org.exodusstudio.stellaris.common.menus.MainTabletMenu;
 import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -32,9 +34,10 @@ public class MainTabletScreen extends AbstractContainerScreen<MainTabletMenu> {
     public final Inventory inventory;
 
 
-
     public MainTabletScreen(MainTabletMenu menu, Inventory playerInventory, Component title) {
+
         super(menu, playerInventory, title);
+
 
         this.player = playerInventory.player;
         this.imageHeight = 192;
@@ -42,12 +45,12 @@ public class MainTabletScreen extends AbstractContainerScreen<MainTabletMenu> {
         this.inventory = playerInventory;
         this.inventoryLabelY = -this.imageHeight;
         this.titleLabelY = -this.imageHeight;
-
-    }
+  }
 
     @Override
     protected void init() {
         super.init();
+        this.openNextScreen(menu.nextScreen);
 
         createAppsButton();
     }
@@ -96,6 +99,19 @@ public class MainTabletScreen extends AbstractContainerScreen<MainTabletMenu> {
             this.addRenderableWidget(tabletButton);
 
         });
+    }
+
+    public void openNextScreen(@Nullable Identifier nextScreen) {
+        if(nextScreen != null) {
+            ApplicationRegistry.ApplicationFactory<?> infos = ApplicationRegistry.getApplications().get(nextScreen);
+            if (infos != null) {
+
+                Screen screen = infos.createScreen(this.createMenuHolder());
+                if (screen != null) {
+                    Minecraft.getInstance().setScreen(screen);
+                }
+            }
+        }
     }
 
     public int getLeftPos() {

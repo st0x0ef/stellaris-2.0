@@ -3,25 +3,30 @@ package org.exodusstudio.stellaris.common.menus;
 import dev.architectury.registry.menu.ExtendedMenuProvider;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
 import org.exodusstudio.stellaris.common.registries.MenuTypesRegistry;
+import org.jetbrains.annotations.Nullable;
 
 
 public class MainTabletMenu extends AbstractContainerMenu {
 
     private final Inventory playerInventory;
+    @Nullable
+    public final Identifier nextScreen;
 
     public MainTabletMenu(int syncId, Inventory inventory, FriendlyByteBuf buffer) {
-        this(syncId, inventory);
+        this(syncId, inventory, buffer.readNullable(FriendlyByteBuf::readIdentifier));
     }
 
-    public MainTabletMenu(int syncId, Inventory playerInventory) {
+    public MainTabletMenu(int syncId, Inventory playerInventory, @Nullable Identifier nextScreen) {
         super(MenuTypesRegistry.TABLET.get(), syncId);
 
         this.playerInventory = playerInventory;
+        this.nextScreen = nextScreen;
     }
 
     @Override
@@ -35,15 +40,25 @@ public class MainTabletMenu extends AbstractContainerMenu {
     }
 
     public static ExtendedMenuProvider createProvider() {
+        return createProvider(null);
+    }
+
+    /**
+     * Use this method to create the tablet and optionally specify the application to open.
+     * @param identifier the identifier to a registered application, if null it will just open the tablet without any application
+     * @return an ExtendedMenuProvider that can be used to open the tablet
+     */
+    public static ExtendedMenuProvider createProvider(@Nullable
+                                                      Identifier identifier) {
         return new ExtendedMenuProvider() {
             @Override
             public void saveExtraData(FriendlyByteBuf buf) {
-
+                buf.writeNullable(identifier, FriendlyByteBuf::writeIdentifier);
             }
 
             @Override
             public AbstractContainerMenu createMenu(int syncId, Inventory inventory, Player player) {
-                return new MainTabletMenu(syncId, inventory);
+                return new MainTabletMenu(syncId, inventory, identifier);
             }
 
             @Override
@@ -52,4 +67,6 @@ public class MainTabletMenu extends AbstractContainerMenu {
             }
         };
     }
+
+
 }

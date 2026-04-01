@@ -68,7 +68,7 @@ public class RocketScreen extends AbstractContainerScreen<RocketMenu> {
     protected void renderTooltip(GuiGraphics guiGraphics, int x, int y) {
         super.renderTooltip(guiGraphics, x, y);
 
-        fuelGauge.renderTooltips(guiGraphics, x, y, this.font, List::of);
+        if(this.fuelGauge != null) fuelGauge.renderTooltips(guiGraphics, x, y, this.font, List::of);
     }
 
     @Override

@@ -16,6 +16,8 @@ public class KeyMappingsRegistry {
     public static KeyMapping.Category CATEGORY = new KeyMapping.Category(IdentifierUtils.id("default"));
 
     public static KeyMapping ROCKET_START = new KeyMapping("key." + Stellaris.MOD_ID + ".rocket_start", InputConstants.KEY_SPACE, CATEGORY);
+    public static KeyMapping JET_SWITCH_MODE = new KeyMapping("key." + Stellaris.MOD_ID + ".jet_switch_mode", InputConstants.KEY_V, CATEGORY);
+
 
     public static void clientTick(Minecraft minecraft) {
         Player player = minecraft.player;
@@ -28,9 +30,13 @@ public class KeyMappingsRegistry {
                 NetworkManager.sendToServer(new KeyHandlerPacket("start_rocket", true));
             }
         }
+        while (JET_SWITCH_MODE.consumeClick()) {
+            NetworkManager.sendToServer(new KeyHandlerPacket("switch_jet_mode", true));
+        }
     }
 
     public static void init() {
         KeyMappingRegistry.register(ROCKET_START);
+        KeyMappingRegistry.register(JET_SWITCH_MODE);
     }
 }

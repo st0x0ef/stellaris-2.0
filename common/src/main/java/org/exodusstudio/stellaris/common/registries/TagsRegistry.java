@@ -58,6 +58,7 @@ public class TagsRegistry {
         public static final TagKey<EntityType<?>> CORROSION_IMMUNE = addTag("corrosion_immune");
         public static final TagKey<EntityType<?>> INFECTION_IMMUNE = addTag("infection_immune");
         public static final TagKey<EntityType<?>> NO_OXYGEN_NEEDED = addTag("no_oxygen_needed");
+        public static final TagKey<EntityType<?>> LUNAR_BOATS = addTag("lunar_boats");
 
 
         public static TagKey<EntityType<?>> addTag(String path) {

@@ -103,13 +103,26 @@ public class FluidsRegistry {
     public static final RegistrySupplier<FlowingFluid> FLOWING_DIESEL = FLUIDS.register("flowing_diesel", () -> new ArchitecturyFlowingFluid.Flowing(DIESEL_ATTRIBUTES));
     public static final RegistrySupplier<FlowingFluid> DIESEL_STILL = FLUIDS.register("diesel", () -> new ArchitecturyFlowingFluid.Source(DIESEL_ATTRIBUTES));
 
+    public static final ArchitecturyFluidAttributes BLUE_LIQUID_ATTRIBUTES = SimpleArchitecturyFluidAttributes.ofSupplier(() -> FluidsRegistry.BLUE_LIQUID_FLOWING, () -> FluidsRegistry.BLUE_LIQUID_STILL)
+            .blockSupplier(() -> BlocksRegistry.BLUE_LIQUID)
+            .bucketItem(() -> Optional.of(ItemsRegistry.BLUE_LIQUID_BUCKET.get()))
+            .slopeFindDistance(4)
+            .dropOff(1)
+            .tickDelay(8)
+            .explosionResistance(100.0F)
+            .convertToSource(false)
+            .sourceTexture(IdentifierUtils.id("block/fluids/blue_liquid_still"))
+            .flowingTexture(IdentifierUtils.id("block/fluids/blue_liquid_flow"));
+
+    public static final RegistrySupplier<FlowingFluid> BLUE_LIQUID_FLOWING = FLUIDS.register("flowing_blue_liquid", () -> new ArchitecturyFlowingFluid.Flowing(BLUE_LIQUID_ATTRIBUTES));
+    public static final RegistrySupplier<FlowingFluid> BLUE_LIQUID_STILL = FLUIDS.register("blue_liquid", () -> new ArchitecturyFlowingFluid.Source(BLUE_LIQUID_ATTRIBUTES));
+
     public static void init() {
         FLUIDS.register();
         FLUIDS_INFOS.add(OXYGEN_ATTRIBUTES);
         FLUIDS_INFOS.add(HYDROGEN_ATTRIBUTES);
         FLUIDS_INFOS.add(FUEL_ATTRIBUTES);
-
+        FLUIDS_INFOS.add(BLUE_LIQUID_ATTRIBUTES);
     }
 
 }
-

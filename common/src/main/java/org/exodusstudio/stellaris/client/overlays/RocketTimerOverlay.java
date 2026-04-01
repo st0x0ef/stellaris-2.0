@@ -7,7 +7,6 @@ import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
-import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.common.entities.RocketEntity;
 import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
 
@@ -43,8 +42,6 @@ public class RocketTimerOverlay {
             /** GET TIMER */
             if (vehicle instanceof RocketEntity rocket) {
                 timer = rocket.getTimer();
-
-                Stellaris.LOG.error("Rocket Timer: {}", timer);
 
                 /** CHECK IF ROCKET IS STARTED */
                 if (!rocket.getEntityData().get(RocketEntity.ROCKET_START)) {
