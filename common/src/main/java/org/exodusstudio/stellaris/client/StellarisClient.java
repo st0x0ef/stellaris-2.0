@@ -2,6 +2,7 @@ package org.exodusstudio.stellaris.client;
 
 import dev.architectury.event.events.client.ClientGuiEvent;
 import dev.architectury.event.events.client.ClientTickEvent;
+import fr.tathan.exoconfig.common.loader.ConfigsRegistry;
 import fr.tathan.exoconfig.platform.PlatformClientHelper;
 import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.client.events.ClientEvents;
@@ -17,7 +18,11 @@ import org.exodusstudio.stellaris.platform.ArmorPlatform;
 
 public class StellarisClient {
 
+    public static ClientConfig CLIENT_CONFIG;
+
+
     public static void initClient() {
+        CLIENT_CONFIG = ConfigsRegistry.getInstance().registerConfig(new ClientConfig(), CLIENT_CONFIG);
         ApplicationRegistry.init();
 
         FluidInfosRegistry.init();
@@ -31,8 +36,8 @@ public class StellarisClient {
         ClientTickEvent.CLIENT_POST.register(KeyMappingsRegistry::clientTick);
 
         ClientEvents.init();
-
         PlatformClientHelper.registerConfigScreen(Stellaris.MOD_ID, Stellaris.CONFIG);
+        PlatformClientHelper.registerConfigScreen(Stellaris.MOD_ID, CLIENT_CONFIG);
     }
 
     public static void registerOverlays() {

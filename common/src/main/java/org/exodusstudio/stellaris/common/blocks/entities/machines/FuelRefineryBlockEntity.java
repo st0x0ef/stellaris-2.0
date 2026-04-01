@@ -1,12 +1,16 @@
 package org.exodusstudio.stellaris.common.blocks.entities.machines;
 
 import com.fej1fun.potentials.components.FluidAmountMapDataComponent;
+import com.fej1fun.potentials.fluid.UniversalFluidStorage;
 import com.fej1fun.potentials.providers.FluidProvider;
 import dev.architectury.fluid.FluidStack;
 import dev.architectury.networking.NetworkManager;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.protocol.Packet;
+import net.minecraft.network.protocol.game.ClientGamePacketListener;
+import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -14,9 +18,13 @@ import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
+import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.common.blocks.entities.machines.base.BaseEnergyContainerBlockEntity;
+import org.exodusstudio.stellaris.common.blocks.entities.machines.base.FluidOutputManager;
+import org.exodusstudio.stellaris.common.blocks.entities.machines.base.FluidOutputable;
 import org.exodusstudio.stellaris.common.data.recipe.FuelRefineryRecipe;
 import org.exodusstudio.stellaris.common.data.recipe.input.FluidInput;
 import org.exodusstudio.stellaris.common.fluid.FluidUtil;
@@ -31,14 +39,13 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
-public class FuelRefineryBlockEntity extends BaseEnergyContainerBlockEntity implements FluidProvider.BLOCK {
+public class FuelRefineryBlockEntity extends BaseEnergyContainerBlockEntity implements FluidOutputable {
 
     private final SingleFluidStorage inputTank;
     private final SingleFluidStorage outputFuelTank;
     private final SingleFluidStorage outputDieselTank;
-
+    public final FluidOutputManager outputManager;
     private final RecipeManager.CachedCheck<FluidInput, FuelRefineryRecipe> cachedCheck = RecipeManager.createCheck(RecipesRegistry.FUEL_REFINERY_TYPE.get());
 
     public FuelRefineryBlockEntity(BlockPos pos, BlockState state) {
@@ -58,6 +65,8 @@ public class FuelRefineryBlockEntity extends BaseEnergyContainerBlockEntity impl
                 return stack.getFluid().isSame(FluidsRegistry.OIL_STILL.get());
             }
         };
+
+
         this.outputFuelTank = new SingleFluidStorage(10000) {
             @Override
             protected void onChange() {
@@ -78,10 +87,18 @@ public class FuelRefineryBlockEntity extends BaseEnergyContainerBlockEntity impl
                 }
             }
         };
+
+        this.outputManager = new FluidOutputManager(this);
+
+        this.outputManager.setDefault(
+                new FluidOutputManager.FluidOutputEntry(Direction.NORTH, FluidStack.create(FluidsRegistry.FUEL_STILL.get(), 1)),
+                new FluidOutputManager.FluidOutputEntry(Direction.SOUTH, FluidStack.create(FluidsRegistry.DIESEL_STILL.get(), 1))
+        );
     }
 
     @Override
     public void tick(Level level, BlockState state) {
+
         FluidUtil.moveFluidFromItem(0, 0, 1, items, inputTank, 1000);
         FluidUtil.moveFluidToItem(0, inputTank, 0, 1, items, 1000);
         FluidUtil.moveFluidToItem(0, outputFuelTank, 2, 3, items, 1000);
@@ -120,9 +137,7 @@ public class FuelRefineryBlockEntity extends BaseEnergyContainerBlockEntity impl
             }
         }
 
-        FluidUtil.distributeFluidNearby(level, worldPosition, outputDieselTank.getFluidInTank(0), List.of(Direction.NORTH, Direction.EAST));
-        FluidUtil.distributeFluidNearby(level, worldPosition, outputFuelTank.getFluidInTank(0), List.of(Direction.SOUTH, Direction.WEST));
-
+        getFluidOutputManager().distributeFluids(level, getBlockPos());
     }
 
     @Override
@@ -132,6 +147,18 @@ public class FuelRefineryBlockEntity extends BaseEnergyContainerBlockEntity impl
 
     @Override
     protected @NotNull AbstractContainerMenu createMenu(int containerId, Inventory inventory) {
+        if (inventory.player instanceof net.minecraft.server.level.ServerPlayer serverPlayer) {
+            NetworkManager.sendToPlayer(serverPlayer, new SyncFluidPacket(
+                    new com.fej1fun.potentials.components.FluidAmountMapDataComponent(List.of(inputTank.getFluidInTank(0).getFluid()), List.of(inputTank.getFluidValueInTank())),
+                    0, getBlockPos(), Direction.UP));
+            NetworkManager.sendToPlayer(serverPlayer, new SyncFluidPacket(
+                    new com.fej1fun.potentials.components.FluidAmountMapDataComponent(List.of(outputFuelTank.getFluidInTank(0).getFluid()), List.of(outputFuelTank.getFluidValueInTank())),
+                    0, getBlockPos(), Direction.NORTH));
+            NetworkManager.sendToPlayer(serverPlayer, new SyncFluidPacket(
+                    new com.fej1fun.potentials.components.FluidAmountMapDataComponent(List.of(outputDieselTank.getFluidInTank(0).getFluid()), List.of(outputDieselTank.getFluidValueInTank())),
+                    0, getBlockPos(), Direction.SOUTH));
+            Stellaris.LOG.error("eee");
+        }
         return new FuelRefineryMenu(containerId, inventory, this, this);
     }
 
@@ -146,6 +173,7 @@ public class FuelRefineryBlockEntity extends BaseEnergyContainerBlockEntity impl
         inputTank.load(input, "input");
         outputFuelTank.load(input, "fuel");
         outputDieselTank.load(input, "diesel");
+        outputManager.load(input);
     }
 
     @Override
@@ -154,6 +182,8 @@ public class FuelRefineryBlockEntity extends BaseEnergyContainerBlockEntity impl
         inputTank.save(output, "input");
         outputFuelTank.save(output, "fuel");
         outputDieselTank.save(output, "diesel");
+        outputManager.save(output);
+
     }
 
     public SingleFluidStorage getIngredientTank() {
@@ -164,6 +194,27 @@ public class FuelRefineryBlockEntity extends BaseEnergyContainerBlockEntity impl
     }
     public SingleFluidStorage getOutputDieselTank() {
         return outputDieselTank;
+    }
+
+
+    @Override
+    public List<Fluid> getFluidsOutput() {
+        return List.of(FluidsRegistry.DIESEL_STILL.get(), FluidsRegistry.FUEL_STILL.get());
+    }
+
+    @Override
+    public List<UniversalFluidStorage> getOutputFluidsTank() {
+        return List.of(outputFuelTank, outputDieselTank);
+    }
+
+    @Override
+    public ClientboundBlockEntityDataPacket getUpdatePacket() {
+        return ClientboundBlockEntityDataPacket.create(this);
+    }
+
+    @Override
+    public FluidOutputManager getFluidOutputManager() {
+        return outputManager;
     }
 
     @Override

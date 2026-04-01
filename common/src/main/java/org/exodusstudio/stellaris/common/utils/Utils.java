@@ -1,6 +1,7 @@
 package org.exodusstudio.stellaris.common.utils;
 
 import dev.architectury.networking.NetworkManager;
+import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.ARGB;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -138,6 +139,48 @@ public class Utils {
             action.run();
         });
     }
+
+    public static String capitalizeFirstLetter(String input) {
+        if (input == null || input.isEmpty()) {
+            return input;
+        }
+        return input.substring(0, 1).toUpperCase() + input.substring(1);
+    }
+
+    public static String getRelativeDirection(Direction looking, Direction direction) {
+        if (looking == null || direction == null) {
+            return null;
+        }
+
+        if (looking == direction) {
+            return "Front";
+        }
+        if (looking == direction.getOpposite()) {
+            return "Back";
+        }
+
+        // Vertical targets are not left/right relative to horizontal facing.
+        if (direction == Direction.UP) {
+            return "Up";
+        }
+        if (direction == Direction.DOWN) {
+            return "Down";
+        }
+
+        if (!looking.getAxis().isHorizontal()) {
+            return "Unknown";
+        }
+
+        if (direction == looking.getCounterClockWise()) {
+            return "Left";
+        }
+        if (direction == looking.getClockWise()) {
+            return "Right";
+        }
+
+        return null;
+    }
+
 
     public static boolean isLivingInSpaceSuit(LivingEntity entity) {
         return isLivingInArmor(entity, EquipmentSlot.FEET, ItemsRegistry.SPACE_SUIT_BOOTS.get()) && isLivingInArmor(entity, EquipmentSlot.HEAD, ItemsRegistry.SPACE_SUIT_HELMET.get()) && isLivingInArmor(entity, EquipmentSlot.CHEST, ItemsRegistry.SPACE_SUIT_CHESTPLATE.get()) && isLivingInArmor(entity, EquipmentSlot.LEGS, ItemsRegistry.SPACE_SUIT_LEGGINGS.get());

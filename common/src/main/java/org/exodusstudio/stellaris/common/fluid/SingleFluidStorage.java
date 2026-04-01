@@ -2,6 +2,7 @@ package org.exodusstudio.stellaris.common.fluid;
 
 import com.fej1fun.potentials.fluid.UniversalFluidStorage;
 import dev.architectury.fluid.FluidStack;
+import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 import org.exodusstudio.stellaris.Stellaris;
@@ -28,6 +29,7 @@ public abstract class SingleFluidStorage implements UniversalFluidStorage {
     public SingleFluidStorage(long capacity) {
         this(capacity, capacity, capacity);
     }
+
 
     @Override
     public int getTanks() {
@@ -76,7 +78,8 @@ public abstract class SingleFluidStorage implements UniversalFluidStorage {
         if (getFluidInTank(0).isEmpty()) {
             return FluidStack.empty();
         }
-        if (getFluidInTank(0).getFluid() != stack.getFluid()) {
+
+        if (!getFluidInTank(0).isFluidEqual(stack)) {
             return FluidStack.empty();
         }
 

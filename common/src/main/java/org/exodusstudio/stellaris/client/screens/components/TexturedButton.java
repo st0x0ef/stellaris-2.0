@@ -38,6 +38,7 @@ public class TexturedButton extends Button {
 
     public boolean useSprite = false;
     public Component text = Component.empty();
+    public int color;
 
     public TexturedButton(int x, int y, int widthIn, int heightIn, Button.OnPress onPressIn) {
         this(x, y, widthIn, heightIn, Component.empty(), onPressIn, DEFAULT_NARRATION);
@@ -63,6 +64,7 @@ public class TexturedButton extends Button {
         this.yTexStart = 0;
         this.buttonTexture = TEXTURE;
         this.hoverButtonTexture = HOVER_TEXTURE;
+        this.color = ARGB.white(this.alpha);
     }
 
     /** Override Methods */
@@ -83,10 +85,10 @@ public class TexturedButton extends Button {
         Identifier texture = this.getTypeTexture();
 
         if(this.useSprite ) {
-            graphics.blitSprite(RenderPipelines.GUI_TEXTURED, texture, this.getX(), this.getY(), this.getWidth(), this.getHeight(), ARGB.white(this.alpha));
+            graphics.blitSprite(RenderPipelines.GUI_TEXTURED, texture, this.getX(), this.getY(), this.getWidth(), this.getHeight(), this.color);
         } else {
             graphics.blit(RenderPipelines.GUI_TEXTURED, texture, this.getX(), this.getY(), (float) this.xTexStart, (float) i,
-                    this.width, this.height, this.textureWidth, this.textureHeight);
+                    this.width, this.height, this.textureWidth, this.textureHeight, this.color);
         }
 
         if(!Objects.equals(this.text, Component.empty())) {
@@ -142,6 +144,11 @@ public class TexturedButton extends Button {
 
     public <T extends TexturedButton> T setText(Component text) {
         this.text = text;
+        return cast();
+    }
+
+    public <T extends TexturedButton> T setColor(int color) {
+        this.color = color;
         return cast();
     }
 

@@ -10,6 +10,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import org.exodusstudio.stellaris.Stellaris;
 
 import java.util.*;
 import java.util.concurrent.atomic.AtomicLong;
@@ -105,13 +106,16 @@ public class FluidUtil {
 
     private static long distributeInDirections(Level level, BlockPos pos, FluidStack stack, List<Direction> outputDirections) {
         Map<UniversalFluidStorage, UniversalFluidStorage> pairs = new HashMap<>();
+
         for (Direction direction : outputDirections) {
             UniversalFluidStorage from = Capabilities.Fluid.BLOCK.getCapability(level, pos, direction);
             if (from == null) {
                 continue;
             }
 
+
             FluidStack drained = from.drain(stack, true);
+
             if (drained.getAmount() <= 0) {
                 continue;
             }
