@@ -9,12 +9,31 @@
       "type": "minecraft:in_square"
     },
     {
-      "type": "minecraft:surface_water_depth_filter",
-      "max_water_depth": 0
+      "type": "minecraft:height_range",
+      "height": {
+        "type": "minecraft:uniform",
+        "min_inclusive": {
+          "absolute": -32
+        },
+        "max_inclusive": {
+          "absolute": 32
+        }
+      }
     },
     {
-      "type": "minecraft:heightmap",
-      "heightmap": "OCEAN_FLOOR"
+      "type": "minecraft:environment_scan",
+      "direction_of_search": "down",
+      "max_steps": 24,
+      "target_condition": {
+        "type": "minecraft:solid",
+        "offset": [0, -1, 0]
+      },
+      "allowed_search_condition": {
+        "type": "minecraft:matching_blocks",
+        "blocks": [
+          "minecraft:air"
+        ]
+      }
     },
     {
       "type": "minecraft:block_predicate_filter",
