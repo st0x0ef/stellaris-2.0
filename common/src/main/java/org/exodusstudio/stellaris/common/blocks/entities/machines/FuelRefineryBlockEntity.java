@@ -31,6 +31,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 public class FuelRefineryBlockEntity extends BaseEnergyContainerBlockEntity implements FluidProvider.BLOCK {
 
@@ -118,6 +119,10 @@ public class FuelRefineryBlockEntity extends BaseEnergyContainerBlockEntity impl
                 }
             }
         }
+
+        FluidUtil.distributeFluidNearby(level, worldPosition, outputDieselTank.getFluidInTank(0), List.of(Direction.NORTH, Direction.EAST));
+        FluidUtil.distributeFluidNearby(level, worldPosition, outputFuelTank.getFluidInTank(0), List.of(Direction.SOUTH, Direction.WEST));
+
     }
 
     @Override
