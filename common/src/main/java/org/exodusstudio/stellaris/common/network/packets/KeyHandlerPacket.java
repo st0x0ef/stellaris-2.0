@@ -5,9 +5,12 @@ import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.Identifier;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Player;
 import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.common.entities.RocketEntity;
+import org.exodusstudio.stellaris.common.items.space_suit.SpaceSuitBoots;
+import org.exodusstudio.stellaris.common.keybinds.KeyVariables;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -55,10 +58,13 @@ public class KeyHandlerPacket implements CustomPacketPayload {
                     if (player.getVehicle() != null && player.getVehicle() instanceof RocketEntity rocketEntity) {
                         rocketEntity.startRocket();
                     }
-
+                    break;
+                case "switch_jet_mode":
+                    SpaceSuitBoots.switchJetSuitMode(player.getItemBySlot(EquipmentSlot.FEET));
                     break;
                 default:
-                    Stellaris.LOG.error("unknown key action {}", packet.key);
+                    KeyVariables.setKeyVariable(packet.key, player.getUUID(), packet.condition);
+                    break;
             }
         });
     }

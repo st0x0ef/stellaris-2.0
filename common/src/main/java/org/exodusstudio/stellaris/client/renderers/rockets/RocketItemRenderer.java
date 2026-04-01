@@ -11,8 +11,8 @@ import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
-import org.exodusstudio.stellaris.common.module.rocket.RocketModule;
-import org.exodusstudio.stellaris.common.module.rocket.RocketModules;
+import org.exodusstudio.stellaris.common.modules.rocket.RocketModule;
+import org.exodusstudio.stellaris.common.modules.rocket.RocketModules;
 import org.exodusstudio.stellaris.common.registries.DataComponentsRegistry;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3fc;
@@ -33,7 +33,7 @@ public record RocketItemRenderer(Identifier texture, RocketModel model) implemen
         //Items in GUI and FIXED (Item frame) context need special positioning
         if(displayContext == ItemDisplayContext.GUI || displayContext == ItemDisplayContext.FIXED) {
             poseStack.translate(-0.5D, -2.0D, -0.5D);
-            poseStack.scale(0.6F, 0.6F, 0.6F);
+            poseStack.scale(0.45F, 0.45F, 0.45F);
             poseStack.mulPose(Axis.ZP.rotationDegrees(45.0F));
         }
 

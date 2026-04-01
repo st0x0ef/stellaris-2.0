@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "stellaris:block/engineering_station",
+      "y": 90
+    },
+    "facing=north": {
+      "model": "stellaris:block/engineering_station"
+    },
+    "facing=south": {
+      "model": "stellaris:block/engineering_station",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "stellaris:block/engineering_station",
+      "y": 270
+    }
+  }
+}

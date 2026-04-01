@@ -1,7 +1,7 @@
 package org.exodusstudio.stellaris.common.menus.slot;
 
 import com.fej1fun.potentials.capabilities.Capabilities;
-import com.fej1fun.potentials.fluid.UniversalFluidStorage;
+import com.fej1fun.potentials.fluid.UniversalFluidItemStorage;
 import net.minecraft.world.Container;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
@@ -20,7 +20,7 @@ public class ElectrolyzeSlot extends Slot {
 
     @Override
     public boolean mayPlace(ItemStack stack) {
-        UniversalFluidStorage fluidStorage = Capabilities.Fluid.ITEM.getCapability(stack);
+        UniversalFluidItemStorage fluidStorage = Capabilities.Fluid.ITEM.getCapability(stack);
         if (fluidStorage == null) {
             return false;
         }

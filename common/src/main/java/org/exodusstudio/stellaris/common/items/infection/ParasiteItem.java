@@ -12,7 +12,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.component.TooltipDisplay;
-import org.exodusstudio.stellaris.common.components.TimerComponents;
+import org.exodusstudio.stellaris.common.components.TimerComponent;
 import org.exodusstudio.stellaris.common.registries.DataComponentsRegistry;
 import org.exodusstudio.stellaris.common.registries.EffectsRegistry;
 import org.jetbrains.annotations.Nullable;
@@ -22,7 +22,7 @@ import java.util.WeakHashMap;
 import java.util.function.Consumer;
 
 public class ParasiteItem extends Item {
-    private final static TimerComponents DEFAULT_TIMER = new TimerComponents(5 * 60);
+    private final static TimerComponent DEFAULT_TIMER = new TimerComponent(5 * 60);
 
     private record TickData(long lastTime, double accumulatedTime) {}
     private final Map<ItemStack, TickData> tickDataMap = new WeakHashMap<>();
@@ -43,7 +43,7 @@ public class ParasiteItem extends Item {
                 return;
             }
 
-            TimerComponents timer = stack.getOrDefault(DataComponentsRegistry.TIMER.get(), DEFAULT_TIMER);
+            TimerComponent timer = stack.getOrDefault(DataComponentsRegistry.TIMER.get(), DEFAULT_TIMER);
             if (timer.timeLeft() > 0) {
                 long elapsed = currentTime - data.lastTime();
                 if (elapsed < 0) elapsed += 24000;
@@ -51,7 +51,7 @@ public class ParasiteItem extends Item {
                 double newTime = data.accumulatedTime() + elapsed / 20.0;
 
                 if (newTime > 1.0) {
-                    stack.update(DataComponentsRegistry.TIMER.get(), DEFAULT_TIMER, TimerComponents::tick);
+                    stack.update(DataComponentsRegistry.TIMER.get(), DEFAULT_TIMER, TimerComponent::tick);
                     newTime -= 1.0;
                 }
 
@@ -72,7 +72,7 @@ public class ParasiteItem extends Item {
     @Override
     public void appendHoverText(ItemStack stack, TooltipContext context, TooltipDisplay tooltipDisplay, Consumer<Component> tooltipAdder, TooltipFlag flag) {
         super.appendHoverText(stack, context, tooltipDisplay, tooltipAdder, flag);
-        TimerComponents timer = stack.getOrDefault(DataComponentsRegistry.TIMER.get(), DEFAULT_TIMER);
+        TimerComponent timer = stack.getOrDefault(DataComponentsRegistry.TIMER.get(), DEFAULT_TIMER);
         int minutes = timer.timeLeft() / 60;
         int seconds = timer.timeLeft() % 60;
         if (minutes > 0) {

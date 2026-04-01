@@ -73,6 +73,8 @@ public class FluidInfosRegistry {
                 new FluidInfos(GUISprites.WATER_OVERLAY,  Component.translatable("fluid.stellaris.fuel" )));
         register(FluidsRegistry.OXYGEN_STILL.get(),
                 new FluidInfos(GUISprites.OXYGEN_OVERLAY,  Component.translatable("fluid.stellaris.oxygen" )));
+        register(FluidsRegistry.BLUE_LIQUID_STILL.get(),
+                new FluidInfos(GUISprites.WATER_OVERLAY,  Component.translatable("fluid.stellaris.blue_liquid" )));
 
         register(Fluids.WATER,
                 new FluidInfos(GUISprites.WATER_OVERLAY,  Component.translatable("fluid.stellaris.water" )));

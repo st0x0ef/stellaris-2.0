@@ -53,7 +53,7 @@ public class RocketRenderer extends EntityRenderer<RocketEntity, RocketRenderSta
         poseStack.scale(0.8f, 0.8f, 0.8f);
 
         if (this.isShaking(renderState)) {
-            renderState.bodyRotation += (Math.cos( (Mth.floor(renderState.ageInTicks) * 3.25F)) * Math.PI );
+            renderState.bodyRotation += (float) (Math.cos( (Mth.floor(renderState.ageInTicks) * 3.25F)) * Math.PI);
             poseStack.mulPose(Axis.YP.rotationDegrees(180.0F - renderState.bodyRotation));
 
         }

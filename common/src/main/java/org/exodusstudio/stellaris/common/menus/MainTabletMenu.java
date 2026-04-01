@@ -1,20 +1,13 @@
 package org.exodusstudio.stellaris.common.menus;
 
 import dev.architectury.registry.menu.ExtendedMenuProvider;
-import dev.architectury.registry.menu.MenuRegistry;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
-import org.exodusstudio.stellaris.Stellaris;
-import org.exodusstudio.stellaris.client.screens.tablet.MainTabletScreen;
-import org.exodusstudio.stellaris.client.screens.tablet.application.ApplicationRegistry;
 import org.exodusstudio.stellaris.common.registries.MenuTypesRegistry;
 import org.jetbrains.annotations.Nullable;
 

@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cube_all",
+  "textures": {
+    "all": "stellaris:block/fluids/blue_liquid_still"
+  }
+}
+

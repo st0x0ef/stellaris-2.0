@@ -1,7 +1,6 @@
 package org.exodusstudio.stellaris.client.screens.tablet.application.planets;
 
 import dev.architectury.networking.NetworkManager;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.renderer.RenderPipelines;
@@ -90,9 +89,7 @@ public class PlanetSelectionAppScreen extends Screen {
         int i = 0;
         for(Planet planet : PlanetsData.PLANETS) {
 
-            TexturedButton button = new TexturedButton(container.getX() + 5, (this.getTopPos() + 5) + i * 25, 95, 20, btn -> {
-                this.selectedPlanet = planet;
-            }).tex(IdentifierUtils.guiTexture("tablet/tablet_entry_button"), IdentifierUtils.guiTexture("tablet/tablet_entry_button")).setText(Component.translatable(planet.translationKey()));
+            TexturedButton button = new TexturedButton(container.getX() + 5, (this.getTopPos() + 5) + i * 25, 95, 20, btn -> this.selectedPlanet = planet).tex(IdentifierUtils.guiTexture("tablet/tablet_entry_button"), IdentifierUtils.guiTexture("tablet/tablet_entry_button")).setText(Component.translatable(planet.translationKey()));
             this.container.addChild(this, button);
             i++;
         }

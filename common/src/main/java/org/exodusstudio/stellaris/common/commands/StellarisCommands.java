@@ -1,7 +1,6 @@
 package org.exodusstudio.stellaris.common.commands;
 
 import com.mojang.brigadier.CommandDispatcher;
-import com.mojang.brigadier.arguments.ArgumentType;
 import com.mojang.brigadier.arguments.BoolArgumentType;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
@@ -23,7 +22,6 @@ import org.exodusstudio.stellaris.common.data.Planet;
 import org.exodusstudio.stellaris.common.data.PlanetsData;
 import org.exodusstudio.stellaris.common.menus.MainTabletMenu;
 import org.exodusstudio.stellaris.common.network.packets.StartFadePacket;
-import org.exodusstudio.stellaris.common.registries.DataComponentsRegistry;
 import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
 import org.exodusstudio.stellaris.common.utils.PlanetUtil;
 import org.exodusstudio.stellaris.common.utils.Utils;
@@ -163,9 +161,7 @@ public class StellarisCommands {
                         .addSubCommand(builder.createSubCommand("afterfade")
                                 .execute(context -> {
 
-                                    Utils.executeWithFade(context.getPlayer(), () -> {
-                                        MenuRegistry.openExtendedMenu(context.getPlayer(), MainTabletMenu.createProvider(IdentifierUtils.id("applications/planet_selection")));
-                                    }, true);
+                                    Utils.executeWithFade(context.getPlayer(), () -> MenuRegistry.openExtendedMenu(context.getPlayer(), MainTabletMenu.createProvider(IdentifierUtils.id("applications/planet_selection"))), true);
 
                                     return context.success();
                                 })

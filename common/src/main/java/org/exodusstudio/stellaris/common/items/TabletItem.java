@@ -2,7 +2,6 @@ package org.exodusstudio.stellaris.common.items;
 
 import dev.architectury.networking.NetworkManager;
 import dev.architectury.registry.menu.MenuRegistry;
-import net.minecraft.client.Minecraft;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
@@ -11,17 +10,10 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
-import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.client.data.wiki.WikiPacks;
-import org.exodusstudio.stellaris.client.screens.tablet.MainTabletScreen;
-import org.exodusstudio.stellaris.client.screens.tablet.application.wiki.WikiApplicationScreen;
-import org.exodusstudio.stellaris.common.menus.MainTabletMenu;
 import org.exodusstudio.stellaris.common.menus.WikiApplicationMenu;
 import org.exodusstudio.stellaris.common.network.packets.OpenMenuPacket;
-import org.exodusstudio.stellaris.common.network.packets.OpenWikiEntry;
-import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
 
 public class TabletItem extends Item {
 
