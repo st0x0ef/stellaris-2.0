@@ -48,6 +48,8 @@ public final class BlocksRegistry {
     public static final BlockItemRegistrySupplier LUNAR_STONED_WOOD_LOG = blockWithItem("lunar_stoned_wood_log", ofFullCopy(Blocks.STONE), RotatedPillarBlock::new);
 
     // LUNAR FOREST
+    public static final BlockItemRegistrySupplier LUNAR_DIRT = blockWithItem("lunar_dirt", ofFullCopy(Blocks.DIRT));
+    public static final BlockItemRegistrySupplier LUNAR_GRASS = blockWithItem("lunar_grass", ofFullCopy(Blocks.GRASS_BLOCK).lightLevel((s) -> 8));
     public static final BlockItemRegistrySupplier LUNAR_LOG = blockWithItem("lunar_log", ofFullCopy(Blocks.OAK_LOG), RotatedPillarBlock::new);
     public static final BlockItemRegistrySupplier LUNAR_WOOD = blockWithItem("lunar_wood", ofFullCopy(Blocks.OAK_WOOD), RotatedPillarBlock::new);
     public static final BlockItemRegistrySupplier STRIPPED_LUNAR_LOG = blockWithItem("stripped_lunar_log", ofFullCopy(Blocks.STRIPPED_OAK_LOG), RotatedPillarBlock::new);
