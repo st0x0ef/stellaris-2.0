@@ -78,6 +78,7 @@
   "item.stellaris.oxygen_bucket": "Oxygen Bucket",
   "item.stellaris.oil_bucket": "Oil Bucket",
   "item.stellaris.diesel_bucket": "Diesel Bucket",
+  "item.stellaris.blue_liquid_bucket": "Blue Liquid Bucket",
   "item.stellaris.rocket_launch_pad": "Rocket Launch Pad",
 
 
@@ -171,6 +172,7 @@
   "fluid.stellaris.oil": "Oil",
   "fluid.stellaris.diesel": "Diesel",
   "fluid.stellaris.water": "Water",
+  "fluid.stellaris.blue_liquid": "Blue Liquid",
 
   "biome.stellaris.red_desert": "Red Desert",
   "biome.stellaris.ice_caps": "Ice Caps",
@@ -236,6 +238,10 @@
   "config.stellaris.regenDimension.desc": "When selected, all the dimensions in the dimensionsToRegen will be regenerated.",
   "config.stellaris.regenDimension": "Regenerate dimensions",
   "config.stellaris.dimensionsToRegen": "Dimensions to Regenerate",
+  "config.stellaris.parasiteConfig": "Parasite Settings",
+  "config.stellaris.enableParasiteDrop": "Enable Parasite Drops in Blue Liquid",
+  "config.stellaris.minDropIntervalTicks": "Minimum Ticks Before Dropping",
+  "config.stellaris.randomDropIntervalMaxTicks": "Random Ticks Variance",
 
   "effect.stellaris.infected": "Infected",
 

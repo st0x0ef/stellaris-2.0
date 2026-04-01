@@ -67,6 +67,16 @@ public class CommonConfig {
     }
 
     @ScreenInfos.InnerConfig
+    @ScreenInfos.Description("config.stellaris.parasiteConfig.desc")
+    public ParasiteConfig parasiteConfig = new ParasiteConfig();
+
+    public static class ParasiteConfig {
+        public boolean enableParasiteDrop = true;
+        public int minDropIntervalTicks = 200;
+        public int randomDropIntervalMaxTicks = 2200;
+    }
+
+    @ScreenInfos.InnerConfig
     @ScreenInfos.Description(value = "The admin part of the config. Beware...", translate = false)
     public Admin admin = new Admin();
 
