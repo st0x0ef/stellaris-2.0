@@ -3,7 +3,6 @@ package org.exodusstudio.stellaris.client;
 import dev.architectury.event.events.client.ClientGuiEvent;
 import dev.architectury.event.events.client.ClientTickEvent;
 import fr.tathan.exoconfig.platform.PlatformClientHelper;
-import net.minecraft.client.renderer.Sheets;
 import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.client.events.ClientEvents;
 import org.exodusstudio.stellaris.client.overlays.FadeOverlay;

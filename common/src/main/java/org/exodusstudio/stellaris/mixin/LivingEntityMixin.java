@@ -2,12 +2,10 @@ package org.exodusstudio.stellaris.mixin;
 
 import com.fej1fun.potentials.fluid.UniversalFluidItemStorage;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.phys.Vec3;
 import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.common.entities.VehicleEntity;
 import org.exodusstudio.stellaris.common.items.space_suit.SpaceSuitHelmet;

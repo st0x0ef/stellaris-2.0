@@ -114,11 +114,10 @@ public class SpaceSuitOverlay {
                 } else {
                     if (oilLevel > 0) {
                         graphics.drawString(font, oilFoundText, x, yOffset, Utils.getMinecraftColor("green"));
-                        height += font.lineHeight + 1;
                     } else {
                         graphics.drawString(font, noOilText, x, yOffset, Utils.getMinecraftColor("red"));
-                        height += font.lineHeight + 1;
                     }
+                    height += font.lineHeight + 1;
                 }
 
                 graphics.drawString(font, energyText, x, yOffset + height, Utils.getMinecraftColor("yellow"));
