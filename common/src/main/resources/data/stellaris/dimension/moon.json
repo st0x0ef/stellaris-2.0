@@ -45,7 +45,7 @@
           "biome": "stellaris:lunar_forest",
           "parameters": {
             "temperature": [-1.0, 0.45],
-            "humidity": [0.35, 1.0],
+            "humidity": [0.35, 0.55],
             "continentalness": [-1.0, 1.0],
             "erosion": [-1.0, 1.0],
             "weirdness": [-1.0, 1.0],
@@ -56,12 +56,12 @@
         {
           "biome": "stellaris:lunar_blue_lake",
           "parameters": {
-            "temperature": [-1.0, 1.0],
-            "humidity": [-1.0, 1.0],
-            "continentalness": [-1.2, -0.5],
+            "temperature": [-1.0, 0.45],
+            "humidity": [0.55, 1.0],
+            "continentalness": [-1.0, 1.0],
             "erosion": [-1.0, 1.0],
             "weirdness": [-1.0, 1.0],
-            "depth": [-1.0, 1.0],
+            "depth": [0.1, 1.0],
             "offset": 0.0
           }
         }
