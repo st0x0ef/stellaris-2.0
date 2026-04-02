@@ -11,6 +11,7 @@ import net.minecraft.client.renderer.blockentity.HangingSignRenderer;
 import net.minecraft.client.renderer.blockentity.SignRenderer;
 import net.minecraft.client.renderer.chunk.ChunkSectionLayer;
 import net.minecraft.client.renderer.entity.BoatRenderer;
+import net.minecraft.client.renderer.rendertype.RenderType;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import org.exodusstudio.stellaris.client.StellarisClient;
 import org.exodusstudio.stellaris.client.registry.BoatModelLayerRegistry;
@@ -49,6 +50,8 @@ public final class StellarisFabricClient implements ClientModInitializer {
         BlockRenderLayerMap.putBlock(BlocksRegistry.LUNAR_SAPLING.block().get(), ChunkSectionLayer.CUTOUT);
         BlockRenderLayerMap.putBlock(BlocksRegistry.LUNAR_DOOR.block().get(), ChunkSectionLayer.CUTOUT);
         BlockRenderLayerMap.putBlock(BlocksRegistry.LUNAR_TRAPDOOR.block().get(), ChunkSectionLayer.CUTOUT);
+        BlockRenderLayerMap.putBlock(BlocksRegistry.MOON_VINES.get(), ChunkSectionLayer.CUTOUT);
+        BlockRenderLayerMap.putBlock(BlocksRegistry.MOON_VINES_PLANT.get(), ChunkSectionLayer.CUTOUT);
     }
 
     private void registerScreens() {

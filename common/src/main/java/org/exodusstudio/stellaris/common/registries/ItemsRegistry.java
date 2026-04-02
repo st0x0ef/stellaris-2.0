@@ -8,6 +8,7 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.vehicle.boat.AbstractBoat;
+import net.minecraft.world.food.Foods;
 import net.minecraft.world.item.BoatItem;
 import net.minecraft.world.item.HangingSignItem;
 import net.minecraft.world.item.Item;
@@ -140,6 +141,8 @@ public final class ItemsRegistry {
     public static final RegistrySupplier<CanItem> BIG_WHITE_CAN = item("big_white_can", (p) -> new CanItem(p, 20));
     public static final RegistrySupplier<CanItem> BIG_YELLOW_CAN = item("big_yellow_can", (p) -> new CanItem(p, 20));
 
+    // Foods
+    public static final RegistrySupplier<Item> MOON_BERRIES = item("moon_berries", (p) -> new Item(p.food(Foods.GLOW_BERRIES).useItemDescriptionPrefix()));
 
     // Fluids
     public static final RegistrySupplier<ArchitecturyBucketItem> HYDROGEN_BUCKET = item("hydrogen_bucket", properties -> new ArchitecturyBucketItem(FluidsRegistry.HYDROGEN_STILL, properties));

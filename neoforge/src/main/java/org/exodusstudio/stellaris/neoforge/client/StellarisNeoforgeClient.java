@@ -51,6 +51,8 @@ public class StellarisNeoforgeClient {
         ItemBlockRenderTypes.setRenderLayer(BlocksRegistry.LUNAR_SAPLING.block().get(), ChunkSectionLayer.CUTOUT);
         ItemBlockRenderTypes.setRenderLayer(BlocksRegistry.LUNAR_DOOR.block().get(), ChunkSectionLayer.CUTOUT);
         ItemBlockRenderTypes.setRenderLayer(BlocksRegistry.LUNAR_TRAPDOOR.block().get(), ChunkSectionLayer.CUTOUT);
+        ItemBlockRenderTypes.setRenderLayer(BlocksRegistry.MOON_VINES.get(), ChunkSectionLayer.CUTOUT);
+        ItemBlockRenderTypes.setRenderLayer(BlocksRegistry.MOON_VINES_PLANT.get(), ChunkSectionLayer.CUTOUT);
     }
 
     @SubscribeEvent

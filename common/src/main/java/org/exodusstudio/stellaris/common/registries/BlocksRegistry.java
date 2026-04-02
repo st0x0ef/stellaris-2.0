@@ -47,6 +47,10 @@ public final class BlocksRegistry {
 
     public static final BlockItemRegistrySupplier LUNAR_STONED_WOOD_LOG = blockWithItem("lunar_stoned_wood_log", ofFullCopy(Blocks.STONE), RotatedPillarBlock::new);
 
+    public static final RegistrySupplier<Block> MOON_VINES = block("moon_vines", BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).randomTicks().noCollision().lightLevel(CaveVines.emission(14)).instabreak().sound(SoundType.CAVE_VINES).pushReaction(PushReaction.DESTROY), MoonVine::new);
+    public static final RegistrySupplier<Block> MOON_VINES_PLANT = block("moon_vines_plant", BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).noCollision().lightLevel(CaveVines.emission(14)).instabreak().sound(SoundType.CAVE_VINES).pushReaction(PushReaction.DESTROY), MoonVinesPlant::new);
+
+
     // LUNAR FOREST
     public static final BlockItemRegistrySupplier LUNAR_DIRT = blockWithItem("lunar_dirt", ofFullCopy(Blocks.DIRT));
     public static final BlockItemRegistrySupplier LUNAR_GRASS = blockWithItem("lunar_grass", ofFullCopy(Blocks.GRASS_BLOCK).lightLevel((s) -> 8));
