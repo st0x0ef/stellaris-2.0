@@ -36,7 +36,7 @@ public final class Stellaris {
 
         NetworkRegistry.init();
         FluidsRegistry.init();
-
+        FeaturesRegistry.register();
         EffectsRegistry.register();
         EntityDataSerializersRegistry.register();
         DataComponentsRegistry.DATA_COMPONENT_TYPE.register();
