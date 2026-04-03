@@ -25,6 +25,9 @@ public class ModPlacedFeatures {
     public static final ResourceKey<PlacedFeature> LAKE_OIL_UNDERGROUND = createKey("lake_oil_underground");
     public static final ResourceKey<PlacedFeature> LAKE_OIL_SURFACE = createKey("lake_oil_surface");
     public static final ResourceKey<PlacedFeature> LUNAR_TREE = createKey("lunar_tree");
+    public static final ResourceKey<PlacedFeature> CRATER_SMALL = createKey("crater_small");
+    public static final ResourceKey<PlacedFeature> CRATER_MEDIUM = createKey("crater_medium");
+    public static final ResourceKey<PlacedFeature> CRATER_LARGE = createKey("crater_large");
 
     private static ResourceKey<PlacedFeature> createKey(String name) {
         return ResourceKey.create(Registries.PLACED_FEATURE, IdentifierUtils.id(name));
@@ -38,7 +41,38 @@ public class ModPlacedFeatures {
 
         register(context, LUNAR_TREE, configuredFeatures.getOrThrow(ModConfiguredFeatures.LUNAR_TREE),
                 List.of(PlacementUtils.filteredByBlockSurvival(BlocksRegistry.LUNAR_SAPLING.block().get())));
+
+        context.register(CRATER_SMALL, new PlacedFeature(
+                configuredFeatures.getOrThrow(ModConfiguredFeatures.CRATER_SMALL),
+                List.of(
+                        RarityFilter.onAverageOnceEvery(3),
+                        InSquarePlacement.spread(),
+                        HeightmapPlacement.onHeightmap(Heightmap.Types.WORLD_SURFACE_WG),
+                        BiomeFilter.biome()
+                )
+        ));
+
+        context.register(CRATER_MEDIUM, new PlacedFeature(
+                configuredFeatures.getOrThrow(ModConfiguredFeatures.CRATER_MEDIUM),
+                List.of(
+                        RarityFilter.onAverageOnceEvery(6),
+                        InSquarePlacement.spread(),
+                        HeightmapPlacement.onHeightmap(Heightmap.Types.WORLD_SURFACE_WG),
+                        BiomeFilter.biome()
+                )
+        ));
+
+        context.register(CRATER_LARGE, new PlacedFeature(
+                configuredFeatures.getOrThrow(ModConfiguredFeatures.CRATER_LARGE),
+                List.of(
+                        RarityFilter.onAverageOnceEvery(12),
+                        InSquarePlacement.spread(),
+                        HeightmapPlacement.onHeightmap(Heightmap.Types.WORLD_SURFACE_WG),
+                        BiomeFilter.biome()
+                )
+        ));
     }
+
 
     private static void register(BootstrapContext<PlacedFeature> context, ResourceKey<PlacedFeature> key, Holder<ConfiguredFeature<?, ?>> configuration, List<PlacementModifier> modifiers) {
         context.register(key, new PlacedFeature(configuration, List.copyOf(modifiers)));
