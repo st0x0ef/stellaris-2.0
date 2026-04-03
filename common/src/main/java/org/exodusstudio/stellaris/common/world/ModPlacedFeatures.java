@@ -28,6 +28,7 @@ public class ModPlacedFeatures {
     public static final ResourceKey<PlacedFeature> CRATER_SMALL = createKey("crater_small");
     public static final ResourceKey<PlacedFeature> CRATER_MEDIUM = createKey("crater_medium");
     public static final ResourceKey<PlacedFeature> CRATER_LARGE = createKey("crater_large");
+    public static final ResourceKey<PlacedFeature> BURNT_FOREST_TREE = createKey("burnt_forest_tree");
 
     private static ResourceKey<PlacedFeature> createKey(String name) {
         return ResourceKey.create(Registries.PLACED_FEATURE, IdentifierUtils.id(name));
@@ -71,11 +72,19 @@ public class ModPlacedFeatures {
                         BiomeFilter.biome()
                 )
         ));
-    }
 
+        context.register(BURNT_FOREST_TREE, new PlacedFeature(
+                configuredFeatures.getOrThrow(ModConfiguredFeatures.BURNT_FOREST_TREE),
+                List.of(
+                        RarityFilter.onAverageOnceEvery(5),
+                        InSquarePlacement.spread(),
+                        HeightmapPlacement.onHeightmap(Heightmap.Types.WORLD_SURFACE_WG),
+                        BiomeFilter.biome()
+                )
+        ));
+    }
 
     private static void register(BootstrapContext<PlacedFeature> context, ResourceKey<PlacedFeature> key, Holder<ConfiguredFeature<?, ?>> configuration, List<PlacementModifier> modifiers) {
         context.register(key, new PlacedFeature(configuration, List.copyOf(modifiers)));
     }
-
 }

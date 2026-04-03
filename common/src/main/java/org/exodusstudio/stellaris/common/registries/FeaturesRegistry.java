@@ -5,6 +5,7 @@ import dev.architectury.registry.registries.RegistrySupplier;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
+import org.exodusstudio.stellaris.common.world.feature.BurntForestTreeFeature;
 import org.exodusstudio.stellaris.common.world.feature.CraterFeature;
 
 public class FeaturesRegistry {
@@ -20,6 +21,9 @@ public class FeaturesRegistry {
 
     public static final RegistrySupplier<Feature<NoneFeatureConfiguration>> CRATER_LARGE =
             FEATURES.register("crater_large", () -> new CraterFeature(NoneFeatureConfiguration.CODEC, 28));
+
+    public static final RegistrySupplier<Feature<NoneFeatureConfiguration>> BURNT_FOREST_TREE =
+            FEATURES.register("burnt_forest_tree", () -> new BurntForestTreeFeature(NoneFeatureConfiguration.CODEC));
 
     public static void register() {
         FEATURES.register();

@@ -45,7 +45,6 @@ public final class BlocksRegistry {
     public static final BlockItemRegistrySupplier MOON_STONE = blockWithItem("moon_stone", ofFullCopy(Blocks.STONE));
     public static final BlockItemRegistrySupplier MOON_STONE_IRON_ORE = blockWithItem("moon_stone_iron_ore", ofFullCopy(Blocks.STONE));
 
-    public static final BlockItemRegistrySupplier LUNAR_STONED_WOOD_LOG = blockWithItem("lunar_stoned_wood_log", ofFullCopy(Blocks.STONE), RotatedPillarBlock::new);
 
     public static final RegistrySupplier<Block> MOON_VINES = block("moon_vines", BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).randomTicks().noCollision().lightLevel(CaveVines.emission(14)).instabreak().sound(SoundType.CAVE_VINES).pushReaction(PushReaction.DESTROY), MoonVine::new);
     public static final RegistrySupplier<Block> MOON_VINES_PLANT = block("moon_vines_plant", BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).noCollision().lightLevel(CaveVines.emission(14)).instabreak().sound(SoundType.CAVE_VINES).pushReaction(PushReaction.DESTROY), MoonVinesPlant::new);
@@ -88,6 +87,12 @@ public final class BlocksRegistry {
     public static final BlockItemRegistrySupplier POLISHED_PACKED_ICE = blockWithItem("polished_packed_ice", ofFullCopy(Blocks.PACKED_ICE));
 
     public static final BlockItemRegistrySupplier DESH_BLOCK = blockWithItem("desh_block", ofFullCopy(Blocks.IRON_BLOCK));
+    /**
+     * Burnt Forest
+    **/
+    public static final BlockItemRegistrySupplier LUNAR_STONED_WOOD_LOG = blockWithItem("lunar_stoned_wood_log", ofFullCopy(Blocks.STONE), RotatedPillarBlock::new);
+
+
 
     /**
      * MARS WORLDGEN BLOCKS
