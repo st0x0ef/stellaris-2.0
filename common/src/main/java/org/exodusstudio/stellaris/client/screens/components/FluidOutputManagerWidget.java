@@ -133,10 +133,11 @@ public class FluidOutputManagerWidget extends DraggableContainer {
     public int getColor(FluidStack fluid) {
         if(fluid != null &&  this.blockEntity instanceof FluidOutputable outputable) {
             int index = outputable.getFluidsOutput().indexOf(fluid.getFluid());
-
             String[] colors = StellarisClient.CLIENT_CONFIG.fluidOutputConfig.fluidsColors;
 
-            return Utils.getMinecraftColor(colors[index % colors.length]);
+            if (index >= 0 && colors != null && colors.length > 0) {
+                return Utils.getMinecraftColor(colors[index % colors.length]);
+            }
         }
         return ARGB.white(1f);
     }
