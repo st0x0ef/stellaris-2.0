@@ -59,9 +59,14 @@ public class FluidOutputManager {
             if(currentFluid == null) continue;
 
             for(UniversalFluidStorage storage : storages) {
-                if(storage.getFluidInTank(0).isFluidEqual(currentFluid)) {
-                    FluidUtil.distributeFluidNearby(level, pos, storage.getFluidInTank(0), List.of(direction));
+
+                for(int i = 0; i < storage.getTanks(); i++) {
+                    if(storage.getFluidInTank(i).isFluidEqual(currentFluid)) {
+                        FluidUtil.distributeFluidNearby(level, pos, storage.getFluidInTank(i), List.of(direction));
+                    }
                 }
+
+
             }
         }
     }
