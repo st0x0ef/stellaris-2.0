@@ -12,6 +12,10 @@ import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.util.Mth;
+import net.minecraft.world.level.material.Fluid;
+import org.exodusstudio.stellaris.Stellaris;
+import org.exodusstudio.stellaris.client.data.fluid.FluidInfoPack;
+import org.exodusstudio.stellaris.client.data.fluid.FluidInfos;
 import org.exodusstudio.stellaris.client.registry.FluidInfosRegistry;
 import org.jetbrains.annotations.Nullable;
 
@@ -46,33 +50,23 @@ public class GaugeChunkWidget extends GaugeWidget {
         if(stack == null || stack.isEmpty()) return;
 
         if (spriteChanged) {
-
-            try {
-                this.sprite2 = ClientFluidStackHooks.getStillTexture(stack);
-                this.color = ClientFluidStackHooks.getColor(stack);
-                this.imageHeight = this.height;
-                this.imageWidth = this.width / 2;
-                spriteChanged = false;
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-
+            this.setSprite(stack.getFluid());
         }
 
         if(sprite == null || this.imageWidth == 0 || this.imageHeight == 0) return;
+
 
         switch (DIRECTION) {
             case DOWN_UP -> {
                 int i = Mth.ceil(getProgress(amount, capacity) * (getHeight() - 1));
                 for (int j = 0; j < width / imageWidth; j++) {
-                    guiGraphics.blitSprite(RenderPipelines.GUI_TEXTURED, sprite2, getX() + imageWidth * j, getY() + getHeight() - i, imageWidth, i, this.color);
-                    //guiGraphics.blitSprite(RenderPipelines.GUI_TEXTURED, sprite, imageWidth, getHeight(), 0, getHeight() - i, getX() + imageWidth * j, getY() + getHeight() - i, imageWidth, i);
+                    //TextureAltlasguiGraphics.blitSprite(RenderPipelines.GUI_TEXTURED, sprite2, getX() + imageWidth * j, getY() + getHeight() - i, imageWidth, i, this.color);
+                    guiGraphics.blitSprite(RenderPipelines.GUI_TEXTURED, sprite, imageWidth, getHeight(), 0, getHeight() - i, getX() + imageWidth * j, getY() + getHeight() - i, imageWidth, i);
                 }
                 int x = width % imageWidth;
                 if (x > 0) {
-                    guiGraphics.blitSprite(RenderPipelines.GUI_TEXTURED, sprite2, getX() + width - x, getY() + getHeight() - i, x, i, this.color);
-                    //guiGraphics.blitSprite(RenderPipelines.GUI_TEXTURED, sprite, x, getHeight(), 0, getHeight() - i, getX() + width - x, getY() + getHeight() - i, x, i);
+                    //TextureAltlas guiGraphics.blitSprite(RenderPipelines.GUI_TEXTURED, sprite2, getX() + width - x, getY() + getHeight() - i, x, i, this.color);
+                    guiGraphics.blitSprite(RenderPipelines.GUI_TEXTURED, sprite, x, getHeight(), 0, getHeight() - i, getX() + width - x, getY() + getHeight() - i, x, i);
                 }
             }
             case UP_DOWN -> {
@@ -127,12 +121,25 @@ public class GaugeChunkWidget extends GaugeWidget {
         this.updateSprite(FluidInfosRegistry.getFluidTexture(stack));
 
         this.stack = stack;
-        this.spriteChanged = true;
     }
 
     @Override
     public void updateSprite(Identifier sprite) {
         super.updateSprite(sprite);
         spriteChanged = true;
+    }
+
+    public void setSprite(Fluid fluid) {
+        FluidInfos fluidInfo = FluidInfoPack.FLUID_INFOS.get(fluid.arch$registryName());
+
+        if(fluidInfo != null){
+
+            this.sprite = fluidInfo.spriteTexture();
+        } else {
+            this.sprite = FluidInfoPack.DEFAULT_FLUID_INFOS.spriteTexture();
+        }
+        this.imageHeight = this.height;
+        this.imageWidth = this.width / 2;
+
     }
 }

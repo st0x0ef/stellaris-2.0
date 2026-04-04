@@ -1,0 +1,6 @@
+{
+  "stellaris:hydrogen": {
+    "spriteTexture": "util/oxygen_overlay",
+    "color": 1111111
+  }
+}
