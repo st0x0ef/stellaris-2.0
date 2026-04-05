@@ -14,9 +14,8 @@ import net.minecraft.world.level.levelgen.blockpredicates.BlockPredicate;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.heightproviders.UniformHeight;
 import net.minecraft.world.level.levelgen.placement.*;
-import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
-
 import org.exodusstudio.stellaris.common.registries.BlocksRegistry;
+import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
 
 import java.util.List;
 
@@ -28,6 +27,8 @@ public class ModPlacedFeatures {
     public static final ResourceKey<PlacedFeature> CRATER_SMALL = createKey("crater_small");
     public static final ResourceKey<PlacedFeature> CRATER_MEDIUM = createKey("crater_medium");
     public static final ResourceKey<PlacedFeature> CRATER_LARGE = createKey("crater_large");
+    public static final ResourceKey<PlacedFeature> BURNT_FOREST_TREE = createKey("burnt_forest_tree");
+    public static final ResourceKey<PlacedFeature> ASH_FLOOR = createKey("ash_floor");
 
     private static ResourceKey<PlacedFeature> createKey(String name) {
         return ResourceKey.create(Registries.PLACED_FEATURE, IdentifierUtils.id(name));
@@ -71,11 +72,28 @@ public class ModPlacedFeatures {
                         BiomeFilter.biome()
                 )
         ));
-    }
 
+        context.register(BURNT_FOREST_TREE, new PlacedFeature(
+                configuredFeatures.getOrThrow(ModConfiguredFeatures.BURNT_FOREST_TREE),
+                List.of(
+                        InSquarePlacement.spread(),
+                        HeightmapPlacement.onHeightmap(Heightmap.Types.WORLD_SURFACE_WG),
+                        BiomeFilter.biome()
+                )
+        ));
+
+        context.register(ASH_FLOOR, new PlacedFeature(
+                configuredFeatures.getOrThrow(ModConfiguredFeatures.ASH_FLOOR),
+                List.of(
+                        CountPlacement.of(4),
+                        InSquarePlacement.spread(),
+                        HeightmapPlacement.onHeightmap(Heightmap.Types.WORLD_SURFACE_WG),
+                        BiomeFilter.biome()
+                )
+        ));
+    }
 
     private static void register(BootstrapContext<PlacedFeature> context, ResourceKey<PlacedFeature> key, Holder<ConfiguredFeature<?, ?>> configuration, List<PlacementModifier> modifiers) {
         context.register(key, new PlacedFeature(configuration, List.copyOf(modifiers)));
     }
-
 }

@@ -8,91 +8,61 @@
         {
           "biome": "stellaris:lunar_desert",
           "parameters": {
+            "temperature": [-1.0, 0.5],
+            "humidity": [-1.0, 0.3],
+            "continentalness": [-1.0, 1.0],
+            "erosion": [-1.0, 1.0],
+            "weirdness": [-1.0, 0.4],
+            "depth": [-1.0, 0.1],
+            "offset": 0.1
+          }
+        },
+        {
+          "biome": "stellaris:burnt_forest",
+          "parameters": {
+            "temperature": [0.1, 1.0],
+            "humidity": [-0.1, 1.0],
+            "continentalness": [-1.0, 1.0],
+            "erosion": [-1.0, 1.0],
+            "weirdness": [-0.8, 0.4],
+            "depth": [-1.0, 0.1],
+            "offset": 0.1
+          }
+        },
+        {
+          "biome": "stellaris:moon_craters",
+          "parameters": {
             "temperature": [-1.0, 1.0],
             "humidity": [-1.0, 1.0],
             "continentalness": [-1.0, 1.0],
             "erosion": [-1.0, 1.0],
-            "weirdness": [-1.0, 0.3],
+            "weirdness": [0.4, 1.0],
             "depth": [-1.0, 0.1],
-            "offset": 0.0
-          }
-        },
-        {
-          "biome": "stellaris:lunar_desert",
-          "parameters": {
-            "temperature": [0.55, 1.0],
-            "humidity": [-1.0, -0.35],
-            "continentalness": [-1.0, 1.0],
-            "erosion": [-1.0, 1.0],
-            "weirdness": [-1.0, 1.0],
-            "depth": [0.1, 1.0],
-            "offset": 0.0
-          }
-        },
-        {
-          "biome": "stellaris:lunar_desert",
-          "parameters": {
-            "temperature": [-1.0, 0.45],
-            "humidity": [-1.0, 0.35],
-            "continentalness": [-1.0, 1.0],
-            "erosion": [-1.0, 1.0],
-            "weirdness": [-1.0, 1.0],
-            "depth": [0.1, 1.0],
-            "offset": 0.0
+            "offset": 0.3
           }
         },
         {
           "biome": "stellaris:lunar_forest",
           "parameters": {
-            "temperature": [-1.0, 0.45],
-            "humidity": [0.35, 0.55],
+            "temperature": [-1.0, 1.0],
+            "humidity": [-1.0, 1.0],
             "continentalness": [-1.0, 1.0],
             "erosion": [-1.0, 1.0],
             "weirdness": [-1.0, 1.0],
-            "depth": [0.1, 1.0],
+            "depth": [0.6, 1.0],
             "offset": 0.0
           }
         },
         {
           "biome": "stellaris:lunar_blue_lake",
           "parameters": {
-            "temperature": [-1.0, 0.45],
-            "humidity": [0.55, 1.0],
+            "temperature": [-1.0, 1.0],
+            "humidity": [-1.0, 1.0],
             "continentalness": [-1.0, 1.0],
             "erosion": [-1.0, 1.0],
             "weirdness": [-1.0, 1.0],
-            "depth": [0.1, 1.0],
+            "depth": [0.65, 1.0],
             "offset": 0.0
-          }
-        },
-        {
-          "biome": "stellaris:moon_craters",
-          "parameters": {
-            "temperature": [
-              -1,
-              1
-            ],
-            "humidity": [
-              -1,
-              1
-            ],
-            "continentalness": [
-              -1,
-              1
-            ],
-            "erosion": [
-              -1,
-              1
-            ],
-            "weirdness": [
-              0,
-              0.3
-            ],
-            "depth": [
-              -1,
-              0.1
-            ],
-            "offset": 0
           }
         }
       ]

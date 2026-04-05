@@ -10,7 +10,7 @@
     "max_inclusive": 7,
     "min_inclusive": 0
   },
-  "attrbitues": {
+  "attributes": {
     "minecraft:visual/sky_light_color": "#7a7aff",
     "minecraft:visual/sky_color": "#D09EFF"
 
