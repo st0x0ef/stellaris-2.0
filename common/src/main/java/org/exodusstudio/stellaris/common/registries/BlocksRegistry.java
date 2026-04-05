@@ -38,13 +38,35 @@ public final class BlocksRegistry {
     public static DeferredRegister<Block> BLOCKS = DeferredRegister.create(MOD_ID, Registries.BLOCK);
 
     /**
+     * MISC Blocks
+     */
+
+    public static final BlockItemRegistrySupplier METEORITE = blockWithItem("meteorite", ofFullCopy(Blocks.STONE));
+    public static final BlockItemRegistrySupplier TITANIUM_ORE = blockWithItem("titanium_ore", ofFullCopy(Blocks.STONE));
+    public static final BlockItemRegistrySupplier DEEPSLATE_TITANIUM_ORE = blockWithItem("deepslate_titanium_ore", ofFullCopy(Blocks.DEEPSLATE_IRON_ORE));
+    public static final BlockItemRegistrySupplier RAW_TITANIUM_BLOCK = blockWithItem("raw_titanium_block", ofFullCopy(Blocks.STONE));
+    public static final BlockItemRegistrySupplier TITANIUM_BLOCK = blockWithItem("titanium_block", ofFullCopy(Blocks.IRON_BLOCK));
+    public static final BlockItemRegistrySupplier TIANIUM_PLATING_BLOCK = blockWithItem("titanium_plating_block", ofFullCopy(Blocks.IRON_BLOCK));
+
+    /**
      * MOON WORLDGEN BLOCKS
      */
-    public static final BlockItemRegistrySupplier MOON_ROCK = blockWithItem("moon_rock", ofFullCopy(Blocks.STONE));
-    public static final BlockItemRegistrySupplier MOON_SAND = blockWithItem("moon_sand", ofFullCopy(Blocks.SAND));
+    public static final BlockItemRegistrySupplier MOON_SAND = blockWithItem("moon_sand", ofFullCopy(Blocks.SAND).strength(0.5f));
     public static final BlockItemRegistrySupplier MOON_STONE = blockWithItem("moon_stone", ofFullCopy(Blocks.STONE));
-    public static final BlockItemRegistrySupplier MOON_STONE_IRON_ORE = blockWithItem("moon_stone_iron_ore", ofFullCopy(Blocks.STONE));
-    public static final BlockItemRegistrySupplier POLISHED_MOON_STONE = blockWithItem("polished_moon_stone", ofFullCopy(Blocks.STONE).requiresCorrectToolForDrops());
+    public static final BlockItemRegistrySupplier MOON_COBBLESTONE = blockWithItem("moon_cobblestone", ofFullCopy(Blocks.STONE));
+    public static final BlockItemRegistrySupplier MOON_DEEPSLATE = blockWithItem("moon_deepslate", ofFullCopy(Blocks.DEEPSLATE));
+    public static final BlockItemRegistrySupplier MOON_STONE_DUST = blockWithItem("moon_stone_dust", ofFullCopy(Blocks.STONE));
+    public static final BlockItemRegistrySupplier MOON_STONE_BRICKS = blockWithItem("moon_stone_bricks", ofFullCopy(Blocks.STONE));
+    public static final BlockItemRegistrySupplier MOON_STONE_BRICK_SLAB = blockWithItem("moon_stone_brick_slab", ofFullCopy(Blocks.STONE));
+    public static final BlockItemRegistrySupplier MOON_STONE_BRICK_STAIRS = blockWithItem("moon_stone_brick_stairs", ofFullCopy(Blocks.STONE));
+    public static final BlockItemRegistrySupplier MOON_STONE_PILLAR = blockWithItem("moon_stone_pillar", ofFullCopy(Blocks.STONE));
+    public static final BlockItemRegistrySupplier POLISHED_MOON_STONE = blockWithItem("polished_moon_stone", ofFullCopy(Blocks.STONE));
+    public static final BlockItemRegistrySupplier MOON_POLISHED_STONE_BRICK_SLAB = blockWithItem("moon_polished_stone_brick_slab", ofFullCopy(Blocks.STONE));
+    public static final BlockItemRegistrySupplier MOON_POLISHED_STONE_BRICK_STAIRS = blockWithItem("moon_polished_stone_brick_stairs", ofFullCopy(Blocks.STONE));
+    public static final BlockItemRegistrySupplier CHISELED_MOON_STONE = blockWithItem("chiseled_moon_stone", ofFullCopy(Blocks.STONE));
+    public static final BlockItemRegistrySupplier MOON_TITANIUM_ORE = blockWithItem("moon_titanium_ore", ofFullCopy(Blocks.IRON_ORE));
+    public static final BlockItemRegistrySupplier MOON_DESH_ORE = blockWithItem("moon_desh_ore", ofFullCopy(Blocks.IRON_ORE));
+    public static final BlockItemRegistrySupplier MOON_STONE_IRON_ORE = blockWithItem("moon_stone_iron_ore", ofFullCopy(Blocks.IRON_ORE));
 
     public static final BlockItemRegistrySupplier LUNAR_STONED_WOOD_LOG = blockWithItem("lunar_stoned_wood_log", ofFullCopy(Blocks.STONE), RotatedPillarBlock::new);
 
@@ -204,4 +226,6 @@ public final class BlocksRegistry {
     private static boolean never(BlockState state, BlockGetter blockGetter, BlockPos pos) {
         return false;
     }
+}
+
 }
