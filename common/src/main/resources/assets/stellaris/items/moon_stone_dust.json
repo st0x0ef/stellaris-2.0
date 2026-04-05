@@ -1,3 +1,6 @@
 {
-  "parent": "stellaris:block/moon_stone_dust"
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "stellaris:item/moon_stone_dust"
+  }
 }
