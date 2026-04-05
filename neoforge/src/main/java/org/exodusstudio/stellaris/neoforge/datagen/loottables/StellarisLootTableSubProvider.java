@@ -32,6 +32,7 @@ public class StellarisLootTableSubProvider extends BlockLootSubProvider {
         this.dropSelf(BlocksRegistry.MOON_SAND.block().get());
         this.dropSelf(BlocksRegistry.MOON_STONE.block().get());
         this.dropSelf(BlocksRegistry.MOON_STONE_IRON_ORE.block().get());
+        this.dropSelf(BlocksRegistry.POLISHED_MOON_STONE.block().get());
         this.dropSelf(BlocksRegistry.LUNAR_STONED_WOOD_LOG.block().get());
         this.dropSelf(BlocksRegistry.ICED_MAGMA_BLOCK.block().get());
         this.dropSelf(BlocksRegistry.PACKED_ICE_BRICKS.block().get());
