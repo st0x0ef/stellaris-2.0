@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "": [
+      { "model": "stellaris:block/polished_moon_stone", "y": 0 },
+      { "model": "stellaris:block/polished_moon_stone", "y": 90 },
+      { "model": "stellaris:block/polished_moon_stone", "y": 180 },
+      { "model": "stellaris:block/polished_moon_stone", "y": 270 }
+    ]
+  }
+}
