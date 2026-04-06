@@ -1,4 +1,0 @@
-@ParametersAreNonnullByDefault
-package org.exodusstudio.stellaris.neoforge.datagen.loottables;
-
-import javax.annotation.ParametersAreNonnullByDefault;

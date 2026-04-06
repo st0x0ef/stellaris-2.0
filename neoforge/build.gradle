@@ -1,5 +1,3 @@
-import net.fabricmc.loom.configuration.ide.RunConfigSettings
-
 plugins {
     id 'com.gradleup.shadow'
 }
@@ -40,20 +38,6 @@ loom {
         client {
             client()
             property 'neoforge.enabledGameTestNamespaces', project.name
-        }
-
-        data {
-            clientData()
-            programArgs.addAll '--mod', project.name, '--all',
-                    '--output', file('src/generated/resources/').getAbsolutePath(),
-                    '--existing', file('src/main/resources/').getAbsolutePath()
-        }
-
-        datagen {
-            clientData()
-            programArgs.addAll '--mod', project.rootProject.name , '--all',
-                    '--output', project(":common").file("src/main/generated/resources").getAbsolutePath(),
-                    '--existing', project(":common").file("src/main/resources").getAbsolutePath()
         }
     }
 }

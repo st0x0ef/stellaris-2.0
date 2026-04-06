@@ -1,4 +1,0 @@
-@ParametersAreNonnullByDefault
-package org.exodusstudio.stellaris.neoforge.datagen;
-
-import javax.annotation.ParametersAreNonnullByDefault;
