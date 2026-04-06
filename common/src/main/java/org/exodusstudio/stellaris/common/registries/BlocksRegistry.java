@@ -136,6 +136,16 @@ public final class BlocksRegistry {
     public static final BlockItemRegistrySupplier PACKED_ICE_PILLAR = blockWithItem("packed_ice_pillar", ofFullCopy(Blocks.PACKED_ICE), RotatedPillarBlock::new);
     public static final BlockItemRegistrySupplier POLISHED_PACKED_ICE = blockWithItem("polished_packed_ice", ofFullCopy(Blocks.PACKED_ICE));
 
+
+    // ASTRUM BLOCKS
+    public static final BlockItemRegistrySupplier CASUS_ASTRUM_STONE = blockWithItem("casus_astrum_stone", ofFullCopy(Blocks.STONE));
+    //public static final BlockItemRegistrySupplier CASUS_ASTRUM_STONE_SLAB = blockWithItem("casus_astrum_stone_slab", ofFullCopy(Blocks.IRON_BLOCK));
+    public static final BlockItemRegistrySupplier ASTRUM_VITREUS_BLOCK = blockWithItem("astrum_vitreus_block", ofFullCopy(Blocks.AMETHYST_BLOCK));
+    public static final BlockItemRegistrySupplier CASUS_ASTRUM_DIRT = blockWithItem("casus_astrum_dirt", ofFullCopy(Blocks.DIRT));
+    public static final BlockItemRegistrySupplier CASUS_ASTRUM_GRASS = blockWithItem("casus_astrum_grass", ofFullCopy(Blocks.DIRT));
+
+
+
     /**
      * MARS WORLDGEN BLOCKS
      */
