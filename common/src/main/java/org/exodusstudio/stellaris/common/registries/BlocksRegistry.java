@@ -59,11 +59,15 @@ public final class BlocksRegistry {
     public static final BlockItemRegistrySupplier MOON_STONE_BRICKS = blockWithItem("moon_stone_bricks", ofFullCopy(Blocks.STONE));
     public static final BlockItemRegistrySupplier MOON_STONE_BRICK_SLAB = blockWithItem("moon_stone_brick_slab", ofFullCopy(Blocks.STONE));
     public static final BlockItemRegistrySupplier MOON_STONE_BRICK_STAIRS = blockWithItem("moon_stone_brick_stairs", ofFullCopy(Blocks.STONE));
+    public static final BlockItemRegistrySupplier MOON_CRACKED_STONE_BRICKS = blockWithItem("moon_cracked_stone_bricks", ofFullCopy(Blocks.STONE));
     public static final BlockItemRegistrySupplier MOON_STONE_PILLAR = blockWithItem("moon_stone_pillar", ofFullCopy(Blocks.STONE));
+    public static final BlockItemRegistrySupplier MOON_STONE_SLAB = blockWithItem("moon_stone_slab", ofFullCopy(Blocks.STONE));
+    public static final BlockItemRegistrySupplier MOON_STONE_STAIRS = blockWithItem("moon_stone_stairs", ofFullCopy(Blocks.STONE));
     public static final BlockItemRegistrySupplier POLISHED_MOON_STONE = blockWithItem("polished_moon_stone", ofFullCopy(Blocks.STONE));
     public static final BlockItemRegistrySupplier MOON_POLISHED_STONE_BRICK_SLAB = blockWithItem("moon_polished_stone_brick_slab", ofFullCopy(Blocks.STONE));
     public static final BlockItemRegistrySupplier MOON_POLISHED_STONE_BRICK_STAIRS = blockWithItem("moon_polished_stone_brick_stairs", ofFullCopy(Blocks.STONE));
     public static final BlockItemRegistrySupplier CHISELED_MOON_STONE = blockWithItem("chiseled_moon_stone", ofFullCopy(Blocks.STONE));
+    public static final BlockItemRegistrySupplier MOON_PILLAR = blockWithItem("moon_pillar", ofFullCopy(Blocks.STONE));
     public static final BlockItemRegistrySupplier MOON_TITANIUM_ORE = blockWithItem("moon_titanium_ore", ofFullCopy(Blocks.IRON_ORE));
     public static final BlockItemRegistrySupplier MOON_DESH_ORE = blockWithItem("moon_desh_ore", ofFullCopy(Blocks.IRON_ORE));
     public static final BlockItemRegistrySupplier MOON_STONE_IRON_ORE = blockWithItem("moon_stone_iron_ore", ofFullCopy(Blocks.IRON_ORE));

@@ -2,18 +2,30 @@
   "itemGroup.stellaris.stellaris": "Stellaris",
   "itemGroup.stellaris.stellaris_blocks" : "Stellaris Blocks",
 
+  "item.stellaris.meteorite": "Meteorite",
+
   "item.stellaris.moon_stone": "Moon Stone",
+  "item.stellaris.moon_cobblestone": "Moon Cobblestone",
+  "item.stellaris.moon_deepslate": "Moon Deepslate",
   "item.stellaris.moon_stone_iron_ore": "Moon Stone Iron Ore",
   "item.stellaris.moon_sand": "Moon Sand",
-  "item.stellaris.lunar_stoned_wood_log": "Lunar Stoned Wood Log",
+  "item.stellaris.moon_stone_dust": "Moon Stone Dust",
+  "item.stellaris.moon_stone_bricks": "Moon Stone Bricks",
+  "item.stellaris.moon_stone_bricks_slab": "Moon Stone Bricks Slab",
+  "item.stellaris.moon_stone_bricks_stairs": "Moon Stone Bricks Stairs",
+  "item.stellaris.moon_stone_pillar": "Moon Stone Pillar",
+  "item.stellaris.polished_moon_stone": "Polished Moon Stone",
+  "item.stellaris.polished_moon_stone_slab": "Polished Moon Stone Slab",
+  "item.stellaris.polished_moon_stone_stairs": "Polished Moon Stone Stairs",
+
   "item.stellaris.iced_magma_block": "Iced Magma Block",
   "item.stellaris.packed_ice_bricks": "Packed Ice Bricks",
   "item.stellaris.packed_ice_pillar": "Packed Ice Pillar",
   "item.stellaris.polished_packed_ice": "Polished Packed Ice",
-  "item.stellaris.polished_moon_stone": "Polished Moon Stone",
-  "item.stellaris.moon_stone_dust": "Moon Stone Dust",
-  
 
+  "item.stellaris.lunar_stoned_wood_log": "Lunar Stoned Wood Log",
+
+  "item.stellaris.moon_desh_ore": "Moon Desh Ore",
   "item.stellaris.desh_ingot": "Desh Ingot",
   "item.stellaris.raw_desh": "Raw Desh",
 
@@ -21,6 +33,12 @@
 
   "item.stellaris.titanium_ingot": "Titanium Ingot",
   "item.stellaris.raw_titanium": "Raw Titanium",
+  "item.stellaris.raw_titanium_block": "Raw Titanium Block",
+  "item.stellaris.titanium_ore": "Titanium Ore",
+  "item.stellaris.moon_titanium_ore": "Moon Titanium Ore",
+  "item.stellaris.deepslate_titanium_ore": "Deepslate Titanium Ore",
+  "item.stellaris.titanium_block": "Titanium_block",
+  "item.stellaris.titanium_plating_block": "Titanium Plating Block",
 
   "item.stellaris.lunar_log": "Lunar Log",
   "item.stellaris.lunar_wood": "Lunar Wood",
