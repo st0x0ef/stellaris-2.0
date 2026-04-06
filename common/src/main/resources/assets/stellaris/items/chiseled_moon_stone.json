@@ -1,3 +1,6 @@
 {
-  "parent": "stellaris:block/chiseled_moon_stone"
+  "model": {
+    "type": "minecraft:model",
+    "model": "stellaris:item/chiseled_moon_stone"
+  }
 }

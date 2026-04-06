@@ -1,3 +1,6 @@
 {
-  "parent": "stellaris:block/moon_pillar_end"
+  "model": {
+    "type": "minecraft:model",
+    "model": "stellaris:item/moon_pillar_end"
+  }
 }

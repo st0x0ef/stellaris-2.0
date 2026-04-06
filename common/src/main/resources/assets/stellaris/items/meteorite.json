@@ -1,3 +1,6 @@
 {
-  "parent": "stellaris:block/meteorite"
+  "model": {
+    "type": "minecraft:model",
+    "model": "stellaris:item/meteorite"
+  }
 }

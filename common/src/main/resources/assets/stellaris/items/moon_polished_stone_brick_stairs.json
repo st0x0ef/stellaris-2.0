@@ -1,3 +1,6 @@
 {
-  "parent": "stellaris:block/moon_polished_stone_brick_stairs"
+  "model": {
+    "type": "minecraft:model",
+    "model": "stellaris:item/moon_polished_stone_brick_stairs"
+  }
 }

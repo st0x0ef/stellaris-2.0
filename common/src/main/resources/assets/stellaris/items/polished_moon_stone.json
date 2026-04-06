@@ -1,3 +1,6 @@
 {
-  "parent": "stellaris:block/polished_moon_stone"
+  "model": {
+    "type": "minecraft:model",
+    "model": "stellaris:item/polished_moon_stone"
+  }
 }

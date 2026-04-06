@@ -1,6 +1,4 @@
+
 {
-  "parent": "item/handheld",
-  "textures": {
-    "layer0": "stellaris:block/meteorite"
-  }
+  "parent": "stellaris:block/meteorite"
 }

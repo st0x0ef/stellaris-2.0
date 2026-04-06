@@ -1,3 +1,7 @@
+
 {
-  "parent": "stellaris:block/moon_stone_pillar_side"
+  "model": {
+    "type": "minecraft:model",
+    "model": "stellaris:item/moon_stone_pillar_side"
+  }
 }

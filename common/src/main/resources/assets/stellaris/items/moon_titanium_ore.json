@@ -1,3 +1,6 @@
 {
-  "parent": "stellaris:block/moon_titanium_ore"
+  "model": {
+    "type": "minecraft:model",
+    "model": "stellaris:item/moon_titanium_ore"
+  }
 }

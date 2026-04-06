@@ -1,3 +1,7 @@
+
 {
-  "parent": "stellaris:block/moon_deepslate"
+  "model": {
+    "type": "minecraft:model",
+    "model": "stellaris:item/moon_deepslate"
+  }
 }

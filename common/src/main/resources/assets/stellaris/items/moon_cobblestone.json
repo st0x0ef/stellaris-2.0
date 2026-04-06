@@ -1,3 +1,6 @@
 {
-  "parent": "stellaris:block/moon_cobblestone"
+  "model": {
+    "type": "minecraft:model",
+    "model": "stellaris:item/moon_cobblestone"
+  }
 }
