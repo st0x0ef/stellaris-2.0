@@ -46,7 +46,19 @@ public final class BlocksRegistry {
     public static final BlockItemRegistrySupplier DEEPSLATE_TITANIUM_ORE = blockWithItem("deepslate_titanium_ore", ofFullCopy(Blocks.DEEPSLATE_IRON_ORE));
     public static final BlockItemRegistrySupplier RAW_TITANIUM_BLOCK = blockWithItem("raw_titanium_block", ofFullCopy(Blocks.STONE));
     public static final BlockItemRegistrySupplier TITANIUM_BLOCK = blockWithItem("titanium_block", ofFullCopy(Blocks.IRON_BLOCK));
+    public static final BlockItemRegistrySupplier TITANIUM_SLAB = blockWithItem("titanium_slab", ofFullCopy(Blocks.IRON_BLOCK));
+    public static final BlockItemRegistrySupplier TITANIUM_STAIRS = blockWithItem("titanium_stairs", ofFullCopy(Blocks.IRON_BLOCK));
+    public static final BlockItemRegistrySupplier TITANIUM_PILLAR = blockWithItem("titanium_pillar", ofFullCopy(Blocks.IRON_BLOCK));
     public static final BlockItemRegistrySupplier TIANIUM_PLATING_BLOCK = blockWithItem("titanium_plating_block", ofFullCopy(Blocks.IRON_BLOCK));
+    public static final BlockItemRegistrySupplier TIANIUM_PLATING_SLAB = blockWithItem("titanium_plating_slab", ofFullCopy(Blocks.IRON_BLOCK));
+    public static final BlockItemRegistrySupplier TIANIUM_PLATING_STAIRS = blockWithItem("titanium_plating_stairs", ofFullCopy(Blocks.IRON_BLOCK));
+    public static final BlockItemRegistrySupplier VERTICAL_TITANIUM_SLAB = blockWithItem("vertical_titanium_slab", ofFullCopy(Blocks.IRON_BLOCK));
+    public static final BlockItemRegistrySupplier VERTICAL_TIANIUM_PLATING_SLAB = blockWithItem("vertical_titanium_plating_slab", ofFullCopy(Blocks.IRON_BLOCK));
+    public static final BlockItemRegistrySupplier IRON_PLATING_BLOCK = blockWithItem("iron_plating_block", ofFullCopy(Blocks.IRON_BLOCK));
+    public static final BlockItemRegistrySupplier IRON_PLATING_SLAB = blockWithItem("iron_plating_slab", ofFullCopy(Blocks.IRON_BLOCK));
+    public static final BlockItemRegistrySupplier IRON_PLATING_STAIRS = blockWithItem("iron_plating_stairs", ofFullCopy(Blocks.IRON_BLOCK));
+    public static final BlockItemRegistrySupplier IRON_PILLAR = blockWithItem("iron_pillar", ofFullCopy(Blocks.IRON_BLOCK));
+    public static final BlockItemRegistrySupplier VERTICAL_IRON_PLATING_SLAB = blockWithItem("vertical_iron_plating_slab", ofFullCopy(Blocks.IRON_BLOCK));
 
     /**
      * MOON WORLDGEN BLOCKS
@@ -63,6 +75,7 @@ public final class BlocksRegistry {
     public static final BlockItemRegistrySupplier MOON_STONE_PILLAR = blockWithItem("moon_stone_pillar", ofFullCopy(Blocks.STONE));
     public static final BlockItemRegistrySupplier MOON_STONE_SLAB = blockWithItem("moon_stone_slab", ofFullCopy(Blocks.STONE));
     public static final BlockItemRegistrySupplier MOON_STONE_STAIRS = blockWithItem("moon_stone_stairs", ofFullCopy(Blocks.STONE));
+    public static final BlockItemRegistrySupplier VERTICAL_MOON_STONE_SLAB = blockWithItem("vertical_moon_stone_slab", ofFullCopy(Blocks.STONE));
     public static final BlockItemRegistrySupplier POLISHED_MOON_STONE = blockWithItem("polished_moon_stone", ofFullCopy(Blocks.STONE));
     public static final BlockItemRegistrySupplier MOON_POLISHED_STONE_BRICK_SLAB = blockWithItem("moon_polished_stone_brick_slab", ofFullCopy(Blocks.STONE));
     public static final BlockItemRegistrySupplier MOON_POLISHED_STONE_BRICK_STAIRS = blockWithItem("moon_polished_stone_brick_stairs", ofFullCopy(Blocks.STONE));
@@ -71,6 +84,15 @@ public final class BlocksRegistry {
     public static final BlockItemRegistrySupplier MOON_TITANIUM_ORE = blockWithItem("moon_titanium_ore", ofFullCopy(Blocks.IRON_ORE));
     public static final BlockItemRegistrySupplier MOON_DESH_ORE = blockWithItem("moon_desh_ore", ofFullCopy(Blocks.IRON_ORE));
     public static final BlockItemRegistrySupplier MOON_STONE_IRON_ORE = blockWithItem("moon_stone_iron_ore", ofFullCopy(Blocks.IRON_ORE));
+
+    public static final BlockItemRegistrySupplier DESH_BLOCK = blockWithItem("desh_block", ofFullCopy(Blocks.IRON_BLOCK));
+    public static final BlockItemRegistrySupplier RAW_DESH_BLOCK = blockWithItem("raw_desh_block", ofFullCopy(Blocks.IRON_BLOCK));
+    public static final BlockItemRegistrySupplier DESH_PLATING_BLOCK = blockWithItem("desh_plating_block", ofFullCopy(Blocks.IRON_BLOCK));
+    public static final BlockItemRegistrySupplier DESH_PLATING_SLAB = blockWithItem("desh_plating_slab", ofFullCopy(Blocks.IRON_BLOCK));
+    public static final BlockItemRegistrySupplier DESH_PLATING_STAIRS = blockWithItem("desh_plating_stairs", ofFullCopy(Blocks.IRON_BLOCK));
+    public static final BlockItemRegistrySupplier DESH_PILLAR = blockWithItem("desh_pillar", ofFullCopy(Blocks.IRON_BLOCK));
+    public static final BlockItemRegistrySupplier VERTICAL_DESH_SLAB = blockWithItem("vertical_desh_slab", ofFullCopy(Blocks.IRON_BLOCK));
+    public static final BlockItemRegistrySupplier VERTICAL_DESH_PLATING_SLAB = blockWithItem("vertical_desh_plating_slab", ofFullCopy(Blocks.IRON_BLOCK));
 
     public static final BlockItemRegistrySupplier LUNAR_STONED_WOOD_LOG = blockWithItem("lunar_stoned_wood_log", ofFullCopy(Blocks.STONE), RotatedPillarBlock::new);
 
@@ -113,8 +135,6 @@ public final class BlocksRegistry {
     public static final BlockItemRegistrySupplier PACKED_ICE_BRICKS = blockWithItem("packed_ice_bricks", ofFullCopy(Blocks.PACKED_ICE));
     public static final BlockItemRegistrySupplier PACKED_ICE_PILLAR = blockWithItem("packed_ice_pillar", ofFullCopy(Blocks.PACKED_ICE), RotatedPillarBlock::new);
     public static final BlockItemRegistrySupplier POLISHED_PACKED_ICE = blockWithItem("polished_packed_ice", ofFullCopy(Blocks.PACKED_ICE));
-
-    public static final BlockItemRegistrySupplier DESH_BLOCK = blockWithItem("desh_block", ofFullCopy(Blocks.IRON_BLOCK));
 
     /**
      * MARS WORLDGEN BLOCKS
