@@ -117,12 +117,27 @@ public class FluidsRegistry {
     public static final RegistrySupplier<FlowingFluid> BLUE_LIQUID_FLOWING = FLUIDS.register("flowing_blue_liquid", () -> new ArchitecturyFlowingFluid.Flowing(BLUE_LIQUID_ATTRIBUTES));
     public static final RegistrySupplier<FlowingFluid> BLUE_LIQUID_STILL = FLUIDS.register("blue_liquid", () -> new ArchitecturyFlowingFluid.Source(BLUE_LIQUID_ATTRIBUTES));
 
+    public static final ArchitecturyFluidAttributes ASTRUM_LIQUIDUS_ATTRIBUTES = SimpleArchitecturyFluidAttributes.ofSupplier(() -> FluidsRegistry.ASTRUM_LIQUIDUS_FLOWING, () -> FluidsRegistry.ASTRUM_LIQUIDUS_STILL)
+            .blockSupplier(() -> BlocksRegistry.ASTRUM_LIQUIDUS)
+            .bucketItem(() -> Optional.of(ItemsRegistry.ASTRUM_LIQUIDUS_BUCKET.get()))
+            .slopeFindDistance(4)
+            .dropOff(1)
+            .tickDelay(8)
+            .explosionResistance(100.0F)
+            .convertToSource(false)
+            .sourceTexture(IdentifierUtils.id("block/fluids/astrum_liquidus_still"))
+            .flowingTexture(IdentifierUtils.id("block/fluids/astrum_liquidus_flow"));
+
+    public static final RegistrySupplier<FlowingFluid> ASTRUM_LIQUIDUS_FLOWING = FLUIDS.register("flowing_astrum_liquidus", () -> new ArchitecturyFlowingFluid.Flowing(ASTRUM_LIQUIDUS_ATTRIBUTES));
+    public static final RegistrySupplier<FlowingFluid> ASTRUM_LIQUIDUS_STILL = FLUIDS.register("astrum_liquidus", () -> new ArchitecturyFlowingFluid.Source(ASTRUM_LIQUIDUS_ATTRIBUTES));
+
     public static void init() {
         FLUIDS.register();
         FLUIDS_INFOS.add(OXYGEN_ATTRIBUTES);
         FLUIDS_INFOS.add(HYDROGEN_ATTRIBUTES);
         FLUIDS_INFOS.add(FUEL_ATTRIBUTES);
         FLUIDS_INFOS.add(BLUE_LIQUID_ATTRIBUTES);
+        FLUIDS_INFOS.add(ASTRUM_LIQUIDUS_ATTRIBUTES);
     }
 
 }

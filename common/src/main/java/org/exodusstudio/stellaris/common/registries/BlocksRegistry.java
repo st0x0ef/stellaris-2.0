@@ -190,6 +190,7 @@ public final class BlocksRegistry {
     public static final RegistrySupplier<ArchitecturyLiquidBlock> FUEL = block("fuel_block", BlockBehaviour.Properties.ofFullCopy(Blocks.WATER), (p) -> new ArchitecturyLiquidBlock(FluidsRegistry.FUEL_STILL, p));
     public static final RegistrySupplier<ArchitecturyLiquidBlock> DIESEL = block("diesel", BlockBehaviour.Properties.ofFullCopy(Blocks.WATER), (p) -> new ArchitecturyLiquidBlock(FluidsRegistry.DIESEL_STILL, p));
     public static final RegistrySupplier<ArchitecturyLiquidBlock> BLUE_LIQUID = block("blue_liquid", BlockBehaviour.Properties.ofFullCopy(Blocks.WATER), (p) -> new ArchitecturyLiquidBlock(FluidsRegistry.BLUE_LIQUID_STILL, p.lightLevel((e) -> 8)));
+    public static final RegistrySupplier<ArchitecturyLiquidBlock> ASTRUM_LIQUIDUS = block("astrum_liquidus", BlockBehaviour.Properties.ofFullCopy(Blocks.WATER).lightLevel((blockStatex) -> 15), (p) -> new ArchitecturyLiquidBlock(FluidsRegistry.ASTRUM_LIQUIDUS_STILL, p.lightLevel((e) -> 15)));
 
 
     /**
