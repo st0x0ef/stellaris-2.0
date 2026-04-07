@@ -1,0 +1,30 @@
+{
+  "variants": {
+    "facing=down": {
+      "model": "stellaris:block/astrum_vitreus_cluster",
+      "x": 180
+    },
+    "facing=east": {
+      "model": "stellaris:block/astrum_vitreus_cluster",
+      "x": 90,
+      "y": 90
+    },
+    "facing=north": {
+      "model": "stellaris:block/astrum_vitreus_cluster",
+      "x": 90
+    },
+    "facing=south": {
+      "model": "stellaris:block/astrum_vitreus_cluster",
+      "x": 90,
+      "y": 180
+    },
+    "facing=up": {
+      "model": "stellaris:block/astrum_vitreus_cluster"
+    },
+    "facing=west": {
+      "model": "stellaris:block/astrum_vitreus_cluster",
+      "x": 90,
+      "y": 270
+    }
+  }
+}
