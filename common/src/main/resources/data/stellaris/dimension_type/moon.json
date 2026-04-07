@@ -10,11 +10,6 @@
     "max_inclusive": 7,
     "min_inclusive": 0
   },
-  "attributes": {
-    "minecraft:visual/sky_light_color": "#7a7aff",
-    "minecraft:visual/sky_color": "#D09EFF"
-
-  },
   "min_y": -64,
   "monster_spawn_block_light_limit": 0,
   "piglin_safe": false,
