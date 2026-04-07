@@ -140,10 +140,11 @@ public final class BlocksRegistry {
 
     // ASTRUM BLOCKS
     public static final BlockItemRegistrySupplier CASUS_ASTRUM_STONE = blockWithItem("casus_astrum_stone", ofFullCopy(Blocks.STONE));
-    //public static final BlockItemRegistrySupplier CASUS_ASTRUM_STONE_SLAB = blockWithItem("casus_astrum_stone_slab", ofFullCopy(Blocks.IRON_BLOCK));
+    public static final BlockItemRegistrySupplier CASUS_ASTRUM_STONE_SLAB = blockWithItem("casus_astrum_stone_slab", ofFullCopy(Blocks.STONE_SLAB), SlabBlock::new);
+    public static final BlockItemRegistrySupplier CASUS_ASTRUM_STONE_STAIRS = blockWithItem("casus_astrum_stone_stairs", ofFullCopy(Blocks.STONE_STAIRS), p -> new StairBlock(CASUS_ASTRUM_STONE.block().get().defaultBlockState(), p));
     public static final BlockItemRegistrySupplier ASTRUM_VITREUS_BLOCK = blockWithItem("astrum_vitreus_block", ofFullCopy(Blocks.AMETHYST_BLOCK));
     public static final BlockItemRegistrySupplier CASUS_ASTRUM_DIRT = blockWithItem("casus_astrum_dirt", ofFullCopy(Blocks.DIRT));
-    public static final BlockItemRegistrySupplier CASUS_ASTRUM_GRASS = blockWithItem("casus_astrum_grass", ofFullCopy(Blocks.DIRT));
+    public static final BlockItemRegistrySupplier CASUS_ASTRUM_GRASS = blockWithItem("casus_astrum_grass", ofFullCopy(Blocks.GRASS_BLOCK));
 
 
     /**
