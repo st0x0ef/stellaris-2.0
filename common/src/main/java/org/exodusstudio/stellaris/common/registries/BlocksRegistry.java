@@ -39,7 +39,7 @@ public final class BlocksRegistry {
     public static DeferredRegister<Block> BLOCKS = DeferredRegister.create(MOD_ID, Registries.BLOCK);
 
     /**
-     * MISC Blocks
+     * MISC BLOCKS
      */
 
     public static final BlockItemRegistrySupplier METEORITE = blockWithItem("meteorite", ofFullCopy(Blocks.STONE));
@@ -144,20 +144,6 @@ public final class BlocksRegistry {
     public static final BlockItemRegistrySupplier ASTRUM_VITREUS_BLOCK = blockWithItem("astrum_vitreus_block", ofFullCopy(Blocks.AMETHYST_BLOCK));
     public static final BlockItemRegistrySupplier CASUS_ASTRUM_DIRT = blockWithItem("casus_astrum_dirt", ofFullCopy(Blocks.DIRT));
     public static final BlockItemRegistrySupplier CASUS_ASTRUM_GRASS = blockWithItem("casus_astrum_grass", ofFullCopy(Blocks.DIRT));
-
-
-
-    /**
-     * MARS WORLDGEN BLOCKS
-     */
-    public static final BlockItemRegistrySupplier MARS_ROCK = blockWithItem("mars_rock", ofFullCopy(Blocks.STONE));
-    public static final BlockItemRegistrySupplier MARS_REGOLITH = blockWithItem("mars_regolith", ofFullCopy(Blocks.GRAVEL));
-    public static final BlockItemRegistrySupplier MARS_SAND = blockWithItem("mars_sand", ofFullCopy(Blocks.SAND));
-    public static final BlockItemRegistrySupplier MARS_ICE = blockWithItem("mars_ice", ofFullCopy(Blocks.PACKED_ICE));
-    public static final BlockItemRegistrySupplier RUSTED_IRON = blockWithItem("rusted_iron", ofFullCopy(Blocks.IRON_BLOCK));
-    public static final BlockItemRegistrySupplier MARS_COBBLESTONE = blockWithItem("mars_cobblestone", ofFullCopy(Blocks.COBBLESTONE));
-    public static final BlockItemRegistrySupplier MARS_STONE = blockWithItem("mars_stone", ofFullCopy(Blocks.STONE));
-
 
 
     /**
