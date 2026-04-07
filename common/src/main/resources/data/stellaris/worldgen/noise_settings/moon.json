@@ -191,19 +191,22 @@
             }
           },
           "argument2": {
-            "type": "minecraft:clamp",
-            "input": {
-              "type": "minecraft:add",
-              "argument1": 0.35,
-              "argument2": {
-                "type": "minecraft:noise",
-                "noise": "minecraft:cave_cheese",
-                "xz_scale": 0.8,
-                "y_scale": 0.8
-              }
-            },
-            "min": 0,
-            "max": 1
+            "type": "minecraft:interpolated",
+            "argument": {
+              "type": "minecraft:clamp",
+              "input": {
+                "type": "minecraft:add",
+                "argument1": 0.35,
+                "argument2": {
+                  "type": "minecraft:noise",
+                  "noise": "minecraft:cave_cheese",
+                  "xz_scale": 0.8,
+                  "y_scale": 0.8
+                }
+              },
+              "min": 0,
+              "max": 1
+            }
           }
         }
       }

@@ -10,6 +10,7 @@ import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
+import net.minecraft.world.level.ChunkPos;
 import org.exodusstudio.stellaris.common.registries.BlocksRegistry;
 
 
@@ -41,10 +42,17 @@ public class CraterFeature extends Feature<NoneFeatureConfiguration> {
 
         long seed = origin.asLong() ^ random.nextLong();
 
+        ChunkPos originChunk = new ChunkPos(origin);
+        int centralX = originChunk.getMiddleBlockX();
+        int centralZ = originChunk.getMiddleBlockZ();
+
         int centerSurfaceY = level.getHeight(Heightmap.Types.WORLD_SURFACE_WG, origin.getX(), origin.getZ());
 
         for (int x = -r; x <= r; x++) {
             for (int z = -r; z <= r; z++) {
+                BlockPos posXZ = new BlockPos(origin.getX() + x, 0, origin.getZ() + z);
+                if (Math.abs(posXZ.getX() - centralX) > 23 || Math.abs(posXZ.getZ() - centralZ) > 23) continue;
+
                 double xzDist = Math.sqrt(x * x + z * z);
                 double edgeWarp = noise(origin.getX() + x, origin.getZ() + z, seed) * r * 0.12;
                 double effectiveR = r + edgeWarp;
@@ -54,38 +62,25 @@ public class CraterFeature extends Feature<NoneFeatureConfiguration> {
                 int colSurfaceY = level.getHeight(Heightmap.Types.WORLD_SURFACE_WG,
                         origin.getX() + x, origin.getZ() + z);
 
-                for (int y = -(r + 2); y <= 1; y++) {
-                    double dy = y * 1.2;
-                    double dist = Math.sqrt(x * x + dy * dy + z * z);
+                double normalizedDist = Math.min(1.0, xzDist / effectiveR);
+                double depthMultiplier = 1.0 - (normalizedDist * normalizedDist);
+                double bowlDepth = (r / 2.0) * depthMultiplier;
 
-                    if (dist > effectiveR) continue;
+                int newSurfaceY = colSurfaceY - (int) Math.round(bowlDepth);
 
-                    BlockPos pos = new BlockPos(origin.getX() + x, colSurfaceY + y, origin.getZ() + z);
+                for (int y = colSurfaceY + 2; y > newSurfaceY; y--) {
+                    BlockPos pos = new BlockPos(origin.getX() + x, y, origin.getZ() + z);
                     BlockState existing = level.getBlockState(pos);
-                    if (existing.isAir()) continue;
-
-                    boolean isFloor = y <= -r + (int) (r * 0.2);
-                    boolean isRim   = xzDist > effectiveR * 0.82 && y >= -2;
-
-                    if (isFloor) {
-                        double floorNoise = noise(origin.getX() + x, origin.getZ() + z, seed + 1L);
-                        boolean raisedRock = floorNoise > 0.65 && y == -r + (int) (r * 0.2);
-                        if (raisedRock) continue;
-
-                        if (random.nextFloat() > 0.12f) {
-                            level.setBlock(pos, BlocksRegistry.MOON_SAND.block().get().defaultBlockState(), 2);
-                        } else {
-                            level.setBlock(pos, Blocks.AIR.defaultBlockState(), 2);
-                        }
-                    } else if (isRim) {
-                        double rimNoise = noise(origin.getX() + x, origin.getZ() + z, seed + 2L);
-                        if (rimNoise > 0.5) continue;
-
-                        if (random.nextFloat() < 0.06f) {
-                            level.setBlock(pos, Blocks.AIR.defaultBlockState(), 2);
-                        }
-                    } else {
+                    if (!existing.isAir() && existing.getBlock() != Blocks.BEDROCK) {
                         level.setBlock(pos, Blocks.AIR.defaultBlockState(), 2);
+                    }
+                }
+
+                BlockPos floorPos = new BlockPos(origin.getX() + x, newSurfaceY, origin.getZ() + z);
+                BlockState floorState = level.getBlockState(floorPos);
+                if (!floorState.isAir() && floorState.getBlock() != Blocks.BEDROCK) {
+                    if (random.nextFloat() < 0.2f + 0.4f * depthMultiplier) {
+                        level.setBlock(floorPos, BlocksRegistry.MOON_SAND.block().get().defaultBlockState(), 2);
                     }
                 }
             }
