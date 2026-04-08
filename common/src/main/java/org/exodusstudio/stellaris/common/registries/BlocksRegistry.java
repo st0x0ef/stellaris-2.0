@@ -38,13 +38,63 @@ public final class BlocksRegistry {
     public static DeferredRegister<Block> BLOCKS = DeferredRegister.create(MOD_ID, Registries.BLOCK);
 
     /**
+     * MISC BLOCKS
+     */
+
+    public static final BlockItemRegistrySupplier METEORITE = blockWithItem("meteorite", ofFullCopy(Blocks.STONE));
+    public static final BlockItemRegistrySupplier TITANIUM_ORE = blockWithItem("titanium_ore", ofFullCopy(Blocks.STONE));
+    public static final BlockItemRegistrySupplier DEEPSLATE_TITANIUM_ORE = blockWithItem("deepslate_titanium_ore", ofFullCopy(Blocks.DEEPSLATE_IRON_ORE));
+    public static final BlockItemRegistrySupplier RAW_TITANIUM_BLOCK = blockWithItem("raw_titanium_block", ofFullCopy(Blocks.STONE));
+    public static final BlockItemRegistrySupplier TITANIUM_BLOCK = blockWithItem("titanium_block", ofFullCopy(Blocks.IRON_BLOCK));
+    public static final BlockItemRegistrySupplier TITANIUM_SLAB = blockWithItem("titanium_slab", ofFullCopy(Blocks.IRON_BLOCK), SlabBlock::new);
+    public static final BlockItemRegistrySupplier TITANIUM_STAIRS = blockWithItem("titanium_stairs", ofFullCopy(Blocks.COBBLESTONE_STAIRS), p -> new StairBlock(TITANIUM_BLOCK.block().get().defaultBlockState(), p));
+    public static final BlockItemRegistrySupplier TITANIUM_PILLAR = blockWithItem("titanium_pillar", ofFullCopy(Blocks.IRON_BLOCK), RotatedPillarBlock::new);
+    public static final BlockItemRegistrySupplier TIANIUM_PLATING_BLOCK = blockWithItem("titanium_plating_block", ofFullCopy(Blocks.IRON_BLOCK));
+    public static final BlockItemRegistrySupplier TIANIUM_PLATING_SLAB = blockWithItem("titanium_plating_slab", ofFullCopy(Blocks.IRON_BLOCK), SlabBlock::new);
+    public static final BlockItemRegistrySupplier TIANIUM_PLATING_STAIRS = blockWithItem("titanium_plating_stairs", ofFullCopy(Blocks.COBBLESTONE_STAIRS), p -> new StairBlock(TITANIUM_BLOCK.block().get().defaultBlockState(), p));
+    public static final BlockItemRegistrySupplier VERTICAL_TITANIUM_SLAB = blockWithItem("vertical_titanium_slab", ofFullCopy(Blocks.IRON_BLOCK), p -> new VerticalSlab(p));
+    public static final BlockItemRegistrySupplier VERTICAL_TIANIUM_PLATING_SLAB = blockWithItem("vertical_titanium_plating_slab", ofFullCopy(Blocks.IRON_BLOCK), p -> new VerticalSlab(p));
+    public static final BlockItemRegistrySupplier IRON_PLATING_BLOCK = blockWithItem("iron_plating_block", ofFullCopy(Blocks.IRON_BLOCK));
+    public static final BlockItemRegistrySupplier IRON_PLATING_SLAB = blockWithItem("iron_plating_slab", ofFullCopy(Blocks.IRON_BLOCK), SlabBlock::new);
+    public static final BlockItemRegistrySupplier IRON_PLATING_STAIRS = blockWithItem("iron_plating_stairs", ofFullCopy(Blocks.COBBLESTONE_STAIRS), p -> new StairBlock(TITANIUM_BLOCK.block().get().defaultBlockState(), p));
+    public static final BlockItemRegistrySupplier IRON_PILLAR = blockWithItem("iron_pillar", ofFullCopy(Blocks.IRON_BLOCK), RotatedPillarBlock::new);
+    public static final BlockItemRegistrySupplier VERTICAL_IRON_PLATING_SLAB = blockWithItem("vertical_iron_plating_slab", ofFullCopy(Blocks.IRON_BLOCK), p -> new VerticalSlab(p));
+
+    /**
      * MOON WORLDGEN BLOCKS
      */
-    public static final BlockItemRegistrySupplier MOON_ROCK = blockWithItem("moon_rock", ofFullCopy(Blocks.STONE));
-    public static final BlockItemRegistrySupplier MOON_SAND = blockWithItem("moon_sand", ofFullCopy(Blocks.SAND));
+    public static final BlockItemRegistrySupplier MOON_SAND = blockWithItem("moon_sand", ofFullCopy(Blocks.SAND).strength(0.5f));
     public static final BlockItemRegistrySupplier MOON_STONE = blockWithItem("moon_stone", ofFullCopy(Blocks.STONE));
-    public static final BlockItemRegistrySupplier MOON_STONE_IRON_ORE = blockWithItem("moon_stone_iron_ore", ofFullCopy(Blocks.STONE));
+    public static final BlockItemRegistrySupplier MOON_COBBLESTONE = blockWithItem("moon_cobblestone", ofFullCopy(Blocks.STONE));
+    public static final BlockItemRegistrySupplier MOON_DEEPSLATE = blockWithItem("moon_deepslate", ofFullCopy(Blocks.DEEPSLATE));
+    public static final BlockItemRegistrySupplier MOON_STONE_DUST = blockWithItem("moon_stone_dust", ofFullCopy(Blocks.STONE));
+    public static final BlockItemRegistrySupplier MOON_STONE_BRICKS = blockWithItem("moon_stone_bricks", ofFullCopy(Blocks.STONE));
+    public static final BlockItemRegistrySupplier MOON_STONE_BRICK_SLAB = blockWithItem("moon_stone_brick_slab", ofFullCopy(Blocks.STONE), SlabBlock::new);
+    public static final BlockItemRegistrySupplier MOON_STONE_BRICK_STAIRS = blockWithItem("moon_stone_brick_stairs", ofFullCopy(Blocks.COBBLESTONE_STAIRS), p -> new StairBlock(TITANIUM_BLOCK.block().get().defaultBlockState(), p));
+    public static final BlockItemRegistrySupplier MOON_CRACKED_STONE_BRICKS = blockWithItem("moon_cracked_stone_bricks", ofFullCopy(Blocks.STONE));
+    public static final BlockItemRegistrySupplier MOON_STONE_PILLAR = blockWithItem("moon_stone_pillar", ofFullCopy(Blocks.STONE), RotatedPillarBlock::new);
+    public static final BlockItemRegistrySupplier MOON_STONE_SLAB = blockWithItem("moon_stone_slab", ofFullCopy(Blocks.COBBLESTONE_SLAB), SlabBlock::new);
+    public static final BlockItemRegistrySupplier MOON_STONE_STAIRS = blockWithItem("moon_stone_stairs", ofFullCopy(Blocks.STONE));
+    public static final BlockItemRegistrySupplier VERTICAL_MOON_STONE_SLAB = blockWithItem("vertical_moon_stone_slab", ofFullCopy(Blocks.STONE), p -> new VerticalSlab(p));
+    public static final BlockItemRegistrySupplier POLISHED_MOON_STONE = blockWithItem("polished_moon_stone", ofFullCopy(Blocks.STONE));
+    public static final BlockItemRegistrySupplier MOON_POLISHED_STONE_BRICK_SLAB = blockWithItem("moon_polished_stone_brick_slab", ofFullCopy(Blocks.STONE), SlabBlock::new);
+    public static final BlockItemRegistrySupplier MOON_POLISHED_STONE_BRICK_STAIRS = blockWithItem("moon_polished_stone_brick_stairs", ofFullCopy(Blocks.COBBLESTONE_STAIRS), p -> new StairBlock(TITANIUM_BLOCK.block().get().defaultBlockState(), p));
+    public static final BlockItemRegistrySupplier CHISELED_MOON_STONE = blockWithItem("chiseled_moon_stone", ofFullCopy(Blocks.STONE));
+    public static final BlockItemRegistrySupplier MOON_PILLAR = blockWithItem("moon_pillar", ofFullCopy(Blocks.STONE), RotatedPillarBlock::new);
+    public static final BlockItemRegistrySupplier MOON_TITANIUM_ORE = blockWithItem("moon_titanium_ore", ofFullCopy(Blocks.IRON_ORE));
+    public static final BlockItemRegistrySupplier MOON_DESH_ORE = blockWithItem("moon_desh_ore", ofFullCopy(Blocks.IRON_ORE));
+    public static final BlockItemRegistrySupplier MOON_STONE_IRON_ORE = blockWithItem("moon_stone_iron_ore", ofFullCopy(Blocks.IRON_ORE));
 
+    public static final BlockItemRegistrySupplier DESH_BLOCK = blockWithItem("desh_block", ofFullCopy(Blocks.IRON_BLOCK));
+    public static final BlockItemRegistrySupplier RAW_DESH_BLOCK = blockWithItem("raw_desh_block", ofFullCopy(Blocks.IRON_BLOCK));
+    public static final BlockItemRegistrySupplier DESH_PLATING_BLOCK = blockWithItem("desh_plating_block", ofFullCopy(Blocks.IRON_BLOCK));
+    public static final BlockItemRegistrySupplier DESH_PLATING_SLAB = blockWithItem("desh_plating_slab", ofFullCopy(Blocks.IRON_BLOCK), SlabBlock::new);
+    public static final BlockItemRegistrySupplier DESH_PLATING_STAIRS = blockWithItem("desh_plating_stairs", ofFullCopy(Blocks.COBBLESTONE_STAIRS), p -> new StairBlock(TITANIUM_BLOCK.block().get().defaultBlockState(), p));
+    public static final BlockItemRegistrySupplier DESH_PILLAR = blockWithItem("desh_pillar", ofFullCopy(Blocks.IRON_BLOCK), RotatedPillarBlock::new);
+    public static final BlockItemRegistrySupplier VERTICAL_DESH_SLAB = blockWithItem("vertical_desh_slab", ofFullCopy(Blocks.IRON_BLOCK), p -> new VerticalSlab(p));
+    public static final BlockItemRegistrySupplier VERTICAL_DESH_PLATING_SLAB = blockWithItem("vertical_desh_plating_slab", ofFullCopy(Blocks.IRON_BLOCK), p -> new VerticalSlab(p));
+
+    public static final BlockItemRegistrySupplier LUNAR_STONED_WOOD_LOG = blockWithItem("lunar_stoned_wood_log", ofFullCopy(Blocks.STONE), RotatedPillarBlock::new);
 
     public static final RegistrySupplier<Block> MOON_VINES = block("moon_vines", BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).randomTicks().noCollision().lightLevel(CaveVines.emission(14)).instabreak().sound(SoundType.CAVE_VINES).pushReaction(PushReaction.DESTROY), MoonVine::new);
     public static final RegistrySupplier<Block> MOON_VINES_PLANT = block("moon_vines_plant", BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).noCollision().lightLevel(CaveVines.emission(14)).instabreak().sound(SoundType.CAVE_VINES).pushReaction(PushReaction.DESTROY), MoonVinesPlant::new);
@@ -79,6 +129,15 @@ public final class BlocksRegistry {
     public static final RegistrySupplier<Block> LUNAR_HANGING_SIGN = block("lunar_hanging_sign", ofFullCopy(Blocks.OAK_HANGING_SIGN), p -> new ModCeilingHangingSignBlock(WoodTypesRegister.LUNAR_WOOD_TYPE, p));
     public static final RegistrySupplier<Block> LUNAR_WALL_HANGING_SIGN = block("lunar_wall_hanging_sign", ofFullCopy(Blocks.OAK_WALL_HANGING_SIGN), p -> new ModWallHangingSignBlock(WoodTypesRegister.LUNAR_WOOD_TYPE, p));
 
+    /**
+     * Burnt Forest
+     **/
+    public static final BlockItemRegistrySupplier LUNAR_STONED_WOOD_LOG = blockWithItem("lunar_stoned_wood_log", ofFullCopy(Blocks.STONE), RotatedPillarBlock::new);
+
+    public static final BlockItemRegistrySupplier ASH_STONE = blockWithItem("ash_stone", BlockBehaviour.Properties.ofFullCopy(Blocks.STONE).mapColor(MapColor.COLOR_GRAY).strength(1.5f, 6.0f).sound(SoundType.STONE), Block::new);
+    public static final BlockItemRegistrySupplier ASH_LAYER = blockWithItem("ash_layer", BlockBehaviour.Properties.ofFullCopy(Blocks.SNOW).mapColor(MapColor.COLOR_GRAY).strength(0.1f).sound(SoundType.SAND).noOcclusion(), AshLayerBlock::new);
+
+
 
     public static final BlockItemRegistrySupplier ICED_MAGMA_BLOCK = blockWithItem("iced_magma_block", ofFullCopy(Blocks.MAGMA_BLOCK), IcedMagmaBlock::new);
 
@@ -86,27 +145,15 @@ public final class BlocksRegistry {
     public static final BlockItemRegistrySupplier PACKED_ICE_PILLAR = blockWithItem("packed_ice_pillar", ofFullCopy(Blocks.PACKED_ICE), RotatedPillarBlock::new);
     public static final BlockItemRegistrySupplier POLISHED_PACKED_ICE = blockWithItem("polished_packed_ice", ofFullCopy(Blocks.PACKED_ICE));
 
-    public static final BlockItemRegistrySupplier DESH_BLOCK = blockWithItem("desh_block", ofFullCopy(Blocks.IRON_BLOCK));
-    /**
-     * Burnt Forest
-    **/
-    public static final BlockItemRegistrySupplier LUNAR_STONED_WOOD_LOG = blockWithItem("lunar_stoned_wood_log", ofFullCopy(Blocks.STONE), RotatedPillarBlock::new);
 
-    public static final BlockItemRegistrySupplier ASH_STONE = blockWithItem("ash_stone", BlockBehaviour.Properties.ofFullCopy(Blocks.STONE).mapColor(MapColor.COLOR_GRAY).strength(1.5f, 6.0f).sound(SoundType.STONE), Block::new);
-    public static final BlockItemRegistrySupplier ASH_LAYER = blockWithItem("ash_layer", BlockBehaviour.Properties.ofFullCopy(Blocks.SNOW).mapColor(MapColor.COLOR_GRAY).strength(0.1f).sound(SoundType.SAND).noOcclusion(), AshLayerBlock::new);
-
-
-    /**
-     * MARS WORLDGEN BLOCKS
-     */
-    public static final BlockItemRegistrySupplier MARS_ROCK = blockWithItem("mars_rock", ofFullCopy(Blocks.STONE));
-    public static final BlockItemRegistrySupplier MARS_REGOLITH = blockWithItem("mars_regolith", ofFullCopy(Blocks.GRAVEL));
-    public static final BlockItemRegistrySupplier MARS_SAND = blockWithItem("mars_sand", ofFullCopy(Blocks.SAND));
-    public static final BlockItemRegistrySupplier MARS_ICE = blockWithItem("mars_ice", ofFullCopy(Blocks.PACKED_ICE));
-    public static final BlockItemRegistrySupplier RUSTED_IRON = blockWithItem("rusted_iron", ofFullCopy(Blocks.IRON_BLOCK));
-    public static final BlockItemRegistrySupplier MARS_COBBLESTONE = blockWithItem("mars_cobblestone", ofFullCopy(Blocks.COBBLESTONE));
-    public static final BlockItemRegistrySupplier MARS_STONE = blockWithItem("mars_stone", ofFullCopy(Blocks.STONE));
-
+    // ASTRUM BLOCKS
+    public static final BlockItemRegistrySupplier CASUS_ASTRUM_STONE = blockWithItem("casus_astrum_stone", ofFullCopy(Blocks.STONE));
+    public static final BlockItemRegistrySupplier CASUS_ASTRUM_STONE_SLAB = blockWithItem("casus_astrum_stone_slab", ofFullCopy(Blocks.STONE_SLAB), SlabBlock::new);
+    public static final BlockItemRegistrySupplier CASUS_ASTRUM_STONE_STAIRS = blockWithItem("casus_astrum_stone_stairs", ofFullCopy(Blocks.STONE_STAIRS), p -> new StairBlock(CASUS_ASTRUM_STONE.block().get().defaultBlockState(), p));
+    public static final BlockItemRegistrySupplier ASTRUM_VITREUS_BLOCK = blockWithItem("astrum_vitreus_block", ofFullCopy(Blocks.AMETHYST_BLOCK));
+    public static final BlockItemRegistrySupplier ASTRUM_VITREUS_CLUSTER = blockWithItem("astrum_vitreus_cluster", ofFullCopy(Blocks.AMETHYST_CLUSTER), p -> new AmethystClusterBlock(7.0F, 10.0F, p));
+    public static final BlockItemRegistrySupplier CASUS_ASTRUM_DIRT = blockWithItem("casus_astrum_dirt", ofFullCopy(Blocks.DIRT));
+    public static final BlockItemRegistrySupplier CASUS_ASTRUM_GRASS = blockWithItem("casus_astrum_grass", ofFullCopy(Blocks.GRASS_BLOCK));
 
 
     /**
@@ -152,6 +199,7 @@ public final class BlocksRegistry {
     public static final RegistrySupplier<ArchitecturyLiquidBlock> FUEL = block("fuel_block", BlockBehaviour.Properties.ofFullCopy(Blocks.WATER), (p) -> new ArchitecturyLiquidBlock(FluidsRegistry.FUEL_STILL, p));
     public static final RegistrySupplier<ArchitecturyLiquidBlock> DIESEL = block("diesel", BlockBehaviour.Properties.ofFullCopy(Blocks.WATER), (p) -> new ArchitecturyLiquidBlock(FluidsRegistry.DIESEL_STILL, p));
     public static final RegistrySupplier<ArchitecturyLiquidBlock> BLUE_LIQUID = block("blue_liquid", BlockBehaviour.Properties.ofFullCopy(Blocks.WATER), (p) -> new ArchitecturyLiquidBlock(FluidsRegistry.BLUE_LIQUID_STILL, p.lightLevel((e) -> 8)));
+    public static final RegistrySupplier<ArchitecturyLiquidBlock> ASTRUM_LIQUIDUS = block("astrum_liquidus", BlockBehaviour.Properties.ofFullCopy(Blocks.WATER).lightLevel((blockStatex) -> 15), (p) -> new ArchitecturyLiquidBlock(FluidsRegistry.ASTRUM_LIQUIDUS_STILL, p.lightLevel((e) -> 15)));
 
 
     /**
@@ -161,8 +209,8 @@ public final class BlocksRegistry {
 
 
     public static <B extends Block> @NotNull RegistrySupplier<B> block(String name,
-                                                                           BlockBehaviour.Properties properties,
-                                                                           Function<BlockBehaviour.Properties, B> blockFunc) {
+                                                                       BlockBehaviour.Properties properties,
+                                                                       Function<BlockBehaviour.Properties, B> blockFunc) {
         Identifier id = IdentifierUtils.id(name);
         ResourceKey<Block> key = ResourceKey.create(Registries.BLOCK, id);
         return BLOCKS.register(id, () -> blockFunc.apply(properties.setId(key)));

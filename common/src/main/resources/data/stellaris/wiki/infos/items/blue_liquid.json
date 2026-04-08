@@ -1,0 +1,26 @@
+{
+  "components": [
+    {
+      "type": "text",
+      "text": "The [color=yellow]Blue Liquid [color]is a strange fluid located on the moon."
+    },
+    {
+      "type": "item",
+      "item": {
+        "scale": 4,
+        "stack": {
+          "count": 1,
+          "id": "stellaris:blue_liquid_bucket"
+        }
+      }
+    },
+    {
+      "type": "text",
+      "text": "Recent missions to the Moon show that all the astronauts experienced a strange sensation after going in it..."
+    }
+  ],
+  "iconType": "item",
+  "id": "stellaris:blue_liquid",
+  "entryId": "stellaris:items",
+  "title": "Blue Liquid"
+}

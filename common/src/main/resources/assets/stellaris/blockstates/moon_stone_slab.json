@@ -1,0 +1,12 @@
+{
+  "variants": {
+    "type=bottom,waterlogged=false": { "model": "stellaris:block/moon_stone_slab" },
+    "type=bottom,waterlogged=true":  { "model": "stellaris:block/moon_stone_slab" },
+
+    "type=top,waterlogged=false": { "model": "stellaris:block/moon_stone_slab_top" },
+    "type=top,waterlogged=true":  { "model": "stellaris:block/moon_stone_slab_top" },
+
+    "type=double,waterlogged=false": { "model": "stellaris:block/moon_stone" },
+    "type=double,waterlogged=true":  { "model": "stellaris:block/moon_stone" }
+  }
+}

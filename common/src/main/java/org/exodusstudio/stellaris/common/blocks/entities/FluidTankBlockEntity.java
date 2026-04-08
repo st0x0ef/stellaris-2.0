@@ -1,7 +1,7 @@
 package org.exodusstudio.stellaris.common.blocks.entities;
 
 import com.fej1fun.potentials.components.FluidAmountMapDataComponent;
-import com.fej1fun.potentials.providers.FluidProvider;
+import com.fej1fun.potentials.fluid.UniversalFluidStorage;
 import dev.architectury.networking.NetworkManager;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -13,15 +13,16 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BaseContainerBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
-import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.common.blocks.FluidTankBlock;
+import org.exodusstudio.stellaris.common.blocks.entities.machines.base.FluidOutputManager;
+import org.exodusstudio.stellaris.common.blocks.entities.machines.base.FluidOutputable;
 import org.exodusstudio.stellaris.common.blocks.entities.machines.base.TickingBlockEntity;
 import org.exodusstudio.stellaris.common.fluid.FluidUtil;
 import org.exodusstudio.stellaris.common.fluid.SingleFluidStorage;
 import org.exodusstudio.stellaris.common.menus.FluidTankMenu;
-import org.exodusstudio.stellaris.common.network.packets.SyncFluidPacket;
 import org.exodusstudio.stellaris.common.network.packets.SyncFluidPacketWithoutDirection;
 import org.exodusstudio.stellaris.common.registries.BlockEntitiesRegistry;
 import org.jetbrains.annotations.Nullable;
@@ -29,10 +30,12 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 
 //TODO implements outputable
-public class FluidTankBlockEntity extends BaseContainerBlockEntity implements FluidProvider.BLOCK, TickingBlockEntity {
+public class FluidTankBlockEntity extends BaseContainerBlockEntity implements FluidOutputable, TickingBlockEntity {
 
     private final SingleFluidStorage fluidTank;
     protected NonNullList<ItemStack> items = NonNullList.withSize(2, ItemStack.EMPTY);
+
+    public FluidOutputManager outputManager;
 
     public FluidTankBlockEntity(BlockPos pos, BlockState state) {
         this(pos, state, ((FluidTankBlock)state.getBlock()).capacity);
@@ -52,6 +55,9 @@ public class FluidTankBlockEntity extends BaseContainerBlockEntity implements Fl
 
             }
         };
+        this.outputManager = new FluidOutputManager(this);
+
+
     }
 
     @Override
@@ -93,7 +99,7 @@ public class FluidTankBlockEntity extends BaseContainerBlockEntity implements Fl
         if (!items.getLast().isEmpty())
             FluidUtil.moveFluidToItem(0, fluidTank, 1, 1, items, 1000);
 
-        FluidUtil.distributeFluidNearby(level, worldPosition, fluidTank.getFluidInTank(0).copyWithAmount(fluidTank.getFluidValueInTank() / 20));
+        this.getFluidOutputManager().distributeFluids(level, getBlockPos());
 
         //Update render stage
         int initialRenderStage = Math.toIntExact((fluidTank.getFluidValueInTank() * 9) / fluidTank.getTankCapacity(0));
@@ -127,5 +133,20 @@ public class FluidTankBlockEntity extends BaseContainerBlockEntity implements Fl
 
     public SingleFluidStorage getFluidTank() {
         return fluidTank;
+    }
+
+    @Override
+    public FluidOutputManager getFluidOutputManager() {
+        return this.outputManager;
+    }
+
+    @Override
+    public List<UniversalFluidStorage> getOutputFluidsTank() {
+        return List.of(this.fluidTank);
+    }
+
+    @Override
+    public List<Fluid> getFluidsOutput() {
+        return List.of(this.fluidTank.getFluidInTank(0).getFluid());
     }
 }

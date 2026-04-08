@@ -1,6 +1,5 @@
 package org.exodusstudio.stellaris.neoforge.client;
 
-import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.object.boat.BoatModel;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.blockentity.HangingSignRenderer;
@@ -36,7 +35,6 @@ import org.exodusstudio.stellaris.common.registries.BlockEntitiesRegistry;
 import org.exodusstudio.stellaris.common.registries.BlocksRegistry;
 import org.exodusstudio.stellaris.common.registries.EntityTypesRegistry;
 import org.exodusstudio.stellaris.common.registries.MenuTypesRegistry;
-import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
 
 @EventBusSubscriber(modid = Stellaris.MOD_ID, value = Dist.CLIENT)
 public class StellarisNeoforgeClient {
@@ -53,6 +51,8 @@ public class StellarisNeoforgeClient {
         ItemBlockRenderTypes.setRenderLayer(BlocksRegistry.LUNAR_TRAPDOOR.block().get(), ChunkSectionLayer.CUTOUT);
         ItemBlockRenderTypes.setRenderLayer(BlocksRegistry.MOON_VINES.get(), ChunkSectionLayer.CUTOUT);
         ItemBlockRenderTypes.setRenderLayer(BlocksRegistry.MOON_VINES_PLANT.get(), ChunkSectionLayer.CUTOUT);
+        ItemBlockRenderTypes.setRenderLayer(BlocksRegistry.ASTRUM_VITREUS_BLOCK.block().get(), ChunkSectionLayer.TRANSLUCENT);
+        ItemBlockRenderTypes.setRenderLayer(BlocksRegistry.ASTRUM_VITREUS_CLUSTER.block().get(), ChunkSectionLayer.CUTOUT);
     }
 
     @SubscribeEvent
@@ -87,8 +87,8 @@ public class StellarisNeoforgeClient {
         event.registerBlockEntityRenderer(BlockEntitiesRegistry.FLAG.get(), FlagBlockRenderer::new);
 
         event.registerEntityRenderer(EntityTypesRegistry.ROCKET.get(), RocketRenderer::new);
-        event.registerEntityRenderer(EntityTypesRegistry.LUNAR_BOAT.get(), (c) -> new BoatRenderer(c, new ModelLayerLocation(IdentifierUtils.id("lunar_boat"), "main")));
-        event.registerEntityRenderer(EntityTypesRegistry.LUNAR_CHEST_BOAT.get(), (c) -> new BoatRenderer(c, new ModelLayerLocation(IdentifierUtils.id("lunar_chest_boat"), "main")));
+        event.registerEntityRenderer(EntityTypesRegistry.LUNAR_BOAT.get(), (c) -> new BoatRenderer(c, BoatModelLayerRegistry.LUNAR_BOAT));
+        event.registerEntityRenderer(EntityTypesRegistry.LUNAR_CHEST_BOAT.get(), (c) -> new BoatRenderer(c, BoatModelLayerRegistry.LUNAR_CHEST_BOAT));
     }
 
     @SubscribeEvent

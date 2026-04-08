@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/slab_top",
+  "textures": {
+    "bottom": "stellaris:block/casus_astrum_stone",
+    "side": "stellaris:block/casus_astrum_stone",
+    "top": "stellaris:block/casus_astrum_stone"
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "components": [
+    {
+      "type": "text",
+      "text": "The [color=yellow]Engineering Station [color]is a very important machine."
+    },
+    {
+    "type": "item",
+    "item": {
+      "stack": {
+        "count": 1,
+        "id": "stellaris:engineering_station"
+      },
+      "onlyIcon": false
+      }
+    },
+    {
+      "type": "text",
+      "text": "[br] [br] This station is used to build [ref=stellaris:rocket/rockets] rockets[ref]. [br] You can also use it to upgrade your rockets and help you explore more planets!"
+    }
+  ],
+  "iconType": "item",
+  "id": "stellaris:engineering_station",
+  "entryId": "stellaris:machines",
+  "title": "Machines : Engineering Station"
+}

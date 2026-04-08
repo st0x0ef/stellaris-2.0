@@ -7,6 +7,7 @@ import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Inventory;
+import org.exodusstudio.stellaris.client.screens.components.FluidOutputManagerWidget;
 import org.exodusstudio.stellaris.client.screens.components.GaugeChunkWidget;
 import org.exodusstudio.stellaris.client.screens.components.GaugeWidget;
 import org.exodusstudio.stellaris.client.screens.utils.GUISprites;
@@ -66,6 +67,11 @@ public class ElectrolyzerScreen extends AbstractContainerScreen<ElectrolyzerMenu
 
         energyGauge = new GaugeWidget(leftPos + 68, topPos + 20, 44, 6, Component.translatable("stellaris.screen.energyContainer"), GUISprites.SIDEWAYS_ENERGY_FULL, null, blockEntity.getEnergy(null).getMaxEnergy(), GaugeWidget.Direction4.LEFT_RIGHT);
         addRenderableWidget(energyGauge);
+
+        FluidOutputManagerWidget fluidOutputManagerWidget = new FluidOutputManagerWidget(leftPos + imageWidth, topPos, 160, 60, blockEntity.outputManager, this, blockEntity);
+        fluidOutputManagerWidget.addDefaultChildren();
+        addRenderableWidget(fluidOutputManagerWidget);
+
     }
 
 

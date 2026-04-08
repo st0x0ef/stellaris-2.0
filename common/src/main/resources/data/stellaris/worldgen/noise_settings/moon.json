@@ -213,7 +213,7 @@
           "anchor": {
             "absolute": 60
           },
-          "surface_depth_multiplier": -2.3,
+          "surface_depth_multiplier": -2,
           "add_stone_depth": false
         },
         "then_run": {

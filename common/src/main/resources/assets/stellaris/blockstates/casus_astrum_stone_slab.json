@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "stellaris:block/casus_astrum_stone_slab"
+    },
+    "type=double": {
+      "model": "stellaris:block/casus_astrum_stone"
+    },
+    "type=top": {
+      "model": "stellaris:block/casus_astrum_stone_slab_top"
+    }
+  }
+}

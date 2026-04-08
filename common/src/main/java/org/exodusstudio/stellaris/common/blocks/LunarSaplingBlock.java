@@ -14,7 +14,7 @@ public class LunarSaplingBlock extends SaplingBlock {
 
     @Override
     protected boolean mayPlaceOn(BlockState state, BlockGetter level, BlockPos pos) {
-        return state.is(BlocksRegistry.MOON_SAND.block().get()) || state.is(BlocksRegistry.MOON_ROCK.block().get()) || super.mayPlaceOn(state, level, pos);
+        return state.is(BlocksRegistry.MOON_SAND.block().get()) || state.is(BlocksRegistry.MOON_STONE.block().get()) || super.mayPlaceOn(state, level, pos);
     }
 }
 
