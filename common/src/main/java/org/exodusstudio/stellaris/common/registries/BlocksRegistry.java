@@ -24,7 +24,6 @@ import org.exodusstudio.stellaris.common.registries.utils.BlockItemRegistrySuppl
 import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
 import org.exodusstudio.stellaris.common.world.ModConfiguredFeatures;
 import org.jetbrains.annotations.NotNull;
-import net.minecraft.world.level.block.SlabBlock;
 
 import java.util.Optional;
 import java.util.function.BiFunction;

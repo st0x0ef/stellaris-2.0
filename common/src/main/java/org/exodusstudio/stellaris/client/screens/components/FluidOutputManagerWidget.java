@@ -67,7 +67,7 @@ public class FluidOutputManagerWidget extends DraggableContainer {
                         FluidStack currentFluid = this.fluidOutputManager.outputs.get(dir);
 
                         if (currentFluid == null) {
-                            this.fluidOutputManager.outputs.put(dir, FluidStack.create(fluids.get(0), 1000));
+                            this.fluidOutputManager.outputs.put(dir, FluidStack.create(fluids.getFirst(), 1000));
                         } else {
                             int currentIndex = fluids.indexOf(currentFluid.getFluid());
                             if (currentIndex == -1 || currentIndex == fluids.size() - 1) {

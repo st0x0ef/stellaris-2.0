@@ -10,7 +10,6 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import org.exodusstudio.stellaris.Stellaris;
 
 import java.util.*;
 import java.util.concurrent.atomic.AtomicLong;
