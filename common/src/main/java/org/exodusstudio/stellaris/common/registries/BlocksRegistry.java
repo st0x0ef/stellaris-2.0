@@ -132,8 +132,6 @@ public final class BlocksRegistry {
     /**
      * Burnt Forest
      **/
-    public static final BlockItemRegistrySupplier LUNAR_STONED_WOOD_LOG = blockWithItem("lunar_stoned_wood_log", ofFullCopy(Blocks.STONE), RotatedPillarBlock::new);
-
     public static final BlockItemRegistrySupplier ASH_STONE = blockWithItem("ash_stone", BlockBehaviour.Properties.ofFullCopy(Blocks.STONE).mapColor(MapColor.COLOR_GRAY).strength(1.5f, 6.0f).sound(SoundType.STONE), Block::new);
     public static final BlockItemRegistrySupplier ASH_LAYER = blockWithItem("ash_layer", BlockBehaviour.Properties.ofFullCopy(Blocks.SNOW).mapColor(MapColor.COLOR_GRAY).strength(0.1f).sound(SoundType.SAND).noOcclusion(), AshLayerBlock::new);
 

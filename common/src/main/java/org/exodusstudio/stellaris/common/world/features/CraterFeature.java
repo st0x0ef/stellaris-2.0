@@ -18,7 +18,7 @@ public class CraterFeature extends Feature<NoneFeatureConfiguration> {
 
     public CraterFeature(Codec<NoneFeatureConfiguration> codec, int radius) {
         super(codec);
-        this.radius = Math.min(radius, 20);
+        this.radius = Math.min(radius, 15);
     }
 
     private double noise(int x, int z, long seed) {
