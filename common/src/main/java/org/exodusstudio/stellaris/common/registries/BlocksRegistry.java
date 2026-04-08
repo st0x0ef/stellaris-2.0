@@ -129,6 +129,13 @@ public final class BlocksRegistry {
     public static final RegistrySupplier<Block> LUNAR_HANGING_SIGN = block("lunar_hanging_sign", ofFullCopy(Blocks.OAK_HANGING_SIGN), p -> new ModCeilingHangingSignBlock(WoodTypesRegister.LUNAR_WOOD_TYPE, p));
     public static final RegistrySupplier<Block> LUNAR_WALL_HANGING_SIGN = block("lunar_wall_hanging_sign", ofFullCopy(Blocks.OAK_WALL_HANGING_SIGN), p -> new ModWallHangingSignBlock(WoodTypesRegister.LUNAR_WOOD_TYPE, p));
 
+    /**
+     * Burnt Forest
+     **/
+    public static final BlockItemRegistrySupplier ASH_STONE = blockWithItem("ash_stone", BlockBehaviour.Properties.ofFullCopy(Blocks.STONE).mapColor(MapColor.COLOR_GRAY).strength(1.5f, 6.0f).sound(SoundType.STONE), Block::new);
+    public static final BlockItemRegistrySupplier ASH_LAYER = blockWithItem("ash_layer", BlockBehaviour.Properties.ofFullCopy(Blocks.SNOW).mapColor(MapColor.COLOR_GRAY).strength(0.1f).sound(SoundType.SAND).noOcclusion(), AshLayerBlock::new);
+
+
 
     public static final BlockItemRegistrySupplier ICED_MAGMA_BLOCK = blockWithItem("iced_magma_block", ofFullCopy(Blocks.MAGMA_BLOCK), IcedMagmaBlock::new);
 
@@ -200,8 +207,8 @@ public final class BlocksRegistry {
 
 
     public static <B extends Block> @NotNull RegistrySupplier<B> block(String name,
-                                                                           BlockBehaviour.Properties properties,
-                                                                           Function<BlockBehaviour.Properties, B> blockFunc) {
+                                                                       BlockBehaviour.Properties properties,
+                                                                       Function<BlockBehaviour.Properties, B> blockFunc) {
         Identifier id = IdentifierUtils.id(name);
         ResourceKey<Block> key = ResourceKey.create(Registries.BLOCK, id);
         return BLOCKS.register(id, () -> blockFunc.apply(properties.setId(key)));

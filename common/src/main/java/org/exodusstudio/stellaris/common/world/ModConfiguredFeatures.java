@@ -15,11 +15,15 @@ public class ModConfiguredFeatures {
     public static final ResourceKey<ConfiguredFeature<?, ?>> CRATER_SMALL = registerKey("crater_small");
     public static final ResourceKey<ConfiguredFeature<?, ?>> CRATER_MEDIUM = registerKey("crater_medium");
     public static final ResourceKey<ConfiguredFeature<?, ?>> CRATER_LARGE = registerKey("crater_large");
+    public static final ResourceKey<ConfiguredFeature<?, ?>> BURNT_FOREST_TREE = registerKey("burnt_forest_tree");
+    public static final ResourceKey<ConfiguredFeature<?, ?>> ASH_FLOOR = registerKey("ash_floor");
 
     public static void bootstrap(BootstrapContext<ConfiguredFeature<?, ?>> context) {
         context.register(CRATER_SMALL, new ConfiguredFeature<>(FeaturesRegistry.CRATER_SMALL.get(), NoneFeatureConfiguration.INSTANCE));
         context.register(CRATER_MEDIUM, new ConfiguredFeature<>(FeaturesRegistry.CRATER_MEDIUM.get(), NoneFeatureConfiguration.INSTANCE));
         context.register(CRATER_LARGE, new ConfiguredFeature<>(FeaturesRegistry.CRATER_LARGE.get(), NoneFeatureConfiguration.INSTANCE));
+        context.register(BURNT_FOREST_TREE, new ConfiguredFeature<>(FeaturesRegistry.BURNT_FOREST_TREE.get(), NoneFeatureConfiguration.INSTANCE));
+        context.register(ASH_FLOOR, new ConfiguredFeature<>(FeaturesRegistry.ASH_FLOOR.get(), NoneFeatureConfiguration.INSTANCE));
     }
 
     public static ResourceKey<ConfiguredFeature<?, ?>> registerKey(String name) {
