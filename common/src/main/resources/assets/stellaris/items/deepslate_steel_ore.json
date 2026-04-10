@@ -1,3 +1,6 @@
 {
-  "parent": "stellaris:block/deepslate_steel_ore"
+  "model": {
+    "type": "minecraft:model",
+    "model": "stellaris:item/deepslate_steel_ore"
+  }
 }

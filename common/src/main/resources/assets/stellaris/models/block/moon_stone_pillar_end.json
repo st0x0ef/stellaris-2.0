@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:block/cube_all",
   "textures": {
-    "all": "stellaris:block/fluids/astrum_liquidus_still"
+    "all": "stellaris:block/moon_stone_pillar_end"
   }
 }

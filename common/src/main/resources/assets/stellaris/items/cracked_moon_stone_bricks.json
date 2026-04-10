@@ -1,3 +1,6 @@
 {
-  "parent": "stellaris:block/cracked_moon_stone_bricks"
+  "model": {
+    "type": "minecraft:model",
+    "model": "stellaris:item/cracked_moon_stone_bricks"
+  }
 }
