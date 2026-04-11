@@ -18,13 +18,7 @@ public class ModConfiguredFeatures {
     public static final ResourceKey<ConfiguredFeature<?, ?>> BURNT_FOREST_TREE = registerKey("burnt_forest_tree");
     public static final ResourceKey<ConfiguredFeature<?, ?>> ASH_FLOOR = registerKey("ash_floor");
 
-    public static void bootstrap(BootstrapContext<ConfiguredFeature<?, ?>> context) {
-        context.register(CRATER_SMALL, new ConfiguredFeature<>(FeaturesRegistry.CRATER_SMALL.get(), NoneFeatureConfiguration.INSTANCE));
-        context.register(CRATER_MEDIUM, new ConfiguredFeature<>(FeaturesRegistry.CRATER_MEDIUM.get(), NoneFeatureConfiguration.INSTANCE));
-        context.register(CRATER_LARGE, new ConfiguredFeature<>(FeaturesRegistry.CRATER_LARGE.get(), NoneFeatureConfiguration.INSTANCE));
-        context.register(BURNT_FOREST_TREE, new ConfiguredFeature<>(FeaturesRegistry.BURNT_FOREST_TREE.get(), NoneFeatureConfiguration.INSTANCE));
-        context.register(ASH_FLOOR, new ConfiguredFeature<>(FeaturesRegistry.ASH_FLOOR.get(), NoneFeatureConfiguration.INSTANCE));
-    }
+    public static final ResourceKey<ConfiguredFeature<?, ?>> ORE_TITANIUM = registerKey("ore_titanium");
 
     public static ResourceKey<ConfiguredFeature<?, ?>> registerKey(String name) {
         return ResourceKey.create(Registries.CONFIGURED_FEATURE, IdentifierUtils.id(name));
