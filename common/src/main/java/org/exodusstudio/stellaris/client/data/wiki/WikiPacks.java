@@ -26,7 +26,7 @@ public class WikiPacks {
 
         @Override
         protected void apply(Map<Identifier, WikiEntry> IdentifierJsonElementMap, ResourceManager resourceManager, ProfilerFiller profiler) {
-            Stellaris.LOG.error("Loading Assets for Tablet Pack");
+            Stellaris.LOG.info("Loading Assets for Tablet Pack");
             IdentifierJsonElementMap.forEach((key, entry) -> {
                 if (!WikiPacks.ENTRIES.contains(entry)) {
                     WikiPacks.ENTRIES.add(entry);
@@ -46,8 +46,6 @@ public class WikiPacks {
 
         @Override
         protected void apply(Map<Identifier, EntryInfo> IdentifierJsonElementMap, ResourceManager resourceManager, ProfilerFiller profiler) {
-            Stellaris.LOG.error("Loading Assets for Tablet Pack");
-
             WikiPacks.ENTRY_COMPONENTS.putAll(IdentifierJsonElementMap);
 
         }

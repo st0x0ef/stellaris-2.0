@@ -10,6 +10,7 @@ import net.minecraft.server.packs.resources.PreparableReloadListener;
 import org.exodusstudio.stellaris.client.data.wiki.WikiPacks;
 import org.exodusstudio.stellaris.common.config.CommonConfig;
 import org.exodusstudio.stellaris.common.data.PlanetsData;
+import org.exodusstudio.stellaris.common.data.SdCardData;
 import org.exodusstudio.stellaris.common.events.Events;
 import org.exodusstudio.stellaris.common.network.NetworkRegistry;
 import org.exodusstudio.stellaris.common.registries.*;
@@ -46,7 +47,6 @@ public final class Stellaris {
         ItemsRegistry.ITEMS.register();
         ModulesRegistry.init();
         CreativeTabsRegistry.register();
-        SDCardsRegistry.register();
         StatsRegistry.STATS.register();
         MenuTypesRegistry.MENU_TYPE.register();
         ArgumentsTypesRegistry.init();
@@ -61,6 +61,7 @@ public final class Stellaris {
 
     public static void onAddReloadListenerEvent(BiConsumer<Identifier, PreparableReloadListener> registry) {
         registry.accept(IdentifierUtils.id(PlanetsData.ID), new PlanetsData());
+        registry.accept(IdentifierUtils.id(SdCardData.ID), new SdCardData());
 
         registry.accept(IdentifierUtils.id("wiki/entries"), new WikiPacks.WikiEntryPack());
         registry.accept(IdentifierUtils.id("wiki/infos"), new WikiPacks.EntryInfoPack());

@@ -13,14 +13,14 @@ import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.client.screens.components.sd.SDCardDecodeButton;
 import org.exodusstudio.stellaris.client.screens.components.sd.SDCardInfoWidget;
 import org.exodusstudio.stellaris.client.screens.tablet.application.ApplicationRegistry;
+import org.exodusstudio.stellaris.common.data.SdCard;
+import org.exodusstudio.stellaris.common.data.SdCardData;
 import org.exodusstudio.stellaris.common.menus.MainTabletMenu;
 import org.exodusstudio.stellaris.common.menus.SDCardReaderApplicationMenu;
 import org.exodusstudio.stellaris.common.network.packets.AwardStatPacket;
 import org.exodusstudio.stellaris.common.network.packets.OpenMenuPacket;
 import org.exodusstudio.stellaris.common.registries.DataComponentsRegistry;
-import org.exodusstudio.stellaris.common.registries.SDCardsRegistry;
 import org.exodusstudio.stellaris.common.registries.StatsRegistry;
-import org.exodusstudio.stellaris.common.sd_cards.SDCard;
 import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
 import org.jetbrains.annotations.NotNull;
 
@@ -52,22 +52,18 @@ public class SDCardReaderApplicationScreen extends AbstractContainerScreen<@NotN
 
         decodeButton = new SDCardDecodeButton(width / 2 - 76, height / 2 - 48, 100, 21, (btn) -> {
             if (this.getMenu().hasCard()) {
-
-
                 ItemStack cardItemStack = this.getMenu().getCard();
-                var component = cardItemStack.get(DataComponentsRegistry.SD_CARD_ID.get());
-                if (component == null) {
+                String name = cardItemStack.get(DataComponentsRegistry.SD_CARD_NAME.get());
+                if (name == null) {
                     Stellaris.LOG.error("SD Card data component (SD_CARD_ID) is null!");
                     return;
                 }
 
-                SDCard card = SDCardsRegistry.get(component);
+                SdCard card = SdCardData.getSdCard(name);
 
                 // If the card is already decoded, do nothing
                 if (card == null || cardInfoWidget.getCard() == card) return;
 
-
-                card.run(this.menu.getPlayer(), cardItemStack);
                 cardInfoWidget.setCard(card);
                 cardInfoWidget.active = true;
                 NetworkManager.sendToServer(new AwardStatPacket(StatsRegistry.SD_CARD_READ.get()));
@@ -94,7 +90,7 @@ public class SDCardReaderApplicationScreen extends AbstractContainerScreen<@NotN
 
         this.decodeButton.active = this.getMenu().hasCard();
         this.cardInfoWidget.active = this.getMenu().hasCard() && this.cardInfoWidget.active;
-        var cardID = this.getMenu().getCard().get(DataComponentsRegistry.SD_CARD_ID.get());
+        String cardID = this.getMenu().getCard().get(DataComponentsRegistry.SD_CARD_NAME.get());
         if (cardID == null) this.cardInfoWidget.setCard(null);
     }
 

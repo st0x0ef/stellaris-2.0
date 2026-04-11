@@ -11,19 +11,12 @@ import org.exodusstudio.stellaris.common.registries.DataComponentsRegistry;
 import java.util.function.Consumer;
 
 public class SDCardItem extends Item {
-
-    public SDCardItem(Properties properties) {
-        this(properties, 0);
+    public SDCardItem(Properties properties, String name) {
+        super(properties.component(DataComponentsRegistry.SD_CARD_NAME.get(), name));
     }
-
-    public SDCardItem(Properties properties, int id) {
-        super(properties.component(DataComponentsRegistry.SD_CARD_ID.get(), id));
-    }
-
 
     @Override
     public void appendHoverText(ItemStack stack, Item.TooltipContext context, TooltipDisplay tooltipDisplay, Consumer<Component> tooltipAdder, TooltipFlag flag) {
-        tooltipAdder.accept(Component.literal("ID: " + stack.get(DataComponentsRegistry.SD_CARD_ID.get())).withStyle(ChatFormatting.GRAY));
+        tooltipAdder.accept(Component.literal("ID: " + stack.get(DataComponentsRegistry.SD_CARD_NAME.get())).withStyle(ChatFormatting.GRAY));
     }
-
 }

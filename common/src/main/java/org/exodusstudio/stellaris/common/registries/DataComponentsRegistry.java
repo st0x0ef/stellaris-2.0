@@ -29,8 +29,8 @@ public class DataComponentsRegistry {
             .persistent(FluidAmountMapDataComponent.CODEC)
             .networkSynchronized(FluidAmountMapDataComponent.STREAM_CODEC));
 
-    public static final RegistrySupplier<DataComponentType<Integer>> SD_CARD_ID =
-            register("sd_card_id", builder -> builder.persistent(Codec.INT).networkSynchronized(ByteBufCodecs.INT));
+    public static final RegistrySupplier<DataComponentType<String>> SD_CARD_NAME =
+            register("sd_card_name", builder -> builder.persistent(Codec.STRING).networkSynchronized(ByteBufCodecs.STRING_UTF8));
 
     public static final RegistrySupplier<DataComponentType<Modules<RocketModule>>> ROCKET_MODULES =
             register("rocket_modules", builder -> builder
