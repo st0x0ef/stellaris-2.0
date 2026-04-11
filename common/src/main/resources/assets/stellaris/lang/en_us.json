@@ -31,6 +31,9 @@
 
   "item.stellaris.lunar_stoned_wood_log": "Lunar Stoned Wood Log",
 
+  "item.stellaris.ash_layer": "Ash Layer",
+  "item.stellaris.ash_stone": "Ash Stone",
+
   "item.stellaris.moon_desh_ore": "Moon Desh Ore",
   "item.stellaris.desh_ingot": "Desh Ingot",
   "item.stellaris.raw_desh": "Raw Desh",
@@ -102,6 +105,8 @@
   "item.stellaris.titanium_shovel": "Titanium Shovel",
   "item.stellaris.titanium_sword": "Titanium Sword",
   "item.stellaris.titanium_hoe": "Titanium Hoe",
+
+  "item.stellaris.moon_berries": "Moon Berries",
 
   "item.stellaris.mars_rock": "Mars Rock",
   "item.stellaris.mars_regolith": "Mars Regolith",
