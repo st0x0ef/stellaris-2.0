@@ -1,0 +1,7 @@
+{
+  "type": "neoforge:add_features",
+  "biomes": "#minecraft:is_overworld",
+  "features": "stellaris:ore_titanium",
+  "step": "underground_ores"
+}
+
