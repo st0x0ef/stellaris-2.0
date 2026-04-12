@@ -7,7 +7,8 @@
     "client.ArmRendererMixin",
     "client.CustomItemModelRenderer",
     "client.GuiMixin",
-    "client.ItemInHandRendererMixin"
+    "client.ItemInHandRendererMixin",
+    "client.PlayerRendererMixin"
   ],
   "mixins": [
     "ChunkAccessMixin",
