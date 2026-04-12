@@ -1,5 +1,7 @@
 package org.exodusstudio.stellaris.client.renderers.rockets;
 
+import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.entity.state.EntityRenderState;
 import net.minecraft.client.renderer.rendertype.RenderType;
 import org.exodusstudio.stellaris.common.modules.rocket.RocketModule;
@@ -12,10 +14,10 @@ public class RocketRenderState extends EntityRenderState {
     public float bodyRotation;
     public List<RocketModule> modules;
 
-    public void preRenderModules(RocketRenderer.RenderingContext context) {
+    public void preRenderModules(SubmitNodeCollector nodeCollector, PoseStack poseStack, RocketRenderer.RenderingContext context, RenderType renderType) {
         if (modules != null) {
             for (RocketModule module : modules) {
-                if(module != null) module.preRenderModel(context);
+                if (module != null) module.preRenderModel(nodeCollector, poseStack, context, renderType);
             }
         }
     }
@@ -26,18 +28,6 @@ public class RocketRenderState extends EntityRenderState {
                 if(module != null) module.renderModule(context);
             }
         }
-    }
-
-    public RenderType getRenderType(RocketRenderer.RenderingContext context) {
-        var type = RocketRenderer.RENDER_TYPE;
-        if (modules != null) {
-            for (RocketModule module : modules) {
-                if(module != null && module.getRenderType(context) != null) {
-                    type = module.getRenderType(context);
-                }
-            }
-        }
-        return type;
     }
 
     public static RocketRenderState create(List<RocketModule> modules) {

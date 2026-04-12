@@ -113,8 +113,6 @@
   "item.stellaris.mars_sand": "Mars Sand",
   "item.stellaris.mars_ice": "Mars Ice",
 
-  "item.stellaris.moon_rock": "Moon Rock",
-
   "item.stellaris.desh_block": "Desh Block",
   "item.stellaris.rusted_iron": "Rusted Iron",
 
@@ -150,6 +148,10 @@
   "item.stellaris.tablet": "Tablet",
   "item.stellaris.sd_card": "SD Card",
   "item.stellaris.rocket": "Rocket",
+
+  "item.stellaris.tiny_model": "Tiny Model",
+  "item.stellaris.small_model": "Small Model",
+  "item.stellaris.big_model": "Big Model",
 
   "item.stellaris.hydrogen_motor": "Hydrogen Motor",
   "item.stellaris.shield_module": "Shield Module",

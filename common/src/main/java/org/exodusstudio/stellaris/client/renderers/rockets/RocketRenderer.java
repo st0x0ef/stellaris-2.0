@@ -2,6 +2,7 @@ package org.exodusstudio.stellaris.client.renderers.rockets;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
@@ -12,19 +13,20 @@ import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.Identifier;
 import net.minecraft.util.Mth;
 import net.minecraft.world.phys.AABB;
+import org.exodusstudio.stellaris.client.renderers.rockets.models.RocketModel;
+import org.exodusstudio.stellaris.client.renderers.rockets.models.TinyRocketModel;
 import org.exodusstudio.stellaris.common.entities.RocketEntity;
+import org.exodusstudio.stellaris.common.items.modules.rocket.RocketModelModuleItem;
+import org.exodusstudio.stellaris.common.items.modules.rocket.RocketSkinModuleItem;
+import org.exodusstudio.stellaris.common.modules.rocket.RocketModule;
 import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
 import org.jetbrains.annotations.NotNull;
 
-public class RocketRenderer extends EntityRenderer<RocketEntity, RocketRenderState> {
-    private final RocketModel model;
-    public static final RenderType RENDER_TYPE;
-    public static final Identifier ROCKET_TEXTURE =  IdentifierUtils.texture("entity/rocket/default");
+import java.util.List;
 
+public class RocketRenderer extends EntityRenderer<RocketEntity, RocketRenderState> {
     public RocketRenderer(EntityRendererProvider.Context context) {
         super(context);
-        this.model = new RocketModel(context.bakeLayer(RocketModel.LAYER_LOCATION));
-
     }
 
     @Override
@@ -58,17 +60,23 @@ public class RocketRenderer extends EntityRenderer<RocketEntity, RocketRenderSta
 
         }
 
+        boolean rocketModelPresent = false;
+        for (RocketModule module : renderState.modules) {
+            if (module.getRocketFeature() == RocketModule.RocketFeature.MODEL) {
+                rocketModelPresent = true;
+            }
+        }
 
-        this.model.setDefaultModel();
+        RenderingContext renderingContext = new RenderingContext(renderState.modules, poseStack, renderState.lightCoords);
+        RenderType renderType = getRenderType(renderingContext);
 
-        RenderingContext renderingContext = new RenderingContext(poseStack, renderState.lightCoords, this.model, ROCKET_TEXTURE);
+        if  (!rocketModelPresent) {
+            RocketModel defaultModel = new TinyRocketModel(Minecraft.getInstance().getEntityModels());
+            renderingContext.setRocketModel(defaultModel);
+            nodeCollector.submitModelPart(defaultModel.root(), poseStack, renderType, renderingContext.packedLight, OverlayTexture.NO_OVERLAY, null);
+        }
 
-        renderState.preRenderModules(renderingContext);
-
-        RenderType renderType = renderState.getRenderType(renderingContext);
-
-        nodeCollector.submitModelPart(this.model.root(), poseStack, renderType, renderState.lightCoords, OverlayTexture.NO_OVERLAY, null);
-
+        renderState.preRenderModules(nodeCollector, poseStack, renderingContext, renderType);
         renderState.renderModules(renderingContext);
 
         poseStack.popPose();
@@ -79,28 +87,36 @@ public class RocketRenderer extends EntityRenderer<RocketEntity, RocketRenderSta
         return minecraft.getBoundingBox().inflate(0.5f);
     }
 
-    public static RenderType getRenderType(Identifier Identifier) {
-        return RenderTypes.entityCutoutNoCull(Identifier);
-    }
+    public static RenderType getRenderType(RenderingContext context) {
+        String model = "tiny";
+        String skin = "default";
 
+        for (RocketModule module : context.rocketModules) {
+            if (module instanceof RocketModelModuleItem<?> rocketModelModuleItem) {
+                model = rocketModelModuleItem.getModelName();
+            } else if (module instanceof RocketSkinModuleItem rocketSkinModuleItem) {
+                skin = rocketSkinModuleItem.getSkinName();
+            }
+        }
 
-
-    static {
-        RENDER_TYPE = getRenderType(ROCKET_TEXTURE);
+        Identifier texture = IdentifierUtils.texture("entity/rocket/" + model + "/" + skin);
+        return RenderTypes.entityCutoutNoCull(texture);
     }
 
     public static class RenderingContext {
+        public final List<RocketModule> rocketModules;
         public final PoseStack poseStack;
         public final int packedLight;
-        public final RocketModel model;
-        public Identifier texture;
+        public RocketModel rocketModel;
 
-        public RenderingContext(PoseStack poseStack, int packedLight, RocketModel model, Identifier texture) {
+        public RenderingContext(List<RocketModule> rocketModules, PoseStack poseStack, int packedLight) {
+            this.rocketModules = rocketModules;
             this.poseStack = poseStack;
             this.packedLight = packedLight;
-            this.model = model;
-            this.texture = texture;
         }
 
+        public void setRocketModel(RocketModel rocketModel) {
+            this.rocketModel = rocketModel;
+        }
     }
 }

@@ -23,6 +23,9 @@ import org.exodusstudio.stellaris.common.network.packets.OpenRocketStationMenusP
 import org.exodusstudio.stellaris.common.registries.*;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 public class EngineUpgradeMenu extends BaseItemCombinerMenu {
 
@@ -78,9 +81,16 @@ public class EngineUpgradeMenu extends BaseItemCombinerMenu {
                     //&& rocketModule.contains(validModule.requires())
             ) {
 
-                Modules<RocketModule>.Mutable mutable = rocketModule.toMutable();
-                mutable.insert(validModule);
-                itemToUpgrade.set(DataComponentsRegistry.ROCKET_MODULES.get(), mutable.toImmutable());
+                List<RocketModule> modules = rocketModule.getModules();
+                List<RocketModule> newRocketModules = new ArrayList<>();
+                for (RocketModule mod : modules) {
+                    if (mod.asModule().getRocketFeature() != validModule.asModule().getRocketFeature()) {
+                        newRocketModules.add(mod.asModule());
+                    }
+                }
+                newRocketModules.add(validModule.asModule());
+
+                itemToUpgrade.set(DataComponentsRegistry.ROCKET_MODULES.get(), new RocketModules(newRocketModules));
 
                 this.resultSlots.setItem(0, itemToUpgrade);
                 this.broadcastChanges();
@@ -102,7 +112,6 @@ public class EngineUpgradeMenu extends BaseItemCombinerMenu {
                     && canUpgradeFuel(module, itemToUpgrade).equals(Error.NONE)
                     && validModule.canBeAppliedToSpaceSuitPart(itemToUpgrade)
             ) {
-
                 Modules<SpaceSuitModule>.Mutable mutable = spaceSuitModules.toMutable();
                 mutable.insert(validModule);
                 itemToUpgrade.set(DataComponentsRegistry.SPACE_SUIT_MODULES.get(), mutable.toImmutable());

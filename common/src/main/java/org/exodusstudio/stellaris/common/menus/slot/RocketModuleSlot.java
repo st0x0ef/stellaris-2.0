@@ -4,7 +4,6 @@ import net.minecraft.world.Container;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import org.exodusstudio.stellaris.common.modules.rocket.RocketModule;
-import org.exodusstudio.stellaris.common.registries.ModulesRegistry;
 import org.exodusstudio.stellaris.common.registries.StellarisRegistries;
 
 public class RocketModuleSlot extends Slot {

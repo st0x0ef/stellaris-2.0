@@ -1,10 +1,11 @@
 package org.exodusstudio.stellaris.common.modules.rocket;
 
+import com.mojang.blaze3d.vertex.PoseStack;
 import dev.architectury.fluid.FluidStack;
+import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.rendertype.RenderType;
 import org.exodusstudio.stellaris.client.renderers.rockets.RocketRenderer;
 import org.exodusstudio.stellaris.common.modules.Module;
-import org.jetbrains.annotations.Nullable;
 
 public interface RocketModule extends Module<RocketModule> {
 
@@ -43,7 +44,7 @@ public interface RocketModule extends Module<RocketModule> {
      * @param context the current rendering context
      */
     
-    default void preRenderModel(RocketRenderer.RenderingContext context) {}
+    default void preRenderModel(SubmitNodeCollector nodeCollector, PoseStack poseStack, RocketRenderer.RenderingContext context, RenderType renderType) {}
 
     /**
      * Render this module on the rocket.
@@ -52,22 +53,11 @@ public interface RocketModule extends Module<RocketModule> {
     
     default void renderModule(RocketRenderer.RenderingContext context) {}
 
-    /**
-     * Get the render type for this module.
-     * Allows you to change the texture used to render the rocket.
-     * If you don't change the texture/render type, set it to null to allow other modules to change it.
-     * @param context the current rendering context
-     * @return the render type, or null to use the default one
-     */
-    @Nullable
-    default RenderType getRenderType(RocketRenderer.RenderingContext context) {
-        return null;
-    }
-
     // Might not be useful...
     // TODO we need to see how thing would be implemented in the future
     enum RocketFeature {
         SKIN,
+        MODEL,
         TANK,
         MOTOR, //Fuel Type
         OTHER
