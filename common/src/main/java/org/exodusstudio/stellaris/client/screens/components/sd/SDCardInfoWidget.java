@@ -1,11 +1,14 @@
 package org.exodusstudio.stellaris.client.screens.components.sd;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractContainerWidget;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.FormattedText;
+import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.client.screens.components.ScrollableTextWidget;
 import org.exodusstudio.stellaris.common.data.SdCard;
 
@@ -30,22 +33,30 @@ public class SDCardInfoWidget extends AbstractContainerWidget {
 
     public void setCard(SdCard card) {
         this.card = card;
-        setupTextWidgets(card);
+        this.children.clear();
 
-        if (card == null) {
-            this.children.clear();
-            return;
+        if (this.card != null) {
+            setupTextWidgets(card);
+            this.children.add(this.nameContainer);
+            this.children.add(this.descriptionContainer);
         }
-        this.children.add(this.nameContainer);
-        this.children.add(this.descriptionContainer);
     }
 
     public SdCard getCard() { return this.card; }
 
     public void setupTextWidgets(SdCard card) {
         if (card == null) return;
-        this.nameContainer = new ScrollableTextWidget(this.getX(), this.getY(), this.getWidth(), 26, card.name());
-        this.descriptionContainer = new ScrollableTextWidget(this.getX(), this.getY() + 28, this.getWidth(), 110, card.content());
+        Minecraft mc = Minecraft.getInstance();
+
+        int textWidth = this.getWidth() - 8;
+        int lines = mc.font.split(FormattedText.of(card.name()), textWidth).size();
+        int cardNameHeight = (lines * mc.font.lineHeight) + 8;
+
+        this.nameContainer = new ScrollableTextWidget(this.getX(), this.getY(), this.getWidth(), cardNameHeight, card.name());
+
+        int startDescY = this.getY() + cardNameHeight + 6;
+        int descHeight = 136 - (cardNameHeight + 6);
+        this.descriptionContainer = new ScrollableTextWidget(this.getX(), startDescY, this.getWidth(), descHeight, card.content());
     }
 
     @Override
@@ -72,7 +83,10 @@ public class SDCardInfoWidget extends AbstractContainerWidget {
     @Override
     protected void renderWidget(GuiGraphics ctx, int mouseX, int mouseY, float partialTick) {
         this.children.forEach(w -> w.render(ctx, mouseX, mouseY, partialTick));
-        if (this.getCard() != null) ctx.fill(this.getX() + 4, this.getY() + 27, this.getX() + this.getWidth() + 4, this.getY() + 28, 0xFFFFFFFF);
+        if (this.getCard() != null && this.nameContainer != null) {
+            int lineY = this.getY() + this.nameContainer.getHeight() + 2;
+            ctx.fill(this.getX() + 4, lineY, this.getX() + this.getWidth() - 4, lineY + 1, 0xFFFFFFFF);
+        }
     }
 
     @Override
