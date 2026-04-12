@@ -5,6 +5,8 @@ import dev.architectury.registry.registries.RegistrySupplier;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.Identifier;
 import net.minecraft.stats.StatFormatter;
+import net.minecraft.stats.Stats;
+import dev.architectury.event.events.common.LifecycleEvent;
 import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
 
@@ -22,7 +24,7 @@ public class StatsRegistry {
     public static RegistrySupplier<Identifier> register(String key, StatFormatter formatter) {
         Identifier identifier = IdentifierUtils.id(key);
         RegistrySupplier<Identifier> supplier = STATS.register(key, () -> identifier);
-        //Stats.CUSTOM.get(identifier, formatter); // TODO : find a way to make this working on neoforge
+        LifecycleEvent.SETUP.register(() -> Stats.CUSTOM.get(identifier, formatter));
         return supplier;
     }
 
