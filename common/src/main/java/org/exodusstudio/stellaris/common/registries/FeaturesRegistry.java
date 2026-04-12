@@ -19,10 +19,10 @@ public class FeaturesRegistry {
             FEATURES.register("crater_small", () -> new CraterFeature(NoneFeatureConfiguration.CODEC, 8));
 
     public static final RegistrySupplier<Feature<NoneFeatureConfiguration>> CRATER_MEDIUM =
-            FEATURES.register("crater_medium", () -> new CraterFeature(NoneFeatureConfiguration.CODEC, 16));
+            FEATURES.register("crater_medium", () -> new CraterFeature(NoneFeatureConfiguration.CODEC, 14));
 
     public static final RegistrySupplier<Feature<NoneFeatureConfiguration>> CRATER_LARGE =
-            FEATURES.register("crater_large", () -> new CraterFeature(NoneFeatureConfiguration.CODEC, 28));
+            FEATURES.register("crater_large", () -> new CraterFeature(NoneFeatureConfiguration.CODEC, 20));
 
     public static final RegistrySupplier<Feature<NoneFeatureConfiguration>> BURNT_FOREST_TREE =
             FEATURES.register("burnt_forest_tree", () -> new BurntForestTreeFeature(NoneFeatureConfiguration.CODEC));

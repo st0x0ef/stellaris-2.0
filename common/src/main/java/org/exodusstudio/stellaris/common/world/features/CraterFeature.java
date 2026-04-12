@@ -18,37 +18,26 @@ public class CraterFeature extends Feature<NoneFeatureConfiguration> {
 
     public CraterFeature(Codec<NoneFeatureConfiguration> codec, int radius) {
         super(codec);
-        this.radius = Math.min(radius, 15);
+        this.radius = radius;
     }
 
-    private double noise(int x, int z, long seed) {
-        long h = seed ^ (x * 1619L) ^ (z * 31337L);
-        h = h * 6364136223846793005L + 1442695040888963407L;
-        h ^= h >>> 33;
-        h *= 0xff51afd7ed558ccdL;
-        h ^= h >>> 33;
-        return (h & 0xFFFFL) / 32767.5 - 1.0;
-    }
+    private boolean isValidArea(WorldGenLevel level, int cx, int cz, int r) {
+        int checkRadius = (int) (r * 1.2);
+        int minH = Integer.MAX_VALUE;
+        int maxH = Integer.MIN_VALUE;
+        int step = Math.max(1, checkRadius / 2);
 
-    private boolean isOccupied(int cx, int cz, int r) {
-        int chunkR = (r / 16) + 2;
-        for (int dcx = -chunkR; dcx <= chunkR; dcx++) {
-            for (int dcz = -chunkR; dcz <= chunkR; dcz++) {
-                int ncx = (cx >> 4) + dcx;
-                int ncz = (cz >> 4) + dcz;
-                long chunkSeed = (long) ncx * 341873128712L ^ (long) ncz * 132897987541L ^ 0x9A3B4C5D6E7F8L;
-                chunkSeed ^= chunkSeed >>> 33;
-                chunkSeed *= 0xff51afd7ed558ccdL;
-                chunkSeed ^= chunkSeed >>> 33;
-                if ((chunkSeed & 0xFL) == 0) {
-                    int ocx = (ncx << 4) + (int) ((chunkSeed >>> 4) & 0xFL);
-                    int ocz = (ncz << 4) + (int) ((chunkSeed >>> 8) & 0xFL);
-                    double dist = Math.sqrt((double)(cx - ocx) * (cx - ocx) + (double)(cz - ocz) * (cz - ocz));
-                    if (dist < r * 2.2) return true;
-                }
+        for (int x = -checkRadius; x <= checkRadius; x += step) {
+            for (int z = -checkRadius; z <= checkRadius; z += step) {
+                int h = level.getHeight(Heightmap.Types.WORLD_SURFACE_WG, cx + x, cz + z);
+                if (h < minH) minH = h;
+                if (h > maxH) maxH = h;
             }
         }
-        return false;
+
+        // Craters leave a sharp height variation. If the area already has a
+        // high variance (> r * 0.75 + 4), it's either already a crater or a steep cliff!
+        return (maxH - minH) <= (r * 0.75) + 4;
     }
 
     private int findTopSolid(WorldGenLevel level, int wx, int wz, int startY) {
@@ -70,21 +59,31 @@ public class CraterFeature extends Feature<NoneFeatureConfiguration> {
     @Override
     public boolean place(FeaturePlaceContext<NoneFeatureConfiguration> context) {
         WorldGenLevel level = context.level();
-        BlockPos origin = context.origin();
+        BlockPos rawOrigin = context.origin();
         RandomSource random = context.random();
         int r = this.radius;
 
-        if (isOccupied(origin.getX(), origin.getZ(), r)) return false;
+        // Force the origin to the center of its chunk to avoid crossing into far chunks (prevents setBlock out of bounds error)
+        BlockPos origin = new BlockPos((rawOrigin.getX() & ~15) + 8, rawOrigin.getY(), (rawOrigin.getZ() & ~15) + 8);
+
+        if (!isValidArea(level, origin.getX(), origin.getZ(), r)) return false;
 
         long seed = origin.asLong() ^ random.nextLong();
-
         int centerSurfaceY = level.getHeight(Heightmap.Types.WORLD_SURFACE_WG, origin.getX(), origin.getZ());
+
+        long s1 = seed % 1000L;
+        long s2 = (seed >>> 32) % 1000L;
+
+        double depthLimit = r * 0.45;
+        double rimHeight = r * 0.15;
 
         for (int x = -r; x <= r; x++) {
             for (int z = -r; z <= r; z++) {
                 double xzDist = Math.sqrt(x * x + z * z);
-                double edgeWarp = noise(origin.getX() + x, origin.getZ() + z, seed) * r * 0.12;
-                double effectiveR = r + edgeWarp;
+
+                double angle = Math.atan2(z, x);
+                double edgeWarp = Math.sin(angle * 4.0 + s1) * 0.05 + Math.cos(angle * 7.0 + s2) * 0.04;
+                double effectiveR = r * (1.0 + edgeWarp);
 
                 if (xzDist > effectiveR) continue;
 
@@ -93,51 +92,40 @@ public class CraterFeature extends Feature<NoneFeatureConfiguration> {
                 int colSurfaceY = level.getHeight(Heightmap.Types.WORLD_SURFACE_WG,
                         origin.getX() + x, origin.getZ() + z);
 
-                for (int y = -(r + 2); y <= 1; y++) {
-                    double dy = y * 1.2;
-                    double dist = Math.sqrt(x * x + dy * dy + z * z);
+                int targetY;
+                if (normDist <= 0.7) {
+                    // Parabolic bowl: curves smoothly down to the center (-1.0 at center, 0.0 at edge)
+                    double t = normDist / 0.7;
+                    double curve = (t * t - 1.0);
+                    targetY = centerSurfaceY + (int) Math.round(curve * depthLimit);
 
-                    if (dist > effectiveR) continue;
+                    // Small, smooth continuous mounds on the floor for a natural feel (instead of jagged randomized noise)
+                    double smallBumps = Math.sin(x * 0.4 + s1) * Math.cos(z * 0.4 + s2) * 1.3;
+                    targetY += (int) Math.round(smallBumps);
+                } else {
+                    // Rim peak: sine wave bump blending gently into the natural terrain
+                    double t = (normDist - 0.7) / 0.3;
+                    double curve = Math.sin(t * Math.PI);
+                    double baseY = centerSurfaceY * (1.0 - t) + colSurfaceY * t;
+                    targetY = (int) Math.round(baseY + curve * rimHeight);
+                }
 
-                    BlockPos pos = new BlockPos(origin.getX() + x, colSurfaceY + y, origin.getZ() + z);
-                    BlockState existing = level.getBlockState(pos);
-                    if (existing.isAir()) continue;
-
-                    boolean isFloor = y <= -r + (int) (r * 0.2);
-                    boolean isRim   = xzDist > effectiveR * 0.82 && y >= -2;
-
-                    if (isFloor) {
-                        double floorNoise = noise(origin.getX() + x, origin.getZ() + z, seed + 1L);
-                        boolean raisedRock = floorNoise > 0.65 && y == -r + (int) (r * 0.2);
-                        if (raisedRock) continue;
-
-                        if (random.nextFloat() > 0.12f) {
-                            level.setBlock(pos, BlocksRegistry.MOON_SAND.block().get().defaultBlockState(), 2);
-                        } else {
-                            level.setBlock(pos, Blocks.AIR.defaultBlockState(), 2);
-                        }
-                    } else if (isRim) {
-                        double rimNoise = noise(origin.getX() + x, origin.getZ() + z, seed + 2L);
-                        if (rimNoise > 0.5) continue;
-
-                        if (random.nextFloat() < 0.06f) {
-                            level.setBlock(pos, Blocks.AIR.defaultBlockState(), 2);
-                        }
-                    } else {
+                // Clear the column of air above the desired crater ground
+                int topClearLimit = Math.max(colSurfaceY, targetY) + 5;
+                for (int y = topClearLimit; y > targetY; y--) {
+                    BlockPos pos = new BlockPos(origin.getX() + x, y, origin.getZ() + z);
+                    if (!level.getBlockState(pos).isAir()) {
                         level.setBlock(pos, Blocks.AIR.defaultBlockState(), 2);
                     }
                 }
 
-                if (normDist > 0.65) {
-                    double rimT = Math.max(0, 1.0 - Math.abs(normDist - 0.82) / 0.22);
-                    int rimExtra = (int) Math.round(rimT * (r * 0.18));
-                    if (rimExtra > 0) {
-                        int actualTop = findTopSolid(level, origin.getX() + x, origin.getZ() + z, colSurfaceY);
-                        BlockState rimBlock = getSurfaceBlock(level, origin.getX() + x, origin.getZ() + z, actualTop);
-                        for (int y = actualTop + 1; y <= actualTop + rimExtra; y++) {
-                            level.setBlock(new BlockPos(origin.getX() + x, y, origin.getZ() + z), rimBlock, 2);
-                        }
-                    }
+                // Fill the ground with appropriate surface block
+                BlockState surfaceBlock = getSurfaceBlock(level, origin.getX() + x, origin.getZ() + z, colSurfaceY);
+                int solidDepth = (targetY > colSurfaceY) ? (targetY - colSurfaceY + 2) : 3;
+
+                for (int y = targetY; y >= targetY - solidDepth; y--) {
+                    BlockPos pos = new BlockPos(origin.getX() + x, y, origin.getZ() + z);
+                    level.setBlock(pos, surfaceBlock, 2);
                 }
             }
         }
