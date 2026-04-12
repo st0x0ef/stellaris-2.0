@@ -1,11 +1,8 @@
 package org.exodusstudio.stellaris.common.world;
 
 import net.minecraft.core.registries.Registries;
-import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
-import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
-import org.exodusstudio.stellaris.common.registries.FeaturesRegistry;
 import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
 
 public class ModConfiguredFeatures {
@@ -19,6 +16,9 @@ public class ModConfiguredFeatures {
     public static final ResourceKey<ConfiguredFeature<?, ?>> ASH_FLOOR = registerKey("ash_floor");
 
     public static final ResourceKey<ConfiguredFeature<?, ?>> ORE_TITANIUM = registerKey("ore_titanium");
+    public static final ResourceKey<ConfiguredFeature<?, ?>> MOON_TITANIUM_ORE = registerKey("moon_titanium_ore");
+    public static final ResourceKey<ConfiguredFeature<?, ?>> MOON_DESH_ORE = registerKey("moon_desh_ore");
+    public static final ResourceKey<ConfiguredFeature<?, ?>> MOON_STONE_IRON_ORE = registerKey("moon_stone_iron_ore");
 
     public static ResourceKey<ConfiguredFeature<?, ?>> registerKey(String name) {
         return ResourceKey.create(Registries.CONFIGURED_FEATURE, IdentifierUtils.id(name));

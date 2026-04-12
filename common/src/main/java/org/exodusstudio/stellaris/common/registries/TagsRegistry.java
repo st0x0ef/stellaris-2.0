@@ -5,6 +5,7 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
 import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
 
@@ -35,10 +36,9 @@ public class TagsRegistry {
         }
     }
     public static class BlockTags {
-        public static final TagKey<Block> INFINIBURN_MOON = addTag("infiniburn_moon");
-
-
-        public static final TagKey<Block> INCORRECT_FOR_TITANIUM_TOOL = addCTag("incorrect_for_titanium_tool");
+        public static final TagKey<Block> INCORRECT_FOR_TITANIUM_TOOL = addTag("incorrect_for_titanium_tool");
+        public static final TagKey<Block> LUNAR_LOGS = addTag("lunar_logs");
+        public static final TagKey<Block> MOON_STONE_ORE_REPLACEABLES = addTag("moon_stone_ore_replaceables");
 
         public static TagKey<Block> addTag(String path) {
             return TagKey.create(Registries.BLOCK, IdentifierUtils.id(path));
@@ -50,6 +50,15 @@ public class TagsRegistry {
 
         public static TagKey<Block> addCTag(String path) {
             return addTag(path, "c");
+        }
+    }
+
+    public static class BiomeTags {
+        public static final TagKey<Biome> IS_MOON = addTag("is_moon");
+
+
+        public static TagKey<Biome> addTag(String path) {
+            return TagKey.create(Registries.BIOME, IdentifierUtils.id(path));
         }
     }
 
