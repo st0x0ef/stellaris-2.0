@@ -58,13 +58,21 @@ public final class ItemsRegistry {
 
     /** Special Items */
     public static final RegistrySupplier<TabletItem> TABLET = item("tablet", TabletItem::new);
-    public static final RegistrySupplier<ShieldModule> SHIELD_MODULE = item("shield_module", ShieldModule::new);
-    public static final RegistrySupplier<RocketSkinModuleItem> GALAXY_SKIN = item("galaxy_skin", p -> new RocketSkinModuleItem(p, RocketSkinModuleItem.GALAXY_SKIN_TEXTURE));
-    public static final RegistrySupplier<HydrogenFuelModuleItem> HYDROGEN_MOTOR = item("hydrogen_motor", HydrogenFuelModuleItem::new);
     public static final RegistrySupplier<Item> OIL_FINDER = item("oil_finder", OilFinderItem::new);
-
     public static final RegistrySupplier<SDCardItem> SD_CARD = item("sd_card", (p) -> new SDCardItem(p, "stellaris:creative"));
+
+    /** Rocket */
     public static final RegistrySupplier<RocketItem> ROCKET = item("rocket", new Item.Properties().arch$tab(CreativeTabsRegistry.STELLARIS_MAIN).stacksTo(1), RocketItem::new);
+
+    // Modules
+    public static final RegistrySupplier<ShieldModule> SHIELD_MODULE = item("shield_module", ShieldModule::new);
+    public static final RegistrySupplier<HydrogenFuelModuleItem> HYDROGEN_MOTOR = item("hydrogen_motor", HydrogenFuelModuleItem::new);
+
+    // Skins
+    public static final RegistrySupplier<RocketSkinModuleItem> GALAXY_SKIN = item("galaxy_skin", p -> new RocketSkinModuleItem(p, RocketSkinModuleItem.GALAXY_SKIN_TEXTURE));
+    public static final RegistrySupplier<RocketSkinModuleItem> FROST_SKIN = item("frost_skin", p -> new RocketSkinModuleItem(p, RocketSkinModuleItem.FROST_SKIN_TEXTURE));
+    public static final RegistrySupplier<RocketSkinModuleItem> MILITARY_SKIN = item("military_skin", p -> new RocketSkinModuleItem(p, RocketSkinModuleItem.MILITARY_SKIN_TEXTURE));
+
 
     /** Space Suit Items */
     public static final RegistrySupplier<Item> SPACE_SUIT_HELMET = item("space_suit_helmet",  SpaceSuitHelmet::new);

@@ -16,6 +16,8 @@ import java.util.function.Consumer;
 
 public class RocketSkinModuleItem extends Item implements RocketModule {
     public static final Identifier GALAXY_SKIN_TEXTURE = IdentifierUtils.texture("entity/rocket/galaxy");
+    public static final Identifier FROST_SKIN_TEXTURE = IdentifierUtils.texture("entity/rocket/frost");
+    public static final Identifier MILITARY_SKIN_TEXTURE = IdentifierUtils.texture("entity/rocket/military");
 
 
     private final Identifier texture;

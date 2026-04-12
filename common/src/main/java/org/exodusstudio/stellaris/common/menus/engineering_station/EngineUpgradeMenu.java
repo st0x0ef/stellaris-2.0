@@ -20,9 +20,7 @@ import org.exodusstudio.stellaris.common.modules.rocket.RocketModules;
 import org.exodusstudio.stellaris.common.modules.space_suit.SpaceSuitModule;
 import org.exodusstudio.stellaris.common.modules.space_suit.SpaceSuitModules;
 import org.exodusstudio.stellaris.common.network.packets.OpenRocketStationMenusPacket;
-import org.exodusstudio.stellaris.common.registries.BlocksRegistry;
-import org.exodusstudio.stellaris.common.registries.DataComponentsRegistry;
-import org.exodusstudio.stellaris.common.registries.MenuTypesRegistry;
+import org.exodusstudio.stellaris.common.registries.*;
 import org.jetbrains.annotations.NotNull;
 
 
@@ -167,16 +165,24 @@ public class EngineUpgradeMenu extends BaseItemCombinerMenu {
     @Override
     protected @NotNull ItemCombinerMenuSlotDefinition createInputSlotDefinitions() {
         return ItemCombinerMenuSlotDefinition.create()
-                .withSlot(0, 31, 48, itemStack -> itemStack.getItem() instanceof RocketItem || itemStack.getItem() instanceof SpaceSuitItem)
-                .withSlot(1, 75, 48, itemStack -> itemStack.getItem() instanceof RocketModule || itemStack.getItem() instanceof SpaceSuitModule)
+                .withSlot(0, 31, 48, itemStack -> itemStack.getItem() instanceof RocketItem || itemStack.is(TagsRegistry.ItemTags.SPACE_SUIT))
+                .withSlot(1, 75, 48, this::mayPlaceModule)
                 .withResultSlot(2, 127, 48)
                 .build();
+    }
+
+    private boolean mayPlaceModule(ItemStack module) {
+        if (this.inputSlots.getItem(0).is(ItemsRegistry.ROCKET.get())) {
+            return module.getItem() instanceof RocketModule rocketModule && StellarisRegistries.ROCKET_MODULES.containsValue(rocketModule);
+        } else if (this.inputSlots.getItem(0).is(TagsRegistry.ItemTags.SPACE_SUIT)) {
+            return module.getItem() instanceof SpaceSuitModule spaceSuitModule && StellarisRegistries.SPACE_SUIT_MODULES.containsValue(spaceSuitModule) && spaceSuitModule.canBeAppliedToSpaceSuitPart(this.inputSlots.getItem(0));
+        }
+        return false;
     }
 
     public void openCraftingMenu() {
         this.player.closeContainer();
         NetworkManager.sendToServer(new OpenRocketStationMenusPacket("crafting", this.engineeringStationPos));
-
     }
 
     public enum Error {

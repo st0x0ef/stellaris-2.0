@@ -10,9 +10,14 @@ import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
 
 public class ModulesRegistry {
     /** Rocket Modules */
-    public static final RegistrySupplier<RocketSkinModuleItem> GALAXY_SKIN = StellarisRegistries.ROCKET_MODULES.register(IdentifierUtils.id("galaxy_skin"), ItemsRegistry.GALAXY_SKIN);
     public static final RegistrySupplier<ShieldModule> SHIELD_MODULE = StellarisRegistries.ROCKET_MODULES.register(IdentifierUtils.id("shield"), ItemsRegistry.SHIELD_MODULE);
     public static final RegistrySupplier<HydrogenFuelModuleItem> HYDROGEN_MOTOR = StellarisRegistries.ROCKET_MODULES.register(IdentifierUtils.id("hydrogen_motor"), ItemsRegistry.HYDROGEN_MOTOR);
+
+    /** Rocket Skins */
+    public static final RegistrySupplier<RocketSkinModuleItem> GALAXY_SKIN = StellarisRegistries.ROCKET_MODULES.register(IdentifierUtils.id("galaxy_skin"), ItemsRegistry.GALAXY_SKIN);
+    public static final RegistrySupplier<RocketSkinModuleItem> FROST_SKIN = StellarisRegistries.ROCKET_MODULES.register(IdentifierUtils.id("frost_skin"), ItemsRegistry.FROST_SKIN);
+    public static final RegistrySupplier<RocketSkinModuleItem> MILITARY_SKIN = StellarisRegistries.ROCKET_MODULES.register(IdentifierUtils.id("military_skin"), ItemsRegistry.MILITARY_SKIN);
+
 
     /** Space Suit Modules */
     public static final RegistrySupplier<OxygenModuleItem> OXYGEN_MODULE_T1 = StellarisRegistries.SPACE_SUIT_MODULES.register(IdentifierUtils.id("oxygen_module_tier_1"), ItemsRegistry.SPACE_SUIT_OXYGEN_MODULE_T1);

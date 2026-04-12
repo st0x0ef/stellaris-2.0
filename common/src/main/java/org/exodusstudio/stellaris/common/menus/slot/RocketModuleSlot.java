@@ -4,6 +4,8 @@ import net.minecraft.world.Container;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import org.exodusstudio.stellaris.common.modules.rocket.RocketModule;
+import org.exodusstudio.stellaris.common.registries.ModulesRegistry;
+import org.exodusstudio.stellaris.common.registries.StellarisRegistries;
 
 public class RocketModuleSlot extends Slot {
 
@@ -12,7 +14,7 @@ public class RocketModuleSlot extends Slot {
   }
 
   public boolean mayPlace(ItemStack stack) {
-      return stack.getItem() instanceof RocketModule;
+      return stack.getItem() instanceof RocketModule module && StellarisRegistries.ROCKET_MODULES.containsValue(module);
   }
 
 }

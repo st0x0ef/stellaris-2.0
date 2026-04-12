@@ -152,8 +152,11 @@
   "item.stellaris.rocket": "Rocket",
 
   "item.stellaris.hydrogen_motor": "Hydrogen Motor",
-  "item.stellaris.galaxy_skin": "Galaxy Skin",
   "item.stellaris.shield_module": "Shield Module",
+
+  "item.stellaris.galaxy_skin": "Galaxy Skin",
+  "item.stellaris.frost_skin": "Frost Skin",
+  "item.stellaris.military_skin": "Military Skin",
 
   "item.stellaris.space_suit_helmet": "Space Suit Helmet",
   "item.stellaris.space_suit_chestplate": "Space Suit Chestplate",

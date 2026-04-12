@@ -13,9 +13,8 @@ public class TagsRegistry {
     /** ITEMS */
     public static class ItemTags {
         public static final TagKey<Item> COAL_GENERATOR_FUEL = addTag("coal_generator_fuel");
-
         public static final TagKey<Item> CAN = addTag("can");
-
+        public static final TagKey<Item> SPACE_SUIT = addTag("space_suit");
 
         public static final TagKey<Item> TITANIUM_MATERIALS = addCTag("titanium_materials");
 
