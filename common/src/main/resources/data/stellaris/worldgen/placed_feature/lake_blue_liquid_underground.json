@@ -2,8 +2,8 @@
   "feature": "stellaris:lake_blue_liquid",
   "placement": [
     {
-      "type": "minecraft:count",
-      "count": 15
+      "type": "minecraft:rarity_filter",
+      "chance": 2
     },
     {
       "type": "minecraft:in_square"
@@ -16,7 +16,7 @@
           "absolute": -56
         },
         "max_inclusive": {
-          "absolute": 48
+          "absolute": 0
         }
       }
     },
