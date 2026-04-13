@@ -5,6 +5,7 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
+import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.client.overlays.FadingHolder;
 import org.exodusstudio.stellaris.client.screens.components.Padding;
 import org.exodusstudio.stellaris.client.screens.components.TexturedButton;
@@ -44,8 +45,10 @@ public class PlanetSelectionAppScreen extends Screen {
         super.init();
         setPlanets();
 
-        this.teleportButton = new TexturedButton(this.getLeftPos() + 165, this.container.getBottom() - 20, 100, 20, btn -> {
-            if (this.selectedPlanet != null && this.inSpace && this.canTeleportToPlanet()) {
+        this.teleportButton = new TexturedButton(this.getLeftPos() + 165, this.container.getBottom() - 25, 100, 20, btn -> {
+            if (this.selectedPlanet != null
+                    && this.inSpace
+                    && this.canTeleportToPlanet()) {
                 NetworkManager.sendToServer(new TeleportToPlanetPacket(this.selectedPlanet));
             }
         }).tex(IdentifierUtils.guiTexture("tablet/tablet_entry_button"), IdentifierUtils.guiTexture("tablet/tablet_entry_button")).setText(Component.translatable("application.stellaris.planet_selection.teleport_button"));
@@ -83,13 +86,16 @@ public class PlanetSelectionAppScreen extends Screen {
      * Sets up the scrollable container with buttons for each planet. Each button, when clicked, sets the selected planet.
      */
     public void setPlanets() {
+                                                                            //Old 27
         this.container = new ScrollableContainer(this.getLeftPos() + 20, this.getTopPos() + 27, 110, 147, Component.empty());
         this.container.setPadding(new Padding(5));
 
         int i = 0;
         for(Planet planet : PlanetsData.PLANETS) {
-
-            TexturedButton button = new TexturedButton(container.getX() + 5, (this.getTopPos() + 5) + i * 25, 95, 20, btn -> this.selectedPlanet = planet).tex(IdentifierUtils.guiTexture("tablet/tablet_entry_button"), IdentifierUtils.guiTexture("tablet/tablet_entry_button")).setText(Component.translatable(planet.translationKey()));
+            TexturedButton button = new TexturedButton(container.getX() + 5, this.container.getY() + 5 + i * 25, 95, 20, btn -> {
+                this.selectedPlanet = planet;
+                this.teleportButton.visible = this.isTeleportButtonVisible();
+            }).tex(IdentifierUtils.guiTexture("tablet/tablet_entry_button"), IdentifierUtils.guiTexture("tablet/tablet_entry_button")).setText(Component.translatable(planet.translationKey()));
             this.container.addChild(this, button);
             i++;
         }
@@ -148,11 +154,12 @@ public class PlanetSelectionAppScreen extends Screen {
      * @return true if the teleport button should be visible, false otherwise.
      */
     public boolean isTeleportButtonVisible() {
-        return (this.selectedPlanet != null) && this.inSpace;
+        return (this.selectedPlanet != null)
+                && this.inSpace;
     }
 
     /**
-     * Checks if the player can teleport to the selected planet..
+     * Checks if the player can teleport to the selected planet.
      * @return true if the player can teleport to the selected planet, false otherwise.
      */
     public boolean canTeleportToPlanet(){
@@ -162,6 +169,9 @@ public class PlanetSelectionAppScreen extends Screen {
 
     @Override
     public void onClose() {
+
+        if(this.mainTabletScreen.player.stellaris$isPlanetMenuOpen()) return;
+
         FadingHolder fadingHolder = mainTabletScreen.player.getDataAttachments(IdentifierUtils.id("player_fade"), FadingHolder.class);
 
         if(fadingHolder != null && fadingHolder.fadeAmount() == 1.0f) {
