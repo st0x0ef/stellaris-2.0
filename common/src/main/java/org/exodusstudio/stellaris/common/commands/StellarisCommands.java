@@ -11,6 +11,8 @@ import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.chunk.ChunkAccess;
 import org.exodusstudio.stellaris.Stellaris;
 
@@ -20,6 +22,8 @@ import org.exodusstudio.stellaris.common.commands.helpers.ArgumentBuilder;
 import org.exodusstudio.stellaris.common.commands.helpers.CommandBuilder;
 import org.exodusstudio.stellaris.common.data.Planet;
 import org.exodusstudio.stellaris.common.data.PlanetsData;
+import org.exodusstudio.stellaris.common.entities.LanderEntity;
+import org.exodusstudio.stellaris.common.entities.RocketEntity;
 import org.exodusstudio.stellaris.common.menus.MainTabletMenu;
 import org.exodusstudio.stellaris.common.network.packets.StartFadePacket;
 import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
@@ -162,6 +166,23 @@ public class StellarisCommands {
                                 .execute(context -> {
 
                                     Utils.executeWithFade(context.getPlayer(), () -> MenuRegistry.openExtendedMenu(context.getPlayer(), MainTabletMenu.createProvider(IdentifierUtils.id("applications/planet_selection"))), true);
+
+                                    return context.success();
+                                })
+                        )
+                        .addSubCommand(builder.createSubCommand("testLander")
+                                .execute((context) -> {
+                                    ServerPlayer player = context.getPlayer();
+
+                                    Entity vehicle = player.getVehicle();
+                                    if( vehicle instanceof RocketEntity rocketEntity) {
+                                        LanderEntity landerEntity = new LanderEntity(player.level());
+                                        landerEntity.setPos(rocketEntity.getPosition(1f));
+                                        player.level().addFreshEntity(landerEntity);
+
+                                        landerEntity.fillInventoryFromRocket(rocketEntity);
+                                        rocketEntity.remove(Entity.RemovalReason.DISCARDED);
+                                    }
 
                                     return context.success();
                                 })

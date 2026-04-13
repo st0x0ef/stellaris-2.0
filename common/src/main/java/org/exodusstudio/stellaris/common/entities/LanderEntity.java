@@ -12,6 +12,7 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -110,13 +111,23 @@ public class LanderEntity extends VehicleEntity{
     @Override
     public void tick() {
         super.tick();
-        this.travel(new Vec3(this.xxa, this.yya, this.zza));
 
+        if (this.getDeltaMovement().y < this.getMaxLanderSpeed() - 0.1) {
+            this.addDeltaMovement(new Vec3(0, -0.1, 0));
+        } else {
+            this.setDeltaMovement(new Vec3(0, this.getMaxLanderSpeed(), 0));
+        }
 
         if (KeyVariables.isHoldingJump(getFirstPlayerPassenger())) {
             slowDownLander();
         }
+
+        this.move(MoverType.SELF, this.getDeltaMovement());
+
     }
+
+
+
 
     public Player getFirstPlayerPassenger() {
         if (!this.getPassengers().isEmpty() && this.getPassengers().getFirst() instanceof Player player) {
@@ -150,6 +161,15 @@ public class LanderEntity extends VehicleEntity{
         return 0.3D;
     }
 
+    public void fillInventoryFromRocket(RocketEntity rocketEntity) {
+
+        for(int i = 0; i < 14; i++) {
+            this.inventory.setItem(i, rocketEntity.getInventory().getItem(i));
+        }
+        this.inventory.setItem(14, rocketEntity.toItemStack());
+
+    }
+
 
 
     @Override
@@ -171,6 +191,11 @@ public class LanderEntity extends VehicleEntity{
                 return new LanderMenu(id, playerInv, inventory);
             }
         });
+    }
+
+
+    public double getMaxLanderSpeed() {
+        return 0.7;
     }
 
 

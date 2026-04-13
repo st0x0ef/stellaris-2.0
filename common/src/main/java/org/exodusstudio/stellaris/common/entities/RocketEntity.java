@@ -75,13 +75,8 @@ public class RocketEntity extends VehicleEntity  {
      * Spawns the rocket item with its modules saved when the rocket entity is destroyed.
      */
     protected void spawnRocketItem() {
-        ItemStack rocketStack = new ItemStack(ItemsRegistry.ROCKET.get(), 1);
-        rocketStack.set(DataComponentsRegistry.ROCKET_MODULES.get(), this.entityData.get(ROCKET_MODULES));
 
-
-        FluidStack fuel = this.getFuelType();
-        rocketStack.set(DataComponentsRegistry.FLUID_LIST.get(),
-                new FluidAmountMapDataComponent(List.of(fuel.getFluid()), List.of(fuel.getAmount())));
+        ItemStack rocketStack = this.toItemStack();
 
         ItemEntity entityToSpawn = new ItemEntity(this.level(), this.getX(), this.getY(), this.getZ(), rocketStack);
 
@@ -344,5 +339,17 @@ public class RocketEntity extends VehicleEntity  {
             rocketEntity.entityData.set(FUEL, (int) fluidData.getAmount(0));
         }
         return rocketEntity;
+    }
+
+    public ItemStack toItemStack() {
+        ItemStack rocketStack = new ItemStack(ItemsRegistry.ROCKET.get(), 1);
+        rocketStack.set(DataComponentsRegistry.ROCKET_MODULES.get(), this.entityData.get(ROCKET_MODULES));
+
+
+        FluidStack fuel = this.getFuelType();
+        rocketStack.set(DataComponentsRegistry.FLUID_LIST.get(),
+                new FluidAmountMapDataComponent(List.of(fuel.getFluid()), List.of(fuel.getAmount())));
+
+        return rocketStack;
     }
 }
