@@ -20,6 +20,7 @@ import org.exodusstudio.stellaris.common.registries.TagsRegistry;
 
 import java.util.Random;
 import java.util.Set;
+import java.util.concurrent.CompletableFuture;
 
 public class Utils {
 
@@ -130,14 +131,10 @@ public class Utils {
     public static void executeWithFade(Player player, Runnable action, boolean startFade) {
         if(startFade) startFade(player);
         else stopFade(player);
-        player.level().getServer().execute(() -> {
-            try {
-                Thread.sleep(2000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            action.run();
-        });
+
+
+        CompletableFuture.delayedExecutor(2, java.util.concurrent.TimeUnit.SECONDS)
+                .execute(action);
     }
 
     public static String capitalizeFirstLetter(String input) {
