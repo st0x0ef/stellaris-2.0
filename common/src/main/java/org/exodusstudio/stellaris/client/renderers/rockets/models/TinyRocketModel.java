@@ -1,35 +1,16 @@
-package org.exodusstudio.stellaris.client.renderers.rockets;
+package org.exodusstudio.stellaris.client.renderers.rockets.models;
 
-import net.minecraft.client.model.EntityModel;
+import net.minecraft.client.model.geom.EntityModelSet;
 import net.minecraft.client.model.geom.ModelLayerLocation;
-import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
 import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
 
-public class RocketModel extends EntityModel<RocketRenderState> {
-	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(IdentifierUtils.id("rocket"), "main");
-    public final ModelPart MainBody;
-    public final ModelPart tank_upgrade;
-    public final ModelPart sunflare_protection;
-    public final ModelPart shield2;
-    public final ModelPart shield1;
-    public final ModelPart storage_upgrade;
-    public final ModelPart motor_upgrade;
-    public final ModelPart pipes;
-    public final ModelPart Roof;
-    public final ModelPart RoofPlanes;
-    public final ModelPart RoofBars;
-    public final ModelPart RoofFrame;
-    public final ModelPart RoofTop;
-    public final ModelPart Bottom;
-    public final ModelPart BottomPlanes;
-    public final ModelPart BottomBars;
-    public final ModelPart BottomFrame;
-	public final ModelPart Wings;
+public class TinyRocketModel extends RocketModel {
+	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(IdentifierUtils.id("tiny_rocket"), "main");
 
-	public RocketModel(ModelPart root) {
-        super(root);
+	public TinyRocketModel(EntityModelSet context) {
+        super(context.bakeLayer(LAYER_LOCATION));
         this.MainBody = root.getChild("MainBody");
 		this.tank_upgrade = this.MainBody.getChild("tank_upgrade");
 		this.sunflare_protection = this.MainBody.getChild("sunflare_protection");
@@ -200,18 +181,4 @@ public class RocketModel extends EntityModel<RocketRenderState> {
 
 		return LayerDefinition.create(meshdefinition, 256, 256);
 	}
-
-    /**
-     * Sets the rocket model to its default state, hiding all upgrades.
-     * These upgrades can be made visible with modules.
-     */
-    public void setDefaultModel() {
-        this.storage_upgrade.visible = false;
-        this.tank_upgrade.visible = false;
-        this.motor_upgrade.visible = false;
-        this.shield1.visible = false;
-        this.shield2.visible = false;
-
-    }
-
 }

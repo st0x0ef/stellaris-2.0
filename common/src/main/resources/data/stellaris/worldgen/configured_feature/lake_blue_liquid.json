@@ -1,20 +1,4 @@
 {
-  "type": "minecraft:lake",
-  "config": {
-    "barrier": {
-      "type": "minecraft:simple_state_provider",
-      "state": {
-        "Name": "stellaris:moon_sand"
-      }
-    },
-    "fluid": {
-      "type": "minecraft:simple_state_provider",
-      "state": {
-        "Name": "stellaris:blue_liquid",
-        "Properties": {
-          "level": "0"
-        }
-      }
-    }
-  }
+  "type": "stellaris:crater_lake_blue_liquid",
+  "config": {}
 }

@@ -12,7 +12,7 @@
             "humidity": [-1.0, 0.3],
             "continentalness": [-1.0, 1.0],
             "erosion": [-1.0, 1.0],
-            "weirdness": [-1.0, 0.4],
+            "weirdness": [-1.0, 0.2],
             "depth": [-1.0, 0.1],
             "offset": 0.1
           }
@@ -36,9 +36,9 @@
             "humidity": [-1.0, 1.0],
             "continentalness": [-1.0, 1.0],
             "erosion": [-1.0, 1.0],
-            "weirdness": [0.4, 1.0],
+            "weirdness": [0.0, 1.0],
             "depth": [-1.0, 0.1],
-            "offset": 0.3
+            "offset": 0.0
           }
         },
         {

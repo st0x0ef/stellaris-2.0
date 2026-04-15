@@ -23,9 +23,11 @@ public class ShieldModule extends Item implements RocketModule {
     }
 
     @Override
-    public void preRenderModel(RocketRenderer.RenderingContext renderContext) {
-        renderContext.model.shield1.visible = true;
-        renderContext.model.shield2.visible = true;
+    public void renderModule(RocketRenderer.RenderingContext context) {
+        if (context.rocketModel != null) {
+            context.rocketModel.shield1.visible = true;
+            context.rocketModel.shield2.visible = true;
+        }
     }
 
     @Override

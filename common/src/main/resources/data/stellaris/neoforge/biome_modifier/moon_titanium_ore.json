@@ -1,0 +1,7 @@
+{
+  "type": "neoforge:add_features",
+  "biomes": "#stellaris:is_moon",
+  "features": "stellaris:moon_titanium_ore",
+  "step": "underground_ores"
+}
+

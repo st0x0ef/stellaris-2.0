@@ -4,6 +4,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.rendertype.RenderType;
 import net.minecraft.client.renderer.special.SpecialModelRenderer;
@@ -11,6 +12,7 @@ import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
+import org.exodusstudio.stellaris.client.renderers.rockets.models.TinyRocketModel;
 import org.exodusstudio.stellaris.common.modules.rocket.RocketModule;
 import org.exodusstudio.stellaris.common.modules.rocket.RocketModules;
 import org.exodusstudio.stellaris.common.registries.DataComponentsRegistry;
@@ -20,10 +22,10 @@ import org.joml.Vector3fc;
 import java.util.List;
 import java.util.function.Consumer;
 
-public record RocketItemRenderer(Identifier texture, RocketModel model) implements SpecialModelRenderer<List<RocketModule>> {
+public record RocketItemRenderer(Identifier texture) implements SpecialModelRenderer<List<RocketModule>> {
     @Override
-    public void submit(@Nullable List<RocketModule> patterns, ItemDisplayContext displayContext, PoseStack poseStack, SubmitNodeCollector nodeCollector, int packedLight, int packedOverlay, boolean hasFoil, int outlineColor) {
-        RocketRenderState modelState = RocketRenderState.create(patterns);
+    public void submit(@Nullable List<RocketModule> rocketModules, ItemDisplayContext displayContext, PoseStack poseStack, SubmitNodeCollector nodeCollector, int packedLight, int packedOverlay, boolean hasFoil, int outlineColor) {
+        RocketRenderState modelState = RocketRenderState.create(rocketModules);
         poseStack.pushPose();
 
         poseStack.mulPose(Axis.XP.rotationDegrees(180.0F));
@@ -37,16 +39,19 @@ public record RocketItemRenderer(Identifier texture, RocketModel model) implemen
             poseStack.mulPose(Axis.ZP.rotationDegrees(45.0F));
         }
 
-        this.model.setDefaultModel();
+        boolean rocketModelPresent = false;
+        for (RocketModule module : modelState.modules) {
+            if (module.getRocketFeature() == RocketModule.RocketFeature.MODEL) {
+                rocketModelPresent = true;
+            }
+        }
 
-        RocketRenderer.RenderingContext renderingContext = new RocketRenderer.RenderingContext(poseStack, packedLight, this.model, texture());
-
-        modelState.preRenderModules(renderingContext);
-
-        RenderType renderType = modelState.getRenderType(renderingContext);
-
-        nodeCollector.submitModelPart(this.model.root(), poseStack, renderType, packedLight, OverlayTexture.NO_OVERLAY, null);
-
+        RocketRenderer.RenderingContext renderingContext = new RocketRenderer.RenderingContext(rocketModules, poseStack, packedLight);
+        RenderType renderType = RocketRenderer.getRenderType(renderingContext);
+        if  (!rocketModelPresent) {
+            nodeCollector.submitModelPart(new TinyRocketModel(Minecraft.getInstance().getEntityModels()).root(), poseStack, renderType, packedLight, OverlayTexture.NO_OVERLAY, null);
+        }
+        modelState.preRenderModules(nodeCollector, poseStack, renderingContext, renderType);
         modelState.renderModules(renderingContext);
         poseStack.popPose();
     }
@@ -55,7 +60,6 @@ public record RocketItemRenderer(Identifier texture, RocketModel model) implemen
     public void getExtents(Consumer<Vector3fc> output) {
         PoseStack poseStack = new PoseStack();
         poseStack.scale(1.0F, -1.0F, -1.0F);
-        this.model.root().getExtentsForGui(poseStack, output);
     }
 
     @Override
@@ -72,9 +76,7 @@ public record RocketItemRenderer(Identifier texture, RocketModel model) implemen
 
         @Override
         public SpecialModelRenderer<?> bake(BakingContext context) {
-            return new RocketItemRenderer(this.texture,
-                    new RocketModel(context.entityModelSet().bakeLayer(RocketModel.LAYER_LOCATION))
-            );
+            return new RocketItemRenderer(this.texture);
         }
 
         @Override

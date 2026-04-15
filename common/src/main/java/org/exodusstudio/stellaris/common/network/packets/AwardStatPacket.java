@@ -7,6 +7,7 @@ import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.core.registries.BuiltInRegistries;
 import org.exodusstudio.stellaris.Stellaris;
 import org.jetbrains.annotations.NotNull;
 
@@ -38,8 +39,13 @@ public record AwardStatPacket(Identifier stat, int amount) implements CustomPack
 
     public static void handle(AwardStatPacket packet, NetworkManager.PacketContext context) {
         Player player = context.getPlayer();
-        player.awardStat(packet.stat, packet.amount);
 
+        Identifier registeredStat = BuiltInRegistries.CUSTOM_STAT.getValue(packet.stat);
+        if (registeredStat == null) {
+            registeredStat = packet.stat;
+        }
+
+        player.awardStat(registeredStat, packet.amount);
     }
 
     @Override

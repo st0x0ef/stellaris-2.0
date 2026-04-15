@@ -17,6 +17,9 @@ public class ModPlacedFeatures {
     public static final ResourceKey<PlacedFeature> ASH_FLOOR = createKey("ash_floor");
 
     public static final ResourceKey<PlacedFeature> ORE_TITANIUM = createKey("ore_titanium");
+    public static final ResourceKey<PlacedFeature> MOON_TITANIUM_ORE = createKey("moon_titanium_ore");
+    public static final ResourceKey<PlacedFeature> MOON_DESH_ORE = createKey("moon_desh_ore");
+    public static final ResourceKey<PlacedFeature> MOON_STONE_IRON_ORE = createKey("moon_stone_iron_ore");
 
     private static ResourceKey<PlacedFeature> createKey(String name) {
         return ResourceKey.create(Registries.PLACED_FEATURE, IdentifierUtils.id(name));

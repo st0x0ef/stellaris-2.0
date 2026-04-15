@@ -15,6 +15,12 @@ public class BiomeModificationsRegistry {
 
             mutable.getGenerationProperties().addFeature(GenerationStep.Decoration.UNDERGROUND_ORES, ModPlacedFeatures.ORE_TITANIUM);
         }));
+
+        BiomeModifications.addProperties((context) -> context.hasTag(TagsRegistry.BiomeTags.IS_MOON), ((biomeContext, mutable) -> {
+            mutable.getGenerationProperties().addFeature(GenerationStep.Decoration.UNDERGROUND_ORES, ModPlacedFeatures.MOON_TITANIUM_ORE);
+            mutable.getGenerationProperties().addFeature(GenerationStep.Decoration.UNDERGROUND_ORES, ModPlacedFeatures.MOON_DESH_ORE);
+            mutable.getGenerationProperties().addFeature(GenerationStep.Decoration.UNDERGROUND_ORES, ModPlacedFeatures.MOON_STONE_IRON_ORE);
+        }));
     }
 
 }

@@ -14,10 +14,14 @@ import net.minecraft.world.item.HangingSignItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.SignItem;
 import net.minecraft.world.item.equipment.ArmorMaterials;
+import org.exodusstudio.stellaris.client.renderers.rockets.models.BigRocketModel;
+import org.exodusstudio.stellaris.client.renderers.rockets.models.SmallRocketModel;
+import org.exodusstudio.stellaris.client.renderers.rockets.models.TinyRocketModel;
 import org.exodusstudio.stellaris.common.items.*;
 import org.exodusstudio.stellaris.common.items.infection.ParasiteItem;
 import org.exodusstudio.stellaris.common.items.infection.PathogenStorageCellItem;
 import org.exodusstudio.stellaris.common.items.modules.rocket.HydrogenFuelModuleItem;
+import org.exodusstudio.stellaris.common.items.modules.rocket.RocketModelModuleItem;
 import org.exodusstudio.stellaris.common.items.modules.rocket.RocketSkinModuleItem;
 import org.exodusstudio.stellaris.common.items.modules.rocket.ShieldModule;
 import org.exodusstudio.stellaris.common.items.modules.space_suit.*;
@@ -58,13 +62,25 @@ public final class ItemsRegistry {
 
     /** Special Items */
     public static final RegistrySupplier<TabletItem> TABLET = item("tablet", TabletItem::new);
-    public static final RegistrySupplier<ShieldModule> SHIELD_MODULE = item("shield_module", ShieldModule::new);
-    public static final RegistrySupplier<RocketSkinModuleItem> GALAXY_SKIN = item("galaxy_skin", p -> new RocketSkinModuleItem(p, RocketSkinModuleItem.GALAXY_SKIN_TEXTURE));
-    public static final RegistrySupplier<HydrogenFuelModuleItem> HYDROGEN_MOTOR = item("hydrogen_motor", HydrogenFuelModuleItem::new);
     public static final RegistrySupplier<Item> OIL_FINDER = item("oil_finder", OilFinderItem::new);
-
     public static final RegistrySupplier<SDCardItem> SD_CARD = item("sd_card", (p) -> new SDCardItem(p, "stellaris:creative"));
+
+    /** Rocket */
     public static final RegistrySupplier<RocketItem> ROCKET = item("rocket", new Item.Properties().arch$tab(CreativeTabsRegistry.STELLARIS_MAIN).stacksTo(1), RocketItem::new);
+
+    // Modules
+    public static final RegistrySupplier<ShieldModule> SHIELD_MODULE = item("shield_module", ShieldModule::new);
+    public static final RegistrySupplier<HydrogenFuelModuleItem> HYDROGEN_MOTOR = item("hydrogen_motor", HydrogenFuelModuleItem::new);
+
+    // Skins
+    public static final RegistrySupplier<RocketSkinModuleItem> GALAXY_SKIN = item("galaxy_skin", p -> new RocketSkinModuleItem(p, "galaxy"));
+    public static final RegistrySupplier<RocketSkinModuleItem> FROST_SKIN = item("frost_skin", p -> new RocketSkinModuleItem(p, "frost"));
+    public static final RegistrySupplier<RocketSkinModuleItem> MILITARY_SKIN = item("military_skin", p -> new RocketSkinModuleItem(p, "military"));
+
+    // Models
+    public static final RegistrySupplier<RocketModelModuleItem<TinyRocketModel>> TINY_MODEL = item("tiny_model", p -> new RocketModelModuleItem(p, TinyRocketModel.class, "tiny"));
+    public static final RegistrySupplier<RocketModelModuleItem<SmallRocketModel>> SMALL_MODEL = item("small_model", p -> new RocketModelModuleItem(p, SmallRocketModel.class, "small"));
+    public static final RegistrySupplier<RocketModelModuleItem<BigRocketModel>> BIG_MODEL = item("big_model", p -> new RocketModelModuleItem(p, BigRocketModel.class, "big"));
 
     /** Space Suit Items */
     public static final RegistrySupplier<Item> SPACE_SUIT_HELMET = item("space_suit_helmet",  SpaceSuitHelmet::new);
