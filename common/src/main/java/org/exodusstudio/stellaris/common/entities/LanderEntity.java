@@ -112,6 +112,11 @@ public class LanderEntity extends VehicleEntity{
     public void tick() {
         super.tick();
 
+        if(getBlockStateOn().isSolid()) {
+            this.setDeltaMovement(new Vec3(0.0D, 0.0D, 0.0D));
+            return;
+        }
+
         if (this.getDeltaMovement().y < this.getMaxLanderSpeed() - 0.1) {
             this.addDeltaMovement(new Vec3(0, -0.1, 0));
         } else {
@@ -148,10 +153,8 @@ public class LanderEntity extends VehicleEntity{
             this.fallDistance = (float) (vec.y() * (-1) * 4.5);
 
             if (this.level() instanceof ServerLevel level) {
-                for (ServerPlayer player : level.getServer().getPlayerList().getPlayers()) {
-                    level.sendParticles(ParticleTypes.SPIT, false,true, this.getX(),
-                            this.getY() - 0.3, this.getZ(), 3, 0.1, 0.1, 0.1, 0.001);
-                }
+                level.sendParticles(ParticleTypes.SPIT, false,true, this.getX(),
+                        this.getY() - 0.3, this.getZ(), 3, 0.1, 0.1, 0.1, 0.001);
             }
         }
     }
