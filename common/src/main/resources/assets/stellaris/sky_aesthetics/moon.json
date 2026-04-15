@@ -1,6 +1,6 @@
 {
   "world": "stellaris:moon",
-  "id": "moon",
+  "id": "stellaris:moon",
   "cloud": false,
   "custom_vanilla_object": {
     "sun": false,
