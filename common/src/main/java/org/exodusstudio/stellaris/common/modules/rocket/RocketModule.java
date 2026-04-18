@@ -11,6 +11,8 @@ public interface RocketModule extends Module<RocketModule> {
 
     RocketFeature getRocketFeature();
 
+    String getDisplayName();
+
     /**
      * Checks if this module is compatible with other modules that are currently in the rocket.
      * @param module the module to check with
@@ -52,6 +54,7 @@ public interface RocketModule extends Module<RocketModule> {
      */
     
     default void renderModule(RocketRenderer.RenderingContext context) {}
+
 
     // Might not be useful...
     // TODO we need to see how thing would be implemented in the future

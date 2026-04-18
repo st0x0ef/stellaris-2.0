@@ -5,6 +5,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.component.TooltipDisplay;
+import org.apache.commons.lang3.StringUtils;
 import org.exodusstudio.stellaris.common.modules.rocket.RocketModule;
 import org.exodusstudio.stellaris.common.utils.Utils;
 
@@ -21,6 +22,11 @@ public class RocketSkinModuleItem extends Item implements RocketModule {
     @Override
     public RocketFeature getRocketFeature() {
         return RocketFeature.SKIN;
+    }
+
+    @Override
+    public String getDisplayName() {
+        return StringUtils.capitalize(name) + " Rocket Model";
     }
 
     public String getSkinName() {

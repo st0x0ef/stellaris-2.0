@@ -4,13 +4,10 @@ import dev.architectury.networking.NetworkManager;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
-import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.common.data.Planet;
 import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
 import org.exodusstudio.stellaris.common.utils.TeleportUtil;
 import org.exodusstudio.stellaris.common.utils.Utils;
-
-import java.util.concurrent.CompletableFuture;
 
 public record TeleportToPlanetPacket(Planet destination) implements CustomPacketPayload {
 

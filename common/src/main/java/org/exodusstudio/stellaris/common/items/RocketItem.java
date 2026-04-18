@@ -110,20 +110,20 @@ public class RocketItem extends Item implements FluidProvider.ITEM {
         Modules<RocketModule> modules = stack.get(DataComponentsRegistry.ROCKET_MODULES.get());
 
         if (modules != null && !modules.items().isEmpty()) {
-            tooltipAdder.accept(Component.literal("Modules:"));
+            tooltipAdder.accept(Component.literal("Modules :"));
             for (RocketModule module : modules.modules) {
-                // TODO: Fix module tooltips
-                //tooltipAdder.accept(Component.literal("- ").append( module.displayName()).withStyle(ChatFormatting.GRAY));
+                tooltipAdder.accept(Component.literal("- ").append(module.getDisplayName()).withStyle(ChatFormatting.GRAY));
             }
         } else {
             tooltipAdder.accept(Component.literal("No Modules"));
         }
-        tooltipAdder.accept(Component.literal("-----------").withStyle(ChatFormatting.GRAY));
+        tooltipAdder.accept(Component.literal("---------------------"));
 
         UniversalFluidItemStorage storage = getFluidTank(stack);
-        tooltipAdder.accept(Component.literal(storage.getFluidInTank(0).getAmount() + " / " + storage.getTankCapacity(0) + "mb").withStyle(ChatFormatting.GRAY));
-        tooltipAdder.accept(Component.literal("Fuel: " + storage.getFluidInTank(0).getFluid().arch$registryName()).withStyle(ChatFormatting.GRAY));
-
+        if (storage != null) {
+            tooltipAdder.accept(Component.literal(storage.getFluidInTank(0).getAmount() + " / " + storage.getTankCapacity(0) + "mb").withStyle(ChatFormatting.GRAY));
+            tooltipAdder.accept(Component.literal("Fuel: " + storage.getFluidInTank(0).getFluid().arch$registryName()).withStyle(ChatFormatting.GRAY));
+        }
     }
 
     @Override

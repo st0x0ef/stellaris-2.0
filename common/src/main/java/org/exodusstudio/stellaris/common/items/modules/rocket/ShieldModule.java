@@ -23,6 +23,11 @@ public class ShieldModule extends Item implements RocketModule {
     }
 
     @Override
+    public String getDisplayName() {
+        return "Shield Module";
+    }
+
+    @Override
     public void renderModule(RocketRenderer.RenderingContext context) {
         if (context.rocketModel != null) {
             context.rocketModel.shield1.visible = true;
