@@ -31,10 +31,10 @@ public class CraterFeature extends Feature<NoneFeatureConfiguration> {
     }
 
     private boolean isValidArea(WorldGenLevel level, int cx, int cz, int r) {
-        int checkRadius = (int) (r * 1.2);
+        int checkRadius = r * 2;
         int minH = Integer.MAX_VALUE;
         int maxH = Integer.MIN_VALUE;
-        int step = Math.max(1, checkRadius / 2);
+        int step = r / 8;
 
         for (int x = -checkRadius; x <= checkRadius; x += step) {
             for (int z = -checkRadius; z <= checkRadius; z += step) {
@@ -49,6 +49,25 @@ public class CraterFeature extends Feature<NoneFeatureConfiguration> {
         return (maxH - minH) <= (r * 0.75) + 4;
     }
 
+    private boolean isOverlapping(WorldGenLevel level, BlockPos origin, int r) {
+        BlockState fluid = this.fluidState.get();
+        if (fluid.isAir()) return false;
+
+        int searchR = r * 2;
+        int step = 2;
+        for (int x = -searchR; x <= searchR; x += step) {
+            for (int z = -searchR; z <= searchR; z += step) {
+                for (int y = -r - 2; y <= r + 2; y += step) {
+                    BlockPos p = origin.offset(x, y, z);
+                    if (level.isStateAtPosition(p, state -> state.is(fluid.getBlock()))) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
     @Override
     public boolean place(FeaturePlaceContext<NoneFeatureConfiguration> context) {
         WorldGenLevel level = context.level();
@@ -61,6 +80,7 @@ public class CraterFeature extends Feature<NoneFeatureConfiguration> {
         BlockPos origin = new BlockPos((rawOrigin.getX() & ~15) + 8, rawOrigin.getY(), (rawOrigin.getZ() & ~15) + 8);
 
         if (this.isSurface && !isValidArea(level, origin.getX(), origin.getZ(), r)) return false;
+        if (isOverlapping(level, origin, r)) return false;
 
         long seed = origin.asLong() ^ random.nextLong();
         int centerSurfaceY = (this.isSurface ? level.getHeight(Heightmap.Types.WORLD_SURFACE_WG, origin.getX(), origin.getZ()) : origin.getY()) - 1;

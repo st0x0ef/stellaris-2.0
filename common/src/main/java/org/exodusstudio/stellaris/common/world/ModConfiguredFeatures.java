@@ -9,9 +9,7 @@ public class ModConfiguredFeatures {
 
     public static final ResourceKey<ConfiguredFeature<?, ?>> LAKE_OIL = registerKey("lake_oil");
     public static final ResourceKey<ConfiguredFeature<?, ?>> LUNAR_TREE = registerKey("lunar_tree");
-    public static final ResourceKey<ConfiguredFeature<?, ?>> CRATER_SMALL = registerKey("crater_small");
-    public static final ResourceKey<ConfiguredFeature<?, ?>> CRATER_MEDIUM = registerKey("crater_medium");
-    public static final ResourceKey<ConfiguredFeature<?, ?>> CRATER_LARGE = registerKey("crater_large");
+    public static final ResourceKey<ConfiguredFeature<?, ?>> CRATER = registerKey("crater");
     public static final ResourceKey<ConfiguredFeature<?, ?>> BURNT_FOREST_TREE = registerKey("burnt_forest_tree");
     public static final ResourceKey<ConfiguredFeature<?, ?>> ASH_FLOOR = registerKey("ash_floor");
 

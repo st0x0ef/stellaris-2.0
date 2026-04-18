@@ -27,9 +27,7 @@
   ],
   "features": [
     [
-      "stellaris:crater_small",
-      "stellaris:crater_medium",
-      "stellaris:crater_large"
+      "stellaris:crater"
     ],
     [],
     [],
