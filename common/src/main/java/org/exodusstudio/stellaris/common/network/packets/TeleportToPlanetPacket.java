@@ -4,10 +4,13 @@ import dev.architectury.networking.NetworkManager;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
+import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.common.data.Planet;
 import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
 import org.exodusstudio.stellaris.common.utils.TeleportUtil;
 import org.exodusstudio.stellaris.common.utils.Utils;
+
+import java.util.concurrent.CompletableFuture;
 
 public record TeleportToPlanetPacket(Planet destination) implements CustomPacketPayload {
 
@@ -19,10 +22,10 @@ public record TeleportToPlanetPacket(Planet destination) implements CustomPacket
     );
 
     public static void handle(TeleportToPlanetPacket data, NetworkManager.PacketContext context) {
-        //TODO: Check if it's not a player/teleport the lander/friends, etc...
         TeleportUtil.teleportToPlanet(context.getPlayer(), data.destination());
-        context.getPlayer().closeContainer();
+        context.getPlayer().stellaris$setPlanetMenuOpen(false, context.getPlayer(), true);
         Utils.stopFade(context.getPlayer());
+        context.getPlayer().closeContainer();
 
     }
 

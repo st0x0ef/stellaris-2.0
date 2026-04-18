@@ -264,6 +264,9 @@
   "text.stellaris.jet.mode.normal": "Normal",
   "text.stellaris.jet.mode.hover": "Hover",
   "text.stellaris.jet.mode.elytra": "Elytra",
+  "text.stellaris.speed": "%s Speed",
+  "text.stellaris.hold_space": "Hold [SPACE] to slow down",
+
 
   "stellaris.screen.energyContainer": "Energy",
   "stellaris.screen.empty_fluid": "Empty Fluid Tank",
@@ -278,6 +281,7 @@
   "stellaris.screen.gravityManipulator.planet.earth": "Earth Gravity (9.81m/s²)",
   "stellaris.screen.engineering_station": "Engineering Station",
 
+
   "application.stellaris.stats.name": "Stats",
   "application.stellaris.stats.description": "View various statistics about your space adventure.",
 
@@ -286,6 +290,10 @@
 
   "application.stellaris.wiki.name": "Space Wiki",
   "application.stellaris.wiki.description": "Access information about space exploration and Stellaris mod features.",
+
+  "application.stellaris.planet_selection.name": "Planet Selection",
+  "application.stellaris.planet_selection.description": "See all the infos on the planets.",
+  "application.stellaris.planet_selection.teleport_button": "Launch!",
 
   "wiki.stellaris.mobs.title": "Mobs",
   "wiki.stellaris.rocket.title": "Rocket",
@@ -326,6 +334,10 @@
   "stat.stellaris.sd_card_read": "Sd Cards Read",
 
   "key.stellaris.rocket_start": "Start Rocket",
-  "key.stellaris.jet_switch_mode": "Switch Jet Mode"
+  "key.stellaris.jet_switch_mode": "Switch Jet Mode",
+
+  "planet.stellaris.moon": "Moon",
+  "planet.stellaris.mars": "Mars",
+  "planet.stellaris.earth": "Earth"
 
 }

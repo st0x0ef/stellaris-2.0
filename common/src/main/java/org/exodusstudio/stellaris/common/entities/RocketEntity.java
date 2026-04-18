@@ -75,13 +75,8 @@ public class RocketEntity extends VehicleEntity  {
      * Spawns the rocket item with its modules saved when the rocket entity is destroyed.
      */
     protected void spawnRocketItem() {
-        ItemStack rocketStack = new ItemStack(ItemsRegistry.ROCKET.get(), 1);
-        rocketStack.set(DataComponentsRegistry.ROCKET_MODULES.get(), this.entityData.get(ROCKET_MODULES));
 
-
-        FluidStack fuel = this.getFuelType();
-        rocketStack.set(DataComponentsRegistry.FLUID_LIST.get(),
-                new FluidAmountMapDataComponent(List.of(fuel.getFluid()), List.of(fuel.getAmount())));
+        ItemStack rocketStack = this.toItemStack();
 
         ItemEntity entityToSpawn = new ItemEntity(this.level(), this.getX(), this.getY(), this.getZ(), rocketStack);
 
@@ -169,6 +164,9 @@ public class RocketEntity extends VehicleEntity  {
             this.entityData.set(ROCKET_START_TIMER, this.getTimer() + 1);
         }
 
+        //To stop the rocket from going in the outer rims
+        if(this.isNoGravity()) return;
+
         if (this.getTimer() == 200) {
             if (this.getDeltaMovement().y < this.getRocketSpeed() - 0.1) {
                 this.addDeltaMovement(new Vec3(0, 0.1, 0));
@@ -187,12 +185,12 @@ public class RocketEntity extends VehicleEntity  {
             if (this.getFuel() > 0 || player.isCreative()) {
                 if (!this.entityData.get(ROCKET_START)) {
                     this.entityData.set(ROCKET_START, true);
-                    //player.awardStat(StatsRegistry.ROCKET_LAUNCHED.get());
+                    player.awardStat(StatsRegistry.ROCKET_LAUNCHED.get());
                     //TODO: sound
                     //this.level().playSound(player, this, SoundRegistry.ROCKET_SOUND.get(), SoundSource.NEUTRAL, 1, 1);
                 }
             } else {
-                player.displayClientMessage(Component.literal("text.stellaris.rocket.fuel" + getFuelType().getFluid().arch$registryName()), true);
+                player.displayClientMessage(Component.translatable("text.stellaris.rocket.fuel", getFuelType().getFluid().arch$registryName()), true);
             }
         }
     }
@@ -295,13 +293,15 @@ public class RocketEntity extends VehicleEntity  {
 
     public void openPlanetSelectionScreen(Player player) {
 
-        if(!player.stellaris$isPlanetMenuOpen() && player instanceof ServerPlayer serverPlayer) {
-            Utils.executeWithFade(serverPlayer, () -> {
-                MenuRegistry.openExtendedMenu(serverPlayer, MainTabletMenu.createProvider(IdentifierUtils.id("applications/planet_selection")));
-                player.stellaris$setPlanetMenuOpen(true, player, true);
-                this.setNoGravity(true);
+        if(!player.stellaris$isPlanetMenuOpen()) {
+            player.stellaris$setPlanetMenuOpen(true, player, true);
+            if(player instanceof ServerPlayer serverPlayer) {
+                Utils.executeWithFade(player, () -> {
+                    MenuRegistry.openExtendedMenu(serverPlayer, MainTabletMenu.createProvider(IdentifierUtils.id("applications/planet_selection")));
+                    this.setNoGravity(true);
+                }, true);
+            }
 
-            }, true);
 
 
         }
@@ -344,5 +344,17 @@ public class RocketEntity extends VehicleEntity  {
             rocketEntity.entityData.set(FUEL, (int) fluidData.getAmount(0));
         }
         return rocketEntity;
+    }
+
+    public ItemStack toItemStack() {
+        ItemStack rocketStack = new ItemStack(ItemsRegistry.ROCKET.get(), 1);
+        rocketStack.set(DataComponentsRegistry.ROCKET_MODULES.get(), this.entityData.get(ROCKET_MODULES));
+
+
+        FluidStack fuel = this.getFuelType();
+        rocketStack.set(DataComponentsRegistry.FLUID_LIST.get(),
+                new FluidAmountMapDataComponent(List.of(fuel.getFluid()), List.of(fuel.getAmount())));
+
+        return rocketStack;
     }
 }
