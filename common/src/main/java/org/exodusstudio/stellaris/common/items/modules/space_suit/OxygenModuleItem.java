@@ -32,6 +32,6 @@ public class OxygenModuleItem extends Item implements SpaceSuitModule.OxygenModu
     @Override
     public void appendHoverText(ItemStack stack, TooltipContext context, TooltipDisplay tooltipDisplay, Consumer<Component> tooltipAdder, TooltipFlag flag) {
         tooltipAdder.accept(Component.literal("Store up to " + this.oxygenCapacity + "mb of oxygen on your space suit.").withColor(Utils.getMinecraftColor("gray")));
-        tooltipAdder.accept(Component.translatable("tooltip.item.stellaris.can_be_applied_to_spacesuit_module").withColor(Utils.getMinecraftColor("gray")));
+        tooltipAdder.accept(Component.translatable("tooltip.item.stellaris.can_be_applied_to_space_suit_helmet_module").withColor(Utils.getMinecraftColor("gray")));
     }
 }

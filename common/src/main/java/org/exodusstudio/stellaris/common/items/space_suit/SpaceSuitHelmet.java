@@ -51,7 +51,6 @@ public class SpaceSuitHelmet extends SpaceSuitItem implements FluidProvider.ITEM
         UniversalEnergyStorage energy = getEnergy(stack);
         if (energy != null) {
             tooltipAdder.accept(Component.translatable("tooltip.item.stellaris.energy", getEnergy(stack).getEnergy(), getEnergy(stack).getMaxEnergy()));
-            tooltipAdder.accept(Component.literal("\n"));
         }
 
         if (ModuleUtils.hasSpaceSuitModule(stack, SpaceSuitModule.OxygenModule.class)) {

@@ -32,6 +32,6 @@ public class JetModuleItem extends Item implements SpaceSuitModule.JetModule {
     @Override
     public void appendHoverText(ItemStack stack, TooltipContext context, TooltipDisplay tooltipDisplay, Consumer<Component> tooltipAdder, TooltipFlag flag) {
         tooltipAdder.accept(Component.literal("Consumes " + consumptionPerTick + "mb of fuel per tick to allow you to fly.").withColor(Utils.getMinecraftColor("gray")));
-        tooltipAdder.accept(Component.translatable("tooltip.item.stellaris.can_be_applied_to_spacesuit_module").withColor(Utils.getMinecraftColor("gray")));
+        tooltipAdder.accept(Component.translatable("tooltip.item.stellaris.can_be_applied_to_space_suit_boots_module").withColor(Utils.getMinecraftColor("gray")));
     }
 }

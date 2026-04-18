@@ -298,7 +298,11 @@
   "tooltip.item.stellaris.pathogen_storage_cell_info": "A sealed containment cell used to store parasites and support research toward an infection cure.",
   "tooltip.item.stellaris.energy": "⚡ Energy: §e%s§r§f/§r§e%s§r FE",
   "tooltip.item.stellaris.oil_finder": "Right click on a block to check if there is oil.",
-  "tooltip.item.stellaris.can_be_applied_to_spacesuit_module": "This module can be applied to the space suit.",
+  "tooltip.item.stellaris.can_be_applied_to_space_suit_boots_module": "This module can be applied to the space suit boots.",
+  "tooltip.item.stellaris.can_be_applied_to_space_suit_leggings_module": "This module can be applied to the space suit leggings.",
+  "tooltip.item.stellaris.can_be_applied_to_space_suit_chestplate_module": "This module can be applied to the space suit chestplate.",
+  "tooltip.item.stellaris.can_be_applied_to_space_suit_helmet_module": "This module can be applied to the space suit helmet.",
+  "tooltip.item.stellaris.can_be_applied_to_space_suit_module": "This module can be applied to any space suit part.",
   "tooltip.item.stellaris.can_be_applied_to_rocket_module": "This module can be applied to the rocket.",
 
   "config.stellaris.debugMode": "Debug Mode",
