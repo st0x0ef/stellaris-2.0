@@ -13,11 +13,17 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.LanternBlock;
+import net.minecraft.world.level.block.WallTorchBlock;
 import org.apache.commons.io.FileUtils;
 import org.exodusstudio.stellaris.Stellaris;
+import org.exodusstudio.stellaris.common.blocks.CoalLanternBlock;
+import org.exodusstudio.stellaris.common.blocks.WallCoalTorchBlock;
 import org.exodusstudio.stellaris.common.blocks.entities.FlagBlockEntity;
 import org.exodusstudio.stellaris.common.items.space_suit.SpaceSuitHelmet;
 import org.exodusstudio.stellaris.common.registries.BlocksRegistry;
+import org.exodusstudio.stellaris.common.utils.OxygenUtils;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -103,6 +109,25 @@ public class Events {
                 Block.popResource(level, pos, stack);
             }
 
+
+            return EventResult.pass();
+        });
+
+        BlockEvent.PLACE.register((level, pos, state, player) -> {
+            if (level instanceof ServerLevel serverLevel && !OxygenUtils.isOxygenated(level, pos)) {
+                if (state.is(Blocks.TORCH)) {
+                    serverLevel.setBlockAndUpdate(pos, BlocksRegistry.COAL_TORCH_BLOCK.block().get().defaultBlockState());
+                    return EventResult.interruptFalse();
+                }
+                else if (state.is(Blocks.WALL_TORCH)) {
+                    serverLevel.setBlockAndUpdate(pos, BlocksRegistry.WALL_COAL_TORCH_BLOCK.get().defaultBlockState().setValue(WallCoalTorchBlock.FACING, state.getValue(WallTorchBlock.FACING)));
+                    return EventResult.interruptFalse();
+                }
+                else if (state.is(Blocks.LANTERN)) {
+                    serverLevel.setBlockAndUpdate(pos, BlocksRegistry.COAL_LANTERN_BLOCK.block().get().defaultBlockState().setValue(CoalLanternBlock.HANGING, state.getValue(LanternBlock.HANGING)));
+                    return EventResult.interruptFalse();
+                }
+            }
 
             return EventResult.pass();
         });

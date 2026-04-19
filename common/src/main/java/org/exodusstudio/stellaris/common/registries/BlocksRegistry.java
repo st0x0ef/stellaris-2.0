@@ -129,6 +129,12 @@ public final class BlocksRegistry {
     public static final RegistrySupplier<Block> LUNAR_HANGING_SIGN = block("lunar_hanging_sign", ofFullCopy(Blocks.OAK_HANGING_SIGN), p -> new ModCeilingHangingSignBlock(WoodTypesRegister.LUNAR_WOOD_TYPE, p));
     public static final RegistrySupplier<Block> LUNAR_WALL_HANGING_SIGN = block("lunar_wall_hanging_sign", ofFullCopy(Blocks.OAK_WALL_HANGING_SIGN), p -> new ModWallHangingSignBlock(WoodTypesRegister.LUNAR_WOOD_TYPE, p));
 
+    /** Coal Torch & Lantern */
+    public static final BlockItemRegistrySupplier COAL_TORCH_BLOCK = blockWithItem("coal_torch", BlockBehaviour.Properties.of().mapColor(MapColor.WOOD).noCollision().instabreak().sound(SoundType.WOOD), CoalTorchBlock::new);
+    public static final RegistrySupplier<Block> WALL_COAL_TORCH_BLOCK = block("wall_coal_torch", BlockBehaviour.Properties.of().mapColor(MapColor.WOOD).noCollision().instabreak().sound(SoundType.WOOD), WallCoalTorchBlock::new);
+    public static final BlockItemRegistrySupplier COAL_LANTERN_BLOCK = blockWithItem("coal_lantern", BlockBehaviour.Properties.of().mapColor(MapColor.WOOD).noCollision().instabreak().sound(SoundType.WOOD), CoalLanternBlock::new);
+
+
     /**
      * Burnt Forest
      **/
