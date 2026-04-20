@@ -193,6 +193,7 @@ public final class BlocksRegistry {
     // ROCKET
     public static final BlockItemRegistrySupplier ENGINEERING_STATION = blockWithCustomItem("engineering_station", BlockBehaviour.Properties.of(), EngineeringStationBlock::new, new Item.Properties(), BlockItem::new);
     public static final BlockItemRegistrySupplier ROCKET_LAUNCH_PAD = blockWithCustomItem("rocket_launch_pad", BlockBehaviour.Properties.of(), RocketLaunchPadBlock::new, new Item.Properties(), BlockItem::new);
+    public static final BlockItemRegistrySupplier ANTENNA = blockWithItem("antenna", BlockBehaviour.Properties.of(), AntennaBlock::new);
 
     /**
      * Fluids

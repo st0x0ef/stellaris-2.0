@@ -40,9 +40,11 @@ public class AntennaSavedData extends SavedData {
         this.antennas = new HashMap<>(antennas);
     }
 
-    public void addAntenna(Antenna antenna) {
-        this.antennas.put(UUID.randomUUID(), antenna);
+    public UUID addAntenna(Antenna antenna) {
+        UUID uuid = UUID.randomUUID();
+        this.antennas.put(uuid, antenna);
         this.setDirty();
+        return uuid;
     }
 
     @Nullable
@@ -60,6 +62,11 @@ public class AntennaSavedData extends SavedData {
 
     public void removeAntenna(Antenna antenna) {
         this.antennas.entrySet().removeIf(entry -> entry.getValue().equals(antenna));
+        this.setDirty();
+    }
+
+    public void modifyAntenna(UUID uuid, Antenna antenna) {
+        this.antennas.put(uuid, antenna);
         this.setDirty();
     }
 
