@@ -3,19 +3,26 @@ package org.exodusstudio.stellaris.common.commands;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.BoolArgumentType;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
+import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import dev.architectury.networking.NetworkManager;
 import dev.architectury.registry.menu.MenuRegistry;
 import net.minecraft.commands.CommandBuildContext;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.UUIDUtil;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.chunk.ChunkAccess;
 import org.exodusstudio.stellaris.Stellaris;
 
 import org.exodusstudio.stellaris.client.overlays.FadingHolder;
+import org.exodusstudio.stellaris.common.antennas.Antenna;
+import org.exodusstudio.stellaris.common.antennas.AntennaSavedData;
 import org.exodusstudio.stellaris.common.commands.arguments.PlanetArgument;
 import org.exodusstudio.stellaris.common.commands.helpers.ArgumentBuilder;
 import org.exodusstudio.stellaris.common.commands.helpers.CommandBuilder;
@@ -29,6 +36,10 @@ import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
 import org.exodusstudio.stellaris.common.utils.PlanetUtil;
 import org.exodusstudio.stellaris.common.utils.Utils;
 
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
+
 public class StellarisCommands {
 
     public StellarisCommands(CommandDispatcher<CommandSourceStack> dispatcher, CommandBuildContext registry, Commands.CommandSelection selection) {
@@ -37,6 +48,7 @@ public class StellarisCommands {
         planetsCommand(builder);
         testCommand(builder);
         adminCommand(builder);
+        antennaCommands(builder);
         builder.register();
     }
 
@@ -203,6 +215,75 @@ public class StellarisCommands {
 
                                 }))
         );
+
+        builder.addSubCommand(baseAdmin);
+    }
+
+    private void antennaCommands(CommandBuilder builder) {
+        CommandBuilder baseAdmin = builder.createSubCommand("antennas");
+
+        baseAdmin.addSubCommand(
+                builder.createSubCommand("list")
+                        .execute((c) -> {
+                            AntennaSavedData  antennaSavedData = AntennaSavedData.getSavedBlockData(c.getServer());
+
+                            Map<UUID, Antenna> antennas = antennaSavedData.getAntennas(null);
+
+                            MutableComponent component = Component.literal("Antenna List");
+
+                            for(Map.Entry<UUID, Antenna> entry : antennas.entrySet()) {
+                                UUID uuid = entry.getKey();
+                                Antenna antenna = entry.getValue();
+                                component.append(Component.literal("\n- " + uuid + " : " + antenna.ownerUUID() + " at " + antenna.blockPos()));
+                            }
+
+                            c.sendSuccess(component, false);
+                            return c.success();
+                        })
+        );
+
+        baseAdmin.addSubCommand(
+                builder.createSubCommand("add")
+                        .addArgument(ArgumentBuilder.of("name", StringArgumentType.string())
+                                .addArgument(ArgumentBuilder.of("public", BoolArgumentType.bool())
+                                        .execute(c -> {
+
+                                            Player player = c.getPlayer();
+                                            BlockPos pos = player.getOnPos();
+                                            boolean isPublic = BoolArgumentType.getBool(c.context(), "public");
+                                            String name = StringArgumentType.getString(c.context(), "name");
+
+                                            Antenna antenna = new Antenna(pos, player.level().dimension(), name, isPublic, player.getGameProfile().id(), List.of());
+                                            AntennaSavedData antennaSavedData = AntennaSavedData.getSavedBlockData(c.getServer());
+                                            antennaSavedData.addAntenna(antenna);
+
+                                            c.sendSuccess(Component.literal("Antenna added at " + pos), false);
+                                            return c.success();
+
+                                        })))
+        );
+
+        baseAdmin.addSubCommand(builder.createSubCommand("remove")
+                .addArgument(ArgumentBuilder.of("uuid-or-name", StringArgumentType.string())
+                        .execute(c -> {
+                            String name = StringArgumentType.getString(c.context(), "uuid-or-name");
+                            AntennaSavedData antennaSavedData = AntennaSavedData.getSavedBlockData(c.getServer());
+
+                            try {
+                                UUID uuid = UUID.fromString(name);
+                                antennaSavedData.removeAntenna(uuid);
+
+                            } catch(IllegalArgumentException e) {
+                                Map.Entry<UUID, Antenna> antenna = antennaSavedData.getAntenna(name);
+                                antennaSavedData.removeAntenna(antenna.getKey());
+                            }
+
+                            c.sendSuccess(Component.literal("Antenna " + name + " removed "), false);
+
+                            return c.success();
+                        })));
+
+
 
         builder.addSubCommand(baseAdmin);
     }
