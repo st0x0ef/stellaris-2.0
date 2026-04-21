@@ -5,7 +5,6 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.common.antennas.Antenna;
 import org.exodusstudio.stellaris.common.antennas.AntennaSavedData;
 import org.exodusstudio.stellaris.common.blocks.entities.AntennaBlockEntity;
@@ -41,7 +40,7 @@ public class AntennaMenu extends BaseContainer {
 
     public Antenna getAntenna(Level level) {
         if(level.isClientSide()) return null;
-        AntennaSavedData antennaSavedData = AntennaSavedData.getSavedBlockData(level.getServer());
+        AntennaSavedData antennaSavedData = AntennaSavedData.getSavedAntennas(level.getServer());
         return antennaSavedData.getAntenna(this.antennaId);
     }
 

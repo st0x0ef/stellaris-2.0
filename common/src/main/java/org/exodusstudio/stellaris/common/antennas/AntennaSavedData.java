@@ -1,11 +1,17 @@
 package org.exodusstudio.stellaris.common.antennas;
 
 import com.mojang.serialization.Codec;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.UUIDUtil;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.component.ResolvableProfile;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.saveddata.SavedData;
 import net.minecraft.world.level.saveddata.SavedDataType;
+import org.exodusstudio.stellaris.Stellaris;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -13,7 +19,7 @@ import java.util.*;
 
 public class AntennaSavedData extends SavedData {
 
-    public Map<UUID, Antenna> antennas = new HashMap<UUID, Antenna>();
+    public Map<UUID, Antenna> antennas = new HashMap<>();
 
 
     public static final Codec<Map<UUID, Antenna>> MAP_CODEC = Codec.unboundedMap(UUIDUtil.STRING_CODEC, Antenna.CODEC);
@@ -24,18 +30,16 @@ public class AntennaSavedData extends SavedData {
 
 
     private static final SavedDataType<@NotNull AntennaSavedData> TYPE = new SavedDataType<>(
-            "antennas", // The unique name for this saved data.
-            AntennaSavedData::new, // If there's no 'SavedBlockData', yet create one and refresh fields.
-            CODEC, // The codec used for serialization/deserialization.
-            null // A data fixer, which is not needed here.
+            "antennas",
+            AntennaSavedData::new,
+            CODEC,
+            null
     );
 
 
     public AntennaSavedData() {
-        // ...
     }
 
-    // Data constructor
     public AntennaSavedData(Map<UUID, Antenna> antennas) {
         this.antennas = new HashMap<>(antennas);
     }
@@ -49,17 +53,41 @@ public class AntennaSavedData extends SavedData {
 
     @Nullable
     public Map.Entry<UUID, Antenna> getAntenna(Antenna antenna) {
-        return  this.antennas.entrySet().stream()
-                .filter(entry -> entry.getValue().equals(antenna))
-                .findFirst().orElse(null);
+        return this.getAntenna(antenna.dimension, antenna.blockPos);
+    }
 
+    @Nullable
+    public Map.Entry<UUID, Antenna> getAntenna(ResourceKey<Level> dimension, BlockPos pos) {
+        return this.antennas.entrySet().stream()
+                .filter(entry -> entry.getValue().dimension.equals(dimension) && entry.getValue().blockPos.equals(pos))
+                .findFirst()
+                .orElse(null);
     }
 
     @Nullable
     public Map.Entry<UUID, Antenna> getAntenna(String name) {
         return  this.antennas.entrySet().stream()
-                .filter(entry -> entry.getValue().name().equals(name))
+                .filter(entry -> entry.getValue().name.equals(name))
                 .findFirst().orElse(null);
+
+    }
+
+    public void whitelistPlayers(UUID antennaUUID, Collection<ResolvableProfile> gameProfiles) {
+        Antenna antenna = this.getAntenna(antennaUUID);
+        if(antenna == null) return;
+
+        List<UUID> newUUIDs = new ArrayList<>(antenna.whitelist);
+        newUUIDs.addAll(gameProfiles.stream().map(profile -> profile.partialProfile().id()).toList());
+        antenna.whitelist = newUUIDs;
+        this.setDirty();
+    }
+
+    public boolean isPlayerOwner(UUID antennaUUID, Player player) {
+        Antenna antenna = this.getAntenna(antennaUUID);
+        //If this is true, this means that the antenna hasn't been configured
+        if(antenna == null) return true;
+
+        return antenna.ownerUUID.equals(player.getGameProfile().id());
 
     }
 
@@ -69,7 +97,12 @@ public class AntennaSavedData extends SavedData {
     }
 
     public void removeAntenna(Antenna antenna) {
-        this.antennas.entrySet().removeIf(entry -> entry.getValue().equals(antenna));
+        Map.Entry<UUID, Antenna> existing = this.getAntenna(antenna);
+        if (existing == null) {
+            return;
+        }
+
+        this.antennas.remove(existing.getKey());
         this.setDirty();
     }
 
@@ -88,10 +121,10 @@ public class AntennaSavedData extends SavedData {
             return this.antennas;
         }
 
-        Map<UUID, Antenna> antennaList = new HashMap<UUID, Antenna>();
+        Map<UUID, Antenna> antennaList = new HashMap<>();
 
         for(Map.Entry<UUID, Antenna> entry : this.antennas.entrySet()) {
-            if(entry.getValue().ownerUUID().equals(player)) {
+            if(entry.getValue().ownerUUID.equals(player)) {
                 antennaList.put(entry.getKey(), entry.getValue());
             }
         }
@@ -99,13 +132,14 @@ public class AntennaSavedData extends SavedData {
     }
 
 
-    public static AntennaSavedData getSavedBlockData(MinecraftServer server) {
+    public static AntennaSavedData getSavedAntennas(MinecraftServer server) {
 
 
         // This could be either the overworld or another dimension.
         ServerLevel level = server.getLevel(ServerLevel.OVERWORLD);
 
         if (level == null) {
+            Stellaris.LOG.info("level is null");
             return new AntennaSavedData(); // Return a new instance if the level is null.
         }
 

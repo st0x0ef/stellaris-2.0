@@ -67,7 +67,7 @@ public class AntennaBlock extends BaseMachineBlock {
         BlockEntity blockEntity = level.getBlockEntity(pos);
         if (blockEntity instanceof AntennaBlockEntity padCreatorBlock && !level.isClientSide()) {
 
-            AntennaSavedData antennaSavedData = AntennaSavedData.getSavedBlockData(level.getServer());
+            AntennaSavedData antennaSavedData = AntennaSavedData.getSavedAntennas(level.getServer());
             Antenna antenna = antennaSavedData.getAntenna(padCreatorBlock.launchPadId);
             Stellaris.LOG.info(" " + antenna);
 
@@ -104,10 +104,10 @@ public class AntennaBlock extends BaseMachineBlock {
     public @NotNull InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult) {
         if (!level.isClientSide()) {
 
-            AntennaSavedData antennaSavedData = AntennaSavedData.getSavedBlockData(level.getServer());
+            AntennaSavedData antennaSavedData = AntennaSavedData.getSavedAntennas(level.getServer());
             BlockEntity blockEntity = level.getBlockEntity(pos);
             if (blockEntity instanceof AntennaBlockEntity antennaBlock) {
-                if (antennaBlock.launchPadId == null || antennaSavedData.getAntenna(antennaBlock.launchPadId).ownerUUID().equals(player.getGameProfile().id())) {
+                if (antennaBlock.launchPadId == null || antennaSavedData.getAntenna(antennaBlock.launchPadId).ownerUUID.equals(player.getGameProfile().id())) {
                     super.useWithoutItem(state, level, pos, player, hitResult);
                 } else {
                     // If the player is not the owner of the launch pad, do not open the menu

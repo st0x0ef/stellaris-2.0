@@ -99,6 +99,11 @@ public class GravityUtils {
     }
 
     private static double getGravity(BigDecimal conversionRate, Planet planet) {
+
+        if(planet == null) {
+            return 0.42;
+        }
+
         if (GRAVITY_CACHE.containsKey(planet)) {
             return GRAVITY_CACHE.get(planet).computeIfAbsent(conversionRate, c -> MPS2ToMCG(c, planet.gravity()));
         } else {

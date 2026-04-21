@@ -5,7 +5,9 @@ import dev.architectury.event.events.common.BlockEvent;
 import dev.architectury.event.events.common.EntityEvent;
 import dev.architectury.event.events.common.LifecycleEvent;
 import dev.architectury.networking.NetworkManager;
+import net.minecraft.ChatFormatting;
 import net.minecraft.core.component.DataComponents;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
@@ -121,8 +123,15 @@ public class Events {
                 if(state.is(BlocksRegistry.ANTENNA.block().get()) ) {
                     AntennaBlockEntity antennaBlockEntity = (AntennaBlockEntity) level.getBlockEntity(pos);
                     if (antennaBlockEntity != null && antennaBlockEntity.launchPadId != null) {
-                        AntennaSavedData antennaSavedData = AntennaSavedData.getSavedBlockData(server);
+
+                        AntennaSavedData antennaSavedData = AntennaSavedData.getSavedAntennas(server);
                         Antenna antenna = antennaSavedData.getAntenna(antennaBlockEntity.launchPadId);
+
+                        if(!antennaSavedData.isPlayerOwner(antennaBlockEntity.launchPadId, player)) {
+                            player.sendSystemMessage(Component.literal("You don't have permission to break this antenna.").withStyle(ChatFormatting.GRAY));
+                            return EventResult.interruptFalse();
+                        }
+
                         if(antenna != null) {
                             NetworkManager.sendToServer(new AntennasOperations(antenna, "remove"));
                         }

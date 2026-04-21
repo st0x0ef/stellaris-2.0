@@ -11,7 +11,6 @@ import net.minecraft.commands.CommandBuildContext;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.UUIDUtil;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.server.level.ServerPlayer;
@@ -225,7 +224,7 @@ public class StellarisCommands {
         baseAdmin.addSubCommand(
                 builder.createSubCommand("list")
                         .execute((c) -> {
-                            AntennaSavedData  antennaSavedData = AntennaSavedData.getSavedBlockData(c.getServer());
+                            AntennaSavedData  antennaSavedData = AntennaSavedData.getSavedAntennas(c.getServer());
 
                             Map<UUID, Antenna> antennas = antennaSavedData.getAntennas(null);
 
@@ -234,7 +233,7 @@ public class StellarisCommands {
                             for(Map.Entry<UUID, Antenna> entry : antennas.entrySet()) {
                                 UUID uuid = entry.getKey();
                                 Antenna antenna = entry.getValue();
-                                component.append(Component.literal("\n- " + uuid + " : " + antenna.ownerUUID() + " at " + antenna.blockPos()));
+                                component.append(Component.literal("\n- " + uuid + " : " + antenna.name + " at " + antenna.blockPos));
                             }
 
                             c.sendSuccess(component, false);
@@ -254,7 +253,7 @@ public class StellarisCommands {
                                             String name = StringArgumentType.getString(c.context(), "name");
 
                                             Antenna antenna = new Antenna(pos, player.level().dimension(), name, isPublic, player.getGameProfile().id(), List.of());
-                                            AntennaSavedData antennaSavedData = AntennaSavedData.getSavedBlockData(c.getServer());
+                                            AntennaSavedData antennaSavedData = AntennaSavedData.getSavedAntennas(c.getServer());
                                             antennaSavedData.addAntenna(antenna);
 
                                             c.sendSuccess(Component.literal("Antenna added at " + pos), false);
@@ -267,7 +266,7 @@ public class StellarisCommands {
                 .addArgument(ArgumentBuilder.of("uuid-or-name", StringArgumentType.string())
                         .execute(c -> {
                             String name = StringArgumentType.getString(c.context(), "uuid-or-name");
-                            AntennaSavedData antennaSavedData = AntennaSavedData.getSavedBlockData(c.getServer());
+                            AntennaSavedData antennaSavedData = AntennaSavedData.getSavedAntennas(c.getServer());
 
                             try {
                                 UUID uuid = UUID.fromString(name);

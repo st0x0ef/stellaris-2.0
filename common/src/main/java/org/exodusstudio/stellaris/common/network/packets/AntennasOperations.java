@@ -7,6 +7,7 @@ import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.Identifier;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.level.Level;
 import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.common.antennas.Antenna;
@@ -28,40 +29,39 @@ public record AntennasOperations(Antenna antenna, String action) implements Cust
             AntennasOperations::new
     );
 
-    public AntennasOperations(Antenna antenna, String action) {
-        this.antenna = antenna;
-        this.action = action;
-    }
-
 
     public static void handle(AntennasOperations packet, NetworkManager.PacketContext context) {
-        //On the Server
-        Antenna launchPad = packet.antenna;
-        Level level = context.getPlayer().level();
+        context.queue(() -> {
+            // On the server thread
+            Antenna launchPad = packet.antenna;
+            Level level = context.getPlayer().level();
+            MinecraftServer server = level.getServer();
+            if (server == null) {
+                return;
+            }
 
-        AntennaSavedData antennaSavedData = AntennaSavedData.getSavedBlockData(level.getServer());
+            AntennaSavedData antennaSavedData = AntennaSavedData.getSavedAntennas(server);
 
-        switch (packet.action) {
-            case "set" -> {
+            switch (packet.action) {
+                case "set" -> {
+                    Map.Entry<UUID, Antenna> findedAntenna = antennaSavedData.getAntenna(launchPad);
 
-                Map.Entry<UUID, Antenna> findedAntenna = antennaSavedData.getAntenna(launchPad);
-
-                if (findedAntenna == null) {
-                    UUID newAntenna = antennaSavedData.addAntenna(launchPad);
-                    setUUIDToAntenna(level, launchPad.blockPos(), newAntenna);
-                } else {
-                    setUUIDToAntenna(level, launchPad.blockPos(), findedAntenna.getKey());
+                    if (findedAntenna == null) {
+                        UUID newAntenna = antennaSavedData.addAntenna(launchPad);
+                        setUUIDToAntenna(level, launchPad.blockPos, newAntenna);
+                    } else {
+                        setUUIDToAntenna(level, launchPad.blockPos, findedAntenna.getKey());
+                    }
                 }
+                case "modify" -> {
+                    UUID uuid = getUUIDFromAntennaBlock(level, launchPad.blockPos);
+                    if (uuid != null) {
+                        antennaSavedData.modifyAntenna(uuid, launchPad);
+                    }
+                }
+                case "remove" -> antennaSavedData.removeAntenna(launchPad);
             }
-            case "modify" -> {
-                UUID uuid = getUUIDFromAntennaBlock(level, launchPad.blockPos());
-                antennaSavedData.modifyAntenna(uuid, launchPad);
-            }
-            case "remove" -> {
-                antennaSavedData.removeAntenna(launchPad);
-            }
-
-        }
+        });
     }
 
     public static void setUUIDToAntenna(Level level,  BlockPos pos, UUID uuid) {
