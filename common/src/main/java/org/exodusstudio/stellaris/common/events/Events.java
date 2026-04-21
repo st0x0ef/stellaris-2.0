@@ -4,6 +4,7 @@ import dev.architectury.event.EventResult;
 import dev.architectury.event.events.common.BlockEvent;
 import dev.architectury.event.events.common.EntityEvent;
 import dev.architectury.event.events.common.LifecycleEvent;
+import dev.architectury.networking.NetworkManager;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.MinecraftServer;
@@ -18,10 +19,14 @@ import net.minecraft.world.level.block.LanternBlock;
 import net.minecraft.world.level.block.WallTorchBlock;
 import org.apache.commons.io.FileUtils;
 import org.exodusstudio.stellaris.Stellaris;
+import org.exodusstudio.stellaris.common.antennas.Antenna;
+import org.exodusstudio.stellaris.common.antennas.AntennaSavedData;
 import org.exodusstudio.stellaris.common.blocks.CoalLanternBlock;
 import org.exodusstudio.stellaris.common.blocks.WallCoalTorchBlock;
+import org.exodusstudio.stellaris.common.blocks.entities.AntennaBlockEntity;
 import org.exodusstudio.stellaris.common.blocks.entities.FlagBlockEntity;
 import org.exodusstudio.stellaris.common.items.space_suit.SpaceSuitHelmet;
+import org.exodusstudio.stellaris.common.network.packets.AntennasOperations;
 import org.exodusstudio.stellaris.common.registries.BlocksRegistry;
 import org.exodusstudio.stellaris.common.utils.OxygenUtils;
 
@@ -48,6 +53,7 @@ public class Events {
                 SpaceSuitHelmet.tickOilFinderEnergy(headStack);
             }
         });
+
 
         blockEvents();
     }
@@ -107,6 +113,23 @@ public class Events {
                     }
                 }
                 Block.popResource(level, pos, stack);
+            }
+
+            if(level instanceof ServerLevel serverLevel) {
+                MinecraftServer server = serverLevel.getServer();
+
+                if(state.is(BlocksRegistry.ANTENNA.block().get()) ) {
+                    AntennaBlockEntity antennaBlockEntity = (AntennaBlockEntity) level.getBlockEntity(pos);
+                    if (antennaBlockEntity != null && antennaBlockEntity.launchPadId != null) {
+                        AntennaSavedData antennaSavedData = AntennaSavedData.getSavedBlockData(server);
+                        Antenna antenna = antennaSavedData.getAntenna(antennaBlockEntity.launchPadId);
+                        if(antenna != null) {
+                            NetworkManager.sendToServer(new AntennasOperations(antenna, "remove"));
+                        }
+                    }
+
+                }
+
             }
 
 

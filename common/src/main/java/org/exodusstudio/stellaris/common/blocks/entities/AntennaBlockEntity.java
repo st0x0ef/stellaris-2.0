@@ -13,8 +13,11 @@ import net.minecraft.world.level.block.entity.BaseContainerBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
+import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.common.antennas.Antenna;
 import org.exodusstudio.stellaris.common.blocks.entities.machines.base.TickingBlockEntity;
+import org.exodusstudio.stellaris.common.menus.AntennaMenu;
+import org.exodusstudio.stellaris.common.network.packets.AntennasOperations;
 import org.exodusstudio.stellaris.common.registries.BlockEntitiesRegistry;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -45,7 +48,7 @@ public class AntennaBlockEntity extends BaseContainerBlockEntity implements Tick
 
     @Override
     protected AbstractContainerMenu createMenu(int containerId, Inventory inventory) {
-        return new AntennaMenu(containerId, inventory, this, this.launchPadId);
+        return new AntennaMenu(containerId, inventory, this, this.launchPadId, null);
     }
 
     @Override
@@ -78,7 +81,9 @@ public class AntennaBlockEntity extends BaseContainerBlockEntity implements Tick
     @Override
     protected void saveAdditional(ValueOutput output) {
         super.saveAdditional(output);
-        output.store("uuid", UUIDUtil.CODEC, this.launchPadId);
+        if(this.launchPadId != null) {
+            output.store("uuid", UUIDUtil.CODEC, this.launchPadId);
+        }
     }
 
     public void setAntenna(Antenna antenna, @Nullable UUID uuid, boolean create) {
@@ -87,7 +92,7 @@ public class AntennaBlockEntity extends BaseContainerBlockEntity implements Tick
             return;
         }
 
-        NetworkManager.sendToServer(new LaunchPadsOperations(launchPad, "add"));
+        NetworkManager.sendToServer(new AntennasOperations(antenna, "set"));
     }
 
     @Override

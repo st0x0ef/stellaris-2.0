@@ -67,6 +67,6 @@ public class BlockEntitiesRegistry {
             () -> new BlockEntityType<>(FluidTankBlockEntity::new, Set.of(BlocksRegistry.FLUID_TANK_T1.block().get())));
 
     public static final Supplier<BlockEntityType<?>> ANTENNA = BLOCK_ENTITY_TYPE.register("antenna",
-            () -> new BlockEntityType<>(AntennaBlockEntity::new, Set.of(BlocksRegistry.FLUID_TANK_T1.block().get())));
+            () -> new BlockEntityType<>(AntennaBlockEntity::new, Set.of(BlocksRegistry.ANTENNA.block().get())));
 
 }

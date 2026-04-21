@@ -3,21 +3,15 @@ package org.exodusstudio.stellaris.common.network.packets;
 import dev.architectury.networking.NetworkManager;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.UUIDUtil;
-import net.minecraft.core.registries.Registries;
-import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.Identifier;
-import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.level.Level;
 import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.common.antennas.Antenna;
 import org.exodusstudio.stellaris.common.antennas.AntennaSavedData;
 import org.exodusstudio.stellaris.common.blocks.entities.AntennaBlockEntity;
-import org.exodusstudio.stellaris.common.network.NetworkRegistry;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Map;
@@ -50,7 +44,7 @@ public record AntennasOperations(Antenna antenna, String action) implements Cust
         switch (packet.action) {
             case "set" -> {
 
-                Map.Entry<UUID, Antenna> findedAntenna = antennaSavedData.getAntenna(launchPad.name());
+                Map.Entry<UUID, Antenna> findedAntenna = antennaSavedData.getAntenna(launchPad);
 
                 if (findedAntenna == null) {
                     UUID newAntenna = antennaSavedData.addAntenna(launchPad);
@@ -64,8 +58,7 @@ public record AntennasOperations(Antenna antenna, String action) implements Cust
                 antennaSavedData.modifyAntenna(uuid, launchPad);
             }
             case "remove" -> {
-                UUID uuid = getUUIDFromAntennaBlock(level, launchPad.blockPos());
-                antennaSavedData.removeAntenna(uuid);
+                antennaSavedData.removeAntenna(launchPad);
             }
 
         }

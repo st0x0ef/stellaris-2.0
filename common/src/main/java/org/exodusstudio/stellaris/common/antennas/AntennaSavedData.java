@@ -48,9 +48,17 @@ public class AntennaSavedData extends SavedData {
     }
 
     @Nullable
+    public Map.Entry<UUID, Antenna> getAntenna(Antenna antenna) {
+        return  this.antennas.entrySet().stream()
+                .filter(entry -> entry.getValue().equals(antenna))
+                .findFirst().orElse(null);
+
+    }
+
+    @Nullable
     public Map.Entry<UUID, Antenna> getAntenna(String name) {
         return  this.antennas.entrySet().stream()
-                .filter(entry -> entry.getKey().equals(name))
+                .filter(entry -> entry.getValue().name().equals(name))
                 .findFirst().orElse(null);
 
     }
@@ -92,6 +100,7 @@ public class AntennaSavedData extends SavedData {
 
 
     public static AntennaSavedData getSavedBlockData(MinecraftServer server) {
+
 
         // This could be either the overworld or another dimension.
         ServerLevel level = server.getLevel(ServerLevel.OVERWORLD);

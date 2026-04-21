@@ -25,6 +25,10 @@ public class GUISprites {
     public static final Identifier ROCKET_CRAFTING_TAB = IdentifierUtils.id("icon/rocket_crafting_tab" );
     public static final Identifier MODULES_TAB_HOVER = IdentifierUtils.id("icon/modules_tab_hover" );
     public static final Identifier ROCKET_CRAFTING_TAB_HOVER = IdentifierUtils.id("icon/rocket_crafting_tab_hover" );
+    public static final Identifier INDUSTRIAL_CHECKBOX = IdentifierUtils.id("util/industrial_checkbox");
+    public static final Identifier INDUSTRIAL_CHECKBOX_SELECTED = IdentifierUtils.id("util/industrial_checkbox_selected");
+    public static final Identifier CHECKBOX = IdentifierUtils.id( "util/checkbox");
+    public static final Identifier CHECKBOX_SELECTED = IdentifierUtils.id("util/checkbox_selected");
 
     public static final Identifier OUTPUT_BUTTON = IdentifierUtils.id("util/output_button" );
 

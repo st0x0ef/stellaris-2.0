@@ -18,8 +18,12 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
+import org.exodusstudio.stellaris.Stellaris;
+import org.exodusstudio.stellaris.common.antennas.Antenna;
+import org.exodusstudio.stellaris.common.antennas.AntennaSavedData;
 import org.exodusstudio.stellaris.common.blocks.base.BaseMachineBlock;
 import org.exodusstudio.stellaris.common.blocks.entities.AntennaBlockEntity;
+import org.exodusstudio.stellaris.common.menus.AntennaMenu;
 import org.exodusstudio.stellaris.common.registries.BlockEntitiesRegistry;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -61,12 +65,20 @@ public class AntennaBlock extends BaseMachineBlock {
     @Override
     protected ExtendedMenuProvider getMenuProvider(BlockState state, Level level, BlockPos pos) {
         BlockEntity blockEntity = level.getBlockEntity(pos);
-        if (blockEntity instanceof AntennaBlockEntity padCreatorBlock) {
+        if (blockEntity instanceof AntennaBlockEntity padCreatorBlock && !level.isClientSide()) {
+
+            AntennaSavedData antennaSavedData = AntennaSavedData.getSavedBlockData(level.getServer());
+            Antenna antenna = antennaSavedData.getAntenna(padCreatorBlock.launchPadId);
+            Stellaris.LOG.info(" " + antenna);
+
             return new ExtendedMenuProvider() {
                 @Override
                 public void saveExtraData(FriendlyByteBuf buf) {
                     buf.writeBlockPos(blockEntity.getBlockPos());
-                    buf.writeInt(padCreatorBlock.launchPadId);
+                    buf.writeNullable(padCreatorBlock.launchPadId, (buffer, uuid) -> buffer.writeUUID(uuid));
+
+                    buf.writeNullable(antenna, Antenna.STREAM_CODEC);
+
                 }
 
                 @Override
@@ -79,8 +91,8 @@ public class AntennaBlock extends BaseMachineBlock {
                     FriendlyByteBuf buf = new FriendlyByteBuf(Unpooled.buffer());
 
                     buf.writeBlockPos(blockEntity.getBlockPos());
-                    buf.writeInt(padCreatorBlock.launchPadId);
-
+                    buf.writeNullable(padCreatorBlock.launchPadId, (buffer, uuid) -> buffer.writeUUID(uuid));
+                    buf.writeNullable(antenna, Antenna.STREAM_CODEC);
                     return AntennaMenu.create(containerId, inventory, buf);
                 }
             };
@@ -90,15 +102,17 @@ public class AntennaBlock extends BaseMachineBlock {
 
     @Override
     public @NotNull InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult) {
-        if (!level.isClientSide) {
+        if (!level.isClientSide()) {
+
+            AntennaSavedData antennaSavedData = AntennaSavedData.getSavedBlockData(level.getServer());
             BlockEntity blockEntity = level.getBlockEntity(pos);
             if (blockEntity instanceof AntennaBlockEntity antennaBlock) {
-                if (antennaBlock.launchPadId == -1 || LaunchPadUtils.getPadById(antennaBlock.launchPadId).owner().equals(player.getDisplayName().getString())) {
+                if (antennaBlock.launchPadId == null || antennaSavedData.getAntenna(antennaBlock.launchPadId).ownerUUID().equals(player.getGameProfile().id())) {
                     super.useWithoutItem(state, level, pos, player, hitResult);
                 } else {
                     // If the player is not the owner of the launch pad, do not open the menu
                     // You can also send a message to the player if needed
-                    player.sendSystemMessage(Component.translatable("message.stellaris.not_owner_of_launch_pad"));
+                    player.displayClientMessage(Component.translatable("message.stellaris.not_owner_of_launch_pad"), false);
                 }
             }
         }

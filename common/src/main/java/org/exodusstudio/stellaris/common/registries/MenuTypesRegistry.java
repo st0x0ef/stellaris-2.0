@@ -39,5 +39,8 @@ public class MenuTypesRegistry {
     public static final RegistrySupplier<MenuType<FluidTankMenu>> FLUID_TANK_MENU = MENU_TYPE.register("fluid_tank", () -> MenuRegistry.ofExtended(FluidTankMenu::create));
     public static final RegistrySupplier<MenuType<LanderMenu>> LANDER_MENU = MENU_TYPE.register("lander_menu", () -> MenuRegistry.ofExtended(LanderMenu::create));
 
+
+    public static final RegistrySupplier<MenuType<AntennaMenu>> ANTENNA = MENU_TYPE.register("antenna_menu", () -> MenuRegistry.ofExtended(AntennaMenu::create));
+
 }
 

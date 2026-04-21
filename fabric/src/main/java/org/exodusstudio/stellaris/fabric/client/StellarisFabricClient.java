@@ -79,6 +79,8 @@ public final class StellarisFabricClient implements ClientModInitializer {
         MenuScreenRegistry.registerScreenFactory(MenuTypesRegistry.FLUID_TANK_MENU.get(), FluidTankScreen::new);
         MenuScreenRegistry.registerScreenFactory(MenuTypesRegistry.LANDER_MENU.get(), LanderScreen::new);
         MenuScreenRegistry.registerScreenFactory(MenuTypesRegistry.ROCKET_MENU.get(), RocketScreen::new);
+        MenuScreenRegistry.registerScreenFactory(MenuTypesRegistry.ANTENNA.get(), AntennaScreen::new);
+
     }
 
     @SuppressWarnings("unchecked")
