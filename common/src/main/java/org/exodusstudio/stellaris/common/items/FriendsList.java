@@ -83,13 +83,20 @@ public class FriendsList extends Item {
             boolean alreadyFriend = existingFriends.stream().anyMatch(profile ->
                     profile.name().map(interactedName::equals).orElse(false)
             );
+
+            List<ResolvableProfile> friendsList = new ArrayList<>(existingFriends);
+            ResolvableProfile interactedPlayerProfile = ResolvableProfile.createResolved(interactedPlayer.getGameProfile());
+
             if (!alreadyFriend) {
-                List<ResolvableProfile> friendsList = new ArrayList<>(existingFriends);
-                friendsList.add(ResolvableProfile.createResolved(interactedPlayer.getGameProfile()));
-                heldStack.set(DataComponentsRegistry.GAMEPROFILE_LIST.get(), friendsList);
-                player.setItemInHand(usedHand, heldStack);
-                player.getInventory().setChanged();
+                friendsList.add(interactedPlayerProfile);
+            } else {
+                friendsList.remove(interactedPlayerProfile);
             }
+
+            heldStack.set(DataComponentsRegistry.GAMEPROFILE_LIST.get(), friendsList);
+
+            player.setItemInHand(usedHand, heldStack);
+            player.getInventory().setChanged();
 
             return InteractionResult.CONSUME;
         }
@@ -102,14 +109,15 @@ public class FriendsList extends Item {
         super.appendHoverText(stack, context, tooltipDisplay, tooltipAdder, flag);
         MutableComponent component = Component.literal("Friends: ").withStyle(ChatFormatting.GRAY);
         List<ResolvableProfile> friendsList = stack.getOrDefault(DataComponentsRegistry.GAMEPROFILE_LIST.get(), List.of());
+        tooltipAdder.accept(component);
+
         if(friendsList.isEmpty()) {
-            component.append(Component.literal("None"));
+            tooltipAdder.accept(Component.literal("None"));
         } else {
             for(ResolvableProfile profile : friendsList) {
-                component.append("\n").append(Component.literal("- " + profile.name().orElse("Unknown")).withStyle(ChatFormatting.GRAY));
+                tooltipAdder.accept(Component.literal("- " + profile.name().orElse("Unknown")).withStyle(ChatFormatting.GRAY));
             }
-            component = Component.literal(component.getString().substring(0, component.getString().length() - 2));
+
         }
-        tooltipAdder.accept(component);
     }
 }
