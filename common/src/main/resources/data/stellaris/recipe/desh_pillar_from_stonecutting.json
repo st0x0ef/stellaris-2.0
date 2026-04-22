@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": "stellaris:desh_plating_block",
+  "result": {
+    "id": "stellaris:desh_pillar",
+    "count": 1
+  }
+}

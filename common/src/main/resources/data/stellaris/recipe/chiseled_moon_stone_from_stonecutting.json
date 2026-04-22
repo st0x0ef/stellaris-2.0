@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": "stellaris:moon_stone",
+  "result": {
+    "id": "stellaris:chiseled_moon_stone",
+    "count": 1
+  }
+}

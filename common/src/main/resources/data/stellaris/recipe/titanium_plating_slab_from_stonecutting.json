@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": "stellaris:titanium_plating_block",
+  "result": {
+    "id": "stellaris:titanium_plating_slab",
+    "count": 2
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": "stellaris:titanium_block",
+  "result": {
+    "id": "stellaris:titanium_pillar",
+    "count": 1
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": "stellaris:polished_moon_stone",
+  "result": {
+    "id": "stellaris:moon_polished_stone_brick_stairs",
+    "count": 1
+  }
+}

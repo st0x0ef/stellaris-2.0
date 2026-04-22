@@ -1,0 +1,14 @@
+{
+  "replace": false,
+  "values": [
+    "stellaris:titanium_stairs",
+    "stellaris:titanium_plating_stairs",
+    "stellaris:iron_plating_stairs",
+    "stellaris:moon_stone_stairs",
+    "stellaris:moon_stone_brick_stairs",
+    "stellaris:moon_polished_stone_brick_stairs",
+    "stellaris:desh_plating_stairs",
+    "stellaris:casus_astrum_stone_stairs",
+    "stellaris:lunar_stairs"
+  ]
+}

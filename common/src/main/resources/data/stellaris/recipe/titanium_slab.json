@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "###"
+  ],
+  "key": {
+    "#": "stellaris:titanium_block"
+  },
+  "result": {
+    "id": "stellaris:titanium_slab",
+    "count": 6
+  }
+}

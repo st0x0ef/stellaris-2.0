@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "TGT",
+    "TRT",
+    "III"
+  ],
+  "key": {
+    "T": "stellaris:titanium_ingot",
+    "G": "minecraft:glass",
+    "R": "minecraft:redstone",
+    "I": "minecraft:iron_ingot"
+  },
+  "result": {
+    "id": "stellaris:vacuumator",
+    "count": 1
+  }
+}

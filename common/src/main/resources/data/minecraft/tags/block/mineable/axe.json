@@ -1,0 +1,25 @@
+{
+  "replace": false,
+  "values": [
+    "stellaris:lunar_log",
+    "stellaris:lunar_wood",
+    "stellaris:stripped_lunar_log",
+    "stellaris:stripped_lunar_wood",
+    "stellaris:lunar_planks",
+    "stellaris:lunar_stairs",
+    "stellaris:lunar_slab",
+    "stellaris:lunar_fence",
+    "stellaris:lunar_fence_gate",
+    "stellaris:lunar_door",
+    "stellaris:lunar_trapdoor",
+    "stellaris:lunar_pressure_plate",
+    "stellaris:lunar_button",
+    "stellaris:lunar_sign",
+    "stellaris:lunar_wall_sign",
+    "stellaris:lunar_hanging_sign",
+    "stellaris:lunar_wall_hanging_sign",
+    "stellaris:coal_torch",
+    "stellaris:wall_coal_torch",
+    "stellaris:flag"
+  ]
+}

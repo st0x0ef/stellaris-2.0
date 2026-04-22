@@ -1,0 +1,10 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    "stellaris:raw_desh_block"
+  ],
+  "result": {
+    "id": "stellaris:raw_desh",
+    "count": 9
+  }
+}

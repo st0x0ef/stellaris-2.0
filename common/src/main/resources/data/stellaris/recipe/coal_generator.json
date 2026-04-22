@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "#L#",
+    "#X#",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "tag": "stellaris:titanium_ingot"
+    },
+    "X": {
+      "item": "minecraft:blast_furnace"
+    },
+    "L": {
+      "item": "minecraft:lapis_lazuli"
+    }
+  },
+  "result": {
+    "id": "stellaris:coal_generator"
+  }
+}

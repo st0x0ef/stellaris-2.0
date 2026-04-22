@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:smelting",
+  "ingredient": "stellaris:raw_desh",
+  "result": {
+    "id": "stellaris:desh_ingot"
+  },
+  "experience": 0.7,
+  "cookingtime": 200
+}

@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "TTT",
+    "T T",
+    "T T"
+  ],
+  "key": {
+    "T": "stellaris:copper_ingot"
+  },
+  "result": {
+    "id": "stellaris:space_suit_leggings"
+  }
+}

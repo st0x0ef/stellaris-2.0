@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "WW",
+    "WW",
+    "S "
+  ],
+  "key": {
+    "W": "minecraft:white_wool",
+    "S": "minecraft:stick"
+  },
+  "result": {
+    "id": "stellaris:flag",
+    "count": 1
+  }
+}

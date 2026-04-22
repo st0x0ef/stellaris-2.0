@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": "stellaris:moon_stone",
+  "result": {
+    "id": "stellaris:moon_stone_brick_slab",
+    "count": 2
+  }
+}

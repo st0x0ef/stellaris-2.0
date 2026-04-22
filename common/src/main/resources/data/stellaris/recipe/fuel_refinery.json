@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "TBT",
+    "IFI",
+    "TBT"
+  ],
+  "key": {
+    "T": "stellaris:titanium_ingot",
+    "B": "minecraft:bucket",
+    "I": "minecraft:iron_ingot",
+    "F": "minecraft:furnace"
+  },
+  "result": {
+    "id": "stellaris:fuel_refinery",
+    "count": 1
+  }
+}

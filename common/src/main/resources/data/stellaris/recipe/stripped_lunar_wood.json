@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "##",
+    "##"
+  ],
+  "key": {
+    "#": "stellaris:stripped_lunar_log"
+  },
+  "result": {
+    "id": "stellaris:stripped_lunar_wood",
+    "count": 3
+  }
+}

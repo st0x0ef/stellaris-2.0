@@ -16,8 +16,8 @@ import org.exodusstudio.stellaris.common.data.PlanetsData;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class GravityUtils {
@@ -34,9 +34,9 @@ public class GravityUtils {
     public static final BigDecimal GRAVITY_WATER_MINECART_CONVERSION_RATE = new BigDecimal("0.005").divide(EARTH_GRAVITY, 10, RoundingMode.HALF_UP);
 
 
-    private static final Map<Planet, Map<BigDecimal, Double>> GRAVITY_CACHE = new HashMap<>();
-    private static final Map<Planet, Double> SAFE_FALL_DISTANCE_CACHE = new HashMap<>();
-    private static final Map<Planet, Double> FALL_DAMAGE_MULT_CACHE = new HashMap<>();
+    private static final Map<Planet, Map<BigDecimal, Double>> GRAVITY_CACHE = new ConcurrentHashMap<>();
+    private static final Map<Planet, Double> SAFE_FALL_DISTANCE_CACHE = new ConcurrentHashMap<>();
+    private static final Map<Planet, Double> FALL_DAMAGE_MULT_CACHE = new ConcurrentHashMap<>();
 
     public static void setLivingEntityGravity(LivingEntity entity) {
         Planet planet = PlanetsData.getPlanet(entity.level().dimension());
@@ -99,15 +99,8 @@ public class GravityUtils {
     }
 
     private static double getGravity(BigDecimal conversionRate, Planet planet) {
-        if (GRAVITY_CACHE.containsKey(planet)) {
-            return GRAVITY_CACHE.get(planet).computeIfAbsent(conversionRate, c -> MPS2ToMCG(c, planet.gravity()));
-        } else {
-            Map<BigDecimal, Double> planetGravityMap = new HashMap<>();
-            double gravityValue = MPS2ToMCG(conversionRate, planet.gravity());
-            planetGravityMap.put(conversionRate, gravityValue);
-            GRAVITY_CACHE.put(planet, planetGravityMap);
-            return gravityValue;
-        }
+        Map<BigDecimal, Double> planetGravityMap = GRAVITY_CACHE.computeIfAbsent(planet, p -> new ConcurrentHashMap<>());
+        return planetGravityMap.computeIfAbsent(conversionRate, c -> MPS2ToMCG(c, planet.gravity()));
     }
 
     private static double getSafeFallDistance(Planet planet) {

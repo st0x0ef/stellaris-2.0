@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:blasting",
+  "ingredient": "stellaris:moon_desh_ore",
+  "result": {
+    "id": "stellaris:desh_ingot"
+  },
+  "experience": 0.7,
+  "cookingtime": 100
+}

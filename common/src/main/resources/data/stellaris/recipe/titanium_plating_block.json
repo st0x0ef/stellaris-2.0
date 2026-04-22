@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "##",
+    "##"
+  ],
+  "key": {
+    "#": "stellaris:titanium_ingot"
+  },
+  "result": {
+    "id": "stellaris:titanium_plating_block",
+    "count": 4
+  }
+}

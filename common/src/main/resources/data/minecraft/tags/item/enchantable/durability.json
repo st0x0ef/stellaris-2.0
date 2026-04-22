@@ -1,0 +1,14 @@
+{
+  "replace": false,
+  "values": [
+    "stellaris:titanium_pickaxe",
+    "stellaris:titanium_axe",
+    "stellaris:titanium_shovel",
+    "stellaris:titanium_hoe",
+    "stellaris:titanium_sword",
+    "stellaris:space_suit_helmet",
+    "stellaris:space_suit_chestplate",
+    "stellaris:space_suit_leggings",
+    "stellaris:space_suit_boots"
+  ]
+}
