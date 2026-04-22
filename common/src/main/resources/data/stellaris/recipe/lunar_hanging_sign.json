@@ -3,11 +3,11 @@
   "pattern": [
     "C C",
     "###",
-    " # "
+    "###"
   ],
   "key": {
     "#": "stellaris:stripped_lunar_log",
-    "C": "minecraft:chain"
+    "C": "minecraft:iron_chain"
   },
   "result": {
     "id": "stellaris:lunar_hanging_sign",

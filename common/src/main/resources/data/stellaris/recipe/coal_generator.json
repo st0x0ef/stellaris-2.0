@@ -6,15 +6,9 @@
     "###"
   ],
   "key": {
-    "#": {
-      "tag": "stellaris:titanium_ingot"
-    },
-    "X": {
-      "item": "minecraft:blast_furnace"
-    },
-    "L": {
-      "item": "minecraft:lapis_lazuli"
-    }
+    "#": "#stellaris:titanium_materials",
+    "X": "minecraft:blast_furnace",
+    "L": "minecraft:lapis_lazuli"
   },
   "result": {
     "id": "stellaris:coal_generator"
