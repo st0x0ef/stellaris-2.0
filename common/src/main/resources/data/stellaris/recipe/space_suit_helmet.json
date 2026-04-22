@@ -1,11 +1,11 @@
 {
   "type": "minecraft:crafting_shaped",
   "pattern": [
-    "TGT",
+    "#G#",
     "T T"
   ],
   "key": {
-    "T": "stellaris:copper_ingot",
+    "T": "minecraft:copper_ingot",
     "G": "minecraft:glass"
   },
   "result": {
