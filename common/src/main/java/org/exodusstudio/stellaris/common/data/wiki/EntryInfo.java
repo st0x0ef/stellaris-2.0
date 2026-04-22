@@ -1,21 +1,31 @@
-package org.exodusstudio.stellaris.client.data.wiki;
+package org.exodusstudio.stellaris.common.data.wiki;
 
+import com.mojang.datafixers.util.Either;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.Block;
 
 import java.util.List;
 import java.util.Optional;
 
-public record EntryInfo(Identifier id, Identifier entryId, String title, String iconType, List<InfoComponent> components) {
+public record EntryInfo(Identifier id, Identifier entryId, String title, String iconType, List<InfoComponent> components,
+                        Optional<List<Either<TagKey<Block>, ResourceKey<Block>>>> associatedBlocks) {
 
     public static final Codec<EntryInfo> CODEC = RecordCodecBuilder.create(instance -> instance.group(
             Identifier.CODEC.fieldOf("id").forGetter(EntryInfo::id),
             Identifier.CODEC.fieldOf("entryId").forGetter(EntryInfo::entryId),
             Codec.STRING.fieldOf("title").forGetter(EntryInfo::title),
             Codec.STRING.fieldOf("iconType").forGetter(EntryInfo::iconType),
-            InfoComponent.CODEC.listOf().fieldOf("components").forGetter(EntryInfo::components)
+            InfoComponent.CODEC.listOf().fieldOf("components").forGetter(EntryInfo::components),
+            Codec.either(
+                    TagKey.hashedCodec(Registries.BLOCK),
+                    ResourceKey.codec(Registries.BLOCK)
+            ).listOf().optionalFieldOf("associatedBlocks").forGetter(EntryInfo::associatedBlocks)
     ).apply(instance, EntryInfo::new));
 
     public record InfoComponent(String type, Optional<String> text, Optional<ImageComponent> image,

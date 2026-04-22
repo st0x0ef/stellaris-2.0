@@ -1,0 +1,39 @@
+{
+  "components": [
+    {
+      "type": "text",
+      "text": "The [color=yellow]Power Bank [color]is used to store energy."
+    },
+    {
+      "type": "image",
+      "image": {
+        "location": "stellaris:textures/wiki/rendered_blocks/power_bank",
+        "width": 96,
+        "height": 96,
+        "legend": "Power Bank"
+      }
+    },
+    {
+      "type": "text",
+      "text": "[br] [br] How to use : [br] Place the Power Bank. Now you can connect pipes to it to input/output energy."
+    },
+
+    {
+      "type": "item",
+      "item": {
+        "stack": {
+          "count": 1,
+          "id": "stellaris:power_bank_t1"
+        },
+        "onlyIcon": true
+      }
+    }
+  ],
+  "iconType": "item",
+  "id": "stellaris:power_bank",
+  "entryId": "stellaris:machines",
+  "title": "Machines : Power Bank",
+  "associatedBlocks": [
+    "#stellaris:power_bank"
+  ]
+}

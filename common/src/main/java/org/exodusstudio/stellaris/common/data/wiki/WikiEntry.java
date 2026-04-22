@@ -1,11 +1,16 @@
-package org.exodusstudio.stellaris.client.data.wiki;
+package org.exodusstudio.stellaris.common.data.wiki;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 
-public record WikiEntry(Identifier id, String description, Identifier icon, Identifier hoverIcon) {
+public record WikiEntry(
+        Identifier id,
+        String description,
+        Identifier icon,
+        Identifier hoverIcon) {
+
 
     public static final Codec<WikiEntry> CODEC = RecordCodecBuilder.create(instance -> instance.group(
             Identifier.CODEC.fieldOf("id").forGetter(WikiEntry::id),

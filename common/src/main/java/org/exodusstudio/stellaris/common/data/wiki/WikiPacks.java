@@ -1,10 +1,14 @@
-package org.exodusstudio.stellaris.client.data.wiki;
+package org.exodusstudio.stellaris.common.data.wiki;
 
+import com.mojang.datafixers.util.Either;
 import net.minecraft.resources.FileToIdConverter;
 import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.packs.resources.SimpleJsonResourceReloadListener;
+import net.minecraft.tags.TagKey;
 import net.minecraft.util.profiling.ProfilerFiller;
+import net.minecraft.world.level.block.Block;
 import org.exodusstudio.stellaris.Stellaris;
 
 import java.util.ArrayList;
@@ -44,10 +48,22 @@ public class WikiPacks {
             super(EntryInfo.CODEC, FileToIdConverter.json("wiki/infos"));
         }
 
+        public static Map<ResourceKey<Block>, Identifier> BLOCK_ENTRY_RESOLVER = new HashMap<>();
+        public static Map<TagKey<Block>, Identifier> TAG_ENTRY_RESOLVER = new HashMap<>();
+
+
         @Override
         protected void apply(Map<Identifier, EntryInfo> IdentifierJsonElementMap, ResourceManager resourceManager, ProfilerFiller profiler) {
             WikiPacks.ENTRY_COMPONENTS.putAll(IdentifierJsonElementMap);
 
+            IdentifierJsonElementMap.forEach((key, entry) -> {
+                entry.associatedBlocks().ifPresent(blocks -> {
+                    for(Either<TagKey<Block>, ResourceKey<Block>> tagKey : blocks) {
+                        tagKey.ifLeft((tag) -> TAG_ENTRY_RESOLVER.put(tag, key));
+                        tagKey.ifRight((resourceKey) -> BLOCK_ENTRY_RESOLVER.put(resourceKey, key));
+                    }
+                });
+            });
         }
     }
 }

@@ -38,6 +38,7 @@ public class TagsRegistry {
         public static final TagKey<Block> INCORRECT_FOR_TITANIUM_TOOL = addTag("incorrect_for_titanium_tool");
         public static final TagKey<Block> LUNAR_LOGS = addTag("lunar_logs");
         public static final TagKey<Block> MOON_STONE_ORE_REPLACEABLES = addTag("moon_stone_ore_replaceables");
+        public static final TagKey<Block> FLUID_TANKS = addTag("fluid_tanks");
 
         public static TagKey<Block> addTag(String path) {
             return TagKey.create(Registries.BLOCK, IdentifierUtils.id(path));

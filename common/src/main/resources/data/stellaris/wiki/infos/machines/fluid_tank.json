@@ -7,7 +7,7 @@
     {
       "type": "image",
       "image": {
-        "location": "stellaris:textures/wiki/rendered_blocks/vacuumator",
+        "location": "stellaris:textures/wiki/rendered_blocks/fluid_tank",
         "width": 96,
         "height": 96,
         "legend": "Fluid Tank"
@@ -32,5 +32,8 @@
   "iconType": "item",
   "id": "stellaris:fluid_tank",
   "entryId": "stellaris:machines",
-  "title": "Machines : Fluid Tank"
+  "title": "Machines : Fluid Tank",
+  "associatedBlocks": [
+    "#stellaris:fluid_tanks"
+  ]
 }
