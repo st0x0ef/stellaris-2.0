@@ -1,6 +1,7 @@
 package org.exodusstudio.stellaris.common.utils;
 
 import dev.architectury.networking.NetworkManager;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.ARGB;
@@ -15,6 +16,7 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import org.exodusstudio.stellaris.client.overlays.FadingHolder;
 import org.exodusstudio.stellaris.common.network.packets.StartFadePacket;
+import org.exodusstudio.stellaris.common.registries.BlocksRegistry;
 import org.exodusstudio.stellaris.common.registries.ItemsRegistry;
 import org.exodusstudio.stellaris.common.registries.TagsRegistry;
 
@@ -195,5 +197,9 @@ public class Utils {
         if (player instanceof ServerPlayer serverPlayer) {
             serverPlayer.connection.aboveGroundTickCount = 0;
         }
+    }
+
+    public static boolean checkIfAntennaIsNear(BlockPos pos, Level level, int distance) {
+        return level.getBlockStates(new AABB(pos).inflate(distance)).anyMatch(blockState -> blockState.is(BlocksRegistry.ANTENNA.block().get()));
     }
 }

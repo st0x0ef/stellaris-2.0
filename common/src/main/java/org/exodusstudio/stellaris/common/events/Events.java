@@ -24,6 +24,7 @@ import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.common.antennas.Antenna;
 import org.exodusstudio.stellaris.common.antennas.AntennaSavedData;
 import org.exodusstudio.stellaris.common.blocks.CoalLanternBlock;
+import org.exodusstudio.stellaris.common.blocks.RocketLaunchPadBlock;
 import org.exodusstudio.stellaris.common.blocks.WallCoalTorchBlock;
 import org.exodusstudio.stellaris.common.blocks.entities.AntennaBlockEntity;
 import org.exodusstudio.stellaris.common.blocks.entities.FlagBlockEntity;
@@ -31,6 +32,7 @@ import org.exodusstudio.stellaris.common.items.space_suit.SpaceSuitHelmet;
 import org.exodusstudio.stellaris.common.network.packets.AntennasOperations;
 import org.exodusstudio.stellaris.common.registries.BlocksRegistry;
 import org.exodusstudio.stellaris.common.utils.OxygenUtils;
+import org.exodusstudio.stellaris.common.utils.Utils;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -115,6 +117,11 @@ public class Events {
                     }
                 }
                 Block.popResource(level, pos, stack);
+            } else if(state.is(BlocksRegistry.ROCKET_LAUNCH_PAD.block().get())) {
+
+                if(Utils.checkIfAntennaIsNear(pos, level, 1)) {
+                    return EventResult.interruptFalse();
+                }
             }
 
             if(level instanceof ServerLevel serverLevel) {
@@ -159,6 +166,13 @@ public class Events {
                     serverLevel.setBlockAndUpdate(pos, BlocksRegistry.COAL_LANTERN_BLOCK.block().get().defaultBlockState().setValue(CoalLanternBlock.HANGING, state.getValue(LanternBlock.HANGING)));
                     return EventResult.interruptFalse();
                 }
+            }
+
+            if(state.is(BlocksRegistry.ANTENNA.block().get())) {
+                if (level.getBlockState(pos.above()).is(BlocksRegistry.ROCKET_LAUNCH_PAD.block().get()) && level.getBlockState(pos.above()).getValue(RocketLaunchPadBlock.STAGE)) {
+                    return EventResult.pass();
+                }
+                return EventResult.interruptFalse();
             }
 
             return EventResult.pass();

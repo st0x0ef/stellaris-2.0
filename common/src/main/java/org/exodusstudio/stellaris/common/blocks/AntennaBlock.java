@@ -3,6 +3,7 @@ package org.exodusstudio.stellaris.common.blocks;
 import com.mojang.serialization.MapCodec;
 import dev.architectury.registry.menu.ExtendedMenuProvider;
 import io.netty.buffer.Unpooled;
+import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
@@ -29,6 +30,9 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public class AntennaBlock extends BaseMachineBlock {
+
+    public static Component TOOLTIP = Component.translatable("tooltip.item.stellaris.antenna")
+            .withStyle(ChatFormatting.GRAY);
 
     public AntennaBlock(BlockBehaviour.Properties properties) {
         super(properties);

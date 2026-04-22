@@ -43,21 +43,21 @@ public class FriendsList extends Item {
             AntennaSavedData antennaSavedData = AntennaSavedData.getSavedAntennas(player.level().getServer());
 
             if(antenna.launchPadId == null) {
-                player.displayClientMessage(Component.literal("This antenna hasn't been configured yet.").withStyle(ChatFormatting.GRAY), true);
+                player.displayClientMessage(Component.translatable("message.stellaris.friends_list.antenna_not_configured").withStyle(ChatFormatting.GRAY), true);
                 return InteractionResult.FAIL;
             }
 
             if(!antennaSavedData.isPlayerOwner(antenna.launchPadId, player)) {
-                player.displayClientMessage(Component.literal("You don't have permission to access this antenna.").withStyle(ChatFormatting.GRAY), true);
+                player.displayClientMessage(Component.translatable("message.stellaris.antenna.not_owner").withStyle(ChatFormatting.GRAY), true);
                 return InteractionResult.FAIL;
             }
 
             if(existingFriends.isEmpty()){
-                player.displayClientMessage(Component.literal("Your friends list is empty. Use this item on another player to add them to your friends list.").withStyle(ChatFormatting.GRAY), true);
+                player.displayClientMessage(Component.translatable("message.stellaris.friends_list.empty").withStyle(ChatFormatting.GRAY), true);
                 return InteractionResult.PASS;
             } else {
                 antennaSavedData.whitelistPlayers(antenna.launchPadId, existingFriends);
-                player.displayClientMessage(Component.literal("Your friends has been whitelisted.").withStyle(ChatFormatting.GRAY), true);
+                player.displayClientMessage(Component.translatable("message.stellaris.friends_list.use_success").withStyle(ChatFormatting.GRAY), true);
 
                 return InteractionResult.SUCCESS;
 
@@ -89,8 +89,11 @@ public class FriendsList extends Item {
 
             if (!alreadyFriend) {
                 friendsList.add(interactedPlayerProfile);
+                player.displayClientMessage(Component.translatable("message.stellaris.friends_list.added", interactedPlayerProfile.name().orElse("Unknown")).withStyle(ChatFormatting.GRAY), true);
             } else {
                 friendsList.remove(interactedPlayerProfile);
+                player.displayClientMessage(Component.translatable("message.stellaris.friends_list.removed", interactedPlayerProfile.name().orElse("Unknown")).withStyle(ChatFormatting.GRAY), true);
+
             }
 
             heldStack.set(DataComponentsRegistry.GAMEPROFILE_LIST.get(), friendsList);

@@ -20,6 +20,7 @@ import net.minecraft.world.level.material.PushReaction;
 import org.exodusstudio.stellaris.common.blocks.*;
 import org.exodusstudio.stellaris.common.blocks.PipeBlock;
 import org.exodusstudio.stellaris.common.items.PowerBankItem;
+import org.exodusstudio.stellaris.common.items.TooltipBlockItem;
 import org.exodusstudio.stellaris.common.registries.utils.BlockItemRegistrySupplier;
 import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
 import org.exodusstudio.stellaris.common.world.ModConfiguredFeatures;
@@ -193,7 +194,8 @@ public final class BlocksRegistry {
     // ROCKET
     public static final BlockItemRegistrySupplier ENGINEERING_STATION = blockWithCustomItem("engineering_station", BlockBehaviour.Properties.of(), EngineeringStationBlock::new, new Item.Properties(), BlockItem::new);
     public static final BlockItemRegistrySupplier ROCKET_LAUNCH_PAD = blockWithCustomItem("rocket_launch_pad", BlockBehaviour.Properties.of(), RocketLaunchPadBlock::new, new Item.Properties(), BlockItem::new);
-    public static final BlockItemRegistrySupplier ANTENNA = blockWithItem("antenna", BlockBehaviour.Properties.of(), AntennaBlock::new);
+    public static final BlockItemRegistrySupplier ANTENNA = blockWithCustomItem("antenna", BlockBehaviour.Properties.of(), AntennaBlock::new, new Item.Properties(),
+            (b, p) -> new TooltipBlockItem(b, p).addTooltip(AntennaBlock.TOOLTIP));
 
     /**
      * Fluids

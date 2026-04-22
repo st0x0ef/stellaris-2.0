@@ -36,18 +36,17 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class AntennaScreen extends AbstractContainerScreen<AntennaMenu> {
 
-    private static final Identifier TEXTURE = IdentifierUtils.texture("/gui/antenna");
+    private static final Identifier TEXTURE = IdentifierUtils.guiTexture("antenna");
 
     private final AntennaBlockEntity blockEntity = getMenu().getBlockEntity();
 
     private EditBox nameBox;
-    private EditBox whitelistBox;
     private CustomCheckBox publicCheckbox;
     private TexturedButton saveButton;
 
     public Antenna antenna;
 
-    // Cache local des noms de whitelist pour ne jamais faire d'appel bloquant dans render().
+    // We cache uuid to name because it freezes the game
     private final Map<UUID, String> whitelistNameCache = new ConcurrentHashMap<>();
     private final Set<UUID> resolvingWhitelist = ConcurrentHashMap.newKeySet();
 
@@ -69,13 +68,6 @@ public class AntennaScreen extends AbstractContainerScreen<AntennaMenu> {
 
         addWidgets(antenna);
         queueWhitelistNameResolves();
-    }
-
-    public void shareLaunchPad() {
-        if (this.antenna == null) return;
-        onClose();
-        ChatScreen screen = new ChatScreen("/stellaris antennas share \"" + this.antenna.name + "\" ", false);
-        this.minecraft.setScreen(screen);
     }
 
     @Override
@@ -128,7 +120,6 @@ public class AntennaScreen extends AbstractContainerScreen<AntennaMenu> {
 
     private void addWidgets(@Nullable Antenna pad) {
         this.nameBox = new EditBox(this.font, this.leftPos + 50, this.topPos + 40, 59, 14, Component.translatable("gui.stellaris.launchpad_creator.name"));
-        this.whitelistBox = new EditBox(this.font, this.leftPos + 120, this.topPos + 38, 80, 20, Component.translatable("gui.stellaris.launchpad_creator.name"));
 
         nameBox.setBordered(false);
 
@@ -139,15 +130,9 @@ public class AntennaScreen extends AbstractContainerScreen<AntennaMenu> {
                 .tex(IdentifierUtils.texture("gui/util/buttons/antenna_button"), IdentifierUtils.texture("gui/util/buttons/antenna_button_hovered"))
                 .setText(Component.literal("Create"));
 
-        TexturedButton shareButton = new TexturedButton(saveButton.getX() + saveButton.getWidth()  + 5, saveButton.getY(), 20, 20, Component.literal(""), (b) -> shareLaunchPad())
-                .tex(IdentifierUtils.texture("gui/util/buttons/share_button"), IdentifierUtils.texture("gui/util/buttons/share_button_hovered"))
-                .tooltip(Tooltip.create(Component.literal("Share Launch Pad")));
-        this.addRenderableWidget(shareButton);
-
 
         if(pad != null) {
             this.nameBox.setValue(pad.name);
-            //this.whitelistBox.setValue(String.join(",", pad.whitelist()));
             this.publicCheckbox.setSelected(pad.isPublic);
             this.saveButton.setMessage(Component.literal("Save"));
         }
@@ -210,7 +195,7 @@ public class AntennaScreen extends AbstractContainerScreen<AntennaMenu> {
             );
             Stellaris.LOG.info("creating new antenna named "  + this.nameBox.getValue());
         } else {
-            this.antenna = new Antenna(antenna.blockPos, antenna.dimension, this.nameBox.getValue(), this.publicCheckbox.selected, antenna.ownerUUID, List.of());
+            this.antenna = new Antenna(antenna.blockPos, antenna.dimension, this.nameBox.getValue(), this.publicCheckbox.selected, antenna.ownerUUID, antenna.whitelist);
             NetworkManager.sendToServer(new AntennasOperations(this.antenna, "modify"));
 
         }
