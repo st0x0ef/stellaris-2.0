@@ -25,6 +25,7 @@ import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.phys.Vec3;
 import org.exodusstudio.stellaris.common.menus.MainTabletMenu;
+import org.exodusstudio.stellaris.common.menus.PlanetSelectionMenu;
 import org.exodusstudio.stellaris.common.modules.Modules;
 import org.exodusstudio.stellaris.common.modules.rocket.RocketModule;
 import org.exodusstudio.stellaris.common.modules.rocket.RocketModules;
@@ -297,7 +298,7 @@ public class RocketEntity extends VehicleEntity  {
             player.stellaris$setPlanetMenuOpen(true, player, true);
             if(player instanceof ServerPlayer serverPlayer) {
                 Utils.executeWithFade(player, () -> {
-                    MenuRegistry.openExtendedMenu(serverPlayer, MainTabletMenu.createProvider(IdentifierUtils.id("applications/planet_selection")));
+                    MenuRegistry.openExtendedMenu(serverPlayer, PlanetSelectionMenu.createProvider(serverPlayer.level().getServer()));
                     this.setNoGravity(true);
                 }, true);
             }

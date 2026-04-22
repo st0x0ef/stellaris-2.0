@@ -102,11 +102,6 @@ public class ScrollableContainer extends AbstractScrollArea implements Container
 
     }
 
-    @Override
-    public boolean mouseScrolled(double mouseX, double mouseY, double scrollX, double scrollY) {
-        return super.mouseScrolled(mouseX, mouseY, scrollX, scrollY);
-    }
-
     /**
      * We Override this to allow changing textures
      */
@@ -202,6 +197,12 @@ public class ScrollableContainer extends AbstractScrollArea implements Container
 
     public ScrollableContainer setBackground(@Nullable Identifier background) {
         this.background = background;
+        return this;
+    }
+
+    public ScrollableContainer removeChild(Screen parent, AbstractWidget child) {
+        this.children.remove(child);
+        this.defaultPositions.remove(child);
         return this;
     }
 

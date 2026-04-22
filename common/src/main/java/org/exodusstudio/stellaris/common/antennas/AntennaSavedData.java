@@ -1,8 +1,11 @@
 package org.exodusstudio.stellaris.common.antennas;
 
 import com.mojang.serialization.Codec;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.UUIDUtil;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
@@ -26,6 +29,11 @@ public class AntennaSavedData extends SavedData {
     public static final Codec<AntennaSavedData> CODEC = MAP_CODEC.xmap(
             AntennaSavedData::new,
             data -> data.antennas
+    );
+
+    public static final StreamCodec<ByteBuf, AntennaSavedData> STREAM_CODEC = StreamCodec.composite(
+            ByteBufCodecs.map(HashMap::new, UUIDUtil.STREAM_CODEC, Antenna.STREAM_CODEC ), (d) -> d.antennas,
+            AntennaSavedData::new
     );
 
 
@@ -72,13 +80,32 @@ public class AntennaSavedData extends SavedData {
 
     }
 
+    public List<Antenna> getAntennasByOwner(UUID owner) {
+        List<Antenna> antennaList = new ArrayList<>();
+
+        for(Map.Entry<UUID, Antenna> entry : this.antennas.entrySet()) {
+            if(entry.getValue().ownerUUID.equals(owner)) {
+                antennaList.add(entry.getValue());
+            }
+        }
+        return antennaList;
+    }
+
+    public List<Antenna> getAvailableAntennaPerLevel(UUID player, ResourceKey<Level> level) {
+        List<Antenna> antennaList = new ArrayList<>();
+        for(Map.Entry<UUID, Antenna> entry : this.antennas.entrySet()) {
+            Antenna antenna = entry.getValue();
+            if(antenna.dimension.equals(level) &&  (antenna.ownerUUID.equals(player) || antenna.whitelist.contains(player) || antenna.isPublic)) {
+                antennaList.add(entry.getValue());
+            }
+        }
+        return antennaList;
+    }
+
     public void whitelistPlayers(UUID antennaUUID, Collection<ResolvableProfile> gameProfiles) {
         Antenna antenna = this.getAntenna(antennaUUID);
         if(antenna == null) return;
-
-        List<UUID> newUUIDs = new ArrayList<>(antenna.whitelist);
-        newUUIDs.addAll(gameProfiles.stream().map(profile -> profile.partialProfile().id()).toList());
-        antenna.whitelist = newUUIDs;
+        antenna.whitelist = gameProfiles.stream().map(profile -> profile.partialProfile().id()).toList();
         this.setDirty();
     }
 
