@@ -29,6 +29,8 @@ import org.exodusstudio.stellaris.client.renderers.rockets.RocketRenderer;
 import org.exodusstudio.stellaris.client.screens.*;
 import org.exodusstudio.stellaris.client.screens.engineering_station.RocketStationScreen;
 import org.exodusstudio.stellaris.client.screens.engineering_station.EngineUpgraderScreen;
+import org.exodusstudio.stellaris.client.screens.laboratory.ResearchScreen;
+import org.exodusstudio.stellaris.client.screens.laboratory.VaccineScreen;
 import org.exodusstudio.stellaris.client.screens.tablet.MainTabletScreen;
 import org.exodusstudio.stellaris.client.screens.tablet.application.sd.SDCardReaderApplicationScreen;
 import org.exodusstudio.stellaris.client.screens.tablet.application.wiki.WikiApplicationScreen;
@@ -54,6 +56,7 @@ public final class StellarisFabricClient implements ClientModInitializer {
         BlockRenderLayerMap.putBlock(BlocksRegistry.MOON_VINES_PLANT.get(), ChunkSectionLayer.CUTOUT);
         BlockRenderLayerMap.putBlock(BlocksRegistry.ASTRUM_VITREUS_BLOCK.block().get(), ChunkSectionLayer.TRANSLUCENT);
         BlockRenderLayerMap.putBlock(BlocksRegistry.ASTRUM_VITREUS_CLUSTER.block().get(), ChunkSectionLayer.CUTOUT);
+        BlockRenderLayerMap.putBlock(BlocksRegistry.LABORATORY.block().get(), ChunkSectionLayer.TRANSLUCENT);
     }
 
     private void registerScreens() {
@@ -79,6 +82,8 @@ public final class StellarisFabricClient implements ClientModInitializer {
         MenuScreenRegistry.registerScreenFactory(MenuTypesRegistry.FLUID_TANK_MENU.get(), FluidTankScreen::new);
         MenuScreenRegistry.registerScreenFactory(MenuTypesRegistry.LANDER_MENU.get(), LanderScreen::new);
         MenuScreenRegistry.registerScreenFactory(MenuTypesRegistry.ROCKET_MENU.get(), RocketScreen::new);
+        MenuScreenRegistry.registerScreenFactory(MenuTypesRegistry.LABORATORY_VACCINE.get(), VaccineScreen::new);
+        MenuScreenRegistry.registerScreenFactory(MenuTypesRegistry.LABORATORY_RESEARCH.get(), ResearchScreen::new);
     }
 
     @SuppressWarnings("unchecked")

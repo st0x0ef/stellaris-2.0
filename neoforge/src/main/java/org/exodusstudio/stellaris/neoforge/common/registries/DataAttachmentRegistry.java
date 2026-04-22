@@ -10,6 +10,7 @@ import net.neoforged.neoforge.registries.NeoForgeRegistries;
 import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.client.overlays.FadingHolder;
 import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
+import org.exodusstudio.stellaris.common.utils.MoonLoreUtils;
 
 import java.util.HashMap;
 import java.util.function.Supplier;
@@ -27,9 +28,22 @@ public class DataAttachmentRegistry {
             "player_fade", () -> AttachmentType.builder(() -> new FadingHolder(false, 0f)).serialize(FadingHolder.CODEC.fieldOf("player_fade")).sync(FadingHolder.STREAM_CODEC).build()
     );
 
+    private static final Supplier<AttachmentType<?>> MOON_LORE_PROGRESSION = ATTACHMENT_TYPES.register(
+            "moon_lore_progression", () -> AttachmentType.builder(() -> -1).serialize(Codec.INT.fieldOf("stage")).sync(ByteBufCodecs.INT).build()
+    );
+
+    private static final Supplier<AttachmentType<?>> PLAYER_IMMUNISED_TO_INFECTION = ATTACHMENT_TYPES.register(
+            "player_immunised_to_infection", () -> AttachmentType.builder(() -> false).serialize(Codec.BOOL.fieldOf("immunised")).sync(ByteBufCodecs.BOOL).build()
+    );
+
+
+
+
     public static void register(IEventBus bus) {
         ATTACHMENTS.put(IdentifierUtils.id("oil"), OIL);
         ATTACHMENTS.put(IdentifierUtils.id("player_fade"), PLAYER_FADE);
+        ATTACHMENTS.put(MoonLoreUtils.MOON_LORE_PROGRESSION, MOON_LORE_PROGRESSION);
+        ATTACHMENTS.put(MoonLoreUtils.PLAYER_IMMUNISED_TO_INFECTION, PLAYER_IMMUNISED_TO_INFECTION);
 
         ATTACHMENT_TYPES.register(bus);
     }

@@ -4,15 +4,15 @@ import net.minecraft.resources.Identifier;
 
 public interface EntityDataAttachmentAccessor {
 
-    default boolean hasDataAttachments(Identifier key) {
+    default boolean stellaris$hasDataAttachments(Identifier key) {
         return false;
     }
 
-    default <T> T getDataAttachments(Identifier location, Class<T> clazz) {
+    default <T> T stellaris$getDataAttachments(Identifier location, Class<T> clazz) {
         return null;
     }
 
-    default <T> void saveDataAttachments(Identifier key, T value) {
+    default <T> void stellaris$saveDataAttachments(Identifier key, T value) {
 
     }
 

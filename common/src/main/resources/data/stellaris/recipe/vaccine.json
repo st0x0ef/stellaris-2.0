@@ -1,0 +1,13 @@
+{
+  "type": "stellaris:vaccine",
+  "ingredients": [
+    "minecraft:honey_bottle",
+    "stellaris:blue_liquid_bucket",
+    "stellaris:astrum_vitreus_cluster",
+    "stellaris:parasite"
+  ],
+  "output": {
+    "id": "stellaris:vaccine",
+    "count": 1
+  }
+}

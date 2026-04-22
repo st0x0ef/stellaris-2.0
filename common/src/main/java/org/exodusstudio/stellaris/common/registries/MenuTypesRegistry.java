@@ -9,6 +9,8 @@ import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.common.menus.*;
 import org.exodusstudio.stellaris.common.menus.engineering_station.RocketStationMenu;
 import org.exodusstudio.stellaris.common.menus.engineering_station.EngineUpgradeMenu;
+import org.exodusstudio.stellaris.common.menus.laboratory.ResearchMenu;
+import org.exodusstudio.stellaris.common.menus.laboratory.VaccineMenu;
 
 public class MenuTypesRegistry {
 
@@ -38,6 +40,9 @@ public class MenuTypesRegistry {
     public static final RegistrySupplier<MenuType<OxygenDistributorMenu>> OXYGEN_DISTRIBUTOR = MENU_TYPE.register("oxygen_distributor", () -> MenuRegistry.ofExtended(OxygenDistributorMenu::create));
     public static final RegistrySupplier<MenuType<FluidTankMenu>> FLUID_TANK_MENU = MENU_TYPE.register("fluid_tank", () -> MenuRegistry.ofExtended(FluidTankMenu::create));
     public static final RegistrySupplier<MenuType<LanderMenu>> LANDER_MENU = MENU_TYPE.register("lander_menu", () -> MenuRegistry.ofExtended(LanderMenu::create));
+
+    public static final RegistrySupplier<MenuType<VaccineMenu>> LABORATORY_VACCINE = MENU_TYPE.register("laboratory_vaccine", () -> MenuRegistry.ofExtended(VaccineMenu::create));
+    public static final RegistrySupplier<MenuType<ResearchMenu>> LABORATORY_RESEARCH = MENU_TYPE.register("laboratory_research", () -> MenuRegistry.ofExtended(ResearchMenu::create));
 
 }
 

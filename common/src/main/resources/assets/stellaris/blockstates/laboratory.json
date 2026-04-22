@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "stellaris:block/laboratory",
+      "y": 90
+    },
+    "facing=north": {
+      "model": "stellaris:block/laboratory"
+    },
+    "facing=south": {
+      "model": "stellaris:block/laboratory",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "stellaris:block/laboratory",
+      "y": 270
+    }
+  }
+}

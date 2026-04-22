@@ -84,7 +84,6 @@ public abstract class BaseItemCombinerMenu extends AbstractContainerMenu {
         for (int i = 0; i < 9; ++i) {
             this.addSlot(new Slot(inventory, i, 10 + i * 18, 164));
         }
-
     }
 
     public abstract void createResult();

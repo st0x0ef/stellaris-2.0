@@ -20,7 +20,7 @@ public interface NetworkRegistry {
 
     static void init() {
         registerC2S(OPEN_MENU_PACKET_TYPE, OpenMenuPacket.STREAM_CODEC, OpenMenuPacket::handle);
-        registerC2S(OpenRocketStationMenusPacket.TYPE, OpenRocketStationMenusPacket.STREAM_CODEC, OpenRocketStationMenusPacket::handle);
+        registerC2S(OpenBlockEntityMenusPacket.TYPE, OpenBlockEntityMenusPacket.STREAM_CODEC, OpenBlockEntityMenusPacket::handle);
         registerC2S(KeyHandlerPacket.TYPE, KeyHandlerPacket.STREAM_CODEC, KeyHandlerPacket::handle);
         registerS2C(SyncOilLevelPacket.TYPE, SyncOilLevelPacket.STREAM_CODEC, SyncOilLevelPacket::handle);
         registerS2C(StartFadePacket.TYPE, StartFadePacket.STREAM_CODEC, StartFadePacket::handle);
@@ -44,6 +44,7 @@ public interface NetworkRegistry {
         registerC2S(TeleportToPlanetPacket.TYPE, TeleportToPlanetPacket.STREAM_CODEC, TeleportToPlanetPacket::handle);
         registerC2S(SyncOutputManager.C2S.TYPE, SyncOutputManager.C2S.STREAM_CODEC, SyncOutputManager::handle);
 
+        registerC2S(InfectionResearchPacket.TYPE, InfectionResearchPacket.STREAM_CODEC, InfectionResearchPacket::handle);
     }
 
 

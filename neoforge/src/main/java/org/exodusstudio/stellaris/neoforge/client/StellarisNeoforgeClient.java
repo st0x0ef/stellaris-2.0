@@ -31,6 +31,8 @@ import org.exodusstudio.stellaris.client.renderers.space_suit.SpaceSuitModel;
 import org.exodusstudio.stellaris.client.screens.*;
 import org.exodusstudio.stellaris.client.screens.engineering_station.EngineUpgraderScreen;
 import org.exodusstudio.stellaris.client.screens.engineering_station.RocketStationScreen;
+import org.exodusstudio.stellaris.client.screens.laboratory.ResearchScreen;
+import org.exodusstudio.stellaris.client.screens.laboratory.VaccineScreen;
 import org.exodusstudio.stellaris.client.screens.tablet.MainTabletScreen;
 import org.exodusstudio.stellaris.client.screens.tablet.application.sd.SDCardReaderApplicationScreen;
 import org.exodusstudio.stellaris.client.screens.tablet.application.wiki.WikiApplicationScreen;
@@ -57,6 +59,7 @@ public class StellarisNeoforgeClient {
         ItemBlockRenderTypes.setRenderLayer(BlocksRegistry.MOON_VINES_PLANT.get(), ChunkSectionLayer.CUTOUT);
         ItemBlockRenderTypes.setRenderLayer(BlocksRegistry.ASTRUM_VITREUS_BLOCK.block().get(), ChunkSectionLayer.TRANSLUCENT);
         ItemBlockRenderTypes.setRenderLayer(BlocksRegistry.ASTRUM_VITREUS_CLUSTER.block().get(), ChunkSectionLayer.CUTOUT);
+        ItemBlockRenderTypes.setRenderLayer(BlocksRegistry.LABORATORY.block().get(), ChunkSectionLayer.TRANSLUCENT);
     }
 
     @SubscribeEvent
@@ -75,11 +78,12 @@ public class StellarisNeoforgeClient {
         event.register(MenuTypesRegistry.OXYGEN_DISTRIBUTOR.get(), OxygenDistributorScreen::new);
         event.register(MenuTypesRegistry.PUMPJACK.get(), PumpjackScreen::new);
         event.register(MenuTypesRegistry.FUEL_REFINERY.get(), FuelRefineryScreen::new);
-
         event.register(MenuTypesRegistry.ROCKET_STATION.get(), RocketStationScreen::new);
         event.register(MenuTypesRegistry.ENGINE_UPGRADE.get(), EngineUpgraderScreen::new);
         event.register(MenuTypesRegistry.LANDER_MENU.get(), LanderScreen::new);
         event.register(MenuTypesRegistry.ROCKET_MENU.get(), RocketScreen::new);
+        event.register(MenuTypesRegistry.LABORATORY_VACCINE.get(), VaccineScreen::new);
+        event.register(MenuTypesRegistry.LABORATORY_RESEARCH.get(), ResearchScreen::new);
     }
 
     @SuppressWarnings("unchecked")

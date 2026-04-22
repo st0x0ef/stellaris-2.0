@@ -17,17 +17,17 @@ public class FadeOverlay {
             return;
         }
 
-        FadingHolder playerFade = player.getDataAttachments(IdentifierUtils.id("player_fade"), FadingHolder.class);
+        FadingHolder playerFade = player.stellaris$getDataAttachments(IdentifierUtils.id("player_fade"), FadingHolder.class);
         if (playerFade != null) {
             int alpha = (int) (playerFade.fadeAmount() * 255);
             graphics.fill(0, 0, graphics.guiWidth(), graphics.guiHeight(), (alpha << 24) );
 
             if(playerFade.fading() && playerFade.fadeAmount() < 1.0f) {
-                player.saveDataAttachments(IdentifierUtils.id("player_fade"), new FadingHolder(playerFade.fading(),  Mth.clamp(playerFade.fadeAmount() + 0.01f, 0, 1F)) );
+                player.stellaris$saveDataAttachments(IdentifierUtils.id("player_fade"), new FadingHolder(playerFade.fading(),  Mth.clamp(playerFade.fadeAmount() + 0.01f, 0, 1F)) );
             } else if(!playerFade.fading() && playerFade.fadeAmount() > 0f) {
-                player.saveDataAttachments(IdentifierUtils.id("player_fade"), new FadingHolder(playerFade.fading(), playerFade.fadeAmount() - 0.01f) );
+                player.stellaris$saveDataAttachments(IdentifierUtils.id("player_fade"), new FadingHolder(playerFade.fading(), playerFade.fadeAmount() - 0.01f) );
                 if(playerFade.fadeAmount() - 0.01f < 0f) {
-                    player.saveDataAttachments(IdentifierUtils.id("player_fade"), null);
+                    player.stellaris$saveDataAttachments(IdentifierUtils.id("player_fade"), null);
                 }
             }
         }

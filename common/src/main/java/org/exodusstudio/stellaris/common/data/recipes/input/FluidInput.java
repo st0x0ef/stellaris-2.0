@@ -1,4 +1,4 @@
-package org.exodusstudio.stellaris.common.data.recipe.input;
+package org.exodusstudio.stellaris.common.data.recipes.input;
 
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;

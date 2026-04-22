@@ -1,4 +1,4 @@
-package org.exodusstudio.stellaris.common.data.recipe;
+package org.exodusstudio.stellaris.common.data.recipes;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
@@ -15,7 +15,7 @@ import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.material.Fluid;
 import org.exodusstudio.stellaris.common.blocks.entities.machines.ElectrolyzerBlockEntity;
-import org.exodusstudio.stellaris.common.data.recipe.input.FluidInput;
+import org.exodusstudio.stellaris.common.data.recipes.input.FluidInput;
 import org.exodusstudio.stellaris.common.registries.RecipesRegistry;
 
 import java.util.ArrayList;

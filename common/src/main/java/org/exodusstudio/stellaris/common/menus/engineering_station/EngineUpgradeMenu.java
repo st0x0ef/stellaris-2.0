@@ -19,7 +19,7 @@ import org.exodusstudio.stellaris.common.modules.rocket.RocketModule;
 import org.exodusstudio.stellaris.common.modules.rocket.RocketModules;
 import org.exodusstudio.stellaris.common.modules.space_suit.SpaceSuitModule;
 import org.exodusstudio.stellaris.common.modules.space_suit.SpaceSuitModules;
-import org.exodusstudio.stellaris.common.network.packets.OpenRocketStationMenusPacket;
+import org.exodusstudio.stellaris.common.network.packets.OpenBlockEntityMenusPacket;
 import org.exodusstudio.stellaris.common.registries.*;
 import org.jetbrains.annotations.NotNull;
 
@@ -191,7 +191,7 @@ public class EngineUpgradeMenu extends BaseItemCombinerMenu {
 
     public void openCraftingMenu() {
         this.player.closeContainer();
-        NetworkManager.sendToServer(new OpenRocketStationMenusPacket("crafting", this.engineeringStationPos));
+        NetworkManager.sendToServer(new OpenBlockEntityMenusPacket(MenuProviderRegistry.ROCKET_CRAFTING, this.engineeringStationPos));
     }
 
     public enum Error {

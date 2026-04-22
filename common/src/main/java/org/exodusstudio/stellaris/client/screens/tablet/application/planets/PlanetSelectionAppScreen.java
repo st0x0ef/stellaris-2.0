@@ -171,7 +171,7 @@ public class PlanetSelectionAppScreen extends Screen {
 
         if(this.mainTabletScreen.player.stellaris$isPlanetMenuOpen()) return;
 
-        FadingHolder fadingHolder = mainTabletScreen.player.getDataAttachments(IdentifierUtils.id("player_fade"), FadingHolder.class);
+        FadingHolder fadingHolder = mainTabletScreen.player.stellaris$getDataAttachments(IdentifierUtils.id("player_fade"), FadingHolder.class);
 
         if(fadingHolder != null && fadingHolder.fadeAmount() == 1.0f) {
             Utils.stopFade(mainTabletScreen.player);

@@ -114,7 +114,7 @@ public class Utils {
         if(player instanceof ServerPlayer serverPlayer) {
             NetworkManager.sendToPlayer(serverPlayer, new StartFadePacket(fadingHolder));
         } else {
-            player.saveDataAttachments(IdentifierUtils.id("player_fade"), fadingHolder);
+            player.stellaris$saveDataAttachments(IdentifierUtils.id("player_fade"), fadingHolder);
         }
     }
 
@@ -123,7 +123,7 @@ public class Utils {
         if(player instanceof ServerPlayer serverPlayer) {
             NetworkManager.sendToPlayer(serverPlayer, new StartFadePacket(fadingHolder));
         } else {
-            player.saveDataAttachments(IdentifierUtils.id("player_fade"), fadingHolder);
+            player.stellaris$saveDataAttachments(IdentifierUtils.id("player_fade"), fadingHolder);
         }
     }
 

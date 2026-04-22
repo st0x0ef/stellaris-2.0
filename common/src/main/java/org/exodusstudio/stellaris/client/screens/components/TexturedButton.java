@@ -2,16 +2,18 @@ package org.exodusstudio.stellaris.client.screens.components;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ActiveTextCollector;
-import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.Tooltip;
+import net.minecraft.client.input.InputWithModifiers;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.util.ARGB;
 import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
+import org.exodusstudio.stellaris.common.utils.Utils;
 import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.NonNull;
 
 import java.util.Objects;
 
@@ -65,6 +67,7 @@ public class TexturedButton extends Button {
         this.buttonTexture = TEXTURE;
         this.hoverButtonTexture = HOVER_TEXTURE;
         this.color = ARGB.white(this.alpha);
+        this.text = title;
     }
 
     /** Override Methods */
@@ -84,19 +87,16 @@ public class TexturedButton extends Button {
         /** TEXTURE MANAGER */
         Identifier texture = this.getTypeTexture();
 
-        if(this.useSprite ) {
-            graphics.blitSprite(RenderPipelines.GUI_TEXTURED, texture, this.getX(), this.getY(), this.getWidth(), this.getHeight(), this.color);
+        if(this.useSprite) {
+            graphics.blitSprite(RenderPipelines.GUI_TEXTURED, texture, this.getWidth(), this.getHeight(), this.xTexStart, this.yTexStart, this.getX(), this.getY(), this.getWidth() - this.xTexStart, this.getHeight() - this.yTexStart, this.color);
         } else {
             graphics.blit(RenderPipelines.GUI_TEXTURED, texture, this.getX(), this.getY(), (float) this.xTexStart, (float) i,
                     this.width, this.height, this.textureWidth, this.textureHeight, this.color);
         }
 
         if(!Objects.equals(this.text, Component.empty())) {
-            Font font = minecraft.font;
-            renderScrollingStringOverContents(graphics.textRendererForWidget(this,
-                    GuiGraphics.HoveredTextEffects.NONE), this.text, this.getX() + 2, (this.getY() + getHeight() / 2) - font.lineHeight / 2);
+            graphics.drawString(minecraft.font, this.text, this.getX() + (this.getWidth() - minecraft.font.width(text)) / 2, this.getY() + (getHeight() - minecraft.font.lineHeight) / 2, Utils.getMinecraftColor("white"));
         }
-
     }
 
     @Override
@@ -152,8 +152,7 @@ public class TexturedButton extends Button {
         return cast();
     }
 
-
-        public void setYShift(int y) {
+    public void setYShift(int y) {
         this.yDiffText = y;
     }
 
@@ -174,7 +173,12 @@ public class TexturedButton extends Button {
         activeTextCollector.acceptScrollingWithDefaultCenter(text, x, endX, y, endY);
     }
 
-
-
-
+    @SuppressWarnings("ConstantConditions")
+    @Override
+    public void onPress(@NonNull InputWithModifiers input) {
+        if (this.onPress == null) {
+            return;
+        }
+        super.onPress(input);
+    }
 }

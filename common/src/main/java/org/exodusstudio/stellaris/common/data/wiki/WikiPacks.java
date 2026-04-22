@@ -56,14 +56,12 @@ public class WikiPacks {
         protected void apply(Map<Identifier, EntryInfo> IdentifierJsonElementMap, ResourceManager resourceManager, ProfilerFiller profiler) {
             WikiPacks.ENTRY_COMPONENTS.putAll(IdentifierJsonElementMap);
 
-            IdentifierJsonElementMap.forEach((key, entry) -> {
-                entry.associatedBlocks().ifPresent(blocks -> {
-                    for(Either<TagKey<Block>, ResourceKey<Block>> tagKey : blocks) {
-                        tagKey.ifLeft((tag) -> TAG_ENTRY_RESOLVER.put(tag, key));
-                        tagKey.ifRight((resourceKey) -> BLOCK_ENTRY_RESOLVER.put(resourceKey, key));
-                    }
-                });
-            });
+            IdentifierJsonElementMap.forEach((key, entry) -> entry.associatedBlocks().ifPresent(blocks -> {
+                for(Either<TagKey<Block>, ResourceKey<Block>> tagKey : blocks) {
+                    tagKey.ifLeft((tag) -> TAG_ENTRY_RESOLVER.put(tag, key));
+                    tagKey.ifRight((resourceKey) -> BLOCK_ENTRY_RESOLVER.put(resourceKey, key));
+                }
+            }));
         }
     }
 }

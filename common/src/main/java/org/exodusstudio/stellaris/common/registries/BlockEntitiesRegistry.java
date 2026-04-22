@@ -70,4 +70,9 @@ public class BlockEntitiesRegistry {
     public static final Supplier<BlockEntityType<?>> FLUID_TANK = BLOCK_ENTITY_TYPE.register("fluid_tank",
             () -> new BlockEntityType<>(FluidTankBlockEntity::new, Set.of(BlocksRegistry.FLUID_TANK_T1.block().get())));
 
+
+    public static final Supplier<BlockEntityType<?>> LABORATORY = BLOCK_ENTITY_TYPE.register("laboratory",
+            () -> new BlockEntityType<>(LaboratoryBlockEntity::new, Set.of(BlocksRegistry.LABORATORY.block().get())));
+
+
 }

@@ -21,11 +21,21 @@ public class GUISprites {
     public static final Identifier MARS = IdentifierUtils.id("planets/mars");
     public static final Identifier MOON = IdentifierUtils.id("planets/moon");
 
-    public static final Identifier MODULES_TAB = IdentifierUtils.id("icon/modules_tab" );
-    public static final Identifier ROCKET_CRAFTING_TAB = IdentifierUtils.id("icon/rocket_crafting_tab" );
-    public static final Identifier MODULES_TAB_HOVER = IdentifierUtils.id("icon/modules_tab_hover" );
-    public static final Identifier ROCKET_CRAFTING_TAB_HOVER = IdentifierUtils.id("icon/rocket_crafting_tab_hover" );
+    // ENGINEERING STATION
+    public static final Identifier MODULES_TAB = IdentifierUtils.id("tab/modules_tab");
+    public static final Identifier MODULES_TAB_HOVER = IdentifierUtils.id("tab/modules_tab_hover");
+    public static final Identifier ROCKET_CRAFTING_TAB = IdentifierUtils.id("tab/rocket_crafting_tab");
+    public static final Identifier ROCKET_CRAFTING_TAB_HOVER = IdentifierUtils.id("tab/rocket_crafting_tab_hover");
 
-    public static final Identifier OUTPUT_BUTTON = IdentifierUtils.id("util/output_button" );
+    // LABORATORY
+    public static final Identifier VACCINE_TAB = IdentifierUtils.id("tab/vaccine_tab");
+    public static final Identifier VACCINE_TAB_HOVER = IdentifierUtils.id("tab/vaccine_tab_hover");
+    public static final Identifier RESEARCH_TAB = IdentifierUtils.id("tab/research_tab");
+    public static final Identifier RESEARCH_TAB_HOVER = IdentifierUtils.id("tab/research_tab_hover");
+    public static final Identifier RESEARCH_BUTTON = IdentifierUtils.id("util/research_button");
+    public static final Identifier RESEARCH_BUTTON_HOVER = IdentifierUtils.id("util/research_button_hover");
+    public static final Identifier RESEARCH_PROGRESS = IdentifierUtils.guiTexture("process_indicators/laboratory_research");
+
+    public static final Identifier OUTPUT_BUTTON = IdentifierUtils.id("util/output_button");
 
 }

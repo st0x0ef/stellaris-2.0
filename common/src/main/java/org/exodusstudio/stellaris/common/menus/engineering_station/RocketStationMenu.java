@@ -12,7 +12,8 @@ import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import org.exodusstudio.stellaris.common.blocks.entities.machines.EngineeringStationBlockEntity;
 import org.exodusstudio.stellaris.common.menus.slot.ResultSlot;
-import org.exodusstudio.stellaris.common.network.packets.OpenRocketStationMenusPacket;
+import org.exodusstudio.stellaris.common.network.packets.OpenBlockEntityMenusPacket;
+import org.exodusstudio.stellaris.common.registries.MenuProviderRegistry;
 import org.exodusstudio.stellaris.common.registries.MenuTypesRegistry;
 
 
@@ -118,6 +119,6 @@ public class RocketStationMenu extends AbstractContainerMenu {
 
     public void openUpgradeScreen() {
         this.player.closeContainer();
-        NetworkManager.sendToServer(new OpenRocketStationMenusPacket("upgrade", this.blockEntity.getBlockPos()));
+        NetworkManager.sendToServer(new OpenBlockEntityMenusPacket(MenuProviderRegistry.ROCKET_UPGRADE, this.blockEntity.getBlockPos()));
     }
 }
