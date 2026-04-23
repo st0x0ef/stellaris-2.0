@@ -3,6 +3,7 @@ package org.exodusstudio.stellaris.client.screens.engineering_station;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Tooltip;
+import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
@@ -27,6 +28,7 @@ public class EngineUpgraderScreen extends AbstractContainerScreen<EngineUpgradeM
         this.titleLabelY = 2;
     }
 
+
     @Override
     protected void init() {
         super.init();
@@ -45,8 +47,16 @@ public class EngineUpgraderScreen extends AbstractContainerScreen<EngineUpgradeM
                 .useSprite(true)
                 .setUVs(2, 0);
 
+        TexturedButton spaceStationButton = new TexturedButton(this.leftPos + this.imageWidth, this.topPos + 72, 16,16,
+                Component.empty(), button -> menu.openSpaceStationScreen())
+                .tex(GUISprites.MODULES_TAB, GUISprites.MODULES_TAB_HOVER)
+                .tooltip(Tooltip.create(EngineUpgraderScreen.TAB_NAME))
+                .useSprite(true)
+                .setUVs(2, 0);
+
         this.addRenderableWidget(craftingButton);
         this.addRenderableWidget(upgradeButton);
+        this.addRenderableWidget(spaceStationButton);
 
     }
 

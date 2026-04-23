@@ -194,6 +194,12 @@ public class EngineUpgradeMenu extends BaseItemCombinerMenu {
         NetworkManager.sendToServer(new OpenBlockEntityMenusPacket(MenuProviderRegistry.ROCKET_CRAFTING, this.engineeringStationPos));
     }
 
+
+    public void openSpaceStationScreen() {
+        this.player.closeContainer();
+        NetworkManager.sendToServer(new OpenBlockEntityMenusPacket(MenuProviderRegistry.SPACE_STATION_PLANNER, this.engineeringStationPos));
+    }
+
     public enum Error {
         NONE(Component.empty()),
         DUPLICATE_MODULE(Component.translatable("menu.duplicate_module")),

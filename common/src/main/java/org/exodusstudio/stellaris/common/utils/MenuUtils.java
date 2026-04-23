@@ -4,12 +4,14 @@ import dev.architectury.registry.menu.ExtendedMenuProvider;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerLevelAccess;
 import org.exodusstudio.stellaris.common.menus.engineering_station.RocketStationMenu;
 import org.exodusstudio.stellaris.common.menus.engineering_station.EngineUpgradeMenu;
+import org.exodusstudio.stellaris.common.menus.engineering_station.SpaceStationPlannerMenu;
 import org.exodusstudio.stellaris.common.menus.laboratory.ResearchMenu;
 import org.exodusstudio.stellaris.common.menus.laboratory.VaccineMenu;
 
@@ -55,6 +57,26 @@ public class MenuUtils {
             }
         };
     }
+
+    public static ExtendedMenuProvider createSpaceStationPlannerMenu(BlockPos pos) {
+        return new ExtendedMenuProvider() {
+            @Override
+            public void saveExtraData(FriendlyByteBuf buf) {
+                buf.writeBlockPos(pos);
+            }
+
+            @Override
+            public Component getDisplayName() {
+                return Component.translatable("stellaris.screen.engineering_station");
+            }
+
+            @Override
+            public AbstractContainerMenu createMenu(int containerId, Inventory inventory, Player player) {
+                return new SpaceStationPlannerMenu(containerId, inventory, new SimpleContainer(10));
+            }
+        };
+    }
+
 
     public static ExtendedMenuProvider createVaccineMenu(BlockPos pos) {
         return new ExtendedMenuProvider() {

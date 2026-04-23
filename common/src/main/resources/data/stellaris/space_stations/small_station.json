@@ -1,0 +1,10 @@
+{
+  "items": [
+    {
+      "item": "stellaris:rocket",
+      "count": 10
+    }
+  ],
+  "location": "stellaris:space_station_small",
+  "antenna_position": [0, 1, 0]
+}

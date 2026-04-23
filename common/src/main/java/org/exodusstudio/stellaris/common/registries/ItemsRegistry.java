@@ -122,6 +122,7 @@ public final class ItemsRegistry {
     public static final RegistrySupplier<DamageProtectionModuleItem> SPACE_SUIT_DAMAGE_PROTECTION_MODULE_T3 = item("space_suit_damage_protection_module_tier_3", p -> new DamageProtectionModuleItem(p, ArmorMaterials.NETHERITE, "netherite"));
 
     public static final RegistrySupplier<FriendsList> FRIENDS_LIST = item("friends_list", FriendsList::new);
+    public static final RegistrySupplier<Item> SPACE_STATION_BLUEPRINT = item("space_station_blueprint", Item::new);
 
 
     /** Cans */
