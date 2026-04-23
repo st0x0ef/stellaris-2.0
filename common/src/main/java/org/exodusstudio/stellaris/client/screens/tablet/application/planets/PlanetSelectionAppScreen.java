@@ -12,7 +12,6 @@ import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.entity.player.Inventory;
 import org.exodusstudio.stellaris.Stellaris;
@@ -22,6 +21,7 @@ import org.exodusstudio.stellaris.client.screens.components.TexturedButton;
 import org.exodusstudio.stellaris.client.screens.components.containers.ScrollableContainer;
 import org.exodusstudio.stellaris.client.screens.tablet.application.ApplicationRegistry;
 import org.exodusstudio.stellaris.client.screens.tablet.application.ApplicationScreen;
+import org.exodusstudio.stellaris.client.utils.ClientUtils;
 import org.exodusstudio.stellaris.client.utils.WikiEntryTextRenderer;
 import org.exodusstudio.stellaris.common.antennas.Antenna;
 import org.exodusstudio.stellaris.common.antennas.AntennaSavedData;
@@ -36,11 +36,6 @@ import org.exodusstudio.stellaris.common.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
-import java.util.concurrent.CompletableFuture;
-import java.util.function.Consumer;
-import java.util.function.Supplier;
 
 public class PlanetSelectionAppScreen extends AbstractContainerScreen<PlanetSelectionMenu> {
 
@@ -53,7 +48,7 @@ public class PlanetSelectionAppScreen extends AbstractContainerScreen<PlanetSele
 
     public PlanetSelectionAppScreen(PlanetSelectionMenu selectionMenu, Inventory playerInventory, Component component) {
         super(selectionMenu, playerInventory, Component.empty());
-        this.inSpace = selectionMenu.player.stellaris$isPlanetMenuOpen() || true; //TODO change this
+        this.inSpace = selectionMenu.player.stellaris$isPlanetMenuOpen();
         this.antennaSavedData = selectionMenu.antennaSavedData;
         this.selectionMenu = selectionMenu;
         this.imageHeight = 192;
@@ -182,15 +177,13 @@ public class PlanetSelectionAppScreen extends AbstractContainerScreen<PlanetSele
     }
 
 
-        public static class PlanetInfoComponent extends ScrollableContainer {
+    public static class PlanetInfoComponent extends ScrollableContainer {
 
-        public Planet planet;
         public AntennaSavedData antennas;
         public PlanetSelectionAppScreen selectionAppScreen;
         public TexturedButton teleportButton;
         public List<AbstractWidget> antennaWidgets = new ArrayList<>();
 
-        public int customContentHeight;
 
         public PlanetInfoComponent(int x, int y, int width, int height, PlanetSelectionAppScreen selectionAppScreen) {
             super(x, y, width, height, Component.empty());
@@ -199,13 +192,26 @@ public class PlanetSelectionAppScreen extends AbstractContainerScreen<PlanetSele
             setWidget();
         }
 
+        @Override
+        public void renderContent(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
+            super.renderContent(guiGraphics, mouseX, mouseY, partialTick);
+
+            if(this.selectionAppScreen.selectedPlanet != null) {
+                this.teleportButton.visible = this.selectionAppScreen.isTeleportButtonVisible();
+
+                Component planetName = Component.translatable(this.selectionAppScreen.selectedPlanet.translationKey());
+                guiGraphics.drawString(Minecraft.getInstance().font, planetName, getX() + this.getWidth() / 2 - Minecraft.getInstance().font.width(planetName) / 2 , getY() + 2 - (int) scrollAmount(), Utils.getMinecraftColor("white"));
+            }
+        }
+
+
         public void setWidget() {
-            this.customContentHeight = 0;
-            int antennasHeight = setupAntennas();
-            customContentHeight += antennasHeight ;
+            if(this.selectionAppScreen.selectedPlanet == null) return;
 
+            int infoHeight = setupInfoWidget();
+            int antennasHeight = setupAntennas(getY() + infoHeight + 5);
 
-            this.teleportButton = new TexturedButton(this.getX(),this.getY() + customContentHeight, 100, 20, btn -> {
+            this.teleportButton = new TexturedButton(this.getX(),this.getY() + antennasHeight + infoHeight, 100, 20, btn -> {
                 if (this.selectionAppScreen.selectedPlanet != null
                         && this.selectionAppScreen.inSpace
                         && this.selectionAppScreen.canTeleportToPlanet()) {
@@ -213,18 +219,25 @@ public class PlanetSelectionAppScreen extends AbstractContainerScreen<PlanetSele
                 }
             }).tex(IdentifierUtils.guiTexture("tablet/tablet_entry_button"), IdentifierUtils.guiTexture("tablet/tablet_entry_button")).setText(Component.translatable("application.stellaris.planet_selection.teleport_button"));
             this.teleportButton.visible = this.selectionAppScreen.isTeleportButtonVisible();
-            this.addChild(this.selectionAppScreen, this.teleportButton);
+            addAntennaWidget(this.teleportButton);
+
+            //We remove the button height if it's not visible .
+            if(selectionAppScreen.isTeleportButtonVisible()) {
+                this.setContentHeight(teleportButton.getY());
+            } else {
+                this.setContentHeight(antennasHeight + infoHeight);
+            }
 
         }
 
-        private int setupAntennas() {
+        private int setupAntennas(int y) {
             if(this.selectionAppScreen.selectedPlanet == null) return 0;
 
             Font font = Minecraft.getInstance().font;
+            Planet selectedPlanetSnapshot = this.selectionAppScreen.selectedPlanet;
 
-            StringWidget stringWidget = new StringWidget(200, font.lineHeight, Component.literal("Available Antenna"), Minecraft.getInstance().font);
-            stringWidget.setPosition(this.getX(), this.getY() + 20 + 6 * font.lineHeight);
-            this.addChild(this.selectionAppScreen, stringWidget);
+            StringWidget stringWidget = new StringWidget(this.getX(), y, 200, font.lineHeight, Component.literal("Available Antenna"), Minecraft.getInstance().font);
+            addAntennaWidget(stringWidget);
 
             List<Antenna> availableAntennas = this.antennas.getAvailableAntennaPerLevel(this.selectionAppScreen.selectionMenu.player.getGameProfile().id(),  ResourceKey.create(Registries.DIMENSION, this.selectionAppScreen.selectedPlanet.dimension()));
             int i = 1;
@@ -233,67 +246,32 @@ public class PlanetSelectionAppScreen extends AbstractContainerScreen<PlanetSele
                 var nameWidget = new StringWidget(this.getX(), stringWidget.getY() + 7 + i++ * font.lineHeight,200, font.lineHeight, Component.literal(antenna.name), Minecraft.getInstance().font);
                 addAntennaWidget(nameWidget);
                 addAntennaWidget(new TexturedButton(this.getRight() - font.lineHeight * 2 - 6, nameWidget.getY(), font.lineHeight * 2, font.lineHeight * 2, btn -> {}));
-                var componentTest = Component.literal("Owned by : " );
-                addAntennaWidget(new StringWidget(this.getX(), stringWidget.getY() + 7 + i++ * font.lineHeight,200, font.lineHeight, componentTest.withStyle(ChatFormatting.GRAY), Minecraft.getInstance().font));
-                resolveUUIDAsync(antenna.ownerUUID, (opt) -> {
-                    if(opt.isPresent()) {
-                        componentTest.append(Component.literal(opt.get().name()).withStyle(ChatFormatting.GRAY));
-                    } else {
-                        componentTest.append( Component.literal("Unknown")).withStyle(ChatFormatting.GRAY);
-                    }
+                var ownerWidget = new StringWidget(this.getX(), stringWidget.getY() + 7 + i++ * font.lineHeight,200, font.lineHeight, Component.literal("Owned by : Searching...").withStyle(ChatFormatting.GRAY), Minecraft.getInstance().font);
+                addAntennaWidget(ownerWidget);
+
+                ClientUtils.resolveUUIDAsync(antenna.ownerUUID, (opt) -> {
+                    // Ignore stale async results if user changed selected planet meanwhile.
+                    if(this.selectionAppScreen.selectedPlanet != selectedPlanetSnapshot) return;
+
+                    var ownerLine = Component.literal("Owned by : ").withStyle(ChatFormatting.GRAY);
+                    opt.ifPresentOrElse(profile -> ownerLine.append(Component.literal(profile.name()).withStyle(ChatFormatting.GRAY)),
+                            () -> ownerLine.append(Component.literal("Unknown").withStyle(ChatFormatting.GRAY)));
+
+                    ownerWidget.setMessage(ownerLine);
                 });
                 i++;
-
             }
 
-            return stringWidget.getHeight() + (i * font.lineHeight + 7);
-        }
+            if(i == 1) addAntennaWidget(new StringWidget(this.getX(), y + font.lineHeight, 200, font.lineHeight * i++, Component.literal("No Antenna Available").withStyle(ChatFormatting.GRAY), Minecraft.getInstance().font));
 
-        public void resolveUUIDAsync(UUID uuid, Consumer<Optional<GameProfile>> uuidSupplier) {
-                CompletableFuture.supplyAsync(() -> Minecraft.getInstance().services().profileResolver().fetchById(uuid))
-                    .whenComplete((optionalGameProfile, throwable) -> {
-                        uuidSupplier.accept(optionalGameProfile);
-                    });
-        }
-
-        public void addAntennaWidget(AbstractWidget antennaWidget) {
-            this.antennaWidgets.add(antennaWidget);
-            this.addChild(this.selectionAppScreen, antennaWidget);
-
+            return stringWidget.getHeight() + ((i - 1) * font.lineHeight + 7) + 5;
         }
 
 
-        @Override
-        public void renderContent(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
-            super.renderContent(guiGraphics, mouseX, mouseY, partialTick);
-
-            this.teleportButton.visible = this.selectionAppScreen.isTeleportButtonVisible();
-
-            int infoHeight = renderInfo(guiGraphics, getX(),  getY() - (int) this.scrollAmount());
-
-            setContentHeight(customContentHeight + infoHeight);
-        }
-
-        public void onPlanetChange() {
-            this.customContentHeight = 0;
-            this.antennaWidgets.forEach((w) -> {
-                this.selectionAppScreen.removeWidget(w);
-                this.removeChild(this.selectionAppScreen, w);
-            });
-            this.setScrollAmount(0);
-            int antennasHeight = setupAntennas();
-            customContentHeight += antennasHeight;
-        }
-
-        public int renderInfo(GuiGraphics guiGraphics, int x, int y) {
+        public int setupInfoWidget() {
             Planet planet = this.selectionAppScreen.selectedPlanet;
 
             if(planet == null) return 0;
-
-            Component planetName = Component.translatable(planet.translationKey());
-
-            guiGraphics.drawString(Minecraft.getInstance().font, Component.translatable(planet.translationKey()), x + this.getWidth() / 2 - Minecraft.getInstance().font.width(planetName) / 2 , y + 2, Utils.getMinecraftColor("white"));
-
 
             WikiEntryTextRenderer.Builder builder = new WikiEntryTextRenderer.Builder();
 
@@ -304,9 +282,25 @@ public class PlanetSelectionAppScreen extends AbstractContainerScreen<PlanetSele
             builder.addText("Has Oxygen:").conditionColorText(planet.hasOxygen() ? "Yes" : "No", "green", "red", this.selectionAppScreen.selectedPlanet.hasOxygen()).breakL();
             builder.addText("-----------------------");
 
-            builder.build(300).renderWords(guiGraphics, x, y + 17, 0, 0, (s) -> {});
+            var widget = builder.toWidget(this.getX(), this.getY() + 20, 300, Minecraft.getInstance().font.lineHeight * 6);
+            addAntennaWidget(widget);
+            return widget.getHeight() + 20;
+        }
 
-            return Minecraft.getInstance().font.lineHeight * 6  + 17;
+        public void onPlanetChange() {
+
+            this.antennaWidgets.forEach(w -> {
+                this.selectionAppScreen.removeWidget(w);
+                this.removeChild(this.selectionAppScreen, w);
+            });
+            this.setScrollAmount(0);
+            this.setWidget();
+        }
+
+        //Used to add a children to the container and the custom list of antenna widgets, so that we can easily remove them later when the planet changes.
+        public void addAntennaWidget(AbstractWidget antennaWidget) {
+            this.antennaWidgets.add(antennaWidget);
+            this.addChild(this.selectionAppScreen, antennaWidget);
         }
 
     }

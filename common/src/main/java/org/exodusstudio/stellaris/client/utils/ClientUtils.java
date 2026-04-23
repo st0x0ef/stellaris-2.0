@@ -1,5 +1,7 @@
 package org.exodusstudio.stellaris.client.utils;
 
+import com.mojang.authlib.GameProfile;
+import net.minecraft.client.Minecraft;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.Entity;
@@ -9,6 +11,9 @@ import net.minecraft.world.level.Level;
 
 import java.util.ArrayList;
 import java.util.Optional;
+import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
+import java.util.function.Consumer;
 
 public class ClientUtils {
 
@@ -60,5 +65,18 @@ public class ClientUtils {
             }
         }
     }
+
+    public static void resolveUUIDAsync(UUID uuid, Consumer<Optional<GameProfile>> uuidSupplier) {
+        Minecraft minecraft = Minecraft.getInstance();
+        CompletableFuture.supplyAsync(() -> minecraft.services().profileResolver().fetchById(uuid))
+                .whenComplete((optionalGameProfile, throwable) -> minecraft.execute(() -> {
+                    Optional<GameProfile> safeResult = throwable == null && optionalGameProfile != null
+                            ? optionalGameProfile
+                            : Optional.empty();
+                    uuidSupplier.accept(safeResult);
+                }));
+    }
+
+
 
 }

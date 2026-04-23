@@ -200,7 +200,7 @@ public class ScrollableContainer extends AbstractScrollArea implements Container
         return this;
     }
 
-    public ScrollableContainer removeChild(Screen parent, AbstractWidget child) {
+    public ScrollableContainer removeChild(Screen parent, GuiEventListener child) {
         this.children.remove(child);
         this.defaultPositions.remove(child);
         return this;
