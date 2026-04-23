@@ -8,6 +8,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
@@ -15,6 +16,7 @@ import net.minecraft.world.item.component.TooltipDisplay;
 import org.exodusstudio.stellaris.common.components.TimerComponent;
 import org.exodusstudio.stellaris.common.registries.DataComponentsRegistry;
 import org.exodusstudio.stellaris.common.registries.EffectsRegistry;
+import org.exodusstudio.stellaris.common.utils.MoonLoreUtils;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Map;
@@ -34,7 +36,7 @@ public class ParasiteItem extends Item {
     @Override
     public void inventoryTick(ItemStack stack, ServerLevel level, Entity entity, @Nullable EquipmentSlot slot) {
         super.inventoryTick(stack, level, entity, slot);
-        if (entity instanceof LivingEntity livingEntity) {
+        if (entity instanceof LivingEntity) {
             TickData data = tickDataMap.get(stack);
             long currentTime = level.getGameTime();
 
@@ -57,8 +59,10 @@ public class ParasiteItem extends Item {
 
                 tickDataMap.put(stack, new TickData(currentTime, newTime));
             } else {
-                livingEntity.addEffect(new MobEffectInstance(EffectsRegistry.getHolder(EffectsRegistry.INFECTED), 5 * 60 * 20, 0));
-                stack.consume(1, livingEntity);
+                if (entity instanceof Player player && !MoonLoreUtils.isPlayerImmunisedToInfection(player)) {
+                    player.addEffect(new MobEffectInstance(EffectsRegistry.getHolder(EffectsRegistry.INFECTED), 5 * 60 * 20, 0));
+                    stack.consume(1, player);
+                }
             }
         }
     }
