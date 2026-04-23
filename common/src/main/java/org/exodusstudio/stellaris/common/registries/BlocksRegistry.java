@@ -179,13 +179,13 @@ public final class BlocksRegistry {
     // CABLES/PIPES/FLUIDS
     public static final BlockItemRegistrySupplier CABLE_T1 = blockWithItem("cable_t1", BlockBehaviour.Properties.of(), (p) -> new CableBlock(p, 20));
     public static final BlockItemRegistrySupplier T1_PIPE = blockWithItem("pipe_t1", BlockBehaviour.Properties.ofFullCopy(Blocks.IRON_CHAIN), (p) -> new PipeBlock(p, 1000, 250, 250));
-    public static final BlockItemRegistrySupplier FLUID_TANK_T1 = blockWithCustomItem("fluid_tank_t1", BlockBehaviour.Properties.of(), (p) -> new FluidTankBlock(p, 5000), new Item.Properties(), BlockItem::new);
+    public static final BlockItemRegistrySupplier FLUID_TANK_T1 = blockWithItem("fluid_tank_t1", BlockBehaviour.Properties.of(), (p) -> new FluidTankBlock(p, 5000), new Item.Properties()); // TODO : item should keep it fluid inside
 
     // TECH
-    public static final BlockItemRegistrySupplier ELECTROLYZER = blockWithCustomItem("electrolyzer", BlockBehaviour.Properties.of(), ElectrolyzerBlock::new, new Item.Properties(), BlockItem::new);
+    public static final BlockItemRegistrySupplier ELECTROLYZER = blockWithItem("electrolyzer", BlockBehaviour.Properties.of(), ElectrolyzerBlock::new, new Item.Properties());
     public static final BlockItemRegistrySupplier GRAVITY_MANIPULATOR = blockWithItem("gravity_manipulator", BlockBehaviour.Properties.of(), GravityManipulatorBlock::new);
-    public static final BlockItemRegistrySupplier PUMPJACK = blockWithCustomItem("pumpjack", BlockBehaviour.Properties.of(), PumpjackBlock::new, new Item.Properties(), BlockItem::new);
-    public static final BlockItemRegistrySupplier FUEL_REFINERY = blockWithCustomItem("fuel_refinery", BlockBehaviour.Properties.of(), FuelRefineryBlock::new, new Item.Properties(), BlockItem::new);
+    public static final BlockItemRegistrySupplier PUMPJACK = blockWithItem("pumpjack", BlockBehaviour.Properties.of(), PumpjackBlock::new, new Item.Properties());
+    public static final BlockItemRegistrySupplier FUEL_REFINERY = blockWithItem("fuel_refinery", BlockBehaviour.Properties.of(), FuelRefineryBlock::new, new Item.Properties());
 
     // OXYGEN
     public static final BlockItemRegistrySupplier OXYGEN_DISTRIBUTOR = blockWithItem("oxygen_distributor", BlockBehaviour.Properties.of(), OxygenDistributorBlock::new);
@@ -196,6 +196,13 @@ public final class BlocksRegistry {
     public static final BlockItemRegistrySupplier ROCKET_LAUNCH_PAD = blockWithCustomItem("rocket_launch_pad", BlockBehaviour.Properties.of(), RocketLaunchPadBlock::new, new Item.Properties(), BlockItem::new);
     public static final BlockItemRegistrySupplier ANTENNA = blockWithCustomItem("antenna", BlockBehaviour.Properties.of(), AntennaBlock::new, new Item.Properties(),
             (b, p) -> new TooltipBlockItem(b, p).addTooltip(AntennaBlock.TOOLTIP));
+
+    public static final BlockItemRegistrySupplier ENGINEERING_STATION = blockWithItem("engineering_station", BlockBehaviour.Properties.of(), EngineeringStationBlock::new, new Item.Properties());
+    public static final BlockItemRegistrySupplier ROCKET_LAUNCH_PAD = blockWithItem("rocket_launch_pad", BlockBehaviour.Properties.of(), RocketLaunchPadBlock::new, new Item.Properties());
+
+    // LORE
+    public static final BlockItemRegistrySupplier LABORATORY = blockWithItem("laboratory", BlockBehaviour.Properties.of(), LaboratoryBlock::new, new Item.Properties());
+
 
     /**
      * Fluids

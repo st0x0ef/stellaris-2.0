@@ -1,0 +1,12 @@
+{
+  "replace": false,
+  "values": [
+    "stellaris:moon_sand",
+    "stellaris:moon_stone_dust",
+    "stellaris:ash_layer",
+    "stellaris:casus_astrum_dirt",
+    "stellaris:casus_astrum_grass",
+    "stellaris:lunar_dirt",
+    "stellaris:lunar_grass"
+  ]
+}

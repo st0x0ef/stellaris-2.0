@@ -24,7 +24,7 @@ public class DataAttachmentsPlatformImpl {
     }
 
     public static boolean hasEntityData(Entity entity, Identifier key) {
-        return entity.getAttached(getAttachment(key));
+        return entity.hasAttached(getAttachment(key));
     }
     public static <T> T getEntityData(Entity entity, Identifier location, Class<T> clazz) {
         return entity.getAttached(getAttachment(location));

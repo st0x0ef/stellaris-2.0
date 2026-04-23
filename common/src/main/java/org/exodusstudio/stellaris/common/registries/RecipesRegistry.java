@@ -7,9 +7,10 @@ import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import org.exodusstudio.stellaris.Stellaris;
-import org.exodusstudio.stellaris.common.data.recipe.ElectrolyzeRecipe;
-import org.exodusstudio.stellaris.common.data.recipe.FuelRefineryRecipe;
-import org.exodusstudio.stellaris.common.data.recipe.RocketStationRecipe;
+import org.exodusstudio.stellaris.common.data.recipes.ElectrolyzeRecipe;
+import org.exodusstudio.stellaris.common.data.recipes.FuelRefineryRecipe;
+import org.exodusstudio.stellaris.common.data.recipes.RocketStationRecipe;
+import org.exodusstudio.stellaris.common.data.recipes.VaccineRecipe;
 
 public class RecipesRegistry {
 
@@ -21,6 +22,10 @@ public class RecipesRegistry {
 
     public static final RegistrySupplier<RecipeType<RocketStationRecipe>> ROCKET_STATION_TYPE = RECIPE_TYPES.register("rocket_station", () -> new Type<>("rocket_station"));
     public static final RegistrySupplier<RecipeSerializer<RocketStationRecipe>> ROCKET_STATION_SERIALIZER = RECIPE_SERIALIZERS.register("rocket_station", RocketStationRecipe.Serializer::new);
+
+    public static final RegistrySupplier<RecipeType<VaccineRecipe>> VACCINE_TYPE = RECIPE_TYPES.register("vaccine", () -> new Type<>("vaccine"));
+    public static final RegistrySupplier<RecipeSerializer<VaccineRecipe>> VACCINE_SERIALIZER = RECIPE_SERIALIZERS.register("vaccine", VaccineRecipe.Serializer::new);
+
 
     public static final RegistrySupplier<RecipeType<FuelRefineryRecipe>> FUEL_REFINERY_TYPE = RECIPE_TYPES.register("fuel_refinery",
             () -> new Type<>("fuel_refinery"));

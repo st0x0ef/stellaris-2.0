@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "#  ",
+    "## ",
+    "###"
+  ],
+  "key": {
+    "#": "stellaris:casus_astrum_stone"
+  },
+  "result": {
+    "id": "stellaris:casus_astrum_stone_stairs",
+    "count": 4
+  }
+}

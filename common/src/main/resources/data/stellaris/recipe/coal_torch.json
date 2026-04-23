@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " C ",
+    " C ",
+    " S "
+  ],
+  "key": {
+    "C": "minecraft:coal",
+    "S": "minecraft:stick"
+  },
+  "result": {
+    "id": "stellaris:coal_torch",
+    "count": 4
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "###",
+    "###"
+  ],
+  "key": {
+    "#": "stellaris:lunar_planks"
+  },
+  "result": {
+    "id": "stellaris:lunar_trapdoor",
+    "count": 2
+  }
+}

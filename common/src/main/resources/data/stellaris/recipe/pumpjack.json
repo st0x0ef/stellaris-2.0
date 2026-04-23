@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "TIT",
+    "IPI",
+    "TIT"
+  ],
+  "key": {
+    "T": "stellaris:titanium_ingot",
+    "I": "minecraft:iron_ingot",
+    "P": "minecraft:piston"
+  },
+  "result": {
+    "id": "stellaris:pumpjack",
+    "count": 1
+  }
+}

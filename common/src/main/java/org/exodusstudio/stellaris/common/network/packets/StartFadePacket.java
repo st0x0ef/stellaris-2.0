@@ -22,6 +22,6 @@ public record StartFadePacket(FadingHolder fadingHolder) implements CustomPacket
     }
 
     public static void handle(final StartFadePacket data, final NetworkManager.PacketContext context) {
-        context.getPlayer().saveDataAttachments(IdentifierUtils.id("player_fade"), data.fadingHolder());
+        context.getPlayer().stellaris$saveDataAttachments(IdentifierUtils.id("player_fade"), data.fadingHolder());
     }
 }

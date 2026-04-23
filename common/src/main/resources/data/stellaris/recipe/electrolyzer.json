@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "TIT",
+    "IRI",
+    "TIT"
+  ],
+  "key": {
+    "T": "stellaris:titanium_ingot",
+    "I": "minecraft:iron_ingot",
+    "R": "minecraft:redstone"
+  },
+  "result": {
+    "id": "stellaris:electrolyzer",
+    "count": 1
+  }
+}

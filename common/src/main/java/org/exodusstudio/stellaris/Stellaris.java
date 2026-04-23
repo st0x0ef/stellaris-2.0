@@ -7,7 +7,7 @@ import com.google.gson.ToNumberPolicy;
 import fr.tathan.exoconfig.common.loader.ConfigsRegistry;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.packs.resources.PreparableReloadListener;
-import org.exodusstudio.stellaris.client.data.wiki.WikiPacks;
+import org.exodusstudio.stellaris.common.data.wiki.WikiPacks;
 import org.exodusstudio.stellaris.common.config.CommonConfig;
 import org.exodusstudio.stellaris.common.data.PlanetsData;
 import org.exodusstudio.stellaris.common.data.SdCardData;

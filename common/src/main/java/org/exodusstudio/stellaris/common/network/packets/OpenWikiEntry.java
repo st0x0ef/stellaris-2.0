@@ -7,7 +7,7 @@ import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.Identifier;
 import org.exodusstudio.stellaris.Stellaris;
-import org.exodusstudio.stellaris.client.data.wiki.WikiPacks;
+import org.exodusstudio.stellaris.common.data.wiki.WikiPacks;
 import org.exodusstudio.stellaris.client.screens.tablet.application.wiki.WikiApplicationScreen;
 
 public record OpenWikiEntry(Identifier entryId) implements CustomPacketPayload {

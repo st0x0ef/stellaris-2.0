@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "GGG",
+    "TTT",
+    "III"
+  ],
+  "key": {
+    "G": "minecraft:glass",
+    "T": "stellaris:titanium_ingot",
+    "I": "minecraft:iron_ingot"
+  },
+  "result": {
+    "id": "stellaris:solar_panel",
+    "count": 1
+  }
+}

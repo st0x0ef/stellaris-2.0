@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "#  ",
+    "## ",
+    "###"
+  ],
+  "key": {
+    "#": "stellaris:titanium_block"
+  },
+  "result": {
+    "id": "stellaris:titanium_stairs",
+    "count": 4
+  }
+}

@@ -69,4 +69,7 @@ public class BlockEntitiesRegistry {
     public static final Supplier<BlockEntityType<?>> ANTENNA = BLOCK_ENTITY_TYPE.register("antenna",
             () -> new BlockEntityType<>(AntennaBlockEntity::new, Set.of(BlocksRegistry.ANTENNA.block().get())));
 
+    public static final Supplier<BlockEntityType<?>> LABORATORY = BLOCK_ENTITY_TYPE.register("laboratory",
+            () -> new BlockEntityType<>(LaboratoryBlockEntity::new, Set.of(BlocksRegistry.LABORATORY.block().get())));
+
 }

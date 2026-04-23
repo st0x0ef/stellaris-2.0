@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    "stellaris:lunar_boat",
+    "minecraft:chest"
+  ],
+  "result": {
+    "id": "stellaris:lunar_chest_boat",
+    "count": 1
+  }
+}

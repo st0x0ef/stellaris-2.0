@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "##",
+    "##"
+  ],
+  "key": {
+    "#": "stellaris:packed_ice_bricks"
+  },
+  "result": {
+    "id": "stellaris:polished_packed_ice",
+    "count": 4
+  }
+}

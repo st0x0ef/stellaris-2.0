@@ -19,8 +19,8 @@ import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 import org.exodusstudio.stellaris.common.blocks.entities.machines.base.ImplementedInventory;
 import org.exodusstudio.stellaris.common.blocks.entities.machines.base.TickingBlockEntity;
-import org.exodusstudio.stellaris.common.data.recipe.RocketStationRecipe;
-import org.exodusstudio.stellaris.common.data.recipe.input.RocketStationInput;
+import org.exodusstudio.stellaris.common.data.recipes.RocketStationRecipe;
+import org.exodusstudio.stellaris.common.data.recipes.input.RocketStationInput;
 import org.exodusstudio.stellaris.common.menus.engineering_station.RocketStationMenu;
 import org.exodusstudio.stellaris.common.registries.BlockEntitiesRegistry;
 import org.exodusstudio.stellaris.common.registries.RecipesRegistry;
@@ -72,7 +72,7 @@ public class EngineeringStationBlockEntity extends BaseContainerBlockEntity impl
 
     @Override
     public NonNullList<ItemStack> getItems() {
-        return items;
+        return this.items;
     }
 
     @Override
@@ -101,10 +101,8 @@ public class EngineeringStationBlockEntity extends BaseContainerBlockEntity impl
             return;
         }
 
-
         ItemStack outputStack = getItem(14);
         if ((outputStack.isEmpty() || outputStack.getCount() < outputStack.getMaxStackSize()) && level instanceof ServerLevel serverLevel) {
-
             RocketStationInput input = new RocketStationInput(this, getItems());
             Optional<RecipeHolder<RocketStationRecipe>> recipeHolder = quickCheck.getRecipeFor(input, serverLevel);
 

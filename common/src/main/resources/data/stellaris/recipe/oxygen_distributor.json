@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "TTT",
+    "TGT",
+    "III"
+  ],
+  "key": {
+    "T": "stellaris:titanium_ingot",
+    "G": "minecraft:glass",
+    "I": "minecraft:iron_ingot"
+  },
+  "result": {
+    "id": "stellaris:oxygen_distributor",
+    "count": 1
+  }
+}

@@ -20,6 +20,7 @@ import org.exodusstudio.stellaris.client.renderers.rockets.models.TinyRocketMode
 import org.exodusstudio.stellaris.common.items.*;
 import org.exodusstudio.stellaris.common.items.infection.ParasiteItem;
 import org.exodusstudio.stellaris.common.items.infection.PathogenStorageCellItem;
+import org.exodusstudio.stellaris.common.items.infection.VaccineItem;
 import org.exodusstudio.stellaris.common.items.modules.rocket.HydrogenFuelModuleItem;
 import org.exodusstudio.stellaris.common.items.modules.rocket.RocketModelModuleItem;
 import org.exodusstudio.stellaris.common.items.modules.rocket.RocketSkinModuleItem;
@@ -175,6 +176,7 @@ public final class ItemsRegistry {
     // Moon lore items
     public static final RegistrySupplier<ParasiteItem> PARASITE = item("parasite", ParasiteItem::new);
     public static final RegistrySupplier<Item> PATHOGEN_STORAGE_CELL = item("pathogen_storage_cell", PathogenStorageCellItem::new);
+    public static final RegistrySupplier<Item> VACCINE = item("vaccine", VaccineItem::new);
 
     /** Lunar Forest Items */
     public static final RegistrySupplier<Item> LUNAR_BOAT = item("lunar_boat", p -> new BoatItem((EntityType<? extends AbstractBoat>) EntityTypesRegistry.LUNAR_BOAT.get(), p));

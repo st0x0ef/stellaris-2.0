@@ -13,6 +13,7 @@ import org.exodusstudio.stellaris.common.modules.rocket.RocketModules;
 import org.exodusstudio.stellaris.common.modules.space_suit.SpaceSuitModule;
 import org.exodusstudio.stellaris.common.modules.space_suit.SpaceSuitModules;
 import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
+import org.exodusstudio.stellaris.common.utils.MoonLoreUtils;
 
 import java.util.HashMap;
 
@@ -25,6 +26,8 @@ public class DataAttachmentRegistry {
     public static final AttachmentType<? extends Modules<RocketModule>> ROCKET_MODULES;
     public static final AttachmentType<? extends Modules<SpaceSuitModule>> SPACE_SUIT_MODULES;
     public static final AttachmentType<FadingHolder> FADE;
+    public static final AttachmentType<Integer> MOON_LORE_PROGRESSION;
+    public static final AttachmentType<Boolean> PLAYER_IMMUNISED_TO_INFECTION;
 
     public static void register() {
 
@@ -55,6 +58,14 @@ public class DataAttachmentRegistry {
                         .syncWith(RocketModules.STREAM_CODEC, AttachmentSyncPredicate.all()) // only the player's own client needs the value for rendering
         );
 
+        MOON_LORE_PROGRESSION = AttachmentRegistry.create(
+                MoonLoreUtils.MOON_LORE_PROGRESSION, builder -> builder.initializer(() -> -1).persistent(Codec.INT).syncWith(ByteBufCodecs.INT, AttachmentSyncPredicate.all())
+        );
+
+        PLAYER_IMMUNISED_TO_INFECTION = AttachmentRegistry.create(
+                MoonLoreUtils.PLAYER_IMMUNISED_TO_INFECTION, builder -> builder.initializer(() -> false).persistent(Codec.BOOL).syncWith(ByteBufCodecs.BOOL, AttachmentSyncPredicate.all())
+        );
+
 
         FADE = AttachmentRegistry.create(
                 IdentifierUtils.id("player_fade"),
@@ -68,6 +79,8 @@ public class DataAttachmentRegistry {
         ATTACHMENT_TYPES.put(ROCKET_MODULES.identifier(), ROCKET_MODULES);
         ATTACHMENT_TYPES.put(SPACE_SUIT_MODULES.identifier(), SPACE_SUIT_MODULES);
         ATTACHMENT_TYPES.put(FADE.identifier(), FADE);
+        ATTACHMENT_TYPES.put(MOON_LORE_PROGRESSION.identifier(), MOON_LORE_PROGRESSION);
+        ATTACHMENT_TYPES.put(PLAYER_IMMUNISED_TO_INFECTION.identifier(), PLAYER_IMMUNISED_TO_INFECTION);
 
     }
 

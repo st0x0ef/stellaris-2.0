@@ -129,6 +129,7 @@
   "item.stellaris.fuel_refinery": "Fuel Refinery",
   "item.stellaris.gravity_manipulator": "Gravity Manipulator",
   "item.stellaris.engineering_station": "Engineering Station",
+  "item.stellaris.laboratory": "Laboratory",
 
   "item.stellaris.oxygen_distributor": "Oxygen Distributor",
   "item.stellaris.oxygen_propagator": "Oxygen Propagator",
@@ -232,6 +233,7 @@
 
   "item.stellaris.parasite": "Parasite",
   "item.stellaris.pathogen_storage_cell": "Pathogen Storage Cell",
+  "item.stellaris.vaccine": "Vaccine",
 
   "item.stellaris.oil_finder": "Oil Finder",
 
@@ -285,6 +287,7 @@
   "stellaris.screen.gravityManipulator.planet.mars": "Mars Gravity (3.73m/s²)",
   "stellaris.screen.gravityManipulator.planet.earth": "Earth Gravity (9.81m/s²)",
   "stellaris.screen.engineering_station": "Engineering Station",
+  "stellaris.screen.laboratory": "Laboratory",
 
 
   "application.stellaris.stats.name": "Stats",
@@ -355,4 +358,10 @@
   "message.stellaris.friends_list.added": "Your friends %s has been added to the list.",
   "message.stellaris.friends_list.removed": "Your friends %s has been removed from the list."
 
+  "message.stellaris.player_not_ready_for_vaccine": "You are not ready for the vaccine yet. You need to finish the infection analysis first.",
+  "message.stellaris.player_now_immunised": "You have been immunised against the infection. You can now safely explore the infected areas and continue your space adventure without worrying about the infection.",
+  "message.stellaris.player_already_immune": "You are already immune to the infection. You can safely explore the infected areas and continue your space adventure without worrying about the infection.",
+
+  "message.stellaris.success": "Success!",
+  "message.stellaris.failure": "Failure, try again."
 }

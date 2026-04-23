@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    "stellaris:titanium_pickaxe",
+    "stellaris:titanium_axe",
+    "stellaris:titanium_shovel",
+    "stellaris:titanium_hoe"
+  ]
+}

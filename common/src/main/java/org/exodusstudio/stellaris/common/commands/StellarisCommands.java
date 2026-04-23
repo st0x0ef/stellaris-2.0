@@ -11,6 +11,7 @@ import net.minecraft.commands.CommandBuildContext;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.core.BlockPos;
+import net.minecraft.commands.arguments.EntityArgument;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.server.level.ServerPlayer;
@@ -32,6 +33,7 @@ import org.exodusstudio.stellaris.common.entities.RocketEntity;
 import org.exodusstudio.stellaris.common.menus.MainTabletMenu;
 import org.exodusstudio.stellaris.common.network.packets.StartFadePacket;
 import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
+import org.exodusstudio.stellaris.common.utils.MoonLoreUtils;
 import org.exodusstudio.stellaris.common.utils.PlanetUtil;
 import org.exodusstudio.stellaris.common.utils.Utils;
 
@@ -48,6 +50,8 @@ public class StellarisCommands {
         testCommand(builder);
         adminCommand(builder);
         antennaCommands(builder);
+
+        infectionCommand(builder);
         builder.register();
     }
 
@@ -287,4 +291,102 @@ public class StellarisCommands {
         builder.addSubCommand(baseAdmin);
     }
 
+
+    private void infectionCommand(CommandBuilder builder) {
+        CommandBuilder infection = builder.createSubCommand("infection");
+
+        // get stage
+        CommandBuilder getStageNoArgs = builder.createSubCommand("getStage").execute(commandSourceWrapper -> {
+            ServerPlayer player = commandSourceWrapper.getPlayer();
+            int stage = MoonLoreUtils.getResearchProgressionStage(player);
+            player.displayClientMessage(Component.literal("Current stage : " + stage), false);
+            return commandSourceWrapper.success();
+        });
+
+        getStageNoArgs.addArgument(ArgumentBuilder.of("player", EntityArgument.player()).execute(commandSourceWrapper  -> {
+            ServerPlayer player;
+            try {
+                player = EntityArgument.getPlayer(commandSourceWrapper.context(), "player");
+            } catch (CommandSyntaxException e) {
+                commandSourceWrapper.sendFailure(Component.literal("Player not found!"));
+                return commandSourceWrapper.failure();
+            }
+            int stage = MoonLoreUtils.getResearchProgressionStage(player);
+            commandSourceWrapper.sendSuccess(Component.literal("Current stage for " + player.getName().getString() + " : " + stage), false);
+            return commandSourceWrapper.success();
+        }));
+
+        // set stage
+        CommandBuilder setStageCurrentPlayer = builder.createSubCommand("setStage").addArgument(ArgumentBuilder.of("stage", IntegerArgumentType.integer(-1, MoonLoreUtils.MAX_STAGE)).execute(commandSourceWrapper -> {
+            ServerPlayer player = commandSourceWrapper.getPlayer();
+            int stage = IntegerArgumentType.getInteger(commandSourceWrapper.context(), "stage");
+            player.stellaris$saveDataAttachments(MoonLoreUtils.MOON_LORE_PROGRESSION, stage);
+            player.displayClientMessage(Component.literal("Stage set to " + stage), false);
+            return commandSourceWrapper.success();
+        }));
+
+        setStageCurrentPlayer.addSubCommand(builder.createSubCommand("for").addArgument(ArgumentBuilder.of("player", EntityArgument.player()).addArgument(ArgumentBuilder.of("stage", IntegerArgumentType.integer()).execute(commandSourceWrapper -> {
+            ServerPlayer player;
+            try {
+                player = EntityArgument.getPlayer(commandSourceWrapper.context(), "player");
+            } catch (CommandSyntaxException e) {
+                commandSourceWrapper.sendFailure(Component.literal("Player not found!"));
+                return commandSourceWrapper.failure();
+            }
+            int stage = IntegerArgumentType.getInteger(commandSourceWrapper.context(), "stage");
+            player.stellaris$saveDataAttachments(MoonLoreUtils.MOON_LORE_PROGRESSION, stage);
+            commandSourceWrapper.sendSuccess(Component.literal("Stage set to " + stage + " for " + player.getName().getString()), false);
+            return commandSourceWrapper.success();
+        }))));
+
+        // is immunised
+        CommandBuilder isImmunisedNoArgs = builder.createSubCommand("isImmunised").execute(commandSourceWrapper -> {
+            ServerPlayer player = commandSourceWrapper.getPlayer();
+            boolean immunised = MoonLoreUtils.isPlayerImmunisedToInfection(player);
+            player.displayClientMessage(immunised ? Component.literal("You are immunised to the parasite.") : Component.literal("You are vulnerable to the parasite."), false);
+            return commandSourceWrapper.success();
+        });
+
+        isImmunisedNoArgs.addArgument(ArgumentBuilder.of("player", EntityArgument.player()).execute(commandSourceWrapper  -> {
+            ServerPlayer player;
+            try {
+                player = EntityArgument.getPlayer(commandSourceWrapper.context(), "player");
+            } catch (CommandSyntaxException e) {
+                commandSourceWrapper.sendFailure(Component.literal("Player not found!"));
+                return commandSourceWrapper.failure();
+            }
+            boolean immunised = MoonLoreUtils.isPlayerImmunisedToInfection(player);
+            commandSourceWrapper.sendSuccess(immunised ? Component.literal(player.getName().getString() + " is immunised to the parasite.") : Component.literal(player.getName().getString() + " is vulnerable to the parasite."), false);
+            return commandSourceWrapper.success();
+        }));
+
+        // set immunised
+        CommandBuilder setImmunisedCurrentPlayer = builder.createSubCommand("setImmunised").addArgument(ArgumentBuilder.of("immunised", BoolArgumentType.bool()).execute(commandSourceWrapper -> {
+            ServerPlayer player = commandSourceWrapper.getPlayer();
+            boolean immunised = BoolArgumentType.getBool(commandSourceWrapper.context(), "immunised");
+            player.stellaris$saveDataAttachments(MoonLoreUtils.PLAYER_IMMUNISED_TO_INFECTION, immunised);
+            player.displayClientMessage(immunised ? Component.literal("You are now immunised to the infection.") : Component.literal("You are no longer immunised to the infection."), false);
+            return commandSourceWrapper.success();
+        }));
+
+        setImmunisedCurrentPlayer.addSubCommand(builder.createSubCommand("for").addArgument(ArgumentBuilder.of("player", EntityArgument.player()).addArgument(ArgumentBuilder.of("immunised", BoolArgumentType.bool()).execute(commandSourceWrapper -> {
+            ServerPlayer player;
+            try {
+                player = EntityArgument.getPlayer(commandSourceWrapper.context(), "player");
+            } catch (CommandSyntaxException e) {
+                commandSourceWrapper.sendFailure(Component.literal("Player not found!"));
+                return commandSourceWrapper.failure();
+            }
+            boolean immunised = BoolArgumentType.getBool(commandSourceWrapper.context(), "immunised");
+            player.stellaris$saveDataAttachments(MoonLoreUtils.PLAYER_IMMUNISED_TO_INFECTION, immunised);
+            commandSourceWrapper.sendSuccess(immunised ? Component.literal(player.getName().getString() + " is now immunised to the infection.") : Component.literal(player.getName().getString() + " is no longer immunised to the infection."), false);
+            return commandSourceWrapper.success();
+        }))));
+
+        builder.addSubCommand(infection);
+        infection.addSubCommand(getStageNoArgs);
+        infection.addSubCommand(setStageCurrentPlayer);
+        infection.addSubCommand(isImmunisedNoArgs);
+        infection.addSubCommand(setImmunisedCurrentPlayer);
+    }
 }

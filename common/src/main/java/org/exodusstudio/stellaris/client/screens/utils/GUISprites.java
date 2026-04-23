@@ -30,6 +30,21 @@ public class GUISprites {
     public static final Identifier CHECKBOX = IdentifierUtils.id( "util/checkbox");
     public static final Identifier CHECKBOX_SELECTED = IdentifierUtils.id("util/checkbox_selected");
 
-    public static final Identifier OUTPUT_BUTTON = IdentifierUtils.id("util/output_button" );
+    // ENGINEERING STATION
+    public static final Identifier MODULES_TAB = IdentifierUtils.id("tab/modules_tab");
+    public static final Identifier MODULES_TAB_HOVER = IdentifierUtils.id("tab/modules_tab_hover");
+    public static final Identifier ROCKET_CRAFTING_TAB = IdentifierUtils.id("tab/rocket_crafting_tab");
+    public static final Identifier ROCKET_CRAFTING_TAB_HOVER = IdentifierUtils.id("tab/rocket_crafting_tab_hover");
+
+    // LABORATORY
+    public static final Identifier VACCINE_TAB = IdentifierUtils.id("tab/vaccine_tab");
+    public static final Identifier VACCINE_TAB_HOVER = IdentifierUtils.id("tab/vaccine_tab_hover");
+    public static final Identifier RESEARCH_TAB = IdentifierUtils.id("tab/research_tab");
+    public static final Identifier RESEARCH_TAB_HOVER = IdentifierUtils.id("tab/research_tab_hover");
+    public static final Identifier RESEARCH_BUTTON = IdentifierUtils.id("util/research_button");
+    public static final Identifier RESEARCH_BUTTON_HOVER = IdentifierUtils.id("util/research_button_hover");
+    public static final Identifier RESEARCH_PROGRESS = IdentifierUtils.guiTexture("process_indicators/laboratory_research");
+
+    public static final Identifier OUTPUT_BUTTON = IdentifierUtils.id("util/output_button");
 
 }

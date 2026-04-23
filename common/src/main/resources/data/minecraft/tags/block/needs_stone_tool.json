@@ -1,0 +1,28 @@
+{
+  "replace": false,
+  "values": [
+    "stellaris:raw_titanium_block",
+    "stellaris:titanium_block",
+    "stellaris:titanium_slab",
+    "stellaris:titanium_stairs",
+    "stellaris:titanium_pillar",
+    "stellaris:titanium_plating_block",
+    "stellaris:titanium_plating_slab",
+    "stellaris:titanium_plating_stairs",
+    "stellaris:vertical_titanium_slab",
+    "stellaris:vertical_titanium_plating_slab",
+    "stellaris:iron_plating_block",
+    "stellaris:iron_plating_slab",
+    "stellaris:iron_plating_stairs",
+    "stellaris:iron_pillar",
+    "stellaris:vertical_iron_plating_slab",
+    "stellaris:desh_block",
+    "stellaris:raw_desh_block",
+    "stellaris:desh_plating_block",
+    "stellaris:desh_plating_slab",
+    "stellaris:desh_plating_stairs",
+    "stellaris:desh_pillar",
+    "stellaris:vertical_desh_slab",
+    "stellaris:vertical_desh_plating_slab"
+  ]
+}

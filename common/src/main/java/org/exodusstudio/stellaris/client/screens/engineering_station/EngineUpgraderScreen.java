@@ -30,13 +30,23 @@ public class EngineUpgraderScreen extends AbstractContainerScreen<EngineUpgradeM
     @Override
     protected void init() {
         super.init();
-        TexturedButton craftingButton = new TexturedButton(this.leftPos + this.imageWidth, this.topPos + 50 , 16,16,
-                Component.empty(),
-                button -> menu.openCraftingMenu())
+
+
+        TexturedButton craftingButton = new TexturedButton(this.leftPos + this.imageWidth, this.topPos + 40, 16,16,
+                Component.empty(), button -> menu.openCraftingMenu())
                 .tex(GUISprites.ROCKET_CRAFTING_TAB, GUISprites.ROCKET_CRAFTING_TAB_HOVER)
                 .tooltip(Tooltip.create(RocketStationScreen.TAB_NAME))
                 .useSprite(true);
+
+        TexturedButton upgradeButton = new TexturedButton(this.leftPos + this.imageWidth, this.topPos + 56, 16,16,
+                Component.empty(), null)
+                .tex(GUISprites.MODULES_TAB, GUISprites.MODULES_TAB_HOVER)
+                .tooltip(Tooltip.create(EngineUpgraderScreen.TAB_NAME))
+                .useSprite(true)
+                .setUVs(2, 0);
+
         this.addRenderableWidget(craftingButton);
+        this.addRenderableWidget(upgradeButton);
 
     }
 

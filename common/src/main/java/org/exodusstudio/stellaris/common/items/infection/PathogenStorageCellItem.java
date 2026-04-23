@@ -17,7 +17,7 @@ import org.exodusstudio.stellaris.common.registries.DataComponentsRegistry;
 import java.util.function.Consumer;
 
 public class PathogenStorageCellItem extends Item {
-    private static final PathogenStorageComponent DEFAULT_COMPONENT = new PathogenStorageComponent(0, 100); // TODO : make max capacity configurable
+    private static final PathogenStorageComponent DEFAULT_COMPONENT = new PathogenStorageComponent(0, 500);
 
     public PathogenStorageCellItem(Properties properties) {
         super(properties.component(DataComponentsRegistry.PATHOGEN_STORED.get(), DEFAULT_COMPONENT));

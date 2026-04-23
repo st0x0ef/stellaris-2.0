@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": "stellaris:casus_astrum_stone",
+  "result": {
+    "id": "stellaris:casus_astrum_stone_slab",
+    "count": 2
+  }
+}

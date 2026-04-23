@@ -5,6 +5,15 @@
       "text": "The [color=yellow]Engineering Station [color]is a very important machine."
     },
     {
+      "type": "image",
+      "image": {
+        "location": "stellaris:textures/wiki/rendered_blocks/engineering_station",
+        "width": 96,
+        "height": 96,
+        "legend": "Electrolyzer"
+      }
+    },
+    {
     "type": "item",
     "item": {
       "stack": {

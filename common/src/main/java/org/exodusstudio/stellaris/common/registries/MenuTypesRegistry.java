@@ -9,6 +9,8 @@ import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.common.menus.*;
 import org.exodusstudio.stellaris.common.menus.engineering_station.RocketStationMenu;
 import org.exodusstudio.stellaris.common.menus.engineering_station.EngineUpgradeMenu;
+import org.exodusstudio.stellaris.common.menus.laboratory.ResearchMenu;
+import org.exodusstudio.stellaris.common.menus.laboratory.VaccineMenu;
 
 public class MenuTypesRegistry {
 
@@ -42,6 +44,8 @@ public class MenuTypesRegistry {
     public static final RegistrySupplier<MenuType<PlanetSelectionMenu>> PLANET_SELECTION_MENU = MENU_TYPE.register("planet_selection_menu", () -> MenuRegistry.ofExtended(PlanetSelectionMenu::create));
 
     public static final RegistrySupplier<MenuType<AntennaMenu>> ANTENNA = MENU_TYPE.register("antenna_menu", () -> MenuRegistry.ofExtended(AntennaMenu::create));
+    public static final RegistrySupplier<MenuType<VaccineMenu>> LABORATORY_VACCINE = MENU_TYPE.register("laboratory_vaccine", () -> MenuRegistry.ofExtended(VaccineMenu::create));
+    public static final RegistrySupplier<MenuType<ResearchMenu>> LABORATORY_RESEARCH = MENU_TYPE.register("laboratory_research", () -> MenuRegistry.ofExtended(ResearchMenu::create));
 
 }
 

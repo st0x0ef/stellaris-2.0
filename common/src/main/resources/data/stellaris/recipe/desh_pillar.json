@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "#",
+    "#"
+  ],
+  "key": {
+    "#": "stellaris:desh_plating_slab"
+  },
+  "result": {
+    "id": "stellaris:desh_pillar",
+    "count": 1
+  }
+}

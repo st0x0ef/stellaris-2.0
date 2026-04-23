@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "###",
+    "#T#",
+    "###"
+  ],
+  "key": {
+    "#": "minecraft:iron_nugget",
+    "T": "stellaris:coal_torch"
+  },
+  "result": {
+    "id": "stellaris:coal_lantern",
+    "count": 1
+  }
+}

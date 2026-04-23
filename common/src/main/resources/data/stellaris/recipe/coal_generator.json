@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "#L#",
+    "#X#",
+    "###"
+  ],
+  "key": {
+    "#": "#stellaris:titanium_materials",
+    "X": "minecraft:blast_furnace",
+    "L": "minecraft:lapis_lazuli"
+  },
+  "result": {
+    "id": "stellaris:coal_generator"
+  }
+}

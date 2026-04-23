@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "bonus_rolls": 0.0,
+      "rolls": 1.0,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "stellaris:moon_berries",
+          "conditions": [
+            {
+              "condition": "minecraft:block_state_property",
+              "block": "stellaris:moon_vines_plant",
+              "properties": {
+                "berries": "true"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

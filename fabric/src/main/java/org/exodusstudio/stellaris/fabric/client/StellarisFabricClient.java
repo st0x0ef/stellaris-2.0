@@ -29,6 +29,8 @@ import org.exodusstudio.stellaris.client.renderers.rockets.RocketRenderer;
 import org.exodusstudio.stellaris.client.screens.*;
 import org.exodusstudio.stellaris.client.screens.engineering_station.RocketStationScreen;
 import org.exodusstudio.stellaris.client.screens.engineering_station.EngineUpgraderScreen;
+import org.exodusstudio.stellaris.client.screens.laboratory.ResearchScreen;
+import org.exodusstudio.stellaris.client.screens.laboratory.VaccineScreen;
 import org.exodusstudio.stellaris.client.screens.tablet.MainTabletScreen;
 import org.exodusstudio.stellaris.client.screens.tablet.application.planets.PlanetSelectionAppScreen;
 import org.exodusstudio.stellaris.client.screens.tablet.application.sd.SDCardReaderApplicationScreen;
@@ -55,6 +57,7 @@ public final class StellarisFabricClient implements ClientModInitializer {
         BlockRenderLayerMap.putBlock(BlocksRegistry.MOON_VINES_PLANT.get(), ChunkSectionLayer.CUTOUT);
         BlockRenderLayerMap.putBlock(BlocksRegistry.ASTRUM_VITREUS_BLOCK.block().get(), ChunkSectionLayer.TRANSLUCENT);
         BlockRenderLayerMap.putBlock(BlocksRegistry.ASTRUM_VITREUS_CLUSTER.block().get(), ChunkSectionLayer.CUTOUT);
+        BlockRenderLayerMap.putBlock(BlocksRegistry.LABORATORY.block().get(), ChunkSectionLayer.TRANSLUCENT);
     }
 
     private void registerScreens() {
@@ -83,7 +86,8 @@ public final class StellarisFabricClient implements ClientModInitializer {
         MenuScreenRegistry.registerScreenFactory(MenuTypesRegistry.ANTENNA.get(), AntennaScreen::new);
         MenuScreenRegistry.registerScreenFactory(MenuTypesRegistry.PLANET_SELECTION_MENU.get(), PlanetSelectionAppScreen::new);
 
-
+        MenuScreenRegistry.registerScreenFactory(MenuTypesRegistry.LABORATORY_VACCINE.get(), VaccineScreen::new);
+        MenuScreenRegistry.registerScreenFactory(MenuTypesRegistry.LABORATORY_RESEARCH.get(), ResearchScreen::new);
     }
 
     @SuppressWarnings("unchecked")

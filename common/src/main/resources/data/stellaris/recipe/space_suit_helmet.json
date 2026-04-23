@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "#G#",
+    "T T"
+  ],
+  "key": {
+    "#": "minecraft:copper_ingot",
+    "G": "minecraft:glass",
+    "T": "#stellaris:titanium_materials"
+  },
+  "result": {
+    "id": "stellaris:space_suit_helmet"
+  }
+}

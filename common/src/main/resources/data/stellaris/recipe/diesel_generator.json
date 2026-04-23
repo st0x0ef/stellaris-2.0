@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "sss",
+    "ibi",
+    "ici"
+  ],
+  "key": {
+    "c": "stellaris:coal_generator",
+    "b": "minecraft:bucket",
+    "s": "#stellaris:titanium_materials",
+    "i": "minecraft:iron_ingot"
+  },
+  "result": {
+    "id": "stellaris:diesel_generator",
+    "count": 1
+  }
+}

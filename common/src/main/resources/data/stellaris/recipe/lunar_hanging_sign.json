@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "C C",
+    "###",
+    "###"
+  ],
+  "key": {
+    "#": "stellaris:stripped_lunar_log",
+    "C": "minecraft:iron_chain"
+  },
+  "result": {
+    "id": "stellaris:lunar_hanging_sign",
+    "count": 6
+  }
+}

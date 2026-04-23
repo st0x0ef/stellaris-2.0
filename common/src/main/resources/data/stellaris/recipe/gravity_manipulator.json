@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "DTD",
+    "TRT",
+    "DTD"
+  ],
+  "key": {
+    "D": "stellaris:desh_ingot",
+    "T": "stellaris:titanium_ingot",
+    "R": "minecraft:redstone_block"
+  },
+  "result": {
+    "id": "stellaris:gravity_manipulator",
+    "count": 1
+  }
+}

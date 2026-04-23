@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": "stellaris:desh_plating_block",
+  "result": {
+    "id": "stellaris:vertical_desh_plating_slab",
+    "count": 2
+  }
+}

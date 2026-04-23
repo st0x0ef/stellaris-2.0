@@ -1,0 +1,153 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "bonus_rolls": 0.0,
+      "rolls": 1.0,
+      "entries": [
+        {
+          "type": "minecraft:alternatives",
+          "children": [
+            {
+              "type": "minecraft:item",
+              "name": "stellaris:ash_layer",
+              "conditions": [
+                {
+                  "condition": "minecraft:block_state_property",
+                  "block": "stellaris:ash_layer",
+                  "properties": {
+                    "layers": "8"
+                  }
+                }
+              ],
+              "functions": [
+                {
+                  "function": "minecraft:set_count",
+                  "count": 8.0
+                }
+              ]
+            },
+            {
+              "type": "minecraft:item",
+              "name": "stellaris:ash_layer",
+              "conditions": [
+                {
+                  "condition": "minecraft:block_state_property",
+                  "block": "stellaris:ash_layer",
+                  "properties": {
+                    "layers": "7"
+                  }
+                }
+              ],
+              "functions": [
+                {
+                  "function": "minecraft:set_count",
+                  "count": 7.0
+                }
+              ]
+            },
+            {
+              "type": "minecraft:item",
+              "name": "stellaris:ash_layer",
+              "conditions": [
+                {
+                  "condition": "minecraft:block_state_property",
+                  "block": "stellaris:ash_layer",
+                  "properties": {
+                    "layers": "6"
+                  }
+                }
+              ],
+              "functions": [
+                {
+                  "function": "minecraft:set_count",
+                  "count": 6.0
+                }
+              ]
+            },
+            {
+              "type": "minecraft:item",
+              "name": "stellaris:ash_layer",
+              "conditions": [
+                {
+                  "condition": "minecraft:block_state_property",
+                  "block": "stellaris:ash_layer",
+                  "properties": {
+                    "layers": "5"
+                  }
+                }
+              ],
+              "functions": [
+                {
+                  "function": "minecraft:set_count",
+                  "count": 5.0
+                }
+              ]
+            },
+            {
+              "type": "minecraft:item",
+              "name": "stellaris:ash_layer",
+              "conditions": [
+                {
+                  "condition": "minecraft:block_state_property",
+                  "block": "stellaris:ash_layer",
+                  "properties": {
+                    "layers": "4"
+                  }
+                }
+              ],
+              "functions": [
+                {
+                  "function": "minecraft:set_count",
+                  "count": 4.0
+                }
+              ]
+            },
+            {
+              "type": "minecraft:item",
+              "name": "stellaris:ash_layer",
+              "conditions": [
+                {
+                  "condition": "minecraft:block_state_property",
+                  "block": "stellaris:ash_layer",
+                  "properties": {
+                    "layers": "3"
+                  }
+                }
+              ],
+              "functions": [
+                {
+                  "function": "minecraft:set_count",
+                  "count": 3.0
+                }
+              ]
+            },
+            {
+              "type": "minecraft:item",
+              "name": "stellaris:ash_layer",
+              "conditions": [
+                {
+                  "condition": "minecraft:block_state_property",
+                  "block": "stellaris:ash_layer",
+                  "properties": {
+                    "layers": "2"
+                  }
+                }
+              ],
+              "functions": [
+                {
+                  "function": "minecraft:set_count",
+                  "count": 2.0
+                }
+              ]
+            },
+            {
+              "type": "minecraft:item",
+              "name": "stellaris:ash_layer"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
