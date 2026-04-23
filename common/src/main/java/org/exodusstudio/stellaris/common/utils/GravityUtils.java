@@ -16,6 +16,7 @@ import org.exodusstudio.stellaris.common.data.PlanetsData;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -114,8 +115,8 @@ public class GravityUtils {
             return gravityValue;
         }
 
-        Map<BigDecimal, Double> planetGravityMap = GRAVITY_CACHE.computeIfAbsent(planet, p -> new ConcurrentHashMap<>());
-        return planetGravityMap.computeIfAbsent(conversionRate, c -> MPS2ToMCG(c, planet.gravity()));
+        //Map<BigDecimal, Double> planetGravityMap = GRAVITY_CACHE.computeIfAbsent(planet, p -> new ConcurrentHashMap<>());
+        //return planetGravityMap.computeIfAbsent(conversionRate, c -> MPS2ToMCG(c, planet.gravity()));
     }
 
     private static double getSafeFallDistance(Planet planet) {

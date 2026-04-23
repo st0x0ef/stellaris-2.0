@@ -197,8 +197,6 @@ public final class BlocksRegistry {
     public static final BlockItemRegistrySupplier ANTENNA = blockWithCustomItem("antenna", BlockBehaviour.Properties.of(), AntennaBlock::new, new Item.Properties(),
             (b, p) -> new TooltipBlockItem(b, p).addTooltip(AntennaBlock.TOOLTIP));
 
-    public static final BlockItemRegistrySupplier ENGINEERING_STATION = blockWithItem("engineering_station", BlockBehaviour.Properties.of(), EngineeringStationBlock::new, new Item.Properties());
-    public static final BlockItemRegistrySupplier ROCKET_LAUNCH_PAD = blockWithItem("rocket_launch_pad", BlockBehaviour.Properties.of(), RocketLaunchPadBlock::new, new Item.Properties());
 
     // LORE
     public static final BlockItemRegistrySupplier LABORATORY = blockWithItem("laboratory", BlockBehaviour.Properties.of(), LaboratoryBlock::new, new Item.Properties());

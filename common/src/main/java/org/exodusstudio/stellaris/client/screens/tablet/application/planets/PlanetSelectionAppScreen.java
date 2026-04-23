@@ -160,7 +160,7 @@ public class PlanetSelectionAppScreen extends AbstractContainerScreen<PlanetSele
 
         if(this.selectionMenu.player.stellaris$isPlanetMenuOpen()) return;
 
-        FadingHolder fadingHolder = selectionMenu.player.getDataAttachments(IdentifierUtils.id("player_fade"), FadingHolder.class);
+        FadingHolder fadingHolder = selectionMenu.player.stellaris$getDataAttachments(IdentifierUtils.id("player_fade"), FadingHolder.class);
 
         if(fadingHolder != null && fadingHolder.fadeAmount() == 1.0f) {
             Utils.stopFade(selectionMenu.player);
