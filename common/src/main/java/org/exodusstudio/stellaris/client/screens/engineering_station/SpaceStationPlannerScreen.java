@@ -1,6 +1,7 @@
 package org.exodusstudio.stellaris.client.screens.engineering_station;
 
 import dev.architectury.networking.NetworkManager;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.RenderPipelines;
@@ -13,9 +14,11 @@ import org.exodusstudio.stellaris.client.screens.components.containers.Scrollabl
 import org.exodusstudio.stellaris.client.screens.tablet.application.sd.SDCardReaderApplicationScreen;
 import org.exodusstudio.stellaris.common.data.space_station.SpaceStationData;
 import org.exodusstudio.stellaris.common.data.space_station.SpaceStationRecipe;
+import org.exodusstudio.stellaris.common.menus.engineering_station.EngineUpgradeMenu;
 import org.exodusstudio.stellaris.common.menus.engineering_station.SpaceStationPlannerMenu;
 import org.exodusstudio.stellaris.common.network.packets.PlanSpaceStationPacket;
 import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
+import org.exodusstudio.stellaris.common.utils.Utils;
 
 public class SpaceStationPlannerScreen extends AbstractContainerScreen<SpaceStationPlannerMenu> {
 
@@ -37,6 +40,14 @@ public class SpaceStationPlannerScreen extends AbstractContainerScreen<SpaceStat
         EngineUpgraderScreen.addTabsButton(this.leftPos + this.imageWidth, this.topPos + 40, this, menu.engineeringStationPos, "space_station");
 
     }
+
+    @Override
+    public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
+        renderBackground(guiGraphics, mouseX, mouseY, partialTick);
+        super.render(guiGraphics, mouseX, mouseY, partialTick);
+        renderTooltip(guiGraphics, mouseX, mouseY);
+    }
+
 
     @Override
     protected void renderBg(GuiGraphics guiGraphics, float partialTick, int mouseX, int mouseY) {
@@ -71,7 +82,6 @@ public class SpaceStationPlannerScreen extends AbstractContainerScreen<SpaceStat
                this.menu.checkItems(selectedRecipe);
            } else {
                NetworkManager.sendToServer(new PlanSpaceStationPacket(selectedRecipe));
-               this.menu.planStation(selectedRecipe);
            }
         }).tex(IdentifierUtils.guiTexture("tablet/tablet_button"), IdentifierUtils.guiTexture("tablet/tablet_button_hover"));
 

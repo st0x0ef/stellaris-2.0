@@ -4,6 +4,7 @@ import dev.architectury.networking.NetworkManager;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
+import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.common.data.Planet;
 import org.exodusstudio.stellaris.common.data.space_station.SpaceStationRecipe;
 import org.exodusstudio.stellaris.common.menus.engineering_station.SpaceStationPlannerMenu;
@@ -22,6 +23,7 @@ public record PlanSpaceStationPacket(SpaceStationRecipe recipe) implements Custo
 
     public static void handle(PlanSpaceStationPacket data, NetworkManager.PacketContext context) {
         if(context.getPlayer().containerMenu instanceof SpaceStationPlannerMenu menu) {
+            Stellaris.LOG.info("eeee");
             menu.planStation(data.recipe);
         }
 

@@ -125,12 +125,15 @@ public class SpaceStationPlannerMenu extends BaseContainer implements ContainerL
     }
 
     public void planStation(SpaceStationRecipe recipe) {
-        if(this.checked && this.getSlot(this.resultSlotId).hasItem()) {
+
+        if(this.getSlot(this.resultSlotId).hasItem()) {
+
             recipe.removeMaterials(this.materialSlot);
 
-            ItemStack stack = this.getSlot(this.resultSlotId).getItem();
+            ItemStack stack = this.getSlot(this.resultSlotId).getItem().copy();
             stack.set(DataComponentsRegistry.SPACE_STATION_BLUEPRINT.get(), recipe);
-            this.getSlot(this.resultSlotId).set(stack);
+            this.inventory.setItem(0, stack);
+            this.broadcastChanges();
         }
     }
 
