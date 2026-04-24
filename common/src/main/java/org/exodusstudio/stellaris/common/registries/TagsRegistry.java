@@ -7,6 +7,7 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.material.Fluid;
 import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
 
 public class TagsRegistry {
@@ -34,6 +35,7 @@ public class TagsRegistry {
             return TagKey.create(Registries.ENTITY_TYPE, IdentifierUtils.id(path));
         }
     }
+
     public static class BlockTags {
         public static final TagKey<Block> INCORRECT_FOR_TITANIUM_TOOL = addTag("incorrect_for_titanium_tool");
         public static final TagKey<Block> LUNAR_LOGS = addTag("lunar_logs");
@@ -79,6 +81,22 @@ public class TagsRegistry {
         }
 
         public static TagKey<EntityType<?>> addCTag(String path) {
+            return addTag(path, "c");
+        }
+    }
+
+    public static class FluidTags {
+        public static final TagKey<Fluid> BLUE_LIQUID = addTag("blue_liquid");
+
+        public static TagKey<Fluid> addTag(String path) {
+            return TagKey.create(Registries.FLUID, IdentifierUtils.id(path));
+        }
+
+        public static TagKey<Fluid> addTag(String path, String modid) {
+            return TagKey.create(Registries.FLUID, Identifier.fromNamespaceAndPath(path, modid));
+        }
+
+        public static TagKey<Fluid> addCTag(String path) {
             return addTag(path, "c");
         }
     }
