@@ -27,22 +27,27 @@ public class SpaceStationPlannerMenu extends BaseContainer {
     }
 
     public SpaceStationPlannerMenu(int syncId, Inventory playerInventory, Container container) {
-        super(MenuTypesRegistry.SPACE_STATION_PLANNER.get(), syncId, 10, playerInventory, 27, 93);
+        super(MenuTypesRegistry.SPACE_STATION_PLANNER.get(), syncId, 10, playerInventory, 112, 100);
 
         checkContainerSize(container, 10);
         this.inventory = container;
         this.player = playerInventory.player;
-        this.addSlot(new SpecificItemsSlot(this.inventory, 0, 39, 50, ItemsRegistry.SPACE_STATION_BLUEPRINT.get()));
-        addMaterialsSlots(0, 0);
+        this.addSlot(new SpecificItemsSlot(this.inventory, 0, 235, 30, ItemsRegistry.SPACE_STATION_BLUEPRINT.get()));
+        addMaterialsSlots(120, 30);
     }
 
     public void addMaterialsSlots(int xStart, int yStart) {
         int id = 0;
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
-                this.addSlot(new Slot(this.inventory, id++, xStart + j * 18, yStart + i * 18));
+                this.addSlot(new Slot(this.inventory, ++id, xStart + j * 18, yStart + i * 18));
             }
         }
+    }
+
+    @Override
+    public void slotsChanged(Container container) {
+        super.slotsChanged(container);
     }
 
     @Override

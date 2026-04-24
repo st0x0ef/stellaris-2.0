@@ -1,0 +1,43 @@
+{
+  "components": [
+    {
+      "type": "text",
+      "text": "The [color=yellow]Antenna [color]is a powerful machine that act like a waypoint in space."
+    },
+    {
+      "type": "image",
+      "image": {
+        "location": "stellaris:textures/wiki/rendered_blocks/vacuumator",
+        "width": 96,
+        "height": 96,
+        "legend": "Antenna"
+      }
+    },
+    {
+      "type": "text",
+      "text": "[br] [br] How to use : [br] Place down a full rocket launchpad. Then right click the middle of the launchpad with the antenna. You can now configure your antenna."
+    },
+    {
+      "type": "text",
+      "text": "[br] [br] How to configure : [br] You need to write the name of the antenna and you can configure if the antenna is public or private. A public antenna can be used by everyone, while a private antenna can only be used by the player who placed it and whitelisted players."
+    },
+    {
+      "type": "text",
+      "text": "[br] [br] Whitelist players : [br] To whitelist players, you need to use a [ref=stellaris:items/friends_list] Friend List [ref]. Add your friends to your list and then right click the antenna with your [ref=stellaris:items/friends_list] Friend List [ref]."
+    },
+    {
+      "type": "item",
+      "item": {
+        "stack": {
+          "count": 1,
+          "id": "stellaris:antenna"
+        },
+        "onlyIcon": true
+      }
+    }
+  ],
+  "iconType": "item",
+  "id": "stellaris:antenna",
+  "entryId": "stellaris:machines",
+  "title": "Machines : Antenna"
+}

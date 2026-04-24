@@ -51,11 +51,13 @@ public class AntennaScreen extends AbstractContainerScreen<AntennaMenu> {
     private final Set<UUID> resolvingWhitelist = ConcurrentHashMap.newKeySet();
 
     public AntennaScreen(AntennaMenu menu, Inventory playerInventory, Component title) {
-        super(menu, playerInventory, title);
+        super(menu, playerInventory, Component.literal("Antenna").withColor(-11050641));
         imageWidth = 180;
         imageHeight = 188;
-        inventoryLabelY = imageHeight - 94;
+        inventoryLabelY = imageHeight * 3;
 
+        titleLabelX = 70 ;
+        titleLabelY = 2;
 
         if(menu.antennaId != null && menu.antenna !=null) {
             this.antenna = menu.antenna;
@@ -119,15 +121,17 @@ public class AntennaScreen extends AbstractContainerScreen<AntennaMenu> {
     }
 
     private void addWidgets(@Nullable Antenna pad) {
-        this.nameBox = new EditBox(this.font, this.leftPos + 50, this.topPos + 40, 59, 14, Component.translatable("gui.stellaris.launchpad_creator.name"));
+        this.nameBox = new EditBox(this.font, this.leftPos + 50, this.topPos + 42, 59, 14, Component.translatable("gui.stellaris.launchpad_creator.name"));
 
         nameBox.setBordered(false);
 
-        this.publicCheckbox = new CustomCheckBox(this.leftPos + 120, this.topPos + 38, 17, Component.literal(""), this.font, false)
+        this.publicCheckbox = new CustomCheckBox(this.leftPos + 118, this.topPos + 38, 17, Component.literal(""), this.font, false)
                 .setTexture(GUISprites.INDUSTRIAL_CHECKBOX, GUISprites.INDUSTRIAL_CHECKBOX_SELECTED);
+        this.publicCheckbox.setTooltip(Tooltip.create(Component.translatable("gui.stellaris.launchpad_creator.public_checkbox").withStyle(ChatFormatting.GRAY)));
 
-        this.saveButton = new TexturedButton(this.leftPos + (this.imageWidth / 2 - 40),  this.inventoryLabelY, 60, 20, Component.literal("Create"), (b) -> onClose())
-                .tex(IdentifierUtils.texture("gui/util/buttons/antenna_button"), IdentifierUtils.texture("gui/util/buttons/antenna_button_hovered"))
+        this.saveButton = new TexturedButton(this.leftPos + (this.imageWidth / 2 - 96 / 2),  88, 96, 16, Component.literal("Create"), (b) -> onClose())
+                .tex(GUISprites.RESEARCH_BUTTON, GUISprites.RESEARCH_BUTTON_HOVER)
+                .useSprite(true)
                 .setText(Component.literal("Create"));
 
 

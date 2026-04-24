@@ -27,7 +27,7 @@ import org.jetbrains.annotations.NotNull;
 
 public class SDCardReaderApplicationScreen extends AbstractContainerScreen<@NotNull SDCardReaderApplicationMenu> {
 
-    private static final Identifier TEXTURE = IdentifierUtils.guiTexture("tablet/sd/sd_card_decoder");
+    public static final Identifier TEXTURE = IdentifierUtils.guiTexture("tablet/sd/sd_card_decoder");
 
     public static SDCardReaderApplicationScreen create(ApplicationRegistry.MenuHolder<MainTabletMenu> menuHolder) {
         NetworkManager.sendToServer(new OpenMenuPacket("sd_card_reader"));

@@ -251,11 +251,11 @@ public class WikiApplicationScreen extends AbstractContainerScreen<WikiApplicati
             }
             PAGES_BUTTONS.add(entryButton);
 
-            if (PAGES_BUTTONS.size() % 8 == 0) {
+            if (PAGES_BUTTONS.size() % 12 == 0) {
                 column.set(0);
                 row.set(0);
             }
-            ClientUtils.addButtonToList(ENTRY_BUTTONS, entryButton, 8);
+            ClientUtils.addButtonToList(ENTRY_BUTTONS, entryButton, 12);
             entryButton.visible = false;
             this.addRenderableWidget(entryButton);
         });
