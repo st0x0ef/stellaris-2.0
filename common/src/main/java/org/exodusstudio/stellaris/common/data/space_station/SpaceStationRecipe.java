@@ -6,6 +6,8 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.Vec3i;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.Identifier;
@@ -14,6 +16,7 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import org.exodusstudio.stellaris.common.registries.DataComponentsRegistry;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -92,6 +95,17 @@ public record SpaceStationRecipe(List<IngredientWithCount> items, Identifier str
         return removalAmounts;
     }
 
+    public static Component getComponent(ItemStack itemStack) {
+        MutableComponent component = Component.translatable("tooltip.item.stellaris.space_station_blueprint");
+        if (itemStack.has(DataComponentsRegistry.SPACE_STATION_BLUEPRINT.get())) {
+            return component.append(itemStack.get(DataComponentsRegistry.SPACE_STATION_BLUEPRINT.get()).getDisplayName());
+        }
+        return component.append("None");
+    }
+
+    public MutableComponent getDisplayName() {
+        return Component.translatable("station." + this.structureId.getNamespace() + "." + this.structureId.getPath());
+    }
 
 
     public record IngredientWithCount(Either<ResourceKey<Item>, TagKey<Item>> itemRef, int count) {

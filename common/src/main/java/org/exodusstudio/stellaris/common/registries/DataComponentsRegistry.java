@@ -14,6 +14,7 @@ import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.common.components.JetComponent;
 import org.exodusstudio.stellaris.common.components.PathogenStorageComponent;
 import org.exodusstudio.stellaris.common.components.TimerComponent;
+import org.exodusstudio.stellaris.common.data.space_station.SpaceStationRecipe;
 import org.exodusstudio.stellaris.common.modules.Modules;
 import org.exodusstudio.stellaris.common.modules.rocket.RocketModule;
 import org.exodusstudio.stellaris.common.modules.rocket.RocketModules;
@@ -54,6 +55,9 @@ public class DataComponentsRegistry {
 
     public static final RegistrySupplier<DataComponentType<List<ResolvableProfile>>> GAMEPROFILE_LIST =
             register("gameprofile_list", builder -> builder.persistent(ResolvableProfile.CODEC.listOf()).networkSynchronized(ResolvableProfile.STREAM_CODEC.apply(ByteBufCodecs.list())));
+
+    public static final RegistrySupplier<DataComponentType<SpaceStationRecipe>> SPACE_STATION_BLUEPRINT =
+            register("space_station_blueprint", builder -> builder.persistent(SpaceStationRecipe.CODEC).networkSynchronized(SpaceStationRecipe.STREAM_CODEC));
 
 
     private static <T> RegistrySupplier<DataComponentType<T>> register(String name, UnaryOperator<DataComponentType.Builder<T>> builderOperator) {

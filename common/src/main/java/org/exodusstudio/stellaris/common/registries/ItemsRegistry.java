@@ -17,6 +17,7 @@ import net.minecraft.world.item.equipment.ArmorMaterials;
 import org.exodusstudio.stellaris.client.renderers.rockets.models.BigRocketModel;
 import org.exodusstudio.stellaris.client.renderers.rockets.models.SmallRocketModel;
 import org.exodusstudio.stellaris.client.renderers.rockets.models.TinyRocketModel;
+import org.exodusstudio.stellaris.common.data.space_station.SpaceStationRecipe;
 import org.exodusstudio.stellaris.common.items.*;
 import org.exodusstudio.stellaris.common.items.infection.ParasiteItem;
 import org.exodusstudio.stellaris.common.items.infection.PathogenStorageCellItem;
@@ -122,7 +123,7 @@ public final class ItemsRegistry {
     public static final RegistrySupplier<DamageProtectionModuleItem> SPACE_SUIT_DAMAGE_PROTECTION_MODULE_T3 = item("space_suit_damage_protection_module_tier_3", p -> new DamageProtectionModuleItem(p, ArmorMaterials.NETHERITE, "netherite"));
 
     public static final RegistrySupplier<FriendsList> FRIENDS_LIST = item("friends_list", FriendsList::new);
-    public static final RegistrySupplier<Item> SPACE_STATION_BLUEPRINT = item("space_station_blueprint", Item::new);
+    public static final RegistrySupplier<TooltipItem> SPACE_STATION_BLUEPRINT = item("space_station_blueprint", (p) -> new TooltipItem(p).addTooltip(SpaceStationRecipe::getComponent));
 
 
     /** Cans */

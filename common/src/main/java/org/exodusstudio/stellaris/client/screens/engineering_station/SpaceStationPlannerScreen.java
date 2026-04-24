@@ -1,10 +1,12 @@
 package org.exodusstudio.stellaris.client.screens.engineering_station;
 
+import dev.architectury.networking.NetworkManager;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
+import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.client.screens.components.Padding;
 import org.exodusstudio.stellaris.client.screens.components.TexturedButton;
 import org.exodusstudio.stellaris.client.screens.components.containers.ScrollableContainer;
@@ -12,6 +14,7 @@ import org.exodusstudio.stellaris.client.screens.tablet.application.sd.SDCardRea
 import org.exodusstudio.stellaris.common.data.space_station.SpaceStationData;
 import org.exodusstudio.stellaris.common.data.space_station.SpaceStationRecipe;
 import org.exodusstudio.stellaris.common.menus.engineering_station.SpaceStationPlannerMenu;
+import org.exodusstudio.stellaris.common.network.packets.PlanSpaceStationPacket;
 import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
 
 public class SpaceStationPlannerScreen extends AbstractContainerScreen<SpaceStationPlannerMenu> {
@@ -31,6 +34,8 @@ public class SpaceStationPlannerScreen extends AbstractContainerScreen<SpaceStat
     protected void init() {
         super.init();
         setRecipes();
+        EngineUpgraderScreen.addTabsButton(this.leftPos + this.imageWidth, this.topPos + 40, this, menu.engineeringStationPos, "space_station");
+
     }
 
     @Override
@@ -49,6 +54,7 @@ public class SpaceStationPlannerScreen extends AbstractContainerScreen<SpaceStat
         for(SpaceStationRecipe recipe : SpaceStationData.SPACE_STATION_RECIPES) {
             TexturedButton button = new TexturedButton(container.getX() + 5, this.container.getY() + 5 + i * 25, 84, 20, btn -> {
                 this.selectedRecipe = recipe;
+                this.menu.checkItems(this.selectedRecipe);
             }).tex(IdentifierUtils.guiTexture("tablet/tablet_entry_button"), IdentifierUtils.guiTexture("tablet/tablet_entry_button"))
                     .setText(Component.translatable(recipe.structureId().getPath()));
             this.container.addChild(this, button);
@@ -60,12 +66,20 @@ public class SpaceStationPlannerScreen extends AbstractContainerScreen<SpaceStat
         this.addRenderableWidget(container);
 
 
-        this.buildButton = new TexturedButton(this.leftPos + 210, this.topPos + 50, 80, 20, Component.literal("Build"), btn -> {
-
+        this.buildButton = new TexturedButton(this.leftPos + 210, this.topPos + 50, 80, 20, menu.checked ? Component.literal("Build") : Component.literal("Check"), btn -> {
+           if(!menu.checked) {
+               this.menu.checkItems(selectedRecipe);
+           } else {
+               NetworkManager.sendToServer(new PlanSpaceStationPacket(selectedRecipe));
+               this.menu.planStation(selectedRecipe);
+           }
         }).tex(IdentifierUtils.guiTexture("tablet/tablet_button"), IdentifierUtils.guiTexture("tablet/tablet_button_hover"));
 
-
         this.addRenderableWidget(buildButton);
+    }
+
+    public void onCheckChange(boolean check) {
+        this.buildButton.setText(check ? Component.literal("Build") : Component.literal("Check"));
     }
 
 }

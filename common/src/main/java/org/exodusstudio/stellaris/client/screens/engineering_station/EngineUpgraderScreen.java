@@ -6,18 +6,28 @@ import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.RenderPipelines;
+import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Inventory;
+import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.client.screens.components.TexturedButton;
 import org.exodusstudio.stellaris.client.screens.utils.GUISprites;
 import org.exodusstudio.stellaris.common.menus.engineering_station.EngineUpgradeMenu;
+import org.exodusstudio.stellaris.common.network.packets.OpenBlockEntityMenusPacket;
+import org.exodusstudio.stellaris.common.registries.MenuProviderRegistry;
 import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
 import org.exodusstudio.stellaris.common.utils.Utils;
 
 public class EngineUpgraderScreen extends AbstractContainerScreen<EngineUpgradeMenu> {
     private static final Identifier GUI_LOCATION = IdentifierUtils.guiTexture("upgrade_station");
     public static final Component TAB_NAME = Component.literal("Engine Upgrader");
+
+    public static final TabInfo[] TABS =  new TabInfo[]{
+            new TabInfo(MenuProviderRegistry.ROCKET_CRAFTING, GUISprites.ROCKET_CRAFTING_TAB, GUISprites.ROCKET_CRAFTING_TAB_HOVER),
+            new TabInfo(MenuProviderRegistry.ROCKET_UPGRADE, GUISprites.MODULES_TAB, GUISprites.MODULES_TAB_HOVER),
+            new TabInfo(MenuProviderRegistry.SPACE_STATION_PLANNER, GUISprites.MODULES_TAB, GUISprites.MODULES_TAB_HOVER)
+    };
 
     public EngineUpgraderScreen(EngineUpgradeMenu menu, Inventory playerInventory, Component title) {
         super(menu, playerInventory, TAB_NAME);
@@ -28,35 +38,37 @@ public class EngineUpgraderScreen extends AbstractContainerScreen<EngineUpgradeM
         this.titleLabelY = 2;
     }
 
+    public static void addTabsButton(int x, int y, Screen screen, BlockPos pos, String currentScreen) {
+
+        int i = 0;
+        for(TabInfo tab : TABS) {
+
+
+            TexturedButton tabWidget = new TexturedButton(x, y + i++ * 16, 16,16,
+                    Component.empty(), button -> {
+
+                    Stellaris.LOG.info("Current {} Tab Dest {}", currentScreen, tab.provider.id());
+                    if (!currentScreen.equals(tab.provider.id())) {
+                            EngineUpgradeMenu.openScreen(tab.provider, pos);
+                        }
+                    })
+                    .tex(tab.icon, tab.iconHover)
+                    .tooltip(Tooltip.create(RocketStationScreen.TAB_NAME))
+                    .useSprite(true);
+            if(!tab.provider.id().equals(currentScreen)) {
+                tabWidget.setUVs(2, 0);
+            }
+            screen.addRenderableWidget(tabWidget);
+        }
+
+    }
+
 
     @Override
     protected void init() {
         super.init();
 
-
-        TexturedButton craftingButton = new TexturedButton(this.leftPos + this.imageWidth, this.topPos + 40, 16,16,
-                Component.empty(), button -> menu.openCraftingMenu())
-                .tex(GUISprites.ROCKET_CRAFTING_TAB, GUISprites.ROCKET_CRAFTING_TAB_HOVER)
-                .tooltip(Tooltip.create(RocketStationScreen.TAB_NAME))
-                .useSprite(true);
-
-        TexturedButton upgradeButton = new TexturedButton(this.leftPos + this.imageWidth, this.topPos + 56, 16,16,
-                Component.empty(), null)
-                .tex(GUISprites.MODULES_TAB, GUISprites.MODULES_TAB_HOVER)
-                .tooltip(Tooltip.create(EngineUpgraderScreen.TAB_NAME))
-                .useSprite(true)
-                .setUVs(2, 0);
-
-        TexturedButton spaceStationButton = new TexturedButton(this.leftPos + this.imageWidth, this.topPos + 72, 16,16,
-                Component.empty(), button -> menu.openSpaceStationScreen())
-                .tex(GUISprites.MODULES_TAB, GUISprites.MODULES_TAB_HOVER)
-                .tooltip(Tooltip.create(EngineUpgraderScreen.TAB_NAME))
-                .useSprite(true)
-                .setUVs(2, 0);
-
-        this.addRenderableWidget(craftingButton);
-        this.addRenderableWidget(upgradeButton);
-        this.addRenderableWidget(spaceStationButton);
+        addTabsButton(this.leftPos + this.imageWidth, this.topPos + 40, this, menu.engineeringStationPos, "upgrade");
 
     }
 
@@ -82,4 +94,6 @@ public class EngineUpgraderScreen extends AbstractContainerScreen<EngineUpgradeM
     protected void renderLabels(GuiGraphics guiGraphics, int mouseX, int mouseY) {
         guiGraphics.drawString(this.font, TAB_NAME, this.titleLabelX, this.titleLabelY, -11050641, false);
     }
+
+    public record TabInfo(OpenBlockEntityMenusPacket.BlockEntityMenuProvider provider, Identifier icon, Identifier iconHover) {}
 }

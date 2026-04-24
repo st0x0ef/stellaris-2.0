@@ -22,6 +22,7 @@ public class RocketStationMenu extends AbstractContainerMenu {
     private final Container inventory;
     private final Player player;
     private final EngineeringStationBlockEntity blockEntity;
+    public final BlockPos engineeringStationPos;
 
     public static RocketStationMenu create(int syncId, Inventory inventory, FriendlyByteBuf buffer) {
         return create(syncId, inventory, buffer.readBlockPos());
@@ -39,6 +40,7 @@ public class RocketStationMenu extends AbstractContainerMenu {
         this.inventory = container;
         this.player = playerInventory.player;
         this.blockEntity = blockEntity;
+        this.engineeringStationPos = blockEntity.getBlockPos();
         addSlots(inventory);
 
         addPlayerHotbar(playerInventory);

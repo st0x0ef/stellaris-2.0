@@ -72,7 +72,7 @@ public class MenuUtils {
 
             @Override
             public AbstractContainerMenu createMenu(int containerId, Inventory inventory, Player player) {
-                return new SpaceStationPlannerMenu(containerId, inventory, new SimpleContainer(10));
+                return new SpaceStationPlannerMenu(containerId, inventory, new SimpleContainer(10), pos);
             }
         };
     }

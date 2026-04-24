@@ -2,6 +2,7 @@ package org.exodusstudio.stellaris.common.items;
 
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.component.TooltipDisplay;
@@ -12,27 +13,27 @@ import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
-public class TooltipBlockItem extends BlockItem {
+public class TooltipItem extends Item {
 
     public List<Function<ItemStack, Component>> tooltip;
 
-    public TooltipBlockItem(Block block, Properties properties) {
-        super(block, properties);
+    public TooltipItem(Item.Properties properties) {
+        super(properties);
         tooltip = new ArrayList<>();
     }
 
-    public TooltipBlockItem addTooltip(Function<ItemStack, Component> tooltip) {
+    public TooltipItem addTooltip(Function<ItemStack, Component> tooltip) {
         this.tooltip.add(tooltip);
         return this;
     }
 
-    public TooltipBlockItem addTooltip(Component tooltip) {
+    public TooltipItem addTooltip(Component tooltip) {
         this.tooltip.add((s) -> tooltip);
         return this;
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, TooltipContext context, TooltipDisplay tooltipDisplay, Consumer<Component> tooltipAdder, TooltipFlag flag) {
+    public void appendHoverText(ItemStack stack, Item.TooltipContext context, TooltipDisplay tooltipDisplay, Consumer<Component> tooltipAdder, TooltipFlag flag) {
         for(Function<ItemStack, Component> tooltipFunction : tooltip) {
             tooltipAdder.accept(tooltipFunction.apply(stack));
         }

@@ -1,6 +1,8 @@
 package org.exodusstudio.stellaris.common.menus.engineering_station;
 
 import dev.architectury.registry.menu.ExtendedMenuProvider;
+import net.minecraft.client.Minecraft;
+import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.Container;
@@ -8,32 +10,48 @@ import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.inventory.ContainerListener;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
+import org.exodusstudio.stellaris.Stellaris;
+import org.exodusstudio.stellaris.client.screens.engineering_station.SpaceStationPlannerScreen;
+import org.exodusstudio.stellaris.common.data.space_station.SpaceStationRecipe;
 import org.exodusstudio.stellaris.common.menus.base.BaseContainer;
 import org.exodusstudio.stellaris.common.menus.slot.SpecificItemsSlot;
+import org.exodusstudio.stellaris.common.registries.DataComponentsRegistry;
 import org.exodusstudio.stellaris.common.registries.ItemsRegistry;
 import org.exodusstudio.stellaris.common.registries.MenuTypesRegistry;
 import org.jetbrains.annotations.NotNull;
 
-public class SpaceStationPlannerMenu extends BaseContainer {
+import java.util.ArrayList;
+import java.util.List;
+
+public class SpaceStationPlannerMenu extends BaseContainer implements ContainerListener {
 
     private final Container inventory;
     private final Player player;
     private ItemStack card = ItemStack.EMPTY;
+    private int resultSlotId;
+    public final BlockPos engineeringStationPos;
+
+    public List<Slot> materialSlot = new ArrayList<>();
+
+    public boolean checked = false;
 
     public static SpaceStationPlannerMenu create(int syncId, Inventory inventory, FriendlyByteBuf data) {
-        return new SpaceStationPlannerMenu(syncId, inventory, new SimpleContainer(10));
+        return new SpaceStationPlannerMenu(syncId, inventory, new SimpleContainer(10), data.readBlockPos());
     }
 
-    public SpaceStationPlannerMenu(int syncId, Inventory playerInventory, Container container) {
+    public SpaceStationPlannerMenu(int syncId, Inventory playerInventory, Container container, BlockPos pos) {
         super(MenuTypesRegistry.SPACE_STATION_PLANNER.get(), syncId, 10, playerInventory, 112, 100);
 
         checkContainerSize(container, 10);
+        this.engineeringStationPos = pos;
         this.inventory = container;
         this.player = playerInventory.player;
-        this.addSlot(new SpecificItemsSlot(this.inventory, 0, 235, 30, ItemsRegistry.SPACE_STATION_BLUEPRINT.get()));
+        this.resultSlotId = this.addSlot(new SpecificItemsSlot(this.inventory, 0, 235, 30, ItemsRegistry.SPACE_STATION_BLUEPRINT.get())).index;
         addMaterialsSlots(120, 30);
+        this.addSlotListener(this);
     }
 
     public void addMaterialsSlots(int xStart, int yStart) {
@@ -41,14 +59,11 @@ public class SpaceStationPlannerMenu extends BaseContainer {
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
                 this.addSlot(new Slot(this.inventory, ++id, xStart + j * 18, yStart + i * 18));
+                materialSlot.add(this.slots.getLast());
             }
         }
     }
 
-    @Override
-    public void slotsChanged(Container container) {
-        super.slotsChanged(container);
-    }
 
     @Override
     public boolean stillValid(Player player) {
@@ -88,23 +103,39 @@ public class SpaceStationPlannerMenu extends BaseContainer {
 
     public boolean hasCard() { return this.card.is(ItemsRegistry.SD_CARD.get()); }
 
-    public static ExtendedMenuProvider createProvider() {
-        return new ExtendedMenuProvider() {
-            @Override
-            public void saveExtraData(FriendlyByteBuf buf) {
 
-            }
-
-            @Override
-            public AbstractContainerMenu createMenu(int syncId, Inventory inventory, Player player) {
-                return new SpaceStationPlannerMenu(syncId, inventory, new SimpleContainer(1));
-            }
-
-            @Override
-            public Component getDisplayName() {
-                return Component.translatable("container.stellaris.sd_card_reader");
-            }
-        };
+    @Override
+    public void slotChanged(AbstractContainerMenu containerToSend, int dataSlotIndex, ItemStack stack) {
+        if(materialSlot.contains(getSlot(dataSlotIndex))) {
+            this.checked = false;
+            checkStateChange();
+        }
     }
 
+    public void checkItems(SpaceStationRecipe recipe) {
+        Stellaris.LOG.info("Checking recipe " + recipe.toString());
+        this.checked = recipe.hasMaterials(this.materialSlot);
+        checkStateChange();
+    }
+
+    public void checkStateChange() {
+        if(Minecraft.getInstance().screen instanceof SpaceStationPlannerScreen screen) {
+            screen.onCheckChange(this.checked);
+        }
+    }
+
+    public void planStation(SpaceStationRecipe recipe) {
+        if(this.checked && this.getSlot(this.resultSlotId).hasItem()) {
+            recipe.removeMaterials(this.materialSlot);
+
+            ItemStack stack = this.getSlot(this.resultSlotId).getItem();
+            stack.set(DataComponentsRegistry.SPACE_STATION_BLUEPRINT.get(), recipe);
+            this.getSlot(this.resultSlotId).set(stack);
+        }
+    }
+
+    @Override
+    public void dataChanged(AbstractContainerMenu containerMenu, int dataSlotIndex, int value) {
+
+    }
 }

@@ -321,6 +321,7 @@
   "tooltip.item.stellaris.can_be_applied_to_space_suit_module": "This module can be applied to any space suit part.",
   "tooltip.item.stellaris.can_be_applied_to_rocket_module": "This module can be applied to the rocket.",
   "tooltip.item.stellaris.antenna": "Place this block under a rocket launch pad.",
+  "tooltip.item.stellaris.space_station_blueprint": "Blueprint : ",
 
   "config.stellaris.debugMode": "Debug Mode",
   "config.stellaris.debugMode.desc": "Select to enter the debug mode.",

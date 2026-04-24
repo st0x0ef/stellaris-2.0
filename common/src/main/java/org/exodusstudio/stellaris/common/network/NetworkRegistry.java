@@ -46,6 +46,8 @@ public interface NetworkRegistry {
         registerC2S(SyncOutputManager.C2S.TYPE, SyncOutputManager.C2S.STREAM_CODEC, SyncOutputManager::handle);
 
         registerC2S(InfectionResearchPacket.TYPE, InfectionResearchPacket.STREAM_CODEC, InfectionResearchPacket::handle);
+        registerC2S(PlanSpaceStationPacket.TYPE, PlanSpaceStationPacket.STREAM_CODEC, PlanSpaceStationPacket::handle);
+
     }
 
 
