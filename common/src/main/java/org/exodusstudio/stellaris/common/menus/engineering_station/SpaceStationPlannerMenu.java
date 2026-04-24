@@ -113,7 +113,6 @@ public class SpaceStationPlannerMenu extends BaseContainer implements ContainerL
     }
 
     public void checkItems(SpaceStationRecipe recipe) {
-        Stellaris.LOG.info("Checking recipe " + recipe.toString());
         this.checked = recipe.hasMaterials(this.materialSlot);
         checkStateChange();
     }

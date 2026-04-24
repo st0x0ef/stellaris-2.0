@@ -23,7 +23,6 @@ public record PlanSpaceStationPacket(SpaceStationRecipe recipe) implements Custo
 
     public static void handle(PlanSpaceStationPacket data, NetworkManager.PacketContext context) {
         if(context.getPlayer().containerMenu instanceof SpaceStationPlannerMenu menu) {
-            Stellaris.LOG.info("eeee");
             menu.planStation(data.recipe);
         }
 
