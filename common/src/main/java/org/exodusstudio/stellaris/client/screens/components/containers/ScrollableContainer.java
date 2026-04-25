@@ -167,7 +167,6 @@ public class ScrollableContainer extends AbstractScrollArea implements Container
     }
 
 
-
     /** Builder */
     public ScrollableContainer setContentHeight(int contentHeight) {
         this.contentHeight = contentHeight;

@@ -288,7 +288,11 @@
   "stellaris.screen.gravityManipulator.planet.earth": "Earth Gravity (9.81m/s²)",
   "stellaris.screen.engineering_station": "Engineering Station",
   "stellaris.screen.laboratory": "Laboratory",
+  "stellaris.screen.build_space_station": "Build Space Station",
+  "stellaris.screen.antenna_available": "Available Antennas",
+  "stellaris.screen.owned_by": "Owned by : ",
 
+  "station.stellaris.space_station_small": "Small Space Station",
 
   "application.stellaris.stats.name": "Stats",
   "application.stellaris.stats.description": "View various statistics about your space adventure.",

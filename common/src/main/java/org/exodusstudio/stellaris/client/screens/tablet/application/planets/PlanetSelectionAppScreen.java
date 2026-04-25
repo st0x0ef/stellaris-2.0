@@ -1,6 +1,5 @@
 package org.exodusstudio.stellaris.client.screens.tablet.application.planets;
 
-import com.mojang.authlib.GameProfile;
 import dev.architectury.networking.NetworkManager;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
@@ -9,12 +8,12 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.components.StringWidget;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
+import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.entity.player.Inventory;
-import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.client.overlays.FadingHolder;
 import org.exodusstudio.stellaris.client.screens.components.Padding;
 import org.exodusstudio.stellaris.client.screens.components.TexturedButton;
@@ -27,15 +26,20 @@ import org.exodusstudio.stellaris.common.antennas.Antenna;
 import org.exodusstudio.stellaris.common.antennas.AntennaSavedData;
 import org.exodusstudio.stellaris.common.data.Planet;
 import org.exodusstudio.stellaris.common.data.PlanetsData;
+import org.exodusstudio.stellaris.common.data.space_station.SpaceStationRecipe;
+import org.exodusstudio.stellaris.common.entities.RocketEntity;
 import org.exodusstudio.stellaris.common.menus.MainTabletMenu;
 import org.exodusstudio.stellaris.common.menus.PlanetSelectionMenu;
 import org.exodusstudio.stellaris.common.network.packets.OpenMenuPacket;
 import org.exodusstudio.stellaris.common.network.packets.TeleportToPlanetPacket;
+import org.exodusstudio.stellaris.common.registries.DataComponentsRegistry;
 import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
 import org.exodusstudio.stellaris.common.utils.Utils;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class PlanetSelectionAppScreen extends AbstractContainerScreen<PlanetSelectionMenu> {
 
@@ -177,6 +181,14 @@ public class PlanetSelectionAppScreen extends AbstractContainerScreen<PlanetSele
     }
 
 
+    @Nullable
+    public SpaceStationRecipe getSpaceStationFromRocket() {
+        if(menu.player.getVehicle() instanceof RocketEntity rocketEntity) {
+            return rocketEntity.inventory.getItem(2).get(DataComponentsRegistry.SPACE_STATION_BLUEPRINT.get());
+        }
+        return null;
+    }
+
     public static class PlanetInfoComponent extends ScrollableContainer {
 
         public AntennaSavedData antennas;
@@ -204,6 +216,15 @@ public class PlanetSelectionAppScreen extends AbstractContainerScreen<PlanetSele
             }
         }
 
+        @Override
+        public boolean mouseClicked(MouseButtonEvent event, boolean isDoubleClick) {
+            for(AbstractWidget widget : this.antennaWidgets) {
+                if(widget.isHovered()) {
+                    widget.mouseClicked(event, isDoubleClick);
+                }
+            }
+            return super.mouseClicked(event, isDoubleClick);
+        }
 
         public void setWidget() {
             if(this.selectionAppScreen.selectedPlanet == null) return;
@@ -212,10 +233,9 @@ public class PlanetSelectionAppScreen extends AbstractContainerScreen<PlanetSele
             int antennasHeight = setupAntennas(getY() + infoHeight + 5);
 
             this.teleportButton = new TexturedButton(this.getX(),this.getY() + antennasHeight + infoHeight, 100, 20, btn -> {
-                if (this.selectionAppScreen.selectedPlanet != null
-                        && this.selectionAppScreen.inSpace
+                if (this.selectionAppScreen.isTeleportButtonVisible()
                         && this.selectionAppScreen.canTeleportToPlanet()) {
-                    NetworkManager.sendToServer(new TeleportToPlanetPacket(this.selectionAppScreen.selectedPlanet));
+                    NetworkManager.sendToServer(new TeleportToPlanetPacket(this.selectionAppScreen.selectedPlanet, Optional.empty(), Optional.empty()));
                 }
             }).tex(IdentifierUtils.guiTexture("tablet/tablet_entry_button"), IdentifierUtils.guiTexture("tablet/tablet_entry_button")).setText(Component.translatable("application.stellaris.planet_selection.teleport_button"));
             this.teleportButton.visible = this.selectionAppScreen.isTeleportButtonVisible();
@@ -228,6 +248,30 @@ public class PlanetSelectionAppScreen extends AbstractContainerScreen<PlanetSele
                 this.setContentHeight(antennasHeight + infoHeight);
             }
 
+            SpaceStationRecipe spaceStationRecipe = this.selectionAppScreen.getSpaceStationFromRocket();
+            if(selectionAppScreen.isTeleportButtonVisible() && spaceStationRecipe != null && selectionAppScreen.selectedPlanet.allowSpaceStation()) {
+                int height = setupSpaceStation(this.teleportButton.getY() + (selectionAppScreen.isTeleportButtonVisible() ? teleportButton.getHeight() + 5 : 0), spaceStationRecipe);
+                this.setContentHeight(height);
+            }
+        }
+
+        private int setupSpaceStation(int y, SpaceStationRecipe spaceStationRecipe) {
+
+            StringWidget title = new StringWidget(this.getX(), y, this.getWidth(), Minecraft.getInstance().font.lineHeight, Component.literal("Space Station"), Minecraft.getInstance().font);
+            StringWidget description = new StringWidget(this.getX(), y + Minecraft.getInstance().font.lineHeight, getWidth(), Minecraft.getInstance().font.lineHeight, Component.literal("Blueprint detected!").withStyle(ChatFormatting.GRAY), Minecraft.getInstance().font);
+
+            addAntennaWidget(title);
+            addAntennaWidget(description);
+
+            TexturedButton stationButton = new TexturedButton(this.getX(), description.getY() + description.getHeight() + 2, 100, 20, btn -> {
+                if (this.selectionAppScreen.isTeleportButtonVisible()
+                        && this.selectionAppScreen.canTeleportToPlanet()) {
+                    NetworkManager.sendToServer(new TeleportToPlanetPacket(this.selectionAppScreen.selectedPlanet, Optional.empty(), Optional.of(spaceStationRecipe)));
+                }
+            }).tex(IdentifierUtils.guiTexture("tablet/tablet_entry_button"), IdentifierUtils.guiTexture("tablet/tablet_entry_button"))
+                    .setText(Component.translatable("stellaris.screen.build_space_station"));
+            addAntennaWidget(stationButton);
+            return stationButton.getY();
         }
 
         private int setupAntennas(int y) {
@@ -236,7 +280,7 @@ public class PlanetSelectionAppScreen extends AbstractContainerScreen<PlanetSele
             Font font = Minecraft.getInstance().font;
             Planet selectedPlanetSnapshot = this.selectionAppScreen.selectedPlanet;
 
-            StringWidget stringWidget = new StringWidget(this.getX(), y, 200, font.lineHeight, Component.literal("Available Antenna"), Minecraft.getInstance().font);
+            StringWidget stringWidget = new StringWidget(this.getX(), y, 200, font.lineHeight, Component.translatable("stellaris.screen.antenna_available"), Minecraft.getInstance().font);
             addAntennaWidget(stringWidget);
 
             List<Antenna> availableAntennas = this.antennas.getAvailableAntennaPerLevel(this.selectionAppScreen.selectionMenu.player.getGameProfile().id(),  ResourceKey.create(Registries.DIMENSION, this.selectionAppScreen.selectedPlanet.dimension()));
@@ -245,7 +289,13 @@ public class PlanetSelectionAppScreen extends AbstractContainerScreen<PlanetSele
 
                 var nameWidget = new StringWidget(this.getX(), stringWidget.getY() + 7 + i++ * font.lineHeight,200, font.lineHeight, Component.literal(antenna.name), Minecraft.getInstance().font);
                 addAntennaWidget(nameWidget);
-                addAntennaWidget(new TexturedButton(this.getRight() - font.lineHeight * 2 - 6, nameWidget.getY(), font.lineHeight * 2, font.lineHeight * 2, btn -> {}));
+                addAntennaWidget(new TexturedButton(this.getRight() - font.lineHeight * 2 - 6, nameWidget.getY(), font.lineHeight * 2, font.lineHeight * 2, btn -> {
+                    if (this.selectionAppScreen.selectedPlanet != null
+                            && this.selectionAppScreen.inSpace
+                            && this.selectionAppScreen.canTeleportToPlanet()) {
+                        NetworkManager.sendToServer(new TeleportToPlanetPacket(this.selectionAppScreen.selectedPlanet, Optional.of(antenna.blockPos), Optional.empty()));
+                    }
+                }));
                 var ownerWidget = new StringWidget(this.getX(), stringWidget.getY() + 7 + i++ * font.lineHeight,200, font.lineHeight, Component.literal("Owned by : Searching...").withStyle(ChatFormatting.GRAY), Minecraft.getInstance().font);
                 addAntennaWidget(ownerWidget);
 
@@ -253,7 +303,7 @@ public class PlanetSelectionAppScreen extends AbstractContainerScreen<PlanetSele
                     // Ignore stale async results if user changed selected planet meanwhile.
                     if(this.selectionAppScreen.selectedPlanet != selectedPlanetSnapshot) return;
 
-                    var ownerLine = Component.literal("Owned by : ").withStyle(ChatFormatting.GRAY);
+                    var ownerLine = Component.translatable("stellaris.screen.owned_by").withStyle(ChatFormatting.GRAY);
                     opt.ifPresentOrElse(profile -> ownerLine.append(Component.literal(profile.name()).withStyle(ChatFormatting.GRAY)),
                             () -> ownerLine.append(Component.literal("Unknown").withStyle(ChatFormatting.GRAY)));
 
@@ -295,6 +345,7 @@ public class PlanetSelectionAppScreen extends AbstractContainerScreen<PlanetSele
             });
             this.setScrollAmount(0);
             this.setWidget();
+
         }
 
         //Used to add a children to the container and the custom list of antenna widgets, so that we can easily remove them later when the planet changes.

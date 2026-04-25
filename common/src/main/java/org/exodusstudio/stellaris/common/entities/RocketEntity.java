@@ -24,15 +24,14 @@ import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.phys.Vec3;
-import org.exodusstudio.stellaris.common.menus.MainTabletMenu;
 import org.exodusstudio.stellaris.common.menus.PlanetSelectionMenu;
 import org.exodusstudio.stellaris.common.modules.Modules;
 import org.exodusstudio.stellaris.common.modules.rocket.RocketModule;
 import org.exodusstudio.stellaris.common.modules.rocket.RocketModules;
 import org.exodusstudio.stellaris.common.network.packets.OpenRocketMenuPacket;
-import org.exodusstudio.stellaris.common.network.packets.SyncRocketModule;
+import org.exodusstudio.stellaris.common.network.packets.SyncRocketPacket;
 import org.exodusstudio.stellaris.common.registries.*;
-import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
+import org.exodusstudio.stellaris.common.utils.InventorySaver;
 import org.exodusstudio.stellaris.common.utils.Utils;
 import org.jetbrains.annotations.NotNull;
 
@@ -215,7 +214,7 @@ public class RocketEntity extends VehicleEntity  {
         if (!this.level().isClientSide()) {
             tryFillUpRocket();
             NetworkManager.sendToPlayers(level().getServer().getPlayerList().getPlayers(),
-                    new SyncRocketModule(this.getId(), this.entityData.get(ROCKET_MODULES)));
+                    new SyncRocketPacket(this.getId(), this.entityData.get(ROCKET_MODULES), InventorySaver.fromContainer(this.inventory)));
         }
 
         //Handle rocket movement when started
@@ -232,9 +231,6 @@ public class RocketEntity extends VehicleEntity  {
                 openPlanetSelectionScreen(player);
             }
         }
-
-
-
     }
 
     @Override
@@ -294,9 +290,12 @@ public class RocketEntity extends VehicleEntity  {
 
     public void openPlanetSelectionScreen(Player player) {
 
+
+
         if(!player.stellaris$isPlanetMenuOpen()) {
             player.stellaris$setPlanetMenuOpen(true, player, true);
             if(player instanceof ServerPlayer serverPlayer) {
+
                 Utils.executeWithFade(player, () -> {
                     MenuRegistry.openExtendedMenu(serverPlayer, PlanetSelectionMenu.createProvider(serverPlayer.level().getServer()));
                     this.setNoGravity(true);

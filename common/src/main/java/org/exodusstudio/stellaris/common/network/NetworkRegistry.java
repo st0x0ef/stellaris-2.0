@@ -32,7 +32,7 @@ public interface NetworkRegistry {
         registerS2C(SyncFluidPacket.TYPE, SyncFluidPacket.STREAM_CODEC, SyncFluidPacket::handle);
         registerS2C(SyncFluidPacketWithoutDirection.TYPE, SyncFluidPacketWithoutDirection.STREAM_CODEC, SyncFluidPacketWithoutDirection::handle);
         //registerS2C(OPEN_SCREEN_PACKET_TYPE, OpenScreenPacket.STREAM_CODEC, OpenScreenPacket::handle);
-        registerS2C(SyncRocketModule.TYPE, SyncRocketModule.STREAM_CODEC, SyncRocketModule::handle);
+        registerS2C(SyncRocketPacket.TYPE, SyncRocketPacket.STREAM_CODEC, SyncRocketPacket::handle);
         registerS2C(SyncEnergyPacket.TYPE, SyncEnergyPacket.STREAM_CODEC, SyncEnergyPacket::handle);
         registerS2C(SyncEnergyPacketWithoutDirection.TYPE, SyncEnergyPacketWithoutDirection.STREAM_CODEC, SyncEnergyPacketWithoutDirection::handle);
         registerS2C(SyncOutputManager.S2C.TYPE, SyncOutputManager.S2C.STREAM_CODEC, SyncOutputManager::handle);

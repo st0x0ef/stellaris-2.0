@@ -21,7 +21,6 @@ public record OpenWikiEntry(Identifier entryId) implements CustomPacketPayload {
 
     public static void handle(OpenWikiEntry packet, NetworkManager.PacketContext context) {
         NetworkManager.sendToServer(new OpenMenuPacket("wiki"));
-        Stellaris.LOG.error("" + context.getPlayer().containerMenu);
 
         if(Minecraft.getInstance().screen instanceof WikiApplicationScreen wiki) {
             var entryInfo = WikiPacks.ENTRY_COMPONENTS.get(packet.entryId);

@@ -1,5 +1,6 @@
 package org.exodusstudio.stellaris.common.utils;
 
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
@@ -11,11 +12,12 @@ import org.exodusstudio.stellaris.common.data.Planet;
 import org.exodusstudio.stellaris.common.entities.LanderEntity;
 import org.exodusstudio.stellaris.common.entities.RocketEntity;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public class TeleportUtil {
 
 
-    public static boolean teleportToPlanet(Entity entity, Planet planet) {
+    public static boolean teleportToPlanet(Entity entity, Planet planet,  BlockPos pos) {
 
         ServerLevel level = entity.level().getServer().getLevel(ResourceKey.create(Registries.DIMENSION, planet.dimension()));
 
@@ -23,7 +25,7 @@ public class TeleportUtil {
 
         Entity playerVehicle = entity.getVehicle();
 
-        TeleportUtil.teleportToLevel(entity, level, new Vec3(entity.getX(), 600, entity.getZ()));
+        TeleportUtil.teleportToLevel(entity, level, new Vec3(pos.getX(), 600, pos.getZ()));
 
         if(playerVehicle == null) return false;
 

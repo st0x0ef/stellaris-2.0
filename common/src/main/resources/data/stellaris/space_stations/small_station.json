@@ -6,5 +6,9 @@
     }
   ],
   "location": "stellaris:space_station_small",
-  "antenna_position": [0, 1, 0]
+  "antenna_position": [
+    19,
+    28,
+    18
+  ]
 }
