@@ -12,6 +12,7 @@ import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.item.ItemEntity;
@@ -24,6 +25,7 @@ import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.phys.Vec3;
+import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.common.menus.PlanetSelectionMenu;
 import org.exodusstudio.stellaris.common.modules.Modules;
 import org.exodusstudio.stellaris.common.modules.rocket.RocketModule;
@@ -164,14 +166,20 @@ public class RocketEntity extends VehicleEntity  {
             this.entityData.set(ROCKET_START_TIMER, this.getTimer() + 1);
         }
 
+
         //To stop the rocket from going in the outer rims
         if(this.isNoGravity()) return;
 
         if (this.getTimer() == 200) {
             if (this.getDeltaMovement().y < this.getRocketSpeed() - 0.1) {
                 this.addDeltaMovement(new Vec3(0, 0.1, 0));
+            } else if (this.getDeltaMovement().y > this.getRocketSpeed() + 0.1) {
+                Stellaris.LOG.info("Rocket speed: " + this.getDeltaMovement().y);
+                this.level().playSeededSound(null, this, SoundRegistry.BOOST_SOUND, SoundSource.NEUTRAL, 1, 1, 1);
+                this.setDeltaMovement(new Vec3(0, this.getRocketSpeed(), 0));
             } else {
                 this.setDeltaMovement(new Vec3(0, this.getRocketSpeed(), 0));
+
             }
 
             this.move(MoverType.SELF, this.getDeltaMovement());
@@ -186,8 +194,7 @@ public class RocketEntity extends VehicleEntity  {
                 if (!this.entityData.get(ROCKET_START)) {
                     this.entityData.set(ROCKET_START, true);
                     player.awardStat(StatsRegistry.ROCKET_LAUNCHED.get());
-                    //TODO: sound
-                    //this.level().playSound(player, this, SoundRegistry.ROCKET_SOUND.get(), SoundSource.NEUTRAL, 1, 1);
+                    this.level().playSeededSound(player,this, SoundRegistry.ROCKET_SOUND, SoundSource.NEUTRAL, 1, 1, 1);
                 }
             } else {
                 player.displayClientMessage(Component.translatable("text.stellaris.rocket.fuel", getFuelType().getFluid().arch$registryName()), true);

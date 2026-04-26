@@ -50,11 +50,12 @@ public final class Stellaris {
         CreativeTabsRegistry.register();
         StatsRegistry.STATS.register();
         MenuTypesRegistry.MENU_TYPE.register();
+        SoundRegistry.SOUNDS.register();
+
         ArgumentsTypesRegistry.init();
         CommandsRegistry.init();
         CapabilitiesRegistry.init();
         BiomeModificationsRegistry.register();
-
         Events.init();
 
         RecipesRegistry.register();
