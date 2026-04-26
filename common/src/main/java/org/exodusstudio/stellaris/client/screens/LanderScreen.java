@@ -1,7 +1,5 @@
 package org.exodusstudio.stellaris.client.screens;
 
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
@@ -12,7 +10,6 @@ import net.minecraft.world.entity.player.Inventory;
 import org.exodusstudio.stellaris.common.menus.LanderMenu;
 import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
 
-@Environment(EnvType.CLIENT)
 public class LanderScreen extends AbstractContainerScreen<LanderMenu> {
 
     public static final Identifier TEXTURE = IdentifierUtils.guiTexture("lander");

@@ -1,24 +1,20 @@
 package org.exodusstudio.stellaris.client.screens.engineering_station;
 
 import dev.architectury.networking.NetworkManager;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
-import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.client.screens.components.Padding;
 import org.exodusstudio.stellaris.client.screens.components.TexturedButton;
 import org.exodusstudio.stellaris.client.screens.components.containers.ScrollableContainer;
 import org.exodusstudio.stellaris.client.screens.tablet.application.sd.SDCardReaderApplicationScreen;
 import org.exodusstudio.stellaris.common.data.space_station.SpaceStationData;
 import org.exodusstudio.stellaris.common.data.space_station.SpaceStationRecipe;
-import org.exodusstudio.stellaris.common.menus.engineering_station.EngineUpgradeMenu;
 import org.exodusstudio.stellaris.common.menus.engineering_station.SpaceStationPlannerMenu;
 import org.exodusstudio.stellaris.common.network.packets.PlanSpaceStationPacket;
 import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
-import org.exodusstudio.stellaris.common.utils.Utils;
 
 public class SpaceStationPlannerScreen extends AbstractContainerScreen<SpaceStationPlannerMenu> {
 
@@ -67,7 +63,7 @@ public class SpaceStationPlannerScreen extends AbstractContainerScreen<SpaceStat
                 this.selectedRecipe = recipe;
                 this.menu.checkItems(this.selectedRecipe);
             }).tex(IdentifierUtils.guiTexture("tablet/tablet_entry_button"), IdentifierUtils.guiTexture("tablet/tablet_entry_button"))
-                    .setText(Component.translatable(recipe.structureId().getPath()));
+                    .setText(recipe.getDisplayName());
             this.container.addChild(this, button);
             i++;
         }

@@ -239,6 +239,7 @@
 
   "item.stellaris.friends_list": "Friends List",
   "item.stellaris.antenna": "Antenna",
+  "item.stellaris.space_station_blueprint": "Space Station Blueprint",
 
 
   "fluid.stellaris.hydrogen": "Hydrogen",
@@ -292,7 +293,7 @@
   "stellaris.screen.antenna_available": "Available Antennas",
   "stellaris.screen.owned_by": "Owned by : ",
 
-  "station.stellaris.space_station_small": "Small Space Station",
+  "station.stellaris.space_station_small": "Small Station",
 
   "application.stellaris.stats.name": "Stats",
   "application.stellaris.stats.description": "View various statistics about your space adventure.",

@@ -1,6 +1,5 @@
 package org.exodusstudio.stellaris.neoforge.client;
 
-import dev.architectury.registry.client.gui.MenuScreenRegistry;
 import net.minecraft.client.model.object.boat.BoatModel;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.blockentity.HangingSignRenderer;
