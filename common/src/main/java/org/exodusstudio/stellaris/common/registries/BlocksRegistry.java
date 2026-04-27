@@ -213,7 +213,14 @@ public final class BlocksRegistry {
     /**
      * Decoration
      */
-    public static final BlockItemRegistrySupplier FLAG = blockWithItem("flag", BlockBehaviour.Properties.of(), FlagBlock::new);
+    public static final BlockItemRegistrySupplier FLAG = blockWithItem(
+            "flag",
+            BlockBehaviour.Properties.of()
+                    .noOcclusion()
+                    .isSuffocating(BlocksRegistry::never)
+                    .isViewBlocking(BlocksRegistry::never),
+            FlagBlock::new
+    );
 
 
     public static <B extends Block> @NotNull RegistrySupplier<B> block(String name,

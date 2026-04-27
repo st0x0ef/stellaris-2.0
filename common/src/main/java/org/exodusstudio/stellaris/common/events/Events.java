@@ -96,19 +96,23 @@ public class Events {
 
     public static void blockEvents() {
         BlockEvent.BREAK.register((level, pos, state, player, xp) -> {
-
-            if(level.getBlockEntity(pos) instanceof FlagBlockEntity flagBlock) {
-                ItemStack stack = new ItemStack(BlocksRegistry.FLAG.item().get());
-
-                if(player.isCrouching()) {
-                    stack.set(DataComponents.BASE_COLOR, flagBlock.getColor());
-                    if(flagBlock.getGameProfile() != null){
-                        stack.set(DataComponents.PROFILE, flagBlock.getGameProfile());
-                    }
-                }
-                Block.popResource(level, pos, stack);
+            if (level.isClientSide()) {
+                return EventResult.pass();
             }
 
+            if (level.getBlockEntity(pos) instanceof FlagBlockEntity flagBlock) {
+                if (player.isCrouching() && !player.getAbilities().instabuild) {
+                    ItemStack stack = new ItemStack(BlocksRegistry.FLAG.item().get());
+
+                    stack.set(DataComponents.BASE_COLOR, flagBlock.getColor());
+
+                    if (flagBlock.getGameProfile() != null) {
+                        stack.set(DataComponents.PROFILE, flagBlock.getGameProfile());
+                    }
+
+                    Block.popResource(level, pos, stack);
+                }
+            }
 
             return EventResult.pass();
         });
