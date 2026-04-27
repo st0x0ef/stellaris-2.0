@@ -183,7 +183,23 @@ public final class BlocksRegistry {
     // TECH
     public static final BlockItemRegistrySupplier ELECTROLYZER = blockWithItem("electrolyzer", BlockBehaviour.Properties.of(), ElectrolyzerBlock::new, new Item.Properties());
     public static final BlockItemRegistrySupplier GRAVITY_MANIPULATOR = blockWithItem("gravity_manipulator", BlockBehaviour.Properties.of(), GravityManipulatorBlock::new);
-    public static final BlockItemRegistrySupplier PUMPJACK = blockWithItem("pumpjack", BlockBehaviour.Properties.of(), PumpjackBlock::new, new Item.Properties());
+    public static final BlockItemRegistrySupplier PUMPJACK = blockWithItem(
+            "pumpjack",
+            BlockBehaviour.Properties.of()
+                    .noOcclusion()
+                    .isSuffocating(BlocksRegistry::never)
+                    .isViewBlocking(BlocksRegistry::never),
+            PumpjackBlock::new,
+            new Item.Properties()
+    );
+    public static final RegistrySupplier<Block> PUMPJACK_PROXY = block(
+            "pumpjack_proxy",
+            BlockBehaviour.Properties.of()
+                    .noOcclusion()
+                    .isSuffocating(BlocksRegistry::never)
+                    .isViewBlocking(BlocksRegistry::never),
+            PumpjackProxyBlock::new
+    );
     public static final BlockItemRegistrySupplier FUEL_REFINERY = blockWithItem("fuel_refinery", BlockBehaviour.Properties.of(), FuelRefineryBlock::new, new Item.Properties());
 
     // OXYGEN
