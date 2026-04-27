@@ -1,0 +1,22 @@
+{
+  "ambientocclusion": false,
+  "render_type": "minecraft:cutout",
+  "textures": {
+    "all": "stellaris:block/pumpjack_proxy_break",
+    "particle": "stellaris:block/machines/pumpjack"
+  },
+  "elements": [
+    {
+      "from": [0, 0, 0],
+      "to": [16, 16, 16],
+      "faces": {
+        "north": { "uv": [0, 0, 16, 16], "texture": "#all", "shade": false },
+        "east": { "uv": [0, 0, 16, 16], "texture": "#all", "shade": false },
+        "south": { "uv": [0, 0, 16, 16], "texture": "#all", "shade": false },
+        "west": { "uv": [0, 0, 16, 16], "texture": "#all", "shade": false },
+        "up": { "uv": [0, 0, 16, 16], "texture": "#all", "shade": false },
+        "down": { "uv": [0, 0, 16, 16], "texture": "#all", "shade": false }
+      }
+    }
+  ]
+}

@@ -1,27 +1,27 @@
 {
   "variants": {
-    "facing=north,part=center_top": { "model": "minecraft:block/air" },
-    "facing=north,part=front_bottom": { "model": "minecraft:block/air" },
-    "facing=north,part=front_top": { "model": "minecraft:block/air" },
-    "facing=north,part=back_bottom": { "model": "minecraft:block/air" },
-    "facing=north,part=back_top": { "model": "minecraft:block/air" },
+    "facing=north,part=center_top": { "model": "stellaris:block/pumpjack_proxy_break" },
+    "facing=north,part=front_bottom": { "model": "stellaris:block/pumpjack_proxy_break" },
+    "facing=north,part=front_top": { "model": "stellaris:block/pumpjack_proxy_break" },
+    "facing=north,part=back_bottom": { "model": "stellaris:block/pumpjack_proxy_break" },
+    "facing=north,part=back_top": { "model": "stellaris:block/pumpjack_proxy_break" },
 
-    "facing=south,part=center_top": { "model": "minecraft:block/air" },
-    "facing=south,part=front_bottom": { "model": "minecraft:block/air" },
-    "facing=south,part=front_top": { "model": "minecraft:block/air" },
-    "facing=south,part=back_bottom": { "model": "minecraft:block/air" },
-    "facing=south,part=back_top": { "model": "minecraft:block/air" },
+    "facing=south,part=center_top": { "model": "stellaris:block/pumpjack_proxy_break" },
+    "facing=south,part=front_bottom": { "model": "stellaris:block/pumpjack_proxy_break" },
+    "facing=south,part=front_top": { "model": "stellaris:block/pumpjack_proxy_break" },
+    "facing=south,part=back_bottom": { "model": "stellaris:block/pumpjack_proxy_break" },
+    "facing=south,part=back_top": { "model": "stellaris:block/pumpjack_proxy_break" },
 
-    "facing=east,part=center_top": { "model": "minecraft:block/air" },
-    "facing=east,part=front_bottom": { "model": "minecraft:block/air" },
-    "facing=east,part=front_top": { "model": "minecraft:block/air" },
-    "facing=east,part=back_bottom": { "model": "minecraft:block/air" },
-    "facing=east,part=back_top": { "model": "minecraft:block/air" },
+    "facing=east,part=center_top": { "model": "stellaris:block/pumpjack_proxy_break" },
+    "facing=east,part=front_bottom": { "model": "stellaris:block/pumpjack_proxy_break" },
+    "facing=east,part=front_top": { "model": "stellaris:block/pumpjack_proxy_break" },
+    "facing=east,part=back_bottom": { "model": "stellaris:block/pumpjack_proxy_break" },
+    "facing=east,part=back_top": { "model": "stellaris:block/pumpjack_proxy_break" },
 
-    "facing=west,part=center_top": { "model": "minecraft:block/air" },
-    "facing=west,part=front_bottom": { "model": "minecraft:block/air" },
-    "facing=west,part=front_top": { "model": "minecraft:block/air" },
-    "facing=west,part=back_bottom": { "model": "minecraft:block/air" },
-    "facing=west,part=back_top": { "model": "minecraft:block/air" }
+    "facing=west,part=center_top": { "model": "stellaris:block/pumpjack_proxy_break" },
+    "facing=west,part=front_bottom": { "model": "stellaris:block/pumpjack_proxy_break" },
+    "facing=west,part=front_top": { "model": "stellaris:block/pumpjack_proxy_break" },
+    "facing=west,part=back_bottom": { "model": "stellaris:block/pumpjack_proxy_break" },
+    "facing=west,part=back_top": { "model": "stellaris:block/pumpjack_proxy_break" }
   }
 }

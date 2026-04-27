@@ -13,6 +13,7 @@ import net.minecraft.world.item.ItemStack;
 import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.common.blocks.entities.machines.LaboratoryBlockEntity;
 import org.exodusstudio.stellaris.common.components.PathogenStorageComponent;
+import org.exodusstudio.stellaris.common.menus.MenuQuickMoveHelper;
 import org.exodusstudio.stellaris.common.menus.slot.ResultSlot;
 import org.exodusstudio.stellaris.common.menus.slot.SpecificItemsSlot;
 import org.exodusstudio.stellaris.common.network.packets.InfectionResearchPacket;
@@ -36,13 +37,13 @@ public class ResearchMenu extends AbstractContainerMenu {
 
     public static ResearchMenu create(int syncId, Inventory inventory, BlockPos pos) {
         LaboratoryBlockEntity blockEntity = (LaboratoryBlockEntity) inventory.player.level().getBlockEntity(pos);
-        return new ResearchMenu(syncId, inventory, new SimpleContainer(5), blockEntity);
+        return new ResearchMenu(syncId, inventory, new SimpleContainer(2), blockEntity);
     }
 
     public ResearchMenu(int syncId, Inventory playerInventory, Container container, LaboratoryBlockEntity blockEntity) {
         super(MenuTypesRegistry.LABORATORY_RESEARCH.get(), syncId);
 
-        checkContainerSize(container, 5);
+        checkContainerSize(container, 2);
         this.inventory = container;
         this.player = playerInventory.player;
         this.blockEntity = blockEntity;
@@ -58,29 +59,7 @@ public class ResearchMenu extends AbstractContainerMenu {
 
     @Override
     public ItemStack quickMoveStack(Player player, int invSlot) {
-        ItemStack newStack = ItemStack.EMPTY;
-        Slot slot = this.slots.get(invSlot);
-        if (slot.hasItem()) {
-            ItemStack originalStack = slot.getItem();
-            newStack = originalStack.copy();
-            if (invSlot < this.inventory.getContainerSize()) {
-                if (!this.moveItemStackTo(originalStack, this.inventory.getContainerSize(), this.slots.size(), true)) {
-                    return ItemStack.EMPTY;
-                }
-            }
-            else if (!this.moveItemStackTo(originalStack, 0, this.inventory.getContainerSize(), false)) {
-                return ItemStack.EMPTY;
-            }
-
-            if (originalStack.isEmpty()) {
-                slot.set(ItemStack.EMPTY);
-            }
-            else {
-                slot.setChanged();
-            }
-        }
-
-        return newStack;
+        return MenuQuickMoveHelper.quickMoveMachineFirst(this, player, invSlot, 2);
     }
 
     @Override
