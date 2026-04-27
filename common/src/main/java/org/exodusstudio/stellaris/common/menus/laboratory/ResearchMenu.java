@@ -92,7 +92,6 @@ public class ResearchMenu extends AbstractContainerMenu {
     private void addSlots(Container inventory) {
         this.addSlot(new SpecificItemsSlot(inventory, 0, 40, 40, ItemsRegistry.PATHOGEN_STORAGE_CELL.get()));
         this.addSlot(new ResultSlot(inventory, 1, 124, 40));
-
     }
 
     private void addPlayerInventory(Inventory playerInventory) {
