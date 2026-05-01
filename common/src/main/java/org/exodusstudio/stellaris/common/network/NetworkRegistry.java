@@ -24,7 +24,7 @@ public interface NetworkRegistry {
         registerC2S(KeyHandlerPacket.TYPE, KeyHandlerPacket.STREAM_CODEC, KeyHandlerPacket::handle);
         registerS2C(SyncOilLevelPacket.TYPE, SyncOilLevelPacket.STREAM_CODEC, SyncOilLevelPacket::handle);
         registerS2C(StartFadePacket.TYPE, StartFadePacket.STREAM_CODEC, StartFadePacket::handle);
-        registerS2C(OpenWikiEntry.TYPE, OpenWikiEntry.STREAM_CODEC, OpenWikiEntry::handle);
+        registerC2S(OpenWikiEntry.TYPE, OpenWikiEntry.STREAM_CODEC, OpenWikiEntry::handle);
 
         registerC2S(OpenRocketMenuPacket.TYPE, OpenRocketMenuPacket.STREAM_CODEC, OpenRocketMenuPacket::handle);
 

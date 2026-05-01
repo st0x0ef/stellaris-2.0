@@ -1,0 +1,30 @@
+{
+  "components": [
+    {
+      "type": "text",
+      "text": "The fluid cell allow you to transport more fluid than a bucket."
+    },
+    {
+      "type": "item",
+      "item": {
+        "scale": 4,
+        "stack": {
+          "count": 1,
+          "id": "stellaris:fluid_cell"
+        }
+      }
+    },
+    {
+      "type": "text",
+      "text": "Place it in slots in machines to fill or empty the fluids in it."
+    },
+    {
+      "type": "text",
+      "text": "It’s one of The Stellar Company’s greatest successes. Who needs buckets these days?"
+    }
+  ],
+  "iconType": "item",
+  "id": "stellaris:fluid_cell",
+  "entryId": "stellaris:items",
+  "title": "Fluid Cell"
+}
