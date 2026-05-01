@@ -14,6 +14,7 @@ import org.exodusstudio.stellaris.common.menus.slot.RocketModuleSlot;
 import org.exodusstudio.stellaris.common.menus.slot.SpecificItemsSlot;
 import org.exodusstudio.stellaris.common.registries.ItemsRegistry;
 import org.exodusstudio.stellaris.common.registries.MenuTypesRegistry;
+import org.exodusstudio.stellaris.common.menus.MenuQuickMoveHelper;
 
 public class RocketMenu extends AbstractContainerMenu {
 
@@ -22,7 +23,7 @@ public class RocketMenu extends AbstractContainerMenu {
 
 
     public static RocketMenu create(int syncId, Inventory inventory, FriendlyByteBuf buffer) {
-        return new RocketMenu(syncId, inventory, new SimpleContainer(15), (RocketEntity) inventory.player.level().getEntity(buffer.readInt()));
+        return new RocketMenu(syncId, inventory, new SimpleContainer(14), (RocketEntity) inventory.player.level().getEntity(buffer.readInt()));
     }
 
     public RocketMenu(int syncId, Inventory playerInventory, Container container, RocketEntity rocket) {
@@ -39,29 +40,7 @@ public class RocketMenu extends AbstractContainerMenu {
 
     @Override
     public ItemStack quickMoveStack(Player player, int invSlot) {
-        ItemStack newStack = ItemStack.EMPTY;
-        Slot slot = this.slots.get(invSlot);
-        if (slot.hasItem()) {
-            ItemStack originalStack = slot.getItem();
-            newStack = originalStack.copy();
-            if (invSlot < this.inventory.getContainerSize()) {
-                if (!this.moveItemStackTo(originalStack, this.inventory.getContainerSize(), this.slots.size(), true)) {
-                    return ItemStack.EMPTY;
-                }
-            }
-            else if (!this.moveItemStackTo(originalStack, 0, this.inventory.getContainerSize(), false)) {
-                return ItemStack.EMPTY;
-            }
-
-            if (originalStack.isEmpty()) {
-                slot.set(ItemStack.EMPTY);
-            }
-            else {
-                slot.setChanged();
-            }
-        }
-
-        return newStack;
+        return MenuQuickMoveHelper.quickMoveMachineFirst(this, player, invSlot, 14);
     }
 
     @Override

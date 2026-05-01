@@ -32,7 +32,18 @@ public class PipeBlock extends BaseCableBlock {
 
     @Override
     public boolean isConnectable(Level level, BlockPos pos, Direction direction) {
-        return Capabilities.Fluid.BLOCK.getCapability(level, pos, direction) != null;
+        if (Capabilities.Fluid.BLOCK.getCapability(level, pos, direction) != null) {
+            return true;
+        }
+
+        BlockState targetState = level.getBlockState(pos);
+
+        if (targetState.getBlock() instanceof PumpjackProxyBlock) {
+            BlockPos mainPos = PumpjackProxyBlock.getMainPos(pos, targetState);
+            return Capabilities.Fluid.BLOCK.getCapability(level, mainPos, direction) != null;
+        }
+
+        return false;
     }
 
     @Override

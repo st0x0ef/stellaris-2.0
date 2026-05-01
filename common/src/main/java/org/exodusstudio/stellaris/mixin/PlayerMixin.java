@@ -5,19 +5,19 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.common.network.packets.SyncPlanetMenuState;
+import org.exodusstudio.stellaris.common.registries.ItemsRegistry;
+import org.exodusstudio.stellaris.common.registries.TagsRegistry;
+import org.exodusstudio.stellaris.common.utils.CustomPlayerData;
+import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import org.exodusstudio.stellaris.common.utils.CustomPlayerData;
-import net.minecraft.world.item.ItemStack;
-import org.exodusstudio.stellaris.common.registries.ItemsRegistry;
-import org.exodusstudio.stellaris.Stellaris;
-import net.minecraft.world.level.material.FluidState;
-import org.exodusstudio.stellaris.common.registries.FluidsRegistry;
 
 @Mixin(Player.class)
 public abstract class PlayerMixin extends LivingEntity implements CustomPlayerData {
@@ -27,6 +27,13 @@ public abstract class PlayerMixin extends LivingEntity implements CustomPlayerDa
 
     @Unique
     private int stellaris$parasiteTimer = -100;
+
+    @Unique
+    private int stellaris$nextFluidCheck = 20;
+
+    @Unique
+    @Final
+    private final int stellaris$fluidTickInterval = 20;
 
     protected PlayerMixin(EntityType<? extends LivingEntity> entityType, Level level) {
         super(entityType, level);
@@ -47,30 +54,35 @@ public abstract class PlayerMixin extends LivingEntity implements CustomPlayerDa
 
     @Inject(method = "tick", at = @At("HEAD"))
     private void stellaris$onTick(CallbackInfo ci) {
-        if (!this.level().isClientSide() && Stellaris.CONFIG.parasiteConfig.enableParasiteDrop) {
-            FluidState fluidState = this.level().getFluidState(this.blockPosition());
-            boolean inBlueLiquid = fluidState.is(FluidsRegistry.BLUE_LIQUID_STILL.get()) || fluidState.is(FluidsRegistry.BLUE_LIQUID_FLOWING.get());
 
-            if (inBlueLiquid) {
-                if (stellaris$parasiteTimer == -100) {
-                    int minTicks = Stellaris.CONFIG.parasiteConfig.minDropIntervalTicks;
-                    int maxRandomTicks = Stellaris.CONFIG.parasiteConfig.randomDropIntervalMaxTicks;
-                    stellaris$parasiteTimer = minTicks + this.random.nextInt(maxRandomTicks + 1);
+        if (!this.level().isClientSide()) {
+            if (Stellaris.CONFIG.parasiteConfig.enableParasiteDrop && stellaris$nextFluidCheck <= 0) {
+                if (this.isEyeInFluid(TagsRegistry.FluidTags.BLUE_LIQUID)) {
+                    if (stellaris$parasiteTimer == -100) {
+                        int minTicks = Stellaris.CONFIG.parasiteConfig.minDropIntervalTicks;
+                        int maxRandomTicks = Stellaris.CONFIG.parasiteConfig.randomDropIntervalMaxTicks;
+                        stellaris$parasiteTimer = minTicks + this.random.nextInt(maxRandomTicks + 1);
+                    }
+
+                    else if (stellaris$parasiteTimer <= 0) {
+                        Player player = (Player) (Object) this;
+                        player.getInventory().placeItemBackInInventory(new ItemStack(ItemsRegistry.PARASITE.get()));
+
+                        int minTicks = Stellaris.CONFIG.parasiteConfig.minDropIntervalTicks;
+                        int maxRandomTicks = Stellaris.CONFIG.parasiteConfig.randomDropIntervalMaxTicks;
+                        stellaris$parasiteTimer = minTicks + this.random.nextInt(maxRandomTicks + 1);
+                    }
+
+                    stellaris$parasiteTimer -= stellaris$fluidTickInterval;
+                    Stellaris.LOG.error("Parasite timer : {}", stellaris$parasiteTimer);
+                } else {
+                    stellaris$parasiteTimer = -100;
                 }
 
-                else if (stellaris$parasiteTimer <= 0) {
-                    Player player = (Player) (Object) this;
-                    player.getInventory().placeItemBackInInventory(new ItemStack(ItemsRegistry.PARASITE.get()));
-
-                    int minTicks = Stellaris.CONFIG.parasiteConfig.minDropIntervalTicks;
-                    int maxRandomTicks = Stellaris.CONFIG.parasiteConfig.randomDropIntervalMaxTicks;
-                    stellaris$parasiteTimer = minTicks + this.random.nextInt(maxRandomTicks + 1);
-                }
-
-                stellaris$parasiteTimer--;
-            } else {
-                stellaris$parasiteTimer = -100;
+                stellaris$nextFluidCheck = stellaris$fluidTickInterval;
             }
+
+            stellaris$nextFluidCheck--;
         }
     }
 }

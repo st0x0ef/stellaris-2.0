@@ -40,6 +40,7 @@ public class GUISprites {
     public static final Identifier RESEARCH_BUTTON = IdentifierUtils.id("util/research_button");
     public static final Identifier RESEARCH_BUTTON_HOVER = IdentifierUtils.id("util/research_button_hover");
     public static final Identifier RESEARCH_PROGRESS = IdentifierUtils.guiTexture("process_indicators/laboratory_research");
+    public static final Identifier UNKNOWN = IdentifierUtils.id("icon/unknown");
 
     public static final Identifier OUTPUT_BUTTON = IdentifierUtils.id("util/output_button");
 

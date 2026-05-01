@@ -58,6 +58,17 @@ public class VaccineScreen extends AbstractContainerScreen<VaccineMenu> {
     @Override
     protected void renderBg(GuiGraphics guiGraphics, float partialTick, int mouseX, int mouseY) {
         guiGraphics.blit(RenderPipelines.GUI_TEXTURED, GUI_LOCATION, this.leftPos, this.topPos, 0, 0, this.imageWidth, this.imageHeight, this.imageWidth, this.imageHeight);
+
+        int unknownItem = getMenu().getUnknownVaccineItem();
+        if (unknownItem > 0) {
+            int xOffset = 124;
+            int yOffset = 33;
+            int xDiff = -28;
+
+            for (int i = 0; i < unknownItem; i++) {
+                guiGraphics.blitSprite(RenderPipelines.GUI_TEXTURED, GUISprites.UNKNOWN, this.leftPos + xOffset + xDiff * i, this.topPos + yOffset, 16, 16);
+            }
+        }
     }
 
     @Override

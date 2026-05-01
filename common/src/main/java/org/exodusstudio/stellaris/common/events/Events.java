@@ -106,15 +106,21 @@ public class Events {
 
     public static void blockEvents() {
         BlockEvent.BREAK.register((level, pos, state, player, xp) -> {
+            if (level.isClientSide()) {
+                return EventResult.pass();
+            }
 
-            if(level.getBlockEntity(pos) instanceof FlagBlockEntity flagBlock) {
-                ItemStack stack = new ItemStack(BlocksRegistry.FLAG.item().get());
+            if (level.getBlockEntity(pos) instanceof FlagBlockEntity flagBlock) {
+                if (player.isCrouching() && !player.getAbilities().instabuild) {
+                    ItemStack stack = new ItemStack(BlocksRegistry.FLAG.item().get());
 
-                if(player.isCrouching()) {
                     stack.set(DataComponents.BASE_COLOR, flagBlock.getColor());
-                    if(flagBlock.getGameProfile() != null){
+
+                    if (flagBlock.getGameProfile() != null) {
                         stack.set(DataComponents.PROFILE, flagBlock.getGameProfile());
                     }
+
+                    Block.popResource(level, pos, stack);
                 }
                 Block.popResource(level, pos, stack);
             } else if(state.is(BlocksRegistry.ROCKET_LAUNCH_PAD.block().get())) {
@@ -147,7 +153,6 @@ public class Events {
                 }
 
             }
-
 
             return EventResult.pass();
         });

@@ -21,6 +21,7 @@ import org.exodusstudio.stellaris.common.registries.BlocksRegistry;
 import org.exodusstudio.stellaris.common.registries.MenuProviderRegistry;
 import org.exodusstudio.stellaris.common.registries.MenuTypesRegistry;
 import org.exodusstudio.stellaris.common.registries.RecipesRegistry;
+import org.exodusstudio.stellaris.common.utils.MoonLoreUtils;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
@@ -118,5 +119,10 @@ public class VaccineMenu extends BaseItemCombinerMenu {
     public void openResearchMenu() {
         this.player.closeContainer();
         NetworkManager.sendToServer(new OpenBlockEntityMenusPacket(MenuProviderRegistry.RESEARCH, this.laboratoryBlockEntity.getBlockPos()));
+    }
+
+    public int getUnknownVaccineItem() {
+        int stage = MoonLoreUtils.getResearchProgressionStage(player);
+        return 4 - Math.max(stage, 0);
     }
 }

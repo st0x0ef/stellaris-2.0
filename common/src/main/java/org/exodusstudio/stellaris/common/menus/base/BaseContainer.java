@@ -6,6 +6,7 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
+import org.exodusstudio.stellaris.common.menus.MenuQuickMoveHelper;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -15,52 +16,21 @@ public abstract class BaseContainer extends AbstractContainerMenu {
     private static final int PLAYER_INVENTORY_ROW_COUNT = 3;
     private static final int PLAYER_INVENTORY_COLUMN_COUNT = 9;
     private static final int PLAYER_INVENTORY_SLOT_COUNT = PLAYER_INVENTORY_COLUMN_COUNT * PLAYER_INVENTORY_ROW_COUNT;
-    private static final int VANILLA_SLOT_COUNT = HOTBAR_SLOT_COUNT + PLAYER_INVENTORY_SLOT_COUNT - 1;
-    private static final int VANILLA_FIRST_SLOT_INDEX = 0;
-    private static final int TE_INVENTORY_FIRST_SLOT_INDEX = VANILLA_FIRST_SLOT_INDEX + VANILLA_SLOT_COUNT;
+    private static final int PLAYER_TOTAL_SLOT_COUNT = HOTBAR_SLOT_COUNT + PLAYER_INVENTORY_SLOT_COUNT;
 
-    private final int TE_INVENTORY_SLOT_COUNT;
+    private final int menuSlotCount;
 
     protected BaseContainer(@Nullable MenuType<?> menuType, int containerId, int size, Inventory inventory, int inventoryXOffset, int inventoryYOffset) {
         super(menuType, containerId);
-        TE_INVENTORY_SLOT_COUNT = size;
+        this.menuSlotCount = size;
+
         addPlayerHotbar(inventory, inventoryXOffset, inventoryYOffset + 58);
         addPlayerInventory(inventory, inventoryXOffset, inventoryYOffset);
     }
 
     @Override
-    public @NotNull ItemStack quickMoveStack(Player playerIn, int index) {
-        Slot sourceSlot = slots.get(index);
-        if (!sourceSlot.hasItem()) {
-            return ItemStack.EMPTY;
-        }
-        ItemStack sourceStack = sourceSlot.getItem();
-        ItemStack copyOfSourceStack = sourceStack.copy();
-
-        if (index < VANILLA_FIRST_SLOT_INDEX + VANILLA_SLOT_COUNT) {
-            if (!moveItemStackTo(sourceStack, TE_INVENTORY_FIRST_SLOT_INDEX, TE_INVENTORY_FIRST_SLOT_INDEX
-                    + TE_INVENTORY_SLOT_COUNT, false)) {
-                return ItemStack.EMPTY;
-            }
-        }
-        else if (index < TE_INVENTORY_FIRST_SLOT_INDEX + TE_INVENTORY_SLOT_COUNT) {
-            if (!moveItemStackTo(sourceStack, VANILLA_FIRST_SLOT_INDEX, VANILLA_FIRST_SLOT_INDEX + VANILLA_SLOT_COUNT, false)) {
-                return ItemStack.EMPTY;
-            }
-        }
-        else {
-            System.out.println("Invalid slotIndex:" + index);
-            return ItemStack.EMPTY;
-        }
-
-        if (sourceStack.getCount() == 0) {
-            sourceSlot.set(ItemStack.EMPTY);
-        }
-        else {
-            sourceSlot.setChanged();
-        }
-        sourceSlot.onTake(playerIn, sourceStack);
-        return copyOfSourceStack;
+    public @NotNull ItemStack quickMoveStack(Player player, int index) {
+        return MenuQuickMoveHelper.quickMovePlayerFirst(this, player, index);
     }
 
     @Override
@@ -68,16 +38,37 @@ public abstract class BaseContainer extends AbstractContainerMenu {
         return false;
     }
 
+    public int getPlayerSlotCount() {
+        return PLAYER_TOTAL_SLOT_COUNT;
+    }
+
+    public int getMenuSlotCount() {
+        return menuSlotCount;
+    }
+
+    public int getMenuSlotStart() {
+        return PLAYER_TOTAL_SLOT_COUNT;
+    }
+
+    public int getMenuSlotEnd() {
+        return PLAYER_TOTAL_SLOT_COUNT + menuSlotCount;
+    }
+
     public void addPlayerHotbar(Inventory playerInventory, int xOffset, int yOffset) {
-        for (int j = 0; j < 9; ++j) {
+        for (int j = 0; j < HOTBAR_SLOT_COUNT; ++j) {
             this.addSlot(new Slot(playerInventory, j, xOffset + j * 18, yOffset));
         }
     }
 
     public void addPlayerInventory(Inventory playerInventory, int xOffset, int yOffset) {
-        for (int j = 0; j < 3; ++j) {
-            for (int k = 0; k < 9; ++k) {
-                this.addSlot(new Slot(playerInventory, k + j * 9 + 9, xOffset + k * 18, yOffset + j * 18));
+        for (int row = 0; row < PLAYER_INVENTORY_ROW_COUNT; ++row) {
+            for (int column = 0; column < PLAYER_INVENTORY_COLUMN_COUNT; ++column) {
+                this.addSlot(new Slot(
+                        playerInventory,
+                        column + row * PLAYER_INVENTORY_COLUMN_COUNT + HOTBAR_SLOT_COUNT,
+                        xOffset + column * 18,
+                        yOffset + row * 18
+                ));
             }
         }
     }
