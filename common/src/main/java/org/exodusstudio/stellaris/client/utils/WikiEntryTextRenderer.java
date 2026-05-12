@@ -1,8 +1,11 @@
 package org.exodusstudio.stellaris.client.utils;
 
+import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import org.exodusstudio.stellaris.common.utils.Utils;
 
 import java.util.ArrayList;
@@ -21,6 +24,9 @@ public class WikiEntryTextRenderer {
     public String color = null;
     public String referenceLocation = null;
     public String tooltip = null;
+    public boolean bold = false;
+    public boolean italic = false;
+    public boolean underline = false;
 
     public ArrayList<ArrayList<Word>> lines = new ArrayList<>();
 
@@ -31,7 +37,7 @@ public class WikiEntryTextRenderer {
     }
 
     /**
-     * Return a list of word in a line.
+     * Return a list of words in a lines.
      * @param message The message we want to render
      * @param maxWidth The width of the place we want our text to be rendered
      * @return A list of line containing a list of words.
@@ -47,7 +53,8 @@ public class WikiEntryTextRenderer {
         ArrayList<Word> wordsInLine = new ArrayList<>();
 
         AtomicInteger remainingWords = new AtomicInteger(words.length);
-        AtomicInteger width = new AtomicInteger(words.length);
+        //AtomicInteger width = new AtomicInteger(words.length);
+        AtomicInteger width = new AtomicInteger(0);
 
         for (String word : words) {
             remainingWords.getAndDecrement();
@@ -97,6 +104,18 @@ public class WikiEntryTextRenderer {
                     if(word.isEmpty()) continue;
 
                     wordWidth = Minecraft.getInstance().font.width(word + " ");
+                }
+                if (word.contains("**")) {
+                    word = word.replace("**", "");
+                    this.bold = !bold;
+                }
+                if (word.contains("__")) {
+                    word = word.replace("__", "");
+                    this.underline = !underline;
+                }
+                if (word.contains("*")) {
+                    word = word.replace("*", "");
+                    this.italic = !italic;
                 }
 
 
@@ -149,10 +168,19 @@ public class WikiEntryTextRenderer {
             wordObj.color = this.color;
         }
         if(this.referenceLocation != null) {
-            wordObj.Identifier = this.referenceLocation;
+            wordObj.identifier = this.referenceLocation;
         }
         if(this.tooltip != null) {
             wordObj.tooltip = this.tooltip;
+        }
+        if(this.bold) {
+            wordObj.bold = this.bold;
+        }
+        if(this.underline) {
+            wordObj.underline = this.underline;
+        }
+        if(this.italic) {
+            wordObj.italic = this.italic;
         }
 
         return wordObj;
@@ -162,7 +190,8 @@ public class WikiEntryTextRenderer {
     public int renderWords(GuiGraphics guiGraphics, int x, int y, int mouseX, int mouseY, Consumer<ActionBox> clickBoxConsumer) {
         for (int i = 0; i < lines.size(); i++) {
             ArrayList<Word> words = lines.get(i);
-            AtomicInteger width = new AtomicInteger(0);
+
+            int width = 0;
             for (Word word : words) {
                 String color = "white";
 
@@ -170,22 +199,22 @@ public class WikiEntryTextRenderer {
                     color = word.color;
                 }
 
-                if (word.Identifier != null) {
-                    clickBoxConsumer.accept(new ActionBox(x + width.get(), y + (i * getFont().lineHeight), getFont().width(word.text), getFont().lineHeight, null, (info) -> info.actionBox().changePage(info.infoWidget(), word.Identifier), (word.text + word.Identifier)));
+                if (word.identifier != null) {
+                    clickBoxConsumer.accept(new ActionBox(x + width, y + (i * getFont().lineHeight), getFont().width(word.text), getFont().lineHeight, null, (info) -> info.actionBox().changePage(info.infoWidget(), word.identifier), (word.text + word.identifier)));
                     color = "blue";
                 }
                 if (word.tooltip != null) {
                     //TODO add tooltip support.
-                    clickBoxConsumer.accept(new ActionBox(x + width.get(), y + (i * getFont().lineHeight), getFont().width(word.text), getFont().lineHeight, (info) -> {
+                    clickBoxConsumer.accept(new ActionBox(x + width, y + (i * getFont().lineHeight), getFont().width(word.text), getFont().lineHeight, (info) -> {
                         //info.infoWidget().setTooltip(Tooltip.create(Component.literal("eee")));
                     }, null, (word.text + word.tooltip)));
                     color = "green";
                 }
 
-                guiGraphics.drawString(getFont(), word.text, x + width.get(), y + (i * getFont().lineHeight), Utils.getMinecraftColor(color));
-                width.addAndGet(Minecraft.getInstance().font.width(word.text + " "));
+                guiGraphics.drawString(getFont(), word.getText(), x + width, y + (i * getFont().lineHeight), Utils.getMinecraftColor(color));
+                width += getFont().width(word.text + " ");
             }
-            width.set(0);
+            width = 0;
         }
         return lines.size() * getFont().lineHeight;
     }
@@ -198,12 +227,16 @@ public class WikiEntryTextRenderer {
         String regex = "\\[" + tag + "=.*?\\]";
         return text.replaceAll(regex, "");
     }
-    
+
     public static class Word {
         public String text;
         public String color = null;
-        public String Identifier = null;
+        public String identifier = null;
         public String tooltip = null;
+        public boolean bold = false;
+        public boolean underline = false;
+        public boolean italic = false;
+
 
         public Word(String word) {
             this.text = word;
@@ -211,12 +244,24 @@ public class WikiEntryTextRenderer {
 
         @Override
         public String toString() {
-            return (!this.onlyText() ? "{" : "") + (color != null ? "[color=" + color + "]" : "") + (tooltip != null ? "[tl=" + tooltip + "]" : "") + (Identifier != null ? " [ref=" + Identifier + "]" : "") + text + (!this.onlyText() ? "}" : "");
+            return (!this.onlyText() ? "{" : "") + (color != null ? "[color=" + color + "]" : "") + (tooltip != null ? "[tl=" + tooltip + "]" : "") + (identifier != null ? " [ref=" + identifier + "]" : "") + text + (!this.onlyText() ? "}" : "");
         }
 
         public boolean onlyText() {
-            return color == null && Identifier == null && tooltip == null;
+            return color == null && identifier == null && tooltip == null;
         }
+
+        public Component getText() {
+
+            MutableComponent component = Component.literal(this.text);
+
+            if(this.bold) component.withStyle(ChatFormatting.BOLD);
+            if(this.italic) component.withStyle(ChatFormatting.ITALIC);
+            if(this.underline) component.withStyle(ChatFormatting.UNDERLINE);
+
+            return component;
+        }
+
     }
 
     /**
@@ -224,7 +269,7 @@ public class WikiEntryTextRenderer {
      * TATHAN's Note : this is a bit overkill :)
      */
     public static class Builder {
-        private StringBuilder textBuilder = new StringBuilder();
+        private final StringBuilder textBuilder = new StringBuilder();
 
         public Builder addText(String text) {
             textBuilder.append(" ").append(text);
