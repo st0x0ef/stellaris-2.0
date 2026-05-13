@@ -8,6 +8,7 @@ import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import org.exodusstudio.stellaris.client.utils.minedown.MinedownRenderer;
 import org.exodusstudio.stellaris.common.data.wiki.EntryInfo;
 import org.exodusstudio.stellaris.client.screens.components.containers.ScrollableContainer;
 import org.exodusstudio.stellaris.client.utils.ActionBox;
@@ -49,9 +50,14 @@ public class WikiInfosWidget extends ScrollableContainer {
         for(EntryInfo.InfoComponent component : info.components()) {
             switch (component.type().toLowerCase()) {
                 case "text" -> component.text().ifPresent((text) -> {
-                    int descriptionHeight = new WikiEntryTextRenderer(component.text().get(), getWidth() - 40)
-                            .renderWords(guiGraphics, this.getX() + 5, (int) (this.getOffsetHeight() + finalHeight.get() + 5), mouseX, mouseY, this::addClickBox);
-                    finalHeight.addAndGet(descriptionHeight + 5);
+
+                    int descriptionHeight = new MinedownRenderer(text, getWidth() - 40, Minecraft.getInstance().font)
+                            .render(this.getX() + 5, (int) (this.getOffsetHeight() + finalHeight.get() + 5), guiGraphics, this::addClickBox);
+                    finalHeight.addAndGet(descriptionHeight);
+
+//                    int descriptionHeight = new WikiEntryTextRenderer(component.text().get(), getWidth() - 40)
+//                            .renderWords(guiGraphics, this.getX() + 5, (int) (this.getOffsetHeight() + finalHeight.get() + 5), mouseX, mouseY, this::addClickBox);
+                    //finalHeight.addAndGet(descriptionHeight + 5);
                 });
                 case "image" -> component.image().ifPresent((image) -> {
                     int height = (int) (this.getOffsetHeight() + finalHeight.get() + 20);
