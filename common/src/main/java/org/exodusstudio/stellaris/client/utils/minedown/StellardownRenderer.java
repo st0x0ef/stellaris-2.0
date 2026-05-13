@@ -4,7 +4,6 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.HoverEvent;
 import net.minecraft.network.chat.MutableComponent;
 import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.client.utils.ActionBox;
@@ -17,16 +16,16 @@ import java.util.function.Consumer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class MinedownRenderer {
+public class StellardownRenderer {
 
     private final Font font;
-    private MinedownParser parser;
-    private final List<Pair<String, MinedownParser.Style>> segments;
+    private StellardownParser parser;
+    private final List<Pair<String, StellardownParser.Style>> segments;
     private List<Line> renderedLines;
 
-    public MinedownRenderer(String formattedText, int areaWidth, Font font) {
+    public StellardownRenderer(String formattedText, int areaWidth, Font font) {
         this.font = font;
-        this.parser = new MinedownParser();
+        this.parser = new StellardownParser();
 
         //We only parse one time the text
         this.segments = parser.parse(parser.tokenize(formattedText));
@@ -45,7 +44,7 @@ public class MinedownRenderer {
 
         Pattern tokenPattern = Pattern.compile("\\s+|\\S+");
 
-        for (Pair<String, MinedownParser.Style> segment : segments) {
+        for (Pair<String, StellardownParser.Style> segment : segments) {
 
             String text = segment.getA();
             Matcher matcher = tokenPattern.matcher(text);
@@ -143,29 +142,33 @@ public class MinedownRenderer {
 
     static class PositionedSegment {
         String text;
-        MinedownParser.Style style;
+        StellardownParser.Style style;
         int x;
 
-        public PositionedSegment(String trimmed, MinedownParser.Style style, int cursorX) {
+        public PositionedSegment(String trimmed, StellardownParser.Style style, int cursorX) {
             this.text = trimmed;
             this.style = style;
             this.x = cursorX;
         }
     }
 
-    private int measureWord(String text, MinedownParser.Style style) {
-        Component component = MinedownRenderer.toComponent(text, style);
+    private int measureWord(String text, StellardownParser.Style style) {
+        Component component = StellardownRenderer.toComponent(text, style);
         return font.width(component);
     }
 
 
-    public static MutableComponent toComponent(String text, MinedownParser.Style style) {
+    public static MutableComponent toComponent(String text, StellardownParser.Style style) {
         MutableComponent comp = Component.literal(text);
 
         if (style.bold) comp.withStyle(ChatFormatting.BOLD);
         if (style.italic) comp.withStyle(ChatFormatting.ITALIC);
         if (style.underline) comp.withStyle(ChatFormatting.UNDERLINE);
         if (style.strikethrough) comp.withStyle(ChatFormatting.STRIKETHROUGH);
+        if (style.obfuscated) {
+            Stellaris.LOG.error("zffsf");
+            comp.withStyle(ChatFormatting.OBFUSCATED);
+        }
 
         if (style.color != null) comp.withColor(Utils.getMinecraftColor(style.color));
         if (style.ref != null) comp.withColor(Utils.getMinecraftColor("blue"));

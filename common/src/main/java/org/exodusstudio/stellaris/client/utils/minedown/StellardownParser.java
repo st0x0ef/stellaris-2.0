@@ -8,25 +8,7 @@ import java.util.ArrayList;
 import java.util.Deque;
 import java.util.List;
 
-public class MinedownParser {
-
-    public static void main(String[] args) {
-        MinedownParser renderer = new MinedownParser();
-        String input = "This is **bold** text, this is *italic* text, this is __underline__ text, this is [color=red]red[color] text.";
-        List<Token> tokens = renderer.tokenize(input);
-
-        tokens.forEach(System.out::println);
-
-        List<Pair<String, Style>> segments = renderer.parse(tokens);
-
-        segments.forEach(e -> {
-            System.out.println("Text: '" + e.getA() + "' with style: " +
-                    (e.getB().bold ? "BOLD " : "") +
-                    (e.getB().italic ? "ITALIC " : "") +
-                    (e.getB().underline ? "UNDERLINE " : "") +
-                    (e.getB().color != null ? "COLOR=" + e.getB().color : ""));
-        });
-    }
+public class StellardownParser {
 
     public List<Token> tokenize(String input) {
         ArrayList<Token> tokens = new ArrayList<>();
@@ -57,6 +39,15 @@ public class MinedownParser {
                     tokens.add(new Token(TokenType.TEXT, input.substring(textStart, i)));
 
                 tokens.add(new Token(TokenType.UNDERLINE, "__"));
+                i += 2;
+                textStart = i;
+
+            }
+            else if (input.startsWith("$$", i)) {
+                if (i > textStart)
+                    tokens.add(new Token(TokenType.TEXT, input.substring(textStart, i)));
+
+                tokens.add(new Token(TokenType.OBFUSCATED, "$$"));
                 i += 2;
                 textStart = i;
 
@@ -130,6 +121,7 @@ public class MinedownParser {
         boolean italicOpen = false;
         boolean underlineOpen = false;
         boolean strikeThroughtOpen = false;
+        boolean obfuscatedOpen = false;
 
         for (Token token : tokens) {
             switch (token.tokenType) {
@@ -176,6 +168,15 @@ public class MinedownParser {
                         strikeThroughtOpen = false;
                     }
                     break;
+                case OBFUSCATED:
+                    if (!obfuscatedOpen) {
+                        styleStack.push(styleStack.peek().withObfuscated(true));
+                        obfuscatedOpen = true;
+                    } else {
+                        styleStack.pop();
+                        obfuscatedOpen = false;
+                    }
+                    break;
                 case REF_OPEN:
                     styleStack.push(styleStack.peek().withRef(token.content()));
                     break;
@@ -207,46 +208,53 @@ public class MinedownParser {
         boolean underline ;
         String ref;
         boolean strikethrough;
+        boolean obfuscated;
         public static final Style DEFAULT = new Style();
 
-        private Style(boolean bold, boolean italic, boolean underline, String color, String ref) {
+        private Style(boolean bold, boolean italic, boolean underline, String color, String ref, boolean strikethrough, boolean obfuscated) {
             this.bold = bold;
             this.italic = italic;
             this.underline = underline;
             this.color = color;
             this.ref = ref;
+            this.strikethrough = strikethrough;
+            this.obfuscated = obfuscated;
         }
 
         public Style() {
-            this(false, false, false, "white", null);
+            this(false, false, false, "white", null, false, false);
         }
 
         public Style withBold(boolean bold) {
-            return new Style(bold, this.italic, this.underline, this.color, this.ref);
+            return new Style(bold, this.italic, this.underline, this.color, this.ref, this.strikethrough, this.obfuscated);
         }
 
         public Style withStrikethrough(boolean strikethrough) {
-            return new Style(this.bold, this.italic, this.underline, this.color, this.ref);
+            return new Style(this.bold, this.italic, this.underline, this.color, this.ref, strikethrough, this.obfuscated);
         }
 
         public Style withItalic(boolean italic) {
-            return new Style(this.bold, italic, this.underline, this.color, this.ref);
+            return new Style(this.bold, italic, this.underline, this.color, this.ref, this.strikethrough, this.obfuscated);
+        }
+
+        public Style withObfuscated(boolean obfuscated) {
+            return new Style(this.bold, this.italic, this.underline, this.color, this.ref, this.strikethrough, obfuscated);
         }
 
         public Style withUnderline(boolean underline) {
-            return new Style(this.bold, this.italic, underline, this.color, this.ref);
+            return new Style(this.bold, this.italic, underline, this.color, this.ref, this.strikethrough, this.obfuscated);
         }
 
         public Style withColor(String color) {
-            return new Style(this.bold, this.italic, this.underline, color, this.ref);
+            return new Style(this.bold, this.italic, this.underline, color, this.ref, this.strikethrough, this.obfuscated);
         }
 
         public Style withRef(String ref) {
-            return new Style(this.bold, this.italic, this.underline, this.color, ref);
+            return new Style(this.bold, this.italic, this.underline, this.color, ref, this.strikethrough, this.obfuscated);
         }
     }
 
     public enum TokenType {
-        BOLD, ITALIC, STRIKETHROUGH, UNDERLINE, COLOR_OPEN, COLOR_CLOSE, REF_OPEN, REF_CLOSE, NEWLINE, TEXT
+        BOLD, ITALIC, STRIKETHROUGH, UNDERLINE, OBFUSCATED, COLOR_OPEN, COLOR_CLOSE, REF_OPEN, REF_CLOSE, NEWLINE, TEXT
     }
 }

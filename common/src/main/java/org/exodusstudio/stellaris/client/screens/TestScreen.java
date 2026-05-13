@@ -8,7 +8,7 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.util.ARGB;
 import net.minecraft.world.item.ItemStack;
 import org.exodusstudio.stellaris.client.screens.components.wiki.WikiInfosWidget;
-import org.exodusstudio.stellaris.client.utils.minedown.MinedownRenderer;
+import org.exodusstudio.stellaris.client.utils.minedown.StellardownRenderer;
 import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
 
 import static net.minecraft.world.item.Items.ALLAY_SPAWN_EGG;
@@ -18,7 +18,7 @@ public class TestScreen extends Screen {
     public static final Identifier BACKGROUND = IdentifierUtils.guiTexture("tablet/tablet_background");
     private static final String MINEDOWN_TEST_TEXT = "MinedownRender test: **bold**  __italic__ and normal text [color=red] [br]tes redr [color].";
 
-    private MinedownRenderer minedownRenderer;
+    private StellardownRenderer stellardownRenderer;
 
     public TestScreen() {
         super(Component.literal("Test Screen"));
@@ -30,7 +30,7 @@ public class TestScreen extends Screen {
         Button testButton = Button.builder(Component.literal("Test Button"), button -> System.out.println("Button clicked!")).bounds(20, 20, 100, 20).build();
         WikiInfosWidget wikiInfos = new WikiInfosWidget(20, 60, 200, 100);
 
-        this.minedownRenderer = new MinedownRenderer(MINEDOWN_TEST_TEXT, this.width - 40, this.font);
+        this.stellardownRenderer = new StellardownRenderer(MINEDOWN_TEST_TEXT, this.width - 40, this.font);
 
         this.addRenderableWidget(wikiInfos);
         this.addRenderableWidget(testButton);
@@ -51,9 +51,9 @@ public class TestScreen extends Screen {
         guiGraphics.drawString(this.font, "Test Screen", this.width / 2 - this.font.width("Test Screen") / 2, this.height / 2 - 10, ARGB.white(1f));
         guiGraphics.renderItem(new ItemStack(ALLAY_SPAWN_EGG), guiGraphics.guiWidth() / 2,  this.height / 2 + 30);
 
-        if (this.minedownRenderer != null) {
-            this.minedownRenderer.updateLayout(this.width - 40);
-            this.minedownRenderer.render(20, this.height / 2 + 60, guiGraphics);
+        if (this.stellardownRenderer != null) {
+            this.stellardownRenderer.updateLayout(this.width - 40);
+            this.stellardownRenderer.render(20, this.height / 2 + 60, guiGraphics);
         }
 
     }
