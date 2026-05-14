@@ -12,6 +12,7 @@ import net.minecraft.world.food.Foods;
 import net.minecraft.world.item.BoatItem;
 import net.minecraft.world.item.HangingSignItem;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.SpawnEggItem;
 import net.minecraft.world.item.SignItem;
 import net.minecraft.world.item.equipment.ArmorMaterials;
 import org.exodusstudio.stellaris.client.renderers.rockets.models.BigRocketModel;
@@ -174,6 +175,13 @@ public final class ItemsRegistry {
     public static final RegistrySupplier<ParasiteItem> PARASITE = item("parasite", ParasiteItem::new);
     public static final RegistrySupplier<Item> PATHOGEN_STORAGE_CELL = item("pathogen_storage_cell", PathogenStorageCellItem::new);
     public static final RegistrySupplier<Item> VACCINE = item("vaccine", VaccineItem::new);
+
+    /** Mobs */
+    public static final RegistrySupplier<SpawnEggItem> BLUE_FISH_SPAWN_EGG = item("blue_fish_spawn_egg", p -> new SpawnEggItem(p.spawnEgg(EntityTypesRegistry.BLUE_FISH.get())));
+    public static final RegistrySupplier<SpawnEggItem> LUNAR_PARASITE_SPAWN_EGG = item("lunar_parasite_spawn_egg", p -> new SpawnEggItem(p.spawnEgg(EntityTypesRegistry.LUNAR_PARASITE.get())));
+    public static final RegistrySupplier<SpawnEggItem> PARASITE_AFFECTED_VILLAGER_SPAWN_EGG = item("parasite_affected_villager_spawn_egg", p -> new SpawnEggItem(p.spawnEgg(EntityTypesRegistry.PARASITE_AFFECTED_VILLAGER.get())));
+    public static final RegistrySupplier<SpawnEggItem> PARASITE_AFFECTED_VILLAGER_EVOLVED_SPAWN_EGG = item("parasite_affected_villager_evolved_spawn_egg", p -> new SpawnEggItem(p.spawnEgg(EntityTypesRegistry.PARASITE_AFFECTED_VILLAGER_EVOLVED.get())));
+    public static final RegistrySupplier<SpawnEggItem> LUNA_SHADOW_SPAWN_EGG = item("luna_shadow_spawn_egg", p -> new SpawnEggItem(p.spawnEgg(EntityTypesRegistry.LUNA_SHADOW.get())));
 
     /** Lunar Forest Items */
     public static final RegistrySupplier<Item> LUNAR_BOAT = item("lunar_boat", p -> new BoatItem((EntityType<? extends AbstractBoat>) EntityTypesRegistry.LUNAR_BOAT.get(), p));

@@ -37,6 +37,7 @@ public interface NetworkRegistry {
         registerS2C(SyncOutputManager.S2C.TYPE, SyncOutputManager.S2C.STREAM_CODEC, SyncOutputManager::handle);
 
         registerS2C(SyncPlanetMenuState.TYPE, SyncPlanetMenuState.STREAM_CODEC, SyncPlanetMenuState::handle);
+        registerS2C(ParasiteCameraShakePacket.TYPE, ParasiteCameraShakePacket.STREAM_CODEC, ParasiteCameraShakePacket::handle);
 
         registerS2C(SyncGravityManipulatorDataPacketS2C.TYPE_S2C, SyncGravityManipulatorDataPacketS2C.STREAM_CODEC, SyncGravityManipulatorDataPacketS2C::handle);
         registerC2S(SyncGravityManipulatorDataPacketC2S.TYPE_C2S, SyncGravityManipulatorDataPacketC2S.STREAM_CODEC, SyncGravityManipulatorDataPacketC2S::handle);

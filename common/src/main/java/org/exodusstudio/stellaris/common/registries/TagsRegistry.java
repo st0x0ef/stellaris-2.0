@@ -58,6 +58,8 @@ public class TagsRegistry {
     public static class BiomeTags {
         public static final TagKey<Biome> IS_MOON = addTag("is_moon");
 
+        public static final TagKey<Biome> IS_MOON_WATER = addTag("is_moon_water");
+        public static final TagKey<Biome> IS_MOON_FOREST = addTag("is_moon_forest");
 
         public static TagKey<Biome> addTag(String path) {
             return TagKey.create(Registries.BIOME, IdentifierUtils.id(path));
@@ -65,12 +67,10 @@ public class TagsRegistry {
     }
 
     public static class EntityTags {
-        // Add entities that are corrosion immune if they spawn on Mars
         public static final TagKey<EntityType<?>> CORROSION_IMMUNE = addTag("corrosion_immune");
         public static final TagKey<EntityType<?>> INFECTION_IMMUNE = addTag("infection_immune");
         public static final TagKey<EntityType<?>> NO_OXYGEN_NEEDED = addTag("no_oxygen_needed");
         public static final TagKey<EntityType<?>> LUNAR_BOATS = addTag("lunar_boats");
-
 
         public static TagKey<EntityType<?>> addTag(String path) {
             return TagKey.create(Registries.ENTITY_TYPE, IdentifierUtils.id(path));

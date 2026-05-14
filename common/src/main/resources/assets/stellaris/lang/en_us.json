@@ -234,6 +234,11 @@
   "item.stellaris.parasite": "Parasite",
   "item.stellaris.pathogen_storage_cell": "Pathogen Storage Cell",
   "item.stellaris.vaccine": "Vaccine",
+  "item.stellaris.blue_fish_spawn_egg": "Blue Fish Spawn Egg",
+  "item.stellaris.lunar_parasite_spawn_egg": "Lunar Parasite Spawn Egg",
+  "item.stellaris.parasite_affected_villager_spawn_egg": "Parasite-Affected Villager Spawn Egg",
+  "item.stellaris.parasite_affected_villager_evolved_spawn_egg": "Evolved Parasite-Affected Villager Spawn Egg",
+  "item.stellaris.luna_shadow_spawn_egg": "Luna Shadow Spawn Egg",
 
   "item.stellaris.oil_finder": "Oil Finder",
 
@@ -334,6 +339,11 @@
   "entity.stellaris.rocket": "Rocket",
   "entity.stellaris.lunar_boat": "Lunar Boat",
   "entity.stellaris.lunar_chest_boat": "Lunar Chest Boat",
+  "entity.stellaris.blue_fish": "Blue Fish",
+  "entity.stellaris.lunar_parasite": "Lunar Parasite",
+  "entity.stellaris.parasite_affected_villager": "Parasite-Affected Villager",
+  "entity.stellaris.parasite_affected_villager_evolved": "Evolved Parasite-Affected Villager",
+  "entity.stellaris.luna_shadow": "Luna Shadow",
 
 
   "stat.stellaris.space_traveled": "Space Traveled",
