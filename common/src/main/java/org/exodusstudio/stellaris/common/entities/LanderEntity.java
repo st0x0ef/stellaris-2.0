@@ -71,9 +71,7 @@ public class LanderEntity extends VehicleEntity {
     public boolean causeFallDamage(double fallDistance, float damageMultiplier, DamageSource damageSource) {
         if (fallDistance > 5.0F) {
             if (!this.level().isClientSide()) {
-
-                //Stellaris.CONFIG.landerExplodeWhenTooFast
-                if (!this.entityData.get(AUTOPILOT)) {
+                if (!this.entityData.get(AUTOPILOT) && Stellaris.CONFIG.vehicleConfig.shouldLanderExplode) {
                     this.level().explode(this, this.getX(), this.getY(), this.getZ(), 10, true,
                             Level.ExplosionInteraction.TNT);
                     this.remove(RemovalReason.DISCARDED);

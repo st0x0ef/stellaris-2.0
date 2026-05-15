@@ -5,6 +5,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.portal.TeleportTransition;
 import net.minecraft.world.phys.Vec3;
+import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.common.entities.LanderEntity;
 import org.exodusstudio.stellaris.common.entities.RocketEntity;
 import org.jetbrains.annotations.NotNull;
@@ -19,7 +20,7 @@ public class TeleportUtil {
 
         landerEntity.setNoGravity(true);
         if (entity != null) {
-            TeleportUtil.teleportToLevel(entity, planet, new Vec3(entity.getX(), 600, entity.getZ()));
+            TeleportUtil.teleportToLevel(entity, planet, new Vec3(entity.getX(), Stellaris.CONFIG.vehicleConfig.rocketTpHeight, entity.getZ()));
             entity.startRiding(landerEntity);
         }
         landerEntity.setNoGravity(false);

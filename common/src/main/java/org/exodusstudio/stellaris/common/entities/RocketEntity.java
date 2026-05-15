@@ -28,6 +28,7 @@ import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.phys.Vec3;
+import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.common.data.Planet;
 import org.exodusstudio.stellaris.common.data.PlanetsData;
 import org.exodusstudio.stellaris.common.menus.MainTabletMenu;
@@ -233,7 +234,7 @@ public class RocketEntity extends VehicleEntity {
                 NetworkManager.sendToPlayers(server.getPlayerList().getPlayers(),
                         new SyncRocketModule(this.getId(), this.entityData.get(ROCKET_MODULES)));
 
-                if (this.getRocketModules().contains(ModulesRegistry.AUTOPILOT.get()) && this.getY() >= 300) {
+                if (this.getRocketModules().contains(ModulesRegistry.AUTOPILOT.get()) && this.getY() >= Stellaris.CONFIG.vehicleConfig.rocketTpHeight) {
                     Entity passenger = null;
                     if (!this.getPassengers().isEmpty()) {
                         passenger = this.getPassengers().getFirst();
@@ -253,7 +254,7 @@ public class RocketEntity extends VehicleEntity {
         if(!this.getPassengers().isEmpty() && shouldOpenPlanetMenu) {
             Entity passenger = this.getPassengers().getFirst();
 
-            if(passenger instanceof Player player && this.getY() >= 300) {
+            if(passenger instanceof Player player && this.getY() >= Stellaris.CONFIG.vehicleConfig.rocketTpHeight) {
                 openPlanetSelectionScreen(player);
             }
         }
