@@ -25,7 +25,7 @@ public record TeleportToPlanetPacket(Planet destination) implements CustomPacket
     public static void handle(TeleportToPlanetPacket data, NetworkManager.PacketContext context) {
         MinecraftServer server = context.getPlayer().level().getServer();
         if (server != null && context.getPlayer().getVehicle() instanceof RocketEntity rocket) {
-            TeleportUtil.teleportRocketToPlanet(context.getPlayer(), server.getLevel(ResourceKey.create(Registries.DIMENSION, data.destination.dimension())), rocket);
+            TeleportUtil.teleportRocketToPlanet(context.getPlayer(), server.getLevel(ResourceKey.create(Registries.DIMENSION, data.destination.dimension())), rocket, false);
             context.getPlayer().stellaris$setPlanetMenuOpen(false, context.getPlayer(), true);
             Utils.stopFade(context.getPlayer());
             context.getPlayer().closeContainer();

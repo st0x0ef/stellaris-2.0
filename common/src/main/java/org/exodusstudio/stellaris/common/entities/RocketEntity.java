@@ -4,6 +4,7 @@ import com.fej1fun.potentials.components.FluidAmountMapDataComponent;
 import dev.architectury.fluid.FluidStack;
 import dev.architectury.networking.NetworkManager;
 import dev.architectury.registry.menu.MenuRegistry;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.registries.Registries;
@@ -184,6 +185,14 @@ public class RocketEntity extends VehicleEntity {
     }
 
     public void startRocket() {
+        if (!canFly()) {
+            if (!this.getPassengers().isEmpty() && this.getPassengers().getFirst() instanceof Player player) {
+                player.displayClientMessage(Component.literal("There's something blocking the rocket flying path..."), true);
+            }
+
+            return;
+        }
+
         Entity entity = this.getPassengers().getFirst();
 
         if (entity instanceof Player player) {
@@ -229,7 +238,7 @@ public class RocketEntity extends VehicleEntity {
                     if (!this.getPassengers().isEmpty()) {
                         passenger = this.getPassengers().getFirst();
                     }
-                    TeleportUtil.teleportRocketToPlanet(passenger, server.getLevel(ResourceKey.create(Registries.DIMENSION, this.entityData.get(AUTOPILOT_DESTINATION).dimension())), this);
+                    TeleportUtil.teleportRocketToPlanet(passenger, server.getLevel(ResourceKey.create(Registries.DIMENSION, this.entityData.get(AUTOPILOT_DESTINATION).dimension())), this, true);
                     shouldOpenPlanetMenu = false;
                 }
             }
@@ -315,6 +324,23 @@ public class RocketEntity extends VehicleEntity {
                 }, true);
             }
         }
+    }
+
+    private boolean canFly() {
+        // check if there's enough space for the rocket to fly to the sky
+        BlockPos pos = this.blockPosition();
+        for (int x = -1; x <= 1; x++) {
+            for (int z = -1; z <= 1; z++) {
+                for (int y = pos.getY(); y < level().getMaxY(); y++) {
+                    BlockPos checkPos = new BlockPos(pos.getX() + x, y, pos.getZ() + z);
+                    if (!level().isEmptyBlock(checkPos)) {
+                        return false;
+                    }
+                }
+            }
+        }
+
+        return true;
     }
 
     /**

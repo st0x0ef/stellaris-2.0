@@ -13,8 +13,8 @@ import org.jetbrains.annotations.Nullable;
 public class TeleportUtil {
 
 
-    public static void teleportRocketToPlanet(@Nullable Entity entity, ServerLevel planet, RocketEntity rocket) {
-        LanderEntity landerEntity = createLander(rocket, planet, rocket.position());
+    public static void teleportRocketToPlanet(@Nullable Entity entity, ServerLevel planet, RocketEntity rocket, boolean autopilot) {
+        LanderEntity landerEntity = createLander(rocket, planet, rocket.position(), autopilot);
         rocket.discard();
 
         landerEntity.setNoGravity(true);
@@ -29,8 +29,8 @@ public class TeleportUtil {
         entity.teleport(new TeleportTransition(level,coords, Vec3.ZERO, 0, 0, TeleportTransition.DO_NOTHING));
     }
 
-    public static LanderEntity createLander(RocketEntity rocket, Level level, Vec3 pos) {
-        LanderEntity landerEntity = new LanderEntity(level);
+    public static LanderEntity createLander(RocketEntity rocket, Level level, Vec3 pos, boolean autopilot) {
+        LanderEntity landerEntity = new LanderEntity(level, autopilot);
         landerEntity.setPos(pos);
         landerEntity.fillInventoryFromRocket(rocket);
         level.addFreshEntity(landerEntity);

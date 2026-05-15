@@ -178,7 +178,7 @@ public class StellarisCommands {
 
                                     Entity vehicle = player.getVehicle();
                                     if( vehicle instanceof RocketEntity rocketEntity) {
-                                        LanderEntity landerEntity = new LanderEntity(player.level());
+                                        LanderEntity landerEntity = new LanderEntity(player.level(), true);
                                         landerEntity.setPos(rocketEntity.getPosition(1f));
                                         player.level().addFreshEntity(landerEntity);
 
