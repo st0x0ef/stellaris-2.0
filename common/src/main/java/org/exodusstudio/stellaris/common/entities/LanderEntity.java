@@ -24,7 +24,7 @@ import org.exodusstudio.stellaris.common.menus.LanderMenu;
 import org.exodusstudio.stellaris.common.registries.EntityTypesRegistry;
 import org.jetbrains.annotations.NotNull;
 
-public class LanderEntity extends VehicleEntity{
+public class LanderEntity extends VehicleEntity {
 
     public LanderEntity(Level level) {
         this(EntityTypesRegistry.LANDER.get(), level);

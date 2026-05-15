@@ -6,10 +6,13 @@ import dev.architectury.networking.NetworkManager;
 import dev.architectury.registry.menu.MenuRegistry;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.damagesource.DamageSource;
@@ -24,6 +27,8 @@ import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.phys.Vec3;
+import org.exodusstudio.stellaris.common.data.Planet;
+import org.exodusstudio.stellaris.common.data.PlanetsData;
 import org.exodusstudio.stellaris.common.menus.MainTabletMenu;
 import org.exodusstudio.stellaris.common.modules.Modules;
 import org.exodusstudio.stellaris.common.modules.rocket.RocketModule;
@@ -31,20 +36,20 @@ import org.exodusstudio.stellaris.common.modules.rocket.RocketModules;
 import org.exodusstudio.stellaris.common.network.packets.OpenRocketMenuPacket;
 import org.exodusstudio.stellaris.common.network.packets.SyncRocketModule;
 import org.exodusstudio.stellaris.common.registries.*;
-import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
-import org.exodusstudio.stellaris.common.utils.Utils;
+import org.exodusstudio.stellaris.common.utils.*;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 
-public class RocketEntity extends VehicleEntity  {
+public class RocketEntity extends VehicleEntity {
 
     public static final EntityDataAccessor<Modules<RocketModule>> ROCKET_MODULES = SynchedEntityData.defineId(RocketEntity.class, EntityDataSerializersRegistry.ROCKET_MODULES);
     public static final EntityDataAccessor<Boolean> ROCKET_START = SynchedEntityData.defineId(RocketEntity.class, EntityDataSerializers.BOOLEAN);
     public static final EntityDataAccessor<Integer> ROCKET_START_TIMER = SynchedEntityData.defineId(RocketEntity.class, EntityDataSerializers.INT);
-
+    public static final EntityDataAccessor<Planet> AUTOPILOT_DESTINATION = SynchedEntityData.defineId(RocketEntity.class, EntityDataSerializersRegistry.PLANET);
 
     public RocketEntity(EntityType<?> entityType, Level level) {
         super(entityType, level);
@@ -195,26 +200,39 @@ public class RocketEntity extends VehicleEntity  {
         }
     }
 
-
-
     @Override
     public void defineSynchedData(SynchedEntityData.Builder builder) {
         super.defineSynchedData(builder);
         builder.define(ROCKET_MODULES, RocketModules.empty());
         builder.define(ROCKET_START, false);
         builder.define(ROCKET_START_TIMER, 0);
+        builder.define(AUTOPILOT_DESTINATION, Objects.requireNonNull(PlanetsData.getPlanet(Level.OVERWORLD))); // default value, shouldn't be used
     }
-
 
     @Override
     public void tick() {
         super.tick();
 
+        boolean shouldOpenPlanetMenu = true; // to make sure we don't open the menu if the player is teleporting to the planet with the autopilot
 
         if (!this.level().isClientSide()) {
+            MinecraftServer server = level().getServer();
+
             tryFillUpRocket();
-            NetworkManager.sendToPlayers(level().getServer().getPlayerList().getPlayers(),
-                    new SyncRocketModule(this.getId(), this.entityData.get(ROCKET_MODULES)));
+
+            if (server != null) {
+                NetworkManager.sendToPlayers(server.getPlayerList().getPlayers(),
+                        new SyncRocketModule(this.getId(), this.entityData.get(ROCKET_MODULES)));
+
+                if (this.getRocketModules().contains(ModulesRegistry.AUTOPILOT.get()) && this.getY() >= 300) {
+                    Entity passenger = null;
+                    if (!this.getPassengers().isEmpty()) {
+                        passenger = this.getPassengers().getFirst();
+                    }
+                    TeleportUtil.teleportRocketToPlanet(passenger, server.getLevel(ResourceKey.create(Registries.DIMENSION, this.entityData.get(AUTOPILOT_DESTINATION).dimension())), this);
+                    shouldOpenPlanetMenu = false;
+                }
+            }
         }
 
         //Handle rocket movement when started
@@ -223,17 +241,13 @@ public class RocketEntity extends VehicleEntity  {
             this.startTimerAndFlyMovement();
         }
 
-
-        if(!this.getPassengers().isEmpty()){
+        if(!this.getPassengers().isEmpty() && shouldOpenPlanetMenu) {
             Entity passenger = this.getPassengers().getFirst();
 
             if(passenger instanceof Player player && this.getY() >= 300) {
                 openPlanetSelectionScreen(player);
             }
         }
-
-
-
     }
 
     @Override
@@ -292,8 +306,7 @@ public class RocketEntity extends VehicleEntity  {
     }
 
     public void openPlanetSelectionScreen(Player player) {
-
-        if(!player.stellaris$isPlanetMenuOpen()) {
+        if (!player.stellaris$isPlanetMenuOpen()) {
             player.stellaris$setPlanetMenuOpen(true, player, true);
             if(player instanceof ServerPlayer serverPlayer) {
                 Utils.executeWithFade(player, () -> {
@@ -301,9 +314,6 @@ public class RocketEntity extends VehicleEntity  {
                     this.setNoGravity(true);
                 }, true);
             }
-
-
-
         }
     }
 
@@ -337,7 +347,11 @@ public class RocketEntity extends VehicleEntity  {
         Modules<RocketModule> modulesOptional = stack.getOrDefault(DataComponentsRegistry.ROCKET_MODULES.get(), RocketModules.empty());
         rocketEntity.setRocketModules(modulesOptional);
 
-        //Only allow to change the fuel type when the rocket is empty
+        if (stack.has(DataComponentsRegistry.AUTOPILOT.get())) {
+            rocketEntity.entityData.set(AUTOPILOT_DESTINATION, Objects.requireNonNull(stack.get(DataComponentsRegistry.AUTOPILOT.get())));
+        }
+
+        //Only allow to change the fuel type when the rocket is not empty
         if(stack.has(DataComponentsRegistry.FLUID_LIST.get())) {
             FluidAmountMapDataComponent fluidData = stack.get(DataComponentsRegistry.FLUID_LIST.get());
 
@@ -349,7 +363,7 @@ public class RocketEntity extends VehicleEntity  {
     public ItemStack toItemStack() {
         ItemStack rocketStack = new ItemStack(ItemsRegistry.ROCKET.get(), 1);
         rocketStack.set(DataComponentsRegistry.ROCKET_MODULES.get(), this.entityData.get(ROCKET_MODULES));
-
+        rocketStack.set(DataComponentsRegistry.AUTOPILOT.get(), this.entityData.get(AUTOPILOT_DESTINATION));
 
         FluidStack fuel = this.getFuelType();
         rocketStack.set(DataComponentsRegistry.FLUID_LIST.get(),

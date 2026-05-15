@@ -16,6 +16,7 @@ import org.exodusstudio.stellaris.client.utils.WikiEntryTextRenderer;
 import org.exodusstudio.stellaris.common.data.Planet;
 import org.exodusstudio.stellaris.common.data.PlanetsData;
 import org.exodusstudio.stellaris.common.menus.MainTabletMenu;
+import org.exodusstudio.stellaris.common.network.packets.SelectPlanetPacket;
 import org.exodusstudio.stellaris.common.network.packets.TeleportToPlanetPacket;
 import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
 import org.exodusstudio.stellaris.common.utils.Utils;
@@ -25,6 +26,7 @@ public class PlanetSelectionAppScreen extends Screen {
     private ScrollableContainer container;
     private final MainTabletScreen mainTabletScreen;
     private TexturedButton teleportButton;
+    private TexturedButton selectPlanet;
     private Planet selectedPlanet;
     private final boolean inSpace;
 
@@ -36,7 +38,6 @@ public class PlanetSelectionAppScreen extends Screen {
         super(Component.empty());
         this.mainTabletScreen = mainTabletScreen;
         this.inSpace = inSpace;
-
     }
 
     @Override
@@ -45,15 +46,22 @@ public class PlanetSelectionAppScreen extends Screen {
         setPlanets();
 
         this.teleportButton = new TexturedButton(this.getLeftPos() + 165, this.container.getBottom() - 25, 100, 20, btn -> {
-            if (this.selectedPlanet != null
-                    && this.inSpace
-                    && this.canTeleportToPlanet()) {
+            if (this.selectedPlanet != null) {
                 NetworkManager.sendToServer(new TeleportToPlanetPacket(this.selectedPlanet));
             }
         }).tex(IdentifierUtils.guiTexture("tablet/tablet_entry_button"), IdentifierUtils.guiTexture("tablet/tablet_entry_button")).setText(Component.translatable("application.stellaris.planet_selection.teleport_button"));
+
+        this.selectPlanet = new TexturedButton(this.getLeftPos() + 165, this.container.getBottom() - 25, 100, 20, btn -> {
+            if (this.selectedPlanet != null) {
+                NetworkManager.sendToServer(new SelectPlanetPacket(this.selectedPlanet));
+            }
+        }).tex(IdentifierUtils.guiTexture("tablet/tablet_entry_button"), IdentifierUtils.guiTexture("tablet/tablet_entry_button")).setText(Component.translatable("application.stellaris.planet_selection.select_button"));
+
         this.teleportButton.visible = this.isTeleportButtonVisible();
+        this.selectPlanet.visible = this.isSelectPlanetButtonVisible();
 
         this.addRenderableWidget(this.teleportButton);
+        this.addRenderableWidget(this.selectPlanet);
     }
 
 
@@ -64,7 +72,6 @@ public class PlanetSelectionAppScreen extends Screen {
     }
 
     public static PlanetSelectionAppScreen create(ApplicationRegistry.MenuHolder<MainTabletMenu> menuHolder) {
-
         return new PlanetSelectionAppScreen(menuHolder.mainTabletScreen());
     }
 
@@ -94,6 +101,7 @@ public class PlanetSelectionAppScreen extends Screen {
             TexturedButton button = new TexturedButton(container.getX() + 5, this.container.getY() + 5 + i * 25, 95, 20, btn -> {
                 this.selectedPlanet = planet;
                 this.teleportButton.visible = this.isTeleportButtonVisible();
+                this.selectPlanet.visible = this.isSelectPlanetButtonVisible();
             }).tex(IdentifierUtils.guiTexture("tablet/tablet_entry_button"), IdentifierUtils.guiTexture("tablet/tablet_entry_button")).setText(Component.translatable(planet.translationKey()));
             this.container.addChild(this, button);
             i++;
@@ -131,7 +139,7 @@ public class PlanetSelectionAppScreen extends Screen {
         WikiEntryTextRenderer.Builder builder = new WikiEntryTextRenderer.Builder();
 
         builder.addText("----- Planet Info -----").breakL();
-        builder.addText("Planet:").addText(this.selectedPlanet.translationKey()).breakL();
+        builder.addText("Planet:").addText(Component.translatable(this.selectedPlanet.translationKey()).getString()).breakL();
         builder.addText("Dimension: ").addText(this.selectedPlanet.dimension().toString()).breakL();
         builder.addText("Gravity:").addText(this.selectedPlanet.gravity()).addText("m/s²").breakL();
         builder.addText("Has Oxygen:").conditionColorText(this.selectedPlanet.hasOxygen() ? "Yes" : "No", "green", "red", this.selectedPlanet.hasOxygen()).breakL();
@@ -153,8 +161,15 @@ public class PlanetSelectionAppScreen extends Screen {
      * @return true if the teleport button should be visible, false otherwise.
      */
     public boolean isTeleportButtonVisible() {
-        return (this.selectedPlanet != null)
-                && this.inSpace;
+        return this.selectedPlanet != null && this.inSpace && this.canTeleportToPlanet();
+    }
+
+    /**
+     * The select planet button should only be visible if a planet is selected and the player is not in space. This method checks those conditions and returns true if the button should be visible, false otherwise.
+     * @return true if the select planet button should be visible, false otherwise.
+     */
+    public boolean isSelectPlanetButtonVisible() {
+        return this.selectedPlanet != null && !this.inSpace && this.canTeleportToPlanet();
     }
 
     /**
@@ -168,14 +183,14 @@ public class PlanetSelectionAppScreen extends Screen {
 
     @Override
     public void onClose() {
-
-        if(this.mainTabletScreen.player.stellaris$isPlanetMenuOpen()) return;
+        if (this.mainTabletScreen.player.stellaris$isPlanetMenuOpen()) return;
 
         FadingHolder fadingHolder = mainTabletScreen.player.stellaris$getDataAttachments(IdentifierUtils.id("player_fade"), FadingHolder.class);
 
         if(fadingHolder != null && fadingHolder.fadeAmount() == 1.0f) {
             Utils.stopFade(mainTabletScreen.player);
         }
+
         this.mainTabletScreen.player.stellaris$setPlanetMenuOpen(false, this.mainTabletScreen.player, true);
         super.onClose();
     }

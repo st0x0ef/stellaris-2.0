@@ -159,6 +159,7 @@
 
   "item.stellaris.hydrogen_motor": "Hydrogen Motor",
   "item.stellaris.shield_module": "Shield Module",
+  "item.stellaris.autopilot_module": "Autopilot Module",
 
   "item.stellaris.galaxy_skin": "Galaxy Skin",
   "item.stellaris.frost_skin": "Frost Skin",
@@ -305,6 +306,7 @@
   "application.stellaris.planet_selection.name": "Planet Selection",
   "application.stellaris.planet_selection.description": "See all the infos on the planets.",
   "application.stellaris.planet_selection.teleport_button": "Launch!",
+  "application.stellaris.planet_selection.select_button": "Select!",
 
   "wiki.stellaris.mobs.title": "Mobs",
   "wiki.stellaris.rocket.title": "Rocket",

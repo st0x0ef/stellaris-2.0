@@ -58,21 +58,17 @@ public class BiomeModificationsRegistry {
             // They should be added through Moon village structure/template-pool spawning instead.
         }));
 
-        BiomeModifications.addProperties((context) -> context.hasTag(TagsRegistry.BiomeTags.IS_MOON_WATER), ((biomeContext, mutable) -> {
-            mutable.getSpawnProperties().addSpawn(
-                    MobCategory.WATER_AMBIENT,
-                    new MobSpawnSettings.SpawnerData(EntityTypesRegistry.BLUE_FISH.get(), 3, 7),
-                    22
-            );
-        }));
+        BiomeModifications.addProperties((context) -> context.hasTag(TagsRegistry.BiomeTags.IS_MOON_WATER), ((biomeContext, mutable) -> mutable.getSpawnProperties().addSpawn(
+                MobCategory.WATER_AMBIENT,
+                new MobSpawnSettings.SpawnerData(EntityTypesRegistry.BLUE_FISH.get(), 3, 7),
+                22
+        )));
 
-        BiomeModifications.addProperties((context) -> context.hasTag(TagsRegistry.BiomeTags.IS_MOON_FOREST), ((biomeContext, mutable) -> {
-            mutable.getSpawnProperties().addSpawn(
-                    MobCategory.MONSTER,
-                    new MobSpawnSettings.SpawnerData(EntityTypesRegistry.LUNA_SHADOW.get(), 1, 1),
-                    12
-            );
-        }));
+        BiomeModifications.addProperties((context) -> context.hasTag(TagsRegistry.BiomeTags.IS_MOON_FOREST), ((biomeContext, mutable) -> mutable.getSpawnProperties().addSpawn(
+                MobCategory.MONSTER,
+                new MobSpawnSettings.SpawnerData(EntityTypesRegistry.LUNA_SHADOW.get(), 1, 1),
+                12
+        )));
 
         SpawnPlacementsRegistry.register(
                 EntityTypesRegistry.BLUE_FISH,

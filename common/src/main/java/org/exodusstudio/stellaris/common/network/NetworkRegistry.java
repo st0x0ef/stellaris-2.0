@@ -44,6 +44,7 @@ public interface NetworkRegistry {
         registerC2S(AwardStatPacket.TYPE, AwardStatPacket.STREAM_CODEC, AwardStatPacket::handle);
         registerC2S(TeleportToPlanetPacket.TYPE, TeleportToPlanetPacket.STREAM_CODEC, TeleportToPlanetPacket::handle);
         registerC2S(SyncOutputManager.C2S.TYPE, SyncOutputManager.C2S.STREAM_CODEC, SyncOutputManager::handle);
+        registerC2S(SelectPlanetPacket.TYPE, SelectPlanetPacket.STREAM_CODEC, SelectPlanetPacket::handle);
 
         registerC2S(InfectionResearchPacket.TYPE, InfectionResearchPacket.STREAM_CODEC, InfectionResearchPacket::handle);
     }

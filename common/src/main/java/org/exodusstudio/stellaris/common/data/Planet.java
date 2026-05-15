@@ -11,7 +11,9 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.Level;
 
-public record Planet(String translationKey, Identifier dimension, double gravity, boolean hasOxygen) {
+import java.io.Serializable;
+
+public record Planet(String translationKey, Identifier dimension, double gravity, boolean hasOxygen) implements Serializable {
     public static final Codec<Planet> CODEC = RecordCodecBuilder.create(instance -> instance.group(
         Codec.STRING.fieldOf("translation_key").forGetter(Planet::translationKey),
         Identifier.CODEC.fieldOf("dimension").forGetter(Planet::dimension),

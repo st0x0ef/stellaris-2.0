@@ -117,12 +117,18 @@ public class RocketItem extends Item implements FluidProvider.ITEM {
         } else {
             tooltipAdder.accept(Component.literal("No Modules"));
         }
-        tooltipAdder.accept(Component.literal("---------------------"));
 
         UniversalFluidItemStorage storage = getFluidTank(stack);
         if (storage != null) {
+            tooltipAdder.accept(Component.literal("---------------------"));
             tooltipAdder.accept(Component.literal(storage.getFluidInTank(0).getAmount() + " / " + storage.getTankCapacity(0) + "mb").withStyle(ChatFormatting.GRAY));
             tooltipAdder.accept(Component.literal("Fuel: " + storage.getFluidInTank(0).getFluid().arch$registryName()).withStyle(ChatFormatting.GRAY));
+        }
+
+        if (stack.has(DataComponentsRegistry.AUTOPILOT.get())) {
+            tooltipAdder.accept(Component.literal("---------------------"));
+            String destination = Component.translatable(stack.get(DataComponentsRegistry.AUTOPILOT.get()).translationKey()).getString();
+            tooltipAdder.accept(Component.literal("Autopilot Destination: " + destination).withStyle(ChatFormatting.YELLOW));
         }
     }
 
