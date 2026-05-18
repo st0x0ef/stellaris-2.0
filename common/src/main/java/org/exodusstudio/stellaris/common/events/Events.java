@@ -122,7 +122,6 @@ public class Events {
 
                     Block.popResource(level, pos, stack);
                 }
-                Block.popResource(level, pos, stack);
             } else if(state.is(BlocksRegistry.ROCKET_LAUNCH_PAD.block().get())) {
 
                 if(Utils.checkIfAntennaIsNear(pos, level, 1)) {

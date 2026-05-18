@@ -9,6 +9,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.portal.TeleportTransition;
 import net.minecraft.world.phys.Vec3;
 import org.exodusstudio.stellaris.Stellaris;
+import org.exodusstudio.stellaris.common.data.Planet;
 import org.exodusstudio.stellaris.common.entities.LanderEntity;
 import org.exodusstudio.stellaris.common.entities.RocketEntity;
 import org.jetbrains.annotations.NotNull;
@@ -17,23 +18,19 @@ import org.jetbrains.annotations.Nullable;
 public class TeleportUtil {
 
 
-    public static boolean teleportToPlanet(Entity entity, Planet planet,  BlockPos pos) {
+    public static boolean teleportToPlanet(Entity entity, Planet planet, BlockPos pos) {
 
-        ServerLevel level = entity.level().getServer().getLevel(ResourceKey.create(Registries.DIMENSION, planet.dimension()));
+        ServerLevel planetLevel = entity.level().getServer().getLevel(ResourceKey.create(Registries.DIMENSION, planet.dimension()));
 
-        if(level == null) return false;
+        if(planetLevel == null) return false;
 
-        Entity playerVehicle = entity.getVehicle();
+        if(entity.getVehicle() == null || !(entity.getVehicle() instanceof RocketEntity)) return false;
 
-        TeleportUtil.teleportToLevel(entity, level, new Vec3(pos.getX(), 600, pos.getZ()));
+        //TODO fix this
+        teleportRocketToPlanet(entity, planetLevel, (RocketEntity) entity.getVehicle(), true);
 
-        if(playerVehicle == null) return false;
-
-        LanderEntity landerEntity = createLander(playerVehicle, level, entity.position());
-
-        playerVehicle.discard();
-
-        if(landerEntity == null) return false;
+        return true;
+    }
 
     public static void teleportRocketToPlanet(@Nullable Entity entity, ServerLevel planet, RocketEntity rocket, boolean autopilot) {
         LanderEntity landerEntity = createLander(rocket, planet, rocket.position(), autopilot);
@@ -51,11 +48,14 @@ public class TeleportUtil {
         entity.teleport(new TeleportTransition(level,coords, Vec3.ZERO, 0, 0, TeleportTransition.DO_NOTHING));
     }
 
-    public static LanderEntity createLander(RocketEntity rocket, Level level, Vec3 pos, boolean autopilot) {
-        LanderEntity landerEntity = new LanderEntity(level, autopilot);
-        landerEntity.setPos(pos);
-        landerEntity.fillInventoryFromRocket(rocket);
-        level.addFreshEntity(landerEntity);
-        return landerEntity;
+    public static LanderEntity createLander(Entity vehicle, Level level, Vec3 pos, boolean autopilot) {
+        if(vehicle instanceof RocketEntity rocket) {
+            LanderEntity landerEntity = new LanderEntity(level, autopilot);
+            landerEntity.setPos(pos);
+            landerEntity.fillInventoryFromRocket(rocket);
+            level.addFreshEntity(landerEntity);
+            return landerEntity;
+        }
+        return null;
     }
 }

@@ -46,9 +46,6 @@ public class PlanetSelectionAppScreen extends AbstractContainerScreen<PlanetSele
 
     private ScrollableContainer container;
   
-    private final MainTabletScreen mainTabletScreen;
-    private TexturedButton teleportButton;
-    private TexturedButton selectPlanet;
     private Planet selectedPlanet;
     private final PlanetSelectionMenu selectionMenu;
     private final boolean inSpace;
@@ -74,23 +71,6 @@ public class PlanetSelectionAppScreen extends AbstractContainerScreen<PlanetSele
         this.planetInfoComponent = new PlanetInfoComponent(this.getLeftPos() + 135, this.getTopPos() + 27, 153, 147, this);
         this.addRenderableWidget(planetInfoComponent);
 
-        this.teleportButton = new TexturedButton(this.getLeftPos() + 165, this.container.getBottom() - 25, 100, 20, btn -> {
-            if (this.selectedPlanet != null) {
-                NetworkManager.sendToServer(new TeleportToPlanetPacket(this.selectedPlanet));
-            }
-        }).tex(IdentifierUtils.guiTexture("tablet/tablet_entry_button"), IdentifierUtils.guiTexture("tablet/tablet_entry_button")).setText(Component.translatable("application.stellaris.planet_selection.teleport_button"));
-
-        this.selectPlanet = new TexturedButton(this.getLeftPos() + 165, this.container.getBottom() - 25, 100, 20, btn -> {
-            if (this.selectedPlanet != null) {
-                NetworkManager.sendToServer(new SelectPlanetPacket(this.selectedPlanet));
-            }
-        }).tex(IdentifierUtils.guiTexture("tablet/tablet_entry_button"), IdentifierUtils.guiTexture("tablet/tablet_entry_button")).setText(Component.translatable("application.stellaris.planet_selection.select_button"));
-
-        this.teleportButton.visible = this.isTeleportButtonVisible();
-        this.selectPlanet.visible = this.isSelectPlanetButtonVisible();
-
-        this.addRenderableWidget(this.teleportButton);
-        this.addRenderableWidget(this.selectPlanet);
     }
 
 
@@ -114,7 +94,7 @@ public class PlanetSelectionAppScreen extends AbstractContainerScreen<PlanetSele
     public static PlanetSelectionAppScreen create(ApplicationRegistry.MenuHolder<MainTabletMenu> menuHolder) {
         NetworkManager.sendToServer(new OpenMenuPacket("planet_selection"));
         return null;
-
+    }
 
     @Override
     public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
@@ -155,26 +135,6 @@ public class PlanetSelectionAppScreen extends AbstractContainerScreen<PlanetSele
         this.addRenderableWidget(container);
     }
 
-    /**
-     * Renders the information of the selected planet on the right side of the screen. If no planet is selected, it does nothing.
-     * @param guiGraphics The GuiGraphics object used for rendering the planet information.
-     */
-    public void renderPlanetInfo(GuiGraphics guiGraphics) {
-
-        this.teleportButton.visible = this.isTeleportButtonVisible();
-        if (this.selectedPlanet != null) {
-
-            //guiGraphics.blit(RenderPipelines.GUI_TEXTURED, ApplicationScreen.BLANCK_BACKGROUND, this.getLeftPos(), this.getTopPos(), 0, 0, this.mainTabletScreen.getImageWidth(), this.mainTabletScreen.getImageHeight(), this.mainTabletScreen.getImageWidth(),this.mainTabletScreen.getImageHeight());
-
-            Component name = Component.translatable(this.selectedPlanet.translationKey());
-
-            int x = this.getLeftPos() + 140;
-            int y = this.getTopPos() + 30;
-
-            guiGraphics.drawString(this.font, name, x + 10, y, Utils.getMinecraftColor("white"));
-            renderInfo(guiGraphics, x, y + 20);
-        }
-    }
     public int getLeftPos() {
         return this.leftPos;
     }
