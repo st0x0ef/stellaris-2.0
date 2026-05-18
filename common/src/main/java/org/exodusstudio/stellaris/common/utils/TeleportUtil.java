@@ -8,7 +8,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.portal.TeleportTransition;
 import net.minecraft.world.phys.Vec3;
-import org.exodusstudio.stellaris.common.data.Planet;
+import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.common.entities.LanderEntity;
 import org.exodusstudio.stellaris.common.entities.RocketEntity;
 import org.jetbrains.annotations.NotNull;
@@ -35,25 +35,27 @@ public class TeleportUtil {
 
         if(landerEntity == null) return false;
 
-        landerEntity.setNoGravity(true);
-        entity.startRiding(landerEntity);
-        landerEntity.setNoGravity(false);
+    public static void teleportRocketToPlanet(@Nullable Entity entity, ServerLevel planet, RocketEntity rocket, boolean autopilot) {
+        LanderEntity landerEntity = createLander(rocket, planet, rocket.position(), autopilot);
+        rocket.discard();
 
-        return true;
+        landerEntity.setNoGravity(true);
+        if (entity != null) {
+            TeleportUtil.teleportToLevel(entity, planet, new Vec3(entity.getX(), Stellaris.CONFIG.vehicleConfig.rocketTpHeight, entity.getZ()));
+            entity.startRiding(landerEntity);
+        }
+        landerEntity.setNoGravity(false);
     }
 
     public static void teleportToLevel(Entity entity, @NotNull ServerLevel level, Vec3 coords) {
         entity.teleport(new TeleportTransition(level,coords, Vec3.ZERO, 0, 0, TeleportTransition.DO_NOTHING));
     }
 
-    public static LanderEntity createLander(Entity vehicle, Level level, Vec3 pos) {
-        if(vehicle instanceof RocketEntity rocket) {
-            LanderEntity landerEntity = new LanderEntity(level);
-            landerEntity.setPos(pos);
-            landerEntity.fillInventoryFromRocket(rocket);
-            level.addFreshEntity(landerEntity);
-            return landerEntity;
-        }
-        return null;
+    public static LanderEntity createLander(RocketEntity rocket, Level level, Vec3 pos, boolean autopilot) {
+        LanderEntity landerEntity = new LanderEntity(level, autopilot);
+        landerEntity.setPos(pos);
+        landerEntity.fillInventoryFromRocket(rocket);
+        level.addFreshEntity(landerEntity);
+        return landerEntity;
     }
 }

@@ -12,6 +12,7 @@ import net.minecraft.world.food.Foods;
 import net.minecraft.world.item.BoatItem;
 import net.minecraft.world.item.HangingSignItem;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.SpawnEggItem;
 import net.minecraft.world.item.SignItem;
 import net.minecraft.world.item.equipment.ArmorMaterials;
 import org.exodusstudio.stellaris.client.renderers.rockets.models.BigRocketModel;
@@ -22,10 +23,7 @@ import org.exodusstudio.stellaris.common.items.*;
 import org.exodusstudio.stellaris.common.items.infection.ParasiteItem;
 import org.exodusstudio.stellaris.common.items.infection.PathogenStorageCellItem;
 import org.exodusstudio.stellaris.common.items.infection.VaccineItem;
-import org.exodusstudio.stellaris.common.items.modules.rocket.HydrogenFuelModuleItem;
-import org.exodusstudio.stellaris.common.items.modules.rocket.RocketModelModuleItem;
-import org.exodusstudio.stellaris.common.items.modules.rocket.RocketSkinModuleItem;
-import org.exodusstudio.stellaris.common.items.modules.rocket.ShieldModule;
+import org.exodusstudio.stellaris.common.items.modules.rocket.*;
 import org.exodusstudio.stellaris.common.items.modules.space_suit.*;
 import org.exodusstudio.stellaris.common.items.space_suit.SpaceSuitBoots;
 import org.exodusstudio.stellaris.common.items.space_suit.SpaceSuitChestplate;
@@ -73,6 +71,8 @@ public final class ItemsRegistry {
     // Modules
     public static final RegistrySupplier<ShieldModule> SHIELD_MODULE = item("shield_module", ShieldModule::new);
     public static final RegistrySupplier<HydrogenFuelModuleItem> HYDROGEN_MOTOR = item("hydrogen_motor", HydrogenFuelModuleItem::new);
+    public static final RegistrySupplier<AutopilotModuleItem> AUTOPILOT_MODULE = item("autopilot_module", AutopilotModuleItem::new);
+
 
     // Skins
     public static final RegistrySupplier<RocketSkinModuleItem> GALAXY_SKIN = item("galaxy_skin", p -> new RocketSkinModuleItem(p, "galaxy"));
@@ -179,6 +179,13 @@ public final class ItemsRegistry {
     public static final RegistrySupplier<ParasiteItem> PARASITE = item("parasite", ParasiteItem::new);
     public static final RegistrySupplier<Item> PATHOGEN_STORAGE_CELL = item("pathogen_storage_cell", PathogenStorageCellItem::new);
     public static final RegistrySupplier<Item> VACCINE = item("vaccine", VaccineItem::new);
+
+    /** Mobs */
+    public static final RegistrySupplier<SpawnEggItem> BLUE_FISH_SPAWN_EGG = item("blue_fish_spawn_egg", p -> new SpawnEggItem(p.spawnEgg(EntityTypesRegistry.BLUE_FISH.get())));
+    public static final RegistrySupplier<SpawnEggItem> LUNAR_PARASITE_SPAWN_EGG = item("lunar_parasite_spawn_egg", p -> new SpawnEggItem(p.spawnEgg(EntityTypesRegistry.LUNAR_PARASITE.get())));
+    public static final RegistrySupplier<SpawnEggItem> PARASITE_AFFECTED_VILLAGER_SPAWN_EGG = item("parasite_affected_villager_spawn_egg", p -> new SpawnEggItem(p.spawnEgg(EntityTypesRegistry.PARASITE_AFFECTED_VILLAGER.get())));
+    public static final RegistrySupplier<SpawnEggItem> PARASITE_AFFECTED_VILLAGER_EVOLVED_SPAWN_EGG = item("parasite_affected_villager_evolved_spawn_egg", p -> new SpawnEggItem(p.spawnEgg(EntityTypesRegistry.PARASITE_AFFECTED_VILLAGER_EVOLVED.get())));
+    public static final RegistrySupplier<SpawnEggItem> LUNA_SHADOW_SPAWN_EGG = item("luna_shadow_spawn_egg", p -> new SpawnEggItem(p.spawnEgg(EntityTypesRegistry.LUNA_SHADOW.get())));
 
     /** Lunar Forest Items */
     public static final RegistrySupplier<Item> LUNAR_BOAT = item("lunar_boat", p -> new BoatItem((EntityType<? extends AbstractBoat>) EntityTypesRegistry.LUNAR_BOAT.get(), p));

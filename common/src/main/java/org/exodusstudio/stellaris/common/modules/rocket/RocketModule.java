@@ -73,7 +73,9 @@ public interface RocketModule extends Module<RocketModule> {
          * @return The fluid stack representing the fuel.
          */
         FluidStack getFuel();
-
     }
 
+    interface AutopilotModule extends RocketModule {
+
+    }
 }

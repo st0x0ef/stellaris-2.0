@@ -74,7 +74,6 @@ public abstract class PlayerMixin extends LivingEntity implements CustomPlayerDa
                     }
 
                     stellaris$parasiteTimer -= stellaris$fluidTickInterval;
-                    Stellaris.LOG.error("Parasite timer : {}", stellaris$parasiteTimer);
                 } else {
                     stellaris$parasiteTimer = -100;
                 }

@@ -12,6 +12,10 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.phys.Vec3;
 import org.exodusstudio.stellaris.common.data.Planet;
 import org.exodusstudio.stellaris.common.data.space_station.SpaceStationRecipe;
+
+import net.minecraft.server.MinecraftServer;
+import org.exodusstudio.stellaris.common.data.Planet;
+import org.exodusstudio.stellaris.common.entities.RocketEntity;
 import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
 import org.exodusstudio.stellaris.common.utils.TeleportUtil;
 import org.exodusstudio.stellaris.common.utils.Utils;
@@ -46,6 +50,7 @@ public record TeleportToPlanetPacket(Planet destination, Optional<BlockPos>  pos
 
         Utils.stopFade(context.getPlayer());
         context.getPlayer().closeContainer();
+
 
     }
 

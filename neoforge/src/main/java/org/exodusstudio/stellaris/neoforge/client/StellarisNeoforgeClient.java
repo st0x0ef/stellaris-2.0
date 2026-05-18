@@ -23,6 +23,12 @@ import org.exodusstudio.stellaris.client.renderers.gravity_manipulator.GravityMa
 import org.exodusstudio.stellaris.client.renderers.gravity_manipulator.GravityManipulatorModel;
 import org.exodusstudio.stellaris.client.renderers.lander.LanderModel;
 import org.exodusstudio.stellaris.client.renderers.lander.LanderRenderer;
+import org.exodusstudio.stellaris.client.renderers.mobs.BlueFishModel;
+import org.exodusstudio.stellaris.client.renderers.mobs.EvolvedParasiteAffectedVillagerModel;
+import org.exodusstudio.stellaris.client.renderers.mobs.LunaShadowModel;
+import org.exodusstudio.stellaris.client.renderers.mobs.LunarParasiteModel;
+import org.exodusstudio.stellaris.client.renderers.mobs.ParasiteAffectedVillagerModel;
+import org.exodusstudio.stellaris.client.renderers.mobs.StellarisMobRenderer;
 import org.exodusstudio.stellaris.client.renderers.rockets.models.BigRocketModel;
 import org.exodusstudio.stellaris.client.renderers.rockets.models.SmallRocketModel;
 import org.exodusstudio.stellaris.client.renderers.rockets.models.TinyRocketModel;
@@ -43,6 +49,7 @@ import org.exodusstudio.stellaris.common.registries.BlockEntitiesRegistry;
 import org.exodusstudio.stellaris.common.registries.BlocksRegistry;
 import org.exodusstudio.stellaris.common.registries.EntityTypesRegistry;
 import org.exodusstudio.stellaris.common.registries.MenuTypesRegistry;
+import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
 
 @EventBusSubscriber(modid = Stellaris.MOD_ID, value = Dist.CLIENT)
 public class StellarisNeoforgeClient {
@@ -104,7 +111,20 @@ public class StellarisNeoforgeClient {
 
         event.registerEntityRenderer(EntityTypesRegistry.LUNAR_BOAT.get(), (c) -> new BoatRenderer(c, BoatModelLayerRegistry.LUNAR_BOAT));
         event.registerEntityRenderer(EntityTypesRegistry.LUNAR_CHEST_BOAT.get(), (c) -> new BoatRenderer(c, BoatModelLayerRegistry.LUNAR_CHEST_BOAT));
-
+        event.registerEntityRenderer(EntityTypesRegistry.BLUE_FISH.get(), (c) -> new StellarisMobRenderer<>(c, new BlueFishModel(c.bakeLayer(BlueFishModel.LAYER_LOCATION)), IdentifierUtils.texture("entity/mob_blue_fish"), 0.72F, 1.35F, 0.18F));
+        event.registerEntityRenderer(EntityTypesRegistry.LUNAR_PARASITE.get(), (c) -> new StellarisMobRenderer<>(c, new LunarParasiteModel(c.bakeLayer(LunarParasiteModel.LAYER_LOCATION)), IdentifierUtils.texture("entity/mob_lunar_parasite"), 0.82F, 1.45F, 0.25F));
+        event.registerEntityRenderer(EntityTypesRegistry.PARASITE_AFFECTED_VILLAGER.get(), (c) -> new StellarisMobRenderer<>(c, new ParasiteAffectedVillagerModel(c.bakeLayer(ParasiteAffectedVillagerModel.LAYER_LOCATION)), IdentifierUtils.texture("entity/mob_parasite_affected_villager"), 0.94F, 1.5F, 0.45F));
+        event.registerEntityRenderer(EntityTypesRegistry.PARASITE_AFFECTED_VILLAGER_EVOLVED.get(), (c) -> new StellarisMobRenderer<>(c, new EvolvedParasiteAffectedVillagerModel(c.bakeLayer(EvolvedParasiteAffectedVillagerModel.LAYER_LOCATION)), IdentifierUtils.texture("entity/mob_parasite_affected_villager_evolved"), 1.05F, 1.58F, 0.65F));
+        event.registerEntityRenderer(EntityTypesRegistry.LUNA_SHADOW.get(), (c) ->
+        new StellarisMobRenderer<>(
+                c,
+                new LunaShadowModel(c.bakeLayer(LunaShadowModel.LAYER_LOCATION)),
+                IdentifierUtils.texture("entity/mob_luna_shadow"),
+                0.82F,
+                1.80F,
+                0.65F
+            )
+        );
     }
 
     @SubscribeEvent
@@ -114,6 +134,11 @@ public class StellarisNeoforgeClient {
         event.registerLayerDefinition(FlagHeadModel.MOB_LAYER_LOCATION, FlagHeadModel::createMobHeadLayer);
         event.registerLayerDefinition(FlagBlockModel.LAYER_LOCATION, FlagBlockModel::createBodyLayer);
         event.registerLayerDefinition(LanderModel.LAYER_LOCATION, LanderModel::createBodyLayer);
+        event.registerLayerDefinition(BlueFishModel.LAYER_LOCATION, BlueFishModel::createBodyLayer);
+        event.registerLayerDefinition(LunarParasiteModel.LAYER_LOCATION, LunarParasiteModel::createBodyLayer);
+        event.registerLayerDefinition(ParasiteAffectedVillagerModel.LAYER_LOCATION, ParasiteAffectedVillagerModel::createBodyLayer);
+        event.registerLayerDefinition(EvolvedParasiteAffectedVillagerModel.LAYER_LOCATION, EvolvedParasiteAffectedVillagerModel::createBodyLayer);
+        event.registerLayerDefinition(LunaShadowModel.LAYER_LOCATION, LunaShadowModel::createBodyLayer);
 
         event.registerLayerDefinition(SpaceSuitModel.LAYER_LOCATION, SpaceSuitModel::createBodyLayer);
         event.registerLayerDefinition(BoatModelLayerRegistry.LUNAR_BOAT, BoatModel::createBoatModel);

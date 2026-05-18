@@ -5,6 +5,9 @@ import dev.architectury.registry.menu.MenuRegistry;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
@@ -19,17 +22,24 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import org.exodusstudio.stellaris.Stellaris;
+import org.exodusstudio.stellaris.common.data.Planet;
+import org.exodusstudio.stellaris.common.data.PlanetsData;
 import org.exodusstudio.stellaris.common.keybinds.KeyVariables;
 import org.exodusstudio.stellaris.common.menus.LanderMenu;
+import org.exodusstudio.stellaris.common.modules.rocket.RocketModules;
+import org.exodusstudio.stellaris.common.registries.EntityDataSerializersRegistry;
 import org.exodusstudio.stellaris.common.registries.EntityTypesRegistry;
 import org.jetbrains.annotations.NotNull;
 
-public class LanderEntity extends VehicleEntity{
+import java.util.Objects;
 
-    public LanderEntity(Level level) {
+public class LanderEntity extends VehicleEntity {
+    public static final EntityDataAccessor<Boolean> AUTOPILOT = SynchedEntityData.defineId(LanderEntity.class, EntityDataSerializers.BOOLEAN);
+
+    public LanderEntity(Level level, boolean autopilot) {
         this(EntityTypesRegistry.LANDER.get(), level);
+        this.entityData.set(AUTOPILOT, autopilot);
     }
-
 
     public LanderEntity(EntityType<?> entityType, Level level) {
         super(entityType, level);
@@ -61,10 +71,7 @@ public class LanderEntity extends VehicleEntity{
     public boolean causeFallDamage(double fallDistance, float damageMultiplier, DamageSource damageSource) {
         if (fallDistance > 5.0F) {
             if (!this.level().isClientSide()) {
-
-                if (
-                        //Stellaris.CONFIG.landerExplodeWhenTooFast
-                true) {
+                if (!this.entityData.get(AUTOPILOT) && Stellaris.CONFIG.vehicleConfig.shouldLanderExplode) {
                     this.level().explode(this, this.getX(), this.getY(), this.getZ(), 10, true,
                             Level.ExplosionInteraction.TNT);
                     this.remove(RemovalReason.DISCARDED);
@@ -123,7 +130,7 @@ public class LanderEntity extends VehicleEntity{
             this.setDeltaMovement(new Vec3(0, this.getMaxLanderSpeed(), 0));
         }
 
-        if (KeyVariables.isHoldingJump(getFirstPlayerPassenger())) {
+        if (KeyVariables.isHoldingJump(getFirstPlayerPassenger()) || this.entityData.get(AUTOPILOT)) {
             slowDownLander();
         }
 
@@ -201,5 +208,9 @@ public class LanderEntity extends VehicleEntity{
         return 0.7;
     }
 
-
+    @Override
+    public void defineSynchedData(SynchedEntityData.Builder builder) {
+        super.defineSynchedData(builder);
+        builder.define(AUTOPILOT, false);
+    }
 }

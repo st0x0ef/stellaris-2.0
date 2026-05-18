@@ -15,6 +15,8 @@ import org.exodusstudio.stellaris.common.components.JetComponent;
 import org.exodusstudio.stellaris.common.components.PathogenStorageComponent;
 import org.exodusstudio.stellaris.common.components.TimerComponent;
 import org.exodusstudio.stellaris.common.data.space_station.SpaceStationRecipe;
+
+import org.exodusstudio.stellaris.common.data.Planet;
 import org.exodusstudio.stellaris.common.modules.Modules;
 import org.exodusstudio.stellaris.common.modules.rocket.RocketModule;
 import org.exodusstudio.stellaris.common.modules.rocket.RocketModules;
@@ -59,6 +61,8 @@ public class DataComponentsRegistry {
     public static final RegistrySupplier<DataComponentType<SpaceStationRecipe>> SPACE_STATION_BLUEPRINT =
             register("space_station_blueprint", builder -> builder.persistent(SpaceStationRecipe.CODEC).networkSynchronized(SpaceStationRecipe.STREAM_CODEC));
 
+    public static final RegistrySupplier<DataComponentType<Planet>> AUTOPILOT =
+            register("autopilot", builder -> builder.persistent(Planet.CODEC).networkSynchronized(Planet.STREAM_CODEC));
 
     private static <T> RegistrySupplier<DataComponentType<T>> register(String name, UnaryOperator<DataComponentType.Builder<T>> builderOperator) {
         return DATA_COMPONENT_TYPE.register(name, () -> builderOperator.apply(DataComponentType.builder()).build());

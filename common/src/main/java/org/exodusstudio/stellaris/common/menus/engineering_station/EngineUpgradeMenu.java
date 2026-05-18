@@ -90,6 +90,10 @@ public class EngineUpgradeMenu extends BaseItemCombinerMenu {
                 }
                 newRocketModules.add(validModule.asModule());
 
+                if (module.getItem() instanceof RocketModule.AutopilotModule && module.has(DataComponentsRegistry.AUTOPILOT.get())) {
+                    itemToUpgrade.set(DataComponentsRegistry.AUTOPILOT.get(), module.get(DataComponentsRegistry.AUTOPILOT.get()));
+                }
+
                 itemToUpgrade.set(DataComponentsRegistry.ROCKET_MODULES.get(), new RocketModules(newRocketModules));
 
                 this.resultSlots.setItem(0, itemToUpgrade);

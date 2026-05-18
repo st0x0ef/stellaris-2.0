@@ -1,0 +1,10 @@
+{
+  "type": "neoforge:add_spawns",
+  "biomes": "#stellaris:is_moon_forest",
+  "spawners": {
+    "type": "stellaris:luna_shadow",
+    "weight": 12,
+    "minCount": 1,
+    "maxCount": 1
+  }
+}
