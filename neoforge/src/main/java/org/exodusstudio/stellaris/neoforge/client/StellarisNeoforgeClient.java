@@ -37,9 +37,11 @@ import org.exodusstudio.stellaris.client.renderers.space_suit.SpaceSuitModel;
 import org.exodusstudio.stellaris.client.screens.*;
 import org.exodusstudio.stellaris.client.screens.engineering_station.EngineUpgraderScreen;
 import org.exodusstudio.stellaris.client.screens.engineering_station.RocketStationScreen;
+import org.exodusstudio.stellaris.client.screens.engineering_station.SpaceStationPlannerScreen;
 import org.exodusstudio.stellaris.client.screens.laboratory.ResearchScreen;
 import org.exodusstudio.stellaris.client.screens.laboratory.VaccineScreen;
 import org.exodusstudio.stellaris.client.screens.tablet.MainTabletScreen;
+import org.exodusstudio.stellaris.client.screens.tablet.application.planets.PlanetSelectionAppScreen;
 import org.exodusstudio.stellaris.client.screens.tablet.application.sd.SDCardReaderApplicationScreen;
 import org.exodusstudio.stellaris.client.screens.tablet.application.wiki.WikiApplicationScreen;
 import org.exodusstudio.stellaris.common.blocks.entities.machines.GravityManipulatorBlockEntity;
@@ -91,6 +93,10 @@ public class StellarisNeoforgeClient {
         event.register(MenuTypesRegistry.ROCKET_MENU.get(), RocketScreen::new);
         event.register(MenuTypesRegistry.LABORATORY_VACCINE.get(), VaccineScreen::new);
         event.register(MenuTypesRegistry.LABORATORY_RESEARCH.get(), ResearchScreen::new);
+        event.register(MenuTypesRegistry.SPACE_STATION_PLANNER.get(), SpaceStationPlannerScreen::new);
+        event.register(MenuTypesRegistry.PLANET_SELECTION_MENU.get(), PlanetSelectionAppScreen::new);
+
+
     }
 
     @SuppressWarnings("unchecked")

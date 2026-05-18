@@ -1,7 +1,9 @@
 package org.exodusstudio.stellaris.common.utils;
 
 import dev.architectury.networking.NetworkManager;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.ARGB;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -11,15 +13,25 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.levelgen.structure.templatesystem.StructurePlaceSettings;
+import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
+import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.client.overlays.FadingHolder;
+import org.exodusstudio.stellaris.common.antennas.Antenna;
+import org.exodusstudio.stellaris.common.antennas.AntennaSavedData;
+import org.exodusstudio.stellaris.common.blocks.entities.AntennaBlockEntity;
+import org.exodusstudio.stellaris.common.data.space_station.SpaceStationRecipe;
 import org.exodusstudio.stellaris.common.network.packets.StartFadePacket;
+import org.exodusstudio.stellaris.common.registries.BlocksRegistry;
 import org.exodusstudio.stellaris.common.registries.ItemsRegistry;
 import org.exodusstudio.stellaris.common.registries.TagsRegistry;
 
+import java.util.List;
 import java.util.Random;
 import java.util.Set;
+import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 
 public class Utils {
@@ -196,4 +208,40 @@ public class Utils {
             serverPlayer.connection.aboveGroundTickCount = 0;
         }
     }
+
+    public static boolean checkIfAntennaIsNear(BlockPos pos, Level level, int distance) {
+        return level.getBlockStates(new AABB(pos).inflate(distance)).anyMatch(blockState -> blockState.is(BlocksRegistry.ANTENNA.block().get()));
+    }
+
+    public static BlockPos placeSpaceStation(Player player, ServerLevel serverLevel, SpaceStationRecipe recipe) {
+        StructureTemplate structureTemplate = serverLevel.getStructureManager().getOrCreate(recipe.structureId());
+        BlockPos pos = new BlockPos((int) player.getX() - (structureTemplate.getSize().getX() / 2), 100, (int) player.getZ() - (structureTemplate.getSize().getZ() / 2));
+
+        structureTemplate.placeInWorld(serverLevel, pos, pos, new StructurePlaceSettings(), serverLevel.random, 2);
+
+        Antenna antenna = new Antenna(
+                null, //Will change after
+                player.level().dimension(),
+                player.getGameProfile().name() + "'s Antenna",
+                false,
+                player.getGameProfile().id(),
+                List.of()
+        );
+
+        return placeAntennaBlock(pos, serverLevel, recipe, antenna);
+    }
+
+    public static BlockPos placeAntennaBlock(BlockPos initialPos, ServerLevel serverLevel, SpaceStationRecipe recipe, Antenna antenna) {
+        BlockPos pos = initialPos.offset(recipe.antenna_position());
+        AntennaBlockEntity antennaBlockEntity = new AntennaBlockEntity(pos, BlocksRegistry.ANTENNA.block().get().defaultBlockState());
+
+        antenna.blockPos = pos;
+        antennaBlockEntity.setAntenna(antenna, null, false);
+
+        serverLevel.setBlock(pos, BlocksRegistry.ANTENNA.block().get().defaultBlockState(), 1);
+        serverLevel.setBlockEntity(antennaBlockEntity);
+
+        return pos;
+    }
+
 }

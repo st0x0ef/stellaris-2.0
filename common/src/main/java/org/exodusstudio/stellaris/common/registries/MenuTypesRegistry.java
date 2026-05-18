@@ -9,6 +9,7 @@ import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.common.menus.*;
 import org.exodusstudio.stellaris.common.menus.engineering_station.RocketStationMenu;
 import org.exodusstudio.stellaris.common.menus.engineering_station.EngineUpgradeMenu;
+import org.exodusstudio.stellaris.common.menus.engineering_station.SpaceStationPlannerMenu;
 import org.exodusstudio.stellaris.common.menus.laboratory.ResearchMenu;
 import org.exodusstudio.stellaris.common.menus.laboratory.VaccineMenu;
 
@@ -32,6 +33,7 @@ public class MenuTypesRegistry {
 
     public static final RegistrySupplier<MenuType<EngineUpgradeMenu>> ENGINE_UPGRADE = MENU_TYPE.register("engine_upgrade", () -> MenuRegistry.ofExtended(EngineUpgradeMenu::create));
     public static final RegistrySupplier<MenuType<RocketStationMenu>> ROCKET_STATION = MENU_TYPE.register("rocket_station", () -> MenuRegistry.ofExtended(RocketStationMenu::create));
+    public static final RegistrySupplier<MenuType<SpaceStationPlannerMenu>> SPACE_STATION_PLANNER = MENU_TYPE.register("space_station_planner", () -> MenuRegistry.ofExtended(SpaceStationPlannerMenu::create));
 
     public static final RegistrySupplier<MenuType<PumpjackMenu>> PUMPJACK = MENU_TYPE.register("pumpjack", () -> MenuRegistry.ofExtended(PumpjackMenu::create));
     public static final RegistrySupplier<MenuType<FuelRefineryMenu>> FUEL_REFINERY = MENU_TYPE.register("fuel_refinery", () -> MenuRegistry.ofExtended(FuelRefineryMenu::create));
@@ -41,6 +43,9 @@ public class MenuTypesRegistry {
     public static final RegistrySupplier<MenuType<FluidTankMenu>> FLUID_TANK_MENU = MENU_TYPE.register("fluid_tank", () -> MenuRegistry.ofExtended(FluidTankMenu::create));
     public static final RegistrySupplier<MenuType<LanderMenu>> LANDER_MENU = MENU_TYPE.register("lander_menu", () -> MenuRegistry.ofExtended(LanderMenu::create));
 
+    public static final RegistrySupplier<MenuType<PlanetSelectionMenu>> PLANET_SELECTION_MENU = MENU_TYPE.register("planet_selection_menu", () -> MenuRegistry.ofExtended(PlanetSelectionMenu::create));
+
+    public static final RegistrySupplier<MenuType<AntennaMenu>> ANTENNA = MENU_TYPE.register("antenna_menu", () -> MenuRegistry.ofExtended(AntennaMenu::create));
     public static final RegistrySupplier<MenuType<VaccineMenu>> LABORATORY_VACCINE = MENU_TYPE.register("laboratory_vaccine", () -> MenuRegistry.ofExtended(VaccineMenu::create));
     public static final RegistrySupplier<MenuType<ResearchMenu>> LABORATORY_RESEARCH = MENU_TYPE.register("laboratory_research", () -> MenuRegistry.ofExtended(ResearchMenu::create));
 

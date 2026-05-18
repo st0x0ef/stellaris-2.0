@@ -27,11 +27,12 @@ public interface NetworkRegistry {
         registerC2S(OpenWikiEntry.TYPE, OpenWikiEntry.STREAM_CODEC, OpenWikiEntry::handle);
 
         registerC2S(OpenRocketMenuPacket.TYPE, OpenRocketMenuPacket.STREAM_CODEC, OpenRocketMenuPacket::handle);
+        registerC2S(AntennasOperations.TYPE, AntennasOperations.STREAM_CODEC, AntennasOperations::handle);
 
         registerS2C(SyncFluidPacket.TYPE, SyncFluidPacket.STREAM_CODEC, SyncFluidPacket::handle);
         registerS2C(SyncFluidPacketWithoutDirection.TYPE, SyncFluidPacketWithoutDirection.STREAM_CODEC, SyncFluidPacketWithoutDirection::handle);
         //registerS2C(OPEN_SCREEN_PACKET_TYPE, OpenScreenPacket.STREAM_CODEC, OpenScreenPacket::handle);
-        registerS2C(SyncRocketModule.TYPE, SyncRocketModule.STREAM_CODEC, SyncRocketModule::handle);
+        registerS2C(SyncRocketPacket.TYPE, SyncRocketPacket.STREAM_CODEC, SyncRocketPacket::handle);
         registerS2C(SyncEnergyPacket.TYPE, SyncEnergyPacket.STREAM_CODEC, SyncEnergyPacket::handle);
         registerS2C(SyncEnergyPacketWithoutDirection.TYPE, SyncEnergyPacketWithoutDirection.STREAM_CODEC, SyncEnergyPacketWithoutDirection::handle);
         registerS2C(SyncOutputManager.S2C.TYPE, SyncOutputManager.S2C.STREAM_CODEC, SyncOutputManager::handle);
@@ -47,6 +48,8 @@ public interface NetworkRegistry {
         registerC2S(SelectPlanetPacket.TYPE, SelectPlanetPacket.STREAM_CODEC, SelectPlanetPacket::handle);
 
         registerC2S(InfectionResearchPacket.TYPE, InfectionResearchPacket.STREAM_CODEC, InfectionResearchPacket::handle);
+        registerC2S(PlanSpaceStationPacket.TYPE, PlanSpaceStationPacket.STREAM_CODEC, PlanSpaceStationPacket::handle);
+
     }
 
 

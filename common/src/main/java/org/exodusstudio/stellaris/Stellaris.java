@@ -7,6 +7,7 @@ import com.google.gson.ToNumberPolicy;
 import fr.tathan.exoconfig.common.loader.ConfigsRegistry;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.packs.resources.PreparableReloadListener;
+import org.exodusstudio.stellaris.common.data.space_station.SpaceStationData;
 import org.exodusstudio.stellaris.common.data.wiki.WikiPacks;
 import org.exodusstudio.stellaris.common.config.CommonConfig;
 import org.exodusstudio.stellaris.common.data.PlanetsData;
@@ -50,11 +51,12 @@ public final class Stellaris {
         CreativeTabsRegistry.register();
         StatsRegistry.STATS.register();
         MenuTypesRegistry.MENU_TYPE.register();
+        SoundRegistry.SOUNDS.register();
+
         ArgumentsTypesRegistry.init();
         CommandsRegistry.init();
         CapabilitiesRegistry.init();
         BiomeModificationsRegistry.register();
-
         Events.init();
 
         RecipesRegistry.register();
@@ -63,6 +65,7 @@ public final class Stellaris {
     public static void onAddReloadListenerEvent(BiConsumer<Identifier, PreparableReloadListener> registry) {
         registry.accept(IdentifierUtils.id(PlanetsData.ID), new PlanetsData());
         registry.accept(IdentifierUtils.id(SdCardData.ID), new SdCardData());
+        registry.accept(IdentifierUtils.id("space_stations"), new SpaceStationData());
 
         registry.accept(IdentifierUtils.id("wiki/entries"), new WikiPacks.WikiEntryPack());
         registry.accept(IdentifierUtils.id("wiki/infos"), new WikiPacks.EntryInfoPack());

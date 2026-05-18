@@ -4,7 +4,10 @@ import dev.architectury.event.EventResult;
 import dev.architectury.event.events.common.BlockEvent;
 import dev.architectury.event.events.common.EntityEvent;
 import dev.architectury.event.events.common.LifecycleEvent;
+import dev.architectury.networking.NetworkManager;
+import net.minecraft.ChatFormatting;
 import net.minecraft.core.component.DataComponents;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
@@ -18,12 +21,18 @@ import net.minecraft.world.level.block.LanternBlock;
 import net.minecraft.world.level.block.WallTorchBlock;
 import org.apache.commons.io.FileUtils;
 import org.exodusstudio.stellaris.Stellaris;
+import org.exodusstudio.stellaris.common.antennas.Antenna;
+import org.exodusstudio.stellaris.common.antennas.AntennaSavedData;
 import org.exodusstudio.stellaris.common.blocks.CoalLanternBlock;
+import org.exodusstudio.stellaris.common.blocks.RocketLaunchPadBlock;
 import org.exodusstudio.stellaris.common.blocks.WallCoalTorchBlock;
+import org.exodusstudio.stellaris.common.blocks.entities.AntennaBlockEntity;
 import org.exodusstudio.stellaris.common.blocks.entities.FlagBlockEntity;
 import org.exodusstudio.stellaris.common.items.space_suit.SpaceSuitHelmet;
+import org.exodusstudio.stellaris.common.network.packets.AntennasOperations;
 import org.exodusstudio.stellaris.common.registries.BlocksRegistry;
 import org.exodusstudio.stellaris.common.utils.OxygenUtils;
+import org.exodusstudio.stellaris.common.utils.Utils;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -48,6 +57,7 @@ public class Events {
                 SpaceSuitHelmet.tickOilFinderEnergy(headStack);
             }
         });
+
 
         blockEvents();
     }
@@ -112,6 +122,36 @@ public class Events {
 
                     Block.popResource(level, pos, stack);
                 }
+                Block.popResource(level, pos, stack);
+            } else if(state.is(BlocksRegistry.ROCKET_LAUNCH_PAD.block().get())) {
+
+                if(Utils.checkIfAntennaIsNear(pos, level, 1)) {
+                    return EventResult.interruptFalse();
+                }
+            }
+
+            if(level instanceof ServerLevel serverLevel) {
+                MinecraftServer server = serverLevel.getServer();
+
+                if(state.is(BlocksRegistry.ANTENNA.block().get()) ) {
+                    AntennaBlockEntity antennaBlockEntity = (AntennaBlockEntity) level.getBlockEntity(pos);
+                    if (antennaBlockEntity != null && antennaBlockEntity.launchPadId != null) {
+
+                        AntennaSavedData antennaSavedData = AntennaSavedData.getSavedAntennas(server);
+                        Antenna antenna = antennaSavedData.getAntenna(antennaBlockEntity.launchPadId);
+
+                        if(!antennaSavedData.isPlayerOwner(antennaBlockEntity.launchPadId, player)) {
+                            player.sendSystemMessage(Component.literal("You don't have permission to break this antenna.").withStyle(ChatFormatting.GRAY));
+                            return EventResult.interruptFalse();
+                        }
+
+                        if(antenna != null) {
+                            NetworkManager.sendToServer(new AntennasOperations(antenna, "remove"));
+                        }
+                    }
+
+                }
+
             }
 
             return EventResult.pass();
@@ -131,6 +171,13 @@ public class Events {
                     serverLevel.setBlockAndUpdate(pos, BlocksRegistry.COAL_LANTERN_BLOCK.block().get().defaultBlockState().setValue(CoalLanternBlock.HANGING, state.getValue(LanternBlock.HANGING)));
                     return EventResult.interruptFalse();
                 }
+            }
+
+            if(state.is(BlocksRegistry.ANTENNA.block().get())) {
+                if (level.getBlockState(pos.above()).is(BlocksRegistry.ROCKET_LAUNCH_PAD.block().get()) && level.getBlockState(pos.above()).getValue(RocketLaunchPadBlock.STAGE)) {
+                    return EventResult.pass();
+                }
+                return EventResult.interruptFalse();
             }
 
             return EventResult.pass();

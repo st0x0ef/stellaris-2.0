@@ -8,8 +8,11 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
+import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.common.entities.RocketEntity;
 import org.exodusstudio.stellaris.common.menus.slot.RocketModuleSlot;
+import org.exodusstudio.stellaris.common.menus.slot.SpecificItemsSlot;
+import org.exodusstudio.stellaris.common.registries.ItemsRegistry;
 import org.exodusstudio.stellaris.common.registries.MenuTypesRegistry;
 import org.exodusstudio.stellaris.common.menus.MenuQuickMoveHelper;
 
@@ -17,6 +20,7 @@ public class RocketMenu extends AbstractContainerMenu {
 
     private final Container inventory;
     private final RocketEntity rocket;
+
 
     public static RocketMenu create(int syncId, Inventory inventory, FriendlyByteBuf buffer) {
         return new RocketMenu(syncId, inventory, new SimpleContainer(14), (RocketEntity) inventory.player.level().getEntity(buffer.readInt()));
@@ -51,7 +55,7 @@ public class RocketMenu extends AbstractContainerMenu {
         this.addSlot(new Slot(inventory, 1, 20, 62));
 
         //UPGRADE SLOTS
-        this.addSlot(new RocketModuleSlot(inventory, 2, 82, 74));
+        int spaceStationInex =  this.addSlot(new SpecificItemsSlot(inventory, 2, 82, 74, ItemsRegistry.SPACE_STATION_BLUEPRINT.get())).index;
         this.addSlot(new RocketModuleSlot(inventory, 3, 100, 74));
         this.addSlot(new RocketModuleSlot(inventory, 4, 118, 74));
         this.addSlot(new RocketModuleSlot(inventory, 5, 136, 74));

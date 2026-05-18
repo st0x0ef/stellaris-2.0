@@ -1,5 +1,8 @@
 package org.exodusstudio.stellaris.common.utils;
 
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.Level;
@@ -13,6 +16,24 @@ import org.jetbrains.annotations.Nullable;
 
 public class TeleportUtil {
 
+
+    public static boolean teleportToPlanet(Entity entity, Planet planet,  BlockPos pos) {
+
+        ServerLevel level = entity.level().getServer().getLevel(ResourceKey.create(Registries.DIMENSION, planet.dimension()));
+
+        if(level == null) return false;
+
+        Entity playerVehicle = entity.getVehicle();
+
+        TeleportUtil.teleportToLevel(entity, level, new Vec3(pos.getX(), 600, pos.getZ()));
+
+        if(playerVehicle == null) return false;
+
+        LanderEntity landerEntity = createLander(playerVehicle, level, entity.position());
+
+        playerVehicle.discard();
+
+        if(landerEntity == null) return false;
 
     public static void teleportRocketToPlanet(@Nullable Entity entity, ServerLevel planet, RocketEntity rocket, boolean autopilot) {
         LanderEntity landerEntity = createLander(rocket, planet, rocket.position(), autopilot);

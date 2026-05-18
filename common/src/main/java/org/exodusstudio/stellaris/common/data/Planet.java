@@ -11,15 +11,16 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.Level;
 
-import java.io.Serializable;
+import java.util.Optional;
 
-public record Planet(String translationKey, Identifier dimension, double gravity, boolean hasOxygen) implements Serializable {
+public record Planet(String translationKey, Identifier dimension, double gravity, boolean hasOxygen , Boolean allowSpaceStation) {
     public static final Codec<Planet> CODEC = RecordCodecBuilder.create(instance -> instance.group(
-        Codec.STRING.fieldOf("translation_key").forGetter(Planet::translationKey),
-        Identifier.CODEC.fieldOf("dimension").forGetter(Planet::dimension),
-        Codec.DOUBLE.fieldOf("gravity").forGetter(Planet::gravity),
-        Codec.BOOL.fieldOf("has_oxygen").forGetter(Planet::hasOxygen))
-            .apply(instance, Planet::new)
+            Codec.STRING.fieldOf("translation_key").forGetter(Planet::translationKey),
+            Identifier.CODEC.fieldOf("dimension").forGetter(Planet::dimension),
+            Codec.DOUBLE.fieldOf("gravity").forGetter(Planet::gravity),
+            Codec.BOOL.fieldOf("has_oxygen").forGetter(Planet::hasOxygen),
+            Codec.BOOL.optionalFieldOf("allow_space_stations", false).forGetter(Planet::allowSpaceStation)
+        ).apply(instance, Planet::new)
     );
 
     public static final StreamCodec<RegistryFriendlyByteBuf, Planet> STREAM_CODEC = StreamCodec.composite(
@@ -27,6 +28,7 @@ public record Planet(String translationKey, Identifier dimension, double gravity
             Identifier.STREAM_CODEC, Planet::dimension,
             ByteBufCodecs.DOUBLE, Planet::gravity,
             ByteBufCodecs.BOOL, Planet::hasOxygen,
+            ByteBufCodecs.BOOL, Planet::allowSpaceStation,
             Planet::new
     );
 
