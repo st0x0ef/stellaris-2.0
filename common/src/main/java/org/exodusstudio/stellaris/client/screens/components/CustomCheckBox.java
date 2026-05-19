@@ -1,6 +1,5 @@
 package org.exodusstudio.stellaris.client.screens.components;
 
-import net.fabricmc.api.EnvType;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;

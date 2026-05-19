@@ -13,7 +13,6 @@ import net.minecraft.world.level.block.entity.BaseContainerBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
-import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.common.antennas.Antenna;
 import org.exodusstudio.stellaris.common.blocks.entities.machines.base.TickingBlockEntity;
 import org.exodusstudio.stellaris.common.menus.AntennaMenu;
@@ -73,9 +72,7 @@ public class AntennaBlockEntity extends BaseContainerBlockEntity implements Tick
     protected void loadAdditional(ValueInput input) {
         super.loadAdditional(input);
         Optional<UUID> optionalUUID = input.read("uuid", UUIDUtil.CODEC);
-        optionalUUID.ifPresent(uuid -> {
-            this.launchPadId = uuid;
-        });
+        optionalUUID.ifPresent(uuid -> this.launchPadId = uuid);
     }
 
     @Override

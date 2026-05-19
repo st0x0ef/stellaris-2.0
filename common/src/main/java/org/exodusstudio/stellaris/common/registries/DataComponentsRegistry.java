@@ -1,12 +1,10 @@
 package org.exodusstudio.stellaris.common.registries;
 
 import com.fej1fun.potentials.components.FluidAmountMapDataComponent;
-import com.mojang.authlib.GameProfile;
 import com.mojang.serialization.Codec;
 import dev.architectury.registry.registries.DeferredRegister;
 import dev.architectury.registry.registries.RegistrySupplier;
 import net.minecraft.core.component.DataComponentType;
-import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.world.item.component.ResolvableProfile;

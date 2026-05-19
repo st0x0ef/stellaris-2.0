@@ -2,8 +2,6 @@ package org.exodusstudio.stellaris.common.utils;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import io.netty.buffer.ByteBuf;
-import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
@@ -49,9 +47,7 @@ public record InventorySaver(List<SavedItem> savedItems) {
 
     public static void readInventory(ValueInput input, Container container) {
         Optional<InventorySaver> inventorySaver = input.read("inventory", CODEC);
-        inventorySaver.ifPresent(saver -> {
-            saver.readInventory(container);
-        });
+        inventorySaver.ifPresent(saver -> saver.readInventory(container));
     }
 
     public void readInventory(Container container) {

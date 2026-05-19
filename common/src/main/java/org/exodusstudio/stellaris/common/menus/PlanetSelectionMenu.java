@@ -2,9 +2,7 @@ package org.exodusstudio.stellaris.common.menus;
 
 import dev.architectury.registry.menu.ExtendedMenuProvider;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.Identifier;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.Container;
 import net.minecraft.world.SimpleContainer;
@@ -12,12 +10,8 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
-import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.common.antennas.AntennaSavedData;
-import org.exodusstudio.stellaris.common.entities.RocketEntity;
 import org.exodusstudio.stellaris.common.registries.MenuTypesRegistry;
-import org.exodusstudio.stellaris.common.utils.InventorySaver;
-import org.jetbrains.annotations.Nullable;
 
 
 public class PlanetSelectionMenu extends AbstractContainerMenu {

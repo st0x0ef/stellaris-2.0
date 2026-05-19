@@ -98,6 +98,7 @@ public final class StellarisFabricClient implements ClientModInitializer {
 
         MenuScreenRegistry.registerScreenFactory(MenuTypesRegistry.LABORATORY_VACCINE.get(), VaccineScreen::new);
         MenuScreenRegistry.registerScreenFactory(MenuTypesRegistry.LABORATORY_RESEARCH.get(), ResearchScreen::new);
+        MenuScreenRegistry.registerScreenFactory(MenuTypesRegistry.CARGO_UNLOADER.get(), CargoUnloaderScreen::new);
     }
 
     @SuppressWarnings("unchecked")

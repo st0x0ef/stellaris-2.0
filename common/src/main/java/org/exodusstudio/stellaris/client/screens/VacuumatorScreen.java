@@ -8,17 +8,17 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Inventory;
-import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.client.screens.components.GaugeWidget;
 import org.exodusstudio.stellaris.client.screens.utils.GUISprites;
 import org.exodusstudio.stellaris.common.blocks.entities.machines.VacuumatorBlockEntity;
 import org.exodusstudio.stellaris.common.menus.VacuumatorMenu;
+import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
 
 import java.util.List;
 
 
 public class VacuumatorScreen extends AbstractContainerScreen<VacuumatorMenu> {
-    public static final Identifier texture = Identifier.fromNamespaceAndPath(Stellaris.MOD_ID, "textures/gui/vacuumator.png");
+    public static final Identifier texture = IdentifierUtils.guiTexture("vacuumator");
 
     private final VacuumatorBlockEntity blockEntity = getMenu().getBlockEntity();
     private GaugeWidget energyGauge;

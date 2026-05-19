@@ -17,13 +17,13 @@ public class LanderMenu extends AbstractContainerMenu {
     private final Container inventory;
 
     public static LanderMenu create(int syncId, Inventory inventory, FriendlyByteBuf buffer) {
-        return new LanderMenu(syncId, inventory, new SimpleContainer(15));
+        return new LanderMenu(syncId, inventory, new SimpleContainer(11));
     }
 
     public LanderMenu(int syncId, Inventory playerInventory, Container container) {
         super(MenuTypesRegistry.LANDER_MENU.get(), syncId);
 
-        checkContainerSize(container, 15);
+        checkContainerSize(container, 11);
         this.inventory = container;
         addSlots(inventory);
 
@@ -43,32 +43,25 @@ public class LanderMenu extends AbstractContainerMenu {
     }
 
     private void addSlots(Container inventory) {
-        //FUEL SLOTS
-        //FUEL SLOTS
-        this.addSlot(new ResultSlot(inventory, 0, 24, 68));
-        this.addSlot(new ResultSlot(inventory, 1, 52, 68));
+        //ROCKET SLOT
+        this.addSlot(new ResultSlot(inventory, 0, 38, 37));
 
-        //UPGRADE SLOTS
-        this.addSlot(new ResultSlot(inventory, 2, 82, 74));
-        this.addSlot(new ResultSlot(inventory, 3, 100, 74));
-        this.addSlot(new ResultSlot(inventory, 4, 118, 74));
-        this.addSlot(new ResultSlot(inventory, 5, 136, 74));
+        //FUEL SLOTS
+        this.addSlot(new ResultSlot(inventory, 1, 24, 68));
+        this.addSlot(new ResultSlot(inventory, 2, 52, 68));
 
         //INVENTORY SLOTS
-        this.addSlot(new ResultSlot(inventory, 6, 82, 28));
-        this.addSlot(new ResultSlot(inventory, 7, 82, 46));
+        this.addSlot(new ResultSlot(inventory, 3, 82, 28));
+        this.addSlot(new ResultSlot(inventory, 4, 82, 46));
 
-        this.addSlot(new ResultSlot(inventory, 8, 100, 28));
-        this.addSlot(new ResultSlot(inventory, 9, 100, 46));
+        this.addSlot(new ResultSlot(inventory, 5, 100, 28));
+        this.addSlot(new ResultSlot(inventory, 6, 100, 46));
 
-        this.addSlot(new ResultSlot(inventory, 10, 118, 28));
-        this.addSlot(new ResultSlot(inventory, 11, 118, 46));
+        this.addSlot(new ResultSlot(inventory, 7, 118, 28));
+        this.addSlot(new ResultSlot(inventory, 8, 118, 46));
 
-        this.addSlot(new ResultSlot(inventory, 12, 136, 28));
-        this.addSlot(new ResultSlot(inventory, 13, 136, 46));
-
-        //ROCKET SLOT
-        this.addSlot(new ResultSlot(inventory, 14, 38, 37));
+        this.addSlot(new ResultSlot(inventory, 9, 136, 28));
+        this.addSlot(new ResultSlot(inventory, 10, 136, 46));
 
     }
 
@@ -85,6 +78,4 @@ public class LanderMenu extends AbstractContainerMenu {
             this.addSlot(new Slot(playerInventory, i, 10 + i * 18, 164));
         }
     }
-
-
 }

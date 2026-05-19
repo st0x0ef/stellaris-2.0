@@ -11,8 +11,6 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.Level;
 
-import java.util.Optional;
-
 public record Planet(String translationKey, Identifier dimension, double gravity, boolean hasOxygen , Boolean allowSpaceStation) {
     public static final Codec<Planet> CODEC = RecordCodecBuilder.create(instance -> instance.group(
             Codec.STRING.fieldOf("translation_key").forGetter(Planet::translationKey),

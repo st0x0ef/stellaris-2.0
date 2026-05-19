@@ -14,6 +14,7 @@ public class ModulesRegistry {
     public static final RegistrySupplier<ShieldModule> SHIELD_MODULE = StellarisRegistries.ROCKET_MODULES.register(IdentifierUtils.id("shield"), ItemsRegistry.SHIELD_MODULE);
     public static final RegistrySupplier<HydrogenFuelModuleItem> HYDROGEN_MOTOR = StellarisRegistries.ROCKET_MODULES.register(IdentifierUtils.id("hydrogen_motor"), ItemsRegistry.HYDROGEN_MOTOR);
     public static final RegistrySupplier<AutopilotModuleItem> AUTOPILOT = StellarisRegistries.ROCKET_MODULES.register(IdentifierUtils.id("autopilot"), ItemsRegistry.AUTOPILOT_MODULE);
+    public static final RegistrySupplier<CargoModuleItem> CARGO = StellarisRegistries.ROCKET_MODULES.register(IdentifierUtils.id("cargo"), ItemsRegistry.CARGO_MODULE);
 
     /** Rocket Skins */
     public static final RegistrySupplier<RocketSkinModuleItem> GALAXY_SKIN = StellarisRegistries.ROCKET_MODULES.register(IdentifierUtils.id("galaxy_skin"), ItemsRegistry.GALAXY_SKIN);

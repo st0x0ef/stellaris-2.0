@@ -4,13 +4,9 @@ import dev.architectury.networking.NetworkManager;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
-import org.exodusstudio.stellaris.Stellaris;
-import org.exodusstudio.stellaris.common.data.Planet;
 import org.exodusstudio.stellaris.common.data.space_station.SpaceStationRecipe;
 import org.exodusstudio.stellaris.common.menus.engineering_station.SpaceStationPlannerMenu;
 import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
-import org.exodusstudio.stellaris.common.utils.TeleportUtil;
-import org.exodusstudio.stellaris.common.utils.Utils;
 
 public record PlanSpaceStationPacket(SpaceStationRecipe recipe) implements CustomPacketPayload {
 

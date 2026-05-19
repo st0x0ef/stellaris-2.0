@@ -20,38 +20,32 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.phys.Vec3;
 import org.exodusstudio.stellaris.Stellaris;
-import org.exodusstudio.stellaris.common.data.Planet;
-import org.exodusstudio.stellaris.common.data.PlanetsData;
 import org.exodusstudio.stellaris.common.keybinds.KeyVariables;
 import org.exodusstudio.stellaris.common.menus.LanderMenu;
-import org.exodusstudio.stellaris.common.modules.rocket.RocketModules;
-import org.exodusstudio.stellaris.common.registries.EntityDataSerializersRegistry;
 import org.exodusstudio.stellaris.common.registries.EntityTypesRegistry;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Objects;
-
 public class LanderEntity extends VehicleEntity {
     public static final EntityDataAccessor<Boolean> AUTOPILOT = SynchedEntityData.defineId(LanderEntity.class, EntityDataSerializers.BOOLEAN);
+    public static final EntityDataAccessor<Boolean> LANDED = SynchedEntityData.defineId(LanderEntity.class, EntityDataSerializers.BOOLEAN);
 
     public LanderEntity(Level level, boolean autopilot) {
         this(EntityTypesRegistry.LANDER.get(), level);
         this.entityData.set(AUTOPILOT, autopilot);
+        this.entityData.set(LANDED, false);
     }
 
     public LanderEntity(EntityType<?> entityType, Level level) {
-        super(entityType, level);
+        super(entityType, level, 11);
     }
 
     @Override
     public boolean isPushable() {
         return false;
-    }
-
-    @Override
-    public void push(Entity entity) {
     }
 
     @Override
@@ -119,11 +113,6 @@ public class LanderEntity extends VehicleEntity {
     public void tick() {
         super.tick();
 
-        if(getBlockStateOn().isSolid()) {
-            this.setDeltaMovement(new Vec3(0.0D, 0.0D, 0.0D));
-            return;
-        }
-
         if (this.getDeltaMovement().y < this.getMaxLanderSpeed() - 0.1) {
             this.addDeltaMovement(new Vec3(0, -0.1, 0));
         } else {
@@ -134,8 +123,12 @@ public class LanderEntity extends VehicleEntity {
             slowDownLander();
         }
 
-        this.move(MoverType.SELF, this.getDeltaMovement());
+        if (this.verticalCollisionBelow) {
+            this.setSpeed(0);
+            this.entityData.set(LANDED, true);
+        }
 
+        this.move(MoverType.SELF, this.getDeltaMovement());
     }
 
 
@@ -172,15 +165,12 @@ public class LanderEntity extends VehicleEntity {
     }
 
     public void fillInventoryFromRocket(RocketEntity rocketEntity) {
+        this.inventory.setItem(0, rocketEntity.toItemStack());
 
-        for(int i = 0; i < 14; i++) {
-            this.inventory.setItem(i, rocketEntity.getInventory().getItem(i));
+        for(int i = 1; i <= 10; i++) {
+            this.inventory.setItem(i, rocketEntity.getInventory().getItem(i - 1));
         }
-        this.inventory.setItem(14, rocketEntity.toItemStack());
-
     }
-
-
 
     @Override
     public void openCustomInventoryScreen(Player player) {
@@ -209,8 +199,23 @@ public class LanderEntity extends VehicleEntity {
     }
 
     @Override
+    protected void addAdditionalSaveData(ValueOutput output) {
+        super.addAdditionalSaveData(output);
+        output.putBoolean("Autopilot", this.entityData.get(AUTOPILOT));
+        output.putBoolean("Landed", this.entityData.get(LANDED));
+    }
+
+    @Override
+    protected void readAdditionalSaveData(ValueInput input) {
+        super.readAdditionalSaveData(input);
+        this.getEntityData().set(AUTOPILOT, input.getBooleanOr("Autopilot", false));
+        this.getEntityData().set(LANDED, input.getBooleanOr("Landed", false));
+    }
+
+    @Override
     public void defineSynchedData(SynchedEntityData.Builder builder) {
         super.defineSynchedData(builder);
         builder.define(AUTOPILOT, false);
+        builder.define(LANDED, false);
     }
 }

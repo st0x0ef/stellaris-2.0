@@ -26,7 +26,10 @@ public class MenuTypesRegistry {
     public static final RegistrySupplier<MenuType<DieselGeneratorMenu>> DIESEL_GENERATOR = MENU_TYPE.register("diesel_generator", () -> MenuRegistry.ofExtended(DieselGeneratorMenu::create));
 
     public static final RegistrySupplier<MenuType<PowerBankMenu>> POWER_BANK_MENU = MENU_TYPE.register("power_bank", () -> MenuRegistry.ofExtended(PowerBankMenu::create));
+
     public static final RegistrySupplier<MenuType<RocketMenu>> ROCKET_MENU = MENU_TYPE.register("rocket_menu", () -> MenuRegistry.ofExtended(RocketMenu::create));
+    public static final RegistrySupplier<MenuType<LanderMenu>> LANDER_MENU = MENU_TYPE.register("lander_menu", () -> MenuRegistry.ofExtended(LanderMenu::create));
+    public static final RegistrySupplier<MenuType<CargoUnloaderMenu>> CARGO_UNLOADER = MENU_TYPE.register("cargo_unloader", () -> MenuRegistry.ofExtended(CargoUnloaderMenu::create));
 
     public static final RegistrySupplier<MenuType<ElectrolyzerMenu>> ELECTROLYZER = MENU_TYPE.register("electrolyzer", () -> MenuRegistry.ofExtended(ElectrolyzerMenu::create));
     public static final RegistrySupplier<MenuType<VacuumatorMenu>> VACUUMATOR = MENU_TYPE.register("vacuumator", () -> MenuRegistry.ofExtended(VacuumatorMenu::create));
@@ -41,7 +44,6 @@ public class MenuTypesRegistry {
     public static final RegistrySupplier<MenuType<GravityManipulatorMenu>> GRAVITY_MANIPULATOR = MENU_TYPE.register("gravity_manipulator", () -> MenuRegistry.ofExtended(GravityManipulatorMenu::create));
     public static final RegistrySupplier<MenuType<OxygenDistributorMenu>> OXYGEN_DISTRIBUTOR = MENU_TYPE.register("oxygen_distributor", () -> MenuRegistry.ofExtended(OxygenDistributorMenu::create));
     public static final RegistrySupplier<MenuType<FluidTankMenu>> FLUID_TANK_MENU = MENU_TYPE.register("fluid_tank", () -> MenuRegistry.ofExtended(FluidTankMenu::create));
-    public static final RegistrySupplier<MenuType<LanderMenu>> LANDER_MENU = MENU_TYPE.register("lander_menu", () -> MenuRegistry.ofExtended(LanderMenu::create));
 
     public static final RegistrySupplier<MenuType<PlanetSelectionMenu>> PLANET_SELECTION_MENU = MENU_TYPE.register("planet_selection_menu", () -> MenuRegistry.ofExtended(PlanetSelectionMenu::create));
 

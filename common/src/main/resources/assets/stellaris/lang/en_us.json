@@ -130,6 +130,7 @@
   "item.stellaris.gravity_manipulator": "Gravity Manipulator",
   "item.stellaris.engineering_station": "Engineering Station",
   "item.stellaris.laboratory": "Laboratory",
+  "item.stellaris.cargo_unloader": "Cargo Unloader",
 
   "item.stellaris.oxygen_distributor": "Oxygen Distributor",
   "item.stellaris.oxygen_propagator": "Oxygen Propagator",
@@ -160,6 +161,7 @@
   "item.stellaris.hydrogen_motor": "Hydrogen Motor",
   "item.stellaris.shield_module": "Shield Module",
   "item.stellaris.autopilot_module": "Autopilot Module",
+  "item.stellaris.cargo_module": "Cargo Module",
 
   "item.stellaris.galaxy_skin": "Galaxy Skin",
   "item.stellaris.frost_skin": "Frost Skin",

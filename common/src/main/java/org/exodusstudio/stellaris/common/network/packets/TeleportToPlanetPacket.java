@@ -9,8 +9,6 @@ import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.phys.Vec3;
-import org.exodusstudio.stellaris.common.data.Planet;
 import org.exodusstudio.stellaris.common.data.space_station.SpaceStationRecipe;
 
 import net.minecraft.server.MinecraftServer;
@@ -19,11 +17,10 @@ import org.exodusstudio.stellaris.common.entities.RocketEntity;
 import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
 import org.exodusstudio.stellaris.common.utils.TeleportUtil;
 import org.exodusstudio.stellaris.common.utils.Utils;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.Optional;
 
-public record TeleportToPlanetPacket(Planet destination, Optional<BlockPos>  pos, Optional<SpaceStationRecipe>  recipe) implements CustomPacketPayload {
+public record TeleportToPlanetPacket(Planet destination, Optional<BlockPos> pos, Optional<SpaceStationRecipe> recipe) implements CustomPacketPayload {
 
     public static final CustomPacketPayload.Type<TeleportToPlanetPacket> TYPE = new CustomPacketPayload.Type<>(IdentifierUtils.id("teleport_to_planet"));
 
@@ -37,23 +34,23 @@ public record TeleportToPlanetPacket(Planet destination, Optional<BlockPos>  pos
     public static void handle(TeleportToPlanetPacket data, NetworkManager.PacketContext context) {
         BlockPos destPos = data.pos.orElse(context.getPlayer().getOnPos());
 
+        MinecraftServer server = context.getPlayer().level().getServer();
 
-        TeleportUtil.teleportToPlanet(context.getPlayer(), data.destination(), destPos);
-        context.getPlayer().stellaris$setPlanetMenuOpen(false, context.getPlayer(), true);
+        if (server != null && context.getPlayer().getVehicle() instanceof RocketEntity rocket) {
+            TeleportUtil.teleportRocketToPlanet(context.getPlayer(), server.getLevel(ResourceKey.create(Registries.DIMENSION, data.destination.dimension())), rocket, destPos, false);
+            context.getPlayer().stellaris$setPlanetMenuOpen(false, context.getPlayer(), true);
 
-        if(data.recipe.isPresent()) {
-            ServerLevel level = context.getPlayer().level().getServer().getLevel(ResourceKey.create(Registries.DIMENSION, data.destination().dimension()));
-            if (level != null) {
-                 Utils.placeSpaceStation(context.getPlayer(), level, data.recipe.get());
+            if(data.recipe.isPresent()) {
+                ServerLevel level = context.getPlayer().level().getServer().getLevel(ResourceKey.create(Registries.DIMENSION, data.destination().dimension()));
+                if (level != null) {
+                    Utils.placeSpaceStation(context.getPlayer(), level, data.recipe.get());
+                }
             }
+
+            Utils.stopFade(context.getPlayer());
+            context.getPlayer().closeContainer();
         }
-
-        Utils.stopFade(context.getPlayer());
-        context.getPlayer().closeContainer();
-
-
     }
-
 
     @Override
     public Type<TeleportToPlanetPacket> type() {

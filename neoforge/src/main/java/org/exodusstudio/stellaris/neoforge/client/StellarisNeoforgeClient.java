@@ -95,8 +95,7 @@ public class StellarisNeoforgeClient {
         event.register(MenuTypesRegistry.LABORATORY_RESEARCH.get(), ResearchScreen::new);
         event.register(MenuTypesRegistry.SPACE_STATION_PLANNER.get(), SpaceStationPlannerScreen::new);
         event.register(MenuTypesRegistry.PLANET_SELECTION_MENU.get(), PlanetSelectionAppScreen::new);
-
-
+        event.register(MenuTypesRegistry.CARGO_UNLOADER.get(), CargoUnloaderScreen::new);
     }
 
     @SuppressWarnings("unchecked")
@@ -116,14 +115,14 @@ public class StellarisNeoforgeClient {
         event.registerEntityRenderer(EntityTypesRegistry.PARASITE_AFFECTED_VILLAGER.get(), (c) -> new StellarisMobRenderer<>(c, new ParasiteAffectedVillagerModel(c.bakeLayer(ParasiteAffectedVillagerModel.LAYER_LOCATION)), IdentifierUtils.texture("entity/mob_parasite_affected_villager"), 0.94F, 1.5F, 0.45F));
         event.registerEntityRenderer(EntityTypesRegistry.PARASITE_AFFECTED_VILLAGER_EVOLVED.get(), (c) -> new StellarisMobRenderer<>(c, new EvolvedParasiteAffectedVillagerModel(c.bakeLayer(EvolvedParasiteAffectedVillagerModel.LAYER_LOCATION)), IdentifierUtils.texture("entity/mob_parasite_affected_villager_evolved"), 1.05F, 1.58F, 0.65F));
         event.registerEntityRenderer(EntityTypesRegistry.LUNA_SHADOW.get(), (c) ->
-        new StellarisMobRenderer<>(
-                c,
-                new LunaShadowModel(c.bakeLayer(LunaShadowModel.LAYER_LOCATION)),
-                IdentifierUtils.texture("entity/mob_luna_shadow"),
-                0.82F,
-                1.80F,
-                0.65F
-            )
+                new StellarisMobRenderer<>(
+                        c,
+                        new LunaShadowModel(c.bakeLayer(LunaShadowModel.LAYER_LOCATION)),
+                        IdentifierUtils.texture("entity/mob_luna_shadow"),
+                        0.82F,
+                        1.80F,
+                        0.65F
+                )
         );
     }
 

@@ -33,15 +33,12 @@ import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.common.menus.PlanetSelectionMenu;
 import org.exodusstudio.stellaris.common.data.Planet;
 import org.exodusstudio.stellaris.common.data.PlanetsData;
-import org.exodusstudio.stellaris.common.menus.MainTabletMenu;
 import org.exodusstudio.stellaris.common.modules.Modules;
 import org.exodusstudio.stellaris.common.modules.rocket.RocketModule;
 import org.exodusstudio.stellaris.common.modules.rocket.RocketModules;
 import org.exodusstudio.stellaris.common.network.packets.OpenRocketMenuPacket;
 import org.exodusstudio.stellaris.common.network.packets.SyncRocketPacket;
 import org.exodusstudio.stellaris.common.registries.*;
-import org.exodusstudio.stellaris.common.utils.InventorySaver;
-import org.exodusstudio.stellaris.common.utils.Utils;
 
 import org.exodusstudio.stellaris.common.utils.*;
 import org.jetbrains.annotations.NotNull;
@@ -59,7 +56,7 @@ public class RocketEntity extends VehicleEntity {
     public static final EntityDataAccessor<Planet> AUTOPILOT_DESTINATION = SynchedEntityData.defineId(RocketEntity.class, EntityDataSerializersRegistry.PLANET);
 
     public RocketEntity(EntityType<?> entityType, Level level) {
-        super(entityType, level);
+        super(entityType, level, 10);
     }
 
     public void setRocketModules(Modules<RocketModule> modules) {
@@ -239,9 +236,20 @@ public class RocketEntity extends VehicleEntity {
             MinecraftServer server = level().getServer();
 
             tryFillUpRocket();
-            NetworkManager.sendToPlayers(level().getServer().getPlayerList().getPlayers(),
-                    new SyncRocketPacket(this.getId(), this.entityData.get(ROCKET_MODULES), InventorySaver.fromContainer(this.inventory)));
 
+            if (server != null) {
+                NetworkManager.sendToPlayers(server.getPlayerList().getPlayers(),
+                        new SyncRocketPacket(this.getId(), this.entityData.get(ROCKET_MODULES), InventorySaver.fromContainer(getInventory())));
+
+                if (this.getRocketModules().contains(ModulesRegistry.AUTOPILOT.get()) && this.getY() >= Stellaris.CONFIG.vehicleConfig.rocketTpHeight) {
+                    Entity passenger = null;
+                    if (!this.getPassengers().isEmpty()) {
+                        passenger = this.getPassengers().getFirst();
+                    }
+                    TeleportUtil.teleportRocketToPlanet(passenger, server.getLevel(ResourceKey.create(Registries.DIMENSION, this.entityData.get(AUTOPILOT_DESTINATION).dimension())), this, this.blockPosition(), true); // TODO : allow to tp to space station and antenna
+                    shouldOpenPlanetMenu = false;
+                }
+            }
         }
 
         //Handle rocket movement when started

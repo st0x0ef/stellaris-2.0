@@ -9,23 +9,23 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Inventory;
 import org.exodusstudio.stellaris.client.screens.components.GaugeWidget;
 import org.exodusstudio.stellaris.client.screens.utils.GUISprites;
-import org.exodusstudio.stellaris.common.blocks.entities.machines.PowerBankBlockEntity;
-import org.exodusstudio.stellaris.common.menus.PowerBankMenu;
+import org.exodusstudio.stellaris.common.blocks.entities.machines.CargoUnloaderBlockEntity;
+import org.exodusstudio.stellaris.common.menus.CargoUnloaderMenu;
 import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
 
 import java.util.List;
 
-public class PowerBankScreen extends AbstractContainerScreen<PowerBankMenu> {
+public class CargoUnloaderScreen extends AbstractContainerScreen<CargoUnloaderMenu> {
 
-    public static final Identifier TEXTURE = IdentifierUtils.guiTexture("power_bank");
+    public static final Identifier TEXTURE = IdentifierUtils.guiTexture("cargo_unloader");
 
-    private final PowerBankBlockEntity blockEntity = getMenu().getBlockEntity();
+    private final CargoUnloaderBlockEntity blockEntity = getMenu().getBlockEntity();
     private GaugeWidget energyGauge;
 
-    public PowerBankScreen(PowerBankMenu menu, Inventory playerInventory, Component title) {
+    public CargoUnloaderScreen(CargoUnloaderMenu menu, Inventory playerInventory, Component title) {
         super(menu, playerInventory, title);
         imageWidth = 180;
-        imageHeight = 188;
+        imageHeight = 224;
 
         titleLabelX = (180 - Minecraft.getInstance().font.width(title.getString())) / 2;
         titleLabelY = 2;

@@ -72,7 +72,7 @@ public final class ItemsRegistry {
     public static final RegistrySupplier<ShieldModule> SHIELD_MODULE = item("shield_module", ShieldModule::new);
     public static final RegistrySupplier<HydrogenFuelModuleItem> HYDROGEN_MOTOR = item("hydrogen_motor", HydrogenFuelModuleItem::new);
     public static final RegistrySupplier<AutopilotModuleItem> AUTOPILOT_MODULE = item("autopilot_module", AutopilotModuleItem::new);
-
+    public static final RegistrySupplier<CargoModuleItem> CARGO_MODULE = item("cargo_module", CargoModuleItem::new);
 
     // Skins
     public static final RegistrySupplier<RocketSkinModuleItem> GALAXY_SKIN = item("galaxy_skin", p -> new RocketSkinModuleItem(p, "galaxy"));

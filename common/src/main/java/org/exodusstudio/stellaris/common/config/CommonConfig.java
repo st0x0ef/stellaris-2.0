@@ -82,6 +82,7 @@ public class CommonConfig {
     public static class VehicleConfig {
         public int rocketTpHeight = 400;
         public boolean shouldLanderExplode = true;
+        public int cargoUnloadingRadius = 5;
     }
 
     @ScreenInfos.InnerConfig

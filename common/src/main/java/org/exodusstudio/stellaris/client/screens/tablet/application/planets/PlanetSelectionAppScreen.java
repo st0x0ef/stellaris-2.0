@@ -203,6 +203,7 @@ public class PlanetSelectionAppScreen extends AbstractContainerScreen<PlanetSele
         public AntennaSavedData antennas;
         public PlanetSelectionAppScreen selectionAppScreen;
         public TexturedButton teleportButton;
+        private TexturedButton selectPlanetButton;
         public List<AbstractWidget> antennaWidgets = new ArrayList<>();
 
 
@@ -247,8 +248,18 @@ public class PlanetSelectionAppScreen extends AbstractContainerScreen<PlanetSele
                     NetworkManager.sendToServer(new TeleportToPlanetPacket(this.selectionAppScreen.selectedPlanet, Optional.empty(), Optional.empty()));
                 }
             }).tex(IdentifierUtils.guiTexture("tablet/tablet_entry_button"), IdentifierUtils.guiTexture("tablet/tablet_entry_button")).setText(Component.translatable("application.stellaris.planet_selection.teleport_button"));
+
+            this.selectPlanetButton = new TexturedButton(this.getX(), this.getY() + antennasHeight + infoHeight, 100, 20, btn -> {
+                if (this.selectionAppScreen != null) {
+                    NetworkManager.sendToServer(new SelectPlanetPacket(this.selectionAppScreen.selectedPlanet));
+                }
+            }).tex(IdentifierUtils.guiTexture("tablet/tablet_entry_button"), IdentifierUtils.guiTexture("tablet/tablet_entry_button")).setText(Component.translatable("application.stellaris.planet_selection.select_button"));
+
             this.teleportButton.visible = this.selectionAppScreen.isTeleportButtonVisible();
+            this.selectPlanetButton.visible = this.selectionAppScreen.isSelectPlanetButtonVisible();
+
             addAntennaWidget(this.teleportButton);
+            addAntennaWidget(this.selectPlanetButton);
 
             //We remove the button height if it's not visible .
             if(selectionAppScreen.isTeleportButtonVisible()) {

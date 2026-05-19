@@ -25,6 +25,7 @@ public class CapabilitiesRegistry {
         Capabilities.Energy.BLOCK.registerForBlockEntity(BlockEntitiesRegistry.OXYGEN_PROPAGATOR);
         Capabilities.Energy.BLOCK.registerForBlockEntity(BlockEntitiesRegistry.FUEL_REFINERY);
         Capabilities.Energy.BLOCK.registerForBlockEntity(BlockEntitiesRegistry.PUMPJACK);
+        Capabilities.Energy.BLOCK.registerForBlockEntity(BlockEntitiesRegistry.CARGO_UNLOADER);
     }
 
     private static void registerEnergyItems() {
