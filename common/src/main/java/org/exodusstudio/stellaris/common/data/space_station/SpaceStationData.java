@@ -21,10 +21,10 @@ import java.util.Map;
 public class SpaceStationData extends SimpleJsonResourceReloadListener<SpaceStationRecipe> {
 
     public static final List<SpaceStationRecipe> SPACE_STATION_RECIPES = new ArrayList<>();
-
+    public static final String ID = "space_stations";
 
     public SpaceStationData() {
-        super(SpaceStationRecipe.CODEC, FileToIdConverter.json("space_stations"));
+        super(SpaceStationRecipe.CODEC, FileToIdConverter.json(ID));
     }
 
     @Override

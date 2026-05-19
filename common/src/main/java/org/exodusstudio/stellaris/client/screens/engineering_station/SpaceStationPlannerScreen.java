@@ -22,6 +22,8 @@ public class SpaceStationPlannerScreen extends AbstractContainerScreen<SpaceStat
     private SpaceStationRecipe selectedRecipe;
     private TexturedButton buildButton;
 
+    public static final Component TAB_NAME = Component.literal("Space Station Planner");
+
     public SpaceStationPlannerScreen(SpaceStationPlannerMenu menu, Inventory inventory, net.minecraft.network.chat.Component title) {
         super(menu, inventory, title);
         imageWidth = 310;
@@ -34,7 +36,6 @@ public class SpaceStationPlannerScreen extends AbstractContainerScreen<SpaceStat
         super.init();
         setRecipes();
         EngineUpgraderScreen.addTabsButton(this.leftPos + this.imageWidth, this.topPos + 40, this, menu.engineeringStationPos, "space_station");
-
     }
 
     @Override

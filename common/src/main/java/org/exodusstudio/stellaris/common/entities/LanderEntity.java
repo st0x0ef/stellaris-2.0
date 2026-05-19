@@ -40,7 +40,7 @@ public class LanderEntity extends VehicleEntity {
     }
 
     public LanderEntity(EntityType<?> entityType, Level level) {
-        super(entityType, level, 11);
+        super(entityType, level, 30);
     }
 
     @Override
@@ -131,9 +131,6 @@ public class LanderEntity extends VehicleEntity {
         this.move(MoverType.SELF, this.getDeltaMovement());
     }
 
-
-
-
     public Player getFirstPlayerPassenger() {
         if (!this.getPassengers().isEmpty() && this.getPassengers().getFirst() instanceof Player player) {
             return player;
@@ -167,8 +164,8 @@ public class LanderEntity extends VehicleEntity {
     public void fillInventoryFromRocket(RocketEntity rocketEntity) {
         this.inventory.setItem(0, rocketEntity.toItemStack());
 
-        for(int i = 1; i <= 10; i++) {
-            this.inventory.setItem(i, rocketEntity.getInventory().getItem(i - 1));
+        for(int i = 0; i < rocketEntity.getInventory().getContainerSize(); i++) {
+            this.inventory.setItem(i + 1, rocketEntity.getInventory().getItem(i));
         }
     }
 
@@ -183,7 +180,7 @@ public class LanderEntity extends VehicleEntity {
 
             @Override
             public Component getDisplayName() {
-                return Component.translatable("container.entity." + Stellaris.MOD_ID + ".lander");
+                return Component.translatable("entity.stellaris.lander");
             }
 
             @Override

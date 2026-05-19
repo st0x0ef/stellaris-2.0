@@ -35,7 +35,6 @@ public class TeleportUtil {
         landerEntity.setPos(pos);
         landerEntity.fillInventoryFromRocket(rocket);
         level.addFreshEntity(landerEntity);
-        Stellaris.LOG.error("Created lander at pos : {} in dimension : {}", pos, level.dimension());
         return landerEntity;
     }
 }

@@ -65,7 +65,7 @@ public final class Stellaris {
     public static void onAddReloadListenerEvent(BiConsumer<Identifier, PreparableReloadListener> registry) {
         registry.accept(IdentifierUtils.id(PlanetsData.ID), new PlanetsData());
         registry.accept(IdentifierUtils.id(SdCardData.ID), new SdCardData());
-        registry.accept(IdentifierUtils.id("space_stations"), new SpaceStationData());
+        registry.accept(IdentifierUtils.id(SpaceStationData.ID), new SpaceStationData());
 
         registry.accept(IdentifierUtils.id("wiki/entries"), new WikiPacks.WikiEntryPack());
         registry.accept(IdentifierUtils.id("wiki/infos"), new WikiPacks.EntryInfoPack());

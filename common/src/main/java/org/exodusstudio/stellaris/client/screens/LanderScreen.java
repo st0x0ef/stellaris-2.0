@@ -19,7 +19,7 @@ public class LanderScreen extends AbstractContainerScreen<LanderMenu> {
         super(abstractContainerMenu, inventory, component);
 
         this.imageWidth = 180;
-        this.imageHeight = 188;
+        this.imageHeight = 224;
 
         this.titleLabelX = (180 - Minecraft.getInstance().font.width(title.getString())) / 2;
         this.titleLabelY = 2;
@@ -39,6 +39,6 @@ public class LanderScreen extends AbstractContainerScreen<LanderMenu> {
 
     @Override
     protected void renderLabels(GuiGraphics guiGraphics, int mouseX, int mouseY) {
-        guiGraphics.drawString(this.font, this.title, this.titleLabelX, this.titleLabelY, 5726575, false);
+        guiGraphics.drawString(this.font, this.title, this.titleLabelX, this.titleLabelY, -11050641, false);
     }
 }

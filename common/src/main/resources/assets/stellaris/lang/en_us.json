@@ -350,6 +350,7 @@
   "effect.stellaris.infected": "Infected",
 
   "entity.stellaris.rocket": "Rocket",
+  "entity.stellaris.lander": "Lander",
   "entity.stellaris.lunar_boat": "Lunar Boat",
   "entity.stellaris.lunar_chest_boat": "Lunar Chest Boat",
   "entity.stellaris.blue_fish": "Blue Fish",

@@ -3,11 +3,13 @@ package org.exodusstudio.stellaris.common.entities;
 import com.fej1fun.potentials.components.FluidAmountMapDataComponent;
 import dev.architectury.fluid.FluidStack;
 import dev.architectury.networking.NetworkManager;
+import dev.architectury.registry.menu.ExtendedMenuProvider;
 import dev.architectury.registry.menu.MenuRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -18,9 +20,14 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.entity.*;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.MoverType;
+import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.BucketItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -30,18 +37,20 @@ import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.phys.Vec3;
 import org.exodusstudio.stellaris.Stellaris;
-import org.exodusstudio.stellaris.common.menus.PlanetSelectionMenu;
 import org.exodusstudio.stellaris.common.data.Planet;
 import org.exodusstudio.stellaris.common.data.PlanetsData;
+import org.exodusstudio.stellaris.common.menus.PlanetSelectionMenu;
+import org.exodusstudio.stellaris.common.menus.RocketMenu;
 import org.exodusstudio.stellaris.common.modules.Modules;
 import org.exodusstudio.stellaris.common.modules.rocket.RocketModule;
 import org.exodusstudio.stellaris.common.modules.rocket.RocketModules;
-import org.exodusstudio.stellaris.common.network.packets.OpenRocketMenuPacket;
 import org.exodusstudio.stellaris.common.network.packets.SyncRocketPacket;
 import org.exodusstudio.stellaris.common.registries.*;
-
-import org.exodusstudio.stellaris.common.utils.*;
+import org.exodusstudio.stellaris.common.utils.InventorySaver;
+import org.exodusstudio.stellaris.common.utils.TeleportUtil;
+import org.exodusstudio.stellaris.common.utils.Utils;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 import java.util.Objects;
@@ -56,7 +65,7 @@ public class RocketEntity extends VehicleEntity {
     public static final EntityDataAccessor<Planet> AUTOPILOT_DESTINATION = SynchedEntityData.defineId(RocketEntity.class, EntityDataSerializersRegistry.PLANET);
 
     public RocketEntity(EntityType<?> entityType, Level level) {
-        super(entityType, level, 10);
+        super(entityType, level, 29);
     }
 
     public void setRocketModules(Modules<RocketModule> modules) {
@@ -326,8 +335,22 @@ public class RocketEntity extends VehicleEntity {
 
     @Override
     public void openCustomInventoryScreen(Player player) {
-        NetworkManager.sendToServer(
-                new OpenRocketMenuPacket(this.getId()));
+        MenuRegistry.openExtendedMenu((ServerPlayer) player, new ExtendedMenuProvider() {
+            @Override
+            public void saveExtraData(FriendlyByteBuf buf) {
+                buf.writeUUID(getUUID());
+            }
+
+            @Override
+            public Component getDisplayName() {
+                return Component.translatable("entity.stellaris.rocket");
+            }
+
+            @Override
+            public @Nullable AbstractContainerMenu createMenu(int syncId, Inventory playerInv, Player player) {
+                return new RocketMenu(syncId, playerInv, inventory, getRocketEntity(), getInventoryRows());
+            }
+        });
     }
 
     public void openPlanetSelectionScreen(Player player) {
@@ -385,6 +408,10 @@ public class RocketEntity extends VehicleEntity {
         return this.entityData.get(ROCKET_START_TIMER);
     }
 
+    public int getInventoryRows() {
+        return getRocketModules().contains(ModulesRegistry.CARGO.get()) ? 3 : 1;
+    }
+
 
     public static RocketEntity fromItemStack(Level level, ItemStack stack) {
         RocketEntity rocketEntity = new RocketEntity(EntityTypesRegistry.ROCKET.get(), level);
@@ -414,5 +441,9 @@ public class RocketEntity extends VehicleEntity {
                 new FluidAmountMapDataComponent(List.of(fuel.getFluid()), List.of(fuel.getAmount())));
 
         return rocketStack;
+    }
+
+    public RocketEntity getRocketEntity() {
+        return this;
     }
 }

@@ -24,9 +24,9 @@ public class EngineUpgraderScreen extends AbstractContainerScreen<EngineUpgradeM
     public static final Component TAB_NAME = Component.literal("Engine Upgrader");
 
     public static final TabInfo[] TABS =  new TabInfo[]{
-            new TabInfo(MenuProviderRegistry.ROCKET_CRAFTING, GUISprites.ROCKET_CRAFTING_TAB, GUISprites.ROCKET_CRAFTING_TAB_HOVER),
-            new TabInfo(MenuProviderRegistry.ROCKET_UPGRADE, GUISprites.MODULES_TAB, GUISprites.MODULES_TAB_HOVER),
-            new TabInfo(MenuProviderRegistry.SPACE_STATION_PLANNER, GUISprites.MODULES_TAB, GUISprites.MODULES_TAB_HOVER)
+            new TabInfo(MenuProviderRegistry.ROCKET_CRAFTING, GUISprites.ROCKET_CRAFTING_TAB, GUISprites.ROCKET_CRAFTING_TAB_HOVER, TAB_NAME),
+            new TabInfo(MenuProviderRegistry.ROCKET_UPGRADE, GUISprites.MODULES_TAB, GUISprites.MODULES_TAB_HOVER, RocketStationScreen.TAB_NAME),
+            new TabInfo(MenuProviderRegistry.SPACE_STATION_PLANNER, GUISprites.MODULES_TAB, GUISprites.MODULES_TAB_HOVER, SpaceStationPlannerScreen.TAB_NAME)
     };
 
     public EngineUpgraderScreen(EngineUpgradeMenu menu, Inventory playerInventory, Component title) {
@@ -42,8 +42,6 @@ public class EngineUpgraderScreen extends AbstractContainerScreen<EngineUpgradeM
 
         int i = 0;
         for(TabInfo tab : TABS) {
-
-
             TexturedButton tabWidget = new TexturedButton(x, y + i++ * 16, 16,16,
                     Component.empty(), button -> {
 
@@ -53,7 +51,7 @@ public class EngineUpgraderScreen extends AbstractContainerScreen<EngineUpgradeM
                         }
                     })
                     .tex(tab.icon, tab.iconHover)
-                    .tooltip(Tooltip.create(RocketStationScreen.TAB_NAME))
+                    .tooltip(Tooltip.create(tab.tabName))
                     .useSprite(true);
             if(!tab.provider.id().equals(currentScreen)) {
                 tabWidget.setUVs(2, 0);
@@ -95,5 +93,5 @@ public class EngineUpgraderScreen extends AbstractContainerScreen<EngineUpgradeM
         guiGraphics.drawString(this.font, TAB_NAME, this.titleLabelX, this.titleLabelY, -11050641, false);
     }
 
-    public record TabInfo(OpenBlockEntityMenusPacket.BlockEntityMenuProvider provider, Identifier icon, Identifier iconHover) {}
+    public record TabInfo(OpenBlockEntityMenusPacket.BlockEntityMenuProvider provider, Identifier icon, Identifier iconHover, Component tabName) {}
 }
