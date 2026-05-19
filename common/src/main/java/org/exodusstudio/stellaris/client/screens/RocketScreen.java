@@ -43,8 +43,6 @@ public class RocketScreen extends AbstractContainerScreen<RocketMenu> {
         this.fuel = getRocket().getFuelType();
         this.fuelGauge = new GaugeChunkWidget(leftPos + 52, topPos + 30, 12, 46, fuel, GUISprites.FLUID_TANK_OVERLAY, 3000, GaugeWidget.Direction4.DOWN_UP);
         addRenderableWidget(fuelGauge);
-
-
     }
 
     @Override
@@ -55,7 +53,6 @@ public class RocketScreen extends AbstractContainerScreen<RocketMenu> {
 
         //We're only updating the fuel amount since the user cannot change the fuel type while the GUI is open
         if(this.fuelGauge != null) fuelGauge.updateAmount(getRocket().getFuelType());
-
     }
 
     @Override
