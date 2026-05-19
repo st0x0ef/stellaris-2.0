@@ -20,7 +20,7 @@ import org.exodusstudio.stellaris.common.utils.Utils;
 import java.util.Objects;
 import java.util.function.Consumer;
 
-public class AutopilotModuleItem extends Item implements RocketModule.AutopilotModule {
+public class AutopilotModuleItem extends Item implements RocketModule {
     public AutopilotModuleItem(Properties properties) {
         super(properties);
     }

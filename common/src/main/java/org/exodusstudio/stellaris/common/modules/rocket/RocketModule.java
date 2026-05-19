@@ -75,7 +75,7 @@ public interface RocketModule extends Module<RocketModule> {
         FluidStack getFuel();
     }
 
-    interface AutopilotModule extends RocketModule {
-
+    interface CustomModelModule extends RocketModule {
+        float getPlayerYOffset();
     }
 }
