@@ -6,6 +6,9 @@ import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.client.gui.components.AbstractWidget;
+import net.minecraft.client.gui.narration.NarrationElementOutput;
+import net.minecraft.network.chat.Component;
 import org.exodusstudio.stellaris.common.utils.Utils;
 
 import java.util.ArrayList;
@@ -315,5 +318,31 @@ public class WikiEntryTextRenderer {
         public WikiEntryTextRenderer build(int maxWidth) {
             return new WikiEntryTextRenderer(textBuilder.toString(), maxWidth);
         }
+
+        public Widget toWidget(int x, int y, int width, int height) {
+            return new Widget(x, y, width, height, build(width));
+        }
+     }
+
+     public static class Widget extends AbstractWidget {
+
+         WikiEntryTextRenderer wikiEntryTextRenderer;
+
+         public Widget(int x, int y, int width, int height, WikiEntryTextRenderer wikiEntryTextRenderer) {
+             super(x, y, width, height, Component.empty());
+             this.wikiEntryTextRenderer = wikiEntryTextRenderer;
+         }
+
+         @Override
+         protected void renderWidget(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
+             this.wikiEntryTextRenderer.renderWords(guiGraphics, this.getX(), this.getY(), mouseX, mouseY, (clickBox) -> {
+                 //TODO add click box support
+             });
+         }
+
+         @Override
+         protected void updateWidgetNarration(NarrationElementOutput narrationElementOutput) {
+
+         }
      }
 }

@@ -21,6 +21,11 @@ public class GUISprites {
     public static final Identifier MARS = IdentifierUtils.id("planets/mars");
     public static final Identifier MOON = IdentifierUtils.id("planets/moon");
 
+    public static final Identifier INDUSTRIAL_CHECKBOX = IdentifierUtils.id("util/industrial_checkbox");
+    public static final Identifier INDUSTRIAL_CHECKBOX_SELECTED = IdentifierUtils.id("util/industrial_checkbox_selected");
+    public static final Identifier CHECKBOX = IdentifierUtils.id( "util/checkbox");
+    public static final Identifier CHECKBOX_SELECTED = IdentifierUtils.id("util/checkbox_selected");
+
     // ENGINEERING STATION
     public static final Identifier MODULES_TAB = IdentifierUtils.id("tab/modules_tab");
     public static final Identifier MODULES_TAB_HOVER = IdentifierUtils.id("tab/modules_tab_hover");

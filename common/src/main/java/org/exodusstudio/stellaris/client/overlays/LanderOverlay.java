@@ -25,9 +25,7 @@ public class LanderOverlay {
         Player player = mc.player;
         Entity vehicle = player.getVehicle();
 
-        if (vehicle instanceof LanderEntity && !vehicle.isInWall() && !player.isInWater()) {
-
-
+        if (vehicle instanceof LanderEntity landerEntity && !vehicle.isInWall() && !player.isInWater() && !landerEntity.getEntityData().get(LanderEntity.LANDED)) {
             /** FLASHING */
             float sin = (float) Math.sin((mc.level.getDayTime() + deltaTracker.getGameTimeDeltaPartialTick(true)) / 6.0f);
             float flash = Mth.clamp(sin, 0.0f, 4.0f);
@@ -49,7 +47,6 @@ public class LanderOverlay {
             Component message = Component.translatable("text." + Stellaris.MOD_ID + ".hold_space");
             ;
             graphics.drawCenteredString(font, message, graphics.guiWidth() / 2 , 80 + font.lineHeight * 2, Utils.getMinecraftColor("red"));
-
         }
     }
 }

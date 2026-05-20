@@ -5,6 +5,9 @@ import dev.architectury.registry.menu.MenuRegistry;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
@@ -17,6 +20,8 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.phys.Vec3;
 import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.common.keybinds.KeyVariables;
@@ -24,24 +29,23 @@ import org.exodusstudio.stellaris.common.menus.LanderMenu;
 import org.exodusstudio.stellaris.common.registries.EntityTypesRegistry;
 import org.jetbrains.annotations.NotNull;
 
-public class LanderEntity extends VehicleEntity{
+public class LanderEntity extends VehicleEntity {
+    public static final EntityDataAccessor<Boolean> AUTOPILOT = SynchedEntityData.defineId(LanderEntity.class, EntityDataSerializers.BOOLEAN);
+    public static final EntityDataAccessor<Boolean> LANDED = SynchedEntityData.defineId(LanderEntity.class, EntityDataSerializers.BOOLEAN);
 
-    public LanderEntity(Level level) {
+    public LanderEntity(Level level, boolean autopilot) {
         this(EntityTypesRegistry.LANDER.get(), level);
+        this.entityData.set(AUTOPILOT, autopilot);
+        this.entityData.set(LANDED, false);
     }
 
-
     public LanderEntity(EntityType<?> entityType, Level level) {
-        super(entityType, level);
+        super(entityType, level, 30);
     }
 
     @Override
     public boolean isPushable() {
         return false;
-    }
-
-    @Override
-    public void push(Entity entity) {
     }
 
     @Override
@@ -61,10 +65,7 @@ public class LanderEntity extends VehicleEntity{
     public boolean causeFallDamage(double fallDistance, float damageMultiplier, DamageSource damageSource) {
         if (fallDistance > 5.0F) {
             if (!this.level().isClientSide()) {
-
-                if (
-                        //Stellaris.CONFIG.landerExplodeWhenTooFast
-                true) {
+                if (!this.entityData.get(AUTOPILOT) && Stellaris.CONFIG.vehicleConfig.shouldLanderExplode) {
                     this.level().explode(this, this.getX(), this.getY(), this.getZ(), 10, true,
                             Level.ExplosionInteraction.TNT);
                     this.remove(RemovalReason.DISCARDED);
@@ -112,27 +113,23 @@ public class LanderEntity extends VehicleEntity{
     public void tick() {
         super.tick();
 
-        if(getBlockStateOn().isSolid()) {
-            this.setDeltaMovement(new Vec3(0.0D, 0.0D, 0.0D));
-            return;
-        }
-
         if (this.getDeltaMovement().y < this.getMaxLanderSpeed() - 0.1) {
             this.addDeltaMovement(new Vec3(0, -0.1, 0));
         } else {
             this.setDeltaMovement(new Vec3(0, this.getMaxLanderSpeed(), 0));
         }
 
-        if (KeyVariables.isHoldingJump(getFirstPlayerPassenger())) {
+        if (KeyVariables.isHoldingJump(getFirstPlayerPassenger()) || this.entityData.get(AUTOPILOT)) {
             slowDownLander();
         }
 
+        if (this.verticalCollisionBelow) {
+            this.setSpeed(0);
+            this.entityData.set(LANDED, true);
+        }
+
         this.move(MoverType.SELF, this.getDeltaMovement());
-
     }
-
-
-
 
     public Player getFirstPlayerPassenger() {
         if (!this.getPassengers().isEmpty() && this.getPassengers().getFirst() instanceof Player player) {
@@ -165,15 +162,12 @@ public class LanderEntity extends VehicleEntity{
     }
 
     public void fillInventoryFromRocket(RocketEntity rocketEntity) {
+        this.inventory.setItem(0, rocketEntity.toItemStack());
 
-        for(int i = 0; i < 14; i++) {
-            this.inventory.setItem(i, rocketEntity.getInventory().getItem(i));
+        for(int i = 0; i < rocketEntity.getInventory().getContainerSize(); i++) {
+            this.inventory.setItem(i + 1, rocketEntity.getInventory().getItem(i));
         }
-        this.inventory.setItem(14, rocketEntity.toItemStack());
-
     }
-
-
 
     @Override
     public void openCustomInventoryScreen(Player player) {
@@ -186,7 +180,7 @@ public class LanderEntity extends VehicleEntity{
 
             @Override
             public Component getDisplayName() {
-                return Component.translatable("container.entity." + Stellaris.MOD_ID + ".lander");
+                return Component.translatable("entity.stellaris.lander");
             }
 
             @Override
@@ -201,5 +195,24 @@ public class LanderEntity extends VehicleEntity{
         return 0.7;
     }
 
+    @Override
+    protected void addAdditionalSaveData(ValueOutput output) {
+        super.addAdditionalSaveData(output);
+        output.putBoolean("Autopilot", this.entityData.get(AUTOPILOT));
+        output.putBoolean("Landed", this.entityData.get(LANDED));
+    }
 
+    @Override
+    protected void readAdditionalSaveData(ValueInput input) {
+        super.readAdditionalSaveData(input);
+        this.getEntityData().set(AUTOPILOT, input.getBooleanOr("Autopilot", false));
+        this.getEntityData().set(LANDED, input.getBooleanOr("Landed", false));
+    }
+
+    @Override
+    public void defineSynchedData(SynchedEntityData.Builder builder) {
+        super.defineSynchedData(builder);
+        builder.define(AUTOPILOT, false);
+        builder.define(LANDED, false);
+    }
 }

@@ -20,15 +20,17 @@ import org.exodusstudio.stellaris.common.utils.Utils;
 import java.lang.reflect.InvocationTargetException;
 import java.util.function.Consumer;
 
-public class RocketModelModuleItem<T extends RocketModel> extends Item implements RocketModule {
+public class RocketModelModuleItem<T extends RocketModel> extends Item implements RocketModule.CustomModelModule {
     private final Class<T> model;
     private T bakedModel;
     private final String name;
+    private final float playerYOffset;
 
-    public RocketModelModuleItem(Properties properties, Class<T> rocketModel, String name) {
+    public RocketModelModuleItem(Properties properties, Class<T> rocketModel, String name, float playerYOffset) {
         super(properties);
         this.model = rocketModel;
         this.name = name;
+        this.playerYOffset = playerYOffset;
     }
 
     @Override
@@ -70,5 +72,10 @@ public class RocketModelModuleItem<T extends RocketModel> extends Item implement
     @Override
     public void appendHoverText(ItemStack stack, TooltipContext context, TooltipDisplay tooltipDisplay, Consumer<Component> tooltipAdder, TooltipFlag flag) {
         tooltipAdder.accept(Component.translatable("tooltip.item.stellaris.can_be_applied_to_rocket_module").withColor(Utils.getMinecraftColor("gray")));
+    }
+
+    @Override
+    public float getPlayerYOffset() {
+        return this.playerYOffset;
     }
 }

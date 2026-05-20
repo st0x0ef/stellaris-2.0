@@ -1,0 +1,10 @@
+{
+  "type": "neoforge:add_spawns",
+  "biomes": "#stellaris:is_moon_water",
+  "spawners": {
+    "type": "stellaris:blue_fish",
+    "weight": 22,
+    "minCount": 3,
+    "maxCount": 7
+  }
+}

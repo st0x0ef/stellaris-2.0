@@ -4,12 +4,12 @@ import dev.architectury.networking.NetworkManager;
 import dev.architectury.registry.menu.ExtendedMenuProvider;
 import dev.architectury.registry.menu.MenuRegistry;
 import io.netty.buffer.ByteBuf;
-import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.server.level.ServerPlayer;
 import org.exodusstudio.stellaris.common.menus.MainTabletMenu;
+import org.exodusstudio.stellaris.common.menus.PlanetSelectionMenu;
 import org.exodusstudio.stellaris.common.menus.SDCardReaderApplicationMenu;
 import org.exodusstudio.stellaris.common.menus.WikiApplicationMenu;
 import org.exodusstudio.stellaris.common.network.NetworkRegistry;
@@ -18,9 +18,11 @@ import java.util.HashMap;
 
 public record OpenMenuPacket(String menuId) implements CustomPacketPayload {
 
-    public static final MenuType MAIN_TABLET = new MenuType("main_tablet", MainTabletMenu.createProvider());
-    public static final MenuType SD_CARD_READER = new MenuType("sd_card_reader", SDCardReaderApplicationMenu.createProvider());
-    public static final MenuType WIKI = new MenuType("wiki", WikiApplicationMenu.createProvider(null));
+    public static final MenuType MAIN_TABLET = new MenuType("main_tablet", (c) -> MainTabletMenu.createProvider());
+    public static final MenuType SD_CARD_READER = new MenuType("sd_card_reader", (c) -> SDCardReaderApplicationMenu.createProvider());
+    public static final MenuType WIKI = new MenuType("wiki",(c) -> WikiApplicationMenu.createProvider(null));
+    public static final MenuType PLANET_SELECTION = new MenuType("planet_selection",(c) -> PlanetSelectionMenu.createProvider(c.getPlayer().level().getServer()));
+
 
     public static final StreamCodec<ByteBuf, OpenMenuPacket> STREAM_CODEC = StreamCodec.composite(
             ByteBufCodecs.STRING_UTF8, OpenMenuPacket::menuId,
@@ -28,13 +30,12 @@ public record OpenMenuPacket(String menuId) implements CustomPacketPayload {
     );
 
 
-    public OpenMenuPacket(RegistryFriendlyByteBuf buffer) {
-        this(buffer.readUtf());
-    }
 
     public static void handle(OpenMenuPacket packet, NetworkManager.PacketContext context) {
         if (context.getPlayer() instanceof ServerPlayer player) {
-            MenuRegistry.openExtendedMenu(player, MenuType.TYPES.get(packet.menuId).menu);
+
+            ExtendedMenuProvider extendedMenuProvider = MenuType.TYPES.get(packet.menuId).menu.open(context);
+            MenuRegistry.openExtendedMenu(player, extendedMenuProvider);
         }
     }
 
@@ -47,13 +48,17 @@ public record OpenMenuPacket(String menuId) implements CustomPacketPayload {
 
         static final HashMap<String, MenuType> TYPES = new HashMap<>();
         final String id;
-        final ExtendedMenuProvider menu;
+        final MenuOpener menu;
 
-        public MenuType(String id, ExtendedMenuProvider menu) {
+        public MenuType(String id, MenuOpener menu) {
             this.id = id;
             this.menu = menu;
             TYPES.put(this.id, this);
         }
+    }
+
+    public interface MenuOpener {
+        ExtendedMenuProvider open(NetworkManager.PacketContext context);
     }
 
 

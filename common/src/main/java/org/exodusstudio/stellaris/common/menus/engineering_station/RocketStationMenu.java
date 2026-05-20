@@ -11,7 +11,6 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import org.exodusstudio.stellaris.common.blocks.entities.machines.EngineeringStationBlockEntity;
-import org.exodusstudio.stellaris.common.menus.MenuQuickMoveHelper;
 import org.exodusstudio.stellaris.common.menus.slot.ResultSlot;
 import org.exodusstudio.stellaris.common.network.packets.OpenBlockEntityMenusPacket;
 import org.exodusstudio.stellaris.common.registries.MenuProviderRegistry;
@@ -24,6 +23,7 @@ public class RocketStationMenu extends AbstractContainerMenu {
     private final Container inventory;
     private final Player player;
     private final EngineeringStationBlockEntity blockEntity;
+    public final BlockPos engineeringStationPos;
 
     public static RocketStationMenu create(int syncId, Inventory inventory, FriendlyByteBuf buffer) {
         return create(syncId, inventory, buffer.readBlockPos());
@@ -41,6 +41,7 @@ public class RocketStationMenu extends AbstractContainerMenu {
         this.inventory = container;
         this.player = playerInventory.player;
         this.blockEntity = blockEntity;
+        this.engineeringStationPos = blockEntity.getBlockPos();
         addSlots(inventory);
 
         addPlayerHotbar(playerInventory);

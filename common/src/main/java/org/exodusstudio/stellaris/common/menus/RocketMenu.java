@@ -9,7 +9,6 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import org.exodusstudio.stellaris.common.entities.RocketEntity;
-import org.exodusstudio.stellaris.common.menus.slot.RocketModuleSlot;
 import org.exodusstudio.stellaris.common.registries.MenuTypesRegistry;
 import org.exodusstudio.stellaris.common.menus.MenuQuickMoveHelper;
 
@@ -17,18 +16,28 @@ public class RocketMenu extends AbstractContainerMenu {
 
     private final Container inventory;
     private final RocketEntity rocket;
+    private final int inventoryRows;
 
     public static RocketMenu create(int syncId, Inventory inventory, FriendlyByteBuf buffer) {
-        return new RocketMenu(syncId, inventory, new SimpleContainer(14), (RocketEntity) inventory.player.level().getEntity(buffer.readInt()));
+        RocketEntity entity = (RocketEntity) inventory.player.level().getEntity(buffer.readUUID());
+        if (entity != null) {
+            int rows = entity.getInventoryRows();
+            return new RocketMenu(syncId, inventory, new SimpleContainer(2 + 9 * rows), entity, rows);
+        }
+
+        return new RocketMenu(syncId, inventory, new SimpleContainer(11), null, 1); // default rocket, need that to fix a crash
     }
 
-    public RocketMenu(int syncId, Inventory playerInventory, Container container, RocketEntity rocket) {
+    public RocketMenu(int syncId, Inventory playerInventory, Container container, RocketEntity rocket, int inventoryRows) {
         super(MenuTypesRegistry.ROCKET_MENU.get(), syncId);
 
         this.rocket = rocket;
-        checkContainerSize(container, 14);
+        this.inventoryRows = inventoryRows;
+
+        checkContainerSize(container, 2 + 9 * inventoryRows);
+
         this.inventory = container;
-        addSlots(inventory);
+        addSlots(inventory, inventoryRows);
 
         addPlayerHotbar(playerInventory);
         addPlayerInventory(playerInventory);
@@ -36,52 +45,38 @@ public class RocketMenu extends AbstractContainerMenu {
 
     @Override
     public ItemStack quickMoveStack(Player player, int invSlot) {
-        return MenuQuickMoveHelper.quickMoveMachineFirst(this, player, invSlot, 14);
+        return MenuQuickMoveHelper.quickMoveMachineFirst(this, player, invSlot, 2 + 9 * inventoryRows);
     }
 
     @Override
     public boolean stillValid(Player player) {
-
         return this.inventory.stillValid(player);
     }
 
-    private void addSlots(Container inventory) {
-        //FUEL SLOTS
-        this.addSlot(new Slot(inventory, 0, 20, 28));
-        this.addSlot(new Slot(inventory, 1, 20, 62));
+    private void addSlots(Container inventory, float inventoryRows) {
+        // fuel slots
+        this.addSlot(new Slot(inventory, 0, 68, 18));
+        this.addSlot(new Slot(inventory, 1, 68, 52));
 
-        //UPGRADE SLOTS
-        this.addSlot(new RocketModuleSlot(inventory, 2, 82, 74));
-        this.addSlot(new RocketModuleSlot(inventory, 3, 100, 74));
-        this.addSlot(new RocketModuleSlot(inventory, 4, 118, 74));
-        this.addSlot(new RocketModuleSlot(inventory, 5, 136, 74));
-
-        //INVENTORY SLOTS
-        this.addSlot(new Slot(inventory, 6, 82, 28));
-        this.addSlot(new Slot(inventory, 7, 82, 46));
-
-        this.addSlot(new Slot(inventory, 8, 100, 28));
-        this.addSlot(new Slot(inventory, 9, 100, 46));
-
-        this.addSlot(new Slot(inventory, 10, 118, 28));
-        this.addSlot(new Slot(inventory, 11, 118, 46));
-
-        this.addSlot(new Slot(inventory, 12, 136, 28));
-        this.addSlot(new Slot(inventory, 13, 136, 46));
-
+        // inventory slots
+        for (int i = 0; i < inventoryRows; i++) {
+            for (int l = 0; l < 9; l++) {
+                this.addSlot(new Slot(inventory, l + i * 9 + 2, 10 + l * 18, 77 + i * 18));
+            }
+        }
     }
 
     private void addPlayerInventory(Inventory playerInventory) {
         for (int i = 0; i < 3; ++i) {
             for (int l = 0; l < 9; ++l) {
-                this.addSlot(new Slot(playerInventory, l + i * 9 + 9, 10 + l * 18, (95 + i * 18) + 11));
+                this.addSlot(new Slot(playerInventory, l + i * 9 + 9, 10 + l * 18, 142 + i * 18));
             }
         }
     }
 
     private void addPlayerHotbar(Inventory playerInventory) {
         for (int i = 0; i < 9; ++i) {
-            this.addSlot(new Slot(playerInventory, i, 10 + i * 18, 164));
+            this.addSlot(new Slot(playerInventory, i, 10 + i * 18, 200));
         }
     }
 

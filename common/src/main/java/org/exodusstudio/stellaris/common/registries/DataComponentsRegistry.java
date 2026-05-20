@@ -7,16 +7,21 @@ import dev.architectury.registry.registries.RegistrySupplier;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.world.item.component.ResolvableProfile;
 import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.common.components.JetComponent;
 import org.exodusstudio.stellaris.common.components.PathogenStorageComponent;
 import org.exodusstudio.stellaris.common.components.TimerComponent;
+import org.exodusstudio.stellaris.common.data.space_station.SpaceStationRecipe;
+
+import org.exodusstudio.stellaris.common.data.Planet;
 import org.exodusstudio.stellaris.common.modules.Modules;
 import org.exodusstudio.stellaris.common.modules.rocket.RocketModule;
 import org.exodusstudio.stellaris.common.modules.rocket.RocketModules;
 import org.exodusstudio.stellaris.common.modules.space_suit.SpaceSuitModule;
 import org.exodusstudio.stellaris.common.modules.space_suit.SpaceSuitModules;
 
+import java.util.List;
 import java.util.function.UnaryOperator;
 
 public class DataComponentsRegistry {
@@ -48,8 +53,14 @@ public class DataComponentsRegistry {
     public static final RegistrySupplier<DataComponentType<PathogenStorageComponent>> PATHOGEN_STORED =
             register("pathogen_stored", builder -> builder.persistent(PathogenStorageComponent.CODEC).networkSynchronized(PathogenStorageComponent.STREAM_CODEC));
 
-    public static final RegistrySupplier<DataComponentType<Float>> PLAYER_FADE =
-            register("player_fade", builder -> builder.persistent(Codec.FLOAT).networkSynchronized(ByteBufCodecs.FLOAT));
+    public static final RegistrySupplier<DataComponentType<List<ResolvableProfile>>> GAMEPROFILE_LIST =
+            register("gameprofile_list", builder -> builder.persistent(ResolvableProfile.CODEC.listOf()).networkSynchronized(ResolvableProfile.STREAM_CODEC.apply(ByteBufCodecs.list())));
+
+    public static final RegistrySupplier<DataComponentType<SpaceStationRecipe>> SPACE_STATION_BLUEPRINT =
+            register("space_station_blueprint", builder -> builder.persistent(SpaceStationRecipe.CODEC).networkSynchronized(SpaceStationRecipe.STREAM_CODEC));
+
+    public static final RegistrySupplier<DataComponentType<Planet>> AUTOPILOT =
+            register("autopilot", builder -> builder.persistent(Planet.CODEC).networkSynchronized(Planet.STREAM_CODEC));
 
     private static <T> RegistrySupplier<DataComponentType<T>> register(String name, UnaryOperator<DataComponentType.Builder<T>> builderOperator) {
         return DATA_COMPONENT_TYPE.register(name, () -> builderOperator.apply(DataComponentType.builder()).build());

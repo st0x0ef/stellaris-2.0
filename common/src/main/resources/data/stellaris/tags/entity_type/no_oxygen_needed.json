@@ -1,0 +1,10 @@
+{
+  "replace": false,
+  "values": [
+    "stellaris:blue_fish",
+    "stellaris:lunar_parasite",
+    "stellaris:parasite_affected_villager",
+    "stellaris:parasite_affected_villager_evolved",
+    "stellaris:luna_shadow"
+  ]
+}

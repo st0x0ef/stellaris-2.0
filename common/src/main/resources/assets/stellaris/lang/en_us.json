@@ -130,6 +130,7 @@
   "item.stellaris.gravity_manipulator": "Gravity Manipulator",
   "item.stellaris.engineering_station": "Engineering Station",
   "item.stellaris.laboratory": "Laboratory",
+  "item.stellaris.cargo_unloader": "Cargo Unloader",
 
   "item.stellaris.oxygen_distributor": "Oxygen Distributor",
   "item.stellaris.oxygen_propagator": "Oxygen Propagator",
@@ -159,6 +160,8 @@
 
   "item.stellaris.hydrogen_motor": "Hydrogen Motor",
   "item.stellaris.shield_module": "Shield Module",
+  "item.stellaris.autopilot_module": "Autopilot Module",
+  "item.stellaris.cargo_module": "Cargo Module",
 
   "item.stellaris.galaxy_skin": "Galaxy Skin",
   "item.stellaris.frost_skin": "Frost Skin",
@@ -234,9 +237,17 @@
   "item.stellaris.parasite": "Parasite",
   "item.stellaris.pathogen_storage_cell": "Pathogen Storage Cell",
   "item.stellaris.vaccine": "Vaccine",
+  "item.stellaris.blue_fish_spawn_egg": "Blue Fish Spawn Egg",
+  "item.stellaris.lunar_parasite_spawn_egg": "Lunar Parasite Spawn Egg",
+  "item.stellaris.parasite_affected_villager_spawn_egg": "Parasite-Affected Villager Spawn Egg",
+  "item.stellaris.parasite_affected_villager_evolved_spawn_egg": "Evolved Parasite-Affected Villager Spawn Egg",
+  "item.stellaris.luna_shadow_spawn_egg": "Luna Shadow Spawn Egg",
 
   "item.stellaris.oil_finder": "Oil Finder",
 
+  "item.stellaris.friends_list": "Friends List",
+  "item.stellaris.antenna": "Antenna",
+  "item.stellaris.space_station_blueprint": "Space Station Blueprint",
 
 
   "fluid.stellaris.hydrogen": "Hydrogen",
@@ -286,7 +297,11 @@
   "stellaris.screen.gravityManipulator.planet.earth": "Earth Gravity (9.81m/s²)",
   "stellaris.screen.engineering_station": "Engineering Station",
   "stellaris.screen.laboratory": "Laboratory",
+  "stellaris.screen.build_space_station": "Build Space Station",
+  "stellaris.screen.antenna_available": "Available Antennas",
+  "stellaris.screen.owned_by": "Owned by : ",
 
+  "station.stellaris.space_station_small": "Small Station",
 
   "application.stellaris.stats.name": "Stats",
   "application.stellaris.stats.description": "View various statistics about your space adventure.",
@@ -300,6 +315,7 @@
   "application.stellaris.planet_selection.name": "Planet Selection",
   "application.stellaris.planet_selection.description": "See all the infos on the planets.",
   "application.stellaris.planet_selection.teleport_button": "Launch!",
+  "application.stellaris.planet_selection.select_button": "Select!",
 
   "wiki.stellaris.mobs.title": "Mobs",
   "wiki.stellaris.rocket.title": "Rocket",
@@ -318,6 +334,8 @@
   "tooltip.item.stellaris.can_be_applied_to_space_suit_helmet_module": "This module can be applied to the space suit helmet.",
   "tooltip.item.stellaris.can_be_applied_to_space_suit_module": "This module can be applied to any space suit part.",
   "tooltip.item.stellaris.can_be_applied_to_rocket_module": "This module can be applied to the rocket.",
+  "tooltip.item.stellaris.antenna": "Place this block under a rocket launch pad.",
+  "tooltip.item.stellaris.space_station_blueprint": "Blueprint : ",
 
   "config.stellaris.debugMode": "Debug Mode",
   "config.stellaris.debugMode.desc": "Select to enter the debug mode.",
@@ -332,8 +350,14 @@
   "effect.stellaris.infected": "Infected",
 
   "entity.stellaris.rocket": "Rocket",
+  "entity.stellaris.lander": "Lander",
   "entity.stellaris.lunar_boat": "Lunar Boat",
   "entity.stellaris.lunar_chest_boat": "Lunar Chest Boat",
+  "entity.stellaris.blue_fish": "Blue Fish",
+  "entity.stellaris.lunar_parasite": "Lunar Parasite",
+  "entity.stellaris.parasite_affected_villager": "Parasite-Affected Villager",
+  "entity.stellaris.parasite_affected_villager_evolved": "Evolved Parasite-Affected Villager",
+  "entity.stellaris.luna_shadow": "Luna Shadow",
 
 
   "stat.stellaris.space_traveled": "Space Traveled",
@@ -345,6 +369,15 @@
   "planet.stellaris.moon": "Moon",
   "planet.stellaris.mars": "Mars",
   "planet.stellaris.earth": "Earth",
+
+  "message.stellaris.antenna.not_owner": "You are not the owner of this launch pad.",
+  "message.stellaris.friends_list.use_on_player": "Use this item on a player to add it to your friends list.",
+  "message.stellaris.friends_list.antenna_not_configured": "This antenna hasn't been configured yet.",
+  "message.stellaris.friends_list.use_success": "Your antenna whitelist has been updated successfully.",
+
+  "message.stellaris.friends_list.empty": "Your friends list is empty. Use this item on another player to add them to your friends list.",
+  "message.stellaris.friends_list.added": "Your friends %s has been added to the list.",
+  "message.stellaris.friends_list.removed": "Your friends %s has been removed from the list.",
 
   "message.stellaris.player_not_ready_for_vaccine": "You are not ready for the vaccine yet. You need to finish the infection analysis first.",
   "message.stellaris.player_now_immunised": "You have been immunised against the infection. You can now safely explore the infected areas and continue your space adventure without worrying about the infection.",

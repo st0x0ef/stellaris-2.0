@@ -1,0 +1,10 @@
+{
+  "type": "neoforge:add_spawns",
+  "biomes": "#stellaris:is_moon",
+  "spawners": {
+    "type": "stellaris:lunar_parasite",
+    "weight": 42,
+    "minCount": 1,
+    "maxCount": 3
+  }
+}

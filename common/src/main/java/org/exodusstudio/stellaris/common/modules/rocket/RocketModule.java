@@ -73,7 +73,9 @@ public interface RocketModule extends Module<RocketModule> {
          * @return The fluid stack representing the fuel.
          */
         FluidStack getFuel();
-
     }
 
+    interface CustomModelModule extends RocketModule {
+        float getPlayerYOffset();
+    }
 }

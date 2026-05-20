@@ -6,6 +6,7 @@
   "client": [
     "client.ArmRendererMixin",
     "client.CustomItemModelRenderer",
+    "client.ExperimentalSettingsRemover",
     "client.GuiMixin",
     "client.ItemInHandRendererMixin",
     "client.PlayerRendererMixin"

@@ -29,7 +29,7 @@ import java.util.List;
 
 public class EngineUpgradeMenu extends BaseItemCombinerMenu {
 
-    private final BlockPos engineeringStationPos;
+    public final BlockPos engineeringStationPos;
 
     public static EngineUpgradeMenu create(int containerId, Inventory playerInventory, FriendlyByteBuf buf) {
         return new EngineUpgradeMenu(containerId, playerInventory, ContainerLevelAccess.NULL, buf.readBlockPos());
@@ -89,6 +89,10 @@ public class EngineUpgradeMenu extends BaseItemCombinerMenu {
                     }
                 }
                 newRocketModules.add(validModule.asModule());
+
+                if (module.is(ItemsRegistry.AUTOPILOT_MODULE.get()) && module.has(DataComponentsRegistry.AUTOPILOT.get())) {
+                    itemToUpgrade.set(DataComponentsRegistry.AUTOPILOT.get(), module.get(DataComponentsRegistry.AUTOPILOT.get()));
+                }
 
                 itemToUpgrade.set(DataComponentsRegistry.ROCKET_MODULES.get(), new RocketModules(newRocketModules));
 
@@ -189,9 +193,8 @@ public class EngineUpgradeMenu extends BaseItemCombinerMenu {
         return false;
     }
 
-    public void openCraftingMenu() {
-        this.player.closeContainer();
-        NetworkManager.sendToServer(new OpenBlockEntityMenusPacket(MenuProviderRegistry.ROCKET_CRAFTING, this.engineeringStationPos));
+    public static void openScreen(OpenBlockEntityMenusPacket.BlockEntityMenuProvider menuProvider, BlockPos blockPos) {
+        NetworkManager.sendToServer(new OpenBlockEntityMenusPacket(menuProvider, blockPos));
     }
 
     public enum Error {
