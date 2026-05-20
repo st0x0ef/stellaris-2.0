@@ -8,6 +8,16 @@ import java.util.ArrayList;
 import java.util.Deque;
 import java.util.List;
 
+/**
+ * A simple parser that transforms a text into tokens and then into styled segments. It supports the following syntax:
+ * - **bold** for bold text
+ * - *italic* for italic text
+ * - __underline__ for underline text
+ * - ~~strikethrough~~ for strikethrough text
+ * - $$obfuscated$$ for obfuscated text
+ * - [color=color]text[/color] for colored text
+ * - [ref=location]text[/ref] for reference text (used for wiki)
+ */
 public class StellardownParser {
 
     public List<Token> tokenize(String input) {
@@ -65,7 +75,7 @@ public class StellardownParser {
                     tokens.add(new Token(TokenType.TEXT, input.substring(textStart, i)));
 
                 int end = input.indexOf(']', i);
-                String value = input.substring(i + 7, end); // extract "red"
+                String value = input.substring(i + 7, end); // extract the color
                 tokens.add(new Token(TokenType.COLOR_OPEN, value));
                 i = end + 1;
                 textStart = i;

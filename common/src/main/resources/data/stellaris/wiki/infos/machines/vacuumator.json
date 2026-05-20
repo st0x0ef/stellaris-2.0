@@ -2,7 +2,7 @@
   "components": [
     {
       "type": "text",
-      "text": "The [color=yellow]Vacuumator [color]is a machine that is used to put food inside [ref=stellaris:items/cans] Cans [ref]."
+      "text": "The [color=yellow]Vacuumator [color]is a machine that is used to put food inside [ref=stellaris:items/cans]Cans[ref]."
     },
     {
       "type": "image",
@@ -15,7 +15,7 @@
     },
     {
       "type": "text",
-      "text": "[br] [br] How to use : [br] Place the vacuumator. From left to right, place a [ref=stellaris:items/cans] Cans [ref], your food and an empty bottle. Then you will obtain a can of food and a bottle of water."
+      "text": "[br] [br] How to use : [br] Place the vacuumator. From left to right, place a [ref=stellaris:items/cans]Cans[ref], your food and an empty bottle. Then you will obtain a can of food and a bottle of water."
     },
     {
       "type": "image",

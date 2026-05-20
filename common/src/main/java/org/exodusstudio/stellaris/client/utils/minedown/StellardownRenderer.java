@@ -32,7 +32,10 @@ public class StellardownRenderer {
         updateLayout(areaWidth);
     }
 
-
+    /**
+     * Used to update the layout. Useful when window is resized or when the text is dynamic. It will re-layout the text according to the new area width.
+     * @param areaWidth the new width of the area where the text is rendered
+     */
     public void updateLayout(int areaWidth) {
         this.renderedLines = layout(areaWidth);
     }
@@ -161,19 +164,22 @@ public class StellardownRenderer {
     public static MutableComponent toComponent(String text, StellardownParser.Style style) {
         MutableComponent comp = Component.literal(text);
 
+        //We automatically make reference text blue, but we can also specify a custom color if needed
+
+
+
         if (style.bold) comp.withStyle(ChatFormatting.BOLD);
         if (style.italic) comp.withStyle(ChatFormatting.ITALIC);
         if (style.underline) comp.withStyle(ChatFormatting.UNDERLINE);
         if (style.strikethrough) comp.withStyle(ChatFormatting.STRIKETHROUGH);
-        if (style.obfuscated) {
-            Stellaris.LOG.error("zffsf");
-            comp.withStyle(ChatFormatting.OBFUSCATED);
-        }
+        if (style.obfuscated) comp.withStyle(ChatFormatting.OBFUSCATED);
 
         if (style.color != null) comp.withColor(Utils.getMinecraftColor(style.color));
-        if (style.ref != null) comp.withColor(Utils.getMinecraftColor("blue"));
 
-
+        if (style.ref != null) {
+            comp.withStyle(ChatFormatting.UNDERLINE);
+            comp.withColor(Utils.getMinecraftColor("coral"));
+        }
         return comp;
     }
 
