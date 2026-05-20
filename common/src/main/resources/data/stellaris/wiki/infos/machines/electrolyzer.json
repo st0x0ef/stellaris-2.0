@@ -2,7 +2,7 @@
   "components": [
     {
       "type": "text",
-      "text": "The [color=yellow]Electrolyzer [color]is a machine that can be used to produce oxygen and hydrogen from water. It is commonly used in space stations and other structures to provide a sustainable source of breathable air and fuel."
+      "text": "The [color=yellow]Electrolyzer[color] is a machine that can be used to produce oxygen and hydrogen from water. It is commonly used in space stations and other structures to provide a sustainable source of breathable air and fuel."
     },
     {
       "type": "image",

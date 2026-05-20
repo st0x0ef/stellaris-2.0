@@ -2,7 +2,7 @@
   "components": [
     {
       "type": "text",
-      "text": "The [color=yellow]Coal Generator [color]is a basic power generator that uses coal as fuel. It provides a steady supply of energy for your machines and devices, making it an essential component for any off-earth colony."
+      "text": "The [color=yellow]Coal Generator[color] is a basic power generator that uses coal as fuel. It provides a steady supply of energy for your machines and devices, making it an essential component for any off-earth colony."
     },
     {
       "type": "image",

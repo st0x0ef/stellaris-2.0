@@ -16,11 +16,11 @@
     },
     {
       "type": "text",
-      "text": "You can find oil in chunk with the [ref=stellaris:items/oil_finder]Oil Finder [ref]. [br] You can then use it to create diesel fuel, which is required to power the rocket and explore space."
+      "text": "You can find oil in chunk with the [ref=stellaris:items/oil_finder]Oil Finder[ref]. [br] You can then use it to create diesel fuel, which is required to power the rocket and explore space."
     },
     {
       "type": "text",
-      "text": "When you find oil in a chunk, you can extract it with a [ref=stellaris:machines/pumpjack]Pumpjack [ref]."
+      "text": "When you find oil in a chunk, you can extract it with a [ref=stellaris:machines/pumpjack]Pumpjack[ref]."
     }
   ],
   "iconType": "item",
