@@ -41,6 +41,7 @@ public final class Stellaris {
         FeaturesRegistry.register();
         EffectsRegistry.register();
         EntityDataSerializersRegistry.register();
+        AdvancementTriggerRegistry.TRIGGER_TYPES.register();
         DataComponentsRegistry.DATA_COMPONENT_TYPE.register();
         EntityTypesRegistry.ENTITY_TYPE.register();
         EntityAttributesRegistry.register();

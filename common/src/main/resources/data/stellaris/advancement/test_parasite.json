@@ -1,0 +1,25 @@
+{
+  "display": {
+    "icon": {
+      "id": "minecraft:acacia_leaves"
+    },
+    "title": {
+      "translate": "sefsf"
+    },
+    "description": {
+      "translate": "s"
+    }
+  },
+  "parent": "minecraft:adventure/adventuring_time",
+  "criteria": {
+    "parasite_attached": {
+      "trigger": "stellaris:parasite_attached"
+    }
+  },
+  "rewards": {
+    "experience": 66,
+    "loot": [
+      "minecraft:blocks/acacia_button"
+    ]
+  }
+}
