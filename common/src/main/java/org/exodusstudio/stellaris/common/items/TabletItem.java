@@ -19,11 +19,13 @@ import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
+import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.common.data.wiki.EntryInfo;
 import org.exodusstudio.stellaris.common.data.wiki.WikiPacks;
 import org.exodusstudio.stellaris.common.menus.WikiApplicationMenu;
 import org.exodusstudio.stellaris.common.network.packets.OpenMenuPacket;
 import org.exodusstudio.stellaris.common.network.packets.OpenWikiEntry;
+import org.exodusstudio.stellaris.common.registries.AdvancementTriggerRegistry;
 
 import java.util.Map;
 
@@ -41,6 +43,10 @@ public class TabletItem extends Item {
         }
 
         NetworkManager.sendToServer(new OpenMenuPacket("main_tablet"));
+
+        if(player instanceof ServerPlayer serverPlayer){
+            AdvancementTriggerRegistry.TABLET_USED.get().trigger(serverPlayer);
+        }
 
         return InteractionResult.SUCCESS;
     }
