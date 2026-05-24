@@ -20,7 +20,7 @@
   "logical_height": 320,
   "min_height": -64,
   "infiniburn": "#stellaris:infiniburn_moon",
-  "effects": "minecraft:the_end",
+  "effects": "minecraft:overworld",
   "timelines": [
     "stellaris:moon"
   ]

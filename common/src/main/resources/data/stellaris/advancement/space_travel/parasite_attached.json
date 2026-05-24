@@ -1,7 +1,7 @@
 {
   "display": {
     "icon": {
-      "id": "minecraft:acacia_leaves"
+      "id": "stellaris:parasite"
     },
     "title": {
       "translate": "sefsf"
@@ -10,16 +10,10 @@
       "translate": "s"
     }
   },
-  "parent": "minecraft:adventure/adventuring_time",
+  "parent": "stellaris:space_travel/arrived_moon",
   "criteria": {
     "parasite_attached": {
       "trigger": "stellaris:parasite_attached"
     }
-  },
-  "rewards": {
-    "experience": 66,
-    "loot": [
-      "minecraft:blocks/acacia_button"
-    ]
   }
 }

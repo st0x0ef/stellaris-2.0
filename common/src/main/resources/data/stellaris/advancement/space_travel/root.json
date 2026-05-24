@@ -5,8 +5,9 @@
     }
   },
   "display": {
+    "frame": "task",
     "announce_to_chat": false,
-    "background": "minecraft:gui/advancements/backgrounds/husbandry",
+    "background": "stellaris:gui/advancements/background",
     "description": {
       "translate": "advancements.stellaris.root.description"
     },
