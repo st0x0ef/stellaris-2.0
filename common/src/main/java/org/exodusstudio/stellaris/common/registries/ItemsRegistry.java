@@ -15,9 +15,6 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.SpawnEggItem;
 import net.minecraft.world.item.SignItem;
 import net.minecraft.world.item.equipment.ArmorMaterials;
-import org.exodusstudio.stellaris.client.renderers.rockets.models.BigRocketModel;
-import org.exodusstudio.stellaris.client.renderers.rockets.models.SmallRocketModel;
-import org.exodusstudio.stellaris.client.renderers.rockets.models.TinyRocketModel;
 import org.exodusstudio.stellaris.common.data.space_station.SpaceStationRecipe;
 import org.exodusstudio.stellaris.common.items.*;
 import org.exodusstudio.stellaris.common.items.infection.ParasiteItem;
@@ -80,9 +77,9 @@ public final class ItemsRegistry {
     public static final RegistrySupplier<RocketSkinModuleItem> MILITARY_SKIN = item("military_skin", p -> new RocketSkinModuleItem(p, "military"));
 
     // Models
-    public static final RegistrySupplier<RocketModelModuleItem<TinyRocketModel>> TINY_MODEL = item("tiny_model", p -> new RocketModelModuleItem(p, TinyRocketModel.class, "tiny", 3.75f));
-    public static final RegistrySupplier<RocketModelModuleItem<SmallRocketModel>> SMALL_MODEL = item("small_model", p -> new RocketModelModuleItem(p, SmallRocketModel.class, "small", 4.75f));
-    public static final RegistrySupplier<RocketModelModuleItem<BigRocketModel>> BIG_MODEL = item("big_model", p -> new RocketModelModuleItem(p, BigRocketModel.class, "big", 4.25f));
+    public static final RegistrySupplier<RocketModelModuleItem<?>> TINY_MODEL = item("tiny_model", p -> new RocketModelModuleItem<>(p, "tiny", "tiny", 3.75f));
+    public static final RegistrySupplier<RocketModelModuleItem<?>> SMALL_MODEL = item("small_model", p -> new RocketModelModuleItem<>(p, "small", "small", 4.75f));
+    public static final RegistrySupplier<RocketModelModuleItem<?>> BIG_MODEL = item("big_model", p -> new RocketModelModuleItem<>(p, "big", "big", 4.25f));
 
     /** Space Suit Items */
     public static final RegistrySupplier<Item> SPACE_SUIT_HELMET = item("space_suit_helmet",  SpaceSuitHelmet::new);

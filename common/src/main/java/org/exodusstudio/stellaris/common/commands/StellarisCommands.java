@@ -10,8 +10,8 @@ import dev.architectury.registry.menu.MenuRegistry;
 import net.minecraft.commands.CommandBuildContext;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
-import net.minecraft.core.BlockPos;
 import net.minecraft.commands.arguments.EntityArgument;
+import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.server.level.ServerPlayer;
@@ -19,7 +19,6 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.chunk.ChunkAccess;
 import org.exodusstudio.stellaris.Stellaris;
-
 import org.exodusstudio.stellaris.client.overlays.FadingHolder;
 import org.exodusstudio.stellaris.common.antennas.Antenna;
 import org.exodusstudio.stellaris.common.antennas.AntennaSavedData;
@@ -31,7 +30,6 @@ import org.exodusstudio.stellaris.common.data.PlanetsData;
 import org.exodusstudio.stellaris.common.entities.LanderEntity;
 import org.exodusstudio.stellaris.common.entities.RocketEntity;
 import org.exodusstudio.stellaris.common.menus.MainTabletMenu;
-import org.exodusstudio.stellaris.common.network.packets.OpenScreenPacket;
 import org.exodusstudio.stellaris.common.network.packets.StartFadePacket;
 import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
 import org.exodusstudio.stellaris.common.utils.MoonLoreUtils;
@@ -168,17 +166,6 @@ public class StellarisCommands {
                                 .execute((context) -> {
 
                                     NetworkManager.sendToPlayer(context.getPlayer(), new StartFadePacket(new FadingHolder(true, 0f)));
-                                    return context.success();
-                                })
-                        )
-                        .addSubCommand(builder.createSubCommand("screen")
-                                .execute((context) -> {
-                                    try{
-                                        NetworkManager.sendToPlayer(context.getPlayer(), new OpenScreenPacket(OpenScreenPacket.TEST_SCREEN.id()));
-
-                                    } catch (Exception e) {
-                                        context.getPlayer().displayClientMessage(Component.literal("Error opening screen: " + e.getMessage()), false);
-                                    }
                                     return context.success();
                                 })
                         )

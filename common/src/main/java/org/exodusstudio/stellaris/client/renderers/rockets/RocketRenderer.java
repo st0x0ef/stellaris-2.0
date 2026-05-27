@@ -13,7 +13,7 @@ import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.phys.AABB;
 import org.exodusstudio.stellaris.client.renderers.rockets.models.RocketModel;
-import org.exodusstudio.stellaris.client.renderers.rockets.models.TinyRocketModel;
+import org.exodusstudio.stellaris.client.renderers.rockets.models.RocketModelRegistry;
 import org.exodusstudio.stellaris.common.entities.RocketEntity;
 import org.exodusstudio.stellaris.common.items.modules.rocket.RocketModelModuleItem;
 import org.exodusstudio.stellaris.common.items.modules.rocket.RocketSkinModuleItem;
@@ -75,7 +75,7 @@ public class RocketRenderer extends EntityRenderer<RocketEntity, RocketRenderSta
         RenderType renderType = getRenderType(renderingContext);
 
         if  (!rocketModelPresent) {
-            RocketModel defaultModel = new TinyRocketModel(Minecraft.getInstance().getEntityModels());
+            RocketModel defaultModel = RocketModelRegistry.create("tiny", Minecraft.getInstance().getEntityModels());
             renderingContext.setRocketModel(defaultModel);
             nodeCollector.submitModelPart(defaultModel.root(), poseStack, renderType, renderingContext.packedLight, OverlayTexture.NO_OVERLAY, null);
         }
