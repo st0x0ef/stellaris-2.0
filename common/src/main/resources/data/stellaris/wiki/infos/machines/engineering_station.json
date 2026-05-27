@@ -2,7 +2,7 @@
   "components": [
     {
       "type": "text",
-      "text": "The [color=yellow]Engineering Station [color]is a very important machine."
+      "text": "The [color=yellow]Engineering Station[color] is a very important machine."
     },
     {
       "type": "image",
@@ -25,7 +25,7 @@
     },
     {
       "type": "text",
-      "text": "[br] [br] This station is used to build [ref=stellaris:rocket/rockets] rockets[ref]. [br] You can also use it to upgrade your rockets and help you explore more planets!"
+      "text": "[br] [br] This station is used to build [ref=stellaris:rocket/rockets]rockets[ref]. [br] You can also use it to upgrade your rockets and help you explore more planets!"
     }
   ],
   "iconType": "item",

@@ -2,7 +2,7 @@
   "components": [
     {
       "type": "text",
-      "text": "The [color=yellow]Blue Liquid [color]is a strange fluid located on the moon."
+      "text": "The [color=yellow]Blue Liquid[color] is a strange fluid located on the moon."
     },
     {
       "type": "item",
