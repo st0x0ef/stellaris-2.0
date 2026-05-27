@@ -6,6 +6,7 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
+import net.minecraft.client.input.KeyEvent;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
@@ -22,6 +23,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicInteger;
+import org.lwjgl.glfw.GLFW;
 
 public class MainTabletScreen extends AbstractContainerScreen<MainTabletMenu> {
 
@@ -32,6 +34,7 @@ public class MainTabletScreen extends AbstractContainerScreen<MainTabletMenu> {
 
     public final Player player;
     public final Inventory inventory;
+    private final TabletAnimation animation = new TabletAnimation();
 
 
     public MainTabletScreen(MainTabletMenu menu, Inventory playerInventory, Component title) {
@@ -56,9 +59,37 @@ public class MainTabletScreen extends AbstractContainerScreen<MainTabletMenu> {
     }
 
     @Override
+    public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
+        if (this.animation.finishClosing(this::closeWithoutAnimation)) {
+            return;
+        }
+
+        float centerX = this.leftPos + this.imageWidth / 2.0F;
+        float centerY = this.topPos + this.imageHeight / 2.0F;
+        int transformedMouseX = this.animation.transformMouseX(mouseX, centerX, partialTick);
+        int transformedMouseY = this.animation.transformMouseY(mouseY, centerY, partialTick);
+
+        this.animation.renderBackdrop(guiGraphics, this.width, this.height, partialTick);
+        this.animation.renderTabletShadow(guiGraphics, this.leftPos, this.topPos, this.imageWidth, this.imageHeight, partialTick);
+        this.animation.pushScreen(guiGraphics, centerX, centerY, partialTick);
+        this.renderBg(guiGraphics, partialTick, transformedMouseX, transformedMouseY);
+        super.render(guiGraphics, transformedMouseX, transformedMouseY, partialTick);
+        this.animation.renderGlassEffects(guiGraphics, this.leftPos, this.topPos, this.imageWidth, this.imageHeight, partialTick);
+        this.animation.popScreen(guiGraphics);
+    }
+
+    @Override
+    public void renderBackground(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
+        // The tablet texture is drawn inside render() so it shares the tablet transform.
+    }
+
+    @Override
     protected void renderBg(GuiGraphics guiGraphics, float partialTick, int mouseX, int mouseY) {
         guiGraphics.blit(RenderPipelines.GUI_TEXTURED, BACKGROUND, this.leftPos, this.topPos, 0, 0, this.imageWidth, this.imageHeight, this.imageWidth, this.imageHeight);
     }
+
+    @Override
+    protected void renderLabels(GuiGraphics guiGraphics, int mouseX, int mouseY) {}
 
 
     private void createAppsButton() {
@@ -112,6 +143,33 @@ public class MainTabletScreen extends AbstractContainerScreen<MainTabletMenu> {
                 }
             }
         }
+    }
+
+    @Override
+    public boolean keyPressed(KeyEvent event) {
+        if (this.animation.isClosing()) {
+            return true;
+        }
+
+        if (event.key() == GLFW.GLFW_KEY_ESCAPE) {
+            this.animation.startClosing();
+            return true;
+        }
+
+        return super.keyPressed(event);
+    }
+
+    @Override
+    public void onClose() {
+        if (this.animation.shouldInterceptClose()) {
+            return;
+        }
+
+        this.closeWithoutAnimation();
+    }
+
+    private void closeWithoutAnimation() {
+        super.onClose();
     }
 
     public int getLeftPos() {

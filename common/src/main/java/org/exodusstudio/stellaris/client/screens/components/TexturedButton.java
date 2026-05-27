@@ -10,6 +10,7 @@ import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.util.ARGB;
+import org.exodusstudio.stellaris.client.screens.tablet.TabletWidgetAnimation;
 import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
 import org.exodusstudio.stellaris.common.utils.Utils;
 import org.jetbrains.annotations.Nullable;
@@ -41,6 +42,7 @@ public class TexturedButton extends Button {
     public boolean useSprite = false;
     public Component text = Component.empty();
     public int color;
+    protected final TabletWidgetAnimation animation = new TabletWidgetAnimation();
 
     public TexturedButton(int x, int y, int widthIn, int heightIn, Button.OnPress onPressIn) {
         this(x, y, widthIn, heightIn, Component.empty(), onPressIn, DEFAULT_NARRATION);
@@ -78,14 +80,20 @@ public class TexturedButton extends Button {
 
     @Override
     protected void renderContents(GuiGraphics graphics, int mouseX, int mouseY, float partialTick) {
-        Minecraft minecraft = Minecraft.getInstance();
+        this.animation.push(graphics, this.getX(), this.getY(), this.getWidth(), this.getHeight(), this.isHoveredOrFocused(), this.active);
+        this.renderAnimatedContents(graphics, mouseX, mouseY, partialTick);
+        this.animation.pop(graphics);
+    }
 
+    protected void renderAnimatedContents(GuiGraphics graphics, int mouseX, int mouseY, float partialTick) {
+        Minecraft minecraft = Minecraft.getInstance();
 
         int i = this.yTexStart;
         if (this.isHoveredOrFocused()) i += this.yDiffText;
 
         /** TEXTURE MANAGER */
         Identifier texture = this.getTypeTexture();
+        this.renderHoverGlow(graphics);
 
         if(this.useSprite) {
             graphics.blitSprite(RenderPipelines.GUI_TEXTURED, texture, this.getWidth(), this.getHeight(), this.xTexStart, this.yTexStart, this.getX(), this.getY(), this.getWidth() - this.xTexStart, this.getHeight() - this.yTexStart, this.color);
@@ -97,6 +105,21 @@ public class TexturedButton extends Button {
         if(!Objects.equals(this.text, Component.empty())) {
             graphics.drawString(minecraft.font, this.text, this.getX() + (this.getWidth() - minecraft.font.width(text)) / 2, this.getY() + (getHeight() - minecraft.font.lineHeight) / 2, Utils.getMinecraftColor("white"));
         }
+    }
+
+    protected void renderHoverGlow(GuiGraphics graphics) {
+        if (!this.active) {
+            return;
+        }
+
+        float glow = this.animation.glowAmount();
+        if (glow <= 0.01F) {
+            return;
+        }
+
+        int alpha = Math.round(26.0F * glow);
+        int glowColor = (alpha << 24) | 0x74D6FF;
+        graphics.fill(this.getX() - 1, this.getY() - 1, this.getX() + this.getWidth() + 1, this.getY() + this.getHeight() + 1, glowColor);
     }
 
     @Override
@@ -179,6 +202,7 @@ public class TexturedButton extends Button {
         if (this.onPress == null) {
             return;
         }
+        this.animation.press();
         super.onPress(input);
     }
 }

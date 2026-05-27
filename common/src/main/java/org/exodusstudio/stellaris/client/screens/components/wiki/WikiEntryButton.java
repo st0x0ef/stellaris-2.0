@@ -28,8 +28,8 @@ public class WikiEntryButton extends TexturedButton {
 
 
     @Override
-    public void renderContents(GuiGraphics graphics, int mouseX, int mouseY, float partialTicks) {
-        super.renderContents(graphics, mouseX, mouseY, partialTicks);
+    protected void renderAnimatedContents(GuiGraphics graphics, int mouseX, int mouseY, float partialTicks) {
+        super.renderAnimatedContents(graphics, mouseX, mouseY, partialTicks);
 
         graphics.blit(RenderPipelines.GUI_TEXTURED, this.isHovered() ? entry.hoverIcon() : entry.icon(), this.getX(), this.getY() + 2, 0, 0,
                 16, 16, 16, 16);

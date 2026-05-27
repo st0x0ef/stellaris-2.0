@@ -6,12 +6,15 @@ import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent;
 import net.minecraft.client.gui.screens.inventory.tooltip.DefaultTooltipPositioner;
+import net.minecraft.client.input.InputWithModifiers;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.util.ARGB;
+import org.exodusstudio.stellaris.client.screens.tablet.TabletWidgetAnimation;
 import org.exodusstudio.stellaris.client.screens.utils.GUIUtils;
 import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.NonNull;
 
 import java.util.List;
 
@@ -34,6 +37,7 @@ public class TextureComponentButton extends Button {
     public int textureHeight;
 
     private String tooltipText;
+    private final TabletWidgetAnimation animation = new TabletWidgetAnimation();
 
     public TextureComponentButton(int x, int y, int width, int height, int textureWidth, int textureHeight, Identifier contentTexture, String tooltipText, OnPress onPressIn, CreateNarration onTooltipIn) {
         super(x, y, width, height, Component.empty(), onPressIn, onTooltipIn);
@@ -54,8 +58,11 @@ public class TextureComponentButton extends Button {
 
     @Override
     protected void renderContents(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
+        this.animation.push(guiGraphics, this.getX(), this.getY(), this.getWidth(), this.getHeight(), this.isHoveredOrFocused(), this.active);
+
         /** TEXTURE MANAGER */
         Identifier texture = this.getTypeTexture();
+        this.renderHoverGlow(guiGraphics);
         guiGraphics.blitSprite(RenderPipelines.GUI_TEXTURED, texture, this.getX(), this.getY(), buttonWidth, buttonHeight, ARGB.white(this.alpha));
 
         // Draw Content Texture (smaller texture inside the middle of the button)
@@ -63,6 +70,21 @@ public class TextureComponentButton extends Button {
         int contentY = this.getY() + (this.buttonHeight - this.textureHeight) / 2;
         guiGraphics.blitSprite(RenderPipelines.GUI_TEXTURED, this.contentTexture, contentX, contentY, this.textureWidth, this.textureHeight, ARGB.white(this.alpha));
 
+        this.animation.pop(guiGraphics);
+    }
+
+    private void renderHoverGlow(GuiGraphics graphics) {
+        if (!this.active) {
+            return;
+        }
+
+        float glow = this.animation.glowAmount();
+        if (glow <= 0.01F) {
+            return;
+        }
+
+        int alpha = Math.round(22.0F * glow);
+        graphics.fill(this.getX() - 1, this.getY() - 1, this.getX() + this.getWidth() + 1, this.getY() + this.getHeight() + 1, (alpha << 24) | 0x74D6FF);
     }
 
     @Override
@@ -105,5 +127,15 @@ public class TextureComponentButton extends Button {
             List<ClientTooltipComponent> tooltipComponents = List.of(GUIUtils.getMessageComponent(this.tooltipText, "White"));
             graphics.renderTooltip(Minecraft.getInstance().font, tooltipComponents, mouseX, mouseY, DefaultTooltipPositioner.INSTANCE, null);
         }
+    }
+
+    @SuppressWarnings("ConstantConditions")
+    @Override
+    public void onPress(@NonNull InputWithModifiers input) {
+        if (this.onPress == null) {
+            return;
+        }
+        this.animation.press();
+        super.onPress(input);
     }
 }

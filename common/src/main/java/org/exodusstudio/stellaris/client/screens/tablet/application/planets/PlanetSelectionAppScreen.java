@@ -8,6 +8,7 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.components.StringWidget;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
+import net.minecraft.client.input.KeyEvent;
 import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.core.registries.Registries;
@@ -18,6 +19,7 @@ import org.exodusstudio.stellaris.client.overlays.FadingHolder;
 import org.exodusstudio.stellaris.client.screens.components.Padding;
 import org.exodusstudio.stellaris.client.screens.components.TexturedButton;
 import org.exodusstudio.stellaris.client.screens.components.containers.ScrollableContainer;
+import org.exodusstudio.stellaris.client.screens.tablet.TabletAnimation;
 import org.exodusstudio.stellaris.client.screens.tablet.application.ApplicationRegistry;
 import org.exodusstudio.stellaris.client.screens.tablet.application.ApplicationScreen;
 import org.exodusstudio.stellaris.client.utils.ClientUtils;
@@ -37,6 +39,7 @@ import org.exodusstudio.stellaris.common.registries.DataComponentsRegistry;
 import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
 import org.exodusstudio.stellaris.common.utils.Utils;
 import org.jetbrains.annotations.Nullable;
+import org.lwjgl.glfw.GLFW;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,6 +54,7 @@ public class PlanetSelectionAppScreen extends AbstractContainerScreen<PlanetSele
     private final boolean inSpace;
     private PlanetInfoComponent planetInfoComponent;
     public AntennaSavedData antennaSavedData;
+    private final TabletAnimation animation = new TabletAnimation();
 
     public PlanetSelectionAppScreen(PlanetSelectionMenu selectionMenu, Inventory playerInventory, Component component) {
         super(selectionMenu, playerInventory, Component.empty());
@@ -88,7 +92,7 @@ public class PlanetSelectionAppScreen extends AbstractContainerScreen<PlanetSele
 
     @Override
     protected void renderBg(GuiGraphics guiGraphics, float partialTick, int mouseX, int mouseY) {
-
+        this.renderTabletBackground(guiGraphics);
     }
 
     public static PlanetSelectionAppScreen create(ApplicationRegistry.MenuHolder<MainTabletMenu> menuHolder) {
@@ -98,18 +102,31 @@ public class PlanetSelectionAppScreen extends AbstractContainerScreen<PlanetSele
 
     @Override
     public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
-        super.render(guiGraphics, mouseX, mouseY, partialTick);
+        if (this.animation.finishClosing(this::closeWithoutAnimation)) {
+            return;
+        }
+
         if(this.planetInfoComponent != null) {
             this.planetInfoComponent.visible = this.selectedPlanet != null;
         }
 
+        float centerX = this.getLeftPos() + this.imageWidth / 2.0F;
+        float centerY = this.getTopPos() + this.imageHeight / 2.0F;
+        int transformedMouseX = this.animation.transformMouseX(mouseX, centerX, partialTick);
+        int transformedMouseY = this.animation.transformMouseY(mouseY, centerY, partialTick);
+
+        this.animation.renderBackdrop(guiGraphics, this.width, this.height, partialTick);
+        this.animation.renderTabletShadow(guiGraphics, this.getLeftPos(), this.getTopPos(), this.imageWidth, this.imageHeight, partialTick);
+        this.animation.pushScreen(guiGraphics, centerX, centerY, partialTick);
+        this.renderBg(guiGraphics, partialTick, transformedMouseX, transformedMouseY);
+        super.render(guiGraphics, transformedMouseX, transformedMouseY, partialTick);
+        this.animation.renderGlassEffects(guiGraphics, this.getLeftPos(), this.getTopPos(), this.imageWidth, this.imageHeight, partialTick);
+        this.animation.popScreen(guiGraphics);
     }
 
     @Override
     public void renderBackground(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
-        super.renderBackground(guiGraphics, mouseX, mouseY, partialTick);
-        guiGraphics.blit(RenderPipelines.GUI_TEXTURED, ApplicationScreen.BLANCK_BACKGROUND, this.getLeftPos(), this.getTopPos(), 0, 0, imageWidth, imageHeight, imageWidth, imageHeight);
-
+        // The tablet texture is drawn inside render() so it shares the tablet transform.
     }
 
     /**
@@ -143,6 +160,10 @@ public class PlanetSelectionAppScreen extends AbstractContainerScreen<PlanetSele
         return this.topPos;
     }
 
+    private void renderTabletBackground(GuiGraphics guiGraphics) {
+        guiGraphics.blit(RenderPipelines.GUI_TEXTURED, ApplicationScreen.BLANCK_BACKGROUND, this.getLeftPos(), this.getTopPos(), 0, 0, this.imageWidth, this.imageHeight, this.imageWidth,this.imageHeight);
+    }
+
     /**
      * The teleport button should only be visible if a planet is selected and the player is in space. This method checks those conditions and returns true if the button should be visible, false otherwise.
      * @return true if the teleport button should be visible, false otherwise.
@@ -169,8 +190,29 @@ public class PlanetSelectionAppScreen extends AbstractContainerScreen<PlanetSele
     }
 
     @Override
-    public void onClose() {
+    public boolean keyPressed(KeyEvent event) {
+        if (this.animation.isClosing()) {
+            return true;
+        }
 
+        if (event.key() == GLFW.GLFW_KEY_ESCAPE) {
+            this.animation.startClosing();
+            return true;
+        }
+
+        return super.keyPressed(event);
+    }
+
+    @Override
+    public void onClose() {
+        if (this.animation.shouldInterceptClose()) {
+            return;
+        }
+
+        this.closeWithoutAnimation();
+    }
+
+    private void closeWithoutAnimation() {
         if(this.selectionMenu.player.stellaris$isPlanetMenuOpen()) return;
 
         FadingHolder fadingHolder = selectionMenu.player.stellaris$getDataAttachments(IdentifierUtils.id("player_fade"), FadingHolder.class);

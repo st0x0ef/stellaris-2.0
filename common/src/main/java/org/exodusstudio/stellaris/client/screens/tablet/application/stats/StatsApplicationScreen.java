@@ -4,6 +4,7 @@ import dev.architectury.registry.registries.RegistrySupplier;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.input.KeyEvent;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
@@ -11,10 +12,12 @@ import net.minecraft.stats.Stats;
 import org.exodusstudio.stellaris.client.screens.components.containers.ScrollableContainer;
 import org.exodusstudio.stellaris.client.screens.components.stats.StatWidget;
 import org.exodusstudio.stellaris.client.screens.tablet.MainTabletScreen;
+import org.exodusstudio.stellaris.client.screens.tablet.TabletAnimation;
 import org.exodusstudio.stellaris.client.screens.tablet.application.ApplicationRegistry;
 import org.exodusstudio.stellaris.common.menus.MainTabletMenu;
 import org.exodusstudio.stellaris.common.registries.StatsRegistry;
 import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
+import org.lwjgl.glfw.GLFW;
 
 public class StatsApplicationScreen extends Screen {
 
@@ -23,6 +26,7 @@ public class StatsApplicationScreen extends Screen {
     private final MainTabletScreen mainTabletScreen;
 
     private ScrollableContainer scrollableContainer;
+    private final TabletAnimation animation = new TabletAnimation();
 
     public StatsApplicationScreen(MainTabletScreen mainTabletScreen) {
         super(Component.literal("Stats"));
@@ -71,9 +75,28 @@ public class StatsApplicationScreen extends Screen {
     }
 
     @Override
+    public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
+        if (this.animation.finishClosing(this::closeWithoutAnimation)) {
+            return;
+        }
+
+        float centerX = this.getLeftPos() + this.mainTabletScreen.getImageWidth() / 2.0F;
+        float centerY = this.getTopPos() + this.mainTabletScreen.getImageHeight() / 2.0F;
+        int transformedMouseX = this.animation.transformMouseX(mouseX, centerX, partialTick);
+        int transformedMouseY = this.animation.transformMouseY(mouseY, centerY, partialTick);
+
+        this.animation.renderBackdrop(guiGraphics, this.width, this.height, partialTick);
+        this.animation.renderTabletShadow(guiGraphics, this.getLeftPos(), this.getTopPos(), this.mainTabletScreen.getImageWidth(), this.mainTabletScreen.getImageHeight(), partialTick);
+        this.animation.pushScreen(guiGraphics, centerX, centerY, partialTick);
+        this.renderTabletBackground(guiGraphics);
+        super.render(guiGraphics, transformedMouseX, transformedMouseY, partialTick);
+        this.animation.renderGlassEffects(guiGraphics, this.getLeftPos(), this.getTopPos(), this.mainTabletScreen.getImageWidth(), this.mainTabletScreen.getImageHeight(), partialTick);
+        this.animation.popScreen(guiGraphics);
+    }
+
+    @Override
     public void renderBackground(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
-        super.renderBackground(guiGraphics, mouseX, mouseY, partialTick);
-        guiGraphics.blit(RenderPipelines.GUI_TEXTURED, BACKGROUND, this.getLeftPos(), this.getTopPos(), 0, 0, this.mainTabletScreen.getImageWidth(), this.mainTabletScreen.getImageHeight(), this.mainTabletScreen.getImageWidth(),this.mainTabletScreen.getImageHeight());
+        // The tablet texture is drawn inside render() so it shares the tablet transform.
     }
 
     @Override
@@ -88,6 +111,37 @@ public class StatsApplicationScreen extends Screen {
 
     public int getTopPos() {
         return this.mainTabletScreen.getTopPos();
+    }
+
+    private void renderTabletBackground(GuiGraphics guiGraphics) {
+        guiGraphics.blit(RenderPipelines.GUI_TEXTURED, BACKGROUND, this.getLeftPos(), this.getTopPos(), 0, 0, this.mainTabletScreen.getImageWidth(), this.mainTabletScreen.getImageHeight(), this.mainTabletScreen.getImageWidth(),this.mainTabletScreen.getImageHeight());
+    }
+
+    @Override
+    public boolean keyPressed(KeyEvent event) {
+        if (this.animation.isClosing()) {
+            return true;
+        }
+
+        if (event.key() == GLFW.GLFW_KEY_ESCAPE) {
+            this.animation.startClosing();
+            return true;
+        }
+
+        return super.keyPressed(event);
+    }
+
+    @Override
+    public void onClose() {
+        if (this.animation.shouldInterceptClose()) {
+            return;
+        }
+
+        this.closeWithoutAnimation();
+    }
+
+    private void closeWithoutAnimation() {
+        super.onClose();
     }
 
     private static class CustomStatsScrollableContainer extends ScrollableContainer {

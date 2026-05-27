@@ -1,18 +1,12 @@
 package org.exodusstudio.stellaris.client.screens.components.sd;
 
-import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.gui.components.Button;
 import net.minecraft.network.chat.Component;
+import org.exodusstudio.stellaris.client.screens.components.TexturedButton;
 
-public class SDCardDecodeButton extends Button {
+public class SDCardDecodeButton extends TexturedButton {
 
     public SDCardDecodeButton(int x, int y, int width, int height, OnPress onPress) {
-        super(x, y, width, height, Component.literal("DECODE"), onPress, Button.DEFAULT_NARRATION);
-    }
-
-    @Override
-    protected void renderContents(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
-        this.renderDefaultLabel(guiGraphics.textRendererForWidget(this, GuiGraphics.HoveredTextEffects.NONE));
+        super(x, y, width, height, Component.literal("DECODE"), onPress);
     }
 
 }

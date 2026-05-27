@@ -42,7 +42,7 @@ public class WikiInfoButton extends TexturedButton {
     }
 
     @Override
-    protected void renderContents(GuiGraphics graphics, int mouseX, int mouseY, float partialTick) {
+    protected void renderAnimatedContents(GuiGraphics graphics, int mouseX, int mouseY, float partialTick) {
         int i = this.yTexStart;
         if (this.isHoveredOrFocused()) {
             i += this.yDiffText;
