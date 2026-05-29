@@ -154,7 +154,6 @@ public class FuelRefineryBlockEntity extends BaseEnergyContainerBlockEntity impl
             NetworkManager.sendToPlayer(serverPlayer, new SyncFluidPacket(
                     new com.fej1fun.potentials.components.FluidAmountMapDataComponent(List.of(outputDieselTank.getFluidInTank(0).getFluid()), List.of(outputDieselTank.getFluidValueInTank())),
                     0, getBlockPos(), Direction.SOUTH));
-            Stellaris.LOG.error("eee");
         }
         return new FuelRefineryMenu(containerId, inventory, this, this);
     }
