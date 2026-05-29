@@ -69,6 +69,7 @@ public class StellarisNeoforgeClient {
         ItemBlockRenderTypes.setRenderLayer(BlocksRegistry.ASTRUM_VITREUS_BLOCK.block().get(), ChunkSectionLayer.TRANSLUCENT);
         ItemBlockRenderTypes.setRenderLayer(BlocksRegistry.ASTRUM_VITREUS_CLUSTER.block().get(), ChunkSectionLayer.CUTOUT);
         ItemBlockRenderTypes.setRenderLayer(BlocksRegistry.LABORATORY.block().get(), ChunkSectionLayer.TRANSLUCENT);
+        ItemBlockRenderTypes.setRenderLayer(BlocksRegistry.CARGO_UNLOADER.block().get(), ChunkSectionLayer.TRANSLUCENT);
     }
 
     @SubscribeEvent

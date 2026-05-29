@@ -66,6 +66,7 @@ public final class StellarisFabricClient implements ClientModInitializer {
         BlockRenderLayerMap.putBlock(BlocksRegistry.ASTRUM_VITREUS_BLOCK.block().get(), ChunkSectionLayer.TRANSLUCENT);
         BlockRenderLayerMap.putBlock(BlocksRegistry.ASTRUM_VITREUS_CLUSTER.block().get(), ChunkSectionLayer.CUTOUT);
         BlockRenderLayerMap.putBlock(BlocksRegistry.LABORATORY.block().get(), ChunkSectionLayer.TRANSLUCENT);
+        BlockRenderLayerMap.putBlock(BlocksRegistry.CARGO_UNLOADER.block().get(), ChunkSectionLayer.TRANSLUCENT);
     }
 
     private void registerScreens() {
