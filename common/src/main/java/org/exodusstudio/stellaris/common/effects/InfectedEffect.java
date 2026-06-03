@@ -14,7 +14,7 @@ public class InfectedEffect extends MobEffect {
 
     @Override
     public boolean applyEffectTick(ServerLevel level, LivingEntity entity, int amplifier) {
-        if (entity.getType().is(TagsRegistry.EntityTags.INFECTION_IMMUNE)) {
+        if (entity.is(TagsRegistry.EntityTags.INFECTION_IMMUNE)) {
             return false;
         }
 

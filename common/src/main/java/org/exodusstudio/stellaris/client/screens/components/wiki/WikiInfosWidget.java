@@ -1,7 +1,7 @@
 package org.exodusstudio.stellaris.client.screens.components.wiki;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.screens.inventory.InventoryScreen;
 import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.client.renderer.RenderPipelines;
@@ -41,7 +41,7 @@ public class WikiInfosWidget extends ScrollableContainer {
     }
 
     @Override
-    public void renderContent(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
+    public void renderContent(GuiGraphicsExtractor guiGraphics, int mouseX, int mouseY, float partialTick) {
         finalHeight.set(0);
 
         if(info == null) return;
@@ -62,7 +62,7 @@ public class WikiInfosWidget extends ScrollableContainer {
                     int height = (int) (this.getOffsetHeight() + finalHeight.get() + 20);
                     guiGraphics.blit(RenderPipelines.GUI_TEXTURED, image.formatFileLocation(), this.getX() + this.getWidth() / 2 - image.width() / 2, height, 0, 0, image.width(), image.height(), image.width(), image.height());
                     if (image.legend().isPresent()) {
-                        guiGraphics.drawCenteredString(Minecraft.getInstance().font, image.legend().get(), this.getX() + this.getWidth() / 2, height + image.height() + 5, 0xFFFFFFFF);
+                        guiGraphics.centeredText(Minecraft.getInstance().font, image.legend().get(), this.getX() + this.getWidth() / 2, height + image.height() + 5, 0xFFFFFFFF);
                         int legendHeight = Minecraft.getInstance().font.lineHeight + 5;
                         finalHeight.addAndGet(legendHeight);
                     }
@@ -86,7 +86,7 @@ public class WikiInfosWidget extends ScrollableContainer {
                         matrixStack.translate(tx, yPos);
                         matrixStack.scale(scale, scale);
 
-                        guiGraphics.renderItem(item.stack(), 0, 0);
+                        guiGraphics.item(item.stack(), 0, 0);
 
                         finalHeight.addAndGet(Math.round(itemSize * scale) + (padding * 2));
 
@@ -99,7 +99,7 @@ public class WikiInfosWidget extends ScrollableContainer {
                     if(entity1 instanceof LivingEntity livingEntity) {
                         int cornerX = guiGraphics.guiWidth() / 2 - 25;
 
-                        InventoryScreen.renderEntityInInventoryFollowsMouse(guiGraphics, cornerX, height, cornerX + 50, height + entity.scale() + 30, entity.scale(), 0.25F, mouseX, mouseY, livingEntity);
+                        InventoryScreen.extractEntityInInventoryFollowsMouse(guiGraphics, cornerX, height, cornerX + 50, height + entity.scale() + 30, entity.scale(), 0.25F, mouseX, mouseY, livingEntity);
                         finalHeight.addAndGet(height + entity.scale() + 30);
                     }
                 });

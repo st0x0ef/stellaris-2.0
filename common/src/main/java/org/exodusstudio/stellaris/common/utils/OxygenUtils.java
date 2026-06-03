@@ -50,7 +50,7 @@ public class OxygenUtils {
                 return Collections.emptySet();
             }
 
-            ChunkPos currentChunk = new ChunkPos(current);
+            ChunkPos currentChunk = ChunkPos.containing(current);
             if (!allowedChunks.contains(currentChunk)) {
                 return Collections.emptySet();
             }
@@ -93,11 +93,11 @@ public class OxygenUtils {
         while (!chunksToSearch.isEmpty()) {
             ChunkPos chunkPos = chunksToSearch.poll();
 
-            if (!level.hasChunk(chunkPos.x, chunkPos.z)) {
+            if (!level.hasChunk(chunkPos.x(), chunkPos.z())) {
                 continue;
             }
 
-            LevelChunk levelChunk = level.getChunk(chunkPos.x, chunkPos.z);
+            LevelChunk levelChunk = level.getChunk(chunkPos.x(), chunkPos.z());
 
             for (BlockEntity blockEntity : levelChunk.getBlockEntities().values()) {
                 if (blockEntity instanceof OxygenDistributorBlockEntity distributor) {
@@ -135,11 +135,11 @@ public class OxygenUtils {
             Set<ChunkPos> newChunks = new HashSet<>();
 
             for (ChunkPos chunkPos : toProcess) {
-                if (!level.hasChunk(chunkPos.x, chunkPos.z)) {
+                if (!level.hasChunk(chunkPos.x(), chunkPos.z())) {
                     continue;
                 }
 
-                LevelChunk levelChunk = level.getChunk(chunkPos.x, chunkPos.z);
+                LevelChunk levelChunk = level.getChunk(chunkPos.x(), chunkPos.z());
                 for (BlockEntity blockEntity : levelChunk.getBlockEntities().values()) {
                     if (blockEntity instanceof OxygenPropagatorBlockEntity) {
                         for (ChunkPos extension : getBasicAllowedChunks(blockEntity.getBlockPos())) {
@@ -166,13 +166,13 @@ public class OxygenUtils {
     public static List<ChunkPos> getBasicAllowedChunks(ChunkPos centerChunk) {
         List<ChunkPos> chunks = new ArrayList<>(9);
         for (int[] offset : CHUNK_OFFSETS) {
-            chunks.add(new ChunkPos(centerChunk.x + offset[0], centerChunk.z + offset[1]));
+            chunks.add(new ChunkPos(centerChunk.x() + offset[0], centerChunk.z() + offset[1]));
         }
         return chunks;
     }
 
     public static List<ChunkPos> getBasicAllowedChunks(BlockPos pos) {
-        return getBasicAllowedChunks(new ChunkPos(pos));
+        return getBasicAllowedChunks(ChunkPos.containing(pos));
     }
 
     public static int getEntityWhoNeedsOxygen(Level level, Set<ChunkPos> chunks) {
@@ -185,7 +185,7 @@ public class OxygenUtils {
             );
 
             for (LivingEntity entity : level.getEntitiesOfClass(LivingEntity.class, aabb)) {
-                if (!entity.getType().is(TagsRegistry.EntityTags.NO_OXYGEN_NEEDED)) {
+                if (!entity.is(TagsRegistry.EntityTags.NO_OXYGEN_NEEDED)) {
                     ItemStack headSlot = entity.getItemBySlot(EquipmentSlot.HEAD);
                     if (Utils.isLivingInSpaceSuit(entity) && headSlot.getItem() instanceof SpaceSuitHelmet helmet) {
                         UniversalFluidItemStorage oxygenTank = helmet.getFluidTank(headSlot);

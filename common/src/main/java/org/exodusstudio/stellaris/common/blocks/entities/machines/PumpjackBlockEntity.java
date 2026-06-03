@@ -61,7 +61,7 @@ public class PumpjackBlockEntity extends BaseEnergyContainerBlockEntity implemen
 
         if (!level.isClientSide()) {
             ChunkPos pos = access.getPos();
-            NetworkManager.sendToPlayers(level.getServer().getPlayerList().getPlayers(), new SyncOilLevelPacket(access.stellaris$getChunkOilLevel(), pos.x, pos.z));
+            NetworkManager.sendToPlayers(level.getServer().getPlayerList().getPlayers(), new SyncOilLevelPacket(access.stellaris$getChunkOilLevel(), pos.x(), pos.z()));
         }
 
         int actualOilToExtract = (int) oilToExtract;

@@ -21,7 +21,7 @@ public class FlagBlockModel extends Model<BlockEntityRenderState> {
     private final ModelPart base;
 
     public FlagBlockModel(ModelPart root) {
-        this(root, RenderTypes::entityCutout);
+        this(root, RenderTypes::entityCutoutCull);
     }
 
     private FlagBlockModel(ModelPart root, Function<Identifier, RenderType> function) {

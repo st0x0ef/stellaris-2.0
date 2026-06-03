@@ -4,7 +4,6 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.architectury.fluid.FluidStack;
-import net.minecraft.core.HolderLookup;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.item.ItemStack;
@@ -28,7 +27,7 @@ public record FuelRefineryRecipe(FluidStack ingredientStack, FluidStack fuelStac
     }
 
     @Override
-    public ItemStack assemble(FluidInput input, HolderLookup.Provider registries) {
+    public ItemStack assemble(FluidInput input) {
         return ItemStack.EMPTY;
     }
 
@@ -53,11 +52,21 @@ public record FuelRefineryRecipe(FluidStack ingredientStack, FluidStack fuelStac
     }
 
     @Override
+    public boolean showNotification() {
+        return false;
+    }
+
+    @Override
+    public String group() {
+        return "";
+    }
+
+    @Override
     public RecipeBookCategory recipeBookCategory() {
         return RecipeBookCategories.CRAFTING_MISC;
     }
 
-    public static class Serializer implements RecipeSerializer<FuelRefineryRecipe> {
+    public static class Serializer {
 
         private static final MapCodec<FuelRefineryRecipe> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
                 FluidStack.CODEC.fieldOf("ingredient").forGetter(FuelRefineryRecipe::ingredientStack),
@@ -73,14 +82,8 @@ public record FuelRefineryRecipe(FluidStack ingredientStack, FluidStack fuelStac
             buf.writeInt(recipe.energy());
         }, buf -> new FuelRefineryRecipe(FluidStack.read(buf), FluidStack.read(buf), FluidStack.read(buf), buf.readInt()));
 
-        @Override
-        public MapCodec<FuelRefineryRecipe> codec() {
-            return CODEC;
-        }
-
-        @Override
-        public StreamCodec<RegistryFriendlyByteBuf, FuelRefineryRecipe> streamCodec() {
-            return STREAM_CODEC;
+        public static RecipeSerializer<FuelRefineryRecipe> create() {
+            return new RecipeSerializer<>(CODEC, STREAM_CODEC);
         }
     }
 }

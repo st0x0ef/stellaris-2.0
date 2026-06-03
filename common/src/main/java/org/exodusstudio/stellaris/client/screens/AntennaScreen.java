@@ -4,7 +4,7 @@ import com.mojang.authlib.GameProfile;
 import dev.architectury.networking.NetworkManager;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
@@ -50,9 +50,8 @@ public class AntennaScreen extends AbstractContainerScreen<AntennaMenu> {
     private final Set<UUID> resolvingWhitelist = ConcurrentHashMap.newKeySet();
 
     public AntennaScreen(AntennaMenu menu, Inventory playerInventory, Component title) {
-        super(menu, playerInventory, Component.literal("Antenna").withColor(-11050641));
-        imageWidth = 180;
-        imageHeight = 188;
+        super(menu, playerInventory, Component.literal("Antenna").withColor(-11050641), 180, 188);
+
         inventoryLabelY = imageHeight * 3;
 
         titleLabelX = 70 ;
@@ -72,14 +71,14 @@ public class AntennaScreen extends AbstractContainerScreen<AntennaMenu> {
     }
 
     @Override
-    public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
-        renderBackground(guiGraphics, mouseX, mouseY, partialTick);
-        super.render(guiGraphics, mouseX, mouseY, partialTick);
+    public void extractContents(GuiGraphicsExtractor guiGraphics, int mouseX, int mouseY, float partialTick) {
+        extractBackground(guiGraphics, mouseX, mouseY, partialTick);
+        super.extractContents(guiGraphics, mouseX, mouseY, partialTick);
 
-        renderTooltip(guiGraphics, mouseX, mouseY);
+        extractTooltip(guiGraphics, mouseX, mouseY);
 
         guiGraphics.blit(RenderPipelines.GUI_TEXTURED, IdentifierUtils.guiTexture("tablet/tablet_entries_background"), this.leftPos + this.imageWidth, topPos, 0, 0, 100, 132, 100, 132);
-        guiGraphics.drawCenteredString(Minecraft.getInstance().font, Component.literal("WhiteListed").withStyle(ChatFormatting.GRAY), this.leftPos + this.imageWidth + 100 / 2, topPos + 7, ARGB.white(1f));
+        guiGraphics.centeredText(Minecraft.getInstance().font, Component.literal("WhiteListed").withStyle(ChatFormatting.GRAY), this.leftPos + this.imageWidth + 100 / 2, topPos + 7, ARGB.white(1f));
 
         if(this.antenna == null) return;
         int i = 1;
@@ -87,7 +86,7 @@ public class AntennaScreen extends AbstractContainerScreen<AntennaMenu> {
             queueWhitelistResolve(whitelist);
             String playerName = this.whitelistNameCache.getOrDefault(whitelist, whitelist.toString());
 
-            guiGraphics.drawString(Minecraft.getInstance().font, Component.literal("- " +  playerName)
+            guiGraphics.text(Minecraft.getInstance().font, Component.literal("- " +  playerName)
                     .withStyle(ChatFormatting.GRAY), this.leftPos + this.imageWidth + 7, topPos + 12 + i * 9, ARGB.white(1f));
 
             i++;
@@ -96,7 +95,7 @@ public class AntennaScreen extends AbstractContainerScreen<AntennaMenu> {
 
 
     @Override
-    protected void renderBg(GuiGraphics guiGraphics, float partialTick, int mouseX, int mouseY) {
+    public void extractBackground(GuiGraphicsExtractor guiGraphics, int mouseX, int mouseY, float partialTick) {
         guiGraphics.blit(RenderPipelines.GUI_TEXTURED, TEXTURE, leftPos, topPos, 0, 0, imageWidth, imageHeight, imageWidth, imageHeight);
     }
 
@@ -115,8 +114,8 @@ public class AntennaScreen extends AbstractContainerScreen<AntennaMenu> {
     }
 
     @Override
-    protected void renderTooltip(GuiGraphics guiGraphics, int x, int y) {
-        super.renderTooltip(guiGraphics, x, y);
+    protected void extractTooltip(GuiGraphicsExtractor guiGraphics, int x, int y) {
+        super.extractTooltip(guiGraphics, x, y);
     }
 
     private void addWidgets(@Nullable Antenna pad) {

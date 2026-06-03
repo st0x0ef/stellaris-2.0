@@ -19,7 +19,7 @@ public class GravityManipulatorModel extends Model<BlockEntityRenderState> {
     private final ModelPart GravityCenter;
 
     public GravityManipulatorModel(ModelPart root) {
-        this(root, RenderTypes::entityCutout);
+        this(root, RenderTypes::entityCutoutCull);
     }
 
     private GravityManipulatorModel(ModelPart root, Function<Identifier, RenderType> renderType) {

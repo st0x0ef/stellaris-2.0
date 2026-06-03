@@ -205,7 +205,7 @@ public class ParasiteAffectedVillagerEntity extends Monster {
     public boolean doHurtTarget(ServerLevel level, Entity target) {
         boolean hurt = super.doHurtTarget(level, target);
 
-        if (hurt && target instanceof LivingEntity livingEntity && !livingEntity.getType().is(TagsRegistry.EntityTags.INFECTION_IMMUNE)) {
+        if (hurt && target instanceof LivingEntity livingEntity && !livingEntity.is(TagsRegistry.EntityTags.INFECTION_IMMUNE)) {
             livingEntity.addEffect(new MobEffectInstance(EffectsRegistry.getHolder(EffectsRegistry.INFECTED), 20 * 16, 0));
             livingEntity.addEffect(new MobEffectInstance(MobEffects.SLOWNESS, 20 * 4, 0));
         }

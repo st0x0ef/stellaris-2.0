@@ -1,7 +1,7 @@
 package org.exodusstudio.stellaris.client.screens.components.sd;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.AbstractContainerWidget;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.components.events.GuiEventListener;
@@ -24,7 +24,7 @@ public class SDCardInfoWidget extends AbstractContainerWidget {
     private SdCard card;
 
     public SDCardInfoWidget(int x, int y, int width, int height, SdCard card) {
-        super(x, y, width, height, Component.empty());
+        super(x, y, width, height, Component.empty(), AbstractContainerWidget.defaultSettings(10));
 
         this.card = card;
         setupTextWidgets(card);
@@ -80,8 +80,8 @@ public class SDCardInfoWidget extends AbstractContainerWidget {
     }
 
     @Override
-    protected void renderWidget(GuiGraphics ctx, int mouseX, int mouseY, float partialTick) {
-        this.children.forEach(w -> w.render(ctx, mouseX, mouseY, partialTick));
+    protected void extractWidgetRenderState(GuiGraphicsExtractor ctx, int mouseX, int mouseY, float partialTick) {
+        this.children.forEach(w -> w.extractRenderState(ctx, mouseX, mouseY, partialTick));
         if (this.getCard() != null && this.nameContainer != null) {
             int lineY = this.getY() + this.nameContainer.getHeight() + 2;
             ctx.fill(this.getX() + 4, lineY, this.getX() + this.getWidth() - 4, lineY + 1, 0xFFFFFFFF);

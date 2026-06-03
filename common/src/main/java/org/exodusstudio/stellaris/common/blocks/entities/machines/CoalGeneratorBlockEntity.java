@@ -81,7 +81,7 @@ public class CoalGeneratorBlockEntity extends BaseGeneratorBlockEntity {
                 Item item = stack.getItem();
                 stack.shrink(1);
                 if (stack.isEmpty()) {
-                    Item item2 = item.getCraftingRemainder().getItem();
+                    Item item2 = item.getCraftingRemainder().create().getItem();
                     getItems().set(0, new ItemStack(item2));
                 }
             }

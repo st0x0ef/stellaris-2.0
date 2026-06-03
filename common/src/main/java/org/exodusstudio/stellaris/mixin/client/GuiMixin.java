@@ -2,7 +2,7 @@ package org.exodusstudio.stellaris.mixin.client;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.world.entity.player.Player;
 import org.exodusstudio.stellaris.common.registries.EffectsRegistry;
@@ -17,8 +17,8 @@ public class GuiMixin {
 
     // Render custom heart for infected effect, cancels original method if infected
     // Note to other modders: if you want to add compatibility with your own custom hearts, please do so before this mixin (higher priority)
-    @Inject(method = "renderHeart", at = @At("HEAD"), cancellable = true)
-    private static void renderHeart(GuiGraphics guiGraphics, Gui.HeartType heartType, int x, int y, boolean hardcore, boolean halfHeart, boolean blinking, CallbackInfo ci) {
+    @Inject(method = "extractHeart", at = @At("HEAD"), cancellable = true)
+    private static void extractHeart(GuiGraphicsExtractor guiGraphics, Gui.HeartType heartType, int x, int y, boolean hardcore, boolean halfHeart, boolean blinking, CallbackInfo ci) {
         if (heartType.equals(Gui.HeartType.CONTAINER)) return;
         Player player = Minecraft.getInstance().player;
         if (player != null && player.hasEffect(EffectsRegistry.getHolder(EffectsRegistry.INFECTED))) {

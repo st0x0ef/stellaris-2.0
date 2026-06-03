@@ -1,7 +1,7 @@
 package org.exodusstudio.stellaris.client.screens.laboratory;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.RenderPipelines;
@@ -28,9 +28,7 @@ public class ResearchScreen extends AbstractContainerScreen<ResearchMenu> {
     private TexturedButton startResearchButton;
 
     public ResearchScreen(ResearchMenu menu, Inventory playerInventory, Component title) {
-        super(menu, playerInventory, TAB_NAME);
-        this.imageWidth = 180;
-        this.imageHeight = 188;
+        super(menu, playerInventory, TAB_NAME, 180, 188);
 
         this.titleLabelX = (180 - Minecraft.getInstance().font.width(TAB_NAME)) / 2;
         this.titleLabelY = 2;
@@ -64,15 +62,14 @@ public class ResearchScreen extends AbstractContainerScreen<ResearchMenu> {
     }
 
     @Override
-    public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
-        renderBackground(guiGraphics, mouseX, mouseY, partialTick);
-        super.render(guiGraphics, mouseX, mouseY, partialTick);
-        renderTooltip(guiGraphics, mouseX, mouseY);
+    public void extractContents(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTick) {
+        extractBackground(graphics, mouseX, mouseY, partialTick);
+        super.extractContents(graphics, mouseX, mouseY, partialTick);
+        extractTooltip(graphics, mouseX, mouseY);
     }
 
-
     @Override
-    protected void renderBg(GuiGraphics guiGraphics, float partialTick, int mouseX, int mouseY) {
+    public void extractBackground(GuiGraphicsExtractor guiGraphics, int mouseX, int mouseY, float partialTick) {
         guiGraphics.blit(RenderPipelines.GUI_TEXTURED, GUI_LOCATION, this.leftPos, this.topPos, 0, 0, this.imageWidth, this.imageHeight, this.imageWidth, this.imageHeight);
 
         if (this.menu.getSlot(0).getItem().isEmpty()) {
@@ -93,13 +90,13 @@ public class ResearchScreen extends AbstractContainerScreen<ResearchMenu> {
     }
 
     @Override
-    protected void renderLabels(GuiGraphics guiGraphics, int mouseX, int mouseY) {
-        guiGraphics.drawString(this.font, TAB_NAME, this.titleLabelX, this.titleLabelY, -11050641, false);
+    protected void extractLabels(GuiGraphicsExtractor guiGraphics, int mouseX, int mouseY) {
+        guiGraphics.text(this.font, TAB_NAME, this.titleLabelX, this.titleLabelY, -11050641, false);
 
         if (this.should_display_success_message) {
             int color  = this.research_success ? Utils.getMinecraftColor("green") : Utils.getMinecraftColor("red");
             Component message = this.research_success ? SUCCESS_MESSAGE : FAILURE_MESSAGE;
-            guiGraphics.drawString(this.font, message, (this.imageWidth - this.font.width(message)) / 2, 90, color);
+            guiGraphics.text(this.font, message, (this.imageWidth - this.font.width(message)) / 2, 90, color);
         }
     }
 }

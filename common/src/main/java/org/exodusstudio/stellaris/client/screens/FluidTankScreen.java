@@ -1,7 +1,7 @@
 package org.exodusstudio.stellaris.client.screens;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
@@ -25,10 +25,7 @@ public class FluidTankScreen extends AbstractContainerScreen<FluidTankMenu> {
     private GaugeChunkWidget fluidGauge;
 
     public FluidTankScreen(FluidTankMenu menu, Inventory playerInventory, Component title) {
-        super(menu, playerInventory, Component.translatable("stellaris.screen.fluid_tank"));
-
-        imageWidth = 180;
-        imageHeight = 188;
+        super(menu, playerInventory, Component.translatable("stellaris.screen.fluid_tank"), 180, 188);
 
         titleLabelX = (180 - Minecraft.getInstance().font.width(title.getString())) / 2;
         titleLabelY = 2;
@@ -53,23 +50,23 @@ public class FluidTankScreen extends AbstractContainerScreen<FluidTankMenu> {
     }
 
     @Override
-    public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
-        renderBackground(guiGraphics, mouseX, mouseY, partialTick);
-        super.render(guiGraphics, mouseX, mouseY, partialTick);
-        renderTooltip(guiGraphics, mouseX, mouseY);
+    public void extractContents(GuiGraphicsExtractor guiGraphics, int mouseX, int mouseY, float partialTick) {
+        extractBackground(guiGraphics, mouseX, mouseY, partialTick);
+        super.extractContents(guiGraphics, mouseX, mouseY, partialTick);
+        extractTooltip(guiGraphics, mouseX, mouseY);
 
         fluidGauge.updateAmount(this.blockEntity.getFluidTank().getFluidValueInTank());
 
     }
 
     @Override
-    protected void renderBg(GuiGraphics guiGraphics, float partialTick, int mouseX, int mouseY) {
+    public void extractBackground(GuiGraphicsExtractor guiGraphics, int mouseX, int mouseY, float partialTick) {
         guiGraphics.blit(RenderPipelines.GUI_TEXTURED, TEXTURE, this.leftPos, this.topPos, 0, 0, imageWidth, imageHeight, imageWidth, imageHeight);
     }
 
     @Override
-    protected void renderTooltip(GuiGraphics guiGraphics, int x, int y) {
-        super.renderTooltip(guiGraphics, x, y);
+    protected void extractTooltip(GuiGraphicsExtractor guiGraphics, int x, int y) {
+        super.extractTooltip(guiGraphics, x, y);
         Component tooltip = blockEntity.getFluidTank().isEmpty() ?
                 Component.translatable("stellaris.screen.empty_fluid") :
                 blockEntity.getFluidTank().getFluidInTank(0).getName();
@@ -78,7 +75,7 @@ public class FluidTankScreen extends AbstractContainerScreen<FluidTankMenu> {
     }
 
     @Override
-    protected void renderLabels(GuiGraphics guiGraphics, int mouseX, int mouseY) {
-        guiGraphics.drawString(this.font, this.title, this.titleLabelX, this.titleLabelY, -11050641, false);
+    protected void extractLabels(GuiGraphicsExtractor guiGraphics, int mouseX, int mouseY) {
+        guiGraphics.text(this.font, this.title, this.titleLabelX, this.titleLabelY, -11050641, false);
     }
 }

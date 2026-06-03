@@ -206,7 +206,7 @@ public class RocketEntity extends VehicleEntity {
     public void startRocket() {
         if (!canFly()) {
             if (!this.getPassengers().isEmpty() && this.getPassengers().getFirst() instanceof Player player) {
-                player.displayClientMessage(Component.literal("There's something blocking the rocket flying path..."), true);
+                player.sendOverlayMessage(Component.literal("There's something blocking the rocket flying path..."));
             }
 
             return;
@@ -222,7 +222,7 @@ public class RocketEntity extends VehicleEntity {
                     this.level().playSeededSound(player,this, SoundRegistry.ROCKET_SOUND, SoundSource.NEUTRAL, 1, 1, 1);
                 }
             } else {
-                player.displayClientMessage(Component.translatable("text.stellaris.rocket.fuel", getFuelType().getFluid().arch$registryName()), true);
+                player.sendOverlayMessage(Component.translatable("text.stellaris.rocket.fuel", getFuelType().getFluid().arch$registryName()));
             }
         }
     }

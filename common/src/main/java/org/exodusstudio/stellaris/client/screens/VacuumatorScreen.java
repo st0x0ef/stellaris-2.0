@@ -1,7 +1,7 @@
 package org.exodusstudio.stellaris.client.screens;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
@@ -24,9 +24,7 @@ public class VacuumatorScreen extends AbstractContainerScreen<VacuumatorMenu> {
     private GaugeWidget energyGauge;
 
     public VacuumatorScreen(VacuumatorMenu abstractContainerMenu, Inventory inventory, Component component) {
-        super(abstractContainerMenu, inventory, component);
-        this.imageWidth = 180;
-        this.imageHeight = 188;
+        super(abstractContainerMenu, inventory, component, 180, 188);
 
         this.inventoryLabelY = this.imageHeight - 95;
 
@@ -48,10 +46,10 @@ public class VacuumatorScreen extends AbstractContainerScreen<VacuumatorMenu> {
     }
 
     @Override
-    public void render(GuiGraphics graphics, int mouseX, int mouseY, float partialTicks) {
-        this.renderBackground(graphics,mouseX,mouseY,partialTicks);
-        super.render(graphics, mouseX, mouseY, partialTicks);
-        this.renderTooltip(graphics, mouseX, mouseY);
+    public void extractContents(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTicks) {
+        this.extractBackground(graphics,mouseX,mouseY,partialTicks);
+        super.extractContents(graphics, mouseX, mouseY, partialTicks);
+        this.extractTooltip(graphics, mouseX, mouseY);
 
         if (blockEntity == null) {
             return;
@@ -66,18 +64,18 @@ public class VacuumatorScreen extends AbstractContainerScreen<VacuumatorMenu> {
     }
 
     @Override
-    protected void renderBg(GuiGraphics graphics, float var2, int var3, int var4) {
+    public void extractBackground(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTicks) {
         graphics.blit(RenderPipelines.GUI_TEXTURED, texture, this.leftPos, this.topPos, 0, 0, this.imageWidth, this.imageHeight, this.imageWidth, this.imageHeight);
     }
 
     @Override
-    protected void renderTooltip(GuiGraphics guiGraphics, int x, int y) {
-        super.renderTooltip(guiGraphics, x, y);
+    protected void extractTooltip(GuiGraphicsExtractor guiGraphics, int x, int y) {
+        super.extractTooltip(guiGraphics, x, y);
         energyGauge.renderTooltips(guiGraphics, x, y, font, List::of);
     }
 
     @Override
-    protected void renderLabels(GuiGraphics guiGraphics, int mouseX, int mouseY) {
-        guiGraphics.drawString(this.font, this.title, this.titleLabelX, this.titleLabelY, -11050641, false);
+    protected void extractLabels(GuiGraphicsExtractor guiGraphics, int mouseX, int mouseY) {
+        guiGraphics.text(this.font, this.title, this.titleLabelX, this.titleLabelY, -11050641, false);
     }
 }

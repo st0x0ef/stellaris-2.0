@@ -100,7 +100,7 @@ public class StellarisCommands {
             for (Planet planet : PlanetsData.PLANETS) {
                 stringBuilder.append("- ").append(planet.translationKey()).append(" (").append(planet.dimension()).append(")\n");
             }
-            wrapper.getPlayer().displayClientMessage(Component.literal(stringBuilder.toString()), false);
+            wrapper.getPlayer().sendSystemMessage(Component.literal(stringBuilder.toString()));
             return wrapper.success();
         });
 
@@ -116,12 +116,12 @@ public class StellarisCommands {
                 try {
                     return p.is(PlanetArgument.getPlanet(wrapper.context(), "planet"));
                 } catch (CommandSyntaxException e) {
-                    wrapper.getPlayer().displayClientMessage(Component.literal("Planet not found!"), false);
+                    wrapper.getPlayer().sendSystemMessage(Component.literal("Planet not found!"));
                     return false;
                 }
             }).findFirst().orElse(null);
             if (planet == null) {
-                wrapper.getPlayer().displayClientMessage(Component.literal("Planet not found!"), false);
+                wrapper.getPlayer().sendSystemMessage(Component.literal("Planet not found!"));
                 return wrapper.failure();
             }
             PlanetUtil.teleportToPlanet(wrapper.getPlayer(), planet, 100);
@@ -133,10 +133,10 @@ public class StellarisCommands {
         CommandBuilder infoNoArg = builder.createSubCommand("info").execute(wrapper -> {
             Planet planet = PlanetsData.getPlanet(wrapper.getPlayer().level().dimension());
             if (planet != null) {
-                wrapper.getPlayer().displayClientMessage(planet.getDisplayInfo(), false);
+                wrapper.getPlayer().sendSystemMessage(planet.getDisplayInfo());
                 return wrapper.success();
             } else {
-                wrapper.getPlayer().displayClientMessage(Component.literal("You are not on a registered planet."), false);
+                wrapper.getPlayer().sendSystemMessage(Component.literal("You are not on a registered planet."));
                 return wrapper.failure();
             }
         });
@@ -148,10 +148,10 @@ public class StellarisCommands {
                                 try {
                                     return p.is(PlanetArgument.getPlanet(wrapper.context(), "planet"));
                                 } catch (CommandSyntaxException e) {
-                                    wrapper.getPlayer().displayClientMessage(Component.literal("Planet not found!"), false);
+                                    wrapper.getPlayer().sendSystemMessage(Component.literal("Planet not found!"));
                                     return false;
                                 }
-                            }).findFirst().ifPresentOrElse(planet -> wrapper.getPlayer().displayClientMessage(planet.getDisplayInfo(), false), () -> wrapper.getPlayer().displayClientMessage(Component.literal("Planet not found!"), false));
+                            }).findFirst().ifPresentOrElse(planet -> wrapper.getPlayer().sendSystemMessage(planet.getDisplayInfo()), () -> wrapper.getPlayer().sendSystemMessage(Component.literal("Planet not found!")));
                             return wrapper.success();
                         })
         );
@@ -298,7 +298,7 @@ public class StellarisCommands {
         CommandBuilder getStageNoArgs = builder.createSubCommand("getStage").execute(commandSourceWrapper -> {
             ServerPlayer player = commandSourceWrapper.getPlayer();
             int stage = MoonLoreUtils.getResearchProgressionStage(player);
-            player.displayClientMessage(Component.literal("Current stage : " + stage), false);
+            player.sendSystemMessage(Component.literal("Current stage : " + stage));
             return commandSourceWrapper.success();
         });
 
@@ -320,7 +320,7 @@ public class StellarisCommands {
             ServerPlayer player = commandSourceWrapper.getPlayer();
             int stage = IntegerArgumentType.getInteger(commandSourceWrapper.context(), "stage");
             player.stellaris$saveDataAttachments(MoonLoreUtils.MOON_LORE_PROGRESSION, stage);
-            player.displayClientMessage(Component.literal("Stage set to " + stage), false);
+            player.sendSystemMessage(Component.literal("Stage set to " + stage));
             return commandSourceWrapper.success();
         }));
 
@@ -342,7 +342,7 @@ public class StellarisCommands {
         CommandBuilder isImmunisedNoArgs = builder.createSubCommand("isImmunised").execute(commandSourceWrapper -> {
             ServerPlayer player = commandSourceWrapper.getPlayer();
             boolean immunised = MoonLoreUtils.isPlayerImmunisedToInfection(player);
-            player.displayClientMessage(immunised ? Component.literal("You are immunised to the parasite.") : Component.literal("You are vulnerable to the parasite."), false);
+            player.sendSystemMessage(immunised ? Component.literal("You are immunised to the parasite.") : Component.literal("You are vulnerable to the parasite."));
             return commandSourceWrapper.success();
         });
 
@@ -364,7 +364,7 @@ public class StellarisCommands {
             ServerPlayer player = commandSourceWrapper.getPlayer();
             boolean immunised = BoolArgumentType.getBool(commandSourceWrapper.context(), "immunised");
             player.stellaris$saveDataAttachments(MoonLoreUtils.PLAYER_IMMUNISED_TO_INFECTION, immunised);
-            player.displayClientMessage(immunised ? Component.literal("You are now immunised to the infection.") : Component.literal("You are no longer immunised to the infection."), false);
+            player.sendSystemMessage(immunised ? Component.literal("You are now immunised to the infection.") : Component.literal("You are no longer immunised to the infection."));
             return commandSourceWrapper.success();
         }));
 

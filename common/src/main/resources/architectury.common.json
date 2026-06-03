@@ -1,8 +1,8 @@
 {
   "accessWidener": "stellaris.accesswidener",
   "injected_interfaces": {
-    "net/minecraft/class_2791": ["org/exodusstudio/stellaris/common/oil/ChunkOilLevelGetter"],
-    "net/minecraft/class_1297": ["org/exodusstudio/stellaris/common/entities/EntityDataAttachmentAccessor"],
-    "net/minecraft/class_1657": ["org/exodusstudio/stellaris/common/utils/CustomPlayerData"]
+    "net/minecraft/world/level/chunk/ChunkAccess": ["org/exodusstudio/stellaris/common/oil/ChunkOilLevelGetter"],
+    "net/minecraft/world/entity/Entity": ["org/exodusstudio/stellaris/common/entities/EntityDataAttachmentAccessor"],
+    "net/minecraft/world/entity/player/Player": ["org/exodusstudio/stellaris/common/utils/CustomPlayerData"]
   }
 }

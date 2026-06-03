@@ -673,7 +673,7 @@ public class LunarParasiteEntity extends Monster {
     }
 
     private boolean canInfectHost(LivingEntity host) {
-        if (host.getType().is(TagsRegistry.EntityTags.INFECTION_IMMUNE)) {
+        if (host.is(TagsRegistry.EntityTags.INFECTION_IMMUNE)) {
             return false;
         }
 

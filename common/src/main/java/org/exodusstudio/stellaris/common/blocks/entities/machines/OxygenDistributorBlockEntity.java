@@ -110,7 +110,7 @@ public class OxygenDistributorBlockEntity extends BaseEnergyContainerBlockEntity
     }
 
     public boolean coversChunk(BlockPos pos) {
-        return coveredChunks.contains(new ChunkPos(pos));
+        return coveredChunks.contains(ChunkPos.containing(pos));
     }
 
     public Set<ChunkPos> getCoveredChunks() {

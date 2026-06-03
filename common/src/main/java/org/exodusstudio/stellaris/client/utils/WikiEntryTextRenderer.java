@@ -3,7 +3,7 @@ package org.exodusstudio.stellaris.client.utils;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
@@ -189,7 +189,7 @@ public class WikiEntryTextRenderer {
     }
 
 
-    public int renderWords(GuiGraphics guiGraphics, int x, int y, int mouseX, int mouseY, Consumer<ActionBox> clickBoxConsumer) {
+    public int renderWords(GuiGraphicsExtractor guiGraphics, int x, int y, int mouseX, int mouseY, Consumer<ActionBox> clickBoxConsumer) {
         for (int i = 0; i < lines.size(); i++) {
             ArrayList<Word> words = lines.get(i);
 
@@ -213,7 +213,7 @@ public class WikiEntryTextRenderer {
                     color = "green";
                 }
 
-                guiGraphics.drawString(getFont(), word.getText(), x + width, y + (i * getFont().lineHeight), Utils.getMinecraftColor(color));
+                guiGraphics.text(getFont(), word.getText(), x + width, y + (i * getFont().lineHeight), Utils.getMinecraftColor(color));
                 width += getFont().width(word.text + " ");
             }
             width = 0;
@@ -333,7 +333,7 @@ public class WikiEntryTextRenderer {
          }
 
          @Override
-         protected void renderWidget(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
+         protected void extractWidgetRenderState(GuiGraphicsExtractor guiGraphics, int mouseX, int mouseY, float partialTick) {
              this.wikiEntryTextRenderer.renderWords(guiGraphics, this.getX(), this.getY(), mouseX, mouseY, (clickBox) -> {
                  //TODO add click box support
              });

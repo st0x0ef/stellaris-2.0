@@ -1,7 +1,7 @@
 package org.exodusstudio.stellaris.client.screens.engineering_station;
 
 import dev.architectury.networking.NetworkManager;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
@@ -25,10 +25,7 @@ public class SpaceStationPlannerScreen extends AbstractContainerScreen<SpaceStat
     public static final Component TAB_NAME = Component.literal("Space Station Planner");
 
     public SpaceStationPlannerScreen(SpaceStationPlannerMenu menu, Inventory inventory, net.minecraft.network.chat.Component title) {
-        super(menu, inventory, title);
-        imageWidth = 310;
-        imageHeight = 192;
-
+        super(menu, inventory, title, 310, 192);
     }
 
     @Override
@@ -39,15 +36,14 @@ public class SpaceStationPlannerScreen extends AbstractContainerScreen<SpaceStat
     }
 
     @Override
-    public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
-        renderBackground(guiGraphics, mouseX, mouseY, partialTick);
-        super.render(guiGraphics, mouseX, mouseY, partialTick);
-        renderTooltip(guiGraphics, mouseX, mouseY);
+    public void extractContents(GuiGraphicsExtractor guiGraphics, int mouseX, int mouseY, float partialTick) {
+        extractBackground(guiGraphics, mouseX, mouseY, partialTick);
+        super.extractContents(guiGraphics, mouseX, mouseY, partialTick);
+        extractTooltip(guiGraphics, mouseX, mouseY);
     }
 
-
     @Override
-    protected void renderBg(GuiGraphics guiGraphics, float partialTick, int mouseX, int mouseY) {
+    public void extractBackground(GuiGraphicsExtractor guiGraphics, int mouseX, int mouseY, float partialTick) {
         guiGraphics.blit(RenderPipelines.GUI_TEXTURED, SDCardReaderApplicationScreen.TEXTURE, leftPos, topPos, 0, 0, imageWidth, imageHeight, imageWidth, imageHeight);
 
         this.buildButton.active = selectedRecipe != null;
@@ -88,5 +84,4 @@ public class SpaceStationPlannerScreen extends AbstractContainerScreen<SpaceStat
     public void onCheckChange(boolean check) {
         this.buildButton.setText(check ? Component.literal("Build") : Component.literal("Check"));
     }
-
 }

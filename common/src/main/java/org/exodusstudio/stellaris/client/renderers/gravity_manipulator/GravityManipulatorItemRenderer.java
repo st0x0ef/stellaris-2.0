@@ -9,7 +9,6 @@ import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.client.renderer.special.NoDataSpecialModelRenderer;
 import net.minecraft.client.renderer.special.SpecialModelRenderer;
 import net.minecraft.resources.Identifier;
-import net.minecraft.world.item.ItemDisplayContext;
 import org.joml.Vector3fc;
 
 import java.util.function.Consumer;
@@ -17,7 +16,7 @@ import java.util.function.Consumer;
 public record GravityManipulatorItemRenderer(Identifier texture, GravityManipulatorModel model) implements NoDataSpecialModelRenderer {
 
     @Override
-    public void submit(ItemDisplayContext displayContext, PoseStack poseStack, SubmitNodeCollector nodeCollector, int packedLight, int packedOverlay, boolean hasFoil, int outlineColor) {
+    public void submit(PoseStack poseStack, SubmitNodeCollector nodeCollector, int packedLight, int packedOverlay, boolean hasFoil, int outlineColor) {
         poseStack.pushPose();
 
         poseStack.translate(0.5D, 1.5D, 0.5D);
@@ -25,7 +24,7 @@ public record GravityManipulatorItemRenderer(Identifier texture, GravityManipula
 
         model.animateItemCore(1f / Minecraft.getInstance().getFps());
 
-        nodeCollector.submitModelPart(this.model.root(), poseStack, RenderTypes.entityCutout(GravityManipulatorBlockRenderer.TEXTURE), packedLight, packedOverlay, null);
+        nodeCollector.submitModelPart(this.model.root(), poseStack, RenderTypes.entityCutoutCull(GravityManipulatorBlockRenderer.TEXTURE), packedLight, packedOverlay, null);
         poseStack.popPose();
     }
 

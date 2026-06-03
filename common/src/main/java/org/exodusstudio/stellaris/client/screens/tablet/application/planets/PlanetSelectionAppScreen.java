@@ -4,7 +4,7 @@ import dev.architectury.networking.NetworkManager;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.components.StringWidget;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
@@ -53,12 +53,10 @@ public class PlanetSelectionAppScreen extends AbstractContainerScreen<PlanetSele
     public AntennaSavedData antennaSavedData;
 
     public PlanetSelectionAppScreen(PlanetSelectionMenu selectionMenu, Inventory playerInventory, Component component) {
-        super(selectionMenu, playerInventory, Component.empty());
+        super(selectionMenu, playerInventory, Component.empty(), 192, 310);
         this.inSpace = selectionMenu.player.stellaris$isPlanetMenuOpen();
         this.antennaSavedData = selectionMenu.antennaSavedData;
         this.selectionMenu = selectionMenu;
-        this.imageHeight = 192;
-        this.imageWidth = 310;
         this.inventoryLabelY = -this.imageHeight;
         this.titleLabelY = -this.imageHeight;
     }
@@ -86,19 +84,14 @@ public class PlanetSelectionAppScreen extends AbstractContainerScreen<PlanetSele
         return super.mouseScrolled(mouseX, mouseY, scrollX, scrollY);
     }
 
-    @Override
-    protected void renderBg(GuiGraphics guiGraphics, float partialTick, int mouseX, int mouseY) {
-
-    }
-
     public static PlanetSelectionAppScreen create(ApplicationRegistry.MenuHolder<MainTabletMenu> menuHolder) {
         NetworkManager.sendToServer(new OpenMenuPacket("planet_selection"));
         return null;
     }
 
     @Override
-    public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
-        super.render(guiGraphics, mouseX, mouseY, partialTick);
+    public void extractContents(GuiGraphicsExtractor guiGraphics, int mouseX, int mouseY, float partialTick) {
+        super.extractContents(guiGraphics, mouseX, mouseY, partialTick);
         if(this.planetInfoComponent != null) {
             this.planetInfoComponent.visible = this.selectedPlanet != null;
         }
@@ -106,10 +99,9 @@ public class PlanetSelectionAppScreen extends AbstractContainerScreen<PlanetSele
     }
 
     @Override
-    public void renderBackground(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
-        super.renderBackground(guiGraphics, mouseX, mouseY, partialTick);
+    public void extractBackground(GuiGraphicsExtractor guiGraphics, int mouseX, int mouseY, float partialTick) {
+        super.extractBackground(guiGraphics, mouseX, mouseY, partialTick);
         guiGraphics.blit(RenderPipelines.GUI_TEXTURED, ApplicationScreen.BLANCK_BACKGROUND, this.getLeftPos(), this.getTopPos(), 0, 0, imageWidth, imageHeight, imageWidth, imageHeight);
-
     }
 
     /**
@@ -170,8 +162,7 @@ public class PlanetSelectionAppScreen extends AbstractContainerScreen<PlanetSele
 
     @Override
     public void onClose() {
-
-        if(this.selectionMenu.player.stellaris$isPlanetMenuOpen()) return;
+        if (this.selectionMenu.player.stellaris$isPlanetMenuOpen()) return;
 
         FadingHolder fadingHolder = selectionMenu.player.stellaris$getDataAttachments(IdentifierUtils.id("player_fade"), FadingHolder.class);
 
@@ -215,14 +206,14 @@ public class PlanetSelectionAppScreen extends AbstractContainerScreen<PlanetSele
         }
 
         @Override
-        public void renderContent(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
+        public void renderContent(GuiGraphicsExtractor guiGraphics, int mouseX, int mouseY, float partialTick) {
             super.renderContent(guiGraphics, mouseX, mouseY, partialTick);
 
             if(this.selectionAppScreen.selectedPlanet != null) {
                 this.teleportButton.visible = this.selectionAppScreen.isTeleportButtonVisible();
 
                 Component planetName = Component.translatable(this.selectionAppScreen.selectedPlanet.translationKey());
-                guiGraphics.drawString(Minecraft.getInstance().font, planetName, getX() + this.getWidth() / 2 - Minecraft.getInstance().font.width(planetName) / 2 , getY() + 2 - (int) scrollAmount(), Utils.getMinecraftColor("white"));
+                guiGraphics.text(Minecraft.getInstance().font, planetName, getX() + this.getWidth() / 2 - Minecraft.getInstance().font.width(planetName) / 2 , getY() + 2 - (int) scrollAmount(), Utils.getMinecraftColor("white"));
             }
         }
 

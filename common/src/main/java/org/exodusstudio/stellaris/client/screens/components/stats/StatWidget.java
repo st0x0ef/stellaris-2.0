@@ -1,7 +1,7 @@
 package org.exodusstudio.stellaris.client.screens.components.stats;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
 import net.minecraft.client.renderer.RenderPipelines;
@@ -26,11 +26,11 @@ public class StatWidget extends AbstractWidget {
     }
 
     @Override
-    protected void renderWidget(GuiGraphics ctx, int mouseX, int mouseY, float partialTick) {
+    protected void extractWidgetRenderState(GuiGraphicsExtractor ctx, int mouseX, int mouseY, float partialTick) {
         ctx.blit(RenderPipelines.GUI_TEXTURED, BACKGROUND, this.getX(), this.getY(), 0, 0, this.getWidth(), this.getHeight(), 260, 20);
         var tx = Minecraft.getInstance().font;
-        ctx.drawString(tx, statName, this.getX() + 3, this.getY() + this.getHeight() / 2 - tx.lineHeight / 2, 0xFFFFFFFF);
-        ctx.drawString(tx, statValue, this.getX() + this.getWidth() - tx.width(statValue) - 8, this.getY() + this.getHeight() / 2 - tx.lineHeight / 2, 0xFFFFFFFF);
+        ctx.text(tx, statName, this.getX() + 3, this.getY() + this.getHeight() / 2 - tx.lineHeight / 2, 0xFFFFFFFF);
+        ctx.text(tx, statValue, this.getX() + this.getWidth() - tx.width(statValue) - 8, this.getY() + this.getHeight() / 2 - tx.lineHeight / 2, 0xFFFFFFFF);
     }
 
     @Override

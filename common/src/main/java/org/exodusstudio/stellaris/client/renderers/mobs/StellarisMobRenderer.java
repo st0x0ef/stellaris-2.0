@@ -8,7 +8,7 @@ import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.rendertype.RenderType;
 import net.minecraft.client.renderer.rendertype.RenderTypes;
-import net.minecraft.client.renderer.state.CameraRenderState;
+import net.minecraft.client.renderer.state.level.CameraRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.Identifier;
 import net.minecraft.util.Mth;
@@ -48,7 +48,7 @@ public class StellarisMobRenderer<T extends Mob> extends EntityRenderer<T, Stell
     ) {
         super(context);
         this.model = model;
-        this.renderType = RenderTypes.entityCutoutNoCull(texture);
+        this.renderType = RenderTypes.entityCutoutCull(texture);
         this.scale = scale;
         this.yOffset = yOffset;
         this.shadowRadius = shadowRadius;

@@ -103,10 +103,7 @@ public class SpaceSuitModel extends HumanoidModel<HumanoidRenderState> {
         return LayerDefinition.create(meshdefinition, 128, 128);
     }
 
-    @Override
     public void setAllVisible(boolean visible) {
-        super.setAllVisible(visible);
-
         this.antenna.visible = visible;
         this.lamp.visible = visible;
         this.waist.visible = visible;

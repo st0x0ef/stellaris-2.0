@@ -91,8 +91,8 @@ public class LanderEntity extends VehicleEntity {
     }
 
     @Override
-    public @NotNull InteractionResult interact(Player player, InteractionHand hand) {
-        super.interact(player, hand);
+    public @NotNull InteractionResult interact(Player player, InteractionHand hand, Vec3 location) {
+        super.interact(player, hand, location);
         InteractionResult result = level().isClientSide() ? InteractionResult.SUCCESS : InteractionResult.SUCCESS_SERVER;
 
         if (!this.level().isClientSide()) {

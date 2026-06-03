@@ -116,7 +116,7 @@ public class AntennaBlock extends BaseMachineBlock {
                 } else {
                     // If the player is not the owner of the launch pad, do not open the menu
                     // You can also send a message to the player if needed
-                    player.displayClientMessage(Component.translatable("message.stellaris.not_owner_of_launch_pad"), false);
+                    player.sendSystemMessage(Component.translatable("message.stellaris.not_owner_of_launch_pad"));
                 }
             }
         }

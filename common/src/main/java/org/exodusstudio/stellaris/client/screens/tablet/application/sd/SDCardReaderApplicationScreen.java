@@ -1,7 +1,7 @@
 package org.exodusstudio.stellaris.client.screens.tablet.application.sd;
 
 import dev.architectury.networking.NetworkManager;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.RenderPipelines;
@@ -38,10 +38,7 @@ public class SDCardReaderApplicationScreen extends AbstractContainerScreen<@NotN
     private Button decodeButton;
 
     public SDCardReaderApplicationScreen(SDCardReaderApplicationMenu abstractContainerMenu, Inventory inventory, Component component) {
-        super(abstractContainerMenu, inventory, component);
-
-        imageWidth = 310;
-        imageHeight = 192;
+        super(abstractContainerMenu, inventory, component, 310, 192);
     }
 
     @Override
@@ -81,12 +78,12 @@ public class SDCardReaderApplicationScreen extends AbstractContainerScreen<@NotN
     }
 
     @Override
-    public void render(GuiGraphics graphics, int mouseX, int mouseY, float partialTicks) {
-        renderBackground(graphics, mouseX, mouseY, partialTicks);
-        super.render(graphics, mouseX, mouseY, partialTicks);
-        renderTooltip(graphics, mouseX, mouseY);
+    public void extractContents(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTicks) {
+        extractBackground(graphics, mouseX, mouseY, partialTicks);
+        super.extractContents(graphics, mouseX, mouseY, partialTicks);
+        extractTooltip(graphics, mouseX, mouseY);
 
-        this.cardInfoWidget.render(graphics, mouseX, mouseY, partialTicks);
+        this.cardInfoWidget.extractRenderState(graphics, mouseX, mouseY, partialTicks);
 
         this.decodeButton.active = this.getMenu().hasCard();
         this.cardInfoWidget.active = this.getMenu().hasCard() && this.cardInfoWidget.active;
@@ -95,16 +92,16 @@ public class SDCardReaderApplicationScreen extends AbstractContainerScreen<@NotN
     }
 
     @Override
-    protected void renderBg(GuiGraphics graphics, float partialTick, int mouseX, int mouseY) {
-        graphics.blit(RenderPipelines.GUI_TEXTURED, TEXTURE, leftPos, topPos, 0, 0, imageWidth, imageHeight, imageWidth, imageHeight);
+    public void extractBackground(GuiGraphicsExtractor guiGraphics, int mouseX, int mouseY, float partialTick) {
+        guiGraphics.blit(RenderPipelines.GUI_TEXTURED, TEXTURE, leftPos, topPos, 0, 0, imageWidth, imageHeight, imageWidth, imageHeight);
     }
 
     @Override
-    protected void renderTooltip(GuiGraphics guiGraphics, int x, int y) {
-        super.renderTooltip(guiGraphics, x, y);
+    protected void extractTooltip(GuiGraphicsExtractor guiGraphics, int x, int y) {
+        super.extractTooltip(guiGraphics, x, y);
     }
 
     @Override
-    protected void renderLabels(GuiGraphics guiGraphics, int mouseX, int mouseY) {}
+    protected void extractLabels(GuiGraphicsExtractor guiGraphics, int mouseX, int mouseY) {}
 
 }

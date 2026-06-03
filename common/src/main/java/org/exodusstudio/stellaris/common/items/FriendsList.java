@@ -43,27 +43,27 @@ public class FriendsList extends Item {
             AntennaSavedData antennaSavedData = AntennaSavedData.getSavedAntennas(player.level().getServer());
 
             if(antenna.launchPadId == null) {
-                player.displayClientMessage(Component.translatable("message.stellaris.friends_list.antenna_not_configured").withStyle(ChatFormatting.GRAY), true);
+                player.sendOverlayMessage(Component.translatable("message.stellaris.friends_list.antenna_not_configured").withStyle(ChatFormatting.GRAY));
                 return InteractionResult.FAIL;
             }
 
             if(!antennaSavedData.isPlayerOwner(antenna.launchPadId, player)) {
-                player.displayClientMessage(Component.translatable("message.stellaris.antenna.not_owner").withStyle(ChatFormatting.GRAY), true);
+                player.sendOverlayMessage(Component.translatable("message.stellaris.antenna.not_owner").withStyle(ChatFormatting.GRAY));
                 return InteractionResult.FAIL;
             }
 
             if(existingFriends.isEmpty()){
-                player.displayClientMessage(Component.translatable("message.stellaris.friends_list.empty").withStyle(ChatFormatting.GRAY), true);
+                player.sendOverlayMessage(Component.translatable("message.stellaris.friends_list.empty").withStyle(ChatFormatting.GRAY));
                 return InteractionResult.PASS;
             } else {
                 antennaSavedData.whitelistPlayers(antenna.launchPadId, existingFriends);
-                player.displayClientMessage(Component.translatable("message.stellaris.friends_list.use_success").withStyle(ChatFormatting.GRAY), true);
+                player.sendOverlayMessage(Component.translatable("message.stellaris.friends_list.use_success").withStyle(ChatFormatting.GRAY));
 
                 return InteractionResult.SUCCESS;
 
             }
         }
-        player.displayClientMessage(Component.literal("Right click it on our.").withStyle(ChatFormatting.GRAY), true);
+        player.sendOverlayMessage(Component.literal("Right click it on our.").withStyle(ChatFormatting.GRAY));
 
 
         return super.useOn(context);
@@ -89,10 +89,10 @@ public class FriendsList extends Item {
 
             if (!alreadyFriend) {
                 friendsList.add(interactedPlayerProfile);
-                player.displayClientMessage(Component.translatable("message.stellaris.friends_list.added", interactedPlayerProfile.name().orElse("Unknown")).withStyle(ChatFormatting.GRAY), true);
+                player.sendOverlayMessage(Component.translatable("message.stellaris.friends_list.added", interactedPlayerProfile.name().orElse("Unknown")).withStyle(ChatFormatting.GRAY));
             } else {
                 friendsList.remove(interactedPlayerProfile);
-                player.displayClientMessage(Component.translatable("message.stellaris.friends_list.removed", interactedPlayerProfile.name().orElse("Unknown")).withStyle(ChatFormatting.GRAY), true);
+                player.sendOverlayMessage(Component.translatable("message.stellaris.friends_list.removed", interactedPlayerProfile.name().orElse("Unknown")).withStyle(ChatFormatting.GRAY));
 
             }
 

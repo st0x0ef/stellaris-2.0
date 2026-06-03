@@ -1,6 +1,6 @@
 package org.exodusstudio.stellaris.client.screens.tablet.application.wiki;
 
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.input.KeyEvent;
 import net.minecraft.client.renderer.RenderPipelines;
@@ -32,10 +32,10 @@ public class WikiEntryScreen extends Screen {
     }
 
     @Override
-    public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
-        super.render(guiGraphics, mouseX, mouseY, partialTick);
+    public void extractRenderState(GuiGraphicsExtractor guiGraphics, int mouseX, int mouseY, float partialTick) {
+        super.extractRenderState(guiGraphics, mouseX, mouseY, partialTick);
 
-        guiGraphics.drawCenteredString(this.font, this.widget.info.title(), this.width / 2 + 3, this.getTopPos() + 30, Utils.getMinecraftColor("white"));
+        guiGraphics.centeredText(this.font, this.widget.info.title(), this.width / 2 + 3, this.getTopPos() + 30, Utils.getMinecraftColor("white"));
     }
 
     @Override
@@ -61,8 +61,8 @@ public class WikiEntryScreen extends Screen {
     }
 
     @Override
-    public void renderBackground(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
-        super.renderBackground(guiGraphics, mouseX, mouseY, partialTick);
+    public void extractBackground(GuiGraphicsExtractor guiGraphics, int mouseX, int mouseY, float partialTick) {
+        super.extractBackground(guiGraphics, mouseX, mouseY, partialTick);
         guiGraphics.blit(RenderPipelines.GUI_TEXTURED, ApplicationScreen.BLANCK_BACKGROUND, this.getLeftPos(), this.getTopPos(), 0, 0, wikiApplicationScreen.getImageWidth(), this.wikiApplicationScreen.getImageHeight(), this.wikiApplicationScreen.getImageWidth(),this.wikiApplicationScreen.getImageHeight());
 
     }

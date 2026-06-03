@@ -122,7 +122,7 @@ public record SpaceStationRecipe(List<IngredientWithCount> items, Identifier str
         );
 
         public boolean matches(ItemStack stack) {
-            return itemRef.map(itemKey -> stack.getItemHolder().is(itemKey), stack::is);
+            return itemRef.map(itemKey -> stack.typeHolder().is(itemKey), stack::is);
         }
     }
 

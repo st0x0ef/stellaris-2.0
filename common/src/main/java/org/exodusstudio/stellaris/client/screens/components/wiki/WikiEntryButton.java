@@ -4,7 +4,7 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ActiveTextCollector;
 import net.minecraft.client.gui.Font;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
@@ -28,8 +28,8 @@ public class WikiEntryButton extends TexturedButton {
 
 
     @Override
-    public void renderContents(GuiGraphics graphics, int mouseX, int mouseY, float partialTicks) {
-        super.renderContents(graphics, mouseX, mouseY, partialTicks);
+    public void extractContents(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTicks) {
+        super.extractContents(graphics, mouseX, mouseY, partialTicks);
 
         graphics.blit(RenderPipelines.GUI_TEXTURED, this.isHovered() ? entry.hoverIcon() : entry.icon(), this.getX(), this.getY() + 2, 0, 0,
                 16, 16, 16, 16);
@@ -37,7 +37,7 @@ public class WikiEntryButton extends TexturedButton {
         Font font = Minecraft.getInstance().font;
 
         renderScrollingStringOverContents(graphics.textRendererForWidget(this,
-                GuiGraphics.HoveredTextEffects.NONE), entry.getTitle(), this.getX() + 20, (this.getY() + getHeight() / 2) - font.lineHeight / 2);
+                GuiGraphicsExtractor.HoveredTextEffects.NONE), entry.getTitle(), this.getX() + 20, (this.getY() + getHeight() / 2) - font.lineHeight / 2);
     }
 
     protected void renderScrollingStringOverContents(ActiveTextCollector activeTextCollector, Component text, int x, int y) {

@@ -2,7 +2,6 @@ package org.exodusstudio.stellaris.common.data.recipes;
 
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import net.minecraft.core.HolderLookup;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
@@ -31,8 +30,18 @@ public record VaccineRecipe(List<Ingredient> ingredients, ItemStack output) impl
     }
 
     @Override
-    public ItemStack assemble(VaccineInput input, HolderLookup.Provider registries) {
-        return output;
+    public ItemStack assemble(VaccineInput input) {
+        return output.copy();
+    }
+
+    @Override
+    public boolean showNotification() {
+        return false;
+    }
+
+    @Override
+    public String group() {
+        return "";
     }
 
     @Override
@@ -55,7 +64,7 @@ public record VaccineRecipe(List<Ingredient> ingredients, ItemStack output) impl
         return RecipeBookCategories.CRAFTING_MISC;
     }
 
-    public static class Serializer implements RecipeSerializer<VaccineRecipe> {
+    public static class Serializer {
 
         public static final MapCodec<VaccineRecipe> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
                 Ingredient.CODEC.listOf(1, 4).fieldOf("ingredients").forGetter(VaccineRecipe::ingredients),
@@ -68,14 +77,8 @@ public record VaccineRecipe(List<Ingredient> ingredients, ItemStack output) impl
                 VaccineRecipe::new);
 
 
-        @Override
-        public MapCodec<VaccineRecipe> codec() {
-            return CODEC;
-        }
-
-        @Override
-        public StreamCodec<RegistryFriendlyByteBuf, VaccineRecipe> streamCodec() {
-            return STREAM_CODEC;
+        public static RecipeSerializer<VaccineRecipe> create() {
+            return new RecipeSerializer<>(CODEC, STREAM_CODEC);
         }
     }
 }

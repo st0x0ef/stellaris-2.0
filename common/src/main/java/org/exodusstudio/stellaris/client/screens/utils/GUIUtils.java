@@ -1,7 +1,7 @@
 package org.exodusstudio.stellaris.client.screens.utils;
 
 import net.minecraft.client.gui.Font;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
@@ -57,7 +57,7 @@ public class GUIUtils {
         };
     }
 
-    public static void renderEnergyGeneratorGaugeTooltip(GuiGraphics graphics, GaugeWidget widget, int energyGeneratedPerTicks, int x, int y, Font font) {
+    public static void renderEnergyGeneratorGaugeTooltip(GuiGraphicsExtractor graphics, GaugeWidget widget, int energyGeneratedPerTicks, int x, int y, Font font) {
         widget.renderTooltips(graphics, x, y, font, list -> list.add(ClientTooltipComponent.create(Component.translatable("gauge_text.stellaris.max_generation", energyGeneratedPerTicks).getVisualOrderText())));
     }
 }

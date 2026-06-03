@@ -6,7 +6,7 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
@@ -31,7 +31,7 @@ public class SpaceSuitOverlay {
     public static final Identifier EMPTY_TANK = IdentifierUtils.texture("overlay/empty_tank");
 
 
-    public static void render(GuiGraphics graphics, DeltaTracker deltaTracker) {
+    public static void render(GuiGraphicsExtractor graphics, DeltaTracker deltaTracker) {
         Minecraft mc = Minecraft.getInstance();
         Player player = mc.player;
 
@@ -46,7 +46,7 @@ public class SpaceSuitOverlay {
         }
     }
 
-    private static int tryRenderOxygenOverlay(GuiGraphics graphics, Player player, Font font, int yOffset) {
+    private static int tryRenderOxygenOverlay(GuiGraphicsExtractor graphics, Player player, Font font, int yOffset) {
         ItemStack helmetStack = player.getItemBySlot(EquipmentSlot.HEAD);
 
         if (helmetStack.getItem() instanceof SpaceSuitHelmet helmet && helmet.getOxygenCapacity(helmetStack) > 0) {
@@ -73,7 +73,7 @@ public class SpaceSuitOverlay {
 
             /** OXYGEN AMOUNT TEXT */
             Component text = Component.translatable("fluid.stellaris.oxygen").append(": ").withStyle(ChatFormatting.BLUE).append("§7" + Math.round(((float) oxygen / maxOxygen) * 100) + "%");
-            graphics.drawString(font, text, x, yOffset + textureHeight + 3, 0xFFFFFFFF);
+            graphics.text(font, text, x, yOffset + textureHeight + 3, 0xFFFFFFFF);
 
             return textureHeight + font.lineHeight + 5;
         }
@@ -81,7 +81,7 @@ public class SpaceSuitOverlay {
         return 0;
     }
 
-    private static int tryRenderOilFinderOverlay(GuiGraphics graphics, Player player, Font font, int yOffset) {
+    private static int tryRenderOilFinderOverlay(GuiGraphicsExtractor graphics, Player player, Font font, int yOffset) {
         ItemStack helmetStack = player.getItemBySlot(EquipmentSlot.HEAD);
 
         if (ModuleUtils.hasSpaceSuitModule(helmetStack, SpaceSuitModule.OilFinderModule.class) && helmetStack.getItem() instanceof SpaceSuitHelmet helmet) {
@@ -109,18 +109,18 @@ public class SpaceSuitOverlay {
                 int x = 5;
 
                 if (energy.getEnergy() < 1) {
-                    graphics.drawString(font, cantSearchText, x, yOffset, Utils.getMinecraftColor("red"));
+                    graphics.text(font, cantSearchText, x, yOffset, Utils.getMinecraftColor("red"));
                     height += font.lineHeight + 1;
                 } else {
                     if (oilLevel > 0) {
-                        graphics.drawString(font, oilFoundText, x, yOffset, Utils.getMinecraftColor("green"));
+                        graphics.text(font, oilFoundText, x, yOffset, Utils.getMinecraftColor("green"));
                     } else {
-                        graphics.drawString(font, noOilText, x, yOffset, Utils.getMinecraftColor("red"));
+                        graphics.text(font, noOilText, x, yOffset, Utils.getMinecraftColor("red"));
                     }
                     height += font.lineHeight + 1;
                 }
 
-                graphics.drawString(font, energyText, x, yOffset + height, Utils.getMinecraftColor("yellow"));
+                graphics.text(font, energyText, x, yOffset + height, Utils.getMinecraftColor("yellow"));
                 height += font.lineHeight + 1;
 
                 return height + 5;
@@ -130,7 +130,7 @@ public class SpaceSuitOverlay {
         return 0;
     }
 
-    private static int tryRenderFuelTankOverlay(GuiGraphics graphics, Player player, Font font, int yOffset) {
+    private static int tryRenderFuelTankOverlay(GuiGraphicsExtractor graphics, Player player, Font font, int yOffset) {
         ItemStack chestplateStack = player.getItemBySlot(EquipmentSlot.CHEST);
         SpaceSuitModule.CustomFuelModule tankModule = ModuleUtils.getSpaceSuitModule(chestplateStack, SpaceSuitModule.CustomFuelModule.class);
 
@@ -147,7 +147,7 @@ public class SpaceSuitOverlay {
             /** FUEL AMOUNT TEXT */
             String fuelName = fuelStorage.getFluidInTank(0).getName().getString();
             Component text = Component.literal(fuelName).append(": ").withStyle(ChatFormatting.RED).append("§7" + Math.round(((float) fuel / maxFuel) * 100) + "%");
-            graphics.drawString(font, text, 5, yOffset, 0xFFFFFFFF);
+            graphics.text(font, text, 5, yOffset, 0xFFFFFFFF);
 
             return font.lineHeight + 5;
         }
@@ -155,14 +155,14 @@ public class SpaceSuitOverlay {
         return 0;
     }
 
-    private static int tryRenderJetModeOverlay(GuiGraphics graphics, Player player, Font font, int yOffset) {
+    private static int tryRenderJetModeOverlay(GuiGraphicsExtractor graphics, Player player, Font font, int yOffset) {
         ItemStack feetStack = player.getItemBySlot(EquipmentSlot.FEET);
 
         SpaceSuitModule.JetModule jetModule = ModuleUtils.getSpaceSuitModule(feetStack, SpaceSuitModule.JetModule.class);
         if (jetModule != null) {
             MutableComponent mode = SpaceSuitBoots.getModeType(feetStack).getMutableComponent();
             Component text = Component.translatable("text.stellaris.jet.mode").append(": ").withStyle(ChatFormatting.GRAY).append(mode);
-            graphics.drawString(font, text, 5, yOffset, Utils.getMinecraftColor("white"));
+            graphics.text(font, text, 5, yOffset, Utils.getMinecraftColor("white"));
 
             return font.lineHeight + 5;
         }

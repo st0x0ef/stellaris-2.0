@@ -2,7 +2,7 @@ package org.exodusstudio.stellaris.client.screens.tablet.application;
 
 import dev.architectury.networking.NetworkManager;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
@@ -28,10 +28,8 @@ public class ApplicationScreen<T extends AbstractContainerMenu> extends Abstract
     public final Inventory inventory;
 
     public ApplicationScreen(T menu, Inventory inventory, Component title) {
-        super(menu, inventory, title);
+        super(menu, inventory, title, 162, 250);
         this.player = inventory.player;
-        this.imageHeight = 162;
-        this.imageWidth = 250;
         this.inventoryLabelY = -this.imageHeight;
         this.titleLabelY = -this.imageHeight;
 
@@ -40,7 +38,7 @@ public class ApplicationScreen<T extends AbstractContainerMenu> extends Abstract
 
 
     @Override
-    protected void renderBg(GuiGraphics guiGraphics, float partialTick, int mouseX, int mouseY) {
+    public void extractBackground(GuiGraphicsExtractor guiGraphics, int mouseX, int mouseY, float partialTick) {
         guiGraphics.blit(RenderPipelines.GUI_TEXTURED, BACKGROUND, this.leftPos, this.topPos, 0, 0, this.imageWidth, this.imageHeight, this.imageWidth, this.imageHeight);
 
     }

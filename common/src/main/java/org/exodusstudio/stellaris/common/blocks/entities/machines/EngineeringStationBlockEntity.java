@@ -109,7 +109,7 @@ public class EngineeringStationBlockEntity extends BaseContainerBlockEntity impl
             if (recipeHolder.isPresent()) {
 
                 RocketStationRecipe recipe = recipeHolder.get().value();
-                ItemStack resultStack = recipe.assemble(input, level.registryAccess());
+                ItemStack resultStack = recipe.assemble(input);
                 if (outputStack.isEmpty() || (ItemStack.isSameItemSameComponents(outputStack, resultStack)
                         && outputStack.getCount() + resultStack.getCount() <= outputStack.getMaxStackSize())) {
 

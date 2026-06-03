@@ -2,7 +2,6 @@ package org.exodusstudio.stellaris.common.data.recipes;
 
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import net.minecraft.core.HolderLookup;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
@@ -30,8 +29,18 @@ public record RocketStationRecipe(List<Ingredient> recipeItems, ItemStack output
     }
 
     @Override
-    public @NotNull ItemStack assemble(RocketStationInput container, HolderLookup.Provider provider) {
+    public @NotNull ItemStack assemble(RocketStationInput container) {
         return output;
+    }
+
+    @Override
+    public boolean showNotification() {
+        return false;
+    }
+
+    @Override
+    public String group() {
+        return "";
     }
 
     @Override
@@ -54,7 +63,7 @@ public record RocketStationRecipe(List<Ingredient> recipeItems, ItemStack output
         return RecipeBookCategories.CRAFTING_MISC;
     }
 
-    public static class Serializer implements RecipeSerializer<RocketStationRecipe> {
+    public static class Serializer {
 
         public static final MapCodec<RocketStationRecipe> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
                 Ingredient.CODEC.listOf(1, 14).fieldOf("ingredients").forGetter(RocketStationRecipe::recipeItems),
@@ -67,14 +76,8 @@ public record RocketStationRecipe(List<Ingredient> recipeItems, ItemStack output
                 RocketStationRecipe::new);
 
 
-        @Override
-        public MapCodec<RocketStationRecipe> codec() {
-            return CODEC;
-        }
-
-        @Override
-        public StreamCodec<RegistryFriendlyByteBuf, RocketStationRecipe> streamCodec() {
-            return STREAM_CODEC;
+        public static RecipeSerializer<RocketStationRecipe> create() {
+            return new RecipeSerializer<>(CODEC, STREAM_CODEC);
         }
     }
 }

@@ -16,10 +16,10 @@ public abstract class SyncOutputManager implements CustomPacketPayload {
 
     BlockPos pos;
     Direction direction;
-    @Nullable FluidStack stack;
+    FluidStack stack;
 
 
-    public SyncOutputManager(BlockPos pos, Direction direction, @Nullable FluidStack stack) {
+    public SyncOutputManager(BlockPos pos, Direction direction, FluidStack stack) {
         this.pos = pos;
         this.direction = direction;
         this.stack = stack;
@@ -71,7 +71,7 @@ public abstract class SyncOutputManager implements CustomPacketPayload {
 
         public static final CustomPacketPayload.Type<SyncOutputManager> TYPE = new CustomPacketPayload.Type<>(IdentifierUtils.id("sync_output_manager_s2c"));
 
-        public S2C(BlockPos pos, Direction direction, @Nullable FluidStack stack) {
+        public S2C(BlockPos pos, Direction direction, FluidStack stack) {
             super(pos, direction, stack);
         }
 
@@ -82,8 +82,4 @@ public abstract class SyncOutputManager implements CustomPacketPayload {
             return TYPE;
         }
     }
-
-
-
-
 }

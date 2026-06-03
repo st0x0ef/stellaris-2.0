@@ -4,7 +4,6 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.architectury.fluid.FluidStack;
-import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
@@ -29,7 +28,7 @@ public record ElectrolyzeRecipe(FluidStack ingredientStack, List<FluidStack> res
     }
 
     @Override
-    public ItemStack assemble(FluidInput container, HolderLookup.Provider registries) {
+    public ItemStack assemble(FluidInput container) {
         return ItemStack.EMPTY;
     }
 
@@ -54,11 +53,21 @@ public record ElectrolyzeRecipe(FluidStack ingredientStack, List<FluidStack> res
     }
 
     @Override
+    public boolean showNotification() {
+        return false;
+    }
+
+    @Override
+    public String group() {
+        return "";
+    }
+
+    @Override
     public RecipeBookCategory recipeBookCategory() {
         return RecipeBookCategories.CRAFTING_MISC;
     }
 
-    public static class Serializer implements RecipeSerializer<ElectrolyzeRecipe> {
+    public static class Serializer {
         private static final Codec<FluidStack> FLUID_STACK_CODEC = RecordCodecBuilder.create(instance -> instance.group(
                 Identifier.CODEC.fieldOf("id").forGetter(stack -> BuiltInRegistries.FLUID.getKey(stack.getFluid())),
                 Codec.LONG.fieldOf("amount").forGetter(FluidStack::getAmount)
@@ -73,8 +82,6 @@ public record ElectrolyzeRecipe(FluidStack ingredientStack, List<FluidStack> res
                 Codec.LONG.fieldOf("energyContainer").forGetter(ElectrolyzeRecipe::energy)
         ).apply(instance, ElectrolyzeRecipe::new));
 
-
-
         public static final StreamCodec<RegistryFriendlyByteBuf, List<FluidStack>> FLUID_STACK_LIST_STREAM_CODEC =
                 ByteBufCodecs.collection(ArrayList::new, FluidStack.STREAM_CODEC, 2);
         private static final StreamCodec<RegistryFriendlyByteBuf, ElectrolyzeRecipe> STREAM_CODEC = StreamCodec.of((buf, recipe) -> {
@@ -83,14 +90,8 @@ public record ElectrolyzeRecipe(FluidStack ingredientStack, List<FluidStack> res
             buf.writeLong(recipe.energy);
         }, buf -> new ElectrolyzeRecipe(FluidStack.read(buf), FLUID_STACK_LIST_STREAM_CODEC.decode(buf), buf.readLong()));
 
-        @Override
-        public MapCodec<ElectrolyzeRecipe> codec() {
-            return CODEC;
-        }
-
-        @Override
-        public StreamCodec<RegistryFriendlyByteBuf, ElectrolyzeRecipe> streamCodec() {
-            return STREAM_CODEC;
+        public static RecipeSerializer<ElectrolyzeRecipe> create() {
+            return new RecipeSerializer<>(CODEC, STREAM_CODEC);
         }
     }
 }

@@ -2,7 +2,7 @@ package org.exodusstudio.stellaris.client.utils.minedown;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.Font;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import org.exodusstudio.stellaris.client.utils.ActionBox;
@@ -89,7 +89,7 @@ public class StellardownRenderer {
         return lines;
     }
 
-    public int render(int x, int y, GuiGraphics guiGraphics, Consumer<ActionBox> clickBoxConsumer) {
+    public int render(int x, int y, GuiGraphicsExtractor guiGraphics, Consumer<ActionBox> clickBoxConsumer) {
         for (Line line : this.renderedLines) {
             for (PositionedSegment seg : line.segments) {
 
@@ -103,7 +103,7 @@ public class StellardownRenderer {
                     clickBoxConsumer.accept(new ActionBox(x + seg.x, y + line.y, width, line.height, null, (info) -> info.actionBox().changePage(info.infoWidget(), seg.style.ref), seg.style.ref));
                 }
 
-                guiGraphics.drawString(font, component,
+                guiGraphics.text(font, component,
                         x + seg.x, y + line.y,  // use pre-computed line.y
                         Utils.getMinecraftColor("white"));
 
@@ -115,7 +115,7 @@ public class StellardownRenderer {
         return lastLine.y + lastLine.height;
     }
 
-    public int render(int x, int y, GuiGraphics guiGraphics) {
+    public int render(int x, int y, GuiGraphicsExtractor guiGraphics) {
         return render(x, y, guiGraphics, box -> {});
     }
 
