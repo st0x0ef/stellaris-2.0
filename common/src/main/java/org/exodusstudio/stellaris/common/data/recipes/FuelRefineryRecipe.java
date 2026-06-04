@@ -4,6 +4,7 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.architectury.fluid.FluidStack;
+import dev.architectury.fluid.FluidStackTemplate;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.item.ItemStack;
@@ -14,7 +15,7 @@ import org.exodusstudio.stellaris.common.data.recipes.input.FluidInput;
 import org.exodusstudio.stellaris.common.fluid.SingleFluidStorage;
 import org.exodusstudio.stellaris.common.registries.RecipesRegistry;
 
-public record FuelRefineryRecipe(FluidStack ingredientStack, FluidStack fuelStack, FluidStack dieselStack,
+public record FuelRefineryRecipe(FluidStackTemplate ingredientStack, FluidStackTemplate fuelStack, FluidStackTemplate dieselStack,
                                  int energy) implements Recipe<FluidInput> {
 
     public static RecipeType<FuelRefineryRecipe> Type = RecipesRegistry.FUEL_REFINERY_TYPE.get();
@@ -23,7 +24,7 @@ public record FuelRefineryRecipe(FluidStack ingredientStack, FluidStack fuelStac
     public boolean matches(FluidInput input, Level level) {
         SingleFluidStorage storage = ((FuelRefineryBlockEntity) input.entity()).getIngredientTank();
         FluidStack stack = storage.getFluidInTank(0);
-        return stack.isFluidEqual(ingredientStack) && stack.getAmount() >= ingredientStack.getAmount();
+        return stack.getFluid().isSame(ingredientStack.fluid().value()) && stack.getAmount() >= ingredientStack.amount();
     }
 
     @Override
@@ -69,9 +70,9 @@ public record FuelRefineryRecipe(FluidStack ingredientStack, FluidStack fuelStac
     public static class Serializer {
 
         private static final MapCodec<FuelRefineryRecipe> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
-                FluidStack.CODEC.fieldOf("ingredient").forGetter(FuelRefineryRecipe::ingredientStack),
-                FluidStack.CODEC.fieldOf("fuel").forGetter(FuelRefineryRecipe::fuelStack),
-                FluidStack.CODEC.fieldOf("diesel").forGetter(FuelRefineryRecipe::dieselStack),
+                FluidStackTemplate.CODEC.fieldOf("ingredient").forGetter(FuelRefineryRecipe::ingredientStack),
+                FluidStackTemplate.CODEC.fieldOf("fuel").forGetter(FuelRefineryRecipe::fuelStack),
+                FluidStackTemplate.CODEC.fieldOf("diesel").forGetter(FuelRefineryRecipe::dieselStack),
                 Codec.INT.fieldOf("energyContainer").forGetter(FuelRefineryRecipe::energy)
         ).apply(instance, FuelRefineryRecipe::new));
 
@@ -80,7 +81,7 @@ public record FuelRefineryRecipe(FluidStack ingredientStack, FluidStack fuelStac
             recipe.fuelStack().write(buf);
             recipe.dieselStack().write(buf);
             buf.writeInt(recipe.energy());
-        }, buf -> new FuelRefineryRecipe(FluidStack.read(buf), FluidStack.read(buf), FluidStack.read(buf), buf.readInt()));
+        }, buf -> new FuelRefineryRecipe(FluidStackTemplate.read(buf), FluidStackTemplate.read(buf), FluidStackTemplate.read(buf), buf.readInt()));
 
         public static RecipeSerializer<FuelRefineryRecipe> create() {
             return new RecipeSerializer<>(CODEC, STREAM_CODEC);

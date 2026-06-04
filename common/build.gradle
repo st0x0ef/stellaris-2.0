@@ -9,7 +9,6 @@ loom {
 
 dependencies {
     implementation "net.fabricmc:fabric-loader:$rootProject.fabric_loader_version"
-    implementation "dev.architectury:architectury:$rootProject.architectury_api_version"
-
     implementation "com.fej1fun.potentials:potentials-common-$rootProject.minecraft_version:$rootProject.potentials_version"
+    implementation "dev.architectury:architectury:$rootProject.architectury_api_version"
 }

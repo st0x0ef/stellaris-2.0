@@ -7,6 +7,7 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ItemStackTemplate;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
@@ -81,8 +82,10 @@ public class CoalGeneratorBlockEntity extends BaseGeneratorBlockEntity {
                 Item item = stack.getItem();
                 stack.shrink(1);
                 if (stack.isEmpty()) {
-                    Item item2 = item.getCraftingRemainder().create().getItem();
-                    getItems().set(0, new ItemStack(item2));
+                    ItemStackTemplate template = item.getCraftingRemainder();
+                    if (template != null) {
+                        getItems().set(0, new ItemStack(template.item().value()));
+                    }
                 }
             }
         }

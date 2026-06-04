@@ -272,7 +272,7 @@ public class SpaceSuitBoots extends SpaceSuitItem {
                 Vec3 vec33 = player.getLookAngle().scale(6.5D);
 
                 if (player.level() instanceof ServerLevel serverLevel) {
-                    serverLevel.sendParticles(ParticleTypes.FLAME, true, true, player.getX() - vec33.x, player.getY() - vec33.y, player.getZ() - vec33.z, 1, (double) 0, (double) 0, (double) 0, 0.001);
+                    serverLevel.sendParticles(ParticleTypes.FLAME, true, true, player.getX() - vec33.x, player.getY() - vec33.y, player.getZ() - vec33.z, 1, 0, 0, 0, 0.001);
                 }
             }
         }

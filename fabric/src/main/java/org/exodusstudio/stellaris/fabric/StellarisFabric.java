@@ -1,5 +1,6 @@
 package org.exodusstudio.stellaris.fabric;
 
+import dev.architectury.registry.ReloadListenerRegistry;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerChunkEvents;
 import net.fabricmc.fabric.api.resource.IdentifiableResourceReloadListener;
@@ -23,20 +24,5 @@ public final class StellarisFabric implements ModInitializer {
 
     public static void registerEvents() {
         ServerChunkEvents.CHUNK_LOAD.register((level, chunk, generated) ->ChunkEvent.LOAD.invoker().load(chunk, level, generated));
-        onAddReloadListener();
-    }
-
-    public static void onAddReloadListener() {
-        Stellaris.onAddReloadListenerEvent((id, listener) -> ResourceManagerHelper.get(PackType.SERVER_DATA).registerReloadListener(new IdentifiableResourceReloadListener() {
-            @Override
-            public Identifier getFabricId() {
-                return id;
-            }
-
-            @Override
-            public CompletableFuture<Void> reload(SharedState sharedState, Executor exectutor, PreparationBarrier barrier, Executor applyExectutor) {
-                return listener.reload(sharedState, exectutor, barrier, applyExectutor);
-            }
-        }));
     }
 }

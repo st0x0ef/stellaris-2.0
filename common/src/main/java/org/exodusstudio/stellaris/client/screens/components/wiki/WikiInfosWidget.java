@@ -86,7 +86,7 @@ public class WikiInfosWidget extends ScrollableContainer {
                         matrixStack.translate(tx, yPos);
                         matrixStack.scale(scale, scale);
 
-                        guiGraphics.item(item.stack(), 0, 0);
+                        guiGraphics.item(item.stack().create(), 0, 0);
 
                         finalHeight.addAndGet(Math.round(itemSize * scale) + (padding * 2));
 

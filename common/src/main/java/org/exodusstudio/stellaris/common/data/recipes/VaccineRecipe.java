@@ -6,6 +6,7 @@ import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ItemStackTemplate;
 import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.Level;
 import org.exodusstudio.stellaris.Stellaris;
@@ -15,7 +16,7 @@ import org.exodusstudio.stellaris.common.registries.RecipesRegistry;
 
 import java.util.List;
 
-public record VaccineRecipe(List<Ingredient> ingredients, ItemStack output) implements Recipe<VaccineInput> {
+public record VaccineRecipe(List<Ingredient> ingredients, ItemStackTemplate output) implements Recipe<VaccineInput> {
 
     @Override
     public boolean matches(VaccineInput input, Level level) {
@@ -31,7 +32,7 @@ public record VaccineRecipe(List<Ingredient> ingredients, ItemStack output) impl
 
     @Override
     public ItemStack assemble(VaccineInput input) {
-        return output.copy();
+        return output.create();
     }
 
     @Override
@@ -68,12 +69,12 @@ public record VaccineRecipe(List<Ingredient> ingredients, ItemStack output) impl
 
         public static final MapCodec<VaccineRecipe> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
                 Ingredient.CODEC.listOf(1, 4).fieldOf("ingredients").forGetter(VaccineRecipe::ingredients),
-                ItemStack.CODEC.fieldOf("output").forGetter(VaccineRecipe::output)
+                ItemStackTemplate.CODEC.fieldOf("output").forGetter(VaccineRecipe::output)
         ).apply(instance, VaccineRecipe::new));
 
         public static final StreamCodec<RegistryFriendlyByteBuf, VaccineRecipe> STREAM_CODEC = StreamCodec.composite(
                 Ingredient.CONTENTS_STREAM_CODEC.apply(ByteBufCodecs.list()), VaccineRecipe::ingredients,
-                ItemStack.STREAM_CODEC, VaccineRecipe::output,
+                ItemStackTemplate.STREAM_CODEC, VaccineRecipe::output,
                 VaccineRecipe::new);
 
 

@@ -61,9 +61,8 @@ loom {
 dependencies {
     neoForge "net.neoforged:neoforge:$rootProject.neoforge_version"
 
-    implementation "dev.architectury:architectury-neoforge:$rootProject.architectury_api_version"
-
     implementation "com.fej1fun.potentials:potentials-neoforge-$rootProject.minecraft_version:$rootProject.potentials_version"
+    implementation "dev.architectury:architectury-neoforge:$rootProject.architectury_api_version"
 
     common(project(path: ':common')) { transitive false }
     shadowCommon(project(path: ':common', configuration: 'transformProductionNeoForge'))

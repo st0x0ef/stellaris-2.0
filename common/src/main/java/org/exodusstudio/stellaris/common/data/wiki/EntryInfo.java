@@ -8,6 +8,7 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ItemStackTemplate;
 import net.minecraft.world.level.block.Block;
 
 import java.util.List;
@@ -73,9 +74,9 @@ public record EntryInfo(Identifier id, Identifier entryId, String title, String 
      * @param stack the item to render
      * @param onlyIcon If present, the item won't be shown in the wiki page but only on the enty button.
      */
-    public record ItemComponent(ItemStack stack, Optional<Boolean> onlyIcon, Optional<Float> scale) {
+    public record ItemComponent(ItemStackTemplate stack, Optional<Boolean> onlyIcon, Optional<Float> scale) {
         public static final Codec<ItemComponent> CODEC = RecordCodecBuilder.create(instance -> instance.group(
-                ItemStack.CODEC.fieldOf("stack").forGetter(ItemComponent::stack),
+                ItemStackTemplate.CODEC.fieldOf("stack").forGetter(ItemComponent::stack),
                 Codec.BOOL.optionalFieldOf("onlyIcon").forGetter(ItemComponent::onlyIcon),
                 Codec.FLOAT.optionalFieldOf("scale").forGetter(ItemComponent::scale)
         ).apply(instance, ItemComponent::new));

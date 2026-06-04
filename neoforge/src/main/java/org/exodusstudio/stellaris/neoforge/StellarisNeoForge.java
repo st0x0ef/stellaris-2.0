@@ -14,12 +14,6 @@ public final class StellarisNeoForge {
         Stellaris.init();
         DataAttachmentRegistry.register(bus);
 
-        NeoForge.EVENT_BUS.addListener(StellarisNeoForge::onAddServerReloadListenersEvent);
-
         RegistryPlatformImpl.ENTITY_DATA_SERIALIZERS.register(bus);
-    }
-
-    public static void onAddServerReloadListenersEvent(AddServerReloadListenersEvent event) {
-        Stellaris.onAddReloadListenerEvent(event::addListener);
     }
 }

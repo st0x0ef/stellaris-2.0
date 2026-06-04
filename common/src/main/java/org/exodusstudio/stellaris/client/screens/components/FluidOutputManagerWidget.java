@@ -77,13 +77,15 @@ public class FluidOutputManagerWidget extends DraggableContainer {
                             }
                         }
 
-                        NetworkManager.sendToServer(new SyncOutputManager.C2S(this.blockEntity.getBlockPos(), dir, this.fluidOutputManager.outputs.getOrDefault(dir, FluidStack.empty())));
-
+                        FluidStack stack = this.fluidOutputManager.outputs.get(dir);
+                        if (stack != null && !stack.isEmpty()) {
+                            NetworkManager.sendToServer(new SyncOutputManager.C2S(this.blockEntity.getBlockPos(), dir, stack));
+                        }
                     })
+
                     .tex(GUISprites.OUTPUT_BUTTON, GUISprites.OUTPUT_BUTTON).useSprite(true);
 
             if (i < 3) {
-
                 texturedButton.setX(getX() + 10 + (BUTTON_WIDTH + 2) * i);
                 texturedButton.setY(startY + (BUTTON_WIDTH + 2) * 2);
 

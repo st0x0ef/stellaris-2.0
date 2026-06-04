@@ -29,7 +29,7 @@ public class WikiInfoButton extends TexturedButton {
         Component title = Component.literal(info.title());
         switch (info.iconType()) {
             case "item":
-                info.components().stream().filter((c) -> c.type().equals("item")).findFirst().ifPresentOrElse(c -> this.tooltip(Tooltip.create(c.item().get().stack().getHoverName())), () -> this.tooltip(Tooltip.create(title)));
+                info.components().stream().filter((c) -> c.type().equals("item")).findFirst().ifPresentOrElse(c -> this.tooltip(Tooltip.create(c.item().get().stack().create().getHoverName())), () -> this.tooltip(Tooltip.create(title)));
                 break;
             case "entity":
                 info.components().stream().filter((c) -> c.type().equals("entity")).findFirst().ifPresent((entity) -> {
@@ -59,7 +59,7 @@ public class WikiInfoButton extends TexturedButton {
         /** FONT RENDERER */
         switch (info.iconType()) {
             case "item":
-                info.components().stream().filter((c) -> c.type().equals("item")).findFirst().ifPresent((item) -> graphics.item(item.item().get().stack(), this.getX() + 2, this.getY() + 2));
+                info.components().stream().filter((c) -> c.type().equals("item")).findFirst().ifPresent((item) -> graphics.item(item.item().get().stack().create(), this.getX() + 2, this.getY() + 2));
                 break;
             case "entity":
                 info.components().stream().filter((c) -> c.type().equals("entity")).findFirst().ifPresent((entity) -> {

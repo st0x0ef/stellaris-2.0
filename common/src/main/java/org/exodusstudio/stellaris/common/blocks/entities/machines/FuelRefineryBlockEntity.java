@@ -18,6 +18,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
+import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.common.blocks.entities.machines.base.BaseEnergyContainerBlockEntity;
 import org.exodusstudio.stellaris.common.blocks.entities.machines.base.FluidOutputManager;
 import org.exodusstudio.stellaris.common.blocks.entities.machines.base.FluidOutputable;
@@ -94,7 +95,6 @@ public class FuelRefineryBlockEntity extends BaseEnergyContainerBlockEntity impl
 
     @Override
     public void tick(Level level, BlockState state) {
-
         FluidUtil.moveFluidFromItem(0, 0, 1, items, inputTank, 1000);
         FluidUtil.moveFluidToItem(0, inputTank, 0, 1, items, 1000);
         FluidUtil.moveFluidToItem(0, outputFuelTank, 2, 3, items, 1000);
@@ -110,21 +110,22 @@ public class FuelRefineryBlockEntity extends BaseEnergyContainerBlockEntity impl
             FuelRefineryRecipe recipe = recipeHolder.get().value();
 
             if (energyContainer.getEnergy() >= recipe.energy()) {
-
-                if (inputTank.getFluidValueInTank() >= recipe.ingredientStack().getAmount()) {
-                    if ((outputFuelTank.getFluidInTank(0).isEmpty() || outputFuelTank.getFluidInTank(0).isFluidEqual(recipe.fuelStack())) &&
-                            (outputDieselTank.getFluidInTank(0).isEmpty() || outputDieselTank.getFluidInTank(0).isFluidEqual(recipe.dieselStack()))) {
+                if (inputTank.getFluidValueInTank() >= recipe.ingredientStack().amount()) {
+                    if ((outputFuelTank.getFluidInTank(0).isEmpty() || outputFuelTank.getFluidInTank(0).getFluid().isSame(recipe.fuelStack().fluid().value())) &&
+                            (outputDieselTank.getFluidInTank(0).isEmpty() || outputDieselTank.getFluidInTank(0).getFluid().isSame(recipe.dieselStack().fluid().value()))) {
                         boolean shouldUseEnergyAndDrainOil = false;
-                        if (outputFuelTank.getFluidValueInTank() + recipe.fuelStack().getAmount() < outputFuelTank.getTankCapacity(0)) {
-                            outputFuelTank.fill(recipe.fuelStack().copy(), false);
+                        if (outputFuelTank.getFluidValueInTank() + recipe.fuelStack().amount() < outputFuelTank.getTankCapacity(0)) {
+                            outputFuelTank.fill(recipe.fuelStack().create(), false);
                             shouldUseEnergyAndDrainOil = true;
                         }
-                        if (outputDieselTank.getFluidValueInTank() + recipe.dieselStack().getAmount() < outputDieselTank.getTankCapacity(0)) {
-                            outputDieselTank.fill(recipe.dieselStack().copy(), false);
+
+                        if (outputDieselTank.getFluidValueInTank() + recipe.dieselStack().amount() < outputDieselTank.getTankCapacity(0)) {
+                            outputDieselTank.fill(recipe.dieselStack().create(), false);
                             shouldUseEnergyAndDrainOil = true;
                         }
+
                         if (shouldUseEnergyAndDrainOil) {
-                            inputTank.drain(recipe.ingredientStack().copy(), false);
+                            inputTank.drain(recipe.ingredientStack().create(), false);
                             energyContainer.extract(recipe.energy(), false);
                             setChanged();
                         }
@@ -178,7 +179,6 @@ public class FuelRefineryBlockEntity extends BaseEnergyContainerBlockEntity impl
         outputFuelTank.save(output, "fuel");
         outputDieselTank.save(output, "diesel");
         outputManager.save(output);
-
     }
 
     public SingleFluidStorage getIngredientTank() {
