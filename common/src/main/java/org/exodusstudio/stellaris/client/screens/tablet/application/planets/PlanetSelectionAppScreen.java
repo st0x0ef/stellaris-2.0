@@ -53,7 +53,7 @@ public class PlanetSelectionAppScreen extends AbstractContainerScreen<PlanetSele
     public AntennaSavedData antennaSavedData;
 
     public PlanetSelectionAppScreen(PlanetSelectionMenu selectionMenu, Inventory playerInventory, Component component) {
-        super(selectionMenu, playerInventory, Component.empty(), 192, 310);
+        super(selectionMenu, playerInventory, Component.empty(), 310, 192);
         this.inSpace = selectionMenu.player.stellaris$isPlanetMenuOpen();
         this.antennaSavedData = selectionMenu.antennaSavedData;
         this.selectionMenu = selectionMenu;

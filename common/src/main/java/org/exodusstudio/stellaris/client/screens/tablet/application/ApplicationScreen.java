@@ -28,7 +28,7 @@ public class ApplicationScreen<T extends AbstractContainerMenu> extends Abstract
     public final Inventory inventory;
 
     public ApplicationScreen(T menu, Inventory inventory, Component title) {
-        super(menu, inventory, title, 162, 250);
+        super(menu, inventory, title, 250, 162);
         this.player = inventory.player;
         this.inventoryLabelY = -this.imageHeight;
         this.titleLabelY = -this.imageHeight;
