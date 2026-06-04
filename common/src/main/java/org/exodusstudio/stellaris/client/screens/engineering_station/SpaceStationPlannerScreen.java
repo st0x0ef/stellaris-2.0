@@ -44,6 +44,7 @@ public class SpaceStationPlannerScreen extends AbstractContainerScreen<SpaceStat
 
     @Override
     public void extractBackground(GuiGraphicsExtractor guiGraphics, int mouseX, int mouseY, float partialTick) {
+        super.extractBackground(guiGraphics, mouseX, mouseY, partialTick);
         guiGraphics.blit(RenderPipelines.GUI_TEXTURED, SDCardReaderApplicationScreen.TEXTURE, leftPos, topPos, 0, 0, imageWidth, imageHeight, imageWidth, imageHeight);
 
         this.buildButton.active = selectedRecipe != null;

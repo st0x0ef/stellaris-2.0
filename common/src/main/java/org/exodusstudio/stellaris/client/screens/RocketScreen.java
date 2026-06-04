@@ -59,6 +59,7 @@ public class RocketScreen extends AbstractContainerScreen<RocketMenu> {
 
     @Override
     public void extractBackground(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTick) {
+        super.extractBackground(graphics, mouseX, mouseY, partialTick);
         if (getRocket() != null) {
             Identifier texture = getRocket().getRocketModules().contains(ModulesRegistry.CARGO.get()) ? FULL_INVENTORY_TEXTURE : SMALL_INVENTORY_TEXTURE;
             graphics.blit(RenderPipelines.GUI_TEXTURED, texture, this.leftPos, this.topPos, 0, 0, imageWidth, imageHeight, imageWidth, imageHeight);
