@@ -1,10 +1,31 @@
 {
   "model": {
-    "type": "minecraft:special",
-    "base": "stellaris:item/rocket",
-    "model": {
-      "type": "stellaris:rocket",
-      "texture": "stellaris:entity/rocket/default"
+    "type": "minecraft:select",
+    "cases": [
+      {
+        "when": [
+          "gui",
+          "fixed"
+        ],
+        "model": {
+          "type": "minecraft:special",
+          "model": {
+            "type": "stellaris:rocket",
+            "texture": "stellaris:entity/rocket/default",
+            "gui": true
+          },
+          "base": "stellaris:item/rocket"
+        }
+      }
+    ],
+    "property": "minecraft:display_context",
+    "fallback": {
+      "type": "minecraft:special",
+      "base": "stellaris:item/rocket",
+      "model": {
+        "type": "stellaris:rocket",
+        "texture": "stellaris:entity/rocket/default"
+      }
     }
   }
 }
