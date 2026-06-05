@@ -30,6 +30,7 @@ subprojects {
         maven { url "https://maven.exodusstudio.org/releases" }
         maven { url "https://maven.exodusstudio.org/snapshots" }
         maven { url "https://maven.terraformersmc.com/releases" }
+        maven { url = "https://maven.blamejared.com/" }
     }
 
     loom {

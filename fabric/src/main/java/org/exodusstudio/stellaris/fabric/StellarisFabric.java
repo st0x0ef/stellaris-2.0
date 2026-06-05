@@ -1,18 +1,10 @@
 package org.exodusstudio.stellaris.fabric;
 
-import dev.architectury.registry.ReloadListenerRegistry;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerChunkEvents;
-import net.fabricmc.fabric.api.resource.IdentifiableResourceReloadListener;
-import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
-import net.minecraft.resources.Identifier;
-import net.minecraft.server.packs.PackType;
 import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.common.events.custom.ChunkEvent;
 import org.exodusstudio.stellaris.fabric.common.registries.DataAttachmentRegistry;
-
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.Executor;
 
 public final class StellarisFabric implements ModInitializer {
     @Override

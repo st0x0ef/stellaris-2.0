@@ -64,6 +64,10 @@ dependencies {
     implementation "com.fej1fun.potentials:potentials-neoforge-$rootProject.minecraft_version:$rootProject.potentials_version"
     implementation "dev.architectury:architectury-neoforge:$rootProject.architectury_api_version"
 
+
+    compileOnly "mezz.jei:jei-$rootProject.minecraft_version-neoforge-api:$rootProject.jei_version"
+    runtimeOnly "mezz.jei:jei-$rootProject.minecraft_version-neoforge:$rootProject.jei_version"
+
     common(project(path: ':common')) { transitive false }
     shadowCommon(project(path: ':common', configuration: 'transformProductionNeoForge'))
 }

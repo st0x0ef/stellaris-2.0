@@ -20,7 +20,12 @@
     "client": [
       "org.exodusstudio.stellaris.fabric.client.StellarisFabricClient"
     ],
-    "modmenu": [ "org.exodusstudio.stellaris.fabric.client.ModMenuCompat" ]
+    "modmenu": [
+      "org.exodusstudio.stellaris.fabric.client.ModMenuCompat"
+    ],
+    "jei_mod_plugin": [
+      "org.exodusstudio.stellaris.common.compats.jei.JEIPlugin"
+    ]
   },
   "mixins": [
     "stellaris.mixins.json",

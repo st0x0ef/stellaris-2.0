@@ -6,9 +6,7 @@ import com.google.gson.Strictness;
 import com.google.gson.ToNumberPolicy;
 import dev.architectury.registry.ReloadListenerRegistry;
 import fr.tathan.exoconfig.common.loader.ConfigsRegistry;
-import net.minecraft.resources.Identifier;
 import net.minecraft.server.packs.PackType;
-import net.minecraft.server.packs.resources.PreparableReloadListener;
 import org.exodusstudio.stellaris.common.data.space_station.SpaceStationData;
 import org.exodusstudio.stellaris.common.data.wiki.WikiPacks;
 import org.exodusstudio.stellaris.common.config.CommonConfig;
@@ -20,10 +18,6 @@ import org.exodusstudio.stellaris.common.registries.*;
 import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.Executor;
-import java.util.function.BiConsumer;
 
 public final class Stellaris {
     public static final String MOD_ID = "stellaris";
@@ -39,6 +33,8 @@ public final class Stellaris {
     public static void init() {
         StellarisRegistries.register();
         CONFIG = ConfigsRegistry.getInstance().registerConfig(new CommonConfig(), CONFIG);
+
+        RecipesRegistry.register();
 
         NetworkRegistry.init();
         FluidsRegistry.init();
@@ -62,8 +58,6 @@ public final class Stellaris {
         CapabilitiesRegistry.init();
         BiomeModificationsRegistry.register();
         Events.init();
-
-        RecipesRegistry.register();
 
         onAddReloadListenerEvent();
     }

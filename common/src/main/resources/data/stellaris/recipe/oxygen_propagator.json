@@ -10,7 +10,6 @@
     "G": "minecraft:glass"
   },
   "result": {
-    "id": "stellaris:oxygen_propagator",
-    "count": 4
+    "id": "stellaris:oxygen_propagator"
   }
 }
