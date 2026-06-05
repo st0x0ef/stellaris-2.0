@@ -1,0 +1,28 @@
+{
+  "components": [
+    {
+      "type": "text",
+      "text": "This is an Evolved Parasite Villager. It's the evolved form of the [ref=stellaris:mobs/parasite_villager]Parasite Villager[ref]."
+    },
+    {
+      "type": "entity",
+      "entity": {
+        "id": "stellaris:parasite_affected_villager_evolved",
+        "scale": 25
+      }
+    },
+    {
+      "type": "text",
+      "text": "This alien is very powerful! When it attacks you it gives you the parasite effect and can summon [ref=stellaris:mobs/parasite]parasite[ref]. [br] [br]"
+    },
+    {
+      "type": "text",
+      "text": "Stats : [br] - Health : 44 [br] - Speed : 0.3 [br] - Damage : 7.0"
+    }
+
+  ],
+  "iconType": "entity",
+  "id": "stellaris:evolved_parasite_villager",
+  "entryId": "stellaris:mobs",
+  "title": "Evolved Parasite Villager"
+}
