@@ -172,6 +172,12 @@ public final class ItemsRegistry {
     public static final RegistrySupplier<ArchitecturyBucketItem> ASTRUM_LIQUIDUS_BUCKET = item("astrum_liquidus_bucket", properties -> new ArchitecturyBucketItem(FluidsRegistry.ASTRUM_LIQUIDUS_STILL, properties));
     public static final RegistrySupplier<Item> FLUID_CELL = item("fluid_cell", properties -> new FluidCellItem(properties, 3000));
 
+    // Crafting items
+    public static final RegistrySupplier<Item> ENGINE_FAN = item("engine_fan");
+    public static final RegistrySupplier<Item> ROCKET_ENGINE = item("rocket_engine");
+    public static final RegistrySupplier<Item> ROCKET_FIN = item("rocket_fin");
+    public static final RegistrySupplier<Item> ROCKET_NOSE_CONE = item("rocket_nose_cone");
+
     // Moon lore items
     public static final RegistrySupplier<ParasiteItem> PARASITE = item("parasite", ParasiteItem::new);
     public static final RegistrySupplier<Item> PATHOGEN_STORAGE_CELL = item("pathogen_storage_cell", PathogenStorageCellItem::new);

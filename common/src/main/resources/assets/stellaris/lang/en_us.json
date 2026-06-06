@@ -154,6 +154,11 @@
   "item.stellaris.sd_card": "SD Card",
   "item.stellaris.rocket": "Rocket",
 
+  "item.stellaris.engine_fan": "Engine Fan",
+  "item.stellaris.rocket_engine": "Rocket Engine",
+  "item.stellaris.rocket_fin": "Rocket Fin",
+  "item.stellaris.rocket_nose_cone": "Rocket Nose Cone",
+
   "item.stellaris.tiny_model": "Tiny Model",
   "item.stellaris.small_model": "Small Model",
   "item.stellaris.big_model": "Big Model",
