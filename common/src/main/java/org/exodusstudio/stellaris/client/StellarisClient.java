@@ -7,6 +7,7 @@ import fr.tathan.exoconfig.common.loader.ConfigsRegistry;
 import fr.tathan.exoconfig.platform.PlatformClientHelper;
 import net.minecraft.client.model.object.boat.BoatModel;
 import org.exodusstudio.stellaris.Stellaris;
+import org.exodusstudio.stellaris.client.debug.OxygenDebugRenderer;
 import org.exodusstudio.stellaris.client.effects.ParasiteCameraShake;
 import org.exodusstudio.stellaris.client.events.ClientEvents;
 import org.exodusstudio.stellaris.client.overlays.FadeOverlay;
@@ -47,6 +48,7 @@ public class StellarisClient {
         KeyMappingsRegistry.init();
         ClientTickEvent.CLIENT_POST.register(KeyMappingsRegistry::clientTick);
         ClientTickEvent.CLIENT_POST.register(ParasiteCameraShake::clientTick);
+        ClientTickEvent.CLIENT_POST.register(OxygenDebugRenderer::clientTick);
 
         ClientEvents.init();
         PlatformClientHelper.registerConfigScreen(Stellaris.MOD_ID, Stellaris.CONFIG);

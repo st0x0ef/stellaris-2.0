@@ -7,11 +7,12 @@ import fr.tathan.exoconfig.common.utils.Side;
 @ConfigInfos(modDisplayName = "Stellaris Client", name = "stellaris_client", side= Side.CLIENT)
 public class ClientConfig {
 
+    @ScreenInfos.Description(value = "config.stellaris.showOxygenDebug.desc")
+    public boolean showOxygenDebug = false;
+
     @ScreenInfos.InnerConfig
     @ScreenInfos.Description(value = "config.stellaris.fluidOutputConfig.desc")
     public FluidOutputConfig fluidOutputConfig = new FluidOutputConfig();
-
-
     public static class FluidOutputConfig {
         @ScreenInfos.Description(value = "config.stellaris.fluidOutputConfig.showNeighborsBlock.desc")
         public boolean showNeighborsBlock = false;
@@ -19,6 +20,4 @@ public class ClientConfig {
         @ScreenInfos.Description(value = "config.stellaris.fluidOutputConfig.fluidsColors.desc")
         public String[] fluidsColors = new String[]{"red", "lime", "blue", "yellow", "cyan", "magenta"};
     }
-
-
 }
