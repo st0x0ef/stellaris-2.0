@@ -18,8 +18,10 @@ import org.exodusstudio.stellaris.client.renderers.lander.LanderModel;
 import org.exodusstudio.stellaris.client.renderers.lander.LanderRenderer;
 import org.exodusstudio.stellaris.client.renderers.rockets.models.BigRocketModel;
 import org.exodusstudio.stellaris.client.renderers.rockets.models.SmallRocketModel;
-import org.exodusstudio.stellaris.client.renderers.space_suit.SpaceSuitModel;
 import org.exodusstudio.stellaris.client.renderers.rockets.models.TinyRocketModel;
+import org.exodusstudio.stellaris.client.renderers.space_suit.SpaceSuitModel;
+import org.exodusstudio.stellaris.client.renderers.entity.vehicle.rover.RoverModel;
+import org.exodusstudio.stellaris.client.renderers.entity.vehicle.rover.RoverRenderer;
 import org.exodusstudio.stellaris.client.renderers.flag.FlagBlockModel;
 import org.exodusstudio.stellaris.client.renderers.flag.FlagBlockRenderer;
 import org.exodusstudio.stellaris.client.renderers.flag.FlagHeadModel;
@@ -82,6 +84,7 @@ public final class StellarisFabricClient implements ClientModInitializer {
         MenuScreenRegistry.registerScreenFactory(MenuTypesRegistry.FLUID_TANK_MENU.get(), FluidTankScreen::new);
         MenuScreenRegistry.registerScreenFactory(MenuTypesRegistry.LANDER_MENU.get(), LanderScreen::new);
         MenuScreenRegistry.registerScreenFactory(MenuTypesRegistry.ROCKET_MENU.get(), RocketScreen::new);
+        MenuScreenRegistry.registerScreenFactory(MenuTypesRegistry.ROVER_MENU.get(), RoverScreen::new);
         MenuScreenRegistry.registerScreenFactory(MenuTypesRegistry.LABORATORY_VACCINE.get(), VaccineScreen::new);
         MenuScreenRegistry.registerScreenFactory(MenuTypesRegistry.LABORATORY_RESEARCH.get(), ResearchScreen::new);
     }
@@ -95,6 +98,7 @@ public final class StellarisFabricClient implements ClientModInitializer {
 
         EntityRendererRegistry.register(EntityTypesRegistry.LANDER.get(), LanderRenderer::new);
         EntityRendererRegistry.register(EntityTypesRegistry.ROCKET.get(), RocketRenderer::new);
+        EntityRendererRegistry.register(EntityTypesRegistry.ROVER.get(), RoverRenderer::new);
         EntityRendererRegistry.register(EntityTypesRegistry.LUNAR_BOAT.get(), (c) -> new BoatRenderer(c, BoatModelLayerRegistry.LUNAR_BOAT));
         EntityRendererRegistry.register(EntityTypesRegistry.LUNAR_CHEST_BOAT.get(), (c) -> new BoatRenderer(c, BoatModelLayerRegistry.LUNAR_CHEST_BOAT));
     }
@@ -111,6 +115,7 @@ public final class StellarisFabricClient implements ClientModInitializer {
         EntityModelLayerRegistry.registerModelLayer(BoatModelLayerRegistry.LUNAR_CHEST_BOAT, BoatModel::createChestBoatModel);
 
         EntityModelLayerRegistry.registerModelLayer(TinyRocketModel.LAYER_LOCATION, TinyRocketModel::createBodyLayer);
+        EntityModelLayerRegistry.registerModelLayer(RoverModel.LAYER_LOCATION, RoverModel::createBodyLayer);
         EntityModelLayerRegistry.registerModelLayer(SmallRocketModel.LAYER_LOCATION, SmallRocketModel::createBodyLayer);
         EntityModelLayerRegistry.registerModelLayer(BigRocketModel.LAYER_LOCATION, BigRocketModel::createBodyLayer);
     }

@@ -16,7 +16,9 @@ import java.util.List;
 
 public interface NetworkRegistry {
 
-    CustomPacketPayload.Type<OpenMenuPacket> OPEN_MENU_PACKET_TYPE = new CustomPacketPayload.Type<>(Identifier.fromNamespaceAndPath(Stellaris.MOD_ID, "open_menu"));
+    public static final CustomPacketPayload.Type<OpenMenuPacket> OPEN_MENU_PACKET_TYPE = new CustomPacketPayload.Type<>(Identifier.fromNamespaceAndPath(Stellaris.MOD_ID, "open_menu"));
+    public static final CustomPacketPayload.Type<SyncRoverComponentPacket> SYNC_ROVER_COMPONENT_ID = new CustomPacketPayload.Type<>(Identifier.fromNamespaceAndPath(Stellaris.MOD_ID, "sync_rover_component"));
+    public static final CustomPacketPayload.Type<SyncRoverPacket> SYNC_ROVER_CONTROLS = new CustomPacketPayload.Type<>(Identifier.fromNamespaceAndPath(Stellaris.MOD_ID, "sync_rover_packet"));
 
     static void init() {
         registerC2S(OPEN_MENU_PACKET_TYPE, OpenMenuPacket.STREAM_CODEC, OpenMenuPacket::handle);
@@ -25,7 +27,8 @@ public interface NetworkRegistry {
         registerS2C(SyncOilLevelPacket.TYPE, SyncOilLevelPacket.STREAM_CODEC, SyncOilLevelPacket::handle);
         registerS2C(StartFadePacket.TYPE, StartFadePacket.STREAM_CODEC, StartFadePacket::handle);
         registerS2C(OpenWikiEntry.TYPE, OpenWikiEntry.STREAM_CODEC, OpenWikiEntry::handle);
-
+        registerS2C(SYNC_ROVER_COMPONENT_ID, SyncRoverComponentPacket.STREAM_CODEC, SyncRoverComponentPacket::handle);
+        registerC2S(SYNC_ROVER_CONTROLS, SyncRoverPacket.STREAM_CODEC, SyncRoverPacket::handle);
         registerC2S(OpenRocketMenuPacket.TYPE, OpenRocketMenuPacket.STREAM_CODEC, OpenRocketMenuPacket::handle);
 
         registerS2C(SyncFluidPacket.TYPE, SyncFluidPacket.STREAM_CODEC, SyncFluidPacket::handle);

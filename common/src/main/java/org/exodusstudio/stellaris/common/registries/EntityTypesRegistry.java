@@ -11,12 +11,16 @@ import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.common.entities.LanderEntity;
 import org.exodusstudio.stellaris.common.entities.RocketEntity;
 import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
+import org.exodusstudio.stellaris.common.entities.vehicles.RoverEntity;
 
 public class EntityTypesRegistry {
     public static final DeferredRegister<EntityType<?>> ENTITY_TYPE = DeferredRegister.create(Stellaris.MOD_ID, Registries.ENTITY_TYPE);
 
     public static final RegistrySupplier<EntityType<RocketEntity>> ROCKET = ENTITY_TYPE.register("rocket",
             () -> EntityType.Builder.of(RocketEntity::new, MobCategory.MISC).sized(1.1f, 4.4f).fireImmune().build(IdentifierUtils.resourceKey(Registries.ENTITY_TYPE, "rocket")));
+
+    public static final RegistrySupplier<EntityType<RoverEntity>> ROVER = ENTITY_TYPE.register("rover",
+            () -> EntityType.Builder.of(RoverEntity::new, MobCategory.MISC).sized(2.5f, 2.2f).build(IdentifierUtils.resourceKey(Registries.ENTITY_TYPE, "rover")));
 
     public static final RegistrySupplier<EntityType<LanderEntity>> LANDER = ENTITY_TYPE.register("lander",
             () -> EntityType.Builder.<LanderEntity>of(LanderEntity::new, MobCategory.MISC).sized(2.5f, 2.2f).build(IdentifierUtils.resourceKey(Registries.ENTITY_TYPE, "lander")));

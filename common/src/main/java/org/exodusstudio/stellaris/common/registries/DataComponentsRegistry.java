@@ -11,6 +11,7 @@ import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.common.components.JetComponent;
 import org.exodusstudio.stellaris.common.components.PathogenStorageComponent;
 import org.exodusstudio.stellaris.common.components.TimerComponent;
+import org.exodusstudio.stellaris.common.components.RoverComponent;
 import org.exodusstudio.stellaris.common.modules.Modules;
 import org.exodusstudio.stellaris.common.modules.rocket.RocketModule;
 import org.exodusstudio.stellaris.common.modules.rocket.RocketModules;
@@ -47,6 +48,9 @@ public class DataComponentsRegistry {
             register("timer", builder -> builder.persistent(TimerComponent.CODEC).networkSynchronized(TimerComponent.STREAM_CODEC));
     public static final RegistrySupplier<DataComponentType<PathogenStorageComponent>> PATHOGEN_STORED =
             register("pathogen_stored", builder -> builder.persistent(PathogenStorageComponent.CODEC).networkSynchronized(PathogenStorageComponent.STREAM_CODEC));
+
+    public static final RegistrySupplier<DataComponentType<RoverComponent>> ROVER_COMPONENT =
+            register("rover_component", builder -> builder.persistent(RoverComponent.CODEC).networkSynchronized(RoverComponent.STREAM_CODEC));
 
     public static final RegistrySupplier<DataComponentType<Float>> PLAYER_FADE =
             register("player_fade", builder -> builder.persistent(Codec.FLOAT).networkSynchronized(ByteBufCodecs.FLOAT));
