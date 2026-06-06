@@ -1,0 +1,109 @@
+{
+  "parent": "stellaris:space_travel/arrived_moon",
+  "criteria": {
+    "stellaris:luna_shadow": {
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "stellaris:luna_shadow"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:player_killed_entity"
+    },
+    "stellaris:lunar_parasite": {
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "stellaris:lunar_parasite"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:player_killed_entity"
+    },
+    "stellaris:parasite_affected_villager": {
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "stellaris:parasite_affected_villager"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:player_killed_entity"
+    },
+    "stellaris:parasite_affected_villager_evolved": {
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "stellaris:parasite_affected_villager_evolved"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:player_killed_entity"
+    },
+    "stellaris:blue_fish": {
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "stellaris:blue_fish"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:player_killed_entity"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.stellaris.kill_all_moon_mobs.description"
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "stellaris:titanium_sword"
+    },
+    "title": {
+      "translate": "advancements.stellaris.kill_all_moon_mobs.title"
+    }
+  },
+  "requirements": [
+    [
+      "stellaris:luna_shadow"
+    ],
+    [
+      "stellaris:lunar_parasite"
+    ],
+    [
+      "stellaris:parasite_affected_villager"
+    ],
+    [
+      "stellaris:blue_fish"
+    ],
+    [
+      "stellaris:parasite_affected_villager_evolved"
+    ]
+  ],
+  "rewards": {
+    "experience": 100
+  },
+  "sends_telemetry_event": true
+}

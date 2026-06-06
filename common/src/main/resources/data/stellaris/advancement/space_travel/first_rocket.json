@@ -9,7 +9,6 @@
     "description": {
       "translate": "advancements.stellaris.first_rocket.description"
     },
-    "frame": "task",
     "show_toast": true,
     "announce_to_chat": true
   },

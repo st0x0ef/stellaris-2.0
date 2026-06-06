@@ -4,10 +4,10 @@
       "id": "stellaris:parasite"
     },
     "title": {
-      "translate": "sefsf"
+      "translate": "advancements.stellaris.parasite_attached.title"
     },
     "description": {
-      "translate": "s"
+      "translate": "advancements.stellaris.parasite_attached.description"
     }
   },
   "parent": "stellaris:space_travel/arrived_moon",
