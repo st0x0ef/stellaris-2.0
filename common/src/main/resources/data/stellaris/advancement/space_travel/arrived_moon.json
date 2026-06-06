@@ -1,0 +1,24 @@
+{
+  "display": {
+    "icon": {
+      "id": "stellaris:moon_sand"
+    },
+    "title": {
+      "translate": "advancements.stellaris.arrived_moon.title"
+    },
+    "description": {
+      "translate": "advancements.stellaris.arrived_moon.description"
+    },
+    "show_toast": true,
+    "announce_to_chat": true
+  },
+  "parent": "stellaris:space_travel/first_rocket",
+  "criteria": {
+    "step_moon": {
+      "trigger": "minecraft:changed_dimension",
+      "conditions": {
+        "to": "stellaris:moon"
+      }
+    }
+  }
+}

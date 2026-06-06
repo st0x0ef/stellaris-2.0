@@ -19,6 +19,7 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.stats.Stats;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -191,7 +192,6 @@ public class RocketEntity extends VehicleEntity {
             if (this.getDeltaMovement().y < this.getRocketSpeed() - 0.1) {
                 this.addDeltaMovement(new Vec3(0, 0.1, 0));
             } else if (this.getDeltaMovement().y > this.getRocketSpeed() + 0.1) {
-                Stellaris.LOG.info("Rocket speed: " + this.getDeltaMovement().y);
                 this.level().playSeededSound(null, this, SoundRegistry.BOOST_SOUND, SoundSource.NEUTRAL, 1, 1, 1);
                 this.setDeltaMovement(new Vec3(0, this.getRocketSpeed(), 0));
             } else {
@@ -214,11 +214,16 @@ public class RocketEntity extends VehicleEntity {
 
         Entity entity = this.getPassengers().getFirst();
 
-        if (entity instanceof Player player) {
+        if (entity instanceof ServerPlayer player) {
             if (this.getFuel() > 0 || player.isCreative()) {
                 if (!this.entityData.get(ROCKET_START)) {
                     this.entityData.set(ROCKET_START, true);
+
                     player.awardStat(StatsRegistry.ROCKET_LAUNCHED.get());
+                    AdvancementTriggerRegistry.ROCKET_LAUNCHED.get().trigger(player, player.getStats()
+                            .getValue(Stats.CUSTOM.get(StatsRegistry.ROCKET_LAUNCHED.get()))
+                    );
+                    
                     this.level().playSeededSound(player,this, SoundRegistry.ROCKET_SOUND, SoundSource.NEUTRAL, 1, 1, 1);
                 }
             } else {

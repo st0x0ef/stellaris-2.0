@@ -1,0 +1,24 @@
+{
+  "criteria": {
+    "tablet_item": {
+      "trigger": "stellaris:tablet_used"
+    }
+  },
+  "display": {
+    "frame": "task",
+    "announce_to_chat": false,
+    "background": "stellaris:gui/advancements/background",
+    "description": {
+      "translate": "advancements.stellaris.root.description"
+    },
+    "icon": {
+      "count": 1,
+      "id": "stellaris:iron_plating_block"
+    },
+    "show_toast": false,
+    "title": {
+      "translate": "advancements.stellaris.root.title"
+    }
+  },
+  "sends_telemetry_event": false
+}

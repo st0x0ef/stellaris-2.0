@@ -389,5 +389,21 @@
   "message.stellaris.player_already_immune": "You are already immune to the infection. You can safely explore the infected areas and continue your space adventure without worrying about the infection.",
 
   "message.stellaris.success": "Success!",
-  "message.stellaris.failure": "Failure, try again."
+  "message.stellaris.failure": "Failure, try again.",
+
+
+  "advancements.stellaris.arrived_moon.title": "That's one small step for a man, one giant leap for mankind.",
+  "advancements.stellaris.arrived_moon.description": "You landed on the moon",
+
+  "advancements.stellaris.first_rocket.title": "Let's go!",
+  "advancements.stellaris.first_rocket.description": "Launch your first rocket",
+
+  "advancements.stellaris.root.title": "Stellaris",
+  "advancements.stellaris.root.description": "To Infinity and beyond !",
+
+  "advancements.stellaris.parasite_attached.title": "GET THIS THING OFF ME!",
+  "advancements.stellaris.parasite_attached.description": "Get sucked by a lunar parasite",
+
+  "advancements.stellaris.kill_all_moon_mobs.title": "Lunar extermination",
+  "advancements.stellaris.kill_all_moon_mobs.description": "Kill all the mobs on the moon"
 }
