@@ -4,6 +4,7 @@ import dev.architectury.networking.NetworkManager;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.Button;
+import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.RenderPipelines;
@@ -70,7 +71,8 @@ public class SpaceStationPlannerScreen extends AbstractContainerScreen<SpaceStat
             }).tex(IdentifierUtils.id("util/machine_button"), IdentifierUtils.id("util/machine_button_hover"))
                     .useSprite(true)
                     .setText(recipe.getDisplayName())
-                    .setTextPadding(new Padding(2, 0));
+                    .setTextPadding(new Padding(2, 0))
+                    .tooltip(Tooltip.create(recipe.getTooltip()));
             this.container.addChild(this, button);
             i++;
         }

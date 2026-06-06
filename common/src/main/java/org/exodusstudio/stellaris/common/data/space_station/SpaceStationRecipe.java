@@ -3,6 +3,7 @@ package org.exodusstudio.stellaris.common.data.space_station;
 import com.mojang.datafixers.util.Either;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import net.minecraft.ChatFormatting;
 import net.minecraft.core.Vec3i;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.RegistryFriendlyByteBuf;
@@ -16,6 +17,7 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.Ingredient;
 import org.exodusstudio.stellaris.common.registries.DataComponentsRegistry;
 
 import java.util.ArrayList;
@@ -35,6 +37,18 @@ public record SpaceStationRecipe(List<IngredientWithCount> items, Identifier str
             Vec3i.STREAM_CODEC, SpaceStationRecipe::antenna_position,
             SpaceStationRecipe::new
     );
+
+    public Component getTooltip() {
+        MutableComponent component = Component.literal("Resources :");
+
+        for(IngredientWithCount ingredient : this.items) {
+            component.append( "\n").append(Component.literal( "- " + ingredient.count() + "x " ).withStyle(ChatFormatting.GRAY));
+            ingredient.itemRef().ifRight(tagKey -> component.append(Component.literal(tagKey.location().toString()).withStyle(ChatFormatting.GRAY)));
+            ingredient.itemRef().ifLeft(itemKey -> component.append(Component.literal(itemKey.identifier().toString()).withStyle(ChatFormatting.GRAY)));
+        }
+
+        return component;
+    }
 
     public boolean hasMaterials(List<Slot> slotsToCheck) {
         return planConsumption(slotsToCheck) != null;
