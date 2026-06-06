@@ -7,7 +7,12 @@
     "stellaris:titanium_ore",
     "stellaris:titanium_stairs",
     "stellaris:titanium_slab",
+    "stellaris:titanium_pillar",
     "stellaris:titanium_plating_block",
+    "stellaris:titanium_plating_slab",
+    "stellaris:titanium_plating_stairs",
+    "stellaris:vertical_titanium_slab",
+    "stellaris:vertical_titanium_plating_slab",
     "stellaris:moon_titanium_ore"
 
   ]

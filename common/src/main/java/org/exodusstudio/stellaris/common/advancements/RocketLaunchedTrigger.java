@@ -9,7 +9,6 @@ import net.minecraft.server.level.ServerPlayer;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
-import java.util.OptionalInt;
 
 public class RocketLaunchedTrigger extends SimpleCriterionTrigger<RocketLaunchedTrigger.@NotNull ExampleTriggerInstance> {
     // This method is unique for each trigger and is as such not a method to override

@@ -13,7 +13,6 @@ import org.exodusstudio.stellaris.common.menus.PlanetSelectionMenu;
 import org.exodusstudio.stellaris.common.menus.SDCardReaderApplicationMenu;
 import org.exodusstudio.stellaris.common.menus.WikiApplicationMenu;
 import org.exodusstudio.stellaris.common.network.NetworkRegistry;
-import org.exodusstudio.stellaris.common.registries.AdvancementTriggerRegistry;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
