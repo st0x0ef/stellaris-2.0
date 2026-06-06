@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "GSG",
+    "SRS",
+    "GSG"
+  ],
+  "key": {
+    "G": "minecraft:gold_nugget",
+    "S": "stellaris:silicon",
+    "R": "minecraft:redstone"
+  },
+  "result": {
+    "id": "stellaris:sd_card",
+    "count": 1
+  }
+}

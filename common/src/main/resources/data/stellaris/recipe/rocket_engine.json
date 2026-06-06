@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "RXR",
+    "# #",
+    "# #"
+  ],
+  "key": {
+    "#": "stellaris:titanium_ingot",
+    "R": "minecraft:iron_block",
+    "X": "minecraft:redstone"
+  },
+  "result": {
+    "id": "stellaris:rocket_engine"
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " X ",
+    " # ",
+    "###"
+  ],
+  "key": {
+    "#": "stellaris:titanium_ingot",
+    "X": "minecraft:redstone"
+  },
+  "result": {
+    "id": "stellaris:rocket_nose_cone"
+  }
+}

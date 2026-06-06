@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " D ",
+    "ICI",
+    "III"
+  ],
+  "key": {
+    "I": "minecraft:iron_ingot",
+    "C": "#stellaris:small_can",
+    "D": "minecraft:cyan_dye"
+  },
+  "result": {"id": "stellaris:big_cyan_can"}
+}

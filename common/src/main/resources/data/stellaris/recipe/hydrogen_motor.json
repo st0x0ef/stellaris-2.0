@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "SSS",
+    "EDE",
+    "SSS"
+  ],
+  "key": {
+    "S": "minecraft:diamond",
+    "E": "stellaris:desh_block",
+    "D": "stellaris:silicon"
+  },
+  "result": {
+    "id": "stellaris:hydrogen_motor",
+    "count": 1
+  }
+}

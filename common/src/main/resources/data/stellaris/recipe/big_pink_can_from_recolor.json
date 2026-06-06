@@ -1,0 +1,5 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": ["#stellaris:big_can", "minecraft:pink_dye"],
+  "result": {"id": "stellaris:big_pink_can"}
+}

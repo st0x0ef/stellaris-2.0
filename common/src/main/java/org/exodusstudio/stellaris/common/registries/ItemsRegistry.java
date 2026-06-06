@@ -42,6 +42,7 @@ public final class ItemsRegistry {
 
     /** Basic Materials */
     public static final RegistrySupplier<Item> TITANIUM_INGOT = item("titanium_ingot");
+    public static final RegistrySupplier<Item> TITANIUM_NUGGET = item("titanium_nugget");
     public static final RegistrySupplier<Item> RAW_TITANIUM = item("raw_titanium");
 
     public static final RegistrySupplier<Item> SILICON = item("silicon");

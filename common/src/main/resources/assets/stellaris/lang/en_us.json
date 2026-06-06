@@ -51,6 +51,7 @@
   "item.stellaris.silicon": "Silicon",
 
   "item.stellaris.titanium_ingot": "Titanium Ingot",
+  "item.stellaris.titanium_nugget": "Titanium Nugget",
   "item.stellaris.raw_titanium": "Raw Titanium",
   "item.stellaris.raw_titanium_block": "Raw Titanium Block",
   "item.stellaris.titanium_ore": "Titanium Ore",
@@ -262,6 +263,7 @@
   "fluid.stellaris.diesel": "Diesel",
   "fluid.stellaris.water": "Water",
   "fluid.stellaris.blue_liquid": "Blue Liquid",
+  "fluid.stellaris.astrum_liquidus": "Astrum Liquidus",
 
   "biome.stellaris.red_desert": "Red Desert",
   "biome.stellaris.ice_caps": "Ice Caps",

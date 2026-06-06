@@ -1,0 +1,21 @@
+{
+  "replace": false,
+  "values": [
+    "stellaris:big_black_can",
+    "stellaris:big_blue_can",
+    "stellaris:big_brown_can",
+    "stellaris:big_cyan_can",
+    "stellaris:big_gray_can",
+    "stellaris:big_green_can",
+    "stellaris:big_light_blue_can",
+    "stellaris:big_light_gray_can",
+    "stellaris:big_lime_can",
+    "stellaris:big_magenta_can",
+    "stellaris:big_orange_can",
+    "stellaris:big_pink_can",
+    "stellaris:big_purple_can",
+    "stellaris:big_red_can",
+    "stellaris:big_white_can",
+    "stellaris:big_yellow_can"
+  ]
+}
