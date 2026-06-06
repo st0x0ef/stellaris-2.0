@@ -1,4 +1,4 @@
-package org.exodusstudio.stellaris.common.compats.jei;
+package org.exodusstudio.stellaris.common.compats.jei.categories;
 
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.gui.builder.IRecipeSlotBuilder;

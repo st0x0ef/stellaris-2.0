@@ -1,4 +1,4 @@
-package org.exodusstudio.stellaris.common.compats.jei;
+package org.exodusstudio.stellaris.common.compats.jei.recipe_cache;
 
 import org.exodusstudio.stellaris.common.data.recipes.RocketStationRecipe;
 

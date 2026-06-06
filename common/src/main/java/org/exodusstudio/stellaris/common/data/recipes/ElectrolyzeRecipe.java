@@ -86,7 +86,7 @@ public record ElectrolyzeRecipe(FluidStackTemplate ingredientStack, List<FluidSt
 
         public static final StreamCodec<RegistryFriendlyByteBuf, List<FluidStackTemplate>> FLUID_STACK_TEMPLATE_LIST_STREAM_CODEC =
                 ByteBufCodecs.collection(ArrayList::new, FluidStackTemplate.STREAM_CODEC, 2);
-        private static final StreamCodec<RegistryFriendlyByteBuf, ElectrolyzeRecipe> STREAM_CODEC = StreamCodec.of((buf, recipe) -> {
+        public static final StreamCodec<RegistryFriendlyByteBuf, ElectrolyzeRecipe> STREAM_CODEC = StreamCodec.of((buf, recipe) -> {
             recipe.ingredientStack().write(buf);
             FLUID_STACK_TEMPLATE_LIST_STREAM_CODEC.encode(buf, recipe.resultStacks);
             buf.writeLong(recipe.energy);

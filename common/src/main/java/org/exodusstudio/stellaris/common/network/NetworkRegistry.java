@@ -50,6 +50,8 @@ public interface NetworkRegistry {
         registerC2S(PlanSpaceStationPacket.TYPE, PlanSpaceStationPacket.STREAM_CODEC, PlanSpaceStationPacket::handle);
 
         registerS2C(RecipeSyncerPacket.TYPE, RecipeSyncerPacket.STREAM_CODEC, RecipeSyncerPacket::handle);
+        registerS2C(FuelRefinerySyncerPacket.TYPE, FuelRefinerySyncerPacket.STREAM_CODEC, FuelRefinerySyncerPacket::handle);
+        registerS2C(ElectrolyzerSyncerPacket.TYPE, ElectrolyzerSyncerPacket.STREAM_CODEC, ElectrolyzerSyncerPacket::handle);
     }
 
 

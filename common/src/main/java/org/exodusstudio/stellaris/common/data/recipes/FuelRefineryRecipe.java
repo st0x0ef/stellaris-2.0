@@ -76,7 +76,7 @@ public record FuelRefineryRecipe(FluidStackTemplate ingredientStack, FluidStackT
                 Codec.INT.fieldOf("energyContainer").forGetter(FuelRefineryRecipe::energy)
         ).apply(instance, FuelRefineryRecipe::new));
 
-        private static final StreamCodec<RegistryFriendlyByteBuf, FuelRefineryRecipe> STREAM_CODEC = StreamCodec.of((buf, recipe) -> {
+        public static final StreamCodec<RegistryFriendlyByteBuf, FuelRefineryRecipe> STREAM_CODEC = StreamCodec.of((buf, recipe) -> {
             recipe.ingredientStack().write(buf);
             recipe.fuelStack().write(buf);
             recipe.dieselStack().write(buf);
