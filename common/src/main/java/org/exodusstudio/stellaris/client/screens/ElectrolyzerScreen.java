@@ -98,7 +98,7 @@ public class ElectrolyzerScreen extends AbstractContainerScreen<ElectrolyzerMenu
     protected void extractTooltip(GuiGraphicsExtractor guiGraphics, int x, int y) {
         super.extractTooltip(guiGraphics, x, y);
 
-        ingredientTankGauge.renderTooltips(guiGraphics, x, y, this.font, List::of);
+        ingredientTankGauge.renderTooltips(guiGraphics, x, y, this.font);
 
         Component tooltip = blockEntity.resultTanks.isEmpty() ?
                 Component.translatable("stellaris.screen.empty_fluid") :
@@ -110,10 +110,10 @@ public class ElectrolyzerScreen extends AbstractContainerScreen<ElectrolyzerMenu
                 blockEntity.resultTanks.getFluidInTank(1).getName();
         secondIngredientGauge.setMessage(tooltip);
 
-        firstIngredientGauge.renderTooltips(guiGraphics, x, y, this.font, List::of);
-        secondIngredientGauge.renderTooltips(guiGraphics, x, y, this.font, List::of);
+        firstIngredientGauge.renderTooltips(guiGraphics, x, y, this.font);
+        secondIngredientGauge.renderTooltips(guiGraphics, x, y, this.font);
 
-        energyGauge.renderTooltips(guiGraphics, x, y, this.font, List::of);
+        energyGauge.renderTooltips(guiGraphics, x, y, this.font);
     }
 
     @Override

@@ -72,8 +72,8 @@ public class DieselGeneratorScreen extends AbstractContainerScreen<DieselGenerat
     @Override
     protected void extractTooltip(GuiGraphicsExtractor guiGraphics, int x, int y) {
         super.extractTooltip(guiGraphics, x, y);
-        dieselTankGauge.renderTooltips(guiGraphics, x, y, font, List::of);
-        energyGauge.renderTooltips(guiGraphics, x, y, font, List::of);
+        dieselTankGauge.renderTooltips(guiGraphics, x, y, font);
+        energyGauge.renderTooltips(guiGraphics, x, y, font);
     }
 
     @Override

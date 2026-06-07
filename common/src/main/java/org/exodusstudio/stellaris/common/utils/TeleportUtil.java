@@ -6,8 +6,8 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.portal.TeleportTransition;
 import net.minecraft.world.phys.Vec3;
 import org.exodusstudio.stellaris.Stellaris;
-import org.exodusstudio.stellaris.common.entities.LanderEntity;
-import org.exodusstudio.stellaris.common.entities.RocketEntity;
+import org.exodusstudio.stellaris.common.entities.vehicles.LanderEntity;
+import org.exodusstudio.stellaris.common.entities.vehicles.RocketEntity;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 

@@ -19,6 +19,8 @@ import org.exodusstudio.stellaris.client.debug.OxygenDebugRenderer;
 import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.client.StellarisClient;
 import org.exodusstudio.stellaris.client.registry.BoatModelLayerRegistry;
+import org.exodusstudio.stellaris.client.renderers.entity.vehicle.rover.RoverModel;
+import org.exodusstudio.stellaris.client.renderers.entity.vehicle.rover.RoverRenderer;
 import org.exodusstudio.stellaris.client.renderers.flag.FlagBlockModel;
 import org.exodusstudio.stellaris.client.renderers.flag.FlagBlockRenderer;
 import org.exodusstudio.stellaris.client.renderers.flag.FlagHeadModel;
@@ -76,6 +78,7 @@ public class StellarisNeoforgeClient {
         event.register(MenuTypesRegistry.ENGINE_UPGRADE.get(), EngineUpgraderScreen::new);
         event.register(MenuTypesRegistry.LANDER_MENU.get(), LanderScreen::new);
         event.register(MenuTypesRegistry.ROCKET_MENU.get(), RocketScreen::new);
+        event.register(MenuTypesRegistry.ROVER_MENU.get(), RoverScreen::new);
         event.register(MenuTypesRegistry.LABORATORY_VACCINE.get(), VaccineScreen::new);
         event.register(MenuTypesRegistry.LABORATORY_RESEARCH.get(), ResearchScreen::new);
         event.register(MenuTypesRegistry.SPACE_STATION_PLANNER.get(), SpaceStationPlannerScreen::new);
@@ -92,6 +95,7 @@ public class StellarisNeoforgeClient {
         event.registerBlockEntityRenderer(BlockEntitiesRegistry.FLAG.get(), FlagBlockRenderer::new);
         event.registerEntityRenderer(EntityTypesRegistry.LANDER.get(), LanderRenderer::new);
         event.registerEntityRenderer(EntityTypesRegistry.ROCKET.get(), RocketRenderer::new);
+        event.registerEntityRenderer(EntityTypesRegistry.ROVER.get(), RoverRenderer::new);
 
         event.registerEntityRenderer(EntityTypesRegistry.LUNAR_BOAT.get(), (c) -> new BoatRenderer(c, BoatModelLayerRegistry.LUNAR_BOAT));
         event.registerEntityRenderer(EntityTypesRegistry.LUNAR_CHEST_BOAT.get(), (c) -> new BoatRenderer(c, BoatModelLayerRegistry.LUNAR_CHEST_BOAT));
@@ -132,6 +136,7 @@ public class StellarisNeoforgeClient {
         event.registerLayerDefinition(TinyRocketModel.LAYER_LOCATION, TinyRocketModel::createBodyLayer);
         event.registerLayerDefinition(SmallRocketModel.LAYER_LOCATION, SmallRocketModel::createBodyLayer);
         event.registerLayerDefinition(BigRocketModel.LAYER_LOCATION, BigRocketModel::createBodyLayer);
+        event.registerLayerDefinition(RoverModel.LAYER_LOCATION, RoverModel::createBodyLayer);
     }
 
     @SubscribeEvent

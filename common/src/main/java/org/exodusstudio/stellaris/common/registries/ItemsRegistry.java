@@ -15,6 +15,8 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.SpawnEggItem;
 import net.minecraft.world.item.SignItem;
 import net.minecraft.world.item.equipment.ArmorMaterials;
+import org.exodusstudio.stellaris.client.screens.utils.GUISprites;
+import org.exodusstudio.stellaris.common.components.RoverComponent;
 import org.exodusstudio.stellaris.common.data.space_station.SpaceStationRecipe;
 import org.exodusstudio.stellaris.common.items.*;
 import org.exodusstudio.stellaris.common.items.infection.ParasiteItem;
@@ -28,6 +30,8 @@ import org.exodusstudio.stellaris.common.items.space_suit.SpaceSuitHelmet;
 import org.exodusstudio.stellaris.common.items.space_suit.SpaceSuitLeggings;
 import org.exodusstudio.stellaris.common.items.tools.*;
 import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
+import org.exodusstudio.stellaris.common.vehicle_upgrade.MotorUpgrade;
+import org.exodusstudio.stellaris.common.vehicle_upgrade.TankUpgrade;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.function.Function;
@@ -62,6 +66,10 @@ public final class ItemsRegistry {
     public static final RegistrySupplier<TabletItem> TABLET = item("tablet", TabletItem::new);
     public static final RegistrySupplier<Item> OIL_FINDER = item("oil_finder", OilFinderItem::new);
     public static final RegistrySupplier<SDCardItem> SD_CARD = item("sd_card", (p) -> new SDCardItem(p, "stellaris:creative"));
+
+    /** Rover */
+    public static final RegistrySupplier<RoverItem> ROVER = item("rover", p -> new RoverItem(p.component(DataComponentsRegistry.ROVER_COMPONENT.get(), new RoverComponent(MotorUpgrade.getBasic(false).getFuelType().getSerializedName(), 0, GUISprites.FUEL_OVERLAY, TankUpgrade.getBasic().getTankCapacity(), 1))));
+
 
     /** Rocket */
     public static final RegistrySupplier<RocketItem> ROCKET = item("rocket", new Item.Properties().arch$tab(CreativeTabsRegistry.STELLARIS_MAIN).stacksTo(1), RocketItem::new);

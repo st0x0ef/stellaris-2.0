@@ -58,6 +58,6 @@ public class GUIUtils {
     }
 
     public static void renderEnergyGeneratorGaugeTooltip(GuiGraphicsExtractor graphics, GaugeWidget widget, int energyGeneratedPerTicks, int x, int y, Font font) {
-        widget.renderTooltips(graphics, x, y, font, list -> list.add(ClientTooltipComponent.create(Component.translatable("gauge_text.stellaris.max_generation", energyGeneratedPerTicks).getVisualOrderText())));
+        widget.renderTooltips(graphics, x, y, font); // TODO : add back energy per tick info
     }
 }

@@ -8,6 +8,7 @@ import net.minecraft.util.ExtraCodecs;
 import org.exodusstudio.stellaris.client.renderers.rockets.RocketItemRenderer;
 import org.exodusstudio.stellaris.client.renderers.flag.FlagItemRenderer;
 import org.exodusstudio.stellaris.client.renderers.gravity_manipulator.GravityManipulatorItemRenderer;
+import org.exodusstudio.stellaris.client.renderers.entity.vehicle.rover.RoverItemRenderer;
 import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -27,5 +28,6 @@ public class CustomItemModelRenderer {
         ID_MAPPER.put(IdentifierUtils.id("gravity_manipulator"), GravityManipulatorItemRenderer.Unbaked.MAP_CODEC);
         ID_MAPPER.put(IdentifierUtils.id("flag"), FlagItemRenderer.Unbaked.MAP_CODEC);
         ID_MAPPER.put(IdentifierUtils.id("rocket"), RocketItemRenderer.Unbaked.MAP_CODEC);
+        ID_MAPPER.put(IdentifierUtils.id("rover"), RoverItemRenderer.Unbaked.MAP_CODEC);
     }
 }

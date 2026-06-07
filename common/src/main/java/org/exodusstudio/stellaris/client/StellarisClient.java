@@ -16,6 +16,7 @@ import org.exodusstudio.stellaris.client.overlays.RocketTimerOverlay;
 import org.exodusstudio.stellaris.client.registry.BoatModelLayerRegistry;
 import org.exodusstudio.stellaris.client.registry.FluidInfosRegistry;
 import org.exodusstudio.stellaris.client.registry.KeyMappingsRegistry;
+import org.exodusstudio.stellaris.client.renderers.entity.vehicle.rover.RoverModel;
 import org.exodusstudio.stellaris.client.renderers.flag.FlagBlockModel;
 import org.exodusstudio.stellaris.client.renderers.flag.FlagHeadModel;
 import org.exodusstudio.stellaris.client.renderers.gravity_manipulator.GravityManipulatorModel;
@@ -92,5 +93,6 @@ public class StellarisClient {
         EntityModelLayerRegistry.register(TinyRocketModel.LAYER_LOCATION, TinyRocketModel::createBodyLayer);
         EntityModelLayerRegistry.register(SmallRocketModel.LAYER_LOCATION, SmallRocketModel::createBodyLayer);
         EntityModelLayerRegistry.register(BigRocketModel.LAYER_LOCATION, BigRocketModel::createBodyLayer);
+        EntityModelLayerRegistry.register(RoverModel.LAYER_LOCATION, RoverModel::createBodyLayer);
     }
 }

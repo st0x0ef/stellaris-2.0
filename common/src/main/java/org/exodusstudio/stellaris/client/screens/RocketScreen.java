@@ -11,7 +11,7 @@ import net.minecraft.world.entity.player.Inventory;
 import org.exodusstudio.stellaris.client.screens.components.GaugeChunkWidget;
 import org.exodusstudio.stellaris.client.screens.components.GaugeWidget;
 import org.exodusstudio.stellaris.client.screens.utils.GUISprites;
-import org.exodusstudio.stellaris.common.entities.RocketEntity;
+import org.exodusstudio.stellaris.common.entities.vehicles.RocketEntity;
 import org.exodusstudio.stellaris.common.menus.RocketMenu;
 import org.exodusstudio.stellaris.common.registries.ModulesRegistry;
 import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
@@ -70,7 +70,7 @@ public class RocketScreen extends AbstractContainerScreen<RocketMenu> {
     protected void extractTooltip(GuiGraphicsExtractor guiGraphics, int x, int y) {
         super.extractTooltip(guiGraphics, x, y);
 
-        if(this.fuelGauge != null) fuelGauge.renderTooltips(guiGraphics, x, y, this.font, List::of);
+        if(this.fuelGauge != null) fuelGauge.renderTooltips(guiGraphics, x, y, this.font);
     }
 
     @Override

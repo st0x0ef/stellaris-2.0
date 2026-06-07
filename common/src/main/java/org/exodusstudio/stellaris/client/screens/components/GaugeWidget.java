@@ -62,7 +62,7 @@ public class GaugeWidget extends AbstractWidget {
         }
     }
 
-    public void renderTooltips(GuiGraphicsExtractor graphics, int mouseX, int mouseY, Font font, Consumer<List<ClientTooltipComponent>> components) {
+    public void renderTooltips(GuiGraphicsExtractor graphics, int mouseX, int mouseY, Font font) {
         String GaugeComponent = getMessage().getString() + " : " + amount + " / " + this.capacity;
         ClientTooltipComponent capacity;
 

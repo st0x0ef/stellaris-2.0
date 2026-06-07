@@ -1,4 +1,4 @@
-package org.exodusstudio.stellaris.common.entities;
+package org.exodusstudio.stellaris.common.entities.vehicles;
 
 import dev.architectury.registry.menu.ExtendedMenuProvider;
 import dev.architectury.registry.menu.MenuRegistry;
@@ -24,6 +24,7 @@ import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.phys.Vec3;
 import org.exodusstudio.stellaris.Stellaris;
+import org.exodusstudio.stellaris.common.entities.vehicles.base.VehicleEntity;
 import org.exodusstudio.stellaris.common.keybinds.KeyVariables;
 import org.exodusstudio.stellaris.common.menus.LanderMenu;
 import org.exodusstudio.stellaris.common.registries.EntityTypesRegistry;

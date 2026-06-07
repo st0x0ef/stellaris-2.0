@@ -11,6 +11,7 @@ import net.minecraft.world.item.component.ResolvableProfile;
 import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.common.components.JetComponent;
 import org.exodusstudio.stellaris.common.components.PathogenStorageComponent;
+import org.exodusstudio.stellaris.common.components.RoverComponent;
 import org.exodusstudio.stellaris.common.components.TimerComponent;
 import org.exodusstudio.stellaris.common.data.space_station.SpaceStationRecipe;
 
@@ -61,6 +62,9 @@ public class DataComponentsRegistry {
 
     public static final RegistrySupplier<DataComponentType<Planet>> AUTOPILOT =
             register("autopilot", builder -> builder.persistent(Planet.CODEC).networkSynchronized(Planet.STREAM_CODEC));
+
+    public static final RegistrySupplier<DataComponentType<RoverComponent>> ROVER_COMPONENT =
+            register("rover_component", builder -> builder.persistent(RoverComponent.CODEC).networkSynchronized(RoverComponent.STREAM_CODEC));
 
     private static <T> RegistrySupplier<DataComponentType<T>> register(String name, UnaryOperator<DataComponentType.Builder<T>> builderOperator) {
         return DATA_COMPONENT_TYPE.register(name, () -> builderOperator.apply(DataComponentType.builder()).build());

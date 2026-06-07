@@ -72,7 +72,7 @@ public class FluidTankScreen extends AbstractContainerScreen<FluidTankMenu> {
                 Component.translatable("stellaris.screen.empty_fluid") :
                 blockEntity.getFluidTank().getFluidInTank(0).getName();
         fluidGauge.setMessage(tooltip);
-        fluidGauge.renderTooltips(guiGraphics, x, y, font, List::of);
+        fluidGauge.renderTooltips(guiGraphics, x, y, font);
     }
 
     @Override

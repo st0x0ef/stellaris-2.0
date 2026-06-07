@@ -2,7 +2,9 @@ package org.exodusstudio.stellaris.client.events;
 
 import dev.architectury.event.EventResult;
 import dev.architectury.event.events.client.ClientRawInputEvent;
+import dev.architectury.event.events.client.ClientTickEvent;
 import dev.architectury.networking.NetworkManager;
+import org.exodusstudio.stellaris.common.entities.vehicles.base.AbstractRoverBase;
 import org.exodusstudio.stellaris.common.keybinds.KeyVariables;
 import org.exodusstudio.stellaris.common.network.packets.KeyHandlerPacket;
 import org.lwjgl.glfw.GLFW;
@@ -25,5 +27,15 @@ public class ClientEvents {
             });
             return EventResult.pass();
         }));
+
+        ClientTickEvent.CLIENT_POST.register(minecraft -> {
+            if (minecraft.player != null && minecraft.player.getVehicle() instanceof AbstractRoverBase rover && rover.getDriver() == minecraft.player) {
+                boolean forward = minecraft.options.keyUp.isDown();
+                boolean backward = minecraft.options.keyDown.isDown();
+                boolean left = minecraft.options.keyLeft.isDown();
+                boolean right = minecraft.options.keyRight.isDown();
+                rover.updateControls(forward, backward, left, right, minecraft.player);
+            }
+        });
     }
 }
