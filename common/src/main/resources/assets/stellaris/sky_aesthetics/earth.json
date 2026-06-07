@@ -1,0 +1,30 @@
+{
+  "world": "minecraft:overworld",
+  "id": "stellaris:earth",
+
+  "cloud": true,
+  "weather": true,
+
+  "custom_vanilla_object": {
+    "sun": true,
+    "moon": true
+  },
+
+  "stars": {
+    "vanilla": false,
+    "moving_stars": true,
+    "count": 4000,
+    "all_days_visible": false,
+    "scale": 0.2,
+    "color": [200, 215, 255],
+    "shooting_stars": {
+      "percentage": 2,
+      "random_lifetime": [60, 120],
+      "scale": 1.2,
+      "speed": 1.5,
+      "color": [255, 255, 200]
+    }
+  },
+
+  "sky_objects": []
+}
