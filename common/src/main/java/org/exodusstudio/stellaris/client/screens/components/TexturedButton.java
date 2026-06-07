@@ -10,6 +10,7 @@ import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.util.ARGB;
+import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
 import org.exodusstudio.stellaris.common.utils.Utils;
 import org.jetbrains.annotations.Nullable;
@@ -37,6 +38,8 @@ public class TexturedButton extends Button {
 
     public int textureWidth;
     public int textureHeight;
+
+    public Padding textPadding = new Padding(0);
 
     public boolean useSprite = false;
     public Component text = Component.empty();
@@ -95,7 +98,10 @@ public class TexturedButton extends Button {
         }
 
         if(!Objects.equals(this.text, Component.empty())) {
-            graphics.text(minecraft.font, this.text, this.getX() + (this.getWidth() - minecraft.font.width(text)) / 2, this.getY() + (getHeight() - minecraft.font.lineHeight) / 2, Utils.getMinecraftColor("white"));
+            renderScrollingStringOverContents(graphics.textRendererForWidget(this,
+                    GuiGraphicsExtractor.HoveredTextEffects.NONE), this.text, this.getX() , this.getY() + (getHeight() - minecraft.font.lineHeight) / 2);
+
+            //graphics.text(minecraft.font, this.text, this.getX() + (this.getWidth() - minecraft.font.width(text)) / 2, this.getY() + (getHeight() - minecraft.font.lineHeight) / 2, Utils.getMinecraftColor("white"));
         }
     }
 
@@ -152,6 +158,11 @@ public class TexturedButton extends Button {
         return cast();
     }
 
+    public <T extends TexturedButton> T setTextPadding(Padding textPadding) {
+        this.textPadding = textPadding;
+        return cast();
+    }
+
     public void setYShift(int y) {
         this.yDiffText = y;
     }
@@ -159,6 +170,9 @@ public class TexturedButton extends Button {
     /** TYPE TEXTURE MANAGER */
     public Identifier getTypeTexture() {
         if (this.isHovered) {
+            Stellaris.LOG.error("Hover Texture: " + this.hoverButtonTexture);
+            Stellaris.LOG.error("Texture: " + this.buttonTexture);
+
             return this.hoverButtonTexture;
         }
         else {
@@ -167,10 +181,10 @@ public class TexturedButton extends Button {
     }
 
     protected void renderScrollingStringOverContents(ActiveTextCollector activeTextCollector, Component text, int x, int y) {
-        int endX = this.getX() + this.getWidth() - 5;
-        int endY = y + Minecraft.getInstance().font.lineHeight;
+        int endX = this.getX() + this.getWidth() - this.textPadding.right;
+        int endY = y + Minecraft.getInstance().font.lineHeight - this.textPadding.bottom;
 
-        activeTextCollector.acceptScrollingWithDefaultCenter(text, x, endX, y, endY);
+        activeTextCollector.acceptScrollingWithDefaultCenter(text, x + this.textPadding.left, endX, y + this.textPadding.top, endY);
     }
 
     @SuppressWarnings("ConstantConditions")

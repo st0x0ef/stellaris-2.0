@@ -20,12 +20,16 @@
         "count": 1,
         "id": "stellaris:engineering_station"
       },
-      "onlyIcon": false
+      "onlyIcon": true
       }
     },
     {
       "type": "text",
-      "text": "[br] [br] This station is used to build [ref=stellaris:rocket/rockets]rockets[ref]. [br] You can also use it to upgrade your rockets and help you explore more planets!"
+      "text": "This station is used to build [ref=stellaris:rocket/rockets]rockets[ref]. [br] You can also use it to upgrade your rockets and help you explore more planets! [br] [br]"
+    },
+    {
+      "type": "text",
+      "text": "**Space Station Planner** : [br] Use the rocket planner to build space station plans. Select your space station, place a space station blueprint and then add the needed resources to build the station."
     }
   ],
   "iconType": "item",

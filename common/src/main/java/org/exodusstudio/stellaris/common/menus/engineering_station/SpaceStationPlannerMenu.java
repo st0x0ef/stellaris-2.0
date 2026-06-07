@@ -40,14 +40,14 @@ public class SpaceStationPlannerMenu extends BaseContainer implements ContainerL
     }
 
     public SpaceStationPlannerMenu(int syncId, Inventory playerInventory, Container container, BlockPos pos) {
-        super(MenuTypesRegistry.SPACE_STATION_PLANNER.get(), syncId, 10, playerInventory, 112, 100);
+        super(MenuTypesRegistry.SPACE_STATION_PLANNER.get(), syncId, 10, playerInventory, 10, 142);
 
         checkContainerSize(container, 10);
         this.engineeringStationPos = pos;
         this.inventory = container;
         this.player = playerInventory.player;
-        this.resultSlotId = this.addSlot(new SpecificItemsSlot(this.inventory, 0, 235, 30, ItemsRegistry.SPACE_STATION_BLUEPRINT.get())).index;
-        addMaterialsSlots(120, 30);
+        this.resultSlotId = this.addSlot(new SpecificItemsSlot(this.inventory, 0, 122, 56, ItemsRegistry.SPACE_STATION_BLUEPRINT.get())).index;
+        addMaterialsSlots(30, 48);
         this.addSlotListener(this);
     }
 
