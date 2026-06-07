@@ -62,7 +62,7 @@ public class CargoUnloaderScreen extends AbstractContainerScreen<CargoUnloaderMe
     @Override
     protected void extractTooltip(GuiGraphicsExtractor guiGraphics, int x, int y) {
         super.extractTooltip(guiGraphics, x, y);
-        energyGauge.renderTooltips(guiGraphics, x, y, font, List::of);
+        energyGauge.renderTooltips(guiGraphics, x, y, font);
     }
 
     @Override

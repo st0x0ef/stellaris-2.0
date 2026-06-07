@@ -92,10 +92,10 @@ public class FuelRefineryScreen extends AbstractContainerScreen<FuelRefineryMenu
     @Override
     protected void extractTooltip(GuiGraphicsExtractor guiGraphics, int x, int y) {
         super.extractTooltip(guiGraphics, x, y);
-        ingredientTankGauge.renderTooltips(guiGraphics, x, y, font, List::of);
-        fuelTankGauge.renderTooltips(guiGraphics, x, y, font, List::of);
-        dieselTankGauge.renderTooltips(guiGraphics, x, y, font, List::of);
-        energyGauge.renderTooltips(guiGraphics, x, y, font, List::of);
+        ingredientTankGauge.renderTooltips(guiGraphics, x, y, font);
+        fuelTankGauge.renderTooltips(guiGraphics, x, y, font);
+        dieselTankGauge.renderTooltips(guiGraphics, x, y, font);
+        energyGauge.renderTooltips(guiGraphics, x, y, font);
     }
 
     @Override

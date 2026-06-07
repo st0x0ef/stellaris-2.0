@@ -1,5 +1,7 @@
 package org.exodusstudio.stellaris.common.entities.vehicles;
 
+import net.minecraft.world.inventory.ContainerListener;
+import net.minecraft.world.phys.Vec3;
 import org.exodusstudio.stellaris.common.components.RoverComponent;
 import org.exodusstudio.stellaris.common.entities.vehicles.base.AbstractRoverBase;
 import org.exodusstudio.stellaris.common.items.VehicleUpgradeItem;
@@ -133,7 +135,7 @@ public class RoverEntity extends AbstractRoverBase implements HasCustomInventory
     }
 
     @Override
-    public InteractionResult interact(Player player, InteractionHand hand) {
+    public InteractionResult interact(Player player, InteractionHand hand, Vec3 vec3) {
         InteractionResult result = InteractionResult.SUCCESS;
 
         if (!this.level().isClientSide()) {
@@ -308,10 +310,7 @@ public class RoverEntity extends AbstractRoverBase implements HasCustomInventory
         }
     }
 
-    @Override
-    public void containerChanged(Container container) {
 
-    }
 
     @Override
     protected void addAdditionalSaveData(ValueOutput output) {
@@ -375,5 +374,15 @@ public class RoverEntity extends AbstractRoverBase implements HasCustomInventory
     @Override
     public boolean isPushable() {
         return false;
+    }
+
+    @Override
+    public void slotChanged(AbstractContainerMenu container, int slotIndex, ItemStack itemStack) {
+
+    }
+
+    @Override
+    public void dataChanged(AbstractContainerMenu container, int id, int value) {
+
     }
 }

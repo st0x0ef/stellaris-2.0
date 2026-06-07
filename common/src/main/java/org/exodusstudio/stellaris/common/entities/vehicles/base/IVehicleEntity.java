@@ -52,7 +52,7 @@ public abstract class IVehicleEntity extends Entity {
 
     /** Interact with the Entity Gui,Spawn Egg... */
     @Override
-    public InteractionResult interact(Player player, InteractionHand hand) {
+    public InteractionResult interact(Player player, InteractionHand hand, Vec3 location) {
         return InteractionResult.PASS;
     }
 

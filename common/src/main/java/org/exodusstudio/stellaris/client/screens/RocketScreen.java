@@ -70,7 +70,7 @@ public class RocketScreen extends AbstractContainerScreen<RocketMenu> {
     protected void extractTooltip(GuiGraphicsExtractor guiGraphics, int x, int y) {
         super.extractTooltip(guiGraphics, x, y);
 
-        if(this.fuelGauge != null) fuelGauge.renderTooltips(guiGraphics, x, y, this.font, List::of);
+        if(this.fuelGauge != null) fuelGauge.renderTooltips(guiGraphics, x, y, this.font);
     }
 
     @Override

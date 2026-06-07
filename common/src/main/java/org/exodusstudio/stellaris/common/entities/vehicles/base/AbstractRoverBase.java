@@ -309,7 +309,7 @@ public abstract class AbstractRoverBase extends IVehicleEntity {
     }
 
     @Override
-    public InteractionResult interact(Player player, InteractionHand hand) {
+    public InteractionResult interact(Player player, InteractionHand hand, Vec3 vec3) {
         if (!player.isShiftKeyDown()) {
             if (player.getVehicle() != this) {
                 if (!level().isClientSide()) {
@@ -322,7 +322,7 @@ public abstract class AbstractRoverBase extends IVehicleEntity {
         if (!canPlayerEnterCar(player)) {
             return InteractionResult.FAIL;
         }
-        return super.interact(player, hand);
+        return super.interact(player, hand, vec3);
     }
 
     public float getKilometerPerHour() {

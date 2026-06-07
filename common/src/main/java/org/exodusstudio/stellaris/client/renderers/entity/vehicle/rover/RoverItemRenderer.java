@@ -26,7 +26,7 @@ public record RoverItemRenderer() implements SpecialModelRenderer<Void> {
     private static final Identifier TEXTURE = IdentifierUtils.texture("entity/vehicle/rover");
 
     @Override
-    public void submit(@Nullable Void state, ItemDisplayContext displayContext, PoseStack poseStack, SubmitNodeCollector nodeCollector, int packedLight, int packedOverlay, boolean hasFoil, int outlineColor) {
+    public void submit(@Nullable Void state, PoseStack poseStack, SubmitNodeCollector nodeCollector, int packedLight, int packedOverlay, boolean hasFoil, int outlineColor) {
         poseStack.pushPose();
 
         poseStack.translate(0.5D, 1.5D, 0.5D);
@@ -34,7 +34,7 @@ public record RoverItemRenderer() implements SpecialModelRenderer<Void> {
 
         RoverModel model = new RoverModel(Minecraft.getInstance().getEntityModels().bakeLayer(RoverModel.LAYER_LOCATION));
 
-        RenderType renderType = RenderTypes.entityCutoutNoCull(TEXTURE);
+        RenderType renderType = RenderTypes.entityCutout(TEXTURE);
         nodeCollector.submitModelPart(model.root(), poseStack, renderType, packedLight, OverlayTexture.NO_OVERLAY, null);
 
         poseStack.popPose();

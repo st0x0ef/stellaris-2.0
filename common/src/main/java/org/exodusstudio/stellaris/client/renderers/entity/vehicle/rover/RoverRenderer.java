@@ -6,7 +6,7 @@ import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.rendertype.RenderType;
 import net.minecraft.client.renderer.rendertype.RenderTypes;
-import net.minecraft.client.renderer.state.CameraRenderState;
+import net.minecraft.client.renderer.state.level.CameraRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.phys.AABB;
@@ -17,7 +17,7 @@ import org.jetbrains.annotations.NotNull;
 public class RoverRenderer extends EntityRenderer<RoverEntity, RoverRenderState> {
 
     public static final Identifier TEXTURE = IdentifierUtils.texture("entity/vehicle/rover");
-    public static final RenderType RENDER_TYPE = RenderTypes.entityCutoutNoCull(TEXTURE);
+    public static final RenderType RENDER_TYPE = RenderTypes.entityCutout(TEXTURE);
     private final RoverModel model;
 
     public RoverRenderer(EntityRendererProvider.Context renderManagerIn) {
@@ -43,8 +43,7 @@ public class RoverRenderer extends EntityRenderer<RoverEntity, RoverRenderState>
     }
 
     @Override
-    public void submit(RoverRenderState renderState, PoseStack poseStack, SubmitNodeCollector nodeCollector,
-            CameraRenderState cameraRenderState) {
+    public void submit(RoverRenderState renderState, PoseStack poseStack, SubmitNodeCollector nodeCollector, CameraRenderState cameraRenderState) {
         super.submit(renderState, poseStack, nodeCollector, cameraRenderState);
 
         poseStack.pushPose();
