@@ -27,7 +27,7 @@ public class FadeOverlay {
             } else if(!playerFade.fading() && playerFade.fadeAmount() > 0f) {
                 player.stellaris$saveDataAttachments(IdentifierUtils.id("player_fade"), new FadingHolder(playerFade.fading(), playerFade.fadeAmount() - 0.01f) );
                 if(playerFade.fadeAmount() - 0.01f < 0f) {
-                    player.stellaris$saveDataAttachments(IdentifierUtils.id("player_fade"), null);
+                    player.stellaris$saveDataAttachments(IdentifierUtils.id("player_fade"), new FadingHolder(false, 0f));
                 }
             }
         }

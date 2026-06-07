@@ -117,56 +117,84 @@ public abstract class BaseItemCombinerMenu extends AbstractContainerMenu {
         return this.access.evaluate((level, blockPos) -> this.isValidBlock(level.getBlockState(blockPos)) && player.isWithinBlockInteractionRange(blockPos, 4.0F), true);
     }
 
+    private boolean isInputSlot(int index) {
+        for (ItemCombinerMenuSlotDefinition.SlotDefinition slotDefinition : this.inputSlotIndexes) {
+            if (slotDefinition.slotIndex() == index) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    @Override
     public ItemStack quickMoveStack(Player player, int index) {
-        ItemStack itemStack = ItemStack.EMPTY;
+        if (index < 0 || index >= this.slots.size()) {
+            return ItemStack.EMPTY;
+        }
+
+        ItemStack copiedStack = ItemStack.EMPTY;
         Slot slot = this.slots.get(index);
+
         if (slot != null && slot.hasItem()) {
-            ItemStack itemStack2 = slot.getItem();
-            itemStack = itemStack2.copy();
-            int i = this.getInventorySlotStart();
-            int j = this.getUseRowEnd();
+            ItemStack movingStack = slot.getItem();
+            copiedStack = movingStack.copy();
+
+            int playerInventoryStart = this.getInventorySlotStart();
+            int playerInventoryEnd = this.getInventorySlotEnd();
+            int hotbarStart = this.getUseRowStart();
+            int hotbarEnd = this.getUseRowEnd();
+
             if (index == this.getResultSlot()) {
-                if (!this.moveItemStackTo(itemStack2, i, j, true)) {
+                if (!this.moveItemStackTo(movingStack, playerInventoryStart, hotbarEnd, true)) {
                     return ItemStack.EMPTY;
                 }
 
-                slot.onQuickCraft(itemStack2, itemStack);
-            }
-            else if (this.inputSlotIndexes.contains(index)) {
-                if (!this.moveItemStackTo(itemStack2, i, j, false)) {
+                slot.onQuickCraft(movingStack, copiedStack);
+            } else if (this.isInputSlot(index)) {
+                if (!this.moveItemStackTo(movingStack, playerInventoryStart, hotbarEnd, false)) {
                     return ItemStack.EMPTY;
                 }
-            }
-            else if (this.canMoveIntoInputSlots(itemStack2) && index >= this.getInventorySlotStart() && index < this.getUseRowEnd()) {
-                int k = this.getSlotToQuickMoveTo(itemStack);
-                if (!this.moveItemStackTo(itemStack2, k, this.getResultSlot(), false)) {
-                    return ItemStack.EMPTY;
+            } else if (index >= playerInventoryStart && index < hotbarEnd) {
+                if (this.canMoveIntoInputSlots(movingStack)) {
+                    int targetSlot = this.getSlotToQuickMoveTo(movingStack);
+
+                    if (!this.moveItemStackTo(movingStack, targetSlot, this.getResultSlot(), false)) {
+                        if (index >= playerInventoryStart && index < playerInventoryEnd) {
+                            if (!this.moveItemStackTo(movingStack, hotbarStart, hotbarEnd, false)) {
+                                return ItemStack.EMPTY;
+                            }
+                        } else if (index >= hotbarStart && index < hotbarEnd) {
+                            if (!this.moveItemStackTo(movingStack, playerInventoryStart, playerInventoryEnd, false)) {
+                                return ItemStack.EMPTY;
+                            }
+                        }
+                    }
+                } else if (index >= playerInventoryStart && index < playerInventoryEnd) {
+                    if (!this.moveItemStackTo(movingStack, hotbarStart, hotbarEnd, false)) {
+                        return ItemStack.EMPTY;
+                    }
+                } else if (index >= hotbarStart && index < hotbarEnd) {
+                    if (!this.moveItemStackTo(movingStack, playerInventoryStart, playerInventoryEnd, false)) {
+                        return ItemStack.EMPTY;
+                    }
                 }
-            }
-            else if (index >= this.getInventorySlotStart() && index < this.getInventorySlotEnd()) {
-                if (!this.moveItemStackTo(itemStack2, this.getUseRowStart(), this.getUseRowEnd(), false)) {
-                    return ItemStack.EMPTY;
-                }
-            }
-            else if (index >= this.getUseRowStart() && index < this.getUseRowEnd() && !this.moveItemStackTo(itemStack2, this.getInventorySlotStart(), this.getInventorySlotEnd(), false)) {
-                return ItemStack.EMPTY;
             }
 
-            if (itemStack2.isEmpty()) {
+            if (movingStack.isEmpty()) {
                 slot.setByPlayer(ItemStack.EMPTY);
-            }
-            else {
+            } else {
                 slot.setChanged();
             }
 
-            if (itemStack2.getCount() == itemStack.getCount()) {
+            if (movingStack.getCount() == copiedStack.getCount()) {
                 return ItemStack.EMPTY;
             }
 
-            slot.onTake(player, itemStack2);
+            slot.onTake(player, movingStack);
         }
 
-        return itemStack;
+        return copiedStack;
     }
 
     protected boolean canMoveIntoInputSlots(ItemStack stack) {
@@ -174,7 +202,7 @@ public abstract class BaseItemCombinerMenu extends AbstractContainerMenu {
     }
 
     public int getSlotToQuickMoveTo(ItemStack stack) {
-        return this.inputSlots.isEmpty() ? 0 : this.inputSlotIndexes.getFirst().slotIndex();
+        return this.inputSlotIndexes.isEmpty() ? 0 : this.inputSlotIndexes.getFirst().slotIndex();
     }
 
     public int getResultSlot() {

@@ -10,6 +10,8 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
+import org.exodusstudio.stellaris.common.blocks.PumpjackProxyBlock;
 
 import java.util.*;
 import java.util.concurrent.atomic.AtomicLong;
@@ -21,10 +23,13 @@ public class FluidUtil {
         if (items.get(slot).isEmpty()) {
             return;
         }
+
         UniversalFluidItemStorage to = Capabilities.Fluid.ITEM.getCapability(items.get(slot));
+
         if (to == null) {
             return;
         }
+
         amount = Math.min(amount, to.getTankCapacity(0) - to.getFluidInTank(0).getAmount());
         moveFluid(from, to, from.getFluidInTank(tank).copyWithAmount(amount));
 
@@ -38,24 +43,32 @@ public class FluidUtil {
         }
 
         ItemStack actualRemainingItems = items.get(remainingItemSlot);
+
         if (actualRemainingItems.getCount() == actualRemainingItems.getMaxStackSize()) {
             return;
         }
 
         UniversalFluidItemStorage from = Capabilities.Fluid.ITEM.getCapability(items.get(slot));
+
         if (from == null) {
             return;
         }
+
         amount = Math.min(amount, to.getTankCapacity(tank) - to.getFluidInTank(tank).getAmount());
         FluidStack fluidMoved = moveFluid(from, to, from.getFluidInTank(tank).copyWithAmount(amount));
-        if (!fluidMoved.isEmpty() && slot != remainingItemSlot) items.set(slot, ItemStack.EMPTY);
+
+        if (!fluidMoved.isEmpty() && slot != remainingItemSlot) {
+            items.set(slot, ItemStack.EMPTY);
+        }
 
         if (!fluidMoved.isEmpty() && actualRemainingItems.isEmpty()) {
             items.set(remainingItemSlot, from.getContainer());
-        } else if (!fluidMoved.isEmpty() && actualRemainingItems.is(from.getContainer().getItem())) {
+        }
+        else if (!fluidMoved.isEmpty() && actualRemainingItems.is(from.getContainer().getItem())) {
             if (actualRemainingItems.getCount() + from.getContainer().getCount() < actualRemainingItems.getMaxStackSize()) {
                 items.set(remainingItemSlot, actualRemainingItems.copyWithCount(actualRemainingItems.getCount() + from.getContainer().getCount()));
-            }  else {
+            }
+            else {
                 items.set(remainingItemSlot, actualRemainingItems.copyWithCount(actualRemainingItems.getMaxStackSize()));
             }
         }
@@ -88,6 +101,7 @@ public class FluidUtil {
 
         from.drainWithoutLimits(inserted, false);
         to.fillWithoutLimits(inserted, false);
+
         return inserted;
     }
 
@@ -100,6 +114,7 @@ public class FluidUtil {
             distributeInAllDirections(level, pos, stack);
             return;
         }
+
         distributeInDirections(level, pos, stack, outputDirections);
     }
 
@@ -107,11 +122,11 @@ public class FluidUtil {
         Map<UniversalFluidStorage, UniversalFluidStorage> pairs = new HashMap<>();
 
         for (Direction direction : outputDirections) {
-            UniversalFluidStorage from = Capabilities.Fluid.BLOCK.getCapability(level, pos, direction);
+            UniversalFluidStorage from = getFluidCapability(level, pos, direction);
+
             if (from == null) {
                 continue;
             }
-
 
             FluidStack drained = from.drain(stack, true);
 
@@ -119,7 +134,8 @@ public class FluidUtil {
                 continue;
             }
 
-            UniversalFluidStorage to = Capabilities.Fluid.BLOCK.getCapability(level, pos.relative(direction), direction.getOpposite());
+            UniversalFluidStorage to = getFluidCapability(level, pos.relative(direction), direction.getOpposite());
+
             if (to == null) {
                 continue;
             }
@@ -133,15 +149,24 @@ public class FluidUtil {
 
         AtomicLong toDistribute = new AtomicLong(stack.getAmount());
         AtomicLong receivers = new AtomicLong(pairs.size());
-        pairs.forEach((energyFrom, energyTo) -> {
-            toDistribute.addAndGet(-moveFluid(energyFrom, energyTo, stack.copyWithAmount(toDistribute.get() / receivers.get())).getAmount());
+
+        pairs.forEach((fluidFrom, fluidTo) -> {
+            long receiverCount = receivers.get();
+
+            if (receiverCount <= 0L) {
+                return;
+            }
+
+            toDistribute.addAndGet(-moveFluid(fluidFrom, fluidTo, stack.copyWithAmount(toDistribute.get() / receiverCount)).getAmount());
             receivers.getAndDecrement();
         });
+
         return stack.getAmount() - toDistribute.get();
     }
 
     private static void distributeInAllDirections(Level level, BlockPos pos, FluidStack stack) {
-        UniversalFluidStorage from = Capabilities.Fluid.BLOCK.getCapability(level, pos, null);
+        UniversalFluidStorage from = getFluidCapability(level, pos, null);
+
         if (from == null) {
             return;
         }
@@ -155,7 +180,7 @@ public class FluidUtil {
         FluidStack finalStack = stack.copyWithAmount(amount);
 
         List<UniversalFluidStorage> toSend = Direction.stream()
-                .map(direction -> Capabilities.Fluid.BLOCK.getCapability(level, pos.relative(direction), direction.getOpposite()))
+                .map(direction -> getFluidCapability(level, pos.relative(direction), direction.getOpposite()))
                 .filter(Objects::nonNull)
                 .sorted(Comparator.comparing(fluidStorage -> fluidStorage.fill(finalStack, true)))
                 .filter(fluidStorage -> {
@@ -163,6 +188,7 @@ public class FluidUtil {
                         fluidStorage.isFluidValid(i, finalStack);
                         return true;
                     }
+
                     return false;
                 })
                 .toList();
@@ -172,10 +198,26 @@ public class FluidUtil {
         }
 
         int receivers = toSend.size();
-        long toDistribute = finalStack.getAmount();
 
         for (UniversalFluidStorage to : toSend) {
-            toDistribute -= moveFluid(from, to, stack.copyWithAmount(finalStack.getAmount() / receivers)).getAmount();
+            moveFluid(from, to, stack.copyWithAmount(finalStack.getAmount() / receivers));
         }
+    }
+
+    private static UniversalFluidStorage getFluidCapability(Level level, BlockPos pos, Direction direction) {
+        UniversalFluidStorage direct = Capabilities.Fluid.BLOCK.getCapability(level, pos, direction);
+
+        if (direct != null) {
+            return direct;
+        }
+
+        BlockState state = level.getBlockState(pos);
+
+        if (state.getBlock() instanceof PumpjackProxyBlock) {
+            BlockPos mainPos = PumpjackProxyBlock.getMainPos(pos, state);
+            return Capabilities.Fluid.BLOCK.getCapability(level, mainPos, direction);
+        }
+
+        return null;
     }
 }

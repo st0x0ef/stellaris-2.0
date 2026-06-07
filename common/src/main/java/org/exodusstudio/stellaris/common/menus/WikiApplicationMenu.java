@@ -41,7 +41,7 @@ public class WikiApplicationMenu extends AbstractContainerMenu {
     @Override
     public @NotNull ItemStack quickMoveStack(Player player, int index) {
 
-        return null;
+        return ItemStack.EMPTY;
     }
 
     public Player getPlayer() {

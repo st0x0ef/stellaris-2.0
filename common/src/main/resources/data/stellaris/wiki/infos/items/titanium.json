@@ -1,0 +1,34 @@
+{
+  "components": [
+    {
+      "type": "text",
+      "text": "Titanium is very used resource for space travel."
+    },
+    {
+      "type": "item",
+      "item": {
+        "scale": 4,
+        "stack": {
+          "count": 1,
+          "id": "stellaris:titanium_ingot"
+        }
+      }
+    },
+    {
+      "type": "text",
+      "text": "Titanium is used in so many places. Its hardness allow [ref=stellaris:rocket/rocket]rocket[ref] to survive extreme temperatures encountered during space travel."
+    },
+    {
+      "type": "text",
+      "text": "Titanium is also used in nearly all of the machines manufactured by The Stellar Company."
+    }
+  ],
+  "iconType": "item",
+  "id": "stellaris:titanium",
+  "entryId": "stellaris:items",
+  "title": "Titanium",
+  "associatedBlocks": [
+    "#stellaris:titanium"
+  ]
+
+}

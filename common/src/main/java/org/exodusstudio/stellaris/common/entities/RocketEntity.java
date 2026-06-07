@@ -3,19 +3,31 @@ package org.exodusstudio.stellaris.common.entities;
 import com.fej1fun.potentials.components.FluidAmountMapDataComponent;
 import dev.architectury.fluid.FluidStack;
 import dev.architectury.networking.NetworkManager;
+import dev.architectury.registry.menu.ExtendedMenuProvider;
 import dev.architectury.registry.menu.MenuRegistry;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.entity.*;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.MoverType;
+import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.BucketItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -24,30 +36,36 @@ import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.phys.Vec3;
-import org.exodusstudio.stellaris.common.menus.MainTabletMenu;
+import org.exodusstudio.stellaris.Stellaris;
+import org.exodusstudio.stellaris.common.data.Planet;
+import org.exodusstudio.stellaris.common.data.PlanetsData;
+import org.exodusstudio.stellaris.common.menus.PlanetSelectionMenu;
+import org.exodusstudio.stellaris.common.menus.RocketMenu;
 import org.exodusstudio.stellaris.common.modules.Modules;
 import org.exodusstudio.stellaris.common.modules.rocket.RocketModule;
 import org.exodusstudio.stellaris.common.modules.rocket.RocketModules;
-import org.exodusstudio.stellaris.common.network.packets.OpenRocketMenuPacket;
-import org.exodusstudio.stellaris.common.network.packets.SyncRocketModule;
+import org.exodusstudio.stellaris.common.network.packets.SyncRocketPacket;
 import org.exodusstudio.stellaris.common.registries.*;
-import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
+import org.exodusstudio.stellaris.common.utils.InventorySaver;
+import org.exodusstudio.stellaris.common.utils.TeleportUtil;
 import org.exodusstudio.stellaris.common.utils.Utils;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 
-public class RocketEntity extends VehicleEntity  {
+public class RocketEntity extends VehicleEntity {
 
     public static final EntityDataAccessor<Modules<RocketModule>> ROCKET_MODULES = SynchedEntityData.defineId(RocketEntity.class, EntityDataSerializersRegistry.ROCKET_MODULES);
     public static final EntityDataAccessor<Boolean> ROCKET_START = SynchedEntityData.defineId(RocketEntity.class, EntityDataSerializers.BOOLEAN);
     public static final EntityDataAccessor<Integer> ROCKET_START_TIMER = SynchedEntityData.defineId(RocketEntity.class, EntityDataSerializers.INT);
-
+    public static final EntityDataAccessor<Planet> AUTOPILOT_DESTINATION = SynchedEntityData.defineId(RocketEntity.class, EntityDataSerializersRegistry.PLANET);
 
     public RocketEntity(EntityType<?> entityType, Level level) {
-        super(entityType, level);
+        super(entityType, level, 29);
     }
 
     public void setRocketModules(Modules<RocketModule> modules) {
@@ -96,6 +114,7 @@ public class RocketEntity extends VehicleEntity  {
                 fuel = customFuelModule.getFuel();
             }
         }
+
         return fuel;
     }
 
@@ -164,14 +183,20 @@ public class RocketEntity extends VehicleEntity  {
             this.entityData.set(ROCKET_START_TIMER, this.getTimer() + 1);
         }
 
+
         //To stop the rocket from going in the outer rims
         if(this.isNoGravity()) return;
 
         if (this.getTimer() == 200) {
             if (this.getDeltaMovement().y < this.getRocketSpeed() - 0.1) {
                 this.addDeltaMovement(new Vec3(0, 0.1, 0));
+            } else if (this.getDeltaMovement().y > this.getRocketSpeed() + 0.1) {
+                Stellaris.LOG.info("Rocket speed: " + this.getDeltaMovement().y);
+                this.level().playSeededSound(null, this, SoundRegistry.BOOST_SOUND, SoundSource.NEUTRAL, 1, 1, 1);
+                this.setDeltaMovement(new Vec3(0, this.getRocketSpeed(), 0));
             } else {
                 this.setDeltaMovement(new Vec3(0, this.getRocketSpeed(), 0));
+
             }
 
             this.move(MoverType.SELF, this.getDeltaMovement());
@@ -179,6 +204,14 @@ public class RocketEntity extends VehicleEntity  {
     }
 
     public void startRocket() {
+        if (!canFly()) {
+            if (!this.getPassengers().isEmpty() && this.getPassengers().getFirst() instanceof Player player) {
+                player.displayClientMessage(Component.literal("There's something blocking the rocket flying path..."), true);
+            }
+
+            return;
+        }
+
         Entity entity = this.getPassengers().getFirst();
 
         if (entity instanceof Player player) {
@@ -186,8 +219,7 @@ public class RocketEntity extends VehicleEntity  {
                 if (!this.entityData.get(ROCKET_START)) {
                     this.entityData.set(ROCKET_START, true);
                     player.awardStat(StatsRegistry.ROCKET_LAUNCHED.get());
-                    //TODO: sound
-                    //this.level().playSound(player, this, SoundRegistry.ROCKET_SOUND.get(), SoundSource.NEUTRAL, 1, 1);
+                    this.level().playSeededSound(player,this, SoundRegistry.ROCKET_SOUND, SoundSource.NEUTRAL, 1, 1, 1);
                 }
             } else {
                 player.displayClientMessage(Component.translatable("text.stellaris.rocket.fuel", getFuelType().getFluid().arch$registryName()), true);
@@ -195,26 +227,39 @@ public class RocketEntity extends VehicleEntity  {
         }
     }
 
-
-
     @Override
     public void defineSynchedData(SynchedEntityData.Builder builder) {
         super.defineSynchedData(builder);
         builder.define(ROCKET_MODULES, RocketModules.empty());
         builder.define(ROCKET_START, false);
         builder.define(ROCKET_START_TIMER, 0);
+        builder.define(AUTOPILOT_DESTINATION, Objects.requireNonNull(PlanetsData.getPlanet(Level.OVERWORLD))); // default value, shouldn't be used
     }
-
 
     @Override
     public void tick() {
         super.tick();
 
+        boolean shouldOpenPlanetMenu = true; // to make sure we don't open the menu if the player is teleporting to the planet with the autopilot
 
         if (!this.level().isClientSide()) {
+            MinecraftServer server = level().getServer();
+
             tryFillUpRocket();
-            NetworkManager.sendToPlayers(level().getServer().getPlayerList().getPlayers(),
-                    new SyncRocketModule(this.getId(), this.entityData.get(ROCKET_MODULES)));
+
+            if (server != null) {
+                NetworkManager.sendToPlayers(server.getPlayerList().getPlayers(),
+                        new SyncRocketPacket(this.getId(), this.entityData.get(ROCKET_MODULES), InventorySaver.fromContainer(getInventory())));
+
+                if (this.getRocketModules().contains(ModulesRegistry.AUTOPILOT.get()) && this.getY() >= Stellaris.CONFIG.vehicleConfig.rocketTpHeight) {
+                    Entity passenger = null;
+                    if (!this.getPassengers().isEmpty()) {
+                        passenger = this.getPassengers().getFirst();
+                    }
+                    TeleportUtil.teleportRocketToPlanet(passenger, server.getLevel(ResourceKey.create(Registries.DIMENSION, this.entityData.get(AUTOPILOT_DESTINATION).dimension())), this, this.blockPosition(), true); // TODO : allow to tp to space station and antenna
+                    shouldOpenPlanetMenu = false;
+                }
+            }
         }
 
         //Handle rocket movement when started
@@ -223,17 +268,13 @@ public class RocketEntity extends VehicleEntity  {
             this.startTimerAndFlyMovement();
         }
 
-
-        if(!this.getPassengers().isEmpty()){
+        if(!this.getPassengers().isEmpty() && shouldOpenPlanetMenu) {
             Entity passenger = this.getPassengers().getFirst();
 
-            if(passenger instanceof Player player && this.getY() >= 300) {
+            if(passenger instanceof Player player && this.getY() >= Stellaris.CONFIG.vehicleConfig.rocketTpHeight) {
                 openPlanetSelectionScreen(player);
             }
         }
-
-
-
     }
 
     @Override
@@ -255,7 +296,14 @@ public class RocketEntity extends VehicleEntity  {
 
     @Override
     public @NotNull Vec3 getPassengerRidingPosition(Entity entity) {
-        return super.getPassengerRidingPosition(entity).subtract(0f, 3.75f, 0f); // TODO : replace with the model upgrade offset
+        float yOffset = 3.75f;
+        for (RocketModule rocketModule : this.getRocketModules()) {
+            if (rocketModule instanceof RocketModule.CustomModelModule modelUpgrade) {
+                yOffset = modelUpgrade.getPlayerYOffset();
+            }
+        }
+
+        return super.getPassengerRidingPosition(entity).subtract(0f, yOffset, 0f);
     }
 
     @Override
@@ -287,8 +335,22 @@ public class RocketEntity extends VehicleEntity  {
 
     @Override
     public void openCustomInventoryScreen(Player player) {
-        NetworkManager.sendToServer(
-                new OpenRocketMenuPacket(this.getId()));
+        MenuRegistry.openExtendedMenu((ServerPlayer) player, new ExtendedMenuProvider() {
+            @Override
+            public void saveExtraData(FriendlyByteBuf buf) {
+                buf.writeUUID(getUUID());
+            }
+
+            @Override
+            public Component getDisplayName() {
+                return Component.translatable("entity.stellaris.rocket");
+            }
+
+            @Override
+            public @Nullable AbstractContainerMenu createMenu(int syncId, Inventory playerInv, Player player) {
+                return new RocketMenu(syncId, playerInv, inventory, getRocketEntity(), getInventoryRows());
+            }
+        });
     }
 
     public void openPlanetSelectionScreen(Player player) {
@@ -296,15 +358,30 @@ public class RocketEntity extends VehicleEntity  {
         if(!player.stellaris$isPlanetMenuOpen()) {
             player.stellaris$setPlanetMenuOpen(true, player, true);
             if(player instanceof ServerPlayer serverPlayer) {
+
                 Utils.executeWithFade(player, () -> {
-                    MenuRegistry.openExtendedMenu(serverPlayer, MainTabletMenu.createProvider(IdentifierUtils.id("applications/planet_selection")));
+                    MenuRegistry.openExtendedMenu(serverPlayer, PlanetSelectionMenu.createProvider(serverPlayer.level().getServer()));
                     this.setNoGravity(true);
                 }, true);
             }
-
-
-
         }
+    }
+
+    private boolean canFly() {
+        // check if there's enough space for the rocket to fly to the sky
+        BlockPos pos = this.blockPosition();
+        for (int x = -1; x <= 1; x++) {
+            for (int z = -1; z <= 1; z++) {
+                for (int y = pos.getY(); y < level().getMaxY(); y++) {
+                    BlockPos checkPos = new BlockPos(pos.getX() + x, y, pos.getZ() + z);
+                    if (!level().isEmptyBlock(checkPos)) {
+                        return false;
+                    }
+                }
+            }
+        }
+
+        return true;
     }
 
     /**
@@ -331,13 +408,21 @@ public class RocketEntity extends VehicleEntity  {
         return this.entityData.get(ROCKET_START_TIMER);
     }
 
+    public int getInventoryRows() {
+        return getRocketModules().contains(ModulesRegistry.CARGO.get()) ? 3 : 1;
+    }
+
 
     public static RocketEntity fromItemStack(Level level, ItemStack stack) {
         RocketEntity rocketEntity = new RocketEntity(EntityTypesRegistry.ROCKET.get(), level);
         Modules<RocketModule> modulesOptional = stack.getOrDefault(DataComponentsRegistry.ROCKET_MODULES.get(), RocketModules.empty());
         rocketEntity.setRocketModules(modulesOptional);
 
-        //Only allow to change the fuel type when the rocket is empty
+        if (stack.has(DataComponentsRegistry.AUTOPILOT.get())) {
+            rocketEntity.entityData.set(AUTOPILOT_DESTINATION, Objects.requireNonNull(stack.get(DataComponentsRegistry.AUTOPILOT.get())));
+        }
+
+        //Only allow to change the fuel type when the rocket is not empty
         if(stack.has(DataComponentsRegistry.FLUID_LIST.get())) {
             FluidAmountMapDataComponent fluidData = stack.get(DataComponentsRegistry.FLUID_LIST.get());
 
@@ -349,12 +434,16 @@ public class RocketEntity extends VehicleEntity  {
     public ItemStack toItemStack() {
         ItemStack rocketStack = new ItemStack(ItemsRegistry.ROCKET.get(), 1);
         rocketStack.set(DataComponentsRegistry.ROCKET_MODULES.get(), this.entityData.get(ROCKET_MODULES));
-
+        rocketStack.set(DataComponentsRegistry.AUTOPILOT.get(), this.entityData.get(AUTOPILOT_DESTINATION));
 
         FluidStack fuel = this.getFuelType();
         rocketStack.set(DataComponentsRegistry.FLUID_LIST.get(),
                 new FluidAmountMapDataComponent(List.of(fuel.getFluid()), List.of(fuel.getAmount())));
 
         return rocketStack;
+    }
+
+    public RocketEntity getRocketEntity() {
+        return this;
     }
 }

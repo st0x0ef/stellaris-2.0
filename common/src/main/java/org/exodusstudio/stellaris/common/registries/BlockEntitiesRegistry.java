@@ -4,12 +4,8 @@ import dev.architectury.registry.registries.DeferredRegister;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import org.exodusstudio.stellaris.Stellaris;
-import org.exodusstudio.stellaris.common.blocks.entities.FlagBlockEntity;
-import org.exodusstudio.stellaris.common.blocks.entities.FluidTankBlockEntity;
-import org.exodusstudio.stellaris.common.blocks.entities.PipeBlockEntity;
+import org.exodusstudio.stellaris.common.blocks.entities.*;
 import org.exodusstudio.stellaris.common.blocks.entities.machines.*;
-import org.exodusstudio.stellaris.common.blocks.entities.ModSignBlockEntity;
-import org.exodusstudio.stellaris.common.blocks.entities.ModHangingSignBlockEntity;
 
 import java.util.Set;
 import java.util.function.Supplier;
@@ -33,6 +29,8 @@ public class BlockEntitiesRegistry {
     public static final Supplier<BlockEntityType<?>> FUEL_REFINERY = BLOCK_ENTITY_TYPE.register("fuel_refinery",
             () -> new BlockEntityType<>(FuelRefineryBlockEntity::new, Set.of(BlocksRegistry.FUEL_REFINERY.block().get())));
 
+    public static final Supplier<BlockEntityType<?>> CARGO_UNLOADER = BLOCK_ENTITY_TYPE.register("cargo_unloader",
+            () -> new BlockEntityType<>(CargoUnloaderBlockEntity::new, Set.of(BlocksRegistry.CARGO_UNLOADER.block().get())));
 
     public static final Supplier<BlockEntityType<?>> POWER_BANKS = BLOCK_ENTITY_TYPE.register("power_bank",
             () -> new BlockEntityType<>(PowerBankBlockEntity::new, Set.of(BlocksRegistry.POWER_BANK_T1.block().get())));
@@ -70,9 +68,10 @@ public class BlockEntitiesRegistry {
     public static final Supplier<BlockEntityType<?>> FLUID_TANK = BLOCK_ENTITY_TYPE.register("fluid_tank",
             () -> new BlockEntityType<>(FluidTankBlockEntity::new, Set.of(BlocksRegistry.FLUID_TANK_T1.block().get())));
 
+    public static final Supplier<BlockEntityType<?>> ANTENNA = BLOCK_ENTITY_TYPE.register("antenna",
+            () -> new BlockEntityType<>(AntennaBlockEntity::new, Set.of(BlocksRegistry.ANTENNA.block().get())));
 
     public static final Supplier<BlockEntityType<?>> LABORATORY = BLOCK_ENTITY_TYPE.register("laboratory",
             () -> new BlockEntityType<>(LaboratoryBlockEntity::new, Set.of(BlocksRegistry.LABORATORY.block().get())));
-
 
 }

@@ -1,0 +1,26 @@
+{
+  "components": [
+    {
+      "type": "text",
+      "text": "The Silicon is a the best semiconductor of the universe."
+    },
+    {
+      "type": "item",
+      "item": {
+        "scale": 4,
+        "stack": {
+          "count": 1,
+          "id": "stellaris:silicon"
+        }
+      }
+    },
+    {
+      "type": "text",
+      "text": "The Stellar Company uses it in all of its electronic devices like the [ref=stellaris:items/sd_card]Sd Card[ref]."
+    }
+  ],
+  "iconType": "item",
+  "id": "stellaris:silicon",
+  "entryId": "stellaris:items",
+  "title": "Silicon"
+}

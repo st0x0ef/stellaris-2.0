@@ -20,6 +20,7 @@ import net.minecraft.world.level.material.PushReaction;
 import org.exodusstudio.stellaris.common.blocks.*;
 import org.exodusstudio.stellaris.common.blocks.PipeBlock;
 import org.exodusstudio.stellaris.common.items.PowerBankItem;
+import org.exodusstudio.stellaris.common.items.TooltipBlockItem;
 import org.exodusstudio.stellaris.common.registries.utils.BlockItemRegistrySupplier;
 import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
 import org.exodusstudio.stellaris.common.world.ModConfiguredFeatures;
@@ -183,7 +184,23 @@ public final class BlocksRegistry {
     // TECH
     public static final BlockItemRegistrySupplier ELECTROLYZER = blockWithItem("electrolyzer", BlockBehaviour.Properties.of(), ElectrolyzerBlock::new, new Item.Properties());
     public static final BlockItemRegistrySupplier GRAVITY_MANIPULATOR = blockWithItem("gravity_manipulator", BlockBehaviour.Properties.of(), GravityManipulatorBlock::new);
-    public static final BlockItemRegistrySupplier PUMPJACK = blockWithItem("pumpjack", BlockBehaviour.Properties.of(), PumpjackBlock::new, new Item.Properties());
+    public static final BlockItemRegistrySupplier PUMPJACK = blockWithItem(
+            "pumpjack",
+            BlockBehaviour.Properties.of()
+                    .noOcclusion()
+                    .isSuffocating(BlocksRegistry::never)
+                    .isViewBlocking(BlocksRegistry::never),
+            PumpjackBlock::new,
+            new Item.Properties()
+    );
+    public static final RegistrySupplier<Block> PUMPJACK_PROXY = block(
+            "pumpjack_proxy",
+            BlockBehaviour.Properties.of()
+                    .noOcclusion()
+                    .isSuffocating(BlocksRegistry::never)
+                    .isViewBlocking(BlocksRegistry::never),
+            PumpjackProxyBlock::new
+    );
     public static final BlockItemRegistrySupplier FUEL_REFINERY = blockWithItem("fuel_refinery", BlockBehaviour.Properties.of(), FuelRefineryBlock::new, new Item.Properties());
 
     // OXYGEN
@@ -191,8 +208,12 @@ public final class BlocksRegistry {
     public static final BlockItemRegistrySupplier OXYGEN_PROPAGATOR = blockWithItem("oxygen_propagator", BlockBehaviour.Properties.of(), OxygenPropagatorBlock::new);
 
     // ROCKET
-    public static final BlockItemRegistrySupplier ENGINEERING_STATION = blockWithItem("engineering_station", BlockBehaviour.Properties.of(), EngineeringStationBlock::new, new Item.Properties());
-    public static final BlockItemRegistrySupplier ROCKET_LAUNCH_PAD = blockWithItem("rocket_launch_pad", BlockBehaviour.Properties.of(), RocketLaunchPadBlock::new, new Item.Properties());
+    public static final BlockItemRegistrySupplier ENGINEERING_STATION = blockWithCustomItem("engineering_station", BlockBehaviour.Properties.of(), EngineeringStationBlock::new, new Item.Properties(), BlockItem::new);
+    public static final BlockItemRegistrySupplier ROCKET_LAUNCH_PAD = blockWithCustomItem("rocket_launch_pad", BlockBehaviour.Properties.of(), RocketLaunchPadBlock::new, new Item.Properties(), BlockItem::new);
+    public static final BlockItemRegistrySupplier ANTENNA = blockWithCustomItem("antenna", BlockBehaviour.Properties.of(), AntennaBlock::new, new Item.Properties(),
+            (b, p) -> new TooltipBlockItem(b, p).addTooltip(AntennaBlock.TOOLTIP));
+    public static final BlockItemRegistrySupplier CARGO_UNLOADER = blockWithItem("cargo_unloader", BlockBehaviour.Properties.of(), CargoUnloaderBlock::new);
+
 
     // LORE
     public static final BlockItemRegistrySupplier LABORATORY = blockWithItem("laboratory", BlockBehaviour.Properties.of(), LaboratoryBlock::new, new Item.Properties());
@@ -213,7 +234,14 @@ public final class BlocksRegistry {
     /**
      * Decoration
      */
-    public static final BlockItemRegistrySupplier FLAG = blockWithItem("flag", BlockBehaviour.Properties.of(), FlagBlock::new);
+    public static final BlockItemRegistrySupplier FLAG = blockWithItem(
+            "flag",
+            BlockBehaviour.Properties.of()
+                    .noOcclusion()
+                    .isSuffocating(BlocksRegistry::never)
+                    .isViewBlocking(BlocksRegistry::never),
+            FlagBlock::new
+    );
 
 
     public static <B extends Block> @NotNull RegistrySupplier<B> block(String name,

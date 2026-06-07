@@ -35,7 +35,7 @@ public class WikiEntryScreen extends Screen {
     public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
         super.render(guiGraphics, mouseX, mouseY, partialTick);
 
-        guiGraphics.drawCenteredString(this.font, title, this.width / 2 + 3, this.getTopPos() + 30, Utils.getMinecraftColor("white"));
+        guiGraphics.drawCenteredString(this.font, this.widget.info.title(), this.width / 2 + 3, this.getTopPos() + 30, Utils.getMinecraftColor("white"));
     }
 
     @Override

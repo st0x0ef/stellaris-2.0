@@ -8,6 +8,11 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.Entity;
+
+import java.util.Collections;
+import java.util.List;
+
 import net.minecraft.world.item.*;
 import net.minecraft.world.item.component.ResolvableProfile;
 import net.minecraft.world.item.context.BlockPlaceContext;
@@ -21,6 +26,8 @@ import net.minecraft.world.level.block.state.properties.*;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.level.pathfinder.PathComputationType;
+import net.minecraft.world.level.storage.loot.LootParams;
+import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
@@ -37,7 +44,9 @@ public class FlagBlock extends BaseEntityBlock implements SimpleWaterloggedBlock
 
     public FlagBlock(Properties properties) {
         super(properties);
-        this.registerDefaultState(stateDefinition.any().setValue(FACING, Direction.NORTH));
+        this.registerDefaultState(stateDefinition.any()
+                .setValue(FACING, Direction.NORTH)
+                .setValue(WATERLOGGED, false));
     }
 
     @Override
@@ -45,9 +54,28 @@ public class FlagBlock extends BaseEntityBlock implements SimpleWaterloggedBlock
         return BaseEntityBlock.simpleCodec(FlagBlock::new);
     }
 
+    private static final VoxelShape FLAG_SHAPE = Shapes.or(
+            // Rod
+            Shapes.box(
+                    6.5D / 16.0D, 0.0D, 6.5D / 16.0D,
+                    9.5D / 16.0D, 3.0D, 9.5D / 16.0D
+            ),
+
+            // Bottom base
+            Shapes.box(
+                    3.0D / 16.0D, 0.0D, 3.0D / 16.0D,
+                    13.0D / 16.0D, 2.0D / 16.0D, 13.0D / 16.0D
+            )
+    );
+
     @Override
     public VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
-        return Shapes.box((double) 7 / 16, 0, (double) 7 / 16, (double) 9 / 16, 3, (double) 9 / 16);
+        return FLAG_SHAPE;
+    }
+
+    @Override
+    public VoxelShape getCollisionShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
+        return FLAG_SHAPE;
     }
 
     @Nullable
@@ -141,6 +169,18 @@ public class FlagBlock extends BaseEntityBlock implements SimpleWaterloggedBlock
     @Override
     public FluidState getFluidState(BlockState state) {
         return state.getValue(WATERLOGGED) ? Fluids.WATER.getSource(false) : super.getFluidState(state);
+    }
+
+    // Basically the Events file handles the drop if player is shifting, this handles it if it's normal
+    @Override
+    public List<ItemStack> getDrops(BlockState state, LootParams.Builder params) {
+        Entity entity = params.getOptionalParameter(LootContextParams.THIS_ENTITY);
+
+        if (entity instanceof Player player && player.isCrouching() && !player.getAbilities().instabuild) {
+            return Collections.emptyList();
+        }
+
+        return super.getDrops(state, params);
     }
 
     @Override

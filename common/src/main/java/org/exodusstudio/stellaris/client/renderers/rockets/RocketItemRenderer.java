@@ -12,7 +12,7 @@ import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
-import org.exodusstudio.stellaris.client.renderers.rockets.models.TinyRocketModel;
+import org.exodusstudio.stellaris.client.renderers.rockets.models.RocketModelRegistry;
 import org.exodusstudio.stellaris.common.modules.rocket.RocketModule;
 import org.exodusstudio.stellaris.common.modules.rocket.RocketModules;
 import org.exodusstudio.stellaris.common.registries.DataComponentsRegistry;
@@ -49,7 +49,7 @@ public record RocketItemRenderer(Identifier texture) implements SpecialModelRend
         RocketRenderer.RenderingContext renderingContext = new RocketRenderer.RenderingContext(rocketModules, poseStack, packedLight);
         RenderType renderType = RocketRenderer.getRenderType(renderingContext);
         if  (!rocketModelPresent) {
-            nodeCollector.submitModelPart(new TinyRocketModel(Minecraft.getInstance().getEntityModels()).root(), poseStack, renderType, packedLight, OverlayTexture.NO_OVERLAY, null);
+            nodeCollector.submitModelPart(RocketModelRegistry.create("tiny", Minecraft.getInstance().getEntityModels()).root(), poseStack, renderType, packedLight, OverlayTexture.NO_OVERLAY, null);
         }
         modelState.preRenderModules(nodeCollector, poseStack, renderingContext, renderType);
         modelState.renderModules(renderingContext);

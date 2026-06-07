@@ -21,7 +21,6 @@ import net.minecraft.client.resources.model.MaterialSet;
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.component.ResolvableProfile;
 import net.minecraft.world.level.block.SkullBlock;
-import net.minecraft.world.phys.Vec3;
 import org.exodusstudio.stellaris.common.blocks.FlagBlock;
 import org.exodusstudio.stellaris.common.blocks.entities.FlagBlockEntity;
 import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
@@ -90,20 +89,21 @@ public class FlagBlockRenderer implements BlockEntityRenderer<FlagBlockEntity, B
             poseStack.mulPose(Axis.ZP.rotationDegrees(180));
             poseStack.translate(-0.5D, -1.5, 0.5D);
 
-            if(direction == Direction.WEST || direction == Direction.EAST) {
-                poseStack.mulPose(Axis.YP.rotationDegrees(90));
-            }
+            poseStack.mulPose(Axis.YP.rotationDegrees(direction.getOpposite().toYRot()));
 
             nodeCollector.submitModelPart(model, poseStack, material.renderType(RenderTypes::entityCutout), renderState.lightCoords, OverlayTexture.NO_OVERLAY, materialSet.get(material));
 
             poseStack.popPose();
 
-            Map<Direction, Vector4d> rotationMap = Map.of(
-                    Direction.NORTH, new Vector4d(-180, 1.13D, 2.05D, 0.7D),
-                    Direction.SOUTH, new Vector4d(-180, 1.13D, 2.05D, 0.8D),
+            int flip = (direction.equals(Direction.SOUTH) || direction.equals(Direction.WEST)) ? -1 : 1;
+            int offset = flip == 1 ? 0 : 1;
 
-                    Direction.WEST, new Vector4d(90, 0.7D, 2D, 1.2D),
-                    Direction.EAST, new Vector4d(90, 0.8D, 2D, 1.2D)
+            Map<Direction, Vector4d> rotationMap = Map.of(
+                    Direction.NORTH, new Vector4d(-180, flip * 1.2D + offset, 2D, 0.7D),
+                    Direction.SOUTH, new Vector4d(-180, flip * 1.2D + offset, 2D, 0.8D),
+
+                    Direction.WEST, new Vector4d(90, 0.7D, 2D, flip * 1.2D + offset),
+                    Direction.EAST, new Vector4d(90, 0.8D, 2D, flip * 1.2D + offset)
             );
 
 
@@ -111,6 +111,7 @@ public class FlagBlockRenderer implements BlockEntityRenderer<FlagBlockEntity, B
                 poseStack.pushPose();
 
                 Vector4d directionInfo = rotationMap.get(dir);
+
                 poseStack.translate(directionInfo.y, directionInfo.z, directionInfo.w);
 
                 ResolvableProfile defaultProfile = ResolvableProfile.createResolved(new GameProfile(UUID.fromString("fe40f09c-fdaa-497f-8e2b-bed31180bfbd"), "TATHAN_06"));
@@ -124,16 +125,5 @@ public class FlagBlockRenderer implements BlockEntityRenderer<FlagBlockEntity, B
                 poseStack.popPose();
             }
         }
-
-
-    }
-
-    public int getViewDistance() {
-        return 256;
-    }
-
-    @Override
-    public boolean shouldRender(FlagBlockEntity flag, Vec3 pos) {
-        return Vec3.atCenterOf(flag.getBlockPos()).multiply(1.0D, 0.0D, 1.0D).closerThan(pos.multiply(1.0D, 0.0D, 1.0D), this.getViewDistance());
     }
 }

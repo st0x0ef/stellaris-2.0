@@ -7,17 +7,17 @@ import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Inventory;
-import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.client.screens.components.GaugeWidget;
 import org.exodusstudio.stellaris.client.screens.utils.GUISprites;
 import org.exodusstudio.stellaris.common.blocks.entities.machines.PowerBankBlockEntity;
 import org.exodusstudio.stellaris.common.menus.PowerBankMenu;
+import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
 
 import java.util.List;
 
 public class PowerBankScreen extends AbstractContainerScreen<PowerBankMenu> {
 
-    public static final Identifier TEXTURE = Identifier.fromNamespaceAndPath(Stellaris.MOD_ID, "textures/gui/power_bank.png");
+    public static final Identifier TEXTURE = IdentifierUtils.guiTexture("power_bank");
 
     private final PowerBankBlockEntity blockEntity = getMenu().getBlockEntity();
     private GaugeWidget energyGauge;

@@ -14,14 +14,19 @@ import net.minecraft.client.renderer.entity.BoatRenderer;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import org.exodusstudio.stellaris.client.StellarisClient;
 import org.exodusstudio.stellaris.client.registry.BoatModelLayerRegistry;
+import org.exodusstudio.stellaris.client.renderers.entity.vehicle.rover.RoverModel;
+import org.exodusstudio.stellaris.client.renderers.mobs.BlueFishModel;
+import org.exodusstudio.stellaris.client.renderers.mobs.EvolvedParasiteAffectedVillagerModel;
+import org.exodusstudio.stellaris.client.renderers.mobs.LunaShadowModel;
+import org.exodusstudio.stellaris.client.renderers.mobs.LunarParasiteModel;
+import org.exodusstudio.stellaris.client.renderers.mobs.ParasiteAffectedVillagerModel;
+import org.exodusstudio.stellaris.client.renderers.mobs.StellarisMobRenderer;
 import org.exodusstudio.stellaris.client.renderers.lander.LanderModel;
 import org.exodusstudio.stellaris.client.renderers.lander.LanderRenderer;
 import org.exodusstudio.stellaris.client.renderers.rockets.models.BigRocketModel;
 import org.exodusstudio.stellaris.client.renderers.rockets.models.SmallRocketModel;
-import org.exodusstudio.stellaris.client.renderers.rockets.models.TinyRocketModel;
 import org.exodusstudio.stellaris.client.renderers.space_suit.SpaceSuitModel;
-import org.exodusstudio.stellaris.client.renderers.entity.vehicle.rover.RoverModel;
-import org.exodusstudio.stellaris.client.renderers.entity.vehicle.rover.RoverRenderer;
+import org.exodusstudio.stellaris.client.renderers.rockets.models.TinyRocketModel;
 import org.exodusstudio.stellaris.client.renderers.flag.FlagBlockModel;
 import org.exodusstudio.stellaris.client.renderers.flag.FlagBlockRenderer;
 import org.exodusstudio.stellaris.client.renderers.flag.FlagHeadModel;
@@ -31,14 +36,17 @@ import org.exodusstudio.stellaris.client.renderers.rockets.RocketRenderer;
 import org.exodusstudio.stellaris.client.screens.*;
 import org.exodusstudio.stellaris.client.screens.engineering_station.RocketStationScreen;
 import org.exodusstudio.stellaris.client.screens.engineering_station.EngineUpgraderScreen;
+import org.exodusstudio.stellaris.client.screens.engineering_station.SpaceStationPlannerScreen;
 import org.exodusstudio.stellaris.client.screens.laboratory.ResearchScreen;
 import org.exodusstudio.stellaris.client.screens.laboratory.VaccineScreen;
 import org.exodusstudio.stellaris.client.screens.tablet.MainTabletScreen;
+import org.exodusstudio.stellaris.client.screens.tablet.application.planets.PlanetSelectionAppScreen;
 import org.exodusstudio.stellaris.client.screens.tablet.application.sd.SDCardReaderApplicationScreen;
 import org.exodusstudio.stellaris.client.screens.tablet.application.wiki.WikiApplicationScreen;
 import org.exodusstudio.stellaris.common.blocks.entities.machines.GravityManipulatorBlockEntity;
 import org.exodusstudio.stellaris.common.menus.WikiApplicationMenu;
 import org.exodusstudio.stellaris.common.registries.*;
+import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
 
 public final class StellarisFabricClient implements ClientModInitializer {
     @Override
@@ -59,6 +67,7 @@ public final class StellarisFabricClient implements ClientModInitializer {
         BlockRenderLayerMap.putBlock(BlocksRegistry.ASTRUM_VITREUS_BLOCK.block().get(), ChunkSectionLayer.TRANSLUCENT);
         BlockRenderLayerMap.putBlock(BlocksRegistry.ASTRUM_VITREUS_CLUSTER.block().get(), ChunkSectionLayer.CUTOUT);
         BlockRenderLayerMap.putBlock(BlocksRegistry.LABORATORY.block().get(), ChunkSectionLayer.TRANSLUCENT);
+        BlockRenderLayerMap.putBlock(BlocksRegistry.CARGO_UNLOADER.block().get(), ChunkSectionLayer.TRANSLUCENT);
     }
 
     private void registerScreens() {
@@ -84,9 +93,14 @@ public final class StellarisFabricClient implements ClientModInitializer {
         MenuScreenRegistry.registerScreenFactory(MenuTypesRegistry.FLUID_TANK_MENU.get(), FluidTankScreen::new);
         MenuScreenRegistry.registerScreenFactory(MenuTypesRegistry.LANDER_MENU.get(), LanderScreen::new);
         MenuScreenRegistry.registerScreenFactory(MenuTypesRegistry.ROCKET_MENU.get(), RocketScreen::new);
+        MenuScreenRegistry.registerScreenFactory(MenuTypesRegistry.ANTENNA.get(), AntennaScreen::new);
+        MenuScreenRegistry.registerScreenFactory(MenuTypesRegistry.SPACE_STATION_PLANNER.get(), SpaceStationPlannerScreen::new);
         MenuScreenRegistry.registerScreenFactory(MenuTypesRegistry.ROVER_MENU.get(), RoverScreen::new);
+        MenuScreenRegistry.registerScreenFactory(MenuTypesRegistry.PLANET_SELECTION_MENU.get(), PlanetSelectionAppScreen::new);
+
         MenuScreenRegistry.registerScreenFactory(MenuTypesRegistry.LABORATORY_VACCINE.get(), VaccineScreen::new);
         MenuScreenRegistry.registerScreenFactory(MenuTypesRegistry.LABORATORY_RESEARCH.get(), ResearchScreen::new);
+        MenuScreenRegistry.registerScreenFactory(MenuTypesRegistry.CARGO_UNLOADER.get(), CargoUnloaderScreen::new);
     }
 
     @SuppressWarnings("unchecked")
@@ -98,9 +112,22 @@ public final class StellarisFabricClient implements ClientModInitializer {
 
         EntityRendererRegistry.register(EntityTypesRegistry.LANDER.get(), LanderRenderer::new);
         EntityRendererRegistry.register(EntityTypesRegistry.ROCKET.get(), RocketRenderer::new);
-        EntityRendererRegistry.register(EntityTypesRegistry.ROVER.get(), RoverRenderer::new);
         EntityRendererRegistry.register(EntityTypesRegistry.LUNAR_BOAT.get(), (c) -> new BoatRenderer(c, BoatModelLayerRegistry.LUNAR_BOAT));
         EntityRendererRegistry.register(EntityTypesRegistry.LUNAR_CHEST_BOAT.get(), (c) -> new BoatRenderer(c, BoatModelLayerRegistry.LUNAR_CHEST_BOAT));
+        EntityRendererRegistry.register(EntityTypesRegistry.BLUE_FISH.get(), (c) -> new StellarisMobRenderer<>(c, new BlueFishModel(c.bakeLayer(BlueFishModel.LAYER_LOCATION)), IdentifierUtils.texture("entity/mob_blue_fish"), 0.72F, 1.35F, 0.18F));
+        EntityRendererRegistry.register(EntityTypesRegistry.LUNAR_PARASITE.get(), (c) -> new StellarisMobRenderer<>(c, new LunarParasiteModel(c.bakeLayer(LunarParasiteModel.LAYER_LOCATION)), IdentifierUtils.texture("entity/mob_lunar_parasite"), 0.82F, 1.45F, 0.25F));
+        EntityRendererRegistry.register(EntityTypesRegistry.PARASITE_AFFECTED_VILLAGER.get(), (c) -> new StellarisMobRenderer<>(c, new ParasiteAffectedVillagerModel(c.bakeLayer(ParasiteAffectedVillagerModel.LAYER_LOCATION)), IdentifierUtils.texture("entity/mob_parasite_affected_villager"), 0.94F, 1.5F, 0.45F));
+        EntityRendererRegistry.register(EntityTypesRegistry.PARASITE_AFFECTED_VILLAGER_EVOLVED.get(), (c) -> new StellarisMobRenderer<>(c, new EvolvedParasiteAffectedVillagerModel(c.bakeLayer(EvolvedParasiteAffectedVillagerModel.LAYER_LOCATION)), IdentifierUtils.texture("entity/mob_parasite_affected_villager_evolved"), 1.05F, 1.58F, 0.65F));
+        EntityRendererRegistry.register(EntityTypesRegistry.LUNA_SHADOW.get(), (c) ->
+                new StellarisMobRenderer<>(
+                        c,
+                        new LunaShadowModel(c.bakeLayer(LunaShadowModel.LAYER_LOCATION)),
+                        IdentifierUtils.texture("entity/mob_luna_shadow"),
+                        0.82F,
+                        1.80F,
+                        0.65F
+                )
+        );
     }
 
     public static void registerEntityModelLayer() {
@@ -109,14 +136,20 @@ public final class StellarisFabricClient implements ClientModInitializer {
         EntityModelLayerRegistry.registerModelLayer(FlagHeadModel.MOB_LAYER_LOCATION, FlagHeadModel::createMobHeadLayer);
         EntityModelLayerRegistry.registerModelLayer(FlagBlockModel.LAYER_LOCATION, FlagBlockModel::createBodyLayer);
         EntityModelLayerRegistry.registerModelLayer(LanderModel.LAYER_LOCATION, LanderModel::createBodyLayer);
+        EntityModelLayerRegistry.registerModelLayer(BlueFishModel.LAYER_LOCATION, BlueFishModel::createBodyLayer);
+        EntityModelLayerRegistry.registerModelLayer(LunarParasiteModel.LAYER_LOCATION, LunarParasiteModel::createBodyLayer);
+        EntityModelLayerRegistry.registerModelLayer(ParasiteAffectedVillagerModel.LAYER_LOCATION, ParasiteAffectedVillagerModel::createBodyLayer);
+        EntityModelLayerRegistry.registerModelLayer(EvolvedParasiteAffectedVillagerModel.LAYER_LOCATION, EvolvedParasiteAffectedVillagerModel::createBodyLayer);
+        EntityModelLayerRegistry.registerModelLayer(LunaShadowModel.LAYER_LOCATION, LunaShadowModel::createBodyLayer);
 
         EntityModelLayerRegistry.registerModelLayer(SpaceSuitModel.LAYER_LOCATION, SpaceSuitModel::createBodyLayer);
         EntityModelLayerRegistry.registerModelLayer(BoatModelLayerRegistry.LUNAR_BOAT, BoatModel::createBoatModel);
         EntityModelLayerRegistry.registerModelLayer(BoatModelLayerRegistry.LUNAR_CHEST_BOAT, BoatModel::createChestBoatModel);
 
         EntityModelLayerRegistry.registerModelLayer(TinyRocketModel.LAYER_LOCATION, TinyRocketModel::createBodyLayer);
-        EntityModelLayerRegistry.registerModelLayer(RoverModel.LAYER_LOCATION, RoverModel::createBodyLayer);
         EntityModelLayerRegistry.registerModelLayer(SmallRocketModel.LAYER_LOCATION, SmallRocketModel::createBodyLayer);
         EntityModelLayerRegistry.registerModelLayer(BigRocketModel.LAYER_LOCATION, BigRocketModel::createBodyLayer);
+        EntityModelLayerRegistry.registerModelLayer(RoverModel.LAYER_LOCATION, RoverModel::createBodyLayer);
+
     }
 }

@@ -2,7 +2,7 @@
   "components": [
     {
       "type": "text",
-      "text": "Cans are used to store food inside. You can store food in cans with the [ref=stellaris:machines/vacuumator]Vacuumator. [ref]"
+      "text": "Cans are used to store food inside. You can store food in cans with the [ref=stellaris:machines/vacuumator]Vacuumator[ref]."
     },
     {
       "type": "item",

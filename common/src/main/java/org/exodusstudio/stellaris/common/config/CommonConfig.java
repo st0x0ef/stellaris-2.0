@@ -10,9 +10,6 @@ public class CommonConfig {
 
     public boolean debugMode = false;
 
-    public int rocketTpHeight = 600;
-
-
     @ScreenInfos.InnerConfig
     public OilConfig oilConfig = new OilConfig();
 
@@ -76,6 +73,16 @@ public class CommonConfig {
         public int randomDropIntervalMaxTicks = 2200;
 
         public int researchDelay = 600; // 30s
+    }
+
+    @ScreenInfos.InnerConfig
+    @ScreenInfos.Description("config.stellaris.vehicleConfig.desc")
+    public VehicleConfig vehicleConfig = new VehicleConfig();
+
+    public static class VehicleConfig {
+        public int rocketTpHeight = 400;
+        public boolean shouldLanderExplode = true;
+        public int cargoUnloadingRadius = 5;
     }
 
     @ScreenInfos.InnerConfig

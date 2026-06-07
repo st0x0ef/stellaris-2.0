@@ -7,8 +7,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
 import net.minecraft.network.chat.TextColor;
 import org.exodusstudio.stellaris.client.screens.components.GaugeWidget;
-
-import java.util.Random;
+import org.exodusstudio.stellaris.common.utils.Utils;
 
 public class GUIUtils {
     public static ClientTooltipComponent getMessageComponent(String text, String color) {
@@ -53,28 +52,12 @@ public class GUIUtils {
             case "khaki" -> 0xF0E68C;
             case "darkred" -> 0x8B0000;
             case "dark_red" -> 0x8B0000;
-            case "rainbow" -> generateRandomHexColor();
+            case "rainbow" -> Utils.generateRandomHexColor();
             default -> 0xFFFFFF;
         };
-    }
-
-    public static int generateRandomHexColor() {
-        Random random = new Random();
-        return random.nextInt(0xFFFFFF + 1);
     }
 
     public static void renderEnergyGeneratorGaugeTooltip(GuiGraphics graphics, GaugeWidget widget, int energyGeneratedPerTicks, int x, int y, Font font) {
         widget.renderTooltips(graphics, x, y, font, list -> list.add(ClientTooltipComponent.create(Component.translatable("gauge_text.stellaris.max_generation", energyGeneratedPerTicks).getVisualOrderText())));
     }
-
-    /** gui convenience feature */
-
-    public static Component getMessageComponent(String text, int color) {
-        return Component.literal(text).setStyle(Style.EMPTY.withColor(TextColor.fromRgb(color)));
-    }
-
-    public static Component getMessageComponent(String text) {
-        return Component.literal(text).setStyle(Style.EMPTY);
-    }
-
 }

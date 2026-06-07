@@ -2,13 +2,7 @@ package org.exodusstudio.stellaris.common.registries;
 
 
 import dev.architectury.registry.registries.RegistrySupplier;
-import org.exodusstudio.stellaris.client.renderers.rockets.models.BigRocketModel;
-import org.exodusstudio.stellaris.client.renderers.rockets.models.SmallRocketModel;
-import org.exodusstudio.stellaris.client.renderers.rockets.models.TinyRocketModel;
-import org.exodusstudio.stellaris.common.items.modules.rocket.HydrogenFuelModuleItem;
-import org.exodusstudio.stellaris.common.items.modules.rocket.RocketModelModuleItem;
-import org.exodusstudio.stellaris.common.items.modules.rocket.RocketSkinModuleItem;
-import org.exodusstudio.stellaris.common.items.modules.rocket.ShieldModule;
+import org.exodusstudio.stellaris.common.items.modules.rocket.*;
 import org.exodusstudio.stellaris.common.items.modules.space_suit.*;
 import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
 
@@ -16,6 +10,8 @@ public class ModulesRegistry {
     /** Rocket Modules */
     public static final RegistrySupplier<ShieldModule> SHIELD_MODULE = StellarisRegistries.ROCKET_MODULES.register(IdentifierUtils.id("shield"), ItemsRegistry.SHIELD_MODULE);
     public static final RegistrySupplier<HydrogenFuelModuleItem> HYDROGEN_MOTOR = StellarisRegistries.ROCKET_MODULES.register(IdentifierUtils.id("hydrogen_motor"), ItemsRegistry.HYDROGEN_MOTOR);
+    public static final RegistrySupplier<AutopilotModuleItem> AUTOPILOT = StellarisRegistries.ROCKET_MODULES.register(IdentifierUtils.id("autopilot"), ItemsRegistry.AUTOPILOT_MODULE);
+    public static final RegistrySupplier<CargoModuleItem> CARGO = StellarisRegistries.ROCKET_MODULES.register(IdentifierUtils.id("cargo"), ItemsRegistry.CARGO_MODULE);
 
     /** Rocket Skins */
     public static final RegistrySupplier<RocketSkinModuleItem> GALAXY_SKIN = StellarisRegistries.ROCKET_MODULES.register(IdentifierUtils.id("galaxy_skin"), ItemsRegistry.GALAXY_SKIN);
@@ -23,9 +19,9 @@ public class ModulesRegistry {
     public static final RegistrySupplier<RocketSkinModuleItem> MILITARY_SKIN = StellarisRegistries.ROCKET_MODULES.register(IdentifierUtils.id("military_skin"), ItemsRegistry.MILITARY_SKIN);
 
     /** Rocket Models */
-    public static final RegistrySupplier<RocketModelModuleItem<TinyRocketModel>> TINY_MODEL = StellarisRegistries.ROCKET_MODULES.register(IdentifierUtils.id("tiny_model"), ItemsRegistry.TINY_MODEL);
-    public static final RegistrySupplier<RocketModelModuleItem<SmallRocketModel>> SMALL_MODEL = StellarisRegistries.ROCKET_MODULES.register(IdentifierUtils.id("small_model"), ItemsRegistry.SMALL_MODEL);
-    public static final RegistrySupplier<RocketModelModuleItem<BigRocketModel>> BIG_MODEL = StellarisRegistries.ROCKET_MODULES.register(IdentifierUtils.id("big_model"), ItemsRegistry.BIG_MODEL);
+    public static final RegistrySupplier<RocketModelModuleItem<?>> TINY_MODEL = StellarisRegistries.ROCKET_MODULES.register(IdentifierUtils.id("tiny_model"), ItemsRegistry.TINY_MODEL);
+    public static final RegistrySupplier<RocketModelModuleItem<?>> SMALL_MODEL = StellarisRegistries.ROCKET_MODULES.register(IdentifierUtils.id("small_model"), ItemsRegistry.SMALL_MODEL);
+    public static final RegistrySupplier<RocketModelModuleItem<?>> BIG_MODEL = StellarisRegistries.ROCKET_MODULES.register(IdentifierUtils.id("big_model"), ItemsRegistry.BIG_MODEL);
 
 
     /** Space Suit Modules */

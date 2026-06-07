@@ -1,0 +1,7 @@
+{
+  "translation_key": "planet.stellaris.earth_orbit",
+  "dimension": "stellaris:earth_orbit",
+  "gravity": 0.5,
+  "has_oxygen": false,
+  "allow_space_stations": true
+}

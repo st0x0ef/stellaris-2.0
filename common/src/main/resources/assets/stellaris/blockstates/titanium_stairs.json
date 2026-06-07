@@ -94,7 +94,7 @@
       "x": 180
     },
     "facing=north,half=top,shape=straight": {
-      "model": "stellaris:block/steel_stairs",
+      "model": "stellaris:block/titanium_stairs",
       "uvlock": true,
       "x": 180,
       "y": 270

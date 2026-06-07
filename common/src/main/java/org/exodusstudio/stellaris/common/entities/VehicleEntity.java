@@ -46,10 +46,10 @@ public abstract class VehicleEntity extends Entity implements HasCustomInventory
     public float yya;
     public float zza;
 
-    public VehicleEntity(EntityType<?> entityType, Level level) {
+    public VehicleEntity(EntityType<?> entityType, Level level, int containerSize) {
         super(entityType, level);
         this.blocksBuilding = true;
-        this.inventory = getBaseContainer();
+        this.inventory = new SimpleContainer(containerSize);
     }
 
     /** Enable Interact with the Entity */
@@ -347,10 +347,6 @@ public abstract class VehicleEntity extends Entity implements HasCustomInventory
     @Override
     public void openCustomInventoryScreen(Player player) {
 
-    }
-
-    private SimpleContainer getBaseContainer() {
-        return new SimpleContainer(15);
     }
 
     public Container getInventory() {

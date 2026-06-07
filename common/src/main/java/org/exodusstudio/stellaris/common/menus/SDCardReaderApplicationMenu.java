@@ -8,7 +8,7 @@ import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
-import net.minecraft.world.inventory.Slot;
+import org.exodusstudio.stellaris.common.menus.MenuQuickMoveHelper;
 import net.minecraft.world.item.ItemStack;
 import org.exodusstudio.stellaris.common.menus.base.BaseContainer;
 import org.exodusstudio.stellaris.common.menus.slot.SDCardSlot;
@@ -48,19 +48,7 @@ public class SDCardReaderApplicationMenu extends BaseContainer {
 
     @Override
     public @NotNull ItemStack quickMoveStack(Player player, int index) {
-        Slot slot = this.getSlot(index);
-        if (slot != null && slot.hasItem()) {
-            if (index == 36) {
-                if (!this.moveItemStackTo(slot.getItem(), 0, 36, false)) {
-                    return ItemStack.EMPTY;
-                }
-            } else {
-                if (!this.moveItemStackTo(slot.getItem(), 36, 37, true)) {
-                    return ItemStack.EMPTY;
-                }
-            }
-        }
-        return ItemStack.EMPTY;
+        return MenuQuickMoveHelper.quickMovePlayerFirst(this, player, index);
     }
 
     public void setCard(ItemStack card) { this.card = card; }

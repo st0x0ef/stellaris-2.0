@@ -19,6 +19,7 @@ import org.exodusstudio.stellaris.common.menus.slot.SpecificItemsSlot;
 import org.exodusstudio.stellaris.common.menus.slot.SpecificTagsSlot;
 import org.exodusstudio.stellaris.common.registries.MenuTypesRegistry;
 import org.exodusstudio.stellaris.common.registries.TagsRegistry;
+import org.exodusstudio.stellaris.common.menus.MenuQuickMoveHelper;
 import org.jetbrains.annotations.NotNull;
 
 public class VacuumatorMenu extends AbstractContainerMenu {
@@ -56,29 +57,7 @@ public class VacuumatorMenu extends AbstractContainerMenu {
 
     @Override
     public @NotNull ItemStack quickMoveStack(Player player, int invSlot) {
-        ItemStack newStack = ItemStack.EMPTY;
-        Slot slot = this.slots.get(invSlot);
-        if (slot.hasItem()) {
-            ItemStack originalStack = slot.getItem();
-            newStack = originalStack.copy();
-            if (invSlot < this.container.getContainerSize()) {
-                if (!this.moveItemStackTo(originalStack, this.container.getContainerSize(), this.slots.size(), true)) {
-                    return ItemStack.EMPTY;
-                }
-            }
-            else if (!this.moveItemStackTo(originalStack, 0, this.container.getContainerSize(), false)) {
-                return ItemStack.EMPTY;
-            }
-
-            if (originalStack.isEmpty()) {
-                slot.set(ItemStack.EMPTY);
-            }
-            else {
-                slot.setChanged();
-            }
-        }
-
-        return newStack;
+        return MenuQuickMoveHelper.quickMoveMachineFirst(this, player, invSlot, 5);
     }
 
     @Override

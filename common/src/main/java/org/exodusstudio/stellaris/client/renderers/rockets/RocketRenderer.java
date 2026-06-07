@@ -11,10 +11,9 @@ import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.client.renderer.state.CameraRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.Identifier;
-import net.minecraft.util.Mth;
 import net.minecraft.world.phys.AABB;
 import org.exodusstudio.stellaris.client.renderers.rockets.models.RocketModel;
-import org.exodusstudio.stellaris.client.renderers.rockets.models.TinyRocketModel;
+import org.exodusstudio.stellaris.client.renderers.rockets.models.RocketModelRegistry;
 import org.exodusstudio.stellaris.common.entities.RocketEntity;
 import org.exodusstudio.stellaris.common.items.modules.rocket.RocketModelModuleItem;
 import org.exodusstudio.stellaris.common.items.modules.rocket.RocketSkinModuleItem;
@@ -23,6 +22,7 @@ import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
+import java.util.Random;
 
 public class RocketRenderer extends EntityRenderer<RocketEntity, RocketRenderState> {
     public RocketRenderer(EntityRendererProvider.Context context) {
@@ -55,9 +55,13 @@ public class RocketRenderer extends EntityRenderer<RocketEntity, RocketRenderSta
         poseStack.scale(0.8f, 0.8f, 0.8f);
 
         if (this.isShaking(renderState)) {
-            renderState.bodyRotation += (float) (Math.cos( (Mth.floor(renderState.ageInTicks) * 3.25F)) * Math.PI);
-            poseStack.mulPose(Axis.YP.rotationDegrees(180.0F - renderState.bodyRotation));
-
+            if (!Minecraft.getInstance().isPaused()) {
+                Random random = new Random();
+                double shakeDirection1 = (random.nextDouble() * (random.nextBoolean() ? 1 : -1)) / 50;
+                double shakeDirection2 = (random.nextDouble() * (random.nextBoolean() ? 1 : -1)) / 50;
+                double shakeDirection3 = (random.nextDouble() * (random.nextBoolean() ? 1 : -1)) / 50;
+                poseStack.translate(shakeDirection1, shakeDirection2, shakeDirection3);
+            }
         }
 
         boolean rocketModelPresent = false;
@@ -71,7 +75,7 @@ public class RocketRenderer extends EntityRenderer<RocketEntity, RocketRenderSta
         RenderType renderType = getRenderType(renderingContext);
 
         if  (!rocketModelPresent) {
-            RocketModel defaultModel = new TinyRocketModel(Minecraft.getInstance().getEntityModels());
+            RocketModel defaultModel = RocketModelRegistry.create("tiny", Minecraft.getInstance().getEntityModels());
             renderingContext.setRocketModel(defaultModel);
             nodeCollector.submitModelPart(defaultModel.root(), poseStack, renderType, renderingContext.packedLight, OverlayTexture.NO_OVERLAY, null);
         }
@@ -81,6 +85,7 @@ public class RocketRenderer extends EntityRenderer<RocketEntity, RocketRenderSta
 
         poseStack.popPose();
     }
+
 
     @Override
     protected AABB getBoundingBoxForCulling(RocketEntity minecraft) {

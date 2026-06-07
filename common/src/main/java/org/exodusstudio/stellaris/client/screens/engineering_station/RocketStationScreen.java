@@ -2,14 +2,11 @@ package org.exodusstudio.stellaris.client.screens.engineering_station;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Inventory;
-import org.exodusstudio.stellaris.client.screens.components.TexturedButton;
-import org.exodusstudio.stellaris.client.screens.utils.GUISprites;
 import org.exodusstudio.stellaris.common.menus.engineering_station.RocketStationMenu;
 import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
 
@@ -30,23 +27,8 @@ public class RocketStationScreen extends AbstractContainerScreen<RocketStationMe
     protected void init() {
         super.init();
 
+        EngineUpgraderScreen.addTabsButton(this.leftPos + this.imageWidth, this.topPos + 40, this, menu.engineeringStationPos, "crafting");
 
-        TexturedButton craftingButton = new TexturedButton(this.leftPos + this.imageWidth, this.topPos + 56, 16,16,
-                Component.empty(), null)
-                .tex(GUISprites.ROCKET_CRAFTING_TAB, GUISprites.ROCKET_CRAFTING_TAB_HOVER)
-                .tooltip(Tooltip.create(RocketStationScreen.TAB_NAME))
-                .useSprite(true)
-                .setUVs(2, 0);
-
-        TexturedButton upgradeButton = new TexturedButton(this.leftPos + this.imageWidth, this.topPos + 72, 16,16,
-                Component.empty(), button -> menu.openUpgradeScreen())
-                .tex(GUISprites.MODULES_TAB, GUISprites.MODULES_TAB_HOVER)
-                .tooltip(Tooltip.create(EngineUpgraderScreen.TAB_NAME))
-                .useSprite(true);
-
-
-        this.addRenderableWidget(craftingButton);
-        this.addRenderableWidget(upgradeButton);
     }
 
     @Override

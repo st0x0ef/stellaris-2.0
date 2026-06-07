@@ -1,7 +1,5 @@
 package org.exodusstudio.stellaris.client.screens;
 
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
@@ -12,7 +10,6 @@ import net.minecraft.world.entity.player.Inventory;
 import org.exodusstudio.stellaris.common.menus.LanderMenu;
 import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
 
-@Environment(EnvType.CLIENT)
 public class LanderScreen extends AbstractContainerScreen<LanderMenu> {
 
     public static final Identifier TEXTURE = IdentifierUtils.guiTexture("lander");
@@ -22,7 +19,7 @@ public class LanderScreen extends AbstractContainerScreen<LanderMenu> {
         super(abstractContainerMenu, inventory, component);
 
         this.imageWidth = 180;
-        this.imageHeight = 188;
+        this.imageHeight = 224;
 
         this.titleLabelX = (180 - Minecraft.getInstance().font.width(title.getString())) / 2;
         this.titleLabelY = 2;
@@ -42,6 +39,6 @@ public class LanderScreen extends AbstractContainerScreen<LanderMenu> {
 
     @Override
     protected void renderLabels(GuiGraphics guiGraphics, int mouseX, int mouseY) {
-        guiGraphics.drawString(this.font, this.title, this.titleLabelX, this.titleLabelY, 5726575, false);
+        guiGraphics.drawString(this.font, this.title, this.titleLabelX, this.titleLabelY, -11050641, false);
     }
 }

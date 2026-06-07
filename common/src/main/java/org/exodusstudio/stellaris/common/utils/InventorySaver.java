@@ -47,11 +47,13 @@ public record InventorySaver(List<SavedItem> savedItems) {
 
     public static void readInventory(ValueInput input, Container container) {
         Optional<InventorySaver> inventorySaver = input.read("inventory", CODEC);
-        inventorySaver.ifPresent(saver -> {
-            for (SavedItem savedItem : saver.savedItems) {
-                container.setItem(savedItem.slot, savedItem.itemStack);
-            }
-        });
+        inventorySaver.ifPresent(saver -> saver.readInventory(container));
+    }
+
+    public void readInventory(Container container) {
+        for (SavedItem savedItem : this.savedItems) {
+            container.setItem(savedItem.slot, savedItem.itemStack);
+        }
     }
 
     public record SavedItem(int slot, ItemStack itemStack) {

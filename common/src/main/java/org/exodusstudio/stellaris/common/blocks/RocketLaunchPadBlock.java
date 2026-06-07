@@ -2,8 +2,13 @@ package org.exodusstudio.stellaris.common.blocks;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.*;
 import net.minecraft.world.level.block.Block;
@@ -15,10 +20,14 @@ import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.level.pathfinder.PathComputationType;
+import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.exodusstudio.stellaris.common.registries.BlocksRegistry;
+import org.exodusstudio.stellaris.common.registries.ItemsRegistry;
+import org.exodusstudio.stellaris.common.registries.TagsRegistry;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -78,10 +87,12 @@ public class RocketLaunchPadBlock extends Block implements SimpleWaterloggedBloc
     }
 
     @Override
-    public void onPlace(BlockState p_60566_, Level p_60567_, BlockPos p_60568_, BlockState p_60569_, boolean p_60570_) {
-        super.onPlace(p_60566_, p_60567_, p_60568_, p_60569_, p_60570_);
-        p_60567_.scheduleTick(p_60568_, this, 1);
+    protected void onPlace(BlockState state, Level level, BlockPos pos, BlockState oldState, boolean movedByPiston) {
+        super.onPlace(state, level, pos, oldState, movedByPiston);
+        level.scheduleTick(pos, this, 1);
+
     }
+
 
     @Override
     public void tick(BlockState state, ServerLevel level, BlockPos pos, RandomSource randomSource) {
@@ -133,6 +144,40 @@ public class RocketLaunchPadBlock extends Block implements SimpleWaterloggedBloc
 
         level.scheduleTick(new BlockPos(pos.getX(), pos.getY(), pos.getZ()), this, 1);
     }
+
+    @Override
+    protected @NotNull InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult) {
+        if (level.isClientSide()) return InteractionResult.SUCCESS;
+
+        if (state.getValue(STAGE)) {
+            if (!player.getItemInHand(InteractionHand.MAIN_HAND).is(ItemsRegistry.ROCKET.get()) && level.getBlockState(pos.below()).getBlock() instanceof AntennaBlock antennaBlock) {
+                return antennaBlock.useWithoutItem(state, level, pos.below(), player, hitResult);
+            }
+        }
+        return super.useWithoutItem(state, level, pos, player, hitResult);
+    }
+
+    @Override
+    protected InteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) {
+        if (level.isClientSide()) return InteractionResult.SUCCESS;
+
+        if(stack.is(BlocksRegistry.ANTENNA.item().get()) && state.getValue(STAGE)) {
+            if (level.getBlockState(pos.below()).is(TagsRegistry.BlockTags.ANTENNA_REPLACEABLES)) {
+                level.setBlock(pos.below(), BlocksRegistry.ANTENNA.block().get().defaultBlockState(), 3);
+                stack.shrink(1);
+                return InteractionResult.SUCCESS;
+
+            } else if(stack.is(ItemsRegistry.ROCKET.get())) {
+                return InteractionResult.FAIL;
+            } else {
+                player.displayClientMessage(Component.literal("You can't place an antenna block here. The surface under the launchpad can't be repleaced."), false);
+                return InteractionResult.FAIL;
+            }
+        }
+
+        return super.useItemOn(stack, state, level, pos, player, hand, hitResult);
+    }
+
 
 
     @Override
