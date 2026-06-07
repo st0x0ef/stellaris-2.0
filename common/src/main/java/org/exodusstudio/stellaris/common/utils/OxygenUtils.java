@@ -47,7 +47,7 @@ public class OxygenUtils {
             BlockPos current = queue.poll().immutable();
 
             if (level.canSeeSky(current)) {
-                continue;
+                return Collections.emptySet();
             }
 
             ChunkPos currentChunk = ChunkPos.containing(current);
