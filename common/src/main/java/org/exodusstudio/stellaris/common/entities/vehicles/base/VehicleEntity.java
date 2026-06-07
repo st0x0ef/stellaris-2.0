@@ -1,4 +1,4 @@
-package org.exodusstudio.stellaris.common.entities;
+package org.exodusstudio.stellaris.common.entities.vehicles.base;
 
 import dev.architectury.networking.NetworkManager;
 import net.minecraft.core.BlockPos;

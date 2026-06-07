@@ -371,4 +371,9 @@ public class RoverEntity extends AbstractRoverBase implements HasCustomInventory
     public RoverComponent getRoverComponent() {
         return roverComponent;
     }
+
+    @Override
+    public boolean isPushable() {
+        return false;
+    }
 }

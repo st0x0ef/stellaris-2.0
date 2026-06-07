@@ -12,7 +12,7 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import org.exodusstudio.stellaris.Stellaris;
-import org.exodusstudio.stellaris.common.entities.LanderEntity;
+import org.exodusstudio.stellaris.common.entities.vehicles.LanderEntity;
 import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
 import org.exodusstudio.stellaris.common.utils.Utils;
 

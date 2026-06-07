@@ -14,7 +14,7 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.world.phys.AABB;
 import org.exodusstudio.stellaris.client.renderers.rockets.models.RocketModel;
 import org.exodusstudio.stellaris.client.renderers.rockets.models.RocketModelRegistry;
-import org.exodusstudio.stellaris.common.entities.RocketEntity;
+import org.exodusstudio.stellaris.common.entities.vehicles.RocketEntity;
 import org.exodusstudio.stellaris.common.items.modules.rocket.RocketModelModuleItem;
 import org.exodusstudio.stellaris.common.items.modules.rocket.RocketSkinModuleItem;
 import org.exodusstudio.stellaris.common.modules.rocket.RocketModule;

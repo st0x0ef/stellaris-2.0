@@ -150,9 +150,8 @@ public class StellarisNeoforgeClient {
 
 
         event.registerLayerDefinition(TinyRocketModel.LAYER_LOCATION, TinyRocketModel::createBodyLayer);
-        event.registerLayerDefinition(RoverModel.LAYER_LOCATION, RoverModel::createBodyLayer);
         event.registerLayerDefinition(SmallRocketModel.LAYER_LOCATION, SmallRocketModel::createBodyLayer);
         event.registerLayerDefinition(BigRocketModel.LAYER_LOCATION, BigRocketModel::createBodyLayer);
-
+        event.registerLayerDefinition(RoverModel.LAYER_LOCATION, RoverModel::createBodyLayer);
     }
 }

@@ -13,7 +13,7 @@ import org.exodusstudio.stellaris.common.data.space_station.SpaceStationRecipe;
 
 import net.minecraft.server.MinecraftServer;
 import org.exodusstudio.stellaris.common.data.Planet;
-import org.exodusstudio.stellaris.common.entities.RocketEntity;
+import org.exodusstudio.stellaris.common.entities.vehicles.RocketEntity;
 import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
 import org.exodusstudio.stellaris.common.utils.TeleportUtil;
 import org.exodusstudio.stellaris.common.utils.Utils;

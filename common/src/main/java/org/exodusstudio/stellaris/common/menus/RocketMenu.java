@@ -8,9 +8,8 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
-import org.exodusstudio.stellaris.common.entities.RocketEntity;
+import org.exodusstudio.stellaris.common.entities.vehicles.RocketEntity;
 import org.exodusstudio.stellaris.common.registries.MenuTypesRegistry;
-import org.exodusstudio.stellaris.common.menus.MenuQuickMoveHelper;
 
 public class RocketMenu extends AbstractContainerMenu {
 

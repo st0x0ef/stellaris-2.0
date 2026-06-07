@@ -15,6 +15,7 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import org.exodusstudio.stellaris.client.StellarisClient;
 import org.exodusstudio.stellaris.client.registry.BoatModelLayerRegistry;
 import org.exodusstudio.stellaris.client.renderers.entity.vehicle.rover.RoverModel;
+import org.exodusstudio.stellaris.client.renderers.entity.vehicle.rover.RoverRenderer;
 import org.exodusstudio.stellaris.client.renderers.mobs.BlueFishModel;
 import org.exodusstudio.stellaris.client.renderers.mobs.EvolvedParasiteAffectedVillagerModel;
 import org.exodusstudio.stellaris.client.renderers.mobs.LunaShadowModel;
@@ -112,6 +113,7 @@ public final class StellarisFabricClient implements ClientModInitializer {
 
         EntityRendererRegistry.register(EntityTypesRegistry.LANDER.get(), LanderRenderer::new);
         EntityRendererRegistry.register(EntityTypesRegistry.ROCKET.get(), RocketRenderer::new);
+        EntityRendererRegistry.register(EntityTypesRegistry.ROVER.get(), RoverRenderer::new);
         EntityRendererRegistry.register(EntityTypesRegistry.LUNAR_BOAT.get(), (c) -> new BoatRenderer(c, BoatModelLayerRegistry.LUNAR_BOAT));
         EntityRendererRegistry.register(EntityTypesRegistry.LUNAR_CHEST_BOAT.get(), (c) -> new BoatRenderer(c, BoatModelLayerRegistry.LUNAR_CHEST_BOAT));
         EntityRendererRegistry.register(EntityTypesRegistry.BLUE_FISH.get(), (c) -> new StellarisMobRenderer<>(c, new BlueFishModel(c.bakeLayer(BlueFishModel.LAYER_LOCATION)), IdentifierUtils.texture("entity/mob_blue_fish"), 0.72F, 1.35F, 0.18F));

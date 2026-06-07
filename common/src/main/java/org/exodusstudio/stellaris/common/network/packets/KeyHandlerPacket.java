@@ -8,7 +8,7 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Player;
 import org.exodusstudio.stellaris.Stellaris;
-import org.exodusstudio.stellaris.common.entities.RocketEntity;
+import org.exodusstudio.stellaris.common.entities.vehicles.RocketEntity;
 import org.exodusstudio.stellaris.common.items.space_suit.SpaceSuitBoots;
 import org.exodusstudio.stellaris.common.keybinds.KeyVariables;
 import org.jetbrains.annotations.NotNull;

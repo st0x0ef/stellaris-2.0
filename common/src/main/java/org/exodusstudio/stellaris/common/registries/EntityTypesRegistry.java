@@ -8,13 +8,9 @@ import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.vehicle.boat.Boat;
 import net.minecraft.world.entity.vehicle.boat.ChestBoat;
 import org.exodusstudio.stellaris.Stellaris;
-import org.exodusstudio.stellaris.common.entities.LanderEntity;
-import org.exodusstudio.stellaris.common.entities.RocketEntity;
-import org.exodusstudio.stellaris.common.entities.mobs.BlueFishEntity;
-import org.exodusstudio.stellaris.common.entities.mobs.EvolvedParasiteAffectedVillagerEntity;
-import org.exodusstudio.stellaris.common.entities.mobs.LunaShadowEntity;
-import org.exodusstudio.stellaris.common.entities.mobs.LunarParasiteEntity;
-import org.exodusstudio.stellaris.common.entities.mobs.ParasiteAffectedVillagerEntity;
+import org.exodusstudio.stellaris.common.entities.mobs.*;
+import org.exodusstudio.stellaris.common.entities.vehicles.LanderEntity;
+import org.exodusstudio.stellaris.common.entities.vehicles.RocketEntity;
 import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
 import org.exodusstudio.stellaris.common.entities.vehicles.RoverEntity;
 
