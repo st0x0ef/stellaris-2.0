@@ -11,8 +11,8 @@ public class WoodTypesRegister {
     public static final WoodType LUNAR_WOOD_TYPE = WoodType.register(new WoodType(IdentifierUtils.id("lunar").toString(), LUNAR));
 
     public static void register() {
-        Sheets.SIGN_MATERIALS.put(LUNAR_WOOD_TYPE, Sheets.SIGN_MAPPER.apply(Identifier.parse(LUNAR_WOOD_TYPE.name())));
-        Sheets.HANGING_SIGN_MATERIALS.put(LUNAR_WOOD_TYPE, Sheets.HANGING_SIGN_MAPPER.apply(Identifier.parse(LUNAR_WOOD_TYPE.name())));
+        Sheets.SIGN_SPRITES.put(LUNAR_WOOD_TYPE, Sheets.SIGN_MAPPER.apply(Identifier.parse(LUNAR_WOOD_TYPE.name())));
+        Sheets.HANGING_SIGN_SPRITES.put(LUNAR_WOOD_TYPE, Sheets.HANGING_SIGN_MAPPER.apply(Identifier.parse(LUNAR_WOOD_TYPE.name())));
     }
 }
 

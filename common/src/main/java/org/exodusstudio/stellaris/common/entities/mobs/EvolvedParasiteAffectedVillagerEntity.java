@@ -113,7 +113,7 @@ public class EvolvedParasiteAffectedVillagerEntity extends ParasiteAffectedVilla
             List<LivingEntity> entities = this.level().getEntitiesOfClass(
                     LivingEntity.class,
                     this.getBoundingBox().inflate(4.0D),
-                    entity -> entity != this && !entity.getType().is(TagsRegistry.EntityTags.INFECTION_IMMUNE)
+                    entity -> entity != this && !entity.is(TagsRegistry.EntityTags.INFECTION_IMMUNE)
             );
 
             for (LivingEntity entity : entities) {
@@ -297,7 +297,7 @@ public class EvolvedParasiteAffectedVillagerEntity extends ParasiteAffectedVilla
     }
 
     private boolean doTimedEvolvedDamage(ServerLevel level, LivingEntity target, int variant) {
-        if (!target.isAlive() || target.getType().is(TagsRegistry.EntityTags.INFECTION_IMMUNE)) {
+        if (!target.isAlive() || target.is(TagsRegistry.EntityTags.INFECTION_IMMUNE)) {
             return false;
         }
 
@@ -333,7 +333,7 @@ public class EvolvedParasiteAffectedVillagerEntity extends ParasiteAffectedVilla
             List<LivingEntity> splashTargets = this.level().getEntitiesOfClass(
                     LivingEntity.class,
                     target.getBoundingBox().inflate(2.25D),
-                    entity -> entity != this && entity.isAlive() && !entity.getType().is(TagsRegistry.EntityTags.INFECTION_IMMUNE)
+                    entity -> entity != this && entity.isAlive() && !entity.is(TagsRegistry.EntityTags.INFECTION_IMMUNE)
             );
 
             for (LivingEntity splashTarget : splashTargets) {

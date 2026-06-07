@@ -1,5 +1,6 @@
 package org.exodusstudio.stellaris.client.screens.components.containers;
 
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.input.MouseButtonEvent;
 
@@ -13,6 +14,11 @@ public class DraggableContainer extends BasicContainer {
 
     public DraggableContainer(int baseX, int baseY, int width, int height, AbstractWidget... children) {
         super(baseX, baseY, width, height, children);
+    }
+
+    @Override
+    protected void extractWidgetRenderState(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float a) {
+        super.extractWidgetRenderState(graphics, mouseX, mouseY, a);
     }
 
     @Override

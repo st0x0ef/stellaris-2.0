@@ -17,8 +17,8 @@ import java.util.List;
 public interface NetworkRegistry {
 
     CustomPacketPayload.Type<OpenMenuPacket> OPEN_MENU_PACKET_TYPE = new CustomPacketPayload.Type<>(Identifier.fromNamespaceAndPath(Stellaris.MOD_ID, "open_menu"));
-    public static final CustomPacketPayload.Type<SyncRoverComponentPacket> SYNC_ROVER_COMPONENT_ID = new CustomPacketPayload.Type<>(Identifier.fromNamespaceAndPath(Stellaris.MOD_ID, "sync_rover_component"));
-    public static final CustomPacketPayload.Type<SyncRoverPacket> SYNC_ROVER_CONTROLS = new CustomPacketPayload.Type<>(Identifier.fromNamespaceAndPath(Stellaris.MOD_ID, "sync_rover_packet"));
+    CustomPacketPayload.Type<SyncRoverComponentPacket> SYNC_ROVER_COMPONENT_ID = new CustomPacketPayload.Type<>(Identifier.fromNamespaceAndPath(Stellaris.MOD_ID, "sync_rover_component"));
+    CustomPacketPayload.Type<SyncRoverPacket> SYNC_ROVER_CONTROLS = new CustomPacketPayload.Type<>(Identifier.fromNamespaceAndPath(Stellaris.MOD_ID, "sync_rover_packet"));
 
     static void init() {
         registerC2S(OPEN_MENU_PACKET_TYPE, OpenMenuPacket.STREAM_CODEC, OpenMenuPacket::handle);
@@ -50,6 +50,13 @@ public interface NetworkRegistry {
 
         registerC2S(InfectionResearchPacket.TYPE, InfectionResearchPacket.STREAM_CODEC, InfectionResearchPacket::handle);
         registerC2S(PlanSpaceStationPacket.TYPE, PlanSpaceStationPacket.STREAM_CODEC, PlanSpaceStationPacket::handle);
+
+        registerS2C(RecipeSyncerPacket.TYPE, RecipeSyncerPacket.STREAM_CODEC, RecipeSyncerPacket::handle);
+        registerS2C(FuelRefinerySyncerPacket.TYPE, FuelRefinerySyncerPacket.STREAM_CODEC, FuelRefinerySyncerPacket::handle);
+        registerS2C(ElectrolyzerSyncerPacket.TYPE, ElectrolyzerSyncerPacket.STREAM_CODEC, ElectrolyzerSyncerPacket::handle);
+
+        registerC2S(OxygenDebugRequestPacket.TYPE, OxygenDebugRequestPacket.STREAM_CODEC, OxygenDebugRequestPacket::handle);
+        registerS2C(OxygenDebugResponsePacket.TYPE, OxygenDebugResponsePacket.STREAM_CODEC, OxygenDebugResponsePacket::handle);
 
         registerS2C(SYNC_ROVER_COMPONENT_ID, SyncRoverComponentPacket.STREAM_CODEC, SyncRoverComponentPacket::handle);
         registerC2S(SYNC_ROVER_CONTROLS, SyncRoverPacket.STREAM_CODEC, SyncRoverPacket::handle);

@@ -79,12 +79,6 @@ public abstract class VehicleEntity extends Entity implements HasCustomInventory
         output.putInt("fuel", this.getFuel());
     }
 
-    /** Interact with the Entity Gui,Spawn Egg... */
-    @Override
-    public InteractionResult interact(Player player, InteractionHand hand) {
-        return InteractionResult.PASS;
-    }
-
     @Override
     public void tick() {
         super.tick();
@@ -118,14 +112,14 @@ public abstract class VehicleEntity extends Entity implements HasCustomInventory
     }
 
     @Override
-    public InteractionResult interactAt(Player player, Vec3 vec, InteractionHand hand) {
+    public InteractionResult interact(Player player, InteractionHand hand, Vec3 vec) {
 
         if(this.canAddPassenger(player)) {
             player.startRiding(this);
 
         }
 
-        return super.interactAt(player, vec, hand);
+        return super.interact(player, hand, vec);
     }
 
     public void rotAnim() {

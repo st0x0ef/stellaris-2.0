@@ -39,6 +39,7 @@ import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import org.exodusstudio.stellaris.common.network.packets.ParasiteCameraShakePacket;
+import org.exodusstudio.stellaris.common.registries.AdvancementTriggerRegistry;
 import org.exodusstudio.stellaris.common.registries.EffectsRegistry;
 import org.exodusstudio.stellaris.common.registries.TagsRegistry;
 import org.exodusstudio.stellaris.common.utils.MoonLoreUtils;
@@ -673,7 +674,7 @@ public class LunarParasiteEntity extends Monster {
     }
 
     private boolean canInfectHost(LivingEntity host) {
-        if (host.getType().is(TagsRegistry.EntityTags.INFECTION_IMMUNE)) {
+        if (host.is(TagsRegistry.EntityTags.INFECTION_IMMUNE)) {
             return false;
         }
 
@@ -722,6 +723,7 @@ public class LunarParasiteEntity extends Monster {
 
         if (host instanceof ServerPlayer serverPlayer) {
             NetworkManager.sendToPlayer(serverPlayer, new ParasiteCameraShakePacket(26, 1.4F));
+            AdvancementTriggerRegistry.PARASITE_ATTACHED.get().trigger(serverPlayer);
         }
 
         this.level().playSound(

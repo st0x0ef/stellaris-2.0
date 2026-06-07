@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "TTT",
+    "IHI",
+    "TTT"
+  ],
+  "key": {
+    "T": "stellaris:titanium_ingot",
+    "I": "minecraft:iron_ingot",
+    "H": "minecraft:hopper"
+  },
+  "result": {
+    "id": "stellaris:cargo_unloader",
+    "count": 1
+  }
+}

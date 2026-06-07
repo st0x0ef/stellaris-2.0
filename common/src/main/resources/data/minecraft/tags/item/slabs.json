@@ -1,0 +1,14 @@
+{
+  "replace": false,
+  "values": [
+    "stellaris:titanium_slab",
+    "stellaris:titanium_plating_slab",
+    "stellaris:iron_plating_slab",
+    "stellaris:moon_stone_slab",
+    "stellaris:moon_stone_brick_slab",
+    "stellaris:moon_polished_stone_brick_slab",
+    "stellaris:desh_plating_slab",
+    "stellaris:casus_astrum_stone_slab",
+    "stellaris:lunar_slab"
+  ]
+}

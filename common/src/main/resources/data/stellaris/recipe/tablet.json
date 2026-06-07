@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "NNN",
+    "NHN",
+    "NSN"
+  ],
+  "key": {
+    "S": "stellaris:titanium_ingot",
+    "H": "minecraft:glass_pane",
+    "N": "stellaris:titanium_nugget"
+  },
+  "result": {
+    "id": "stellaris:tablet",
+    "count": 1
+  }
+}

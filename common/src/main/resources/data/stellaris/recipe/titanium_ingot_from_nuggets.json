@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "NNN",
+    "NNN",
+    "NNN"
+  ],
+  "key": {
+    "N": "stellaris:titanium_nugget"
+  },
+  "result": {
+    "id": "stellaris:titanium_ingot",
+    "count": 1
+  }
+}

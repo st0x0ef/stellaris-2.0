@@ -23,9 +23,10 @@ public class WikiPacks {
 
 
     public static class WikiEntryPack extends SimpleJsonResourceReloadListener<WikiEntry> {
+        public static final String ID = "wiki/entries";
 
         public WikiEntryPack() {
-            super(WikiEntry.CODEC, FileToIdConverter.json("wiki/entries"));
+            super(WikiEntry.CODEC, FileToIdConverter.json(ID));
         }
 
         @Override
@@ -43,9 +44,10 @@ public class WikiPacks {
     }
 
     public static class EntryInfoPack extends SimpleJsonResourceReloadListener<EntryInfo> {
+        public static final String ID = "wiki/infos";
 
         public EntryInfoPack() {
-            super(EntryInfo.CODEC, FileToIdConverter.json("wiki/infos"));
+            super(EntryInfo.CODEC, FileToIdConverter.json(ID));
         }
 
         public static Map<ResourceKey<Block>, Identifier> BLOCK_ENTRY_RESOLVER = new HashMap<>();

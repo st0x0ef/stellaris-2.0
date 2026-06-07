@@ -1,7 +1,7 @@
 package org.exodusstudio.stellaris.client.screens;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
@@ -23,9 +23,7 @@ public class SolarPanelScreen extends AbstractContainerScreen<SolarPanelMenu> {
     private GaugeWidget energyGauge;
 
     public SolarPanelScreen(SolarPanelMenu abstractContainerMenu, Inventory inventory, Component component) {
-        super(abstractContainerMenu, inventory, component);
-        imageWidth = 180;
-        imageHeight = 188;
+        super(abstractContainerMenu, inventory, component, 180, 188);
 
         titleLabelX = (180 - Minecraft.getInstance().font.width(title.getString())) / 2;
         titleLabelY = 2;
@@ -44,10 +42,10 @@ public class SolarPanelScreen extends AbstractContainerScreen<SolarPanelMenu> {
     }
 
     @Override
-    public void render(GuiGraphics graphics, int mouseX, int mouseY, float partialTicks) {
-        renderBackground(graphics, mouseX, mouseY, partialTicks);
-        super.render(graphics, mouseX, mouseY, partialTicks);
-        renderTooltip(graphics, mouseX, mouseY);
+    public void extractContents(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTicks) {
+        extractBackground(graphics, mouseX, mouseY, partialTicks);
+        super.extractContents(graphics, mouseX, mouseY, partialTicks);
+        extractTooltip(graphics, mouseX, mouseY);
 
         if (blockEntity == null) {
             return;
@@ -57,18 +55,19 @@ public class SolarPanelScreen extends AbstractContainerScreen<SolarPanelMenu> {
     }
 
     @Override
-    protected void renderBg(GuiGraphics graphics, float partialTick, int mouseX, int mouseY) {
+    public void extractBackground(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTick) {
+        super.extractBackground(graphics, mouseX, mouseY, partialTick);
         graphics.blit(RenderPipelines.GUI_TEXTURED, TEXTURE, leftPos, topPos, 0, 0, imageWidth, imageHeight, imageWidth, imageHeight);
     }
 
     @Override
-    protected void renderTooltip(GuiGraphics guiGraphics, int x, int y) {
-        super.renderTooltip(guiGraphics, x, y);
+    protected void extractTooltip(GuiGraphicsExtractor guiGraphics, int x, int y) {
+        super.extractTooltip(guiGraphics, x, y);
         GUIUtils.renderEnergyGeneratorGaugeTooltip(guiGraphics, energyGauge, getMenu().getBlockEntity().getEnergyGeneratedPT(), x, y, font);
     }
 
     @Override
-    protected void renderLabels(GuiGraphics guiGraphics, int mouseX, int mouseY) {
-        guiGraphics.drawString(this.font, this.title, this.titleLabelX, this.titleLabelY, -11050641, false);
+    protected void extractLabels(GuiGraphicsExtractor guiGraphics, int mouseX, int mouseY) {
+        guiGraphics.text(this.font, this.title, this.titleLabelX, this.titleLabelY, -11050641, false);
     }
 }

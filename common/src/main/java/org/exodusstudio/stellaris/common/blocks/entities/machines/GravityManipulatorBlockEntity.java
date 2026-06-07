@@ -102,7 +102,7 @@ public class GravityManipulatorBlockEntity extends BaseEnergyContainerBlockEntit
     private List<ServerPlayer> getPlayersIn3x3Chunks() {
         List<ServerPlayer> playersInChunks = List.of();
         if (level != null) {
-            ChunkPos chunkPos = new ChunkPos(worldPosition);
+            ChunkPos chunkPos = ChunkPos.containing(worldPosition);
             AABB chunkAABB = new AABB(chunkPos.getMinBlockX(), level.getMinY(), chunkPos.getMinBlockZ(), chunkPos.getMaxBlockX(), level.getMaxY(), chunkPos.getMaxBlockZ());
             AABB expandedAABB = chunkAABB.inflate(16.0 * 1.5); // 1.5 chunks in each direction to cover 3x3 chunks
             playersInChunks = level.getEntitiesOfClass(ServerPlayer.class, expandedAABB);

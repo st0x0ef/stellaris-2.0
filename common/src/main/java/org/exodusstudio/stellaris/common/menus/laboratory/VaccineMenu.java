@@ -74,7 +74,7 @@ public class VaccineMenu extends BaseItemCombinerMenu {
             if (recipeHolder.isPresent()) {
                 VaccineRecipe recipe = recipeHolder.get().value();
                 if (recipe.matches(input, player.level())) {
-                    ItemStack resultStack = recipe.assemble(input, player.level().registryAccess());
+                    ItemStack resultStack = recipe.assemble(input);
                     if (outputStack.isEmpty() || (ItemStack.isSameItemSameComponents(outputStack, resultStack)
                             && outputStack.getCount() + resultStack.getCount() <= outputStack.getMaxStackSize())) {
 

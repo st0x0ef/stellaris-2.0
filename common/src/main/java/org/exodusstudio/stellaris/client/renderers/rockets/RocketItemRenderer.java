@@ -2,6 +2,7 @@ package org.exodusstudio.stellaris.client.renderers.rockets;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
+import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.client.Minecraft;
@@ -10,7 +11,6 @@ import net.minecraft.client.renderer.rendertype.RenderType;
 import net.minecraft.client.renderer.special.SpecialModelRenderer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.Identifier;
-import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import org.exodusstudio.stellaris.client.renderers.rockets.models.RocketModelRegistry;
 import org.exodusstudio.stellaris.common.modules.rocket.RocketModule;
@@ -22,9 +22,9 @@ import org.joml.Vector3fc;
 import java.util.List;
 import java.util.function.Consumer;
 
-public record RocketItemRenderer(Identifier texture) implements SpecialModelRenderer<List<RocketModule>> {
+public record RocketItemRenderer(Identifier texture, boolean gui) implements SpecialModelRenderer<List<RocketModule>> {
     @Override
-    public void submit(@Nullable List<RocketModule> rocketModules, ItemDisplayContext displayContext, PoseStack poseStack, SubmitNodeCollector nodeCollector, int packedLight, int packedOverlay, boolean hasFoil, int outlineColor) {
+    public void submit(@Nullable List<RocketModule> rocketModules, PoseStack poseStack, SubmitNodeCollector nodeCollector, int packedLight, int packedOverlay, boolean hasFoil, int outlineColor) {
         RocketRenderState modelState = RocketRenderState.create(rocketModules);
         poseStack.pushPose();
 
@@ -33,7 +33,7 @@ public record RocketItemRenderer(Identifier texture) implements SpecialModelRend
         poseStack.translate(1.5D, 1.0D, -1.0D);
 
         //Items in GUI and FIXED (Item frame) context need special positioning
-        if(displayContext == ItemDisplayContext.GUI || displayContext == ItemDisplayContext.FIXED) {
+        if(gui) {
             poseStack.translate(-0.5D, -2.0D, -0.5D);
             poseStack.scale(0.45F, 0.45F, 0.45F);
             poseStack.mulPose(Axis.ZP.rotationDegrees(45.0F));
@@ -67,16 +67,17 @@ public record RocketItemRenderer(Identifier texture) implements SpecialModelRend
         return stack.getOrDefault(DataComponentsRegistry.ROCKET_MODULES.get(), RocketModules.empty()).modules;
     }
 
-    public record Unbaked(Identifier texture) implements SpecialModelRenderer.Unbaked {
+    public record Unbaked(Identifier texture, boolean gui) implements SpecialModelRenderer.Unbaked {
         public static final MapCodec<Unbaked> MAP_CODEC = RecordCodecBuilder.mapCodec(instance ->
                 instance.group(
-                        Identifier.CODEC.fieldOf("texture").forGetter(RocketItemRenderer.Unbaked::texture)
+                        Identifier.CODEC.fieldOf("texture").forGetter(RocketItemRenderer.Unbaked::texture),
+                        Codec.BOOL.optionalFieldOf("gui", false).forGetter(RocketItemRenderer.Unbaked::gui)
                 ).apply(instance, RocketItemRenderer.Unbaked::new)
         );
 
         @Override
         public SpecialModelRenderer<?> bake(BakingContext context) {
-            return new RocketItemRenderer(this.texture);
+            return new RocketItemRenderer(this.texture, this.gui);
         }
 
         @Override

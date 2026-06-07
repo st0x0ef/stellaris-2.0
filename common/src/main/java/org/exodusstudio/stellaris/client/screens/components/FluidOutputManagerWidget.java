@@ -4,7 +4,7 @@ import dev.architectury.fluid.FluidStack;
 import dev.architectury.networking.NetworkManager;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.screens.Screen;
@@ -77,13 +77,15 @@ public class FluidOutputManagerWidget extends DraggableContainer {
                             }
                         }
 
-                        NetworkManager.sendToServer(new SyncOutputManager.C2S(this.blockEntity.getBlockPos(), dir, this.fluidOutputManager.outputs.getOrDefault(dir, FluidStack.empty())));
-
+                        FluidStack stack = this.fluidOutputManager.outputs.get(dir);
+                        if (stack != null && !stack.isEmpty()) {
+                            NetworkManager.sendToServer(new SyncOutputManager.C2S(this.blockEntity.getBlockPos(), dir, stack));
+                        }
                     })
+
                     .tex(GUISprites.OUTPUT_BUTTON, GUISprites.OUTPUT_BUTTON).useSprite(true);
 
             if (i < 3) {
-
                 texturedButton.setX(getX() + 10 + (BUTTON_WIDTH + 2) * i);
                 texturedButton.setY(startY + (BUTTON_WIDTH + 2) * 2);
 
@@ -103,11 +105,11 @@ public class FluidOutputManagerWidget extends DraggableContainer {
     }
 
     @Override
-    protected void renderWidget(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
-        super.renderWidget(guiGraphics, mouseX, mouseY, partialTick);
+    protected void extractWidgetRenderState(GuiGraphicsExtractor guiGraphics, int mouseX, int mouseY, float partialTick) {
+        super.extractWidgetRenderState(guiGraphics, mouseX, mouseY, partialTick);
 
         guiGraphics.blit(RenderPipelines.GUI_TEXTURED, IdentifierUtils.guiTexture("tablet/tablet_entries_background"), getX(), getY(), 0, 0, width, height, 100, 132);
-        guiGraphics.drawCenteredString(Minecraft.getInstance().font, Component.literal("Fluid Outputs").withStyle(ChatFormatting.GRAY), getX() + width / 2, getY() + 7, ARGB.white(1f));
+        guiGraphics.centeredText(Minecraft.getInstance().font, Component.literal("Fluid Outputs").withStyle(ChatFormatting.GRAY), getX() + width / 2, getY() + 7, ARGB.white(1f));
 
         for (Direction direction : directionButtons.keySet()) {
             TexturedButton button = directionButtons.get(direction);
@@ -125,7 +127,7 @@ public class FluidOutputManagerWidget extends DraggableContainer {
             }
             button.setTooltip(Tooltip.create(basecomponent));
             button.setColor(getColor(fluid));
-            button.render(guiGraphics, mouseX, mouseY, partialTick);
+            button.extractRenderState(guiGraphics, mouseX, mouseY, partialTick);
             renderNeighboredBlock(guiGraphics, button.getX(), button.getY(), direction);
         }
     }
@@ -142,7 +144,7 @@ public class FluidOutputManagerWidget extends DraggableContainer {
         return ARGB.white(1f);
     }
 
-    public void renderNeighboredBlock(GuiGraphics guiGraphics, int x, int y, Direction direction) {
+    public void renderNeighboredBlock(GuiGraphicsExtractor guiGraphics, int x, int y, Direction direction) {
         BlockState neighbor = this.blockEntity.getLevel().getBlockState(this.blockEntity.getBlockPos().relative(direction));
         Matrix3x2fStack matrixStack = guiGraphics.pose();
         matrixStack.pushMatrix();
@@ -153,7 +155,7 @@ public class FluidOutputManagerWidget extends DraggableContainer {
         matrixStack.scale(0.7f, 0.7f);
 
         if(!neighbor.is(BlockTags.AIR)) {
-            guiGraphics.renderItem(neighbor.getBlock().asItem().getDefaultInstance(), 0, 0);
+            guiGraphics.item(neighbor.getBlock().asItem().getDefaultInstance(), 0, 0);
         }
 
         matrixStack.popMatrix();

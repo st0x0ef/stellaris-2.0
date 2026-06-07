@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " D ",
+    "X X",
+    "XXX"
+  ],
+  "key": {
+    "X": "minecraft:iron_nugget",
+    "D": "minecraft:green_dye"
+  },
+  "result": {"id": "stellaris:green_can"}
+}

@@ -17,13 +17,13 @@ public class VaccineItem extends Item {
         if (!level.isClientSide()) {
             if (MoonLoreUtils.getResearchProgressionStage(player) == MoonLoreUtils.MAX_STAGE) {
                 if (MoonLoreUtils.isPlayerImmunisedToInfection(player)) {
-                    player.displayClientMessage(MoonLoreUtils.PLAYER_ALREADY_IMMUNE_MESSAGE, false);
+                    player.sendSystemMessage(MoonLoreUtils.PLAYER_ALREADY_IMMUNE_MESSAGE);
                 } else {
-                    player.displayClientMessage(MoonLoreUtils.PLAYER_NOW_IMMUNISED_MESSAGE, false);
+                    player.sendSystemMessage(MoonLoreUtils.PLAYER_NOW_IMMUNISED_MESSAGE);
                     MoonLoreUtils.immunisePlayerToInfection(player);
                 }
             } else {
-                player.displayClientMessage(MoonLoreUtils.PLAYER_NOT_READY_FOR_VACCINE, false);
+                player.sendSystemMessage(MoonLoreUtils.PLAYER_NOT_READY_FOR_VACCINE);
             }
 
             return InteractionResult.SUCCESS;

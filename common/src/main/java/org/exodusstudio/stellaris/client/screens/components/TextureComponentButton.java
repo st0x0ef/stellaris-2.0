@@ -1,7 +1,7 @@
 package org.exodusstudio.stellaris.client.screens.components;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent;
@@ -53,7 +53,7 @@ public class TextureComponentButton extends Button {
     }
 
     @Override
-    protected void renderContents(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
+    protected void extractContents(GuiGraphicsExtractor guiGraphics, int mouseX, int mouseY, float partialTick) {
         /** TEXTURE MANAGER */
         Identifier texture = this.getTypeTexture();
         guiGraphics.blitSprite(RenderPipelines.GUI_TEXTURED, texture, this.getX(), this.getY(), buttonWidth, buttonHeight, ARGB.white(this.alpha));
@@ -100,10 +100,10 @@ public class TextureComponentButton extends Button {
         }
     }
 
-    public void renderTooltip(GuiGraphics graphics, int mouseX, int mouseY) {
+    public void extractTooltip(GuiGraphicsExtractor graphics, int mouseX, int mouseY) {
         if (this.isHovered) {
             List<ClientTooltipComponent> tooltipComponents = List.of(GUIUtils.getMessageComponent(this.tooltipText, "White"));
-            graphics.renderTooltip(Minecraft.getInstance().font, tooltipComponents, mouseX, mouseY, DefaultTooltipPositioner.INSTANCE, null);
+            graphics.tooltip(Minecraft.getInstance().font, tooltipComponents, mouseX, mouseY, DefaultTooltipPositioner.INSTANCE, null);
         }
     }
 }

@@ -123,7 +123,7 @@ public class FlagBlock extends BaseEntityBlock implements SimpleWaterloggedBlock
         BlockEntity blockEntity = level.getBlockEntity(pos);
         if (blockEntity instanceof FlagBlockEntity flagBlockEntity) {
             if(stack.getItem() instanceof DyeItem dyeItem) {
-                flagBlockEntity.setDyeColor(dyeItem.getDyeColor());
+                flagBlockEntity.setDyeColor(dyeItem.components().get(DataComponents.DYE));
                 level.sendBlockUpdated(pos, state, state, 3);
                 return InteractionResult.SUCCESS;
             }

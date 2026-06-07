@@ -103,7 +103,7 @@ public class Utils {
             );
 
             for (LivingEntity entity : level.getEntitiesOfClass(LivingEntity.class, aabb)) {
-                if (!entity.getType().is(TagsRegistry.EntityTags.NO_OXYGEN_NEEDED)) {
+                if (!entity.is(TagsRegistry.EntityTags.NO_OXYGEN_NEEDED)) {
                     if (entity instanceof Player player) {
                         if (!player.isCreative() && !player.isSpectator()) {
                             count++;
@@ -214,7 +214,7 @@ public class Utils {
         StructureTemplate structureTemplate = serverLevel.getStructureManager().getOrCreate(recipe.structureId());
         BlockPos pos = new BlockPos((int) player.getX() - (structureTemplate.getSize().getX() / 2), 100, (int) player.getZ() - (structureTemplate.getSize().getZ() / 2));
 
-        structureTemplate.placeInWorld(serverLevel, pos, pos, new StructurePlaceSettings(), serverLevel.random, 2);
+        structureTemplate.placeInWorld(serverLevel, pos, pos, new StructurePlaceSettings(), serverLevel.getRandom(), 2);
 
         Antenna antenna = new Antenna(
                 null, //Will change after

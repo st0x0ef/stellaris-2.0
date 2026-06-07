@@ -13,11 +13,11 @@ import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.blockentity.state.BlockEntityRenderState;
 import net.minecraft.client.renderer.rendertype.RenderType;
 import net.minecraft.client.renderer.rendertype.RenderTypes;
-import net.minecraft.client.renderer.state.CameraRenderState;
+import net.minecraft.client.renderer.state.level.CameraRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.renderer.texture.TextureAtlas;
-import net.minecraft.client.resources.model.Material;
-import net.minecraft.client.resources.model.MaterialSet;
+import net.minecraft.client.resources.model.sprite.SpriteGetter;
+import net.minecraft.client.resources.model.sprite.SpriteId;
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.component.ResolvableProfile;
 import net.minecraft.world.level.block.SkullBlock;
@@ -37,13 +37,13 @@ public class FlagBlockRenderer implements BlockEntityRenderer<FlagBlockEntity, B
 
     private final Map<SkullBlock.Type, FlagHeadModel> MODELS;
 
-    private final MaterialSet materialSet;
+    private final SpriteGetter sprites;
 
     private final PlayerSkinRenderCache playerSkinRenderCache;
 
     public FlagBlockRenderer(BlockEntityRendererProvider.Context context) {
         this.model = context.bakeLayer(FlagBlockModel.LAYER_LOCATION);
-        this.materialSet = context.materials();
+        this.sprites = context.sprites();
         this.MODELS = createModels();
         this.playerSkinRenderCache = context.playerSkinRenderCache();
     }
@@ -78,11 +78,11 @@ public class FlagBlockRenderer implements BlockEntityRenderer<FlagBlockEntity, B
     }
 
     @Override
-    public void submit(BlockEntityRenderState renderState, PoseStack poseStack, SubmitNodeCollector nodeCollector, CameraRenderState cameraRenderState) {
-        if (Minecraft.getInstance().level != null && Minecraft.getInstance().level.getBlockEntity(renderState.blockPos) instanceof FlagBlockEntity blockEntity) {
-            Material material = new Material(TextureAtlas.LOCATION_BLOCKS, IdentifierUtils.id("block/flag/flag_" + blockEntity.getColor().getName()));
+    public void submit(BlockEntityRenderState state, PoseStack poseStack, SubmitNodeCollector submitNodeCollector, CameraRenderState camera) {
+        if (Minecraft.getInstance().level != null && Minecraft.getInstance().level.getBlockEntity(state.blockPos) instanceof FlagBlockEntity blockEntity) {
+            SpriteId material = new SpriteId(TextureAtlas.LOCATION_BLOCKS, IdentifierUtils.id("block/flag/flag_" + blockEntity.getColor().getName()));
 
-            Direction direction = renderState.blockState.getValue(FlagBlock.FACING);
+            Direction direction = state.blockState.getValue(FlagBlock.FACING);
 
             poseStack.pushPose();
 
@@ -91,7 +91,7 @@ public class FlagBlockRenderer implements BlockEntityRenderer<FlagBlockEntity, B
 
             poseStack.mulPose(Axis.YP.rotationDegrees(direction.getOpposite().toYRot()));
 
-            nodeCollector.submitModelPart(model, poseStack, material.renderType(RenderTypes::entityCutout), renderState.lightCoords, OverlayTexture.NO_OVERLAY, materialSet.get(material));
+            submitNodeCollector.submitModelPart(model, poseStack, material.renderType(RenderTypes::entityCutout), state.lightCoords, OverlayTexture.NO_OVERLAY, sprites.get(material));
 
             poseStack.popPose();
 
@@ -120,7 +120,7 @@ public class FlagBlockRenderer implements BlockEntityRenderer<FlagBlockEntity, B
 
                 RenderType renderType = playerSkinRenderCache.getOrDefault(profile).renderType();
 
-                submitSkull(renderState, poseStack, nodeCollector, renderType, (float) directionInfo.x);
+                submitSkull(state, poseStack, submitNodeCollector, renderType, (float) directionInfo.x);
 
                 poseStack.popPose();
             }

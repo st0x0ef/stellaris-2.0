@@ -13,15 +13,17 @@ import org.exodusstudio.stellaris.common.menus.PlanetSelectionMenu;
 import org.exodusstudio.stellaris.common.menus.SDCardReaderApplicationMenu;
 import org.exodusstudio.stellaris.common.menus.WikiApplicationMenu;
 import org.exodusstudio.stellaris.common.network.NetworkRegistry;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
 
+@SuppressWarnings("unused")
 public record OpenMenuPacket(String menuId) implements CustomPacketPayload {
 
     public static final MenuType MAIN_TABLET = new MenuType("main_tablet", (c) -> MainTabletMenu.createProvider());
     public static final MenuType SD_CARD_READER = new MenuType("sd_card_reader", (c) -> SDCardReaderApplicationMenu.createProvider());
-    public static final MenuType WIKI = new MenuType("wiki",(c) -> WikiApplicationMenu.createProvider(null));
-    public static final MenuType PLANET_SELECTION = new MenuType("planet_selection",(c) -> PlanetSelectionMenu.createProvider(c.getPlayer().level().getServer()));
+    public static final MenuType WIKI = new MenuType("wiki", (c) -> WikiApplicationMenu.createProvider(null));
+    public static final MenuType PLANET_SELECTION = new MenuType("planet_selection", (c) -> PlanetSelectionMenu.createProvider(c.getPlayer().level().getServer()));
 
 
     public static final StreamCodec<ByteBuf, OpenMenuPacket> STREAM_CODEC = StreamCodec.composite(
@@ -34,8 +36,9 @@ public record OpenMenuPacket(String menuId) implements CustomPacketPayload {
     public static void handle(OpenMenuPacket packet, NetworkManager.PacketContext context) {
         if (context.getPlayer() instanceof ServerPlayer player) {
 
-            ExtendedMenuProvider extendedMenuProvider = MenuType.TYPES.get(packet.menuId).menu.open(context);
+            @NotNull ExtendedMenuProvider extendedMenuProvider = MenuType.TYPES.get(packet.menuId).menu.open(context);
             MenuRegistry.openExtendedMenu(player, extendedMenuProvider);
+
         }
     }
 

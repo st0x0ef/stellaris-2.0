@@ -1,0 +1,19 @@
+{
+  "display": {
+    "icon": {
+      "id": "stellaris:parasite"
+    },
+    "title": {
+      "translate": "advancements.stellaris.parasite_attached.title"
+    },
+    "description": {
+      "translate": "advancements.stellaris.parasite_attached.description"
+    }
+  },
+  "parent": "stellaris:space_travel/arrived_moon",
+  "criteria": {
+    "parasite_attached": {
+      "trigger": "stellaris:parasite_attached"
+    }
+  }
+}

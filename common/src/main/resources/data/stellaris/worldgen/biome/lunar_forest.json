@@ -1,15 +1,15 @@
 {
+  "attributes": {
+    "minecraft:visual/sky_light_color": "#0026FF"
+  },
   "temperature": 1.0,
   "downfall": 0.5,
   "has_precipitation": false,
   "creature_spawn_probability": 0,
   "effects": {
-    "sky_color": 5406975,
-    "fog_color": 13420795,
     "water_color": 4159204,
-    "water_fog_color": 329011,
-    "grass_color": 10073398,
-    "foliage_color": 13127730
+    "grass_color": 1710041,
+    "foliage_color": 1966335
   },
   "spawners": {
     "monster": [],

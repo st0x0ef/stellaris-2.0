@@ -41,7 +41,7 @@ public class LivingEntityMixin {
 
     @Inject(method = "tick", at = @At("HEAD"))
     private void tick(CallbackInfo ci) {
-        if (!Stellaris.CONFIG.oxygenConfig.enableOxygenSystem || stellaris$entity.getType().is(TagsRegistry.EntityTags.NO_OXYGEN_NEEDED)) {
+        if (!Stellaris.CONFIG.oxygenConfig.enableOxygenSystem || stellaris$entity.is(TagsRegistry.EntityTags.NO_OXYGEN_NEEDED)) {
             return;
         }
 

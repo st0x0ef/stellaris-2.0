@@ -1,7 +1,7 @@
 package org.exodusstudio.stellaris.client.screens.tablet.application.wiki;
 
 import dev.architectury.networking.NetworkManager;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
@@ -72,13 +72,11 @@ public class WikiApplicationScreen extends AbstractContainerScreen<WikiApplicati
     }
 
     private WikiApplicationScreen(WikiApplicationMenu menu, Inventory inventory, @Nullable WikiEntry currentEntry, @Nullable Identifier entryInfo) {
-        super(menu, inventory, Component.literal("Wiki"));
+        super(menu, inventory, Component.literal("Wiki"), 310, 192);
         this.currentEntry = currentEntry;
         this.menu = menu;
         this.inventory = inventory;
 
-        this.imageHeight = 192;
-        this.imageWidth = 310;
         this.inventoryLabelY = -this.imageHeight;
         this.titleLabelY = -this.imageHeight;
         this.openedInfo = menu.openedEntryInfo;
@@ -110,14 +108,15 @@ public class WikiApplicationScreen extends AbstractContainerScreen<WikiApplicati
 
 
     @Override
-    protected void renderBg(GuiGraphics guiGraphics, float partialTick, int mouseX, int mouseY) {
+    public void extractBackground(GuiGraphicsExtractor guiGraphics, int mouseX, int mouseY, float partialTick) {
+        super.extractBackground(guiGraphics, mouseX, mouseY, partialTick);
         guiGraphics.blit(RenderPipelines.GUI_TEXTURED, ApplicationScreen.BLANCK_BACKGROUND, this.leftPos, this.topPos, 0, 0, imageWidth, imageHeight, imageWidth, imageHeight);
         updateNavigationButtons();
 
         if(currentEntry == null) {
-            guiGraphics.drawCenteredString(this.font, "Select an entry", this.width / 2 + 40, this.height / 2 - 5, Utils.getMinecraftColor("white"));
+            guiGraphics.centeredText(this.font, "Select an entry", this.width / 2 + 40, this.height / 2 - 5, Utils.getMinecraftColor("white"));
         } else if (INFOS == null || INFOS.isEmpty()) {
-            guiGraphics.drawCenteredString(this.font, "This entry is empty ;(", this.width / 2 + 40, this.height / 2 - 5, Utils.getMinecraftColor("white"));
+            guiGraphics.centeredText(this.font, "This entry is empty ;(", this.width / 2 + 40, this.height / 2 - 5, Utils.getMinecraftColor("white"));
         }
 
     }

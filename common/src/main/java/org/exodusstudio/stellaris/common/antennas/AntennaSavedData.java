@@ -9,12 +9,14 @@ import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.datafix.DataFixTypes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.component.ResolvableProfile;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.saveddata.SavedData;
 import net.minecraft.world.level.saveddata.SavedDataType;
 import org.exodusstudio.stellaris.Stellaris;
+import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -38,10 +40,10 @@ public class AntennaSavedData extends SavedData {
 
 
     private static final SavedDataType<@NotNull AntennaSavedData> TYPE = new SavedDataType<>(
-            "antennas",
+            IdentifierUtils.id("antennas"),
             AntennaSavedData::new,
             CODEC,
-            null
+            DataFixTypes.LEVEL
     );
 
 

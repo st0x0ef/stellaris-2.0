@@ -1,0 +1,27 @@
+{
+  "components": [
+    {
+      "type": "text",
+      "text": "This is a Parasite Villager. Scientist discover that the [ref=stellaris:mobs/parasite]parasite[ref] transform regular villager into this creature."
+    },
+    {
+      "type": "entity",
+      "entity": {
+        "id": "stellaris:parasite_affected_villager",
+        "scale": 25
+      }
+    },
+    {
+      "type": "text",
+      "text": "This alien is pretty passive unless you attack it. [br] But BEWARE ! Scientists discovered that after some time they evolve into an [ref=stellaris:mobs/evolved_parasite_villager]Evolved Parasite Villager[ref]. [br] [br]"
+    },
+    {
+      "type": "text",
+      "text": "Stats : [br] - Health : 20 [br] - Speed : 0.5 [br] - Damage : 4.0"
+    }
+  ],
+  "iconType": "entity",
+  "id": "stellaris:parasite_villager",
+  "entryId": "stellaris:mobs",
+  "title": "Parasite Villager"
+}

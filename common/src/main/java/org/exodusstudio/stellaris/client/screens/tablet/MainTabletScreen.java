@@ -2,7 +2,7 @@ package org.exodusstudio.stellaris.client.screens.tablet;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
@@ -35,13 +35,9 @@ public class MainTabletScreen extends AbstractContainerScreen<MainTabletMenu> {
 
 
     public MainTabletScreen(MainTabletMenu menu, Inventory playerInventory, Component title) {
-
-        super(menu, playerInventory, title);
-
+        super(menu, playerInventory, title, 310, 192);
 
         this.player = playerInventory.player;
-        this.imageHeight = 192;
-        this.imageWidth = 310;
         this.inventory = playerInventory;
         this.inventoryLabelY = -this.imageHeight;
         this.titleLabelY = -this.imageHeight;
@@ -56,7 +52,8 @@ public class MainTabletScreen extends AbstractContainerScreen<MainTabletMenu> {
     }
 
     @Override
-    protected void renderBg(GuiGraphics guiGraphics, float partialTick, int mouseX, int mouseY) {
+    public void extractBackground(GuiGraphicsExtractor guiGraphics, int mouseX, int mouseY, float partialTick) {
+        super.extractBackground(guiGraphics, mouseX, mouseY, partialTick);
         guiGraphics.blit(RenderPipelines.GUI_TEXTURED, BACKGROUND, this.leftPos, this.topPos, 0, 0, this.imageWidth, this.imageHeight, this.imageWidth, this.imageHeight);
     }
 

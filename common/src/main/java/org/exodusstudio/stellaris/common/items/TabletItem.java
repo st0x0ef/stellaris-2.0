@@ -24,6 +24,7 @@ import org.exodusstudio.stellaris.common.data.wiki.WikiPacks;
 import org.exodusstudio.stellaris.common.menus.WikiApplicationMenu;
 import org.exodusstudio.stellaris.common.network.packets.OpenMenuPacket;
 import org.exodusstudio.stellaris.common.network.packets.OpenWikiEntry;
+import org.exodusstudio.stellaris.common.registries.AdvancementTriggerRegistry;
 
 import java.util.Map;
 
@@ -41,6 +42,10 @@ public class TabletItem extends Item {
         }
 
         NetworkManager.sendToServer(new OpenMenuPacket("main_tablet"));
+
+        if(player instanceof ServerPlayer serverPlayer){
+            AdvancementTriggerRegistry.TABLET_USED.get().trigger(serverPlayer);
+        }
 
         return InteractionResult.SUCCESS;
     }

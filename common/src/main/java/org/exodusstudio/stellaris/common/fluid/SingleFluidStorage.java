@@ -93,7 +93,6 @@ public abstract class SingleFluidStorage implements UniversalFluidStorage {
 
     @Override
     public long fill(FluidStack stack, boolean simulate) {
-
         if (!isFluidValid(0, stack)) {
             return 0L;
         }

@@ -1,0 +1,5 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": ["#stellaris:small_can", "minecraft:brown_dye"],
+  "result": {"id": "stellaris:brown_can"}
+}

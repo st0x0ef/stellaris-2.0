@@ -1,7 +1,7 @@
 package org.exodusstudio.stellaris.client.screens.components.wiki;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.screens.inventory.InventoryScreen;
 import net.minecraft.client.renderer.RenderPipelines;
@@ -29,7 +29,7 @@ public class WikiInfoButton extends TexturedButton {
         Component title = Component.literal(info.title());
         switch (info.iconType()) {
             case "item":
-                info.components().stream().filter((c) -> c.type().equals("item")).findFirst().ifPresentOrElse(c -> this.tooltip(Tooltip.create(c.item().get().stack().getHoverName())), () -> this.tooltip(Tooltip.create(title)));
+                info.components().stream().filter((c) -> c.type().equals("item")).findFirst().ifPresentOrElse(c -> this.tooltip(Tooltip.create(c.item().get().stack().create().getHoverName())), () -> this.tooltip(Tooltip.create(title)));
                 break;
             case "entity":
                 info.components().stream().filter((c) -> c.type().equals("entity")).findFirst().ifPresent((entity) -> {
@@ -42,7 +42,7 @@ public class WikiInfoButton extends TexturedButton {
     }
 
     @Override
-    protected void renderContents(GuiGraphics graphics, int mouseX, int mouseY, float partialTick) {
+    protected void extractContents(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTick) {
         int i = this.yTexStart;
         if (this.isHoveredOrFocused()) {
             i += this.yDiffText;
@@ -59,13 +59,13 @@ public class WikiInfoButton extends TexturedButton {
         /** FONT RENDERER */
         switch (info.iconType()) {
             case "item":
-                info.components().stream().filter((c) -> c.type().equals("item")).findFirst().ifPresent((item) -> graphics.renderItem(item.item().get().stack(), this.getX() + 2, this.getY() + 2));
+                info.components().stream().filter((c) -> c.type().equals("item")).findFirst().ifPresent((item) -> graphics.item(item.item().get().stack().create(), this.getX() + 2, this.getY() + 2));
                 break;
             case "entity":
                 info.components().stream().filter((c) -> c.type().equals("entity")).findFirst().ifPresent((entity) -> {
                     Entity entity1 = ClientUtils.createEntity(Minecraft.getInstance().level, entity.entity().get().location());
                     if(entity1 instanceof LivingEntity livingEntity) {
-                        InventoryScreen.renderEntityInInventoryFollowsMouse(graphics, this.getX() + 2, this.getY(), this.getX() + 18, this.getY() + 16, 8, 0.25F, mouseX, mouseY, livingEntity);
+                        InventoryScreen.extractEntityInInventoryFollowsMouse(graphics, this.getX() + 2, this.getY(), this.getX() + 18, this.getY() + 16, 8, 0.25F, mouseX, mouseY, livingEntity);
                     }
                 });
         }

@@ -20,20 +20,22 @@
     "client": [
       "org.exodusstudio.stellaris.fabric.client.StellarisFabricClient"
     ],
-    "modmenu": [ "org.exodusstudio.stellaris.fabric.client.ModMenuCompat" ]
+    "modmenu": [
+      "org.exodusstudio.stellaris.fabric.client.ModMenuCompat"
+    ],
+    "jei_mod_plugin": [
+      "org.exodusstudio.stellaris.common.compats.jei.JEIPlugin"
+    ]
   },
   "mixins": [
     "stellaris.mixins.json",
     "stellaris-fabric.mixins.json"
   ],
   "depends": {
-    "fabricloader": ">=0.16.14",
-    "minecraft": "~1.21.8",
-    "java": ">=21",
-    "architectury": ">=17.0.8",
+    "fabricloader": ">=0.18.5",
+    "minecraft": ">=26.1",
+    "java": ">=25",
+    "architectury": ">=20.0.1",
     "fabric-api": "*"
-  },
-  "suggests": {
-    "another-mod": "*"
   }
 }

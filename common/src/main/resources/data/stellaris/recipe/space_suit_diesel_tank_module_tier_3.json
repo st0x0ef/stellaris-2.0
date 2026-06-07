@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "ABA",
+    "BCB",
+    "ABA"
+  ],
+  "key": {
+    "A": "stellaris:desh_ingot",
+    "B": "stellaris:titanium_ingot",
+    "C": "minecraft:bucket"
+  },
+  "result": {"id": "stellaris:space_suit_diesel_tank_module_tier_3"}
+}

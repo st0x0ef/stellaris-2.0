@@ -118,17 +118,22 @@ public class ElectrolyzerBlockEntity extends BaseEnergyContainerBlockEntity impl
 
                 if (energyContainer.getEnergy() >= recipe.energy()) {
                     boolean shouldDrainWaterAndEnergy = false;
+
+                    FluidStack resultStack0 = recipe.resultStacks().getFirst().create();
+                    FluidStack resultStack1 = recipe.resultStacks().get(1).create();
+                    FluidStack ingredientStack = recipe.ingredientStack().create();
+
                     if (resultTanks.getFluidValueInTank(0) < resultTanks.getTankCapacity(0)) {
-                        resultTanks.fillWithoutLimits(recipe.resultStacks().getFirst(), false);
+                        resultTanks.fillWithoutLimits(resultStack0, false);
                         shouldDrainWaterAndEnergy = true;
                     }
                     if (resultTanks.getFluidValueInTank(1) < resultTanks.getTankCapacity(1)) {
-                        resultTanks.fillWithoutLimits(recipe.resultStacks().get(1), false);
+                        resultTanks.fillWithoutLimits(resultStack1, false);
                         shouldDrainWaterAndEnergy = true;
                     }
 
                     if (shouldDrainWaterAndEnergy) {
-                        ingredientTank.drainWithoutLimits(recipe.ingredientStack(), false);
+                        ingredientTank.drainWithoutLimits(ingredientStack, false);
                         energyContainer.extract((int)recipe.energy(), false);
                     }
                 }

@@ -1,7 +1,7 @@
 package org.exodusstudio.stellaris.client.screens;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.AbstractSliderButton;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
@@ -39,10 +39,7 @@ public class GravityManipulatorScreen extends AbstractContainerScreen<GravityMan
     private double maxGravityValue;
 
     public GravityManipulatorScreen(GravityManipulatorMenu abstractContainerMenu, Inventory inventory, Component component) {
-        super(abstractContainerMenu, inventory, component);
-
-        imageWidth = 180;
-        imageHeight = 120;
+        super(abstractContainerMenu, inventory, component, 180, 120);
 
         titleLabelX = (180 - Minecraft.getInstance().font.width(title.getString())) / 2;
         titleLabelY = 2;
@@ -92,10 +89,10 @@ public class GravityManipulatorScreen extends AbstractContainerScreen<GravityMan
     }
 
     @Override
-    public void render(GuiGraphics graphics, int mouseX, int mouseY, float partialTicks) {
-        renderBackground(graphics, mouseX, mouseY, partialTicks);
-        super.render(graphics, mouseX, mouseY, partialTicks);
-        renderTooltip(graphics, mouseX, mouseY);
+    public void extractContents(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTicks) {
+        extractBackground(graphics, mouseX, mouseY, partialTicks);
+        super.extractContents(graphics, mouseX, mouseY, partialTicks);
+        extractTooltip(graphics, mouseX, mouseY);
 
         if (blockEntity == null) {
             return;
@@ -113,23 +110,24 @@ public class GravityManipulatorScreen extends AbstractContainerScreen<GravityMan
     }
 
     @Override
-    protected void renderBg(GuiGraphics graphics, float partialTick, int mouseX, int mouseY) {
+    public void extractBackground(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTick) {
+        super.extractBackground(graphics, mouseX, mouseY, partialTick);
         graphics.blit(RenderPipelines.GUI_TEXTURED, TEXTURE, leftPos, topPos, 0, 0, imageWidth, imageHeight, imageWidth, imageHeight);
     }
 
     @Override
-    protected void renderTooltip(GuiGraphics guiGraphics, int x, int y) {
-        super.renderTooltip(guiGraphics, x, y);
+    protected void extractTooltip(GuiGraphicsExtractor guiGraphics, int x, int y) {
+        super.extractTooltip(guiGraphics, x, y);
         energyGauge.renderTooltips(guiGraphics, x, y, font, List::of);
 
-        moonButton.renderTooltip(guiGraphics, x, y);
-        marsButton.renderTooltip(guiGraphics, x, y);
-        earthButton.renderTooltip(guiGraphics, x, y);
+        moonButton.extractTooltip(guiGraphics, x, y);
+        marsButton.extractTooltip(guiGraphics, x, y);
+        earthButton.extractTooltip(guiGraphics, x, y);
     }
 
     @Override
-    protected void renderLabels(GuiGraphics guiGraphics, int mouseX, int mouseY) {
-        guiGraphics.drawString(this.font, this.title, this.titleLabelX, this.titleLabelY, -11050641, false);
+    protected void extractLabels(GuiGraphicsExtractor guiGraphics, int mouseX, int mouseY) {
+        guiGraphics.text(this.font, this.title, this.titleLabelX, this.titleLabelY, -11050641, false);
     }
 
     private void  initPlanetButtons() {

@@ -4,7 +4,7 @@ import com.fej1fun.potentials.fluid.UniversalFluidStorage;
 import com.mojang.blaze3d.textures.GpuTexture;
 import dev.architectury.fluid.FluidStack;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
@@ -36,7 +36,7 @@ public class GaugeChunkWidget extends GaugeWidget {
     }
 
     @Override
-    protected void renderWidget(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
+    protected void extractWidgetRenderState(GuiGraphicsExtractor guiGraphics, int mouseX, int mouseY, float partialTick) {
         if (spriteChanged) {
             GpuTexture texture = Minecraft.getInstance().getTextureManager().getTexture(sprite).getTexture();
             this.imageHeight = texture.getHeight(0);

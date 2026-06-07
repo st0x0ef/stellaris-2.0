@@ -16,21 +16,21 @@ Stellaris introduces an expansive and immersive space exploration experience wit
 [[dependencies.stellaris]]
 modId = "neoforge"
 type = "required"
-versionRange = "[21.11,)"
+versionRange = "[26.1,)"
 ordering = "NONE"
 side = "BOTH"
 
 [[dependencies.stellaris]]
 modId = "minecraft"
 type = "required"
-versionRange = "[1.21.11,)"
+versionRange = "[26.1,)"
 ordering = "NONE"
 side = "BOTH"
 
 [[dependencies.stellaris]]
 modId = "architectury"
 type = "required"
-versionRange = "[19.0.1,)"
+versionRange = "[20.0.1,)"
 ordering = "AFTER"
 side = "BOTH"
 

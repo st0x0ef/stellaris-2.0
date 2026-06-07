@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "BTB",
+    "TCT",
+    "GTG"
+  ],
+  "key": {
+    "B": "minecraft:glass_bottle",
+    "G": "minecraft:glass",
+    "T": "stellaris:titanium_ingot",
+    "C": "minecraft:crafting_table"
+  },
+  "result": {
+    "id": "stellaris:laboratory",
+    "count": 1
+  }
+}

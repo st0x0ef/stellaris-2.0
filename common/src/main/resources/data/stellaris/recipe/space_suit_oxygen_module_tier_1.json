@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "ABA",
+    "BCB",
+    "ABA"
+  ],
+  "key": {
+    "A": "minecraft:iron_ingot",
+    "B": "stellaris:titanium_nugget",
+    "C": "minecraft:glass"
+  },
+  "result": {"id": "stellaris:space_suit_oxygen_module_tier_1"}
+}

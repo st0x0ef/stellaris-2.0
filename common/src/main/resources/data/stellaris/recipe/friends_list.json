@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    "minecraft:paper",
+    "minecraft:paper",
+    "minecraft:paper",
+    "minecraft:feather"
+  ],
+  "result": {
+    "id": "stellaris:friends_list",
+    "count": 1
+  }
+}

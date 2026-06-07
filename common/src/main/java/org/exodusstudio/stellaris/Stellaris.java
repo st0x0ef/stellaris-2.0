@@ -4,9 +4,9 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.Strictness;
 import com.google.gson.ToNumberPolicy;
+import dev.architectury.registry.ReloadListenerRegistry;
 import fr.tathan.exoconfig.common.loader.ConfigsRegistry;
-import net.minecraft.resources.Identifier;
-import net.minecraft.server.packs.resources.PreparableReloadListener;
+import net.minecraft.server.packs.PackType;
 import org.exodusstudio.stellaris.common.data.space_station.SpaceStationData;
 import org.exodusstudio.stellaris.common.data.wiki.WikiPacks;
 import org.exodusstudio.stellaris.common.config.CommonConfig;
@@ -18,8 +18,6 @@ import org.exodusstudio.stellaris.common.registries.*;
 import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.util.function.BiConsumer;
 
 public final class Stellaris {
     public static final String MOD_ID = "stellaris";
@@ -36,11 +34,14 @@ public final class Stellaris {
         StellarisRegistries.register();
         CONFIG = ConfigsRegistry.getInstance().registerConfig(new CommonConfig(), CONFIG);
 
+        RecipesRegistry.register();
+
         NetworkRegistry.init();
         FluidsRegistry.init();
         FeaturesRegistry.register();
         EffectsRegistry.register();
         EntityDataSerializersRegistry.register();
+        AdvancementTriggerRegistry.TRIGGER_TYPES.register();
         DataComponentsRegistry.DATA_COMPONENT_TYPE.register();
         EntityTypesRegistry.ENTITY_TYPE.register();
         EntityAttributesRegistry.register();
@@ -59,15 +60,15 @@ public final class Stellaris {
         BiomeModificationsRegistry.register();
         Events.init();
 
-        RecipesRegistry.register();
+        onAddReloadListenerEvent();
     }
 
-    public static void onAddReloadListenerEvent(BiConsumer<Identifier, PreparableReloadListener> registry) {
-        registry.accept(IdentifierUtils.id(PlanetsData.ID), new PlanetsData());
-        registry.accept(IdentifierUtils.id(SdCardData.ID), new SdCardData());
-        registry.accept(IdentifierUtils.id(SpaceStationData.ID), new SpaceStationData());
+    public static void onAddReloadListenerEvent() {
+        ReloadListenerRegistry.register(PackType.SERVER_DATA, new PlanetsData(), IdentifierUtils.id(PlanetsData.ID));
+        ReloadListenerRegistry.register(PackType.SERVER_DATA, new SdCardData(), IdentifierUtils.id(SdCardData.ID));
+        ReloadListenerRegistry.register(PackType.SERVER_DATA, new SpaceStationData(), IdentifierUtils.id(SpaceStationData.ID));
 
-        registry.accept(IdentifierUtils.id("wiki/entries"), new WikiPacks.WikiEntryPack());
-        registry.accept(IdentifierUtils.id("wiki/infos"), new WikiPacks.EntryInfoPack());
+        ReloadListenerRegistry.register(PackType.SERVER_DATA, new WikiPacks.WikiEntryPack(), IdentifierUtils.id(WikiPacks.WikiEntryPack.ID));
+        ReloadListenerRegistry.register(PackType.SERVER_DATA, new WikiPacks.EntryInfoPack(), IdentifierUtils.id(WikiPacks.EntryInfoPack.ID));
     }
 }

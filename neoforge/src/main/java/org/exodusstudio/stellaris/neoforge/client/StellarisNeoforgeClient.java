@@ -1,21 +1,26 @@
 package org.exodusstudio.stellaris.neoforge.client;
 
 import net.minecraft.client.model.object.boat.BoatModel;
-import net.minecraft.client.renderer.ItemBlockRenderTypes;
+import net.minecraft.client.renderer.block.FluidModel;
 import net.minecraft.client.renderer.blockentity.HangingSignRenderer;
-import net.minecraft.client.renderer.blockentity.SignRenderer;
-import net.minecraft.client.renderer.chunk.ChunkSectionLayer;
+import net.minecraft.client.renderer.blockentity.StandingSignRenderer;
 import net.minecraft.client.renderer.entity.BoatRenderer;
+import net.minecraft.client.resources.model.sprite.Material;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
+import net.neoforged.neoforge.client.event.RegisterDebugRenderersEvent;
+import net.neoforged.neoforge.client.event.RegisterFluidModelsEvent;
 import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
+import org.exodusstudio.stellaris.client.debug.OxygenDebugRenderer;
 import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.client.StellarisClient;
 import org.exodusstudio.stellaris.client.registry.BoatModelLayerRegistry;
+import org.exodusstudio.stellaris.client.renderers.entity.vehicle.rover.RoverModel;
+import org.exodusstudio.stellaris.client.renderers.entity.vehicle.rover.RoverRenderer;
 import org.exodusstudio.stellaris.client.renderers.flag.FlagBlockModel;
 import org.exodusstudio.stellaris.client.renderers.flag.FlagBlockRenderer;
 import org.exodusstudio.stellaris.client.renderers.flag.FlagHeadModel;
@@ -23,18 +28,11 @@ import org.exodusstudio.stellaris.client.renderers.gravity_manipulator.GravityMa
 import org.exodusstudio.stellaris.client.renderers.gravity_manipulator.GravityManipulatorModel;
 import org.exodusstudio.stellaris.client.renderers.lander.LanderModel;
 import org.exodusstudio.stellaris.client.renderers.lander.LanderRenderer;
-import org.exodusstudio.stellaris.client.renderers.mobs.BlueFishModel;
-import org.exodusstudio.stellaris.client.renderers.mobs.EvolvedParasiteAffectedVillagerModel;
-import org.exodusstudio.stellaris.client.renderers.mobs.LunaShadowModel;
-import org.exodusstudio.stellaris.client.renderers.mobs.LunarParasiteModel;
-import org.exodusstudio.stellaris.client.renderers.mobs.ParasiteAffectedVillagerModel;
-import org.exodusstudio.stellaris.client.renderers.mobs.StellarisMobRenderer;
+import org.exodusstudio.stellaris.client.renderers.mobs.*;
+import org.exodusstudio.stellaris.client.renderers.rockets.RocketRenderer;
 import org.exodusstudio.stellaris.client.renderers.rockets.models.BigRocketModel;
 import org.exodusstudio.stellaris.client.renderers.rockets.models.SmallRocketModel;
 import org.exodusstudio.stellaris.client.renderers.rockets.models.TinyRocketModel;
-import org.exodusstudio.stellaris.client.renderers.rockets.RocketRenderer;
-import org.exodusstudio.stellaris.client.renderers.entity.vehicle.rover.RoverModel;
-import org.exodusstudio.stellaris.client.renderers.entity.vehicle.rover.RoverRenderer;
 import org.exodusstudio.stellaris.client.renderers.space_suit.SpaceSuitModel;
 import org.exodusstudio.stellaris.client.screens.*;
 import org.exodusstudio.stellaris.client.screens.engineering_station.EngineUpgraderScreen;
@@ -48,8 +46,8 @@ import org.exodusstudio.stellaris.client.screens.tablet.application.sd.SDCardRea
 import org.exodusstudio.stellaris.client.screens.tablet.application.wiki.WikiApplicationScreen;
 import org.exodusstudio.stellaris.common.blocks.entities.machines.GravityManipulatorBlockEntity;
 import org.exodusstudio.stellaris.common.registries.BlockEntitiesRegistry;
-import org.exodusstudio.stellaris.common.registries.BlocksRegistry;
 import org.exodusstudio.stellaris.common.registries.EntityTypesRegistry;
+import org.exodusstudio.stellaris.common.registries.FluidsRegistry;
 import org.exodusstudio.stellaris.common.registries.MenuTypesRegistry;
 import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
 
@@ -57,21 +55,7 @@ import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
 public class StellarisNeoforgeClient {
     @SubscribeEvent
     public static void clientSetup(FMLClientSetupEvent event) {
-        event.enqueueWork(() -> {
-            StellarisClient.initClient();
-            registerRenderLayers();
-        });
-    }
-    private static void registerRenderLayers() {
-        ItemBlockRenderTypes.setRenderLayer(BlocksRegistry.LUNAR_SAPLING.block().get(), ChunkSectionLayer.CUTOUT);
-        ItemBlockRenderTypes.setRenderLayer(BlocksRegistry.LUNAR_DOOR.block().get(), ChunkSectionLayer.CUTOUT);
-        ItemBlockRenderTypes.setRenderLayer(BlocksRegistry.LUNAR_TRAPDOOR.block().get(), ChunkSectionLayer.CUTOUT);
-        ItemBlockRenderTypes.setRenderLayer(BlocksRegistry.MOON_VINES.get(), ChunkSectionLayer.CUTOUT);
-        ItemBlockRenderTypes.setRenderLayer(BlocksRegistry.MOON_VINES_PLANT.get(), ChunkSectionLayer.CUTOUT);
-        ItemBlockRenderTypes.setRenderLayer(BlocksRegistry.ASTRUM_VITREUS_BLOCK.block().get(), ChunkSectionLayer.TRANSLUCENT);
-        ItemBlockRenderTypes.setRenderLayer(BlocksRegistry.ASTRUM_VITREUS_CLUSTER.block().get(), ChunkSectionLayer.CUTOUT);
-        ItemBlockRenderTypes.setRenderLayer(BlocksRegistry.LABORATORY.block().get(), ChunkSectionLayer.TRANSLUCENT);
-        ItemBlockRenderTypes.setRenderLayer(BlocksRegistry.CARGO_UNLOADER.block().get(), ChunkSectionLayer.TRANSLUCENT);
+        event.enqueueWork(StellarisClient::initClient);
     }
 
     @SubscribeEvent
@@ -106,7 +90,7 @@ public class StellarisNeoforgeClient {
     @SubscribeEvent
     public static void registerEntityRenderers(EntityRenderersEvent.RegisterRenderers event) {
         event.registerBlockEntityRenderer((BlockEntityType<GravityManipulatorBlockEntity>)BlockEntitiesRegistry.GRAVITY_MANIPULATOR.get(), GravityManipulatorBlockRenderer::new);
-        event.registerBlockEntityRenderer(BlockEntitiesRegistry.MOD_SIGN.get(), SignRenderer::new);
+        event.registerBlockEntityRenderer(BlockEntitiesRegistry.MOD_SIGN.get(), StandingSignRenderer::new);
         event.registerBlockEntityRenderer(BlockEntitiesRegistry.MOD_HANGING_SIGN.get(), HangingSignRenderer::new);
         event.registerBlockEntityRenderer(BlockEntitiesRegistry.FLAG.get(), FlagBlockRenderer::new);
         event.registerEntityRenderer(EntityTypesRegistry.LANDER.get(), LanderRenderer::new);
@@ -153,5 +137,62 @@ public class StellarisNeoforgeClient {
         event.registerLayerDefinition(SmallRocketModel.LAYER_LOCATION, SmallRocketModel::createBodyLayer);
         event.registerLayerDefinition(BigRocketModel.LAYER_LOCATION, BigRocketModel::createBodyLayer);
         event.registerLayerDefinition(RoverModel.LAYER_LOCATION, RoverModel::createBodyLayer);
+    }
+
+    @SubscribeEvent
+    public static void registerDebugRenderers(RegisterDebugRenderersEvent event) {
+        event.register(OxygenDebugRenderer.INSTANCE);
+    }
+
+    @SubscribeEvent
+    public static void registerFluidModels(RegisterFluidModelsEvent event) {
+        event.register(new FluidModel.Unbaked(
+                new Material(IdentifierUtils.id("block/fluids/hydrogen_still")),
+                new Material(IdentifierUtils.id("block/fluids/hydrogen_flow")),
+                null,
+                null
+        ), FluidsRegistry.HYDROGEN_STILL, FluidsRegistry.HYDROGEN_FLOWING);
+
+        event.register(new FluidModel.Unbaked(
+                new Material(IdentifierUtils.id("block/fluids/oil_still")),
+                new Material(IdentifierUtils.id("block/fluids/oil_flow")),
+                null,
+                null
+        ), FluidsRegistry.OIL_STILL, FluidsRegistry.FLOWING_OIL);
+
+        event.register(new FluidModel.Unbaked(
+                new Material(IdentifierUtils.id("block/fluids/fuel_still")),
+                new Material(IdentifierUtils.id("block/fluids/fuel_flow")),
+                null,
+                null
+        ), FluidsRegistry.FUEL_STILL, FluidsRegistry.FUEL_FLOWING);
+
+        event.register(new FluidModel.Unbaked(
+                new Material(IdentifierUtils.id("block/fluids/astrum_liquidus_still")),
+                new Material(IdentifierUtils.id("block/fluids/astrum_liquidus_flow")),
+                null,
+                null
+        ), FluidsRegistry.ASTRUM_LIQUIDUS_STILL, FluidsRegistry.ASTRUM_LIQUIDUS_FLOWING);
+
+        event.register(new FluidModel.Unbaked(
+                new Material(IdentifierUtils.id("block/fluids/blue_liquid_still")),
+                new Material(IdentifierUtils.id("block/fluids/blue_liquid_flow")),
+                null,
+                null
+        ), FluidsRegistry.BLUE_LIQUID_STILL, FluidsRegistry.BLUE_LIQUID_FLOWING);
+
+        event.register(new FluidModel.Unbaked(
+                new Material(IdentifierUtils.id("block/fluids/oxygen_still")),
+                new Material(IdentifierUtils.id("block/fluids/oxygen_flow")),
+                null,
+                null
+        ), FluidsRegistry.OXYGEN_STILL, FluidsRegistry.OXYGEN_FLOWING);
+
+        event.register(new FluidModel.Unbaked(
+                new Material(IdentifierUtils.id("block/fluids/diesel_still")),
+                new Material(IdentifierUtils.id("block/fluids/diesel_flow")),
+                null,
+                null
+        ), FluidsRegistry.DIESEL_STILL, FluidsRegistry.FLOWING_DIESEL);
     }
 }

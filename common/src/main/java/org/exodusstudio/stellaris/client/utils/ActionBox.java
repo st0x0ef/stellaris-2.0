@@ -1,7 +1,7 @@
 package org.exodusstudio.stellaris.client.utils;
 
 
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import org.exodusstudio.stellaris.client.screens.components.wiki.WikiInfosWidget;
@@ -43,7 +43,7 @@ public record ActionBox(int x, int y, int width, int height, @Nullable Consumer<
     /**
      * ActionBox helper method
      */
-    public void showTooltip(GuiGraphics guiGraphics, double mouseX, double mouseY, Component component) {
+    public void showTooltip(GuiGraphicsExtractor guiGraphics, double mouseX, double mouseY, Component component) {
         guiGraphics.setTooltipForNextFrame(component, (int) mouseX, (int) mouseY);
     }
 

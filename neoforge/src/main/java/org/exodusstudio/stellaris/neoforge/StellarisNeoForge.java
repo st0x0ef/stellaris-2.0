@@ -2,8 +2,6 @@ package org.exodusstudio.stellaris.neoforge;
 
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.common.Mod;
-import net.neoforged.neoforge.common.NeoForge;
-import net.neoforged.neoforge.event.AddServerReloadListenersEvent;
 import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.neoforge.common.registries.DataAttachmentRegistry;
 import org.exodusstudio.stellaris.platform.neoforge.RegistryPlatformImpl;
@@ -14,12 +12,6 @@ public final class StellarisNeoForge {
         Stellaris.init();
         DataAttachmentRegistry.register(bus);
 
-        NeoForge.EVENT_BUS.addListener(StellarisNeoForge::onAddServerReloadListenersEvent);
-
         RegistryPlatformImpl.ENTITY_DATA_SERIALIZERS.register(bus);
-    }
-
-    public static void onAddServerReloadListenersEvent(AddServerReloadListenersEvent event) {
-        Stellaris.onAddReloadListenerEvent(event::addListener);
     }
 }

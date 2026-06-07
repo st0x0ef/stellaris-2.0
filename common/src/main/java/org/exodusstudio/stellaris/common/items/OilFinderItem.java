@@ -48,7 +48,7 @@ public class OilFinderItem extends Item implements EnergyProvider.ITEM {
         player.getItemInHand(usedHand).hurtAndBreak(2, player, EquipmentSlot.MAINHAND);
         energy.extract(1, false);
 
-        player.displayClientMessage(component, true);
+        player.sendOverlayMessage(component);
 
         return super.use(level, player, usedHand);
     }

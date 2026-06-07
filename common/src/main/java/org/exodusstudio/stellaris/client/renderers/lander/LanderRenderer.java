@@ -8,7 +8,7 @@ import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.state.EntityRenderState;
 import net.minecraft.client.renderer.rendertype.RenderType;
 import net.minecraft.client.renderer.rendertype.RenderTypes;
-import net.minecraft.client.renderer.state.CameraRenderState;
+import net.minecraft.client.renderer.state.level.CameraRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.phys.AABB;
@@ -54,7 +54,7 @@ public class LanderRenderer extends EntityRenderer<LanderEntity, EntityRenderSta
     }
 
     public static RenderType getRenderType(Identifier Identifier) {
-        return RenderTypes.entityCutoutNoCull(Identifier);
+        return RenderTypes.entityCutout(Identifier);
     }
 
 

@@ -1,7 +1,7 @@
 package org.exodusstudio.stellaris.client.screens.engineering_station;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
@@ -30,9 +30,7 @@ public class EngineUpgraderScreen extends AbstractContainerScreen<EngineUpgradeM
     };
 
     public EngineUpgraderScreen(EngineUpgradeMenu menu, Inventory playerInventory, Component title) {
-        super(menu, playerInventory, TAB_NAME);
-        this.imageWidth = 180;
-        this.imageHeight = 188;
+        super(menu, playerInventory, TAB_NAME, 180, 188);
 
         this.titleLabelX = (180 - Minecraft.getInstance().font.width(TAB_NAME)) / 2;
         this.titleLabelY = 2;
@@ -71,26 +69,26 @@ public class EngineUpgraderScreen extends AbstractContainerScreen<EngineUpgradeM
     }
 
     @Override
-    public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
-        renderBackground(guiGraphics, mouseX, mouseY, partialTick);
-        super.render(guiGraphics, mouseX, mouseY, partialTick);
-        renderTooltip(guiGraphics, mouseX, mouseY);
+    public void extractContents(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTick) {
+        extractBackground(graphics, mouseX, mouseY, partialTick);
+        super.extractContents(graphics, mouseX, mouseY, partialTick);
+        extractTooltip(graphics, mouseX, mouseY);
 
         EngineUpgradeMenu.Error error = this.menu.getErrorMessage(menu.getInputModule(), menu.getInputStack());
         if(error != EngineUpgradeMenu.Error.NONE) {
-            guiGraphics.drawCenteredString(Minecraft.getInstance().font, error.errorMessage, width / 2, topPos + 26, Utils.getMinecraftColor("red"));
+            graphics.centeredText(Minecraft.getInstance().font, error.errorMessage, width / 2, topPos + 26, Utils.getMinecraftColor("red"));
         }
     }
 
-
     @Override
-    protected void renderBg(GuiGraphics guiGraphics, float partialTick, int mouseX, int mouseY) {
+    public void extractBackground(GuiGraphicsExtractor guiGraphics, int mouseX, int mouseY, float partialTick) {
+        super.extractBackground(guiGraphics, mouseX, mouseY, partialTick);
         guiGraphics.blit(RenderPipelines.GUI_TEXTURED, GUI_LOCATION, this.leftPos, this.topPos, 0, 0, this.imageWidth, this.imageHeight, this.imageWidth, this.imageHeight);
     }
 
     @Override
-    protected void renderLabels(GuiGraphics guiGraphics, int mouseX, int mouseY) {
-        guiGraphics.drawString(this.font, TAB_NAME, this.titleLabelX, this.titleLabelY, -11050641, false);
+    protected void extractLabels(GuiGraphicsExtractor guiGraphics, int mouseX, int mouseY) {
+        guiGraphics.text(this.font, TAB_NAME, this.titleLabelX, this.titleLabelY, -11050641, false);
     }
 
     public record TabInfo(OpenBlockEntityMenusPacket.BlockEntityMenuProvider provider, Identifier icon, Identifier iconHover, Component tabName) {}

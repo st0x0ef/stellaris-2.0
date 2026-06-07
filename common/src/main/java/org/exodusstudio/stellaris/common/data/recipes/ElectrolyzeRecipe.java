@@ -4,7 +4,8 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.architectury.fluid.FluidStack;
-import net.minecraft.core.HolderLookup;
+import dev.architectury.fluid.FluidStackTemplate;
+import net.minecraft.core.Holder;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
@@ -21,15 +22,15 @@ import org.exodusstudio.stellaris.common.registries.RecipesRegistry;
 import java.util.ArrayList;
 import java.util.List;
 
-public record ElectrolyzeRecipe(FluidStack ingredientStack, List<FluidStack> resultStacks, long energy) implements Recipe<FluidInput> {
+public record ElectrolyzeRecipe(FluidStackTemplate ingredientStack, List<FluidStackTemplate> resultStacks, long energy) implements Recipe<FluidInput> {
     @Override
     public boolean matches(FluidInput container, Level level) {
         FluidStack stack = ((ElectrolyzerBlockEntity) container.entity()).ingredientTank.getFluidInTank(0);
-        return stack.isFluidEqual(ingredientStack) && stack.getAmount() >= ingredientStack.getAmount();
+        return stack.getFluid().isSame(ingredientStack.fluid().value()) && stack.getAmount() >= ingredientStack.amount();
     }
 
     @Override
-    public ItemStack assemble(FluidInput container, HolderLookup.Provider registries) {
+    public ItemStack assemble(FluidInput container) {
         return ItemStack.EMPTY;
     }
 
@@ -54,43 +55,45 @@ public record ElectrolyzeRecipe(FluidStack ingredientStack, List<FluidStack> res
     }
 
     @Override
+    public boolean showNotification() {
+        return false;
+    }
+
+    @Override
+    public String group() {
+        return "";
+    }
+
+    @Override
     public RecipeBookCategory recipeBookCategory() {
         return RecipeBookCategories.CRAFTING_MISC;
     }
 
-    public static class Serializer implements RecipeSerializer<ElectrolyzeRecipe> {
-        private static final Codec<FluidStack> FLUID_STACK_CODEC = RecordCodecBuilder.create(instance -> instance.group(
-                Identifier.CODEC.fieldOf("id").forGetter(stack -> BuiltInRegistries.FLUID.getKey(stack.getFluid())),
-                Codec.LONG.fieldOf("amount").forGetter(FluidStack::getAmount)
+    public static class Serializer {
+        private static final Codec<FluidStackTemplate> FLUID_STACK_TEMPLATE_CODEC = RecordCodecBuilder.create(instance -> instance.group(
+                Identifier.CODEC.fieldOf("id").forGetter(stack -> BuiltInRegistries.FLUID.getKey(stack.fluid().value())),
+                Codec.LONG.fieldOf("amount").forGetter(FluidStackTemplate::amount)
         ).apply(instance, (id, amount) -> {
-            Fluid fluid = BuiltInRegistries.FLUID.getValue(id);
-            return FluidStack.create(fluid, amount);
+            Holder<Fluid> fluid = BuiltInRegistries.FLUID.getValue(id).arch$holder();
+            return FluidStackTemplate.of(fluid, amount);
         }));
 
         private static final MapCodec<ElectrolyzeRecipe> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
-                FLUID_STACK_CODEC.fieldOf("ingredient").forGetter(ElectrolyzeRecipe::ingredientStack),
-                FLUID_STACK_CODEC.listOf(1, 2).fieldOf("results").forGetter(ElectrolyzeRecipe::resultStacks),
+                FLUID_STACK_TEMPLATE_CODEC.fieldOf("ingredient").forGetter(ElectrolyzeRecipe::ingredientStack),
+                FLUID_STACK_TEMPLATE_CODEC.listOf(1, 2).fieldOf("results").forGetter(ElectrolyzeRecipe::resultStacks),
                 Codec.LONG.fieldOf("energyContainer").forGetter(ElectrolyzeRecipe::energy)
         ).apply(instance, ElectrolyzeRecipe::new));
 
-
-
-        public static final StreamCodec<RegistryFriendlyByteBuf, List<FluidStack>> FLUID_STACK_LIST_STREAM_CODEC =
-                ByteBufCodecs.collection(ArrayList::new, FluidStack.STREAM_CODEC, 2);
-        private static final StreamCodec<RegistryFriendlyByteBuf, ElectrolyzeRecipe> STREAM_CODEC = StreamCodec.of((buf, recipe) -> {
+        public static final StreamCodec<RegistryFriendlyByteBuf, List<FluidStackTemplate>> FLUID_STACK_TEMPLATE_LIST_STREAM_CODEC =
+                ByteBufCodecs.collection(ArrayList::new, FluidStackTemplate.STREAM_CODEC, 2);
+        public static final StreamCodec<RegistryFriendlyByteBuf, ElectrolyzeRecipe> STREAM_CODEC = StreamCodec.of((buf, recipe) -> {
             recipe.ingredientStack().write(buf);
-            FLUID_STACK_LIST_STREAM_CODEC.encode(buf, recipe.resultStacks);
+            FLUID_STACK_TEMPLATE_LIST_STREAM_CODEC.encode(buf, recipe.resultStacks);
             buf.writeLong(recipe.energy);
-        }, buf -> new ElectrolyzeRecipe(FluidStack.read(buf), FLUID_STACK_LIST_STREAM_CODEC.decode(buf), buf.readLong()));
+        }, buf -> new ElectrolyzeRecipe(FluidStackTemplate.read(buf), FLUID_STACK_TEMPLATE_LIST_STREAM_CODEC.decode(buf), buf.readLong()));
 
-        @Override
-        public MapCodec<ElectrolyzeRecipe> codec() {
-            return CODEC;
-        }
-
-        @Override
-        public StreamCodec<RegistryFriendlyByteBuf, ElectrolyzeRecipe> streamCodec() {
-            return STREAM_CODEC;
+        public static RecipeSerializer<ElectrolyzeRecipe> create() {
+            return new RecipeSerializer<>(CODEC, STREAM_CODEC);
         }
     }
 }

@@ -8,7 +8,7 @@
   "key": {
     "#": "#stellaris:titanium_materials",
     "X": "minecraft:blast_furnace",
-    "L": "minecraft:lapis_lazuli"
+    "L": "minecraft:coal_block"
   },
   "result": {
     "id": "stellaris:coal_generator"

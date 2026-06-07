@@ -4,6 +4,7 @@ import dev.architectury.event.EventResult;
 import dev.architectury.event.events.common.BlockEvent;
 import dev.architectury.event.events.common.EntityEvent;
 import dev.architectury.event.events.common.LifecycleEvent;
+import dev.architectury.event.events.common.PlayerEvent;
 import dev.architectury.networking.NetworkManager;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.component.DataComponents;
@@ -28,9 +29,16 @@ import org.exodusstudio.stellaris.common.blocks.RocketLaunchPadBlock;
 import org.exodusstudio.stellaris.common.blocks.WallCoalTorchBlock;
 import org.exodusstudio.stellaris.common.blocks.entities.AntennaBlockEntity;
 import org.exodusstudio.stellaris.common.blocks.entities.FlagBlockEntity;
+import org.exodusstudio.stellaris.common.data.recipes.ElectrolyzeRecipe;
+import org.exodusstudio.stellaris.common.data.recipes.FuelRefineryRecipe;
+import org.exodusstudio.stellaris.common.data.recipes.RocketStationRecipe;
 import org.exodusstudio.stellaris.common.items.space_suit.SpaceSuitHelmet;
 import org.exodusstudio.stellaris.common.network.packets.AntennasOperations;
+import org.exodusstudio.stellaris.common.network.packets.ElectrolyzerSyncerPacket;
+import org.exodusstudio.stellaris.common.network.packets.FuelRefinerySyncerPacket;
+import org.exodusstudio.stellaris.common.network.packets.RecipeSyncerPacket;
 import org.exodusstudio.stellaris.common.registries.BlocksRegistry;
+import org.exodusstudio.stellaris.common.registries.RecipesRegistry;
 import org.exodusstudio.stellaris.common.utils.OxygenUtils;
 import org.exodusstudio.stellaris.common.utils.Utils;
 
@@ -58,6 +66,34 @@ public class Events {
             }
         });
 
+        PlayerEvent.PLAYER_JOIN.register(player -> {
+            List<RocketStationRecipe> rocketRecipes = player.level()
+                    .recipeAccess()
+                    .getRecipes()
+                    .stream()
+                    .filter(holder -> holder.value().getType() == RecipesRegistry.ROCKET_STATION_TYPE.get())
+                    .map(holder -> (RocketStationRecipe) holder.value())
+                    .toList();
+            NetworkManager.sendToPlayer(player, new RecipeSyncerPacket(rocketRecipes));
+
+            List<FuelRefineryRecipe> fuelRecipes = player.level()
+                    .recipeAccess()
+                    .getRecipes()
+                    .stream()
+                    .filter(holder -> holder.value().getType() == RecipesRegistry.FUEL_REFINERY_TYPE.get())
+                    .map(holder -> (FuelRefineryRecipe) holder.value())
+                    .toList();
+            NetworkManager.sendToPlayer(player, new FuelRefinerySyncerPacket(fuelRecipes));
+
+            List<ElectrolyzeRecipe> electroRecipes = player.level()
+                    .recipeAccess()
+                    .getRecipes()
+                    .stream()
+                    .filter(holder -> holder.value().getType() == RecipesRegistry.ELECTROLYZE_RECIPE_TYPE.get())
+                    .map(holder -> (ElectrolyzeRecipe) holder.value())
+                    .toList();
+            NetworkManager.sendToPlayer(player, new ElectrolyzerSyncerPacket(electroRecipes));
+        });
 
         blockEvents();
     }

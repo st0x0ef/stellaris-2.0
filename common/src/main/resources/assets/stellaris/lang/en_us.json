@@ -51,6 +51,7 @@
   "item.stellaris.silicon": "Silicon",
 
   "item.stellaris.titanium_ingot": "Titanium Ingot",
+  "item.stellaris.titanium_nugget": "Titanium Nugget",
   "item.stellaris.raw_titanium": "Raw Titanium",
   "item.stellaris.raw_titanium_block": "Raw Titanium Block",
   "item.stellaris.titanium_ore": "Titanium Ore",
@@ -153,6 +154,11 @@
   "item.stellaris.tablet": "Tablet",
   "item.stellaris.sd_card": "SD Card",
   "item.stellaris.rocket": "Rocket",
+
+  "item.stellaris.engine_fan": "Engine Fan",
+  "item.stellaris.rocket_engine": "Rocket Engine",
+  "item.stellaris.rocket_fin": "Rocket Fin",
+  "item.stellaris.rocket_nose_cone": "Rocket Nose Cone",
 
   "item.stellaris.tiny_model": "Tiny Model",
   "item.stellaris.small_model": "Small Model",
@@ -257,6 +263,7 @@
   "fluid.stellaris.diesel": "Diesel",
   "fluid.stellaris.water": "Water",
   "fluid.stellaris.blue_liquid": "Blue Liquid",
+  "fluid.stellaris.astrum_liquidus": "Astrum Liquidus",
 
   "biome.stellaris.red_desert": "Red Desert",
   "biome.stellaris.ice_caps": "Ice Caps",
@@ -384,5 +391,21 @@
   "message.stellaris.player_already_immune": "You are already immune to the infection. You can safely explore the infected areas and continue your space adventure without worrying about the infection.",
 
   "message.stellaris.success": "Success!",
-  "message.stellaris.failure": "Failure, try again."
+  "message.stellaris.failure": "Failure, try again.",
+
+
+  "advancements.stellaris.arrived_moon.title": "That's one small step for a man, one giant leap for mankind.",
+  "advancements.stellaris.arrived_moon.description": "You landed on the moon",
+
+  "advancements.stellaris.first_rocket.title": "Let's go!",
+  "advancements.stellaris.first_rocket.description": "Launch your first rocket",
+
+  "advancements.stellaris.root.title": "Stellaris",
+  "advancements.stellaris.root.description": "To Infinity and beyond !",
+
+  "advancements.stellaris.parasite_attached.title": "GET THIS THING OFF ME!",
+  "advancements.stellaris.parasite_attached.description": "Get sucked by a lunar parasite",
+
+  "advancements.stellaris.kill_all_moon_mobs.title": "Lunar extermination",
+  "advancements.stellaris.kill_all_moon_mobs.description": "Kill all the mobs on the moon"
 }

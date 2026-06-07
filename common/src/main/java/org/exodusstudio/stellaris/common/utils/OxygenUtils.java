@@ -24,7 +24,7 @@ import java.util.*;
 
 public class OxygenUtils {
 
-    private static final int MAX_BLOCKS = 1_000_000_000;
+    private static final int MAX_BLOCKS = 50_000;
 
     public static Set<BlockPos> propagateOxygen(Level level, BlockPos distributorPos, Set<ChunkPos> allowedChunks) {
         Set<BlockPos> oxygenablePositions = new HashSet<>();
@@ -50,7 +50,7 @@ public class OxygenUtils {
                 return Collections.emptySet();
             }
 
-            ChunkPos currentChunk = new ChunkPos(current);
+            ChunkPos currentChunk = ChunkPos.containing(current);
             if (!allowedChunks.contains(currentChunk)) {
                 return Collections.emptySet();
             }
@@ -83,7 +83,6 @@ public class OxygenUtils {
         Set<ChunkPos> visitedChunks = new HashSet<>();
         Queue<ChunkPos> chunksToSearch = new ArrayDeque<>();
 
-        // Initialiser avec les chunks autour de toutes les positions
         for (ChunkPos chunk : getBasicAllowedChunks(entityPos)) {
             if (visitedChunks.add(chunk)) {
                 chunksToSearch.add(chunk);
@@ -93,24 +92,25 @@ public class OxygenUtils {
         while (!chunksToSearch.isEmpty()) {
             ChunkPos chunkPos = chunksToSearch.poll();
 
-            if (!level.hasChunk(chunkPos.x, chunkPos.z)) {
+            if (!level.hasChunk(chunkPos.x(), chunkPos.z())) {
                 continue;
             }
 
-            LevelChunk levelChunk = level.getChunk(chunkPos.x, chunkPos.z);
+            LevelChunk levelChunk = level.getChunk(chunkPos.x(), chunkPos.z());
 
             for (BlockEntity blockEntity : levelChunk.getBlockEntities().values()) {
                 if (blockEntity instanceof OxygenDistributorBlockEntity distributor) {
                     if (checkedDistributors.add(distributor)) {
-                        // Vérifier si le distributeur couvre un des chunks de l'entité
                         if (distributor.isOxygenated(entityPos.immutable())) {
                             return true;
                         }
 
-                        // Étendre la recherche
-                        for (ChunkPos covered : distributor.getCoveredChunks()) {
-                            if (visitedChunks.add(covered)) {
-                                chunksToSearch.add(covered);
+                        Set<ChunkPos> coveredChunks = distributor.getCoveredChunks();
+                        if (coveredChunks != null) {
+                            for (ChunkPos covered : coveredChunks) {
+                                if (visitedChunks.add(covered)) {
+                                    chunksToSearch.add(covered);
+                                }
                             }
                         }
                     }
@@ -135,11 +135,11 @@ public class OxygenUtils {
             Set<ChunkPos> newChunks = new HashSet<>();
 
             for (ChunkPos chunkPos : toProcess) {
-                if (!level.hasChunk(chunkPos.x, chunkPos.z)) {
+                if (!level.hasChunk(chunkPos.x(), chunkPos.z())) {
                     continue;
                 }
 
-                LevelChunk levelChunk = level.getChunk(chunkPos.x, chunkPos.z);
+                LevelChunk levelChunk = level.getChunk(chunkPos.x(), chunkPos.z());
                 for (BlockEntity blockEntity : levelChunk.getBlockEntities().values()) {
                     if (blockEntity instanceof OxygenPropagatorBlockEntity) {
                         for (ChunkPos extension : getBasicAllowedChunks(blockEntity.getBlockPos())) {
@@ -166,17 +166,17 @@ public class OxygenUtils {
     public static List<ChunkPos> getBasicAllowedChunks(ChunkPos centerChunk) {
         List<ChunkPos> chunks = new ArrayList<>(9);
         for (int[] offset : CHUNK_OFFSETS) {
-            chunks.add(new ChunkPos(centerChunk.x + offset[0], centerChunk.z + offset[1]));
+            chunks.add(new ChunkPos(centerChunk.x() + offset[0], centerChunk.z() + offset[1]));
         }
         return chunks;
     }
 
     public static List<ChunkPos> getBasicAllowedChunks(BlockPos pos) {
-        return getBasicAllowedChunks(new ChunkPos(pos));
+        return getBasicAllowedChunks(ChunkPos.containing(pos));
     }
 
     public static int getEntityWhoNeedsOxygen(Level level, Set<ChunkPos> chunks) {
-        int count = 0;
+        Set<LivingEntity> counted = new HashSet<>();
 
         for (ChunkPos chunkPos : chunks) {
             AABB aabb = new AABB(
@@ -185,25 +185,26 @@ public class OxygenUtils {
             );
 
             for (LivingEntity entity : level.getEntitiesOfClass(LivingEntity.class, aabb)) {
-                if (!entity.getType().is(TagsRegistry.EntityTags.NO_OXYGEN_NEEDED)) {
-                    ItemStack headSlot = entity.getItemBySlot(EquipmentSlot.HEAD);
-                    if (Utils.isLivingInSpaceSuit(entity) && headSlot.getItem() instanceof SpaceSuitHelmet helmet) {
-                        UniversalFluidItemStorage oxygenTank = helmet.getFluidTank(headSlot);
-                        if (!oxygenTank.getFluidInTank(0).isEmpty()) {
-                            continue;
-                        }
+                if (entity.is(TagsRegistry.EntityTags.NO_OXYGEN_NEEDED)) continue;
+                if (counted.contains(entity)) continue;
+
+                ItemStack headSlot = entity.getItemBySlot(EquipmentSlot.HEAD);
+                if (Utils.isLivingInSpaceSuit(entity) && headSlot.getItem() instanceof SpaceSuitHelmet helmet) {
+                    UniversalFluidItemStorage oxygenTank = helmet.getFluidTank(headSlot);
+                    if (oxygenTank != null && !oxygenTank.getFluidInTank(0).isEmpty()) {
+                        continue;
                     }
-                    if (entity instanceof Player player) {
-                        if (!player.isCreative() && !player.isSpectator()) {
-                            count++;
-                        }
-                    } else {
-                        count++;
+                }
+                if (entity instanceof Player player) {
+                    if (!player.isCreative() && !player.isSpectator()) {
+                        counted.add(entity);
                     }
+                } else {
+                    counted.add(entity);
                 }
             }
         }
 
-        return count;
+        return counted.size();
     }
 }

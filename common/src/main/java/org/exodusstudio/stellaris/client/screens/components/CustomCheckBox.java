@@ -2,7 +2,7 @@ package org.exodusstudio.stellaris.client.screens.components;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.AbstractButton;
 import net.minecraft.client.gui.components.MultiLineTextWidget;
 import net.minecraft.client.gui.narration.NarratedElementType;
@@ -92,7 +92,7 @@ public class CustomCheckBox extends AbstractButton {
     }
 
     @Override
-    protected void renderContents(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
+    protected void extractContents(GuiGraphicsExtractor guiGraphics, int mouseX, int mouseY, float partialTick) {
         Minecraft minecraft = Minecraft.getInstance();
         Font font = minecraft.font;
         Identifier resourceLocation = this.selected ? this.checkTexture : this.texture;
@@ -104,12 +104,9 @@ public class CustomCheckBox extends AbstractButton {
             int j = this.getX() + i + 4;
             int k = this.getY() + i / 2 - this.textWidget.getHeight() / 2;
             this.textWidget.setPosition(j, k);
-            this.textWidget.renderWidget(guiGraphics, mouseX, mouseY, partialTick);
-
+            this.textWidget.extractWidgetRenderState(guiGraphics, mouseX, mouseY, partialTick);
         }
-
     }
-
 
     public interface OnValueChange {
         OnValueChange NOP = (checkbox, bl) -> {

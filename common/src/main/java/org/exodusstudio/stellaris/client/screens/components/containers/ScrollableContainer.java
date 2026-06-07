@@ -1,6 +1,6 @@
 package org.exodusstudio.stellaris.client.screens.components.containers;
 
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.AbstractScrollArea;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.components.events.ContainerEventHandler;
@@ -35,7 +35,7 @@ public class ScrollableContainer extends AbstractScrollArea implements Container
     public Padding padding = new Padding(0);
 
     public ScrollableContainer(int x, int y, int width, int height, Component component) {
-        super(x, y, width, height, component);
+        super(x, y, width, height, component, AbstractScrollArea.defaultSettings(7));
     }
 
     @Override
@@ -68,8 +68,7 @@ public class ScrollableContainer extends AbstractScrollArea implements Container
 
 
     @Override
-    protected void renderWidget(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
-
+    protected void extractWidgetRenderState(GuiGraphicsExtractor guiGraphics, int mouseX, int mouseY, float partialTick) {
         if(this.background != null) guiGraphics.blit(RenderPipelines.GUI_TEXTURED, this.background, this.getX(), this.getY(), 0, 0, this.getWidth(), this.getHeight(), this.getWidth(), this.getHeight());
 
 
@@ -79,7 +78,7 @@ public class ScrollableContainer extends AbstractScrollArea implements Container
 
 
         renderContent(guiGraphics, mouseX, mouseY, partialTick);
-        renderScrollbar(guiGraphics, mouseX, mouseY);
+        extractScrollbar(guiGraphics, mouseX, mouseY);
 
         guiGraphics.disableScissor();
         guiGraphics.pose().popMatrix();
@@ -87,9 +86,9 @@ public class ScrollableContainer extends AbstractScrollArea implements Container
 
     }
 
-    public void renderContent(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
+    public void renderContent(GuiGraphicsExtractor guiGraphics, int mouseX, int mouseY, float partialTick) {
         for(AbstractWidget widget : this.children) {
-            widget.render(guiGraphics, mouseX, mouseY, partialTick);
+            widget.extractRenderState(guiGraphics, mouseX, mouseY, partialTick);
         }
 
         if(onRender != null) {
@@ -105,9 +104,11 @@ public class ScrollableContainer extends AbstractScrollArea implements Container
     /**
      * We Override this to allow changing textures
      */
+
+
     @Override
-    protected void renderScrollbar(GuiGraphics guiGraphics, int mouseX, int mouseY) {
-        if (this.scrollbarVisible()) {
+    protected void extractScrollbar(GuiGraphicsExtractor guiGraphics, int mouseX, int mouseY) {
+        if (this.scrollable()) {
             int i = this.scrollBarX() - this.padding.right;
             int j = this.scrollerHeight() + this.padding.top;
             int k = this.scrollBarY();
@@ -230,6 +231,6 @@ public class ScrollableContainer extends AbstractScrollArea implements Container
 
     @FunctionalInterface
     public interface RenderInfo {
-        void render(ScrollableContainer container,  GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick);
+        void render(ScrollableContainer container,  GuiGraphicsExtractor guiGraphics, int mouseX, int mouseY, float partialTick);
     }
 }

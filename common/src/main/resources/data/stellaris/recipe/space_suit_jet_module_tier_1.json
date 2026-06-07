@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "ABA",
+    "BCB",
+    "ABA"
+  ],
+  "key": {
+    "A": "minecraft:iron_ingot",
+    "B": "stellaris:titanium_nugget",
+    "C": "stellaris:engine_fan"
+  },
+  "result": {"id": "stellaris:space_suit_jet_module_tier_1"}
+}

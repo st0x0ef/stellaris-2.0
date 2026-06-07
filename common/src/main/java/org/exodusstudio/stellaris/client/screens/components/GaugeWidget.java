@@ -2,6 +2,7 @@ package org.exodusstudio.stellaris.client.screens.components;
 
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
 import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent;
@@ -37,7 +38,7 @@ public class GaugeWidget extends AbstractWidget {
     }
 
     @Override
-    protected void renderWidget(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
+    protected void extractWidgetRenderState(GuiGraphicsExtractor guiGraphics, int mouseX, int mouseY, float partialTick) {
 
         switch (DIRECTION) {
             case DOWN_UP -> {
@@ -66,7 +67,7 @@ public class GaugeWidget extends AbstractWidget {
         renderTooltip(graphics, mouseX, mouseY, font);
     }
 
-    public void renderTooltip(GuiGraphics graphics, int mouseX, int mouseY, Font font) {
+    public void renderTooltips(GuiGraphicsExtractor graphics, int mouseX, int mouseY, Font font, Consumer<List<ClientTooltipComponent>> components) {
         String GaugeComponent = getMessage().getString() + " : " + amount + " / " + this.capacity;
         ClientTooltipComponent capacity;
 
@@ -83,7 +84,7 @@ public class GaugeWidget extends AbstractWidget {
         List<ClientTooltipComponent> components1 = new ArrayList<>();
         components1.addFirst(capacity);
         if (mouseX >= this.getX() && mouseX <= this.getX() + width && mouseY >= this.getY() && mouseY <= this.getY() + this.height) {
-            graphics.renderTooltip(font, components1, mouseX, mouseY, DefaultTooltipPositioner.INSTANCE, null);
+            graphics.tooltip(font, components1, mouseX, mouseY, DefaultTooltipPositioner.INSTANCE, null);
         }
     }
 

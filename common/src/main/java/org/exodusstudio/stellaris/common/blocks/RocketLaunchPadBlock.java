@@ -170,7 +170,7 @@ public class RocketLaunchPadBlock extends Block implements SimpleWaterloggedBloc
             } else if(stack.is(ItemsRegistry.ROCKET.get())) {
                 return InteractionResult.FAIL;
             } else {
-                player.displayClientMessage(Component.literal("You can't place an antenna block here. The surface under the launchpad can't be repleaced."), false);
+                player.sendSystemMessage(Component.literal("You can't place an antenna block here. The surface under the launchpad can't be repleaced."));
                 return InteractionResult.FAIL;
             }
         }

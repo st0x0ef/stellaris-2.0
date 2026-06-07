@@ -32,7 +32,7 @@ public class AbstractBoatEntityMixin {
             require = 0
     )
     private boolean stellaris$replaceWaterFlotation(FluidState instance, TagKey<Fluid> tag) {
-        if (stellaris$entity.getType().is(TagsRegistry.EntityTags.LUNAR_BOATS)) {
+        if (stellaris$entity.is(TagsRegistry.EntityTags.LUNAR_BOATS)) {
             if (tag == FluidTags.WATER) {
                 return instance.is(tag) ||
                        instance.is(FluidsRegistry.BLUE_LIQUID_STILL.get()) ||

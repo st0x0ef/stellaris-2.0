@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " # ",
+    "#X#",
+    " # "
+  ],
+  "key": {
+    "X": "stellaris:titanium_ingot",
+    "#": "stellaris:titanium_nugget"
+  },
+  "result": {
+    "id": "stellaris:engine_fan"
+  }
+}
