@@ -20,7 +20,6 @@ import org.joml.Vector3fc;
 
 import java.util.function.Consumer;
 
-@Environment(EnvType.CLIENT)
 public record RoverItemRenderer() implements SpecialModelRenderer<Void> {
 
     private static final Identifier TEXTURE = IdentifierUtils.texture("entity/vehicle/rover");
