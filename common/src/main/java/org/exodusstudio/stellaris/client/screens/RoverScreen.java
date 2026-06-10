@@ -15,7 +15,6 @@ import org.exodusstudio.stellaris.common.entities.vehicles.RoverEntity;
 import org.exodusstudio.stellaris.common.menus.RoverMenu;
 import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
 
-@Environment(value = EnvType.CLIENT)
 public class RoverScreen extends AbstractContainerScreen<RoverMenu> {
 
     private static final Identifier TEXTURE = IdentifierUtils.guiTexture("rover");

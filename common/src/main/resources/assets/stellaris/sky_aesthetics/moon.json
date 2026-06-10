@@ -1,0 +1,41 @@
+{
+  "world": "stellaris:moon",
+  "id": "stellaris:moon",
+
+  "sky_type": "NONE",
+
+  "sky_color": {
+    "custom_color": true,
+    "color": [0, 0, 0, 255]
+  },
+
+  "cloud": false,
+  "weather": false,
+
+  "custom_vanilla_object": {
+    "sun": true,
+    "sun_size": 0.75,
+    "moon": false
+  },
+
+  "stars": {
+    "vanilla": false,
+    "moving_stars": false,
+    "count": 10000,
+    "all_days_visible": true,
+    "scale": 0.12,
+    "color": [220, 235, 255]
+  },
+
+  "sky_objects": [
+    {
+      "texture": "stellaris:earth",
+      "blend": true,
+      "size": 50.0,
+      "rotation": [20.0, 0.0, 0.0],
+      "object_rotation": [0.0, 0.0, 0.0],
+      "height": 100,
+      "rotation_type": "STATIC"
+    }
+  ]
+}
