@@ -32,6 +32,9 @@ public class GUISprites {
     public static final Identifier ROCKET_CRAFTING_TAB = IdentifierUtils.id("tab/rocket_crafting_tab");
     public static final Identifier ROCKET_CRAFTING_TAB_HOVER = IdentifierUtils.id("tab/rocket_crafting_tab_hover");
 
+    public static final Identifier SPACE_STATION_PLANNER_TAB = IdentifierUtils.id("tab/space_station_planner_tab");
+    public static final Identifier SPACE_STATION_PLANNER_TAB_HOVER = IdentifierUtils.id("tab/space_station_planner_tab_hover");
+
     // LABORATORY
     public static final Identifier VACCINE_TAB = IdentifierUtils.id("tab/vaccine_tab");
     public static final Identifier VACCINE_TAB_HOVER = IdentifierUtils.id("tab/vaccine_tab_hover");

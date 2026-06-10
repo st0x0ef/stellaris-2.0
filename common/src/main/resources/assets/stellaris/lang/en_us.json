@@ -297,7 +297,6 @@
   "stellaris.screen.diesel": "Diesel",
   "stellaris.screen.fuel": "Fuel",
   "stellaris.screen.fluid_tank": "Fluid Tank",
-
   "stellaris.screen.gravityManipulator.gravity": "Gravity: %sm/s²",
   "stellaris.screen.gravityManipulator.planet.moon": "Moon Gravity (1.62m/s²)",
   "stellaris.screen.gravityManipulator.planet.mars": "Mars Gravity (3.73m/s²)",
