@@ -100,8 +100,6 @@ public class TexturedButton extends Button {
         if(!Objects.equals(this.text, Component.empty())) {
             renderScrollingStringOverContents(graphics.textRendererForWidget(this,
                     GuiGraphicsExtractor.HoveredTextEffects.NONE), this.text, this.getX() , this.getY() + (getHeight() - minecraft.font.lineHeight) / 2);
-
-            //graphics.text(minecraft.font, this.text, this.getX() + (this.getWidth() - minecraft.font.width(text)) / 2, this.getY() + (getHeight() - minecraft.font.lineHeight) / 2, Utils.getMinecraftColor("white"));
         }
     }
 
@@ -170,9 +168,6 @@ public class TexturedButton extends Button {
     /** TYPE TEXTURE MANAGER */
     public Identifier getTypeTexture() {
         if (this.isHovered) {
-            Stellaris.LOG.error("Hover Texture: " + this.hoverButtonTexture);
-            Stellaris.LOG.error("Texture: " + this.buttonTexture);
-
             return this.hoverButtonTexture;
         }
         else {
