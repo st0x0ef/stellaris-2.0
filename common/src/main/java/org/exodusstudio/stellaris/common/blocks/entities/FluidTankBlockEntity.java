@@ -118,7 +118,7 @@ public class FluidTankBlockEntity extends BaseContainerBlockEntity implements Fl
 
     @Override
     protected Component getDefaultName() {
-        return Component.translatable("screen.stellaris.fluid_tank");
+        return Component.translatable("stellaris.screen.fluid_tank");
     }
 
     @Override

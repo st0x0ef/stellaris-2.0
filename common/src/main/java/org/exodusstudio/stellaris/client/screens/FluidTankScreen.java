@@ -25,7 +25,7 @@ public class FluidTankScreen extends AbstractContainerScreen<FluidTankMenu> {
     private GaugeChunkWidget fluidGauge;
 
     public FluidTankScreen(FluidTankMenu menu, Inventory playerInventory, Component title) {
-        super(menu, playerInventory, Component.translatable("stellaris.screen.fluid_tank"), 180, 188);
+        super(menu, playerInventory, title, 180, 188);
 
         titleLabelX = (180 - Minecraft.getInstance().font.width(title.getString())) / 2;
         titleLabelY = 2;
@@ -43,7 +43,7 @@ public class FluidTankScreen extends AbstractContainerScreen<FluidTankMenu> {
         fluidGauge = new GaugeChunkWidget(leftPos + 84, topPos + 36, 12, 46, blockEntity.getFluidTank().getFluidInTank(0), GUISprites.FLUID_TANK_OVERLAY, blockEntity.getFluidTank().getTankCapacity(0), GaugeWidget.Direction4.DOWN_UP);
         addRenderableWidget(fluidGauge);
 
-        FluidOutputManagerWidget fluidOutputManagerWidget = new FluidOutputManagerWidget(leftPos + imageWidth, topPos, 160, 60, blockEntity.outputManager, this, blockEntity);
+        FluidOutputManagerWidget fluidOutputManagerWidget = new FluidOutputManagerWidget(leftPos - FluidOutputManagerWidget.WIDTH, topPos, blockEntity.outputManager, this, blockEntity);
         fluidOutputManagerWidget.addDefaultChildren();
         addRenderableWidget(fluidOutputManagerWidget);
 
