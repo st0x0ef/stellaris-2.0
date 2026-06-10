@@ -16,10 +16,7 @@ import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.LanternBlock;
-import net.minecraft.world.level.block.WallTorchBlock;
+import net.minecraft.world.level.block.*;
 import org.apache.commons.io.FileUtils;
 import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.common.antennas.Antenna;
@@ -204,6 +201,10 @@ public class Events {
                 }
                 else if (state.is(Blocks.LANTERN)) {
                     serverLevel.setBlockAndUpdate(pos, BlocksRegistry.COAL_LANTERN_BLOCK.block().get().defaultBlockState().setValue(CoalLanternBlock.HANGING, state.getValue(LanternBlock.HANGING)));
+                    return EventResult.interruptFalse();
+                }
+                else if (state.is(Blocks.CAMPFIRE)) {
+                    serverLevel.setBlockAndUpdate(pos, Blocks.CAMPFIRE.defaultBlockState().setValue(CampfireBlock.LIT, false));
                     return EventResult.interruptFalse();
                 }
             }
