@@ -92,8 +92,9 @@ public class FluidTankBlockEntity extends BaseContainerBlockEntity implements Fl
     public void tick(Level level, BlockState state) {
 
         //First - Insert slot
-        if (!items.getFirst().isEmpty())
+        if (!items.getFirst().isEmpty()) {
             FluidUtil.moveFluidFromItem(0, 0, 0, items, fluidTank, 1000);
+        }
 
         //Last - Extract slot
         if (!items.getLast().isEmpty())
