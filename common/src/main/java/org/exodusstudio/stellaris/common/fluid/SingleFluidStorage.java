@@ -82,7 +82,7 @@ public abstract class SingleFluidStorage implements UniversalFluidStorage {
             return FluidStack.empty();
         }
 
-        long drained = Math.min(stack.getAmount(), Math.min(this.maxDrain, stack.getAmount()));
+        long drained = Math.min(Math.min(stack.getAmount(), this.maxDrain), getFluidValueInTank());
         if (!simulate) {
             this.stack.shrink(drained);
             onChange();
@@ -133,7 +133,7 @@ public abstract class SingleFluidStorage implements UniversalFluidStorage {
             return FluidStack.empty();
         }
 
-        long drained = Math.min(stack.getAmount(), stack.getAmount());
+        long drained = Math.min(stack.getAmount(), this.stack.getAmount());
         if (!simulate) {
             this.stack.shrink(drained);
             onChange();

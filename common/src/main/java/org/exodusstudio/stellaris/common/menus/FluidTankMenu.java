@@ -26,7 +26,7 @@ public class FluidTankMenu extends BaseContainer {
         this.blockEntity = entity;
 
         addSlot(new FluidContainerSlot(inventory, 0, 52, 50, false)); // INSERT
-        addSlot(new FluidContainerSlot(inventory, 1, 112, 50, false)); // EXTRACT
+        addSlot(new FluidContainerSlot(inventory, 1, 112, 50, true)); // EXTRACT
     }
 
     public FluidTankBlockEntity getBlockEntity() {

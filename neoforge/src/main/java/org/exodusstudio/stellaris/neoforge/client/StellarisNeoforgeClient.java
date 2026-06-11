@@ -84,6 +84,7 @@ public class StellarisNeoforgeClient {
         event.register(MenuTypesRegistry.SPACE_STATION_PLANNER.get(), SpaceStationPlannerScreen::new);
         event.register(MenuTypesRegistry.PLANET_SELECTION_MENU.get(), PlanetSelectionAppScreen::new);
         event.register(MenuTypesRegistry.CARGO_UNLOADER.get(), CargoUnloaderScreen::new);
+        event.register(MenuTypesRegistry.FLUID_TANK_MENU.get(), FluidTankScreen::new);
     }
 
     @SuppressWarnings("unchecked")

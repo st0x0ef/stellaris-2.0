@@ -110,12 +110,6 @@ public class FluidTankBlockEntity extends BaseContainerBlockEntity implements Fl
             level.setBlock(getBlockPos(), newState, 3);
             setChanged();
         }
-
-        //TODO this is weird because in other block we don"t need this.
-        if (level != null && level.getServer() != null && !level.getServer().getPlayerList().getPlayers().isEmpty()) {
-            NetworkManager.sendToPlayers(level.getServer().getPlayerList().getPlayers(),
-                    new SyncFluidPacketWithoutDirection(new FluidAmountMapDataComponent(List.of(fluidTank.getFluidInTank(0).getFluid()), List.of(fluidTank.getFluidValueInTank())), 0, getBlockPos()));
-        }
     }
 
     @Override
