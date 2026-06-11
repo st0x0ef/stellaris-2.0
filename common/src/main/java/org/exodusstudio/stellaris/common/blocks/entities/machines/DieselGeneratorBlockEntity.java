@@ -8,6 +8,7 @@ import dev.architectury.networking.NetworkManager;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.level.Level;
@@ -60,6 +61,11 @@ public class DieselGeneratorBlockEntity extends BaseGeneratorBlockEntity impleme
 
     @Override
     protected AbstractContainerMenu createMenu(int containerId, Inventory inventory) {
+        if (inventory.player instanceof ServerPlayer serverPlayer) {
+            NetworkManager.sendToPlayer(serverPlayer, new SyncFluidPacketWithoutDirection(
+                    new FluidAmountMapDataComponent(List.of(dieselTank.getFluidInTank(0).getFluid()), List.of(dieselTank.getFluidValueInTank())),
+                    0, getBlockPos()));
+        }
         return new DieselGeneratorMenu(containerId, inventory, this, this);
     }
 

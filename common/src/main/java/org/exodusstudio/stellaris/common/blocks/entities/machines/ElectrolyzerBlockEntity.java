@@ -8,6 +8,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.crafting.RecipeHolder;
@@ -208,6 +209,21 @@ public class ElectrolyzerBlockEntity extends BaseEnergyContainerBlockEntity impl
 
     @Override
     protected @NotNull AbstractContainerMenu createMenu(int containerId, Inventory inventory) {
+        if (inventory.player instanceof ServerPlayer serverPlayer) {
+            NetworkManager.sendToPlayer(serverPlayer, new SyncFluidPacket(
+                    new FluidAmountMapDataComponent(List.of(ingredientTank.getFluidInTank(0).getFluid()), List.of(ingredientTank.getFluidValueInTank())),
+                    0, getBlockPos(), Direction.UP));
+
+            Direction outputDir = getBlockState().getValue(ElectrolyzerBlock.FACING).getClockWise();
+            NetworkManager.sendToPlayer(serverPlayer, new SyncFluidPacket(
+                    new FluidAmountMapDataComponent(List.of(resultTanks.getFluidInTank(0).getFluid()), List.of(resultTanks.getFluidValueInTank(0))),
+                    0, getBlockPos(), outputDir));
+            NetworkManager.sendToPlayer(serverPlayer, new SyncFluidPacket(
+                    new FluidAmountMapDataComponent(List.of(resultTanks.getFluidInTank(1).getFluid()), List.of(resultTanks.getFluidValueInTank(1))),
+                    1, getBlockPos(), outputDir));
+
+            outputManager.syncWithPlayer(serverPlayer, this);
+        }
         return new ElectrolyzerMenu(containerId, inventory, this, this);
     }
 

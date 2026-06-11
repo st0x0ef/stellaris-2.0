@@ -7,6 +7,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
 import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
@@ -124,6 +125,11 @@ public class FluidTankBlockEntity extends BaseContainerBlockEntity implements Fl
 
     @Override
     protected AbstractContainerMenu createMenu(int containerId, Inventory inventory) {
+        if (inventory.player instanceof ServerPlayer serverPlayer) {
+            NetworkManager.sendToPlayer(serverPlayer, new SyncFluidPacketWithoutDirection(
+                    new FluidAmountMapDataComponent(List.of(fluidTank.getFluidInTank(0).getFluid()), List.of(fluidTank.getFluidValueInTank())),
+                    0, getBlockPos()));
+        }
         return new FluidTankMenu(containerId, inventory, this, this);
     }
 

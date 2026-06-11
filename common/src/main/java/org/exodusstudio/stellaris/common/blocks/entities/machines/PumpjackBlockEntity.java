@@ -8,6 +8,7 @@ import dev.architectury.networking.NetworkManager;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.level.ChunkPos;
@@ -104,6 +105,11 @@ public class PumpjackBlockEntity extends BaseEnergyContainerBlockEntity implemen
 
     @Override
     protected AbstractContainerMenu createMenu(int containerId, Inventory inventory) {
+        if (inventory.player instanceof ServerPlayer serverPlayer) {
+            NetworkManager.sendToPlayer(serverPlayer, new SyncFluidPacket(
+                    new FluidAmountMapDataComponent(List.of(resultTank.getFluidInTank(0).getFluid()), List.of(resultTank.getFluidValueInTank())),
+                    0, getBlockPos(), getBlockState().getValue(PumpjackBlock.FACING).getClockWise()));
+        }
         return new PumpjackMenu(containerId, inventory, this, this);
     }
 
