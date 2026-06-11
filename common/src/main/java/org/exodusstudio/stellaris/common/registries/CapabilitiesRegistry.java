@@ -41,10 +41,13 @@ public class CapabilitiesRegistry {
         Capabilities.Fluid.BLOCK.registerForBlockEntity(BlockEntitiesRegistry.FUEL_REFINERY);
         Capabilities.Fluid.BLOCK.registerForBlockEntity(BlockEntitiesRegistry.PUMPJACK);
         Capabilities.Fluid.BLOCK.registerForBlockEntity(BlockEntitiesRegistry.PIPE_ENTITY);
+        Capabilities.Fluid.BLOCK.registerForBlockEntity(BlockEntitiesRegistry.FLUID_TANK);
     }
 
     private static void registerFluidItems() {
         Capabilities.Fluid.ITEM.registerForItem(ItemsRegistry.FLUID_CELL);
+
+        Capabilities.Fluid.ITEM.registerForItem(BlocksRegistry.FLUID_TANK_T1.getAsItem());
 
         Capabilities.Fluid.ITEM.registerForItem(ItemsRegistry.SPACE_SUIT_HELMET);
         Capabilities.Fluid.ITEM.registerForItem(ItemsRegistry.SPACE_SUIT_CHESTPLATE);
