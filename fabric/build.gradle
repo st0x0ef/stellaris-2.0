@@ -1,37 +1,19 @@
-plugins {
-    id 'com.gradleup.shadow'
-}
-
 architectury {
     platformSetupLoomIde()
     fabric()
 }
 
 loom {
-    accessWidenerPath = project(":common").loom.accessWidenerPath
+    accessWidenerPath = project(':common').loom.accessWidenerPath
 }
 
 configurations {
-    common {
-        canBeResolved = true
-        canBeConsumed = false
-    }
-    compileClasspath.extendsFrom common
-    runtimeClasspath.extendsFrom common
     developmentFabric.extendsFrom common
+}
 
-    shadowCommon {
-        canBeResolved = true
-        canBeConsumed = false
-    }
-
-    apiElements {
-        outgoing.artifacts.clear()
-        outgoing.artifact(shadowJar)
-    }
-    runtimeElements {
-        outgoing.artifacts.clear()
-        outgoing.artifact(shadowJar)
+sourceSets {
+    main {
+        resources.srcDir project(':common').file('src/main/generated/resources').absolutePath
     }
 }
 
@@ -41,39 +23,22 @@ dependencies {
     implementation "com.fej1fun.potentials:potentials-fabric-$rootProject.minecraft_version:$rootProject.potentials_version"
     implementation "dev.architectury:architectury-fabric:$rootProject.architectury_api_version"
 
-    api "com.terraformersmc:modmenu:${modmenu_version}"
+    api "com.terraformersmc:modmenu:$rootProject.modmenu_version"
 
     compileOnly "mezz.jei:jei-$rootProject.minecraft_version-fabric-api:$rootProject.jei_version"
     runtimeOnly "mezz.jei:jei-$rootProject.minecraft_version-fabric:$rootProject.jei_version"
 
-    common(project(path: ':common')) { transitive false }
-    shadowCommon(project(path: ':common', configuration: 'transformProductionFabric'))
+    common(project(path: ':common')) { transitive = false }
+    shadowCommon(project(path: ':common', configuration: 'transformProductionFabric')) { transitive = false }
 }
 
 processResources {
     inputs.property 'version', project.version
-
     filesMatching('fabric.mod.json') {
         expand version: project.version
     }
 }
 
-tasks.shadowJar {
-    exclude "architectury.common.json"
-
-    dependsOn jar
-    mainSpec.sourcePaths.clear()
-    from(zipTree(jar.archiveFile))
-    configurations = [project.configurations.shadowCommon]
-    archiveClassifier = null
-}
-
-jar {
-    archiveClassifier = "raw"
-}
-
-sourceSets {
-    main  {
-        resources.srcDir project(":common").file("src/main/generated/resources").absolutePath
-    }
+shadowJar {
+    exclude 'architectury.common.json'
 }

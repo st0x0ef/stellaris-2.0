@@ -8,9 +8,6 @@ accessible method net/minecraft/client/gui/components/AbstractSliderButton setVa
 accessible class net/minecraft/client/gui/Gui$HeartType
 
 accessible method net/minecraft/client/renderer/RenderPipelines register (Lcom/mojang/blaze3d/pipeline/RenderPipeline;)Lcom/mojang/blaze3d/pipeline/RenderPipeline;
-accessible method net/minecraft/client/renderer/SkyRenderer renderSun (FLcom/mojang/blaze3d/vertex/PoseStack;)V
-accessible method net/minecraft/client/renderer/SkyRenderer renderMoon (Lnet/minecraft/world/level/MoonPhase;FLcom/mojang/blaze3d/vertex/PoseStack;)V
-accessible method net/minecraft/client/renderer/SkyRenderer buildCelestialQuad (Ljava/lang/String;Lnet/minecraft/client/renderer/texture/TextureAtlasSprite;)Lcom/mojang/blaze3d/buffers/GpuBuffer;
 
 accessible field net/minecraft/client/renderer/ScreenEffectRenderer itemActivationItem Lnet/minecraft/world/item/ItemStack;
 

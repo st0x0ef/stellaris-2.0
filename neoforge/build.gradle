@@ -1,6 +1,4 @@
-plugins {
-    id 'com.gradleup.shadow'
-}
+import org.gradle.jvm.tasks.Jar
 
 architectury {
     platformSetupLoomIde()
@@ -8,55 +6,29 @@ architectury {
 }
 
 loom {
-    accessWidenerPath.set(project(":common").loom.accessWidenerPath)
-}
+    accessWidenerPath = project(':common').loom.accessWidenerPath
 
-sourceSets {
-    main  {
-        resources.srcDir project(":common").file("src/main/generated/resources").absolutePath
-    }
-}
-
-
-configurations {
-    common {
-        canBeResolved = true
-        canBeConsumed = false
-    }
-    compileClasspath.extendsFrom common
-    runtimeClasspath.extendsFrom common
-    developmentNeoForge.extendsFrom common
-
-    shadowCommon {
-        canBeResolved = true
-        canBeConsumed = false
+    neoForge {
+        convertAccessWideners(tasks.named('shadowJar', Jar), 'stellaris.accesswidener')
     }
 
-    apiElements {
-        outgoing.artifacts.clear()
-        outgoing.artifact(shadowJar)
-    }
-    runtimeElements {
-        outgoing.artifacts.clear()
-        outgoing.artifact(shadowJar)
-    }
-}
-
-loom {
     runs {
         client {
             client()
-            property 'neoforge.enabledGameTestNamespaces', project.name
+            property 'neoforge.enabledGameTestNamespaces', rootProject.mod_id
         }
     }
 }
 
-    repositories {
-        maven {
-            name = 'NeoForged'
-            url = 'https://maven.neoforged.net/releases'
-        }
+configurations {
+    developmentNeoForge.extendsFrom common
+}
+
+sourceSets {
+    main {
+        resources.srcDir project(':common').file('src/main/generated/resources').absolutePath
     }
+}
 
 dependencies {
     neoForge "net.neoforged:neoforge:$rootProject.neoforge_version"
@@ -64,33 +36,21 @@ dependencies {
     implementation "com.fej1fun.potentials:potentials-neoforge-$rootProject.minecraft_version:$rootProject.potentials_version"
     implementation "dev.architectury:architectury-neoforge:$rootProject.architectury_api_version"
 
-
     compileOnly "mezz.jei:jei-$rootProject.minecraft_version-neoforge-api:$rootProject.jei_version"
     runtimeOnly "mezz.jei:jei-$rootProject.minecraft_version-neoforge:$rootProject.jei_version"
 
-    common(project(path: ':common')) { transitive false }
-    shadowCommon(project(path: ':common', configuration: 'transformProductionNeoForge'))
+    common(project(path: ':common')) { transitive = false }
+    shadowCommon(project(path: ':common', configuration: 'transformProductionNeoForge')) { transitive = false }
 }
-
 
 processResources {
     inputs.property 'version', project.version
-
     filesMatching('META-INF/neoforge.mods.toml') {
         expand version: project.version
     }
 }
 
-tasks.shadowJar {
-    exclude "architectury.common.json"
-
-    dependsOn jar
-    mainSpec.sourcePaths.clear()
-    from(zipTree(jar.archiveFile))
-    configurations = [project.configurations.shadowCommon]
-    archiveClassifier = null
-}
-
-jar {
-    archiveClassifier = "raw"
+shadowJar {
+    exclude 'fabric.mod.json'
+    exclude 'architectury.common.json'
 }
