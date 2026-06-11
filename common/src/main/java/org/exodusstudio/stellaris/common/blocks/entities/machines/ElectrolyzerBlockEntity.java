@@ -201,9 +201,10 @@ public class ElectrolyzerBlockEntity extends BaseEnergyContainerBlockEntity impl
     }*/
 
     @Override
-    protected @NotNull Component getDefaultName() {
-        return Component.empty();
+    protected Component getDefaultName() {
+        return Component.translatable("item.stellaris.electrolyzer");
     }
+
 
     @Override
     protected @NotNull AbstractContainerMenu createMenu(int containerId, Inventory inventory) {

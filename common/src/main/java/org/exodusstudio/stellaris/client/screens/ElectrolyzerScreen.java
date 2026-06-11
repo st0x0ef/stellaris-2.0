@@ -17,8 +17,6 @@ import org.exodusstudio.stellaris.common.fluid.SingleFluidStorage;
 import org.exodusstudio.stellaris.common.menus.ElectrolyzerMenu;
 import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
 
-import java.util.List;
-
 public class ElectrolyzerScreen extends AbstractContainerScreen<ElectrolyzerMenu> {
     private static final Identifier TEXTURE = IdentifierUtils.guiTexture("electrolyzer");
 
@@ -65,7 +63,7 @@ public class ElectrolyzerScreen extends AbstractContainerScreen<ElectrolyzerMenu
         energyGauge = new GaugeWidget(leftPos + 68, topPos + 20, 44, 6, Component.translatable("stellaris.screen.energyContainer"), GUISprites.SIDEWAYS_ENERGY_FULL, null, blockEntity.getEnergy(null).getMaxEnergy(), GaugeWidget.Direction4.LEFT_RIGHT);
         addRenderableWidget(energyGauge);
 
-        FluidOutputManagerWidget fluidOutputManagerWidget = new FluidOutputManagerWidget(leftPos + imageWidth, topPos, 160, 60, blockEntity.outputManager, this, blockEntity);
+        FluidOutputManagerWidget fluidOutputManagerWidget = new FluidOutputManagerWidget(leftPos - FluidOutputManagerWidget.WIDTH, topPos, blockEntity.outputManager, this, blockEntity);
         fluidOutputManagerWidget.addDefaultChildren();
         addRenderableWidget(fluidOutputManagerWidget);
 

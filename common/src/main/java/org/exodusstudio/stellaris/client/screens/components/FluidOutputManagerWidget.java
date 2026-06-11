@@ -41,10 +41,13 @@ public class FluidOutputManagerWidget extends DraggableContainer {
     public BlockEntity blockEntity;
     private final HashMap<Direction, TexturedButton> directionButtons = new HashMap<>();
 
+    public static int WIDTH = 72;
+    public static int HEIGHT = 138;
+
     public static int BUTTON_WIDTH = 16;
 
-    public FluidOutputManagerWidget(int x, int y, int width, int height, FluidOutputManager fluidOutputManager, Screen screen, BlockEntity blockEntity) {
-        super(x, y, 100, 132);
+    public FluidOutputManagerWidget(int x, int y, FluidOutputManager fluidOutputManager, Screen screen, BlockEntity blockEntity) {
+        super(x, y, WIDTH, HEIGHT);
         this.fluidOutputManager = fluidOutputManager;
         this.screen = screen;
         this.blockEntity = blockEntity;
@@ -83,7 +86,9 @@ public class FluidOutputManagerWidget extends DraggableContainer {
                         }
                     })
 
-                    .tex(GUISprites.OUTPUT_BUTTON, GUISprites.OUTPUT_BUTTON).useSprite(true);
+                    .tex(GUISprites.OUTPUT_BUTTON, GUISprites.OUTPUT_BUTTON)
+                    .setText(Component.empty())
+                    .useSprite(true);
 
             if (i < 3) {
                 texturedButton.setX(getX() + 10 + (BUTTON_WIDTH + 2) * i);
@@ -108,7 +113,7 @@ public class FluidOutputManagerWidget extends DraggableContainer {
     protected void extractWidgetRenderState(GuiGraphicsExtractor guiGraphics, int mouseX, int mouseY, float partialTick) {
         super.extractWidgetRenderState(guiGraphics, mouseX, mouseY, partialTick);
 
-        guiGraphics.blit(RenderPipelines.GUI_TEXTURED, IdentifierUtils.guiTexture("tablet/tablet_entries_background"), getX(), getY(), 0, 0, width, height, 100, 132);
+        guiGraphics.blit(RenderPipelines.GUI_TEXTURED, IdentifierUtils.guiTexture("sprites/util/space_station_panel"), getX(), getY(), 0, 0, width, height, 72, 138);
         guiGraphics.centeredText(Minecraft.getInstance().font, Component.literal("Fluid Outputs").withStyle(ChatFormatting.GRAY), getX() + width / 2, getY() + 7, ARGB.white(1f));
 
         for (Direction direction : directionButtons.keySet()) {

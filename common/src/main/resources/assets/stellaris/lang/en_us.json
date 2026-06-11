@@ -296,8 +296,7 @@
   "stellaris.screen.oil": "Oil",
   "stellaris.screen.diesel": "Diesel",
   "stellaris.screen.fuel": "Fuel",
-
-
+  "stellaris.screen.fluid_tank": "Fluid Tank",
   "stellaris.screen.gravityManipulator.gravity": "Gravity: %sm/s²",
   "stellaris.screen.gravityManipulator.planet.moon": "Moon Gravity (1.62m/s²)",
   "stellaris.screen.gravityManipulator.planet.mars": "Mars Gravity (3.73m/s²)",
@@ -376,6 +375,7 @@
   "planet.stellaris.moon": "Moon",
   "planet.stellaris.mars": "Mars",
   "planet.stellaris.earth": "Earth",
+  "planet.stellaris.earth_orbit": "Earth Orbit",
 
   "message.stellaris.antenna.not_owner": "You are not the owner of this launch pad.",
   "message.stellaris.friends_list.use_on_player": "Use this item on a player to add it to your friends list.",

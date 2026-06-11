@@ -15,6 +15,7 @@
     "ChunkAccessMixin",
     "ConsumableMixin",
     "EntityMixinAttachment",
+    "FireMixin",
     "LivingEntityMixin",
     "PlayerMixin",
     "gravity_modifier.AbstractArrowEntityMixin",

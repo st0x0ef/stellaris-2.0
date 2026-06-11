@@ -18,7 +18,7 @@ import java.util.regex.Pattern;
 public class StellardownRenderer {
 
     private final Font font;
-    private StellardownParser parser;
+    private final StellardownParser parser;
     private final List<Pair<String, StellardownParser.Style>> segments;
     private List<Line> renderedLines;
 
@@ -54,26 +54,33 @@ public class StellardownRenderer {
                 String actual = matcher.group();
                 if (actual.isEmpty()) continue;
 
-                int wordWidth = measureWord(actual, segment.getB());
+                // Split any token that contains an explicit break tag or newline so that [br] works when attached to words
+                for (String part : splitByBrAndNewline(actual)) {
+                    if (part.isEmpty()) continue;
 
-                if (actual.equals("\n") || actual.equals("[br]")) {              // explicit line break
-                    lines.add(currentLine);
-                    currentLine = new Line();
-                    cursorX = 0;
+                    if (part.equals("\n") || part.equals("[br]")) {              // explicit line break
+                        lines.add(currentLine);
+                        currentLine = new Line();
+                        cursorX = 0;
 
-                } else if (cursorX + wordWidth > areaWidth && cursorX > 0) {  // wrap
-                    lines.add(currentLine);
-                    currentLine = new Line();
-                    cursorX = 0;
-                    String trimmed = actual.stripLeading();
-                    int trimmedWidth = measureWord(trimmed, segment.getB());
+                    } else {
+                        int wordWidth = measureWord(part, segment.getB());
 
-                    currentLine.add(new PositionedSegment(trimmed, segment.getB(), cursorX), trimmedWidth);
-                    cursorX += trimmedWidth;
+                        if (cursorX + wordWidth > areaWidth && cursorX > 0) {  // wrap
+                            lines.add(currentLine);
+                            currentLine = new Line();
+                            cursorX = 0;
+                            String trimmed = part.stripLeading();
+                            int trimmedWidth = measureWord(trimmed, segment.getB());
 
-                } else {
-                    currentLine.add(new PositionedSegment(actual, segment.getB(), cursorX), wordWidth);
-                    cursorX += wordWidth;
+                            currentLine.add(new PositionedSegment(trimmed, segment.getB(), cursorX), trimmedWidth);
+                            cursorX += trimmedWidth;
+
+                        } else {
+                            currentLine.add(new PositionedSegment(part, segment.getB(), cursorX), wordWidth);
+                            cursorX += wordWidth;
+                        }
+                    }
                 }
             }
         }
@@ -87,6 +94,21 @@ public class StellardownRenderer {
         }
 
         return lines;
+    }
+
+    // Helper: splits a string into parts around [br] or newline, keeping the delimiters as separate parts
+    private List<String> splitByBrAndNewline(String s) {
+        List<String> parts = new ArrayList<>();
+        Pattern brPattern = Pattern.compile("\\[br]|\\n");
+        Matcher m = brPattern.matcher(s);
+        int last = 0;
+        while (m.find()) {
+            if (m.start() > last) parts.add(s.substring(last, m.start()));
+            parts.add(m.group());
+            last = m.end();
+        }
+        if (last < s.length()) parts.add(s.substring(last));
+        return parts;
     }
 
     public int render(int x, int y, GuiGraphicsExtractor guiGraphics, Consumer<ActionBox> clickBoxConsumer) {
@@ -116,11 +138,11 @@ public class StellardownRenderer {
     }
 
     public int render(int x, int y, GuiGraphicsExtractor guiGraphics) {
-        return render(x, y, guiGraphics, box -> {});
+        return render(x, y, guiGraphics, ignored -> {});
     }
 
 
-    class Line {
+    public class Line {
         List<PositionedSegment> segments;
         int totalWidth;
         int height;
@@ -164,8 +186,6 @@ public class StellardownRenderer {
         MutableComponent comp = Component.literal(text);
 
         //We automatically make reference text blue, but we can also specify a custom color if needed
-
-
 
         if (style.bold) comp.withStyle(ChatFormatting.BOLD);
         if (style.italic) comp.withStyle(ChatFormatting.ITALIC);
