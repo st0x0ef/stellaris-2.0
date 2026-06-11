@@ -131,12 +131,11 @@ public abstract class MultipleFluidStorage extends BaseFluidStorage {
     public void load(ValueInput input, String name) {
         Optional<ValueInput.TypedInputList<FluidStack>> optional = input.list(name + "-list", FluidStack.CODEC);
         if (optional.isPresent()) {
-            ValueInput.TypedInputList<FluidStack>  list = optional.get();
-            for (int i = 0; i < getTanks(); i++) {
-                setFluidInTank(i, (FluidStack) list.stream().toArray()[i]);
+            Object[] array = optional.get().stream().toArray();
+            for (int i = 0; i < Math.min(getTanks(), array.length); i++) {
+                setFluidInTank(i, (FluidStack) array[i]);
             }
         }
-
     }
 
 
