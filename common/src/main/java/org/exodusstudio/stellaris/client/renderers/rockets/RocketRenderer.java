@@ -11,6 +11,7 @@ import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.client.renderer.state.level.CameraRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.Identifier;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.phys.AABB;
 import org.exodusstudio.stellaris.client.renderers.rockets.models.RocketModel;
 import org.exodusstudio.stellaris.client.renderers.rockets.models.RocketModelRegistry;
@@ -22,9 +23,10 @@ import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
-import java.util.Random;
 
 public class RocketRenderer extends EntityRenderer<RocketEntity, RocketRenderState> {
+    private final RandomSource random = RandomSource.create();
+
     public RocketRenderer(EntityRendererProvider.Context context) {
         super(context);
     }
@@ -56,7 +58,6 @@ public class RocketRenderer extends EntityRenderer<RocketEntity, RocketRenderSta
 
         if (this.isShaking(renderState)) {
             if (!Minecraft.getInstance().isPaused()) {
-                Random random = new Random();
                 double shakeDirection1 = (random.nextDouble() * (random.nextBoolean() ? 1 : -1)) / 50;
                 double shakeDirection2 = (random.nextDouble() * (random.nextBoolean() ? 1 : -1)) / 50;
                 double shakeDirection3 = (random.nextDouble() * (random.nextBoolean() ? 1 : -1)) / 50;

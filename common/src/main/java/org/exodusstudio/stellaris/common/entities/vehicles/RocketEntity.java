@@ -32,6 +32,7 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.BucketItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.storage.ValueInput;
@@ -66,8 +67,27 @@ public class RocketEntity extends VehicleEntity {
     public static final EntityDataAccessor<Integer> ROCKET_START_TIMER = SynchedEntityData.defineId(RocketEntity.class, EntityDataSerializers.INT);
     public static final EntityDataAccessor<Planet> AUTOPILOT_DESTINATION = SynchedEntityData.defineId(RocketEntity.class, EntityDataSerializersRegistry.PLANET);
 
+    private boolean inventoryDirty = false;
+
     public RocketEntity(EntityType<?> entityType, Level level) {
         super(entityType, level, 29);
+        this.inventory = new SimpleContainer(this.inventory.getContainerSize()) {
+            @Override
+            public void setChanged() {
+                super.setChanged();
+                inventoryDirty = true;
+            }
+        };
+    }
+
+    private SyncRocketPacket createSyncPacket() {
+        return new SyncRocketPacket(this.getId(), this.entityData.get(ROCKET_MODULES), InventorySaver.fromContainer(getInventory()));
+    }
+
+    @Override
+    public void startSeenByPlayer(ServerPlayer player) {
+        super.startSeenByPlayer(player);
+        NetworkManager.sendToPlayer(player, createSyncPacket());
     }
 
     public void setRocketModules(Modules<RocketModule> modules) {
@@ -254,8 +274,13 @@ public class RocketEntity extends VehicleEntity {
             tryFillUpRocket();
 
             if (server != null) {
-                NetworkManager.sendToPlayers(server.getPlayerList().getPlayers(),
-                        new SyncRocketPacket(this.getId(), this.entityData.get(ROCKET_MODULES), InventorySaver.fromContainer(getInventory())));
+                if (inventoryDirty) {
+                    inventoryDirty = false;
+                    List<ServerPlayer> players = Utils.getPlayersIn3x3Chunks(level(), blockPosition());
+                    if (!players.isEmpty()) {
+                        NetworkManager.sendToPlayers(players, createSyncPacket());
+                    }
+                }
 
                 if (this.getRocketModules().contains(ModulesRegistry.AUTOPILOT.get()) && this.getY() >= Stellaris.CONFIG.vehicleConfig.rocketTpHeight) {
                     Entity passenger = null;
