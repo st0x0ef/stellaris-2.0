@@ -63,7 +63,7 @@ public class FuelRefineryBlockEntity extends BaseEnergyContainerBlockEntity impl
         };
 
 
-        this.outputFuelTank = new SingleFluidStorage(10000) {
+        this.outputFuelTank = new SingleFluidStorage(10000, 0, 10000) {
             @Override
             protected void onChange() {
                 setChanged();
@@ -73,7 +73,7 @@ public class FuelRefineryBlockEntity extends BaseEnergyContainerBlockEntity impl
                 }
             }
         };
-        this.outputDieselTank = new SingleFluidStorage(10000) {
+        this.outputDieselTank = new SingleFluidStorage(10000, 0, 10000) {
             @Override
             protected void onChange() {
                 setChanged();
@@ -114,12 +114,12 @@ public class FuelRefineryBlockEntity extends BaseEnergyContainerBlockEntity impl
                             (outputDieselTank.getFluidInTank(0).isEmpty() || outputDieselTank.getFluidInTank(0).getFluid().isSame(recipe.dieselStack().fluid().value()))) {
                         boolean shouldUseEnergyAndDrainOil = false;
                         if (outputFuelTank.getFluidValueInTank() + recipe.fuelStack().amount() < outputFuelTank.getTankCapacity(0)) {
-                            outputFuelTank.fill(recipe.fuelStack().create(), false);
+                            outputFuelTank.fillWithoutLimits(recipe.fuelStack().create(), false);
                             shouldUseEnergyAndDrainOil = true;
                         }
 
                         if (outputDieselTank.getFluidValueInTank() + recipe.dieselStack().amount() < outputDieselTank.getTankCapacity(0)) {
-                            outputDieselTank.fill(recipe.dieselStack().create(), false);
+                            outputDieselTank.fillWithoutLimits(recipe.dieselStack().create(), false);
                             shouldUseEnergyAndDrainOil = true;
                         }
 

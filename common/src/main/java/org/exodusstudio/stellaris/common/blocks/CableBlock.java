@@ -28,11 +28,16 @@ public class CableBlock extends BaseCableBlock {
 
     @Override
     public boolean isConnectable(Level level, BlockPos pos, Direction direction) {
-        if (Capabilities.Energy.BLOCK.getCapability(level, pos, direction) != null) {
+        BlockState targetState = level.getBlockState(pos);
+
+        // Cables are bufferless and expose no capability, so connect to sibling cables by block type.
+        if (targetState.getBlock() instanceof CableBlock) {
             return true;
         }
 
-        BlockState targetState = level.getBlockState(pos);
+        if (Capabilities.Energy.BLOCK.getCapability(level, pos, direction) != null) {
+            return true;
+        }
 
         if (targetState.getBlock() instanceof PumpjackProxyBlock) {
             BlockPos mainPos = PumpjackProxyBlock.getMainPos(pos, targetState);
@@ -44,7 +49,7 @@ public class CableBlock extends BaseCableBlock {
 
     @Override
     public @Nullable BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
-        return new CableBlockEntity(pos, state, transferRate);
+        return new CableBlockEntity(pos, state);
     }
 
     @Override
@@ -54,7 +59,7 @@ public class CableBlock extends BaseCableBlock {
 
     @Override
     public boolean hasTicker(Level level) {
-        return !level.isClientSide();
+        return false;
     }
 
     @Override

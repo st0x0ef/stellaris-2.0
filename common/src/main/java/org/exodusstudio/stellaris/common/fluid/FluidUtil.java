@@ -11,13 +11,17 @@ import net.minecraft.core.NonNullList;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
+import org.exodusstudio.stellaris.common.blocks.PipeBlock;
 import org.exodusstudio.stellaris.common.blocks.PumpjackProxyBlock;
+import org.exodusstudio.stellaris.common.transport.TransportGraph;
+import org.exodusstudio.stellaris.common.transport.TransportType;
 
 import java.util.*;
-import java.util.concurrent.atomic.AtomicLong;
 
 @SuppressWarnings("all")
 public class FluidUtil {
+
+    private static final List<Direction> ALL_DIRECTIONS = List.of(Direction.values());
 
     public static void moveFluidToItem(int tank, UniversalFluidStorage from, int slot, int resultSlot, NonNullList<ItemStack> items, long amount) {
         if (items.get(slot).isEmpty()) {
@@ -109,98 +113,86 @@ public class FluidUtil {
         distributeFluidNearby(level, pos, stack, null);
     }
 
+    /**
+     * Pushes {@code stack} out of the tank exposed on each output direction. A direction backed by a
+     * {@link PipeBlock} routes the fluid across the whole connected network (instantly, losslessly)
+     * to every sink that accepts it; any other neighbour receives a direct transfer.
+     *
+     * @param outputDirections the faces to push from, or {@code null}/empty to try all six.
+     */
     public static void distributeFluidNearby(Level level, BlockPos pos, FluidStack stack, List<Direction> outputDirections) {
-        if (outputDirections == null || outputDirections.isEmpty()) {
-            distributeInAllDirections(level, pos, stack);
+        if (stack.isEmpty() || level.isClientSide()) {
             return;
         }
 
-        distributeInDirections(level, pos, stack, outputDirections);
-    }
+        List<Direction> directions = (outputDirections == null || outputDirections.isEmpty())
+                ? ALL_DIRECTIONS : outputDirections;
 
-    private static long distributeInDirections(Level level, BlockPos pos, FluidStack stack, List<Direction> outputDirections) {
-        Map<UniversalFluidStorage, UniversalFluidStorage> pairs = new HashMap<>();
-
-        for (Direction direction : outputDirections) {
+        for (Direction direction : directions) {
             UniversalFluidStorage from = getFluidCapability(level, pos, direction);
-
             if (from == null) {
                 continue;
             }
 
-            FluidStack drained = from.drain(stack, true);
-
-            if (drained.getAmount() <= 0) {
+            FluidStack drainable = from.drain(stack, true);
+            if (drainable.getAmount() <= 0) {
                 continue;
             }
+            FluidStack fluid = stack.copyWithAmount(drainable.getAmount());
 
-            UniversalFluidStorage to = getFluidCapability(level, pos.relative(direction), direction.getOpposite());
+            BlockPos neighbor = pos.relative(direction);
+            BlockState neighborState = level.getBlockState(neighbor);
 
-            if (to == null) {
-                continue;
+            if (TransportType.FLUID.isNode(neighborState)) {
+                routeToNetwork(level, pos, from, fluid, TransportGraph.get(level, neighbor, TransportType.FLUID));
+            } else {
+                UniversalFluidStorage to = getFluidCapability(level, neighbor, direction.getOpposite());
+                if (to != null) {
+                    moveFluid(from, to, fluid);
+                }
             }
-
-            if (to.fill(drained, true) <= 0) {
-                continue;
-            }
-
-            pairs.put(from, to);
         }
-
-        AtomicLong toDistribute = new AtomicLong(stack.getAmount());
-        AtomicLong receivers = new AtomicLong(pairs.size());
-
-        pairs.forEach((fluidFrom, fluidTo) -> {
-            long receiverCount = receivers.get();
-
-            if (receiverCount <= 0L) {
-                return;
-            }
-
-            toDistribute.addAndGet(-moveFluid(fluidFrom, fluidTo, stack.copyWithAmount(toDistribute.get() / receiverCount)).getAmount());
-            receivers.getAndDecrement();
-        });
-
-        return stack.getAmount() - toDistribute.get();
     }
 
-    private static void distributeInAllDirections(Level level, BlockPos pos, FluidStack stack) {
-        UniversalFluidStorage from = getFluidCapability(level, pos, null);
-
-        if (from == null) {
+    /**
+     * Distributes {@code fluid} from {@code from} across every boundary sink of {@code network} that
+     * accepts it, capped by the network's remaining per-tick throughput. The remainder of an
+     * uneven split is carried forward so nothing is lost.
+     */
+    private static void routeToNetwork(Level level, BlockPos sourcePos, UniversalFluidStorage from, FluidStack fluid, TransportGraph.Network network) {
+        if (network.throughputRemaining <= 0) {
             return;
         }
 
-        long amount = from.drain(stack, true).getAmount();
+        List<UniversalFluidStorage> sinks = new ArrayList<>();
+        Set<BlockPos> seen = new HashSet<>();
+        seen.add(sourcePos); // never push back into the producer
 
-        if (amount == 0L) {
+        for (TransportGraph.BoundaryFace face : network.boundary) {
+            if (!seen.add(face.pos())) {
+                continue;
+            }
+            UniversalFluidStorage to = getFluidCapability(level, face.pos(), face.side());
+            if (to == null || to.fill(fluid, true) <= 0) {
+                continue;
+            }
+            sinks.add(to);
+        }
+
+        if (sinks.isEmpty()) {
             return;
         }
 
-        FluidStack finalStack = stack.copyWithAmount(amount);
-
-        List<UniversalFluidStorage> toSend = Direction.stream()
-                .map(direction -> getFluidCapability(level, pos.relative(direction), direction.getOpposite()))
-                .filter(Objects::nonNull)
-                .sorted(Comparator.comparing(fluidStorage -> fluidStorage.fill(finalStack, true)))
-                .filter(fluidStorage -> {
-                    for (int i = 0; i < fluidStorage.getTanks(); i++) {
-                        fluidStorage.isFluidValid(i, finalStack);
-                        return true;
-                    }
-
-                    return false;
-                })
-                .toList();
-
-        if (toSend.isEmpty()) {
-            return;
-        }
-
-        int receivers = toSend.size();
-
-        for (UniversalFluidStorage to : toSend) {
-            moveFluid(from, to, stack.copyWithAmount(finalStack.getAmount() / receivers));
+        long remaining = Math.min(fluid.getAmount(), network.throughputRemaining);
+        int count = sinks.size();
+        for (int i = 0; i < count && remaining > 0; i++) {
+            long share = remaining / (count - i);
+            if (share <= 0) {
+                share = remaining;
+            }
+            long moved = moveFluid(from, sinks.get(i), fluid.copyWithAmount(share)).getAmount();
+            remaining -= moved;
+            network.throughputRemaining -= moved;
         }
     }
 

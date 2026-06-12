@@ -40,7 +40,7 @@ public class PumpjackBlockEntity extends BaseEnergyContainerBlockEntity implemen
     public PumpjackBlockEntity(BlockPos pos, BlockState state) {
         super(BlockEntitiesRegistry.PUMPJACK.get(), pos, state);
 
-        resultTank = new SingleFluidStorage(10000) {
+        resultTank = new SingleFluidStorage(10000, 0, 10000) {
 
             @Override
             protected void onChange() {
@@ -57,6 +57,9 @@ public class PumpjackBlockEntity extends BaseEnergyContainerBlockEntity implemen
     @Override
     public void tick(Level level, BlockState state) {
         FluidUtil.moveFluidToItem(0, resultTank, 0, 1, items, 1000);
+
+        // Push extracted oil into any adjacent pipe network (or a directly-touching tank/machine).
+        FluidUtil.distributeFluidNearby(level, worldPosition, resultTank.getFluidInTank(0));
 
         ChunkAccess access = level.getChunk(this.worldPosition);
 
@@ -78,7 +81,7 @@ public class PumpjackBlockEntity extends BaseEnergyContainerBlockEntity implemen
         if (energyContainer.getEnergy() >= 2 * actualOilToExtract) {
             if (resultTank.getFluidValueInTank() + actualOilToExtract <= resultTank.getTankCapacity(0)) {
                 access.stellaris$setChunkOilLevel(access.stellaris$getChunkOilLevel() - actualOilToExtract);
-                resultTank.fill(FluidStack.create(FluidsRegistry.OIL_STILL.get(), actualOilToExtract), false);
+                resultTank.fillWithoutLimits(FluidStack.create(FluidsRegistry.OIL_STILL.get(), actualOilToExtract), false);
 
                 energyContainer.extract(2 * actualOilToExtract, false);
                 isGenerating = true;

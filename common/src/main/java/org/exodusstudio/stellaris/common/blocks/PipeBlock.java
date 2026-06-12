@@ -32,11 +32,16 @@ public class PipeBlock extends BaseCableBlock {
 
     @Override
     public boolean isConnectable(Level level, BlockPos pos, Direction direction) {
-        if (Capabilities.Fluid.BLOCK.getCapability(level, pos, direction) != null) {
+        BlockState targetState = level.getBlockState(pos);
+
+        // Pipes are bufferless and expose no capability, so connect to sibling pipes by block type.
+        if (targetState.getBlock() instanceof PipeBlock) {
             return true;
         }
 
-        BlockState targetState = level.getBlockState(pos);
+        if (Capabilities.Fluid.BLOCK.getCapability(level, pos, direction) != null) {
+            return true;
+        }
 
         if (targetState.getBlock() instanceof PumpjackProxyBlock) {
             BlockPos mainPos = PumpjackProxyBlock.getMainPos(pos, targetState);
@@ -58,7 +63,7 @@ public class PipeBlock extends BaseCableBlock {
 
     @Override
     public @Nullable BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
-        return new PipeBlockEntity(pos, state, capacity, maxIn, maxOut);
+        return new PipeBlockEntity(pos, state);
     }
 
     @Override
@@ -68,7 +73,7 @@ public class PipeBlock extends BaseCableBlock {
 
     @Override
     public boolean hasTicker(Level level) {
-        return !level.isClientSide();
+        return false;
     }
 
 

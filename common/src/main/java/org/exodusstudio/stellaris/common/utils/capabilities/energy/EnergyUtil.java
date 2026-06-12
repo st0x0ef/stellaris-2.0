@@ -7,12 +7,16 @@ import net.minecraft.core.Direction;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
+import org.exodusstudio.stellaris.common.blocks.CableBlock;
 import org.exodusstudio.stellaris.common.blocks.PumpjackProxyBlock;
+import org.exodusstudio.stellaris.common.transport.TransportGraph;
+import org.exodusstudio.stellaris.common.transport.TransportType;
 
 import java.util.*;
-import java.util.concurrent.atomic.AtomicInteger;
 
 public class EnergyUtil {
+
+    private static final List<Direction> ALL_DIRECTIONS = List.of(Direction.values());
 
     public static int moveEnergyToItem(UniversalEnergyStorage from, ItemStack stackTo, int amount) {
         if (stackTo.isEmpty()) return 0;
@@ -36,79 +40,86 @@ public class EnergyUtil {
         distributeEnergyNearby(level, pos, amount, null);
     }
 
+    /**
+     * Pushes up to {@code amount} energy out of the storage exposed on each output direction. A
+     * direction backed by a {@link CableBlock} routes the energy across the whole connected network
+     * (instantly, losslessly) to every storage that accepts it; any other neighbour receives a
+     * direct transfer.
+     *
+     * @param outputDirections the faces to push from, or {@code null}/empty to try all six.
+     */
     public static void distributeEnergyNearby(Level level, BlockPos pos, int amount, List<Direction> outputDirections) {
-        if (outputDirections == null || outputDirections.isEmpty()) {
-            distributeInAllDirections(level, pos, amount);
+        if (amount <= 0 || level.isClientSide()) {
+            return;
         }
-        else {
-            distributeInDirections(level, pos, amount, outputDirections);
-        }
-    }
 
-    private static int distributeInDirections(Level level, BlockPos pos, int amount, List<Direction> outputDirections) {
-        Map<UniversalEnergyStorage, UniversalEnergyStorage> pairs = new HashMap<>();
+        List<Direction> directions = (outputDirections == null || outputDirections.isEmpty())
+                ? ALL_DIRECTIONS : outputDirections;
 
-        for (Direction direction : outputDirections) {
+        for (Direction direction : directions) {
             UniversalEnergyStorage from = getEnergyCapability(level, pos, direction);
-
-            if (from == null || !from.canExtractEnergy() || from.extract(amount, true) == 0) {
+            if (from == null || !from.canExtractEnergy()) {
                 continue;
             }
 
-            UniversalEnergyStorage to = getEnergyCapability(level, pos.relative(direction), direction.getOpposite());
-
-            if (to == null || !to.canInsertEnergy() || to.insert(amount, true) == 0) {
+            int budget = from.extract(amount, true);
+            if (budget <= 0) {
                 continue;
             }
 
-            pairs.put(from, to);
+            BlockPos neighbor = pos.relative(direction);
+            BlockState neighborState = level.getBlockState(neighbor);
+
+            if (TransportType.ENERGY.isNode(neighborState)) {
+                routeToNetwork(level, pos, from, budget, TransportGraph.get(level, neighbor, TransportType.ENERGY));
+            } else {
+                UniversalEnergyStorage to = getEnergyCapability(level, neighbor, direction.getOpposite());
+                if (to != null && to.canInsertEnergy()) {
+                    moveEnergy(from, to, budget);
+                }
+            }
         }
-
-        AtomicInteger toDistribute = new AtomicInteger(amount);
-        AtomicInteger receivers = new AtomicInteger(pairs.size());
-
-        pairs.forEach((energyFrom, energyTo) -> {
-            int receiverCount = receivers.get();
-
-            if (receiverCount <= 0) {
-                return;
-            }
-
-            toDistribute.addAndGet(-moveEnergy(energyFrom, energyTo, toDistribute.get() / receiverCount));
-            receivers.getAndDecrement();
-        });
-
-        return amount - toDistribute.get();
     }
 
-    private static void distributeInAllDirections(Level level, BlockPos pos, int amount) {
-        UniversalEnergyStorage from = getEnergyCapability(level, pos, null);
-
-        if (from == null || !from.canExtractEnergy()) {
+    /**
+     * Distributes up to {@code budget} energy from {@code from} across every boundary storage of
+     * {@code network} that accepts it, capped by the network's remaining per-tick throughput. The
+     * remainder of an uneven split is carried forward so nothing is lost.
+     */
+    private static void routeToNetwork(Level level, BlockPos sourcePos, UniversalEnergyStorage from, int budget, TransportGraph.Network network) {
+        if (network.throughputRemaining <= 0) {
             return;
         }
 
-        int finalAmount = from.extract(amount, true);
+        List<UniversalEnergyStorage> sinks = new ArrayList<>();
+        Set<BlockPos> seen = new HashSet<>();
+        seen.add(sourcePos); // never push back into the producer
 
-        if (finalAmount == 0) {
+        for (TransportGraph.BoundaryFace face : network.boundary) {
+            if (!seen.add(face.pos())) {
+                continue;
+            }
+            UniversalEnergyStorage to = getEnergyCapability(level, face.pos(), face.side());
+            if (to == null || !to.canInsertEnergy() || to.insert(budget, true) <= 0) {
+                continue;
+            }
+            sinks.add(to);
+        }
+
+        if (sinks.isEmpty()) {
             return;
         }
 
-        List<UniversalEnergyStorage> toSend = Direction.stream()
-                .map(direction -> getEnergyCapability(level, pos.relative(direction), direction.getOpposite()))
-                .filter(Objects::nonNull)
-                .filter(UniversalEnergyStorage::canInsertEnergy)
-                .sorted(Comparator.comparing(energyStorage -> energyStorage.insert(finalAmount, true)))
-                .toList();
-
-        if (toSend.isEmpty()) {
-            return;
-        }
-
-        int receivers = toSend.size();
-
-        for (UniversalEnergyStorage to : toSend) {
-            moveEnergy(from, to, finalAmount / receivers);
+        long remaining = Math.min(budget, network.throughputRemaining);
+        int count = sinks.size();
+        for (int i = 0; i < count && remaining > 0; i++) {
+            long share = remaining / (count - i);
+            if (share <= 0) {
+                share = remaining;
+            }
+            int moved = moveEnergy(from, sinks.get(i), (int) Math.min(share, Integer.MAX_VALUE));
+            remaining -= moved;
+            network.throughputRemaining -= moved;
         }
     }
 
