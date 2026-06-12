@@ -6,6 +6,8 @@ import dev.architectury.networking.NetworkManager;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.Container;
 import net.minecraft.world.ContainerHelper;
 import net.minecraft.world.entity.player.Player;
@@ -16,9 +18,12 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 import org.exodusstudio.stellaris.common.network.packets.SyncEnergyPacketWithoutDirection;
+import org.exodusstudio.stellaris.common.utils.Utils;
 import org.exodusstudio.stellaris.common.utils.capabilities.energy.EnergyStorage;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.List;
 
 /**
  * Base class for block entities that have an energy storage and an inventory.
@@ -29,6 +34,7 @@ public abstract class BaseEnergyContainerBlockEntity extends BaseContainerBlockE
 
     protected EnergyStorage energyContainer;
     protected NonNullList<ItemStack> items = NonNullList.withSize(getContainerSize(), ItemStack.EMPTY);
+    private int lastSyncedEnergy = Integer.MIN_VALUE;
 
     public BaseEnergyContainerBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state, int initialMaxCapacity, int initialMaxInsert, int initialMaxExtract) {
         super(type, pos, state);
@@ -36,12 +42,22 @@ public abstract class BaseEnergyContainerBlockEntity extends BaseContainerBlockE
             @Override
             protected void onChange() {
                 setChanged();
-                if (level != null && level.getServer() != null && !level.getServer().getPlayerList().getPlayers().isEmpty()) {
-                    NetworkManager.sendToPlayers(level.getServer().getPlayerList().getPlayers(),
-                            new SyncEnergyPacketWithoutDirection(energyContainer.getEnergy(), getBlockPos()));
-                }
+                syncEnergy();
             }
         };
+    }
+
+    private void syncEnergy() {
+        if (!(level instanceof ServerLevel serverLevel) || energyContainer.getEnergy() == lastSyncedEnergy) {
+            return;
+        }
+        lastSyncedEnergy = energyContainer.getEnergy();
+
+        List<ServerPlayer> players = Utils.getPlayersIn3x3Chunks(serverLevel, getBlockPos());
+        if (!players.isEmpty()) {
+            NetworkManager.sendToPlayers(players,
+                    new SyncEnergyPacketWithoutDirection(lastSyncedEnergy, getBlockPos()));
+        }
     }
 
     public BaseEnergyContainerBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state, int initialMaxCapacity) {

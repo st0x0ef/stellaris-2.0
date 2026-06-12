@@ -19,6 +19,7 @@ import org.exodusstudio.stellaris.common.menus.GravityManipulatorMenu;
 import org.exodusstudio.stellaris.common.network.packets.SyncGravityManipulatorDataPacketC2S;
 import org.exodusstudio.stellaris.common.network.packets.SyncGravityManipulatorDataPacketS2C;
 import org.exodusstudio.stellaris.common.registries.BlockEntitiesRegistry;
+import org.exodusstudio.stellaris.common.utils.Utils;
 
 import java.util.List;
 
@@ -93,20 +94,8 @@ public class GravityManipulatorBlockEntity extends BaseEnergyContainerBlockEntit
             if (this.level.isClientSide()) {
                 NetworkManager.sendToServer(new SyncGravityManipulatorDataPacketC2S(getBlockPos(), getGravity()));
             } else {
-                NetworkManager.sendToPlayers(getPlayersIn3x3Chunks(), new SyncGravityManipulatorDataPacketS2C(getBlockPos(), getGravity()));
+                NetworkManager.sendToPlayers(Utils.getPlayersIn3x3Chunks(level, worldPosition), new SyncGravityManipulatorDataPacketS2C(getBlockPos(), getGravity()));
             }
         }
-    }
-
-    // 3 x 3 chunks because player could be in adjacent chunk and throw an object into this chunk
-    private List<ServerPlayer> getPlayersIn3x3Chunks() {
-        List<ServerPlayer> playersInChunks = List.of();
-        if (level != null) {
-            ChunkPos chunkPos = ChunkPos.containing(worldPosition);
-            AABB chunkAABB = new AABB(chunkPos.getMinBlockX(), level.getMinY(), chunkPos.getMinBlockZ(), chunkPos.getMaxBlockX(), level.getMaxY(), chunkPos.getMaxBlockZ());
-            AABB expandedAABB = chunkAABB.inflate(16.0 * 1.5); // 1.5 chunks in each direction to cover 3x3 chunks
-            playersInChunks = level.getEntitiesOfClass(ServerPlayer.class, expandedAABB);
-        }
-        return playersInChunks;
     }
 }

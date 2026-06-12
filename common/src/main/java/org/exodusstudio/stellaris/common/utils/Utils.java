@@ -3,6 +3,7 @@ package org.exodusstudio.stellaris.common.utils;
 import dev.architectury.networking.NetworkManager;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.SectionPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.ARGB;
@@ -26,6 +27,7 @@ import org.exodusstudio.stellaris.common.registries.BlocksRegistry;
 import org.exodusstudio.stellaris.common.registries.ItemsRegistry;
 import org.exodusstudio.stellaris.common.registries.TagsRegistry;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.Set;
@@ -116,6 +118,17 @@ public class Utils {
         }
 
         return count;
+    }
+
+    public static List<ServerPlayer> getPlayersIn3x3Chunks(Level level, BlockPos pos) {
+        List<ServerPlayer> playersInChunks = List.of();
+        if (level != null) {
+            ChunkPos chunkPos = ChunkPos.containing(pos);
+            AABB chunkAABB = new AABB(chunkPos.getMinBlockX(), level.getMinY(), chunkPos.getMinBlockZ(), chunkPos.getMaxBlockX(), level.getMaxY(), chunkPos.getMaxBlockZ());
+            AABB expandedAABB = chunkAABB.inflate(16.0 * 1.5); // 1.5 chunks in each direction to cover 3x3 chunks
+            playersInChunks = level.getEntitiesOfClass(ServerPlayer.class, expandedAABB);
+        }
+        return playersInChunks;
     }
 
     public static void startFade(Player player) {
