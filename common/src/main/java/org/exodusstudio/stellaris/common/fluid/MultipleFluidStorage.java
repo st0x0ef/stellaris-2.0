@@ -5,8 +5,6 @@ import dev.architectury.fluid.FluidStack;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 
-import java.util.Optional;
-
 public abstract class MultipleFluidStorage extends BaseFluidStorage {
 
 
@@ -117,24 +115,18 @@ public abstract class MultipleFluidStorage extends BaseFluidStorage {
 
 
     public void save(ValueOutput output, String name) {
-        if (isEmpty()) {
-            return;
-        }
-
-        ValueOutput.TypedOutputList<FluidStack> list =  output.list(name + "-list", FluidStack.CODEC);
-
         for (int i = 0; i < getTanks(); i++) {
-            list.add(getFluidInTank(i));
+            FluidStack stack = getFluidInTank(i);
+            if (!stack.isEmpty()) {
+                output.store(name + "-tank-" + i, FluidStack.CODEC, stack);
+            }
         }
     }
 
     public void load(ValueInput input, String name) {
-        Optional<ValueInput.TypedInputList<FluidStack>> optional = input.list(name + "-list", FluidStack.CODEC);
-        if (optional.isPresent()) {
-            Object[] array = optional.get().stream().toArray();
-            for (int i = 0; i < Math.min(getTanks(), array.length); i++) {
-                setFluidInTank(i, (FluidStack) array[i]);
-            }
+        for (int i = 0; i < getTanks(); i++) {
+            final int tank = i;
+            input.read(name + "-tank-" + i, FluidStack.CODEC).ifPresent(stack -> setFluidInTank(tank, stack));
         }
     }
 
