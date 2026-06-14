@@ -2,7 +2,7 @@
   "components": [
     {
       "type": "text",
-      "text": "The [color=yellow]Cargo Unloader[color] allow to automatically collect the items and the rocket item inside a lander."
+      "text": "The [color=yellow]Cargo Unloader[color] allows you to automatically collect items and the rocket item from inside a lander."
     },
     {
       "type": "image",

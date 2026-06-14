@@ -2,7 +2,7 @@
   "components": [
     {
       "type": "text",
-      "text": "The fluid cell allow you to transport more fluid than a bucket."
+      "text": "The fluid cell allows you to transport more fluid than a bucket."
     },
     {
       "type": "item",
@@ -16,7 +16,7 @@
     },
     {
       "type": "text",
-      "text": "Place it in slots in machines to fill or empty the fluids in it."
+      "text": "Place it in machine slots to fill or empty the fluid it contains."
     },
     {
       "type": "text",

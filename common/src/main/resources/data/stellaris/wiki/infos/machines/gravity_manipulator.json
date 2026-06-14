@@ -2,7 +2,7 @@
   "components": [
     {
       "type": "text",
-      "text": "The [color=yellow]Gravity Manipulator [color]is a machine that can be used to manipulate gravity in a specific chunk. It is commonly used in space stations and other structures to create a comfortable environment for inhabitants."
+      "text": "The [color=yellow]Gravity Manipulator[color] is a machine that can be used to manipulate gravity in a specific chunk. It is commonly used in space stations and other structures to create a comfortable environment for inhabitants."
     },
     {
       "type": "image",

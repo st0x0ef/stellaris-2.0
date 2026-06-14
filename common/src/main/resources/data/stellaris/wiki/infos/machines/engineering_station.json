@@ -10,17 +10,17 @@
         "location": "stellaris:textures/wiki/rendered_blocks/engineering_station",
         "width": 96,
         "height": 96,
-        "legend": "Electrolyzer"
+        "legend": "Engineering Station"
       }
     },
     {
-    "type": "item",
-    "item": {
-      "stack": {
-        "count": 1,
-        "id": "stellaris:engineering_station"
-      },
-      "onlyIcon": true
+      "type": "item",
+      "item": {
+        "stack": {
+          "count": 1,
+          "id": "stellaris:engineering_station"
+        },
+        "onlyIcon": true
       }
     },
     {

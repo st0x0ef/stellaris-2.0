@@ -2,7 +2,7 @@
   "components": [
     {
       "type": "text",
-      "text": "Cans are used to store food inside. You can store food in cans with the [ref=stellaris:machines/vacuumator]Vacuumator[ref]."
+      "text": "Cans are used to store food. You can fill them with the [ref=stellaris:machines/vacuumator]Vacuumator[ref]."
     },
     {
       "type": "item",
@@ -16,11 +16,11 @@
     },
     {
       "type": "text",
-      "text": "Cans are the only way to eat food in space. [br] "
+      "text": "Cans are the only way to eat food in space. [br]"
     },
     {
       "type": "text",
-      "text": "Right click with a can in your hand to eat what's inside."
+      "text": "Right-click with a can in your hand to eat what's inside."
     }
   ],
   "iconType": "item",

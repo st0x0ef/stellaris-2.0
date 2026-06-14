@@ -16,7 +16,7 @@
     },
     {
       "type": "text",
-      "text": "Right click on a chunk to see if it contains oil. Then you can extract it with a [ref=stellaris:machines/pumpjack]Pumpjack[ref]."
+      "text": "Right-click on a chunk to see if it contains oil. Then you can extract it with a [ref=stellaris:machines/pumpjack]Pumpjack[ref]."
     }
   ],
   "iconType": "item",

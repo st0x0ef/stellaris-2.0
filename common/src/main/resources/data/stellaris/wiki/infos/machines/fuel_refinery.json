@@ -2,7 +2,7 @@
   "components": [
     {
       "type": "text",
-      "text": "The [color=yellow]Fuel Refinery [color]is a machine that is used to used to refine [ref=stellaris:items/oil]oil[ref]."
+      "text": "The [color=yellow]Fuel Refinery[color] is a machine used to refine [ref=stellaris:items/oil]oil[ref]."
     },
     {
       "type": "image",

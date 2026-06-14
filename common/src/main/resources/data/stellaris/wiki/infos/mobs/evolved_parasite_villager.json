@@ -2,7 +2,7 @@
   "components": [
     {
       "type": "text",
-      "text": "This is an Evolved Parasite Villager. It's the evolved form of the [ref=stellaris:mobs/parasite_villager]Parasite Villager[ref]."
+      "text": "This is an Evolved Parasite Villager. It is the evolved form of the [ref=stellaris:mobs/parasite_villager]Parasite Villager[ref]."
     },
     {
       "type": "entity",
@@ -13,7 +13,7 @@
     },
     {
       "type": "text",
-      "text": "This alien is very powerful! When it attacks you it gives you the parasite effect and can summon [ref=stellaris:mobs/parasite]parasite[ref]. [br] [br]"
+      "text": "This alien is very powerful! When it attacks you, it gives you the parasite effect and can summon [ref=stellaris:mobs/parasite]parasites[ref]. [br] [br]"
     },
     {
       "type": "text",

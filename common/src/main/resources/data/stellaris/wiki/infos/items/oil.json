@@ -2,7 +2,7 @@
   "components": [
     {
       "type": "text",
-      "text": "Oil is the [color=yellow]base [color]for traveling in space."
+      "text": "Oil is the [color=yellow]base[color] for traveling in space."
     },
     {
       "type": "item",
@@ -16,7 +16,7 @@
     },
     {
       "type": "text",
-      "text": "You can find oil in chunk with the [ref=stellaris:items/oil_finder]Oil Finder[ref]. [br] You can then use it to create diesel fuel, which is required to power the rocket and explore space."
+      "text": "You can find oil in a chunk with the [ref=stellaris:items/oil_finder]Oil Finder[ref]. [br] You can then use it to create diesel fuel, which is required to power the rocket and explore space."
     },
     {
       "type": "text",
