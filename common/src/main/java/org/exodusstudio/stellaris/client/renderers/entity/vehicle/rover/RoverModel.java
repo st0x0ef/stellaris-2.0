@@ -9,6 +9,7 @@ import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.Identifier;
+import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
 
 
@@ -195,28 +196,34 @@ public class RoverModel extends EntityModel<RoverRenderState> {
     @Override
     public void setupAnim(RoverRenderState state) {
         super.setupAnim(state);
-        float wheelRotation = (float) state.deltaMovement.x / 5f;
-        if (state.direction == Direction.NORTH || state.direction == Direction.SOUTH) {
-            wheelRotation = (float) state.deltaMovement.z / 5f;
-        }
 
+        // Calculate continuous wheel rotation based on movement speed
+        double movementLength = Math.sqrt(
+            state.deltaMovement.x * state.deltaMovement.x +
+            state.deltaMovement.z * state.deltaMovement.z
+        );
+        // Scale based on speed: faster movement = faster rotation
+        float wheelRotation = (float) movementLength * 2.0f;
+
+        // Apply rotation based on forward/backward state
         if (state.isForward) {
-            this.rover.getChild("Wheels").getChild("Wheel1").xRot += wheelRotation;
-            this.rover.getChild("Wheels").getChild("Wheel2").xRot += wheelRotation;
-            this.rover.getChild("Wheels").getChild("Wheel3").xRot += wheelRotation;
-            this.rover.getChild("Wheels").getChild("Wheel4").xRot += wheelRotation;
-            this.rover.getChild("Wheels").getChild("Wheel5").xRot += wheelRotation;
-            this.rover.getChild("Wheels").getChild("Wheel6").xRot += wheelRotation;
+            this.rover.getChild("Wheels").getChild("Wheel1").xRot = state.ageInTicks * wheelRotation;
+            this.rover.getChild("Wheels").getChild("Wheel2").xRot = state.ageInTicks * wheelRotation;
+            this.rover.getChild("Wheels").getChild("Wheel3").xRot = state.ageInTicks * wheelRotation;
+            this.rover.getChild("Wheels").getChild("Wheel4").xRot = state.ageInTicks * wheelRotation;
+            this.rover.getChild("Wheels").getChild("Wheel5").xRot = state.ageInTicks * wheelRotation;
+            this.rover.getChild("Wheels").getChild("Wheel6").xRot = state.ageInTicks * wheelRotation;
         }
         else if (state.isBackward) {
-            this.rover.getChild("Wheels").getChild("Wheel1").xRot -= -wheelRotation;
-            this.rover.getChild("Wheels").getChild("Wheel2").xRot -= -wheelRotation;
-            this.rover.getChild("Wheels").getChild("Wheel3").xRot -= -wheelRotation;
-            this.rover.getChild("Wheels").getChild("Wheel4").xRot -= -wheelRotation;
-            this.rover.getChild("Wheels").getChild("Wheel5").xRot -= -wheelRotation;
-            this.rover.getChild("Wheels").getChild("Wheel6").xRot -= -wheelRotation;
+            this.rover.getChild("Wheels").getChild("Wheel1").xRot = -state.ageInTicks * wheelRotation;
+            this.rover.getChild("Wheels").getChild("Wheel2").xRot = -state.ageInTicks * wheelRotation;
+            this.rover.getChild("Wheels").getChild("Wheel3").xRot = -state.ageInTicks * wheelRotation;
+            this.rover.getChild("Wheels").getChild("Wheel4").xRot = -state.ageInTicks * wheelRotation;
+            this.rover.getChild("Wheels").getChild("Wheel5").xRot = -state.ageInTicks * wheelRotation;
+            this.rover.getChild("Wheels").getChild("Wheel6").xRot = -state.ageInTicks * wheelRotation;
         }
         else {
+            // Stop wheels when not moving
             this.rover.getChild("Wheels").getChild("Wheel1").xRot = 0;
             this.rover.getChild("Wheels").getChild("Wheel2").xRot = 0;
             this.rover.getChild("Wheels").getChild("Wheel3").xRot = 0;
@@ -230,6 +237,8 @@ public class RoverModel extends EntityModel<RoverRenderState> {
             this.rover.getChild("Wheels").getChild("Wheel2").xRot += state.xRot / 4;
             this.rover.getChild("Wheels").getChild("Wheel3").xRot += state.xRot / 4;
             this.rover.getChild("Wheels").getChild("Wheel4").xRot += state.xRot / 4;
+            this.rover.getChild("Wheels").getChild("Wheel5").xRot += state.xRot / 4;
+            this.rover.getChild("Wheels").getChild("Wheel6").xRot += state.xRot / 4;
         }
 
         this.antenna.yRot = state.ageInTicks / 20;

@@ -204,12 +204,12 @@ public class WikiApplicationScreen extends AbstractContainerScreen<WikiApplicati
         }
 
 
-        int i = 0;
+        int pageIndex = 0;
         for(ArrayList<WikiInfoButton> page : ENTRY_BUTTONS) {
             for(WikiInfoButton button : page) {
-                button.visible = i == currentInfosPage;
+                button.visible = pageIndex == currentInfosPage;
             }
-            i++;
+            pageIndex++;
         }
 
         switchEntry(this.currentEntry, currentInfosPage);
