@@ -65,8 +65,9 @@ public class FuelRefineryBlockEntity extends BaseEnergyContainerBlockEntity impl
             protected void onChange() {
                 setChanged();
                 if (level != null && level.getServer() != null && !level.getServer().getPlayerList().getPlayers().isEmpty()) {
+                    Direction fuelDir = getBlockState().getValue(BaseMachineBlock.FACING).getClockWise();
                     NetworkManager.sendToPlayers(level.getServer().getPlayerList().getPlayers(),
-                            new SyncFluidPacket(new FluidAmountMapDataComponent(List.of(getFluidInTank(0).getFluid()), List.of(getFluidValueInTank())), 0, getBlockPos(), Direction.NORTH));
+                            new SyncFluidPacket(new FluidAmountMapDataComponent(List.of(getFluidInTank(0).getFluid()), List.of(getFluidValueInTank())), 0, getBlockPos(), fuelDir));
                 }
             }
         };
@@ -75,8 +76,9 @@ public class FuelRefineryBlockEntity extends BaseEnergyContainerBlockEntity impl
             protected void onChange() {
                 setChanged();
                 if (level != null && level.getServer() != null && !level.getServer().getPlayerList().getPlayers().isEmpty()) {
+                    Direction dieselDir = getBlockState().getValue(BaseMachineBlock.FACING).getCounterClockWise();
                     NetworkManager.sendToPlayers(level.getServer().getPlayerList().getPlayers(),
-                            new SyncFluidPacket(new FluidAmountMapDataComponent(List.of(getFluidInTank(0).getFluid()), List.of(getFluidValueInTank())), 0, getBlockPos(), Direction.SOUTH));
+                            new SyncFluidPacket(new FluidAmountMapDataComponent(List.of(getFluidInTank(0).getFluid()), List.of(getFluidValueInTank())), 0, getBlockPos(), dieselDir));
                 }
             }
         };
@@ -141,12 +143,13 @@ public class FuelRefineryBlockEntity extends BaseEnergyContainerBlockEntity impl
             NetworkManager.sendToPlayer(serverPlayer, new SyncFluidPacket(
                     new com.fej1fun.potentials.components.FluidAmountMapDataComponent(List.of(inputTank.getFluidInTank(0).getFluid()), List.of(inputTank.getFluidValueInTank())),
                     0, getBlockPos(), Direction.UP));
+            Direction facing = getBlockState().getValue(BaseMachineBlock.FACING);
             NetworkManager.sendToPlayer(serverPlayer, new SyncFluidPacket(
                     new com.fej1fun.potentials.components.FluidAmountMapDataComponent(List.of(outputFuelTank.getFluidInTank(0).getFluid()), List.of(outputFuelTank.getFluidValueInTank())),
-                    0, getBlockPos(), Direction.NORTH));
+                    0, getBlockPos(), facing.getClockWise()));
             NetworkManager.sendToPlayer(serverPlayer, new SyncFluidPacket(
                     new com.fej1fun.potentials.components.FluidAmountMapDataComponent(List.of(outputDieselTank.getFluidInTank(0).getFluid()), List.of(outputDieselTank.getFluidValueInTank())),
-                    0, getBlockPos(), Direction.SOUTH));
+                    0, getBlockPos(), facing.getCounterClockWise()));
         }
         return new FuelRefineryMenu(containerId, inventory, this, this);
     }
