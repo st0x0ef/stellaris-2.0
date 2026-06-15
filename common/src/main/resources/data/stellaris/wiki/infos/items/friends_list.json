@@ -2,7 +2,7 @@
   "components": [
     {
       "type": "text",
-      "text": "The [color=yellow]Friends List [color]allow you to add friends."
+      "text": "The [color=yellow]Friends List[color] allows you to add friends."
     },
     {
       "type": "item",
@@ -16,7 +16,7 @@
     },
     {
       "type": "text",
-      "text": "Right click on a player to add them to your friends list. [br] If you are already friends with the player, right click on them to remove them from your friends list."
+      "text": "Right-click on a player to add them to your friends list. [br] If you are already friends with the player, right-click on them to remove them from your friends list."
     }
   ],
   "iconType": "item",

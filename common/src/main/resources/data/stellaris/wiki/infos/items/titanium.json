@@ -2,7 +2,7 @@
   "components": [
     {
       "type": "text",
-      "text": "Titanium is very used resource for space travel."
+      "text": "Titanium is a very useful resource for space travel."
     },
     {
       "type": "item",
@@ -16,7 +16,7 @@
     },
     {
       "type": "text",
-      "text": "Titanium is used in so many places. Its hardness allow [ref=stellaris:rocket/rocket]rocket[ref] to survive extreme temperatures encountered during space travel."
+      "text": "Titanium is used in so many places. Its hardness allows the [ref=stellaris:rocket/rocket]rocket[ref] to survive extreme temperatures encountered during space travel."
     },
     {
       "type": "text",

@@ -2,7 +2,7 @@
   "components": [
     {
       "type": "text",
-      "text": "The [color=yellow]Fluid Tank [color]is used to store any kind of fluids."
+      "text": "The [color=yellow]Fluid Tank[color] is used to store any kind of fluid."
     },
     {
       "type": "image",
@@ -15,7 +15,7 @@
     },
     {
       "type": "text",
-      "text": "[br] [br] How to use : [br] Place the Fluid Tank. Now you can connect pipes to it to input/output fluids."
+      "text": "[br] [br] How to use: [br] Place the Fluid Tank. Now you can connect pipes to it to input and output fluids."
     },
 
     {

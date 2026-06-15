@@ -15,11 +15,11 @@
     },
     {
       "type": "text",
-      "text": "Right click with a player head to change the head on the flag."
+      "text": "Right-click with a player head to change the head on the flag."
     },
     {
       "type": "text",
-      "text": "You can also change the color of the flag with dyes. You just need to right click with a dye in your hand."
+      "text": "You can also change the color of the flag with dyes. You just need to right-click with a dye in your hand."
     }
   ],
   "iconType": "item",

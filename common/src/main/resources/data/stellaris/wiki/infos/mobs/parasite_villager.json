@@ -2,7 +2,7 @@
   "components": [
     {
       "type": "text",
-      "text": "This is a Parasite Villager. Scientist discover that the [ref=stellaris:mobs/parasite]parasite[ref] transform regular villager into this creature."
+      "text": "This is a Parasite Villager. Scientists have discovered that the [ref=stellaris:mobs/parasite]parasite[ref] transforms regular villagers into this creature."
     },
     {
       "type": "entity",
@@ -13,7 +13,7 @@
     },
     {
       "type": "text",
-      "text": "This alien is pretty passive unless you attack it. [br] But BEWARE ! Scientists discovered that after some time they evolve into an [ref=stellaris:mobs/evolved_parasite_villager]Evolved Parasite Villager[ref]. [br] [br]"
+      "text": "This alien is pretty passive unless you attack it. [br] But beware! Scientists have discovered that after some time they evolve into an [ref=stellaris:mobs/evolved_parasite_villager]Evolved Parasite Villager[ref]. [br] [br]"
     },
     {
       "type": "text",

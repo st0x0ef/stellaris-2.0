@@ -2,7 +2,7 @@
   "components": [
     {
       "type": "text",
-      "text": "SD card is an item that you can find everywhere. They contains some very valuable information... "
+      "text": "The SD card is an item that you can find everywhere. It contains some very valuable information..."
     },
     {
       "type": "item",
@@ -17,11 +17,11 @@
 
     {
       "type": "text",
-      "text": "How to read them ? [br] The Stellar Company has developed a special application to read them. You can find it in your tablet."
+      "text": "How do you read it? [br] The Stellar Company has developed a special application to read it. You can find it on your tablet."
     }
   ],
   "iconType": "item",
   "id": "stellaris:sd_card",
   "entryId": "stellaris:items",
-  "title": "Sd Card"
+  "title": "SD Card"
 }

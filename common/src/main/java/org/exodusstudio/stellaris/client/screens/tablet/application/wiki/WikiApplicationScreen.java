@@ -7,6 +7,7 @@ import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Inventory;
+import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.common.data.wiki.EntryInfo;
 import org.exodusstudio.stellaris.common.data.wiki.WikiEntry;
 import org.exodusstudio.stellaris.common.data.wiki.WikiPacks;
@@ -140,13 +141,13 @@ public class WikiApplicationScreen extends AbstractContainerScreen<WikiApplicati
 
 
     private void setupNavigationButtons() {
-        int offsetX = 78;
-        int offsetY = 30;
+        int offsetX = 93;
+        int offsetY = 47;
 
         this.nextButton = new TexturedButton(this.scrollableContainer.getRight() + offsetX + 28 , (this.height / 2) + offsetY, 20, 20,
                 NEXT_ARROW, NEXT_ARROW_HOVER, button -> changePage(true));
 
-        this.backButton = new TexturedButton(this.scrollableContainer.getRight() + offsetX - 28 , (this.height / 2) + offsetY, 20, 20,
+        this.backButton = new TexturedButton(this.scrollableContainer.getRight() + 30, (this.height / 2) + offsetY, 20, 20,
                 BACK_ARROW, BACK_ARROW_HOVER, button -> changePage(false));
 
         this.addRenderableWidget(nextButton);
@@ -201,6 +202,16 @@ public class WikiApplicationScreen extends AbstractContainerScreen<WikiApplicati
                 currentInfosPage--;
             }
         }
+
+
+        int pageIndex = 0;
+        for(ArrayList<WikiInfoButton> page : ENTRY_BUTTONS) {
+            for(WikiInfoButton button : page) {
+                button.visible = pageIndex == currentInfosPage;
+            }
+            pageIndex++;
+        }
+
         switchEntry(this.currentEntry, currentInfosPage);
     }
 
@@ -259,6 +270,8 @@ public class WikiApplicationScreen extends AbstractContainerScreen<WikiApplicati
             this.addRenderableWidget(entryButton);
         });
         showInfosButton(true);
+
+
     }
 
     public void setEntryInfo(EntryInfo entryInfo) {

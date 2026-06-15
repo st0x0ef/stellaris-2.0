@@ -2,7 +2,7 @@
   "components": [
     {
       "type": "text",
-      "text": "The [color=yellow]Oxygen System [color]is the most important system in all the universe."
+      "text": "The [color=yellow]Oxygen System[color] is the most important system in the universe."
     },
     {
       "type": "image",
@@ -19,7 +19,7 @@
     },
     {
       "type": "text",
-      "text": "The oxygen distributor allows to fill a sealed room with oxygen. You can input oxygen via a pipe or directly with a [ref=stellaris:items/fluid_cell]Fluid Cell[ref]. [br]By default, the maximum room size is 32x32x32 blocks. [br] [br]"
+      "text": "The oxygen distributor allows you to fill a sealed room with oxygen. You can input oxygen via a pipe or directly with a [ref=stellaris:items/fluid_cell]Fluid Cell[ref]. [br] By default, the maximum room size is 32x32x32 blocks. [br] [br]"
     },
     {
       "type": "text",
