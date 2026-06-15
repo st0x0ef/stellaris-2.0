@@ -14,8 +14,6 @@ import org.exodusstudio.stellaris.common.fluid.SingleFluidStorage;
 import org.exodusstudio.stellaris.common.menus.FuelRefineryMenu;
 import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
 
-import java.util.List;
-
 public class FuelRefineryScreen extends AbstractContainerScreen<FuelRefineryMenu> {
 
     private static final Identifier TEXTURE = IdentifierUtils.guiTexture("fuel_refinery");

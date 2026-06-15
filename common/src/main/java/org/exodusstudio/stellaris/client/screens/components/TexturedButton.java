@@ -10,9 +10,7 @@ import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.util.ARGB;
-import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
-import org.exodusstudio.stellaris.common.utils.Utils;
 import org.jetbrains.annotations.Nullable;
 import org.jspecify.annotations.NonNull;
 

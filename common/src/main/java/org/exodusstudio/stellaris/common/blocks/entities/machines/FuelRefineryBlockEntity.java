@@ -1,7 +1,6 @@
 package org.exodusstudio.stellaris.common.blocks.entities.machines;
 
 import com.fej1fun.potentials.components.FluidAmountMapDataComponent;
-import com.fej1fun.potentials.fluid.UniversalFluidStorage;
 import com.fej1fun.potentials.providers.FluidProvider;
 import dev.architectury.fluid.FluidStack;
 import dev.architectury.networking.NetworkManager;
@@ -16,7 +15,6 @@ import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 import org.exodusstudio.stellaris.common.blocks.base.BaseMachineBlock;

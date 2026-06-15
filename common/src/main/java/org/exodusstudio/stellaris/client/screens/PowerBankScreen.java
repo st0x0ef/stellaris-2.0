@@ -13,8 +13,6 @@ import org.exodusstudio.stellaris.common.blocks.entities.machines.PowerBankBlock
 import org.exodusstudio.stellaris.common.menus.PowerBankMenu;
 import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
 
-import java.util.List;
-
 public class PowerBankScreen extends AbstractContainerScreen<PowerBankMenu> {
 
     public static final Identifier TEXTURE = IdentifierUtils.guiTexture("power_bank");

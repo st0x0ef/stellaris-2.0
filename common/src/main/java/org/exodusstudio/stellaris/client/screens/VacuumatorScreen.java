@@ -14,8 +14,6 @@ import org.exodusstudio.stellaris.common.blocks.entities.machines.VacuumatorBloc
 import org.exodusstudio.stellaris.common.menus.VacuumatorMenu;
 import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
 
-import java.util.List;
-
 
 public class VacuumatorScreen extends AbstractContainerScreen<VacuumatorMenu> {
     public static final Identifier texture = IdentifierUtils.guiTexture("vacuumator");

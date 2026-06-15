@@ -19,8 +19,6 @@ import org.exodusstudio.stellaris.common.blocks.entities.machines.GravityManipul
 import org.exodusstudio.stellaris.common.menus.GravityManipulatorMenu;
 import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
 
-import java.util.List;
-
 
 public class GravityManipulatorScreen extends AbstractContainerScreen<GravityManipulatorMenu> {
 

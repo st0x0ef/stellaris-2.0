@@ -14,8 +14,6 @@ import org.exodusstudio.stellaris.common.blocks.entities.FluidTankBlockEntity;
 import org.exodusstudio.stellaris.common.menus.FluidTankMenu;
 import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
 
-import java.util.List;
-
 public class FluidTankScreen extends AbstractContainerScreen<FluidTankMenu> {
 
     private static final Identifier TEXTURE = IdentifierUtils.guiTexture("fluid_tank");

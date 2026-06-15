@@ -13,8 +13,6 @@ import org.exodusstudio.stellaris.common.blocks.entities.machines.CargoUnloaderB
 import org.exodusstudio.stellaris.common.menus.CargoUnloaderMenu;
 import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
 
-import java.util.List;
-
 public class CargoUnloaderScreen extends AbstractContainerScreen<CargoUnloaderMenu> {
 
     public static final Identifier TEXTURE = IdentifierUtils.guiTexture("cargo_unloader");
