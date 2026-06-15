@@ -7,7 +7,6 @@ import net.minecraft.world.level.storage.ValueOutput;
 
 public abstract class MultipleFluidStorage extends BaseFluidStorage {
 
-
     public MultipleFluidStorage(int tanks, long capacity, long maxFill, long maxDrain) {
         super(tanks, capacity, maxFill, maxDrain);
     }
