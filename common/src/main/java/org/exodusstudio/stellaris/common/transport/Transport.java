@@ -10,10 +10,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import org.exodusstudio.stellaris.common.blocks.PumpjackProxyBlock;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * The single, generic distribution engine shared by fluids and energy. It replaces the duplicated
@@ -112,9 +109,7 @@ public final class Transport {
         List<S> sinks = new ArrayList<>();
         Set<BlockPos> seen = new HashSet<>();
         seen.add(sourcePos); // never push back into the producer
-        for (BlockPos excluded : exclude) {
-            seen.add(excluded);
-        }
+        seen.addAll(Arrays.asList(exclude));
 
         for (TransportGraph.BoundaryFace face : network.boundary) {
             if (!seen.add(face.pos())) {
