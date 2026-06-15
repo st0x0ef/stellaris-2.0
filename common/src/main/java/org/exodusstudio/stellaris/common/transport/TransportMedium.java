@@ -4,11 +4,16 @@ import com.fej1fun.potentials.capabilities.Capabilities;
 import com.fej1fun.potentials.capabilities.types.NoProviderBlockCapabilityHolder;
 import com.fej1fun.potentials.energy.UniversalEnergyStorage;
 import com.fej1fun.potentials.fluid.UniversalFluidStorage;
+import com.fej1fun.potentials.providers.EnergyProvider;
+import com.fej1fun.potentials.providers.FluidProvider;
 import net.minecraft.core.Direction;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import org.exodusstudio.stellaris.common.blocks.CableBlock;
 import org.exodusstudio.stellaris.common.blocks.PipeBlock;
+import org.jetbrains.annotations.Nullable;
 
+import java.util.function.BiFunction;
 import java.util.function.Predicate;
 import java.util.function.ToLongFunction;
 
@@ -33,13 +38,23 @@ public final class TransportMedium<S> {
     public final NoProviderBlockCapabilityHolder<S, Direction> capability;
     private final Predicate<BlockState> isNode;
     private final ToLongFunction<BlockState> throughput;
+    /**
+     * Optional fast path that fetches the raw storage directly from the block entity, bypassing
+     * any platform capability wrapper. On NeoForge, the wrapper converts {@code drain/fill(simulate=true)}
+     * into {@code drain/fill(false)} inside a transaction, but our storage classes don't register with
+     * NeoForge's transaction system so the rollback is a no-op — permanently mutating the tank on
+     * every simulate check. Going directly to the block entity avoids that wrapper entirely.
+     */
+    final @Nullable BiFunction<BlockEntity, Direction, S> rawGet;
 
     public TransportMedium(NoProviderBlockCapabilityHolder<S, Direction> capability,
                            Predicate<BlockState> isNode,
-                           ToLongFunction<BlockState> throughput) {
+                           ToLongFunction<BlockState> throughput,
+                           @Nullable BiFunction<BlockEntity, Direction, S> rawGet) {
         this.capability = capability;
         this.isNode = isNode;
         this.throughput = throughput;
+        this.rawGet = rawGet;
     }
 
     /** Whether {@code state} is a connector of this network. */
@@ -55,10 +70,12 @@ public final class TransportMedium<S> {
     public static final TransportMedium<UniversalFluidStorage> FLUID = new TransportMedium<>(
             Capabilities.Fluid.BLOCK,
             state -> state.getBlock() instanceof PipeBlock,
-            state -> state.getBlock() instanceof PipeBlock pipe ? pipe.maxOut : 0L);
+            state -> state.getBlock() instanceof PipeBlock pipe ? pipe.maxOut : 0L,
+            (be, dir) -> be instanceof FluidProvider.BLOCK p ? p.getFluidTank(dir) : null);
 
     public static final TransportMedium<UniversalEnergyStorage> ENERGY = new TransportMedium<>(
             Capabilities.Energy.BLOCK,
             state -> state.getBlock() instanceof CableBlock,
-            state -> state.getBlock() instanceof CableBlock cable ? cable.transferRate : 0L);
+            state -> state.getBlock() instanceof CableBlock cable ? cable.transferRate : 0L,
+            (be, dir) -> be instanceof EnergyProvider.BLOCK p ? p.getEnergy(dir) : null);
 }

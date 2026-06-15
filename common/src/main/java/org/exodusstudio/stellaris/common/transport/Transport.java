@@ -6,6 +6,7 @@ import dev.architectury.fluid.FluidStack;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import org.exodusstudio.stellaris.common.blocks.PumpjackProxyBlock;
 
@@ -148,8 +149,24 @@ public final class Transport {
         return total;
     }
 
-    /** Resolves {@code medium}'s capability at a face, falling back through a pumpjack proxy. */
+    /**
+     * Resolves {@code medium}'s capability at a face, falling back through a pumpjack proxy.
+     * <p>
+     * When {@code medium} has a {@code rawGet} provider, that is tried first. This bypasses the
+     * NeoForge capability wrapper ({@code UniversalFluidHandler → NeoForgeFluidStorage}) whose
+     * simulate operations call {@code drain/fill(false)} inside a transaction, but our storage
+     * classes don't register rollback callbacks with the transaction, so the rollback is a no-op
+     * and every simulate check permanently mutates the tank. The raw provider returns the
+     * underlying {@code SingleFluidStorage} / {@code MultipleFluidStorage} directly, where
+     * {@code drain/fill(simulate=true)} is correctly side-effect-free.
+     */
     public static <S> S capability(Level level, BlockPos pos, Direction direction, TransportMedium<S> medium) {
+        BlockEntity be = level.getBlockEntity(pos);
+        if (be != null && medium.rawGet != null) {
+            S raw = medium.rawGet.apply(be, direction);
+            if (raw != null) return raw;
+        }
+
         S direct = medium.capability.getCapability(level, pos, direction);
         if (direct != null) {
             return direct;
@@ -158,6 +175,13 @@ public final class Transport {
         BlockState state = level.getBlockState(pos);
         if (state.getBlock() instanceof PumpjackProxyBlock) {
             BlockPos mainPos = PumpjackProxyBlock.getMainPos(pos, state);
+            if (medium.rawGet != null) {
+                BlockEntity mainBe = level.getBlockEntity(mainPos);
+                if (mainBe != null) {
+                    S raw = medium.rawGet.apply(mainBe, direction);
+                    if (raw != null) return raw;
+                }
+            }
             return medium.capability.getCapability(level, mainPos, direction);
         }
         return null;
