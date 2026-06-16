@@ -8,7 +8,7 @@
   "item.stellaris.moon_stone_slab": "Moon Stone Slab",
   "item.stellaris.moon_stone_stairs": "Moon Stone Stairs",
   "item.stellaris.vertical_moon_stone_slab": "Vertical Moon Stone Slab",
-  "item.stellaris.moon_cobblestone": "Moon Cobblestone",
+  "item.stellaris.moon_cobblestone": "Moon Cobblestone",#
   "item.stellaris.moon_deepslate": "Moon Deepslate",
   "item.stellaris.moon_stone_iron_ore": "Moon Iron Ore",
   "item.stellaris.moon_sand": "Moon Sand",
@@ -427,8 +427,10 @@
   "entity.stellaris.luna_shadow": "Luna Shadow",
 
 
+  "stat.stellaris.rocket_launched": "Rocket Launched",
   "stat.stellaris.space_traveled": "Space Traveled",
   "stat.stellaris.sd_card_read": "Sd Cards Read",
+  "stat.stellaris.lander_exploded": "Lander Exploded",
 
   "key.stellaris.rocket_start": "Start Rocket",
   "key.stellaris.jet_switch_mode": "Switch Jet Mode",
