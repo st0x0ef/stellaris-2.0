@@ -222,13 +222,13 @@ public final class BlocksRegistry {
     /**
      * Fluids
      */
-    public static final RegistrySupplier<ArchitecturyLiquidBlock> HYDROGEN = block("hydrogen_block", BlockBehaviour.Properties.ofFullCopy(Blocks.WATER), (p) -> new ArchitecturyLiquidBlock(FluidsRegistry.HYDROGEN_STILL, p));
-    public static final RegistrySupplier<ArchitecturyLiquidBlock> OIL = block("oil", BlockBehaviour.Properties.ofFullCopy(Blocks.WATER), (p) -> new ArchitecturyLiquidBlock(FluidsRegistry.OIL_STILL, p));
-    public static final RegistrySupplier<ArchitecturyLiquidBlock> OXYGEN = block("oxygen_block", BlockBehaviour.Properties.ofFullCopy(Blocks.WATER), (p) -> new ArchitecturyLiquidBlock(FluidsRegistry.OXYGEN_STILL, p));
-    public static final RegistrySupplier<ArchitecturyLiquidBlock> FUEL = block("fuel_block", BlockBehaviour.Properties.ofFullCopy(Blocks.WATER), (p) -> new ArchitecturyLiquidBlock(FluidsRegistry.FUEL_STILL, p));
-    public static final RegistrySupplier<ArchitecturyLiquidBlock> DIESEL = block("diesel", BlockBehaviour.Properties.ofFullCopy(Blocks.WATER), (p) -> new ArchitecturyLiquidBlock(FluidsRegistry.DIESEL_STILL, p));
-    public static final RegistrySupplier<ArchitecturyLiquidBlock> BLUE_LIQUID = block("blue_liquid", BlockBehaviour.Properties.ofFullCopy(Blocks.WATER), (p) -> new ArchitecturyLiquidBlock(FluidsRegistry.BLUE_LIQUID_STILL, p.lightLevel((e) -> 8)));
-    public static final RegistrySupplier<ArchitecturyLiquidBlock> ASTRUM_LIQUIDUS = block("astrum_liquidus", BlockBehaviour.Properties.ofFullCopy(Blocks.WATER).lightLevel((blockStatex) -> 15), (p) -> new ArchitecturyLiquidBlock(FluidsRegistry.ASTRUM_LIQUIDUS_STILL, p.lightLevel((e) -> 15)));
+    public static final RegistrySupplier<ArchitecturyLiquidBlock> HYDROGEN = block("hydrogen_block", BlockBehaviour.Properties.ofFullCopy(Blocks.WATER), (p) -> new ArchitecturyLiquidBlock(FluidsRegistry.HYDROGEN_STILL, p.liquid()));
+    public static final RegistrySupplier<ArchitecturyLiquidBlock> OIL = block("oil", BlockBehaviour.Properties.ofFullCopy(Blocks.WATER), (p) -> new ArchitecturyLiquidBlock(FluidsRegistry.OIL_STILL, p.liquid()));
+    public static final RegistrySupplier<ArchitecturyLiquidBlock> OXYGEN = block("oxygen_block", BlockBehaviour.Properties.ofFullCopy(Blocks.WATER), (p) -> new ArchitecturyLiquidBlock(FluidsRegistry.OXYGEN_STILL, p.liquid()));
+    public static final RegistrySupplier<ArchitecturyLiquidBlock> FUEL = block("fuel_block", BlockBehaviour.Properties.ofFullCopy(Blocks.WATER), (p) -> new ArchitecturyLiquidBlock(FluidsRegistry.FUEL_STILL, p.liquid()));
+    public static final RegistrySupplier<ArchitecturyLiquidBlock> DIESEL = block("diesel", BlockBehaviour.Properties.ofFullCopy(Blocks.WATER), (p) -> new ArchitecturyLiquidBlock(FluidsRegistry.DIESEL_STILL, p.liquid()));
+    public static final RegistrySupplier<ArchitecturyLiquidBlock> BLUE_LIQUID = block("blue_liquid", BlockBehaviour.Properties.ofFullCopy(Blocks.WATER), (p) -> new ArchitecturyLiquidBlock(FluidsRegistry.BLUE_LIQUID_STILL, p.liquid().lightLevel((e) -> 8)));
+    public static final RegistrySupplier<ArchitecturyLiquidBlock> ASTRUM_LIQUIDUS = block("astrum_liquidus", BlockBehaviour.Properties.ofFullCopy(Blocks.WATER).lightLevel((blockStatex) -> 15), (p) -> new ArchitecturyLiquidBlock(FluidsRegistry.ASTRUM_LIQUIDUS_STILL, p.liquid().lightLevel((e) -> 15)));
 
 
     /**
