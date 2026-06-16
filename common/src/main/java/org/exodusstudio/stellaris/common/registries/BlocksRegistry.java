@@ -183,7 +183,7 @@ public final class BlocksRegistry {
 
     // TECH
     public static final BlockItemRegistrySupplier ELECTROLYZER = blockWithItem("electrolyzer", BlockBehaviour.Properties.of(), ElectrolyzerBlock::new, new Item.Properties());
-    public static final BlockItemRegistrySupplier GRAVITY_MANIPULATOR = blockWithItem("gravity_manipulator", BlockBehaviour.Properties.of(), GravityManipulatorBlock::new);
+    public static final BlockItemRegistrySupplier GRAVITY_MANIPULATOR = blockWithItem("gravity_manipulator", BlockBehaviour.Properties.of().noOcclusion(), GravityManipulatorBlock::new);
     public static final BlockItemRegistrySupplier PUMPJACK = blockWithItem(
             "pumpjack",
             BlockBehaviour.Properties.of()
