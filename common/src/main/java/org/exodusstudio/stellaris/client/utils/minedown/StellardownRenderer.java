@@ -30,14 +30,6 @@ public class StellardownRenderer {
         //We only parse one time the text
         this.segments = parser.parse(parser.tokenize(formattedText));
 
-        for (Pair<String, StellardownParser.Style> segment : segments) {
-            Stellaris.LOG.error(
-                    "SEGMENT='{}' TRANSLATABLE={}",
-                    segment.getA(),
-                    segment.getB().translatable
-            );
-        }
-
         updateLayout(areaWidth);
     }
 
