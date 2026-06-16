@@ -22,7 +22,7 @@
     },
     {
       "type": "text",
-      "text": "You can craft the rocket with the [ref=stellaris:machines/electrolyzer]Rocket Bench[ref] and use it to explore space and reach new planets."
+      "text": "You can craft the rocket with the [ref=stellaris:machines/engineering_station]Rocket Bench[ref] and use it to explore space and reach new planets."
     }
   ],
   "iconType": "item",

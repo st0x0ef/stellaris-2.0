@@ -21,7 +21,7 @@ import org.exodusstudio.stellaris.client.screens.components.containers.Scrollabl
 import org.exodusstudio.stellaris.client.screens.tablet.application.ApplicationRegistry;
 import org.exodusstudio.stellaris.client.screens.tablet.application.ApplicationScreen;
 import org.exodusstudio.stellaris.client.utils.ClientUtils;
-import org.exodusstudio.stellaris.client.utils.WikiEntryTextRenderer;
+import org.exodusstudio.stellaris.client.screens.components.StellarDownWidget;
 import org.exodusstudio.stellaris.common.antennas.Antenna;
 import org.exodusstudio.stellaris.common.antennas.AntennaSavedData;
 import org.exodusstudio.stellaris.common.data.Planet;
@@ -334,16 +334,16 @@ public class PlanetSelectionAppScreen extends AbstractContainerScreen<PlanetSele
 
             if(planet == null) return 0;
 
-            WikiEntryTextRenderer.Builder builder = new WikiEntryTextRenderer.Builder();
+            StellarDownWidget.Builder builder = new StellarDownWidget.Builder();
 
             builder.addText("----- Planet Info -----").breakL();
-            builder.addText("Planet:").addText(planet.translationKey()).breakL();
-            builder.addText("Dimension: ").addText(planet.dimension().toString()).breakL();
+            builder.addText("Planet:").addTranslatableText(planet.translationKey()).breakL();
+            builder.addText("Dimension:").addText(planet.dimension().toString()).breakL();
             builder.addText("Gravity:").addText(planet.gravity()).addText("m/s²").breakL();
             builder.addText("Has Oxygen:").conditionColorText(planet.hasOxygen() ? "Yes" : "No", "green", "red", this.selectionAppScreen.selectedPlanet.hasOxygen()).breakL();
             builder.addText("-----------------------");
 
-            var widget = builder.toWidget(this.getX(), this.getY() + 20, 300, Minecraft.getInstance().font.lineHeight * 6);
+            StellarDownWidget widget = builder.build(this.getX() - 3, this.getY() + 20, 300, Minecraft.getInstance().font.lineHeight * 6);
             addAntennaWidget(widget);
             return widget.getHeight() + 20;
         }

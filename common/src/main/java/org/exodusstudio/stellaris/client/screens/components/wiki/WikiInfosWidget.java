@@ -8,14 +8,18 @@ import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.client.utils.minedown.StellardownRenderer;
 import org.exodusstudio.stellaris.common.data.wiki.EntryInfo;
 import org.exodusstudio.stellaris.client.screens.components.containers.ScrollableContainer;
 import org.exodusstudio.stellaris.client.utils.ActionBox;
 import org.exodusstudio.stellaris.client.utils.ClientUtils;
+import org.exodusstudio.stellaris.common.utils.Utils;
 import org.joml.Matrix3x2fStack;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class WikiInfosWidget extends ScrollableContainer {
@@ -23,12 +27,14 @@ public class WikiInfosWidget extends ScrollableContainer {
     private AtomicInteger finalHeight = new AtomicInteger(0);
 
     public EntryInfo info;
-    private final ArrayList<ActionBox> actionBoxes = new ArrayList<>();
+    private final CopyOnWriteArrayList<ActionBox> actionBoxes = new CopyOnWriteArrayList<>();
 
+    private boolean firstRender = true;
 
     public WikiInfosWidget(int baseX, int baseY, int width, int height, EntryInfo info) {
         this(baseX, baseY, width, height);
         this.info = info;
+        this.firstRender = true;
     }
 
     public WikiInfosWidget(int baseX, int baseY, int width, int height) {
@@ -107,13 +113,13 @@ public class WikiInfosWidget extends ScrollableContainer {
         }
 
         finalHeight.addAndGet(10); // Extra padding at the bottom
+
+        firstRender = false;
     }
 
     public void addClickBox(ActionBox box) {
 
-        boolean isBoxAlreadyIn = this.actionBoxes.stream().anyMatch((b) -> b.id().equals(box.id()));
-
-        if(!isBoxAlreadyIn) {
+        if(this.firstRender) {
             this.actionBoxes.add(box);
         }
     }
@@ -143,5 +149,8 @@ public class WikiInfosWidget extends ScrollableContainer {
     public void refresh(EntryInfo entryInfo) {
         this.info = entryInfo;
         this.setScrollAmount(0);
+        actionBoxes.clear();
+        this.firstRender = true;
+
     }
 }

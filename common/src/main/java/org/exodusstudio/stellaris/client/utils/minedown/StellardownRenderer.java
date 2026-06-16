@@ -5,6 +5,7 @@ import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
+import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.client.utils.ActionBox;
 import org.exodusstudio.stellaris.common.utils.Utils;
 import oshi.util.tuples.Pair;
@@ -28,6 +29,8 @@ public class StellardownRenderer {
 
         //We only parse one time the text
         this.segments = parser.parse(parser.tokenize(formattedText));
+
+
         updateLayout(areaWidth);
     }
 
@@ -184,6 +187,11 @@ public class StellardownRenderer {
 
     public static MutableComponent toComponent(String text, StellardownParser.Style style) {
         MutableComponent comp = Component.literal(text);
+
+
+        if(style.translatable) {
+            comp = Component.translatable(text);
+        }
 
         //We automatically make reference text blue, but we can also specify a custom color if needed
 

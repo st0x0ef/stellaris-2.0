@@ -28,6 +28,7 @@ public record ActionBox(int x, int y, int width, int height, @Nullable Consumer<
         return mouseX >= x && mouseX <= x + width && mouseY >= y && mouseY <= y + height;
     }
 
+
     public void onClick(WikiInfosWidget infos) {
         if (clickAction != null) {
             clickAction.accept(new RenderingInfo(infos, this));
