@@ -183,7 +183,7 @@ public final class BlocksRegistry {
 
     // TECH
     public static final BlockItemRegistrySupplier ELECTROLYZER = blockWithItem("electrolyzer", BlockBehaviour.Properties.of(), ElectrolyzerBlock::new, new Item.Properties());
-    public static final BlockItemRegistrySupplier GRAVITY_MANIPULATOR = blockWithItem("gravity_manipulator", BlockBehaviour.Properties.of(), GravityManipulatorBlock::new);
+    public static final BlockItemRegistrySupplier GRAVITY_MANIPULATOR = blockWithItem("gravity_manipulator", BlockBehaviour.Properties.of().noOcclusion(), GravityManipulatorBlock::new);
     public static final BlockItemRegistrySupplier PUMPJACK = blockWithItem(
             "pumpjack",
             BlockBehaviour.Properties.of()
@@ -212,7 +212,7 @@ public final class BlocksRegistry {
     public static final BlockItemRegistrySupplier ROCKET_LAUNCH_PAD = blockWithCustomItem("rocket_launch_pad", BlockBehaviour.Properties.of(), RocketLaunchPadBlock::new, new Item.Properties(), BlockItem::new);
     public static final BlockItemRegistrySupplier ANTENNA = blockWithCustomItem("antenna", BlockBehaviour.Properties.of(), AntennaBlock::new, new Item.Properties(),
             (b, p) -> new TooltipBlockItem(b, p).addTooltip(AntennaBlock.TOOLTIP));
-    public static final BlockItemRegistrySupplier CARGO_UNLOADER = blockWithItem("cargo_unloader", BlockBehaviour.Properties.of(), CargoUnloaderBlock::new);
+    public static final BlockItemRegistrySupplier CARGO_UNLOADER = blockWithItem("cargo_unloader", BlockBehaviour.Properties.of().noOcclusion(), CargoUnloaderBlock::new);
 
 
     // LORE
