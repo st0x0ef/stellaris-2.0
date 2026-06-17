@@ -243,6 +243,15 @@ public final class BlocksRegistry {
             FlagBlock::new
     );
 
+    public static final RegistrySupplier<Block> FLAG_PROXY = block(
+            "flag_proxy",
+            BlockBehaviour.Properties.of()
+                    .noOcclusion()
+                    .isSuffocating(BlocksRegistry::never)
+                    .isViewBlocking(BlocksRegistry::never),
+            FlagProxyBlock::new
+    );
+
 
     public static <B extends Block> @NotNull RegistrySupplier<B> block(String name,
                                                                        BlockBehaviour.Properties properties,
