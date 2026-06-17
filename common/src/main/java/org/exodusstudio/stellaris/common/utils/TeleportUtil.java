@@ -26,6 +26,17 @@ public class TeleportUtil {
         landerEntity.setNoGravity(false);
     }
 
+    public static void teleportFallingEntityToPlanet(Entity entity, ServerLevel planet, BlockPos destPos) {
+
+        Entity vehicle = entity.getVehicle();
+        TeleportUtil.teleportToLevel(entity, planet, new Vec3(destPos.getX(), Stellaris.CONFIG.vehicleConfig.rocketTpHeight, destPos.getZ()));
+
+        if(vehicle != null) {
+            TeleportUtil.teleportToLevel(vehicle, planet, new Vec3(destPos.getX(), Stellaris.CONFIG.vehicleConfig.rocketTpHeight, destPos.getZ()));
+            entity.startRiding(vehicle, true, false);
+        }
+    }
+
     public static void teleportToLevel(Entity entity, @NotNull ServerLevel level, Vec3 coords) {
         entity.teleport(new TeleportTransition(level, coords, Vec3.ZERO, 0, 0, TeleportTransition.DO_NOTHING));
     }
