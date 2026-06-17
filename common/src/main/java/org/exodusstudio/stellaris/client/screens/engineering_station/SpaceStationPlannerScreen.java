@@ -64,9 +64,7 @@ public class SpaceStationPlannerScreen extends AbstractContainerScreen<SpaceStat
 
         int i = 0;
         for(SpaceStationRecipe recipe : SpaceStationData.SPACE_STATION_RECIPES) {
-            TexturedButton button = new TexturedButton(container.getX() + 5, this.container.getY() + 5 + i * 25, 60, 20, btn -> {
-                this.changeSelectRecipe(recipe, btn);
-            }).tex(IdentifierUtils.id("util/machine_button"), IdentifierUtils.id("util/machine_button_hover"))
+            TexturedButton button = new TexturedButton(container.getX() + 5, this.container.getY() + 5 + i * 25, 60, 20, btn -> this.changeSelectRecipe(recipe, btn)).tex(IdentifierUtils.id("util/machine_button"), IdentifierUtils.id("util/machine_button_hover"))
                     .useSprite(true)
                     .setText(recipe.getDisplayName())
                     .setTextPadding(new Padding(2, 0))
