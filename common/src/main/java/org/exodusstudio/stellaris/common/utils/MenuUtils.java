@@ -9,6 +9,7 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerLevelAccess;
+import org.exodusstudio.stellaris.common.blocks.entities.machines.EngineeringStationBlockEntity;
 import org.exodusstudio.stellaris.common.menus.engineering_station.RocketStationMenu;
 import org.exodusstudio.stellaris.common.menus.engineering_station.EngineUpgradeMenu;
 import org.exodusstudio.stellaris.common.menus.engineering_station.SpaceStationPlannerMenu;
@@ -53,7 +54,8 @@ public class MenuUtils {
 
             @Override
             public AbstractContainerMenu createMenu(int containerId, Inventory inventory, Player player) {
-                return new EngineUpgradeMenu(containerId, inventory, ContainerLevelAccess.NULL, pos);
+                EngineeringStationBlockEntity be = (EngineeringStationBlockEntity) player.level().getBlockEntity(pos);
+                return new EngineUpgradeMenu(containerId, inventory, ContainerLevelAccess.NULL, pos, be);
             }
         };
     }
@@ -72,7 +74,12 @@ public class MenuUtils {
 
             @Override
             public AbstractContainerMenu createMenu(int containerId, Inventory inventory, Player player) {
-                return new SpaceStationPlannerMenu(containerId, inventory, new SimpleContainer(10), pos);
+                EngineeringStationBlockEntity be = (EngineeringStationBlockEntity) player.level().getBlockEntity(pos);
+                SimpleContainer container = new SimpleContainer(10);
+                if (be != null) {
+                    for (int i = 0; i < 10; i++) container.setItem(i, be.spaceStationPlannerItems.get(i));
+                }
+                return new SpaceStationPlannerMenu(containerId, inventory, container, pos, be);
             }
         };
     }

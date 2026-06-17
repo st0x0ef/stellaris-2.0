@@ -42,8 +42,6 @@ public class EngineUpgraderScreen extends AbstractContainerScreen<EngineUpgradeM
         for(TabInfo tab : TABS) {
             TexturedButton tabWidget = new TexturedButton(x, y + i++ * 16, 16,16,
                     Component.empty(), button -> {
-
-                    Stellaris.LOG.info("Current {} Tab Dest {}", currentScreen, tab.provider.id());
                     if (!currentScreen.equals(tab.provider.id())) {
                             EngineUpgradeMenu.openScreen(tab.provider, pos);
                         }

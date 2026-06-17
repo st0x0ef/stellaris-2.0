@@ -18,6 +18,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 import org.exodusstudio.stellaris.common.blocks.entities.machines.base.ImplementedInventory;
+import org.exodusstudio.stellaris.common.blocks.entities.machines.base.TabSwitchableBlockEntity;
 import org.exodusstudio.stellaris.common.blocks.entities.machines.base.TickingBlockEntity;
 import org.exodusstudio.stellaris.common.data.recipes.RocketStationRecipe;
 import org.exodusstudio.stellaris.common.data.recipes.input.RocketStationInput;
@@ -29,9 +30,12 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Optional;
 
-public class EngineeringStationBlockEntity extends BaseContainerBlockEntity implements ImplementedInventory, RecipeInput, TickingBlockEntity {
+public class EngineeringStationBlockEntity extends BaseContainerBlockEntity implements ImplementedInventory, RecipeInput, TickingBlockEntity, TabSwitchableBlockEntity {
 
     private NonNullList<ItemStack> items = NonNullList.withSize(15, ItemStack.EMPTY);
+    public NonNullList<ItemStack> engineUpgradeItems = NonNullList.withSize(2, ItemStack.EMPTY);
+    public NonNullList<ItemStack> spaceStationPlannerItems = NonNullList.withSize(10, ItemStack.EMPTY);
+    private boolean tabSwitching = false;
     private final RecipeManager.CachedCheck<RocketStationInput, RocketStationRecipe> quickCheck = RecipeManager.createCheck(RecipesRegistry.ROCKET_STATION_TYPE.get());
 
     public EngineeringStationBlockEntity(BlockPos blockPos, BlockState blockState) {
@@ -47,6 +51,10 @@ public class EngineeringStationBlockEntity extends BaseContainerBlockEntity impl
     protected AbstractContainerMenu createMenu(int i, Inventory inventory) {
         return new RocketStationMenu(i, inventory, this, this);
     }
+
+    public void setTabSwitching(boolean tabSwitching) { this.tabSwitching = tabSwitching; }
+
+    public boolean isTabSwitching() { return this.tabSwitching; }
 
     @Override
     public void setChanged() {

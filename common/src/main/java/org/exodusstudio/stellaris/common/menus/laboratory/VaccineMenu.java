@@ -40,6 +40,25 @@ public class VaccineMenu extends BaseItemCombinerMenu {
     public VaccineMenu(int containerId, Inventory playerInventory, ContainerLevelAccess access, BlockPos pos) {
         super(MenuTypesRegistry.LABORATORY_VACCINE.get(), containerId, playerInventory, access);
         this.laboratoryBlockEntity = (LaboratoryBlockEntity) player.level().getBlockEntity(pos);
+        if (laboratoryBlockEntity != null) {
+            this.inputSlots.setItem(0, laboratoryBlockEntity.vaccineItems.get(0));
+            this.inputSlots.setItem(1, laboratoryBlockEntity.vaccineItems.get(1));
+            this.inputSlots.setItem(2, laboratoryBlockEntity.vaccineItems.get(2));
+            this.inputSlots.setItem(3, laboratoryBlockEntity.vaccineItems.get(3));
+        }
+    }
+
+    @Override
+    public void removed(Player player) {
+        super.removed(player); // no-op for items since access is ContainerLevelAccess.NULL
+        if (laboratoryBlockEntity != null && laboratoryBlockEntity.isTabSwitching()) {
+            laboratoryBlockEntity.vaccineItems.set(0, inputSlots.getItem(0).copy());
+            laboratoryBlockEntity.vaccineItems.set(1, inputSlots.getItem(1).copy());
+            laboratoryBlockEntity.vaccineItems.set(2, inputSlots.getItem(2).copy());
+            laboratoryBlockEntity.vaccineItems.set(3, inputSlots.getItem(3).copy());
+        } else {
+            clearContainer(player, inputSlots);
+        }
     }
 
     @Override

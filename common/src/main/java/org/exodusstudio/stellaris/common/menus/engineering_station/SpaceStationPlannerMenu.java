@@ -12,6 +12,7 @@ import net.minecraft.world.inventory.ContainerListener;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import org.exodusstudio.stellaris.client.screens.engineering_station.SpaceStationPlannerScreen;
+import org.exodusstudio.stellaris.common.blocks.entities.machines.EngineeringStationBlockEntity;
 import org.exodusstudio.stellaris.common.data.space_station.SpaceStationRecipe;
 import org.exodusstudio.stellaris.common.menus.base.BaseContainer;
 import org.exodusstudio.stellaris.common.menus.slot.SpecificItemsSlot;
@@ -30,20 +31,28 @@ public class SpaceStationPlannerMenu extends BaseContainer implements ContainerL
     private ItemStack card = ItemStack.EMPTY;
     private int resultSlotId;
     public final BlockPos engineeringStationPos;
+    private final EngineeringStationBlockEntity blockEntity;
 
     public List<Slot> materialSlot = new ArrayList<>();
 
     public boolean checked = false;
 
     public static SpaceStationPlannerMenu create(int syncId, Inventory inventory, FriendlyByteBuf data) {
-        return new SpaceStationPlannerMenu(syncId, inventory, new SimpleContainer(10), data.readBlockPos());
+        BlockPos pos = data.readBlockPos();
+        EngineeringStationBlockEntity be = (EngineeringStationBlockEntity) inventory.player.level().getBlockEntity(pos);
+        SimpleContainer container = new SimpleContainer(10);
+        if (be != null) {
+            for (int i = 0; i < 10; i++) container.setItem(i, be.spaceStationPlannerItems.get(i));
+        }
+        return new SpaceStationPlannerMenu(syncId, inventory, container, pos, be);
     }
 
-    public SpaceStationPlannerMenu(int syncId, Inventory playerInventory, Container container, BlockPos pos) {
+    public SpaceStationPlannerMenu(int syncId, Inventory playerInventory, Container container, BlockPos pos, EngineeringStationBlockEntity blockEntity) {
         super(MenuTypesRegistry.SPACE_STATION_PLANNER.get(), syncId, 10, playerInventory, 10, 142);
 
         checkContainerSize(container, 10);
         this.engineeringStationPos = pos;
+        this.blockEntity = blockEntity;
         this.inventory = container;
         this.player = playerInventory.player;
         this.resultSlotId = this.addSlot(new SpecificItemsSlot(this.inventory, 0, 122, 56, ItemsRegistry.SPACE_STATION_BLUEPRINT.get())).index;
@@ -70,7 +79,13 @@ public class SpaceStationPlannerMenu extends BaseContainer implements ContainerL
     @Override
     public void removed(Player player) {
         super.removed(player);
-        this.clearContainer(player, this.inventory);
+        if (blockEntity != null && blockEntity.isTabSwitching()) {
+            for (int i = 0; i < inventory.getContainerSize(); i++) {
+                blockEntity.spaceStationPlannerItems.set(i, inventory.getItem(i).copy());
+            }
+        } else {
+            this.clearContainer(player, this.inventory);
+        }
     }
 
     @Override

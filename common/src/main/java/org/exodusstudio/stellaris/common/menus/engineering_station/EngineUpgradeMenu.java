@@ -11,6 +11,7 @@ import net.minecraft.world.inventory.ContainerLevelAccess;
 import net.minecraft.world.inventory.ItemCombinerMenuSlotDefinition;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
+import org.exodusstudio.stellaris.common.blocks.entities.machines.EngineeringStationBlockEntity;
 import org.exodusstudio.stellaris.common.items.RocketItem;
 import org.exodusstudio.stellaris.common.items.space_suit.SpaceSuitItem;
 import org.exodusstudio.stellaris.common.menus.base.BaseItemCombinerMenu;
@@ -30,15 +31,22 @@ import java.util.List;
 public class EngineUpgradeMenu extends BaseItemCombinerMenu {
 
     public final BlockPos engineeringStationPos;
+    private final EngineeringStationBlockEntity blockEntity;
 
     public static EngineUpgradeMenu create(int containerId, Inventory playerInventory, FriendlyByteBuf buf) {
-        return new EngineUpgradeMenu(containerId, playerInventory, ContainerLevelAccess.NULL, buf.readBlockPos());
+        BlockPos pos = buf.readBlockPos();
+        EngineeringStationBlockEntity be = (EngineeringStationBlockEntity) playerInventory.player.level().getBlockEntity(pos);
+        return new EngineUpgradeMenu(containerId, playerInventory, ContainerLevelAccess.NULL, pos, be);
     }
 
-    //We need to save the position of the rocket station to be able to open the crafting menu from here and get/save items in it.
-    public EngineUpgradeMenu(int containerId, Inventory playerInventory, ContainerLevelAccess access, BlockPos pos) {
+    public EngineUpgradeMenu(int containerId, Inventory playerInventory, ContainerLevelAccess access, BlockPos pos, EngineeringStationBlockEntity blockEntity) {
         super(MenuTypesRegistry.ENGINE_UPGRADE.get(), containerId, playerInventory, access);
         this.engineeringStationPos = pos;
+        this.blockEntity = blockEntity;
+        if (blockEntity != null) {
+            this.inputSlots.setItem(0, blockEntity.engineUpgradeItems.get(0));
+            this.inputSlots.setItem(1, blockEntity.engineUpgradeItems.get(1));
+        }
     }
 
     @Override
@@ -191,6 +199,17 @@ public class EngineUpgradeMenu extends BaseItemCombinerMenu {
             return module.getItem() instanceof SpaceSuitModule spaceSuitModule && StellarisRegistries.SPACE_SUIT_MODULES.containsValue(spaceSuitModule) && spaceSuitModule.canBeAppliedToSpaceSuitPart(this.inputSlots.getItem(0));
         }
         return false;
+    }
+
+    @Override
+    public void removed(Player player) {
+        super.removed(player); // no-op for items since access is ContainerLevelAccess.NULL
+        if (blockEntity != null && blockEntity.isTabSwitching()) {
+            blockEntity.engineUpgradeItems.set(0, inputSlots.getItem(0).copy());
+            blockEntity.engineUpgradeItems.set(1, inputSlots.getItem(1).copy());
+        } else {
+            clearContainer(player, inputSlots);
+        }
     }
 
     public static void openScreen(OpenBlockEntityMenusPacket.BlockEntityMenuProvider menuProvider, BlockPos blockPos) {

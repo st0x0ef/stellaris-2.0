@@ -10,6 +10,7 @@ import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerPlayer;
 import org.exodusstudio.stellaris.Stellaris;
+import org.exodusstudio.stellaris.common.blocks.entities.machines.base.TabSwitchableBlockEntity;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
@@ -50,8 +51,13 @@ public class OpenBlockEntityMenusPacket implements CustomPacketPayload {
 
     public static void handle(OpenBlockEntityMenusPacket packet, NetworkManager.PacketContext context) {
         if (context.getPlayer() instanceof ServerPlayer player) {
+            TabSwitchableBlockEntity be = player.level().getBlockEntity(packet.stationPos) instanceof TabSwitchableBlockEntity t ? t : null;
+            if (be != null) be.setTabSwitching(true);
+
             ExtendedMenuProvider menuProvider = packet.menuProvider.menu.apply(packet.stationPos);
             MenuRegistry.openExtendedMenu(player, menuProvider);
+
+            if (be != null) be.setTabSwitching(false);
         }
     }
 
