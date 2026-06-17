@@ -157,7 +157,7 @@ public class Events {
                 }
             } else if(state.is(BlocksRegistry.ROCKET_LAUNCH_PAD.block().get())) {
 
-                if(Utils.checkIfAntennaIsNear(pos, level, 1)) {
+                if(Utils.checkIfAntennaIsNear(pos, level, 1) || Utils.checkIfRocketIsNear(pos, level, 1)) {
                     return EventResult.interruptFalse();
                 }
             }

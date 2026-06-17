@@ -1,6 +1,7 @@
 package org.exodusstudio.stellaris.common.entities.vehicles;
 
 import com.fej1fun.potentials.components.FluidAmountMapDataComponent;
+import com.mojang.serialization.Codec;
 import dev.architectury.fluid.FluidStack;
 import dev.architectury.networking.NetworkManager;
 import dev.architectury.registry.menu.ExtendedMenuProvider;
@@ -245,7 +246,7 @@ public class RocketEntity extends VehicleEntity {
                     this.level().playSeededSound(player,this, SoundRegistry.ROCKET_SOUND, SoundSource.NEUTRAL, 1, 1, 1);
                 }
             } else {
-                player.sendOverlayMessage(Component.translatable("text.stellaris.rocket.fuel", getFuelType().getFluid().arch$registryName()));
+                player.sendOverlayMessage(Component.translatable("text.stellaris.rocket.fuel", getFuelType().getFluid().arch$registryName().toString()));
             }
         }
     }
@@ -349,6 +350,11 @@ public class RocketEntity extends VehicleEntity {
         super.addAdditionalSaveData(output);
 
         output.store("rocket_modules", RocketModules.CODEC, this.entityData.get(ROCKET_MODULES));
+
+        output.store("rocket_start", Codec.BOOL, this.entityData.get(ROCKET_START));
+        output.store("rocket_start_timer", Codec.INT, this.entityData.get(ROCKET_START_TIMER));
+        output.store("autopilot_destination", Planet.CODEC, this.entityData.get(AUTOPILOT_DESTINATION));
+
     }
 
     @Override
@@ -356,6 +362,18 @@ public class RocketEntity extends VehicleEntity {
         super.readAdditionalSaveData(input);
         Optional<Modules<RocketModule>>  modules = input.read("rocket_modules", RocketModules.CODEC);
         modules.ifPresent(this::setRocketModules);
+
+        Optional<Boolean> rocketStart = input.read("rocket_start", Codec.BOOL);
+        rocketStart.ifPresent(start -> this.entityData.set(ROCKET_START, start));
+
+        Optional<Integer> rocketStartTimer = input.read("rocket_start_timer", Codec.INT);
+        rocketStartTimer.ifPresent(timer -> this.entityData.set(ROCKET_START_TIMER, timer));
+
+        Optional<Planet> autopilotDestination = input.read("autopilot_destination", Planet.CODEC);
+        autopilotDestination.ifPresent(planet -> this.entityData.set(AUTOPILOT_DESTINATION, planet));
+
+        
+
     }
 
     @Override

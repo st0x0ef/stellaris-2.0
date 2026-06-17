@@ -278,6 +278,7 @@
 
   "gauge_text.stellaris.max_generation": "Max Generation : %s Fe/tick",
 
+  "text.stellaris.rocket.fuel": "You need %s fuel to launch this rocket.",
   "text.stellaris.oil_finder.no_oil": "No oil detected here.",
   "text.stellaris.oil_finder.cant_search": "Cannot search for oil (no energy).",
   "text.stellaris.oil_finder.oil_found": "Oil detected",
@@ -412,6 +413,14 @@
   "config.stellaris.fluidOutputConfig.desc": "Settings for the fluid output visualisation.",
   "config.stellaris.fluidOutputConfig.showNeighborsBlock.desc": "Highlight neighbour blocks when configuring fluid output.",
   "config.stellaris.fluidOutputConfig.fluidsColors.desc": "Colors used to identify each fluid output side.",
+
+
+
+  "config.stellaris_client.showOxygenDebug": "Show Oxygen Debug.",
+  "config.stellaris_client.fluidOutputConfig": "Fluid Output Settings.",
+  "config.stellaris_client.showNeighborsBlock": "Show Neighbour Blocks",
+  "config.stellaris_client.fluidsColors": "Fluid Colors",
+
 
   "effect.stellaris.infected": "Infected",
 

@@ -30,7 +30,6 @@ public class StellardownRenderer {
         //We only parse one time the text
         this.segments = parser.parse(parser.tokenize(formattedText));
 
-
         updateLayout(areaWidth);
     }
 
