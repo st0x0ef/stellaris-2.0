@@ -413,6 +413,14 @@
   "config.stellaris.fluidOutputConfig.showNeighborsBlock.desc": "Highlight neighbour blocks when configuring fluid output.",
   "config.stellaris.fluidOutputConfig.fluidsColors.desc": "Colors used to identify each fluid output side.",
 
+
+
+  "config.stellaris_client.showOxygenDebug": "Show Oxygen Debug.",
+  "config.stellaris_client.fluidOutputConfig": "Fluid Output Settings.",
+  "config.stellaris_client.showNeighborsBlock": "Show Neighbour Blocks",
+  "config.stellaris_client.fluidsColors": "Fluid Colors",
+
+
   "effect.stellaris.infected": "Infected",
 
   "entity.stellaris.rocket": "Rocket",
