@@ -23,6 +23,7 @@ import org.exodusstudio.stellaris.common.blocks.entities.AntennaBlockEntity;
 import org.exodusstudio.stellaris.common.data.space_station.SpaceStationRecipe;
 import org.exodusstudio.stellaris.common.network.packets.StartFadePacket;
 import org.exodusstudio.stellaris.common.registries.BlocksRegistry;
+import org.exodusstudio.stellaris.common.registries.EntityTypesRegistry;
 import org.exodusstudio.stellaris.common.registries.ItemsRegistry;
 import org.exodusstudio.stellaris.common.registries.TagsRegistry;
 
@@ -219,6 +220,10 @@ public class Utils {
 
     public static boolean checkIfAntennaIsNear(BlockPos pos, Level level, int distance) {
         return level.getBlockStates(new AABB(pos).inflate(distance)).anyMatch(blockState -> blockState.is(BlocksRegistry.ANTENNA.block().get()));
+    }
+
+    public static boolean checkIfRocketIsNear(BlockPos pos, Level level, int distance) {
+        return !level.getEntities(EntityTypesRegistry.ROCKET.get(), new AABB(pos).inflate(distance, distance + 2, distance), entity -> true).isEmpty();
     }
 
     public static BlockPos placeSpaceStation(Player player, ServerLevel serverLevel, SpaceStationRecipe recipe) {
