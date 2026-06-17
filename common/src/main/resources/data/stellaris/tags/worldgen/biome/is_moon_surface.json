@@ -1,0 +1,8 @@
+{
+    "replace": false,
+    "values": [
+        "stellaris:lunar_desert",
+        "stellaris:burnt_forest",
+        "stellaris:moon_craters"
+    ]
+}

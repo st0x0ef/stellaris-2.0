@@ -10,6 +10,8 @@
   "has_precipitation": false,
   "creature_spawn_probability": 0,
   "effects": {
+    "sky_color": 0,
+    "fog_color": 6842472,
     "water_color": 4159204,
     "grass_color": 1710041,
     "foliage_color": 1966335

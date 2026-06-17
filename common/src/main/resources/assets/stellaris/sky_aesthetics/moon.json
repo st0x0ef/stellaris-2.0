@@ -2,6 +2,11 @@
   "world": "stellaris:moon",
   "id": "stellaris:moon",
 
+  "condition": {
+    "condition": true,
+    "biomes": "stellaris:is_moon_surface"
+  },
+
   "sky_type": "NONE",
 
   "sky_color": {
