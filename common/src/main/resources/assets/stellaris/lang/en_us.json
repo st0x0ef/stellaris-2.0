@@ -278,6 +278,7 @@
 
   "gauge_text.stellaris.max_generation": "Max Generation : %s Fe/tick",
 
+  "text.stellaris.rocket.fuel": "You need %s fuel to launch this rocket.",
   "text.stellaris.oil_finder.no_oil": "No oil detected here.",
   "text.stellaris.oil_finder.cant_search": "Cannot search for oil (no energy).",
   "text.stellaris.oil_finder.oil_found": "Oil detected",
