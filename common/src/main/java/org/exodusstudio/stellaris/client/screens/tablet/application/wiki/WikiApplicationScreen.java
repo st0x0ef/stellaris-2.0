@@ -154,6 +154,8 @@ public class WikiApplicationScreen extends AbstractContainerScreen<WikiApplicati
     }
 
     private void updateNavigationButtons() {
+        if(this.nextButton == null || this.backButton == null) return;
+
         this.nextButton.visible = currentInfosPage < ENTRY_BUTTONS.size() - 1 && currentEntry != null;
         this.backButton.visible = currentInfosPage > 0  && currentEntry != null;
     }
