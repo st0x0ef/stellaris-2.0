@@ -15,15 +15,18 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 import org.exodusstudio.stellaris.common.blocks.entities.machines.base.ImplementedInventory;
+import org.exodusstudio.stellaris.common.blocks.entities.machines.base.TabSwitchableBlockEntity;
 import org.exodusstudio.stellaris.common.blocks.entities.machines.base.TickingBlockEntity;
 import org.exodusstudio.stellaris.common.menus.laboratory.ResearchMenu;
 import org.exodusstudio.stellaris.common.registries.BlockEntitiesRegistry;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class LaboratoryBlockEntity extends BaseContainerBlockEntity implements ImplementedInventory, RecipeInput, TickingBlockEntity {
+public class LaboratoryBlockEntity extends BaseContainerBlockEntity implements ImplementedInventory, RecipeInput, TickingBlockEntity, TabSwitchableBlockEntity {
 
     private NonNullList<ItemStack> items = NonNullList.withSize(5, ItemStack.EMPTY);
+    public NonNullList<ItemStack> vaccineItems = NonNullList.withSize(4, ItemStack.EMPTY);
+    private boolean tabSwitching = false;
 
     public int progressTickLeft = -1;
 
@@ -40,6 +43,12 @@ public class LaboratoryBlockEntity extends BaseContainerBlockEntity implements I
     protected AbstractContainerMenu createMenu(int i, Inventory inventory) {
         return new ResearchMenu(i, inventory, this, this);
     }
+
+    @Override
+    public void setTabSwitching(boolean switching) { this.tabSwitching = switching; }
+
+    @Override
+    public boolean isTabSwitching() { return this.tabSwitching; }
 
     @Override
     public void setChanged() {

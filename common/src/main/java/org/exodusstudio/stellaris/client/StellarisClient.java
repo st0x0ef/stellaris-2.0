@@ -21,6 +21,7 @@ import org.exodusstudio.stellaris.client.renderers.flag.FlagBlockModel;
 import org.exodusstudio.stellaris.client.renderers.flag.FlagHeadModel;
 import org.exodusstudio.stellaris.client.renderers.gravity_manipulator.GravityManipulatorModel;
 import org.exodusstudio.stellaris.client.renderers.lander.LanderModel;
+import org.exodusstudio.stellaris.client.renderers.launchpad.RocketLaunchPadModel;
 import org.exodusstudio.stellaris.client.renderers.mobs.*;
 import org.exodusstudio.stellaris.client.renderers.rockets.models.BigRocketModel;
 import org.exodusstudio.stellaris.client.renderers.rockets.models.SmallRocketModel;
@@ -85,6 +86,7 @@ public class StellarisClient {
         EntityModelLayerRegistry.register(ParasiteAffectedVillagerModel.LAYER_LOCATION, ParasiteAffectedVillagerModel::createBodyLayer);
         EntityModelLayerRegistry.register(EvolvedParasiteAffectedVillagerModel.LAYER_LOCATION, EvolvedParasiteAffectedVillagerModel::createBodyLayer);
         EntityModelLayerRegistry.register(LunaShadowModel.LAYER_LOCATION, LunaShadowModel::createBodyLayer);
+        EntityModelLayerRegistry.register(RocketLaunchPadModel.LAYER_LOCATION, RocketLaunchPadModel::createBodyLayer);
 
         EntityModelLayerRegistry.register(SpaceSuitModel.LAYER_LOCATION, SpaceSuitModel::createBodyLayer);
         EntityModelLayerRegistry.register(BoatModelLayerRegistry.LUNAR_BOAT, BoatModel::createBoatModel);

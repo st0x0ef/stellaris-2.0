@@ -7,7 +7,6 @@ import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Inventory;
-import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.common.data.wiki.EntryInfo;
 import org.exodusstudio.stellaris.common.data.wiki.WikiEntry;
 import org.exodusstudio.stellaris.common.data.wiki.WikiPacks;
@@ -155,6 +154,8 @@ public class WikiApplicationScreen extends AbstractContainerScreen<WikiApplicati
     }
 
     private void updateNavigationButtons() {
+        if(this.nextButton == null || this.backButton == null) return;
+
         this.nextButton.visible = currentInfosPage < ENTRY_BUTTONS.size() - 1 && currentEntry != null;
         this.backButton.visible = currentInfosPage > 0  && currentEntry != null;
     }

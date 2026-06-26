@@ -41,7 +41,9 @@ public class TabletItem extends Item {
             return InteractionResult.PASS;
         }
 
-        NetworkManager.sendToServer(new OpenMenuPacket("main_tablet"));
+        if(level.isClientSide()) {
+            NetworkManager.sendToServer(new OpenMenuPacket("main_tablet"));
+        }
 
         if(player instanceof ServerPlayer serverPlayer){
             AdvancementTriggerRegistry.TABLET_USED.get().trigger(serverPlayer);

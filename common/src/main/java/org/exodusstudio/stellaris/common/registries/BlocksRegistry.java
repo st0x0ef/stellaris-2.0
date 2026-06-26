@@ -50,9 +50,9 @@ public final class BlocksRegistry {
     public static final BlockItemRegistrySupplier TITANIUM_SLAB = blockWithItem("titanium_slab", ofFullCopy(Blocks.IRON_BLOCK), SlabBlock::new);
     public static final BlockItemRegistrySupplier TITANIUM_STAIRS = blockWithItem("titanium_stairs", ofFullCopy(Blocks.COBBLESTONE_STAIRS), p -> new StairBlock(TITANIUM_BLOCK.block().get().defaultBlockState(), p));
     public static final BlockItemRegistrySupplier TITANIUM_PILLAR = blockWithItem("titanium_pillar", ofFullCopy(Blocks.IRON_BLOCK), RotatedPillarBlock::new);
-    public static final BlockItemRegistrySupplier TIANIUM_PLATING_BLOCK = blockWithItem("titanium_plating_block", ofFullCopy(Blocks.IRON_BLOCK));
-    public static final BlockItemRegistrySupplier TIANIUM_PLATING_SLAB = blockWithItem("titanium_plating_slab", ofFullCopy(Blocks.IRON_BLOCK), SlabBlock::new);
-    public static final BlockItemRegistrySupplier TIANIUM_PLATING_STAIRS = blockWithItem("titanium_plating_stairs", ofFullCopy(Blocks.COBBLESTONE_STAIRS), p -> new StairBlock(TITANIUM_BLOCK.block().get().defaultBlockState(), p));
+    public static final BlockItemRegistrySupplier TITANIUM_PLATING_BLOCK = blockWithItem("titanium_plating_block", ofFullCopy(Blocks.IRON_BLOCK));
+    public static final BlockItemRegistrySupplier TITANIUM_PLATING_SLAB = blockWithItem("titanium_plating_slab", ofFullCopy(Blocks.IRON_BLOCK), SlabBlock::new);
+    public static final BlockItemRegistrySupplier TITANIUM_PLATING_STAIRS = blockWithItem("titanium_plating_stairs", ofFullCopy(Blocks.COBBLESTONE_STAIRS), p -> new StairBlock(TITANIUM_BLOCK.block().get().defaultBlockState(), p));
     public static final BlockItemRegistrySupplier VERTICAL_TITANIUM_SLAB = blockWithItem("vertical_titanium_slab", ofFullCopy(Blocks.IRON_BLOCK), p -> new VerticalSlab(p));
     public static final BlockItemRegistrySupplier VERTICAL_TIANIUM_PLATING_SLAB = blockWithItem("vertical_titanium_plating_slab", ofFullCopy(Blocks.IRON_BLOCK), p -> new VerticalSlab(p));
     public static final BlockItemRegistrySupplier IRON_PLATING_BLOCK = blockWithItem("iron_plating_block", ofFullCopy(Blocks.IRON_BLOCK));
@@ -183,7 +183,7 @@ public final class BlocksRegistry {
 
     // TECH
     public static final BlockItemRegistrySupplier ELECTROLYZER = blockWithItem("electrolyzer", BlockBehaviour.Properties.of(), ElectrolyzerBlock::new, new Item.Properties());
-    public static final BlockItemRegistrySupplier GRAVITY_MANIPULATOR = blockWithItem("gravity_manipulator", BlockBehaviour.Properties.of(), GravityManipulatorBlock::new);
+    public static final BlockItemRegistrySupplier GRAVITY_MANIPULATOR = blockWithItem("gravity_manipulator", BlockBehaviour.Properties.of().noOcclusion(), GravityManipulatorBlock::new);
     public static final BlockItemRegistrySupplier PUMPJACK = blockWithItem(
             "pumpjack",
             BlockBehaviour.Properties.of()
@@ -210,9 +210,17 @@ public final class BlocksRegistry {
     // ROCKET
     public static final BlockItemRegistrySupplier ENGINEERING_STATION = blockWithCustomItem("engineering_station", BlockBehaviour.Properties.of(), EngineeringStationBlock::new, new Item.Properties(), BlockItem::new);
     public static final BlockItemRegistrySupplier ROCKET_LAUNCH_PAD = blockWithCustomItem("rocket_launch_pad", BlockBehaviour.Properties.of(), RocketLaunchPadBlock::new, new Item.Properties(), BlockItem::new);
+    public static final RegistrySupplier<Block> ROCKET_LAUNCH_PAD_PROXY = block(
+            "rocket_launch_pad_proxy",
+            BlockBehaviour.Properties.of()
+                    .noOcclusion()
+                    .isSuffocating(BlocksRegistry::never)
+                    .isViewBlocking(BlocksRegistry::never),
+            RocketLaunchPadProxyBlock::new
+    );
     public static final BlockItemRegistrySupplier ANTENNA = blockWithCustomItem("antenna", BlockBehaviour.Properties.of(), AntennaBlock::new, new Item.Properties(),
             (b, p) -> new TooltipBlockItem(b, p).addTooltip(AntennaBlock.TOOLTIP));
-    public static final BlockItemRegistrySupplier CARGO_UNLOADER = blockWithItem("cargo_unloader", BlockBehaviour.Properties.of(), CargoUnloaderBlock::new);
+    public static final BlockItemRegistrySupplier CARGO_UNLOADER = blockWithItem("cargo_unloader", BlockBehaviour.Properties.of().noOcclusion(), CargoUnloaderBlock::new);
 
 
     // LORE
@@ -222,13 +230,13 @@ public final class BlocksRegistry {
     /**
      * Fluids
      */
-    public static final RegistrySupplier<ArchitecturyLiquidBlock> HYDROGEN = block("hydrogen_block", BlockBehaviour.Properties.ofFullCopy(Blocks.WATER), (p) -> new ArchitecturyLiquidBlock(FluidsRegistry.HYDROGEN_STILL, p));
-    public static final RegistrySupplier<ArchitecturyLiquidBlock> OIL = block("oil", BlockBehaviour.Properties.ofFullCopy(Blocks.WATER), (p) -> new ArchitecturyLiquidBlock(FluidsRegistry.OIL_STILL, p));
-    public static final RegistrySupplier<ArchitecturyLiquidBlock> OXYGEN = block("oxygen_block", BlockBehaviour.Properties.ofFullCopy(Blocks.WATER), (p) -> new ArchitecturyLiquidBlock(FluidsRegistry.OXYGEN_STILL, p));
-    public static final RegistrySupplier<ArchitecturyLiquidBlock> FUEL = block("fuel_block", BlockBehaviour.Properties.ofFullCopy(Blocks.WATER), (p) -> new ArchitecturyLiquidBlock(FluidsRegistry.FUEL_STILL, p));
-    public static final RegistrySupplier<ArchitecturyLiquidBlock> DIESEL = block("diesel", BlockBehaviour.Properties.ofFullCopy(Blocks.WATER), (p) -> new ArchitecturyLiquidBlock(FluidsRegistry.DIESEL_STILL, p));
-    public static final RegistrySupplier<ArchitecturyLiquidBlock> BLUE_LIQUID = block("blue_liquid", BlockBehaviour.Properties.ofFullCopy(Blocks.WATER), (p) -> new ArchitecturyLiquidBlock(FluidsRegistry.BLUE_LIQUID_STILL, p.lightLevel((e) -> 8)));
-    public static final RegistrySupplier<ArchitecturyLiquidBlock> ASTRUM_LIQUIDUS = block("astrum_liquidus", BlockBehaviour.Properties.ofFullCopy(Blocks.WATER).lightLevel((blockStatex) -> 15), (p) -> new ArchitecturyLiquidBlock(FluidsRegistry.ASTRUM_LIQUIDUS_STILL, p.lightLevel((e) -> 15)));
+    public static final RegistrySupplier<ArchitecturyLiquidBlock> HYDROGEN = block("hydrogen_block", BlockBehaviour.Properties.ofFullCopy(Blocks.WATER), (p) -> new ArchitecturyLiquidBlock(FluidsRegistry.HYDROGEN_STILL, p.liquid()));
+    public static final RegistrySupplier<ArchitecturyLiquidBlock> OIL = block("oil", BlockBehaviour.Properties.ofFullCopy(Blocks.WATER), (p) -> new ArchitecturyLiquidBlock(FluidsRegistry.OIL_STILL, p.liquid()));
+    public static final RegistrySupplier<ArchitecturyLiquidBlock> OXYGEN = block("oxygen_block", BlockBehaviour.Properties.ofFullCopy(Blocks.WATER), (p) -> new ArchitecturyLiquidBlock(FluidsRegistry.OXYGEN_STILL, p.liquid()));
+    public static final RegistrySupplier<ArchitecturyLiquidBlock> FUEL = block("fuel_block", BlockBehaviour.Properties.ofFullCopy(Blocks.WATER), (p) -> new ArchitecturyLiquidBlock(FluidsRegistry.FUEL_STILL, p.liquid()));
+    public static final RegistrySupplier<ArchitecturyLiquidBlock> DIESEL = block("diesel", BlockBehaviour.Properties.ofFullCopy(Blocks.WATER), (p) -> new ArchitecturyLiquidBlock(FluidsRegistry.DIESEL_STILL, p.liquid()));
+    public static final RegistrySupplier<ArchitecturyLiquidBlock> BLUE_LIQUID = block("blue_liquid", BlockBehaviour.Properties.ofFullCopy(Blocks.WATER), (p) -> new ArchitecturyLiquidBlock(FluidsRegistry.BLUE_LIQUID_STILL, p.liquid().lightLevel((e) -> 8)));
+    public static final RegistrySupplier<ArchitecturyLiquidBlock> ASTRUM_LIQUIDUS = block("astrum_liquidus", BlockBehaviour.Properties.ofFullCopy(Blocks.WATER).lightLevel((blockStatex) -> 15), (p) -> new ArchitecturyLiquidBlock(FluidsRegistry.ASTRUM_LIQUIDUS_STILL, p.liquid().lightLevel((e) -> 15)));
 
 
     /**
@@ -241,6 +249,15 @@ public final class BlocksRegistry {
                     .isSuffocating(BlocksRegistry::never)
                     .isViewBlocking(BlocksRegistry::never),
             FlagBlock::new
+    );
+
+    public static final RegistrySupplier<Block> FLAG_PROXY = block(
+            "flag_proxy",
+            BlockBehaviour.Properties.of()
+                    .noOcclusion()
+                    .isSuffocating(BlocksRegistry::never)
+                    .isViewBlocking(BlocksRegistry::never),
+            FlagProxyBlock::new
     );
 
 

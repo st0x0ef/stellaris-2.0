@@ -25,6 +25,9 @@ public class CapabilitiesRegistry {
         Capabilities.Energy.BLOCK.registerForBlockEntity(BlockEntitiesRegistry.FUEL_REFINERY);
         Capabilities.Energy.BLOCK.registerForBlockEntity(BlockEntitiesRegistry.PUMPJACK);
         Capabilities.Energy.BLOCK.registerForBlockEntity(BlockEntitiesRegistry.CARGO_UNLOADER);
+
+        // Cables expose a stateless passthrough so other mods' conduits can push energy into a Stellaris line.
+        Capabilities.Energy.BLOCK.registerForBlockEntity(BlockEntitiesRegistry.CABLES);
     }
 
     private static void registerEnergyItems() {
@@ -40,6 +43,9 @@ public class CapabilitiesRegistry {
         Capabilities.Fluid.BLOCK.registerForBlockEntity(BlockEntitiesRegistry.FUEL_REFINERY);
         Capabilities.Fluid.BLOCK.registerForBlockEntity(BlockEntitiesRegistry.PUMPJACK);
         Capabilities.Fluid.BLOCK.registerForBlockEntity(BlockEntitiesRegistry.FLUID_TANK);
+
+        // Pipes expose a stateless passthrough so other mods' conduits can push fluid into a Stellaris line.
+        Capabilities.Fluid.BLOCK.registerForBlockEntity(BlockEntitiesRegistry.PIPE_ENTITY);
     }
 
     private static void registerFluidItems() {

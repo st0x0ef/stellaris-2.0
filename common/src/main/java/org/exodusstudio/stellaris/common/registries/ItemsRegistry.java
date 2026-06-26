@@ -174,11 +174,11 @@ public final class ItemsRegistry {
 
     // Fluids
     public static final RegistrySupplier<ArchitecturyBucketItem> HYDROGEN_BUCKET = item("hydrogen_bucket", properties -> new ArchitecturyBucketItem(FluidsRegistry.HYDROGEN_STILL, properties));
-    public static final RegistrySupplier<ArchitecturyBucketItem> OIL_BUCKET = item("oil_bucket", properties -> new ArchitecturyBucketItem(FluidsRegistry.OIL_STILL, properties));
-    public static final RegistrySupplier<ArchitecturyBucketItem> FUEL_BUCKET = item("fuel_bucket", properties -> new ArchitecturyBucketItem(FluidsRegistry.FUEL_STILL, properties));
-    public static final RegistrySupplier<ArchitecturyBucketItem> DIESEL_BUCKET = item("diesel_bucket", properties -> new ArchitecturyBucketItem(FluidsRegistry.DIESEL_STILL, properties));
-    public static final RegistrySupplier<ArchitecturyBucketItem> BLUE_LIQUID_BUCKET = item("blue_liquid_bucket", properties -> new ArchitecturyBucketItem(FluidsRegistry.BLUE_LIQUID_STILL, properties));
-    public static final RegistrySupplier<ArchitecturyBucketItem> ASTRUM_LIQUIDUS_BUCKET = item("astrum_liquidus_bucket", properties -> new ArchitecturyBucketItem(FluidsRegistry.ASTRUM_LIQUIDUS_STILL, properties));
+    public static final RegistrySupplier<ArchitecturyBucketItem> OIL_BUCKET = item("oil_bucket", properties -> new ArchitecturyBucketItem(FluidsRegistry.OIL_STILL, properties.stacksTo(1)));
+    public static final RegistrySupplier<ArchitecturyBucketItem> FUEL_BUCKET = item("fuel_bucket", properties -> new ArchitecturyBucketItem(FluidsRegistry.FUEL_STILL, properties.stacksTo(1)));
+    public static final RegistrySupplier<ArchitecturyBucketItem> DIESEL_BUCKET = item("diesel_bucket", properties -> new ArchitecturyBucketItem(FluidsRegistry.DIESEL_STILL, properties.stacksTo(1)));
+    public static final RegistrySupplier<ArchitecturyBucketItem> BLUE_LIQUID_BUCKET = item("blue_liquid_bucket", properties -> new ArchitecturyBucketItem(FluidsRegistry.BLUE_LIQUID_STILL, properties.stacksTo(1)));
+    public static final RegistrySupplier<ArchitecturyBucketItem> ASTRUM_LIQUIDUS_BUCKET = item("astrum_liquidus_bucket", properties -> new ArchitecturyBucketItem(FluidsRegistry.ASTRUM_LIQUIDUS_STILL, properties.stacksTo(1)));
     public static final RegistrySupplier<Item> FLUID_CELL = item("fluid_cell", properties -> new FluidCellItem(properties, 3000));
 
     // Crafting items
@@ -186,6 +186,7 @@ public final class ItemsRegistry {
     public static final RegistrySupplier<Item> ROCKET_ENGINE = item("rocket_engine");
     public static final RegistrySupplier<Item> ROCKET_FIN = item("rocket_fin");
     public static final RegistrySupplier<Item> ROCKET_NOSE_CONE = item("rocket_nose_cone");
+    public static final RegistrySupplier<Item> LAUNCH_PAD_TOWERS = item("launch_pad_towers");
 
     // Moon lore items
     public static final RegistrySupplier<ParasiteItem> PARASITE = item("parasite", ParasiteItem::new);

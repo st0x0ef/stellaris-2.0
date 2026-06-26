@@ -14,8 +14,6 @@ import org.exodusstudio.stellaris.common.fluid.SingleFluidStorage;
 import org.exodusstudio.stellaris.common.menus.DieselGeneratorMenu;
 import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
 
-import java.util.List;
-
 public class DieselGeneratorScreen extends AbstractContainerScreen<DieselGeneratorMenu> {
 
     private static final Identifier TEXTURE = IdentifierUtils.guiTexture("diesel_generator");

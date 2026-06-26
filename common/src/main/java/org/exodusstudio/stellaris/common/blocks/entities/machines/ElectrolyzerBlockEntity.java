@@ -2,6 +2,7 @@ package org.exodusstudio.stellaris.common.blocks.entities.machines;
 
 import com.fej1fun.potentials.components.FluidAmountMapDataComponent;
 import com.fej1fun.potentials.fluid.UniversalFluidStorage;
+import com.fej1fun.potentials.providers.FluidProvider;
 import dev.architectury.fluid.FluidStack;
 import dev.architectury.networking.NetworkManager;
 import net.minecraft.core.BlockPos;
@@ -15,15 +16,12 @@ import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 import org.exodusstudio.stellaris.common.blocks.ElectrolyzerBlock;
 import org.exodusstudio.stellaris.common.blocks.base.BaseMachineBlock;
 import org.exodusstudio.stellaris.common.blocks.entities.machines.base.BaseEnergyContainerBlockEntity;
-import org.exodusstudio.stellaris.common.blocks.entities.machines.base.FluidOutputManager;
-import org.exodusstudio.stellaris.common.blocks.entities.machines.base.FluidOutputable;
 import org.exodusstudio.stellaris.common.data.recipes.ElectrolyzeRecipe;
 import org.exodusstudio.stellaris.common.data.recipes.input.FluidInput;
 import org.exodusstudio.stellaris.common.fluid.FluidUtil;
@@ -39,12 +37,9 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 import java.util.Optional;
 
-public class ElectrolyzerBlockEntity extends BaseEnergyContainerBlockEntity implements FluidOutputable {
+public class ElectrolyzerBlockEntity extends BaseEnergyContainerBlockEntity implements FluidProvider.BLOCK {
 
     private final RecipeManager.CachedCheck<FluidInput, ElectrolyzeRecipe> cachedCheck = RecipeManager.createCheck(RecipesRegistry.ELECTROLYZE_RECIPE_TYPE.get());
-
-    public FluidOutputManager outputManager;
-
 
     public final SingleFluidStorage ingredientTank = new SingleFluidStorage(3000, 3000, 0) {
 
@@ -86,9 +81,6 @@ public class ElectrolyzerBlockEntity extends BaseEnergyContainerBlockEntity impl
 
     public ElectrolyzerBlockEntity(BlockPos blockPos, BlockState blockState) {
         super(BlockEntitiesRegistry.ELECTROLYZER.get(), blockPos, blockState);
-
-        this.outputManager = new FluidOutputManager(this);
-
     }
 
     @Override
@@ -103,14 +95,6 @@ public class ElectrolyzerBlockEntity extends BaseEnergyContainerBlockEntity impl
 
         //Move fluid to item for ingredient tank
         FluidUtil.moveFluidFromItem(0, 1, 0, items, ingredientTank, 1000);
-
-        Direction facing = getBlockState().getValue(ElectrolyzerBlock.FACING);
-
-        getFluidOutputManager().distributeFluids(level, getBlockPos());
-//        FluidUtil.distributeFluidNearby(level, worldPosition, resultTanks.getFluidInTank(0), List.of(facing.getClockWise()));
-//        FluidUtil.distributeFluidNearby(level, worldPosition, resultTanks.getFluidInTank(1), List.of(facing.getCounterClockWise()));
-//        FluidUtil.distributeFluidNearby(level, worldPosition, ingredientTank.getFluidInTank(0), List.of(Direction.UP, Direction.DOWN, facing, facing.getOpposite()));
-
 
         if (level instanceof ServerLevel serverLevel) {
             Optional<RecipeHolder<ElectrolyzeRecipe>> recipeHolder = cachedCheck.getRecipeFor(new FluidInput(this), serverLevel);
@@ -140,6 +124,11 @@ public class ElectrolyzerBlockEntity extends BaseEnergyContainerBlockEntity impl
                 }
             }
         }
+
+        // Output the two result fluids out the machine's left and right faces (see getFluidTank).
+        Direction facing = getBlockState().getValue(ElectrolyzerBlock.FACING);
+        FluidUtil.distributeFluidNearby(level, worldPosition, resultTanks.getFluidInTank(0), List.of(facing.getClockWise()));
+        FluidUtil.distributeFluidNearby(level, worldPosition, resultTanks.getFluidInTank(1), List.of(facing.getCounterClockWise()));
     }
 
     @Override
@@ -221,8 +210,6 @@ public class ElectrolyzerBlockEntity extends BaseEnergyContainerBlockEntity impl
             NetworkManager.sendToPlayer(serverPlayer, new SyncFluidPacket(
                     new FluidAmountMapDataComponent(List.of(resultTanks.getFluidInTank(1).getFluid()), List.of(resultTanks.getFluidValueInTank(1))),
                     1, getBlockPos(), outputDir));
-
-            outputManager.syncWithPlayer(serverPlayer, this);
         }
         return new ElectrolyzerMenu(containerId, inventory, this, this);
     }
@@ -232,18 +219,4 @@ public class ElectrolyzerBlockEntity extends BaseEnergyContainerBlockEntity impl
         return 4;
     }
 
-    @Override
-    public FluidOutputManager getFluidOutputManager() {
-        return this.outputManager;
-    }
-
-    @Override
-    public List<UniversalFluidStorage> getOutputFluidsTank() {
-        return List.of(this.resultTanks);
-    }
-
-    @Override
-    public List<Fluid> getFluidsOutput() {
-        return List.of(this.resultTanks.getFluidInTank(0).getFluid(), this.resultTanks.getFluidInTank(1).getFluid());
-    }
 }

@@ -13,8 +13,6 @@ import org.exodusstudio.stellaris.common.blocks.entities.machines.OxygenDistribu
 import org.exodusstudio.stellaris.common.menus.OxygenDistributorMenu;
 import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
 
-import java.util.List;
-
 
 public class OxygenDistributorScreen extends AbstractContainerScreen<OxygenDistributorMenu> {
 

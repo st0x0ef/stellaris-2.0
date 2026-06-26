@@ -29,7 +29,6 @@ public abstract class SingleFluidStorage implements UniversalFluidStorage {
         this(capacity, capacity, capacity);
     }
 
-
     @Override
     public int getTanks() {
         return 1;

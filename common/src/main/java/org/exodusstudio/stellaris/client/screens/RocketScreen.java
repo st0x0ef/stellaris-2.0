@@ -16,8 +16,6 @@ import org.exodusstudio.stellaris.common.menus.RocketMenu;
 import org.exodusstudio.stellaris.common.registries.ModulesRegistry;
 import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
 
-import java.util.List;
-
 
 public class RocketScreen extends AbstractContainerScreen<RocketMenu> {
 

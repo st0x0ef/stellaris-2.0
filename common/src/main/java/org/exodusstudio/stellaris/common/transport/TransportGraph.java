@@ -57,9 +57,9 @@ public final class TransportGraph {
 
     /**
      * Returns the network containing {@code nodePos}, building (and caching) it if necessary.
-     * {@code nodePos} must be a node of {@code type}.
+     * {@code nodePos} must be a node of {@code medium}.
      */
-    public static Network get(Level level, BlockPos nodePos, TransportType type) {
+    public static Network get(Level level, BlockPos nodePos, TransportMedium<?> medium) {
         if (level != cachedLevel || level.getGameTime() != cachedTick) {
             cachedLevel = level;
             cachedTick = level.getGameTime();
@@ -71,14 +71,14 @@ public final class TransportGraph {
             return cached;
         }
 
-        Network network = build(level, nodePos, type);
+        Network network = build(level, nodePos, medium);
         for (BlockPos member : network.nodes) {
             CACHE.put(member, network);
         }
         return network;
     }
 
-    private static Network build(Level level, BlockPos start, TransportType type) {
+    private static Network build(Level level, BlockPos start, TransportMedium<?> medium) {
         Set<BlockPos> nodes = new HashSet<>();
         Set<BoundaryFace> boundary = new LinkedHashSet<>();
         ArrayDeque<BlockPos> queue = new ArrayDeque<>();
@@ -90,7 +90,7 @@ public final class TransportGraph {
 
         while (!queue.isEmpty() && nodes.size() <= MAX_NODES) {
             BlockPos current = queue.poll();
-            throughput = Math.min(throughput, type.throughput(level.getBlockState(current)));
+            throughput = Math.min(throughput, medium.throughput(level.getBlockState(current)));
 
             for (Direction direction : DIRECTIONS) {
                 BlockPos neighbor = current.relative(direction);
@@ -101,7 +101,7 @@ public final class TransportGraph {
                 }
 
                 BlockState neighborState = level.getBlockState(neighbor);
-                if (type.isNode(neighborState)) {
+                if (medium.isNode(neighborState)) {
                     BlockPos immutable = neighbor.immutable();
                     if (nodes.add(immutable)) {
                         queue.add(immutable);

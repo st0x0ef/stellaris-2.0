@@ -10,7 +10,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Inventory;
-import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.client.screens.components.TexturedButton;
 import org.exodusstudio.stellaris.client.screens.utils.GUISprites;
 import org.exodusstudio.stellaris.common.menus.engineering_station.EngineUpgradeMenu;
@@ -24,8 +23,8 @@ public class EngineUpgraderScreen extends AbstractContainerScreen<EngineUpgradeM
     public static final Component TAB_NAME = Component.literal("Engine Upgrader");
 
     public static final TabInfo[] TABS =  new TabInfo[]{
-            new TabInfo(MenuProviderRegistry.ROCKET_CRAFTING, GUISprites.ROCKET_CRAFTING_TAB, GUISprites.ROCKET_CRAFTING_TAB_HOVER, TAB_NAME),
-            new TabInfo(MenuProviderRegistry.ROCKET_UPGRADE, GUISprites.MODULES_TAB, GUISprites.MODULES_TAB_HOVER, RocketStationScreen.TAB_NAME),
+            new TabInfo(MenuProviderRegistry.ROCKET_CRAFTING, GUISprites.ROCKET_CRAFTING_TAB, GUISprites.ROCKET_CRAFTING_TAB_HOVER, RocketStationScreen.TAB_NAME),
+            new TabInfo(MenuProviderRegistry.ROCKET_UPGRADE, GUISprites.MODULES_TAB, GUISprites.MODULES_TAB_HOVER, TAB_NAME),
             new TabInfo(MenuProviderRegistry.SPACE_STATION_PLANNER, GUISprites.SPACE_STATION_PLANNER_TAB, GUISprites.SPACE_STATION_PLANNER_TAB_HOVER, SpaceStationPlannerScreen.TAB_NAME),
     };
 
@@ -42,8 +41,6 @@ public class EngineUpgraderScreen extends AbstractContainerScreen<EngineUpgradeM
         for(TabInfo tab : TABS) {
             TexturedButton tabWidget = new TexturedButton(x, y + i++ * 16, 16,16,
                     Component.empty(), button -> {
-
-                    Stellaris.LOG.info("Current {} Tab Dest {}", currentScreen, tab.provider.id());
                     if (!currentScreen.equals(tab.provider.id())) {
                             EngineUpgradeMenu.openScreen(tab.provider, pos);
                         }

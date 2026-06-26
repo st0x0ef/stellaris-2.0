@@ -16,8 +16,6 @@ import org.exodusstudio.stellaris.common.oil.OilUtils;
 import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
 import org.exodusstudio.stellaris.common.utils.Utils;
 
-import java.util.List;
-
 public class PumpjackScreen extends AbstractContainerScreen<PumpjackMenu> {
 
     private static final Identifier TEXTURE = IdentifierUtils.guiTexture("pumpjack");

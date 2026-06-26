@@ -1,0 +1,16 @@
+{
+  "variants": {
+    "facing=east,part=1":  { "model": "stellaris:block/flag_proxy_part" },
+    "facing=east,part=2":  { "model": "stellaris:block/flag_proxy_part" },
+    "facing=east,part=3":  { "model": "stellaris:block/flag_proxy_part" },
+    "facing=north,part=1": { "model": "stellaris:block/flag_proxy_part" },
+    "facing=north,part=2": { "model": "stellaris:block/flag_proxy_part" },
+    "facing=north,part=3": { "model": "stellaris:block/flag_proxy_part" },
+    "facing=south,part=1": { "model": "stellaris:block/flag_proxy_part" },
+    "facing=south,part=2": { "model": "stellaris:block/flag_proxy_part" },
+    "facing=south,part=3": { "model": "stellaris:block/flag_proxy_part" },
+    "facing=west,part=1":  { "model": "stellaris:block/flag_proxy_part" },
+    "facing=west,part=2":  { "model": "stellaris:block/flag_proxy_part" },
+    "facing=west,part=3":  { "model": "stellaris:block/flag_proxy_part" }
+  }
+}

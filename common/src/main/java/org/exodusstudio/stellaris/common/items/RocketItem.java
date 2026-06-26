@@ -19,7 +19,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
-import org.exodusstudio.stellaris.common.blocks.RocketLaunchPadBlock;
+import org.exodusstudio.stellaris.common.blocks.RocketLaunchPadProxyBlock;
 import org.exodusstudio.stellaris.common.entities.vehicles.RocketEntity;
 import org.exodusstudio.stellaris.common.modules.Modules;
 import org.exodusstudio.stellaris.common.modules.rocket.RocketModule;
@@ -48,9 +48,18 @@ public class RocketItem extends Item implements FluidProvider.ITEM {
         BlockState blockState = context.getLevel().getBlockState(blockpos);
         ItemStack itemStack = context.getItemInHand();
 
-        if(blockState.is(BlocksRegistry.ROCKET_LAUNCH_PAD.block().get()) && blockState.getValue(RocketLaunchPadBlock.STAGE)) {
+        BlockPos padPos;
+        if (blockState.is(BlocksRegistry.ROCKET_LAUNCH_PAD.block().get())) {
+            padPos = blockpos;
+        } else if (blockState.getBlock() instanceof RocketLaunchPadProxyBlock) {
+            padPos = RocketLaunchPadProxyBlock.getMainPos(blockpos, blockState);
+        } else {
+            return super.useOn(context);
+        }
+
+        if (level.getBlockState(padPos).is(BlocksRegistry.ROCKET_LAUNCH_PAD.block().get())) {
             //check if space is free above the launch pad. 0.3 is to avoid clipping into the block
-            Vec3 vec3 = Vec3.upFromBottomCenterOf(blockpos, 0.3);
+            Vec3 vec3 = Vec3.upFromBottomCenterOf(padPos, 0.3);
             //the size of the rocket's bounding box
             AABB aabb = EntityTypesRegistry.ROCKET.get().getDimensions().makeBoundingBox(vec3.x(), vec3.y(), vec3.z());
 
@@ -59,9 +68,9 @@ public class RocketItem extends Item implements FluidProvider.ITEM {
             if (existingRockets.isEmpty()) {
 
                 /** POS */
-                int x = blockpos.getX();
-                int y = blockpos.getY();
-                int z = blockpos.getZ();
+                int x = padPos.getX();
+                int y = padPos.getY();
+                int z = padPos.getZ();
 
                 /** CHECK IF NO ENTITY ON THE LAUNCH PAD */
                 AABB scanAbove = new AABB(x, y, z, x + 1, y + 1, z + 1);
@@ -71,14 +80,14 @@ public class RocketItem extends Item implements FluidProvider.ITEM {
                     if (!level.isClientSide()) {
                         RocketEntity rocket = RocketEntity.fromItemStack(level, itemStack);
                         /** SET PRE POS */
-                        rocket.setPos(blockpos.getX() + 0.5D, blockpos.getY() + 1.0D, blockpos.getZ() + 0.5D);
+                        rocket.setPos(padPos.getX() + 0.5D, padPos.getY() + 1.0D, padPos.getZ() + 0.5D);
 
-                        //double yOffset = RocketItem.getYOffset(level, blockpos, true, rocket.getBoundingBox());
+                        //double yOffset = RocketItem.getYOffset(level, padPos, true, rocket.getBoundingBox());
                         double yOffset = 1.7D;
                         float rocketRotation = (float) Mth.floor((Mth.wrapDegrees(context.getRotation() - 180.0F) + 45.0F) / 90.0F) * 90.0F;
 
                         /** SET FINAL POS */
-                        rocket.setPos(new Vec3(blockpos.getX() + 0.5D, blockpos.getY() + yOffset, blockpos.getZ() + 0.5D));
+                        rocket.setPos(new Vec3(padPos.getX() + 0.5D, padPos.getY() + yOffset, padPos.getZ() + 0.5D));
                         rocket.setYRot(rocketRotation);
                         rocket.yRotO = rocket.getYRot();
 

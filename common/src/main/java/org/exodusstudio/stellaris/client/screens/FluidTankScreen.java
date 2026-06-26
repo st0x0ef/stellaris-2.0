@@ -7,15 +7,12 @@ import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Inventory;
-import org.exodusstudio.stellaris.client.screens.components.FluidOutputManagerWidget;
 import org.exodusstudio.stellaris.client.screens.components.GaugeChunkWidget;
 import org.exodusstudio.stellaris.client.screens.components.GaugeWidget;
 import org.exodusstudio.stellaris.client.screens.utils.GUISprites;
 import org.exodusstudio.stellaris.common.blocks.entities.FluidTankBlockEntity;
 import org.exodusstudio.stellaris.common.menus.FluidTankMenu;
 import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
-
-import java.util.List;
 
 public class FluidTankScreen extends AbstractContainerScreen<FluidTankMenu> {
 
@@ -42,11 +39,6 @@ public class FluidTankScreen extends AbstractContainerScreen<FluidTankMenu> {
 
         fluidGauge = new GaugeChunkWidget(leftPos + 84, topPos + 36, 12, 46, blockEntity.getFluidTank().getFluidInTank(0), GUISprites.FLUID_TANK_OVERLAY, blockEntity.getFluidTank().getTankCapacity(0), GaugeWidget.Direction4.DOWN_UP);
         addRenderableWidget(fluidGauge);
-
-        FluidOutputManagerWidget fluidOutputManagerWidget = new FluidOutputManagerWidget(leftPos - FluidOutputManagerWidget.WIDTH, topPos, blockEntity.outputManager, this, blockEntity);
-        fluidOutputManagerWidget.addDefaultChildren();
-        addRenderableWidget(fluidOutputManagerWidget);
-
     }
 
     @Override

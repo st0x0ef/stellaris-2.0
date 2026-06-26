@@ -17,7 +17,6 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.Ingredient;
 import org.exodusstudio.stellaris.common.registries.DataComponentsRegistry;
 
 import java.util.ArrayList;

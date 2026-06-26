@@ -1,7 +1,6 @@
 package org.exodusstudio.stellaris.common.menus;
 
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.Container;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Inventory;
@@ -39,10 +38,6 @@ public class FuelRefineryMenu extends BaseContainer {
         // Diesel tank
         addSlot(new SpecificFluidContainerSlot(container, FluidsRegistry.DIESEL_STILL.get(), 4, 150, 76, true));
         addSlot(new ResultSlot(container, 5, 150, 110));
-
-        if(inventory.player instanceof ServerPlayer serverPlayer) {
-            blockEntity.outputManager.syncWithPlayer(serverPlayer, blockEntity);
-        }
     }
 
     @Override

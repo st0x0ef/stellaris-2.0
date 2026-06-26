@@ -70,6 +70,22 @@ public class StellardownParser {
                 i += 2;
                 textStart = i;
             }
+            else if (input.startsWith("[tr]", i)) {
+                if (i > textStart)
+                    tokens.add(new Token(TokenType.TEXT, input.substring(textStart, i)));
+
+                tokens.add(new Token(TokenType.TRANSLATABLE_OPEN, "[tr]"));
+                i += 4;
+                textStart = i;
+            }
+            else if (input.startsWith("[/tr]", i)) {
+                if (i > textStart)
+                    tokens.add(new Token(TokenType.TEXT, input.substring(textStart, i)));
+
+                tokens.add(new Token(TokenType.TRANSLATABLE_CLOSE, "[/tr]"));
+                i += 5;
+                textStart = i;
+            }
             else if (input.startsWith("[color=", i)) {
                 if (i > textStart)
                     tokens.add(new Token(TokenType.TEXT, input.substring(textStart, i)));
@@ -187,6 +203,14 @@ public class StellardownParser {
                         obfuscatedOpen = false;
                     }
                     break;
+
+                case TRANSLATABLE_OPEN:
+                    styleStack.push(styleStack.peek().withTranslatable(true));
+                    break;
+
+                case TRANSLATABLE_CLOSE:
+                    if (styleStack.size() > 1) styleStack.pop();
+                    break;
                 case REF_OPEN:
                     styleStack.push(styleStack.peek().withRef(token.content()));
                     break;
@@ -219,9 +243,10 @@ public class StellardownParser {
         String ref;
         boolean strikethrough;
         boolean obfuscated;
+        boolean translatable;
         public static final Style DEFAULT = new Style();
 
-        private Style(boolean bold, boolean italic, boolean underline, String color, String ref, boolean strikethrough, boolean obfuscated) {
+        private Style(boolean bold, boolean italic, boolean underline, String color, String ref, boolean strikethrough, boolean obfuscated, boolean translatable) {
             this.bold = bold;
             this.italic = italic;
             this.underline = underline;
@@ -229,42 +254,47 @@ public class StellardownParser {
             this.ref = ref;
             this.strikethrough = strikethrough;
             this.obfuscated = obfuscated;
+            this.translatable = translatable;
         }
 
         public Style() {
-            this(false, false, false, "white", null, false, false);
+            this(false, false, false, "white", null, false, false, false);
         }
 
         public Style withBold(boolean bold) {
-            return new Style(bold, this.italic, this.underline, this.color, this.ref, this.strikethrough, this.obfuscated);
+            return new Style(bold, this.italic, this.underline, this.color, this.ref, this.strikethrough, this.obfuscated, this.translatable);
         }
 
         public Style withStrikethrough(boolean strikethrough) {
-            return new Style(this.bold, this.italic, this.underline, this.color, this.ref, strikethrough, this.obfuscated);
+            return new Style(this.bold, this.italic, this.underline, this.color, this.ref, strikethrough, this.obfuscated, this.translatable);
         }
 
         public Style withItalic(boolean italic) {
-            return new Style(this.bold, italic, this.underline, this.color, this.ref, this.strikethrough, this.obfuscated);
+            return new Style(this.bold, italic, this.underline, this.color, this.ref, this.strikethrough, this.obfuscated, this.translatable);
         }
 
         public Style withObfuscated(boolean obfuscated) {
-            return new Style(this.bold, this.italic, this.underline, this.color, this.ref, this.strikethrough, obfuscated);
+            return new Style(this.bold, this.italic, this.underline, this.color, this.ref, this.strikethrough, obfuscated, this.translatable);
         }
 
         public Style withUnderline(boolean underline) {
-            return new Style(this.bold, this.italic, underline, this.color, this.ref, this.strikethrough, this.obfuscated);
+            return new Style(this.bold, this.italic, underline, this.color, this.ref, this.strikethrough, this.obfuscated, this.translatable);
         }
 
         public Style withColor(String color) {
-            return new Style(this.bold, this.italic, this.underline, color, this.ref, this.strikethrough, this.obfuscated);
+            return new Style(this.bold, this.italic, this.underline, color, this.ref, this.strikethrough, this.obfuscated, this.translatable);
         }
 
         public Style withRef(String ref) {
-            return new Style(this.bold, this.italic, this.underline, this.color, ref, this.strikethrough, this.obfuscated);
+            return new Style(this.bold, this.italic, this.underline, this.color, ref, this.strikethrough, this.obfuscated, this.translatable);
+        }
+
+        public Style withTranslatable(boolean translatable) {
+            return new Style(this.bold, this.italic, this.underline, this.color, this.ref, this.strikethrough, this.obfuscated, translatable);
         }
     }
 
     public enum TokenType {
-        BOLD, ITALIC, STRIKETHROUGH, UNDERLINE, OBFUSCATED, COLOR_OPEN, COLOR_CLOSE, REF_OPEN, REF_CLOSE, NEWLINE, TEXT
+        BOLD, ITALIC, STRIKETHROUGH, UNDERLINE, OBFUSCATED, COLOR_OPEN, COLOR_CLOSE, REF_OPEN, REF_CLOSE, NEWLINE, TEXT, TRANSLATABLE_OPEN, TRANSLATABLE_CLOSE
     }
 }

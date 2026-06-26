@@ -6,11 +6,8 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.state.BlockState;
-import org.exodusstudio.stellaris.common.blocks.CableBlock;
-import org.exodusstudio.stellaris.common.blocks.PumpjackProxyBlock;
-import org.exodusstudio.stellaris.common.transport.TransportGraph;
-import org.exodusstudio.stellaris.common.transport.TransportType;
+import org.exodusstudio.stellaris.common.transport.Transport;
+import org.exodusstudio.stellaris.common.transport.TransportMedium;
 
 import java.util.*;
 
@@ -42,9 +39,9 @@ public class EnergyUtil {
 
     /**
      * Pushes up to {@code amount} energy out of the storage exposed on each output direction. A
-     * direction backed by a {@link CableBlock} routes the energy across the whole connected network
-     * (instantly, losslessly) to every storage that accepts it; any other neighbour receives a
-     * direct transfer.
+     * direction backed by a cable routes the energy across the whole connected network (instantly,
+     * losslessly) to every storage that accepts it; any other neighbour receives a direct transfer.
+     * The actual routing is handled by the shared {@link Transport} engine.
      *
      * @param outputDirections the faces to push from, or {@code null}/empty to try all six.
      */
@@ -56,71 +53,7 @@ public class EnergyUtil {
         List<Direction> directions = (outputDirections == null || outputDirections.isEmpty())
                 ? ALL_DIRECTIONS : outputDirections;
 
-        for (Direction direction : directions) {
-            UniversalEnergyStorage from = getEnergyCapability(level, pos, direction);
-            if (from == null || !from.canExtractEnergy()) {
-                continue;
-            }
-
-            int budget = from.extract(amount, true);
-            if (budget <= 0) {
-                continue;
-            }
-
-            BlockPos neighbor = pos.relative(direction);
-            BlockState neighborState = level.getBlockState(neighbor);
-
-            if (TransportType.ENERGY.isNode(neighborState)) {
-                routeToNetwork(level, pos, from, budget, TransportGraph.get(level, neighbor, TransportType.ENERGY));
-            } else {
-                UniversalEnergyStorage to = getEnergyCapability(level, neighbor, direction.getOpposite());
-                if (to != null && to.canInsertEnergy()) {
-                    moveEnergy(from, to, budget);
-                }
-            }
-        }
-    }
-
-    /**
-     * Distributes up to {@code budget} energy from {@code from} across every boundary storage of
-     * {@code network} that accepts it, capped by the network's remaining per-tick throughput. The
-     * remainder of an uneven split is carried forward so nothing is lost.
-     */
-    private static void routeToNetwork(Level level, BlockPos sourcePos, UniversalEnergyStorage from, int budget, TransportGraph.Network network) {
-        if (network.throughputRemaining <= 0) {
-            return;
-        }
-
-        List<UniversalEnergyStorage> sinks = new ArrayList<>();
-        Set<BlockPos> seen = new HashSet<>();
-        seen.add(sourcePos); // never push back into the producer
-
-        for (TransportGraph.BoundaryFace face : network.boundary) {
-            if (!seen.add(face.pos())) {
-                continue;
-            }
-            UniversalEnergyStorage to = getEnergyCapability(level, face.pos(), face.side());
-            if (to == null || !to.canInsertEnergy() || to.insert(budget, true) <= 0) {
-                continue;
-            }
-            sinks.add(to);
-        }
-
-        if (sinks.isEmpty()) {
-            return;
-        }
-
-        long remaining = Math.min(budget, network.throughputRemaining);
-        int count = sinks.size();
-        for (int i = 0; i < count && remaining > 0; i++) {
-            long share = remaining / (count - i);
-            if (share <= 0) {
-                share = remaining;
-            }
-            int moved = moveEnergy(from, sinks.get(i), (int) Math.min(share, Integer.MAX_VALUE));
-            remaining -= moved;
-            network.throughputRemaining -= moved;
-        }
+        Transport.distribute(level, pos, directions, TransportMedium.ENERGY, Transport.energyMover(amount));
     }
 
     public static int moveEnergy(UniversalEnergyStorage from, UniversalEnergyStorage to, int amount) {
@@ -132,22 +65,5 @@ public class EnergyUtil {
         }
 
         return inserted;
-    }
-
-    private static UniversalEnergyStorage getEnergyCapability(Level level, BlockPos pos, Direction direction) {
-        UniversalEnergyStorage direct = Capabilities.Energy.BLOCK.getCapability(level, pos, direction);
-
-        if (direct != null) {
-            return direct;
-        }
-
-        BlockState state = level.getBlockState(pos);
-
-        if (state.getBlock() instanceof PumpjackProxyBlock) {
-            BlockPos mainPos = PumpjackProxyBlock.getMainPos(pos, state);
-            return Capabilities.Energy.BLOCK.getCapability(level, mainPos, direction);
-        }
-
-        return null;
     }
 }

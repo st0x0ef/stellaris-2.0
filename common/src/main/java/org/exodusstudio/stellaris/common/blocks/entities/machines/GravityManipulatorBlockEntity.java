@@ -3,16 +3,13 @@ package org.exodusstudio.stellaris.common.blocks.entities.machines;
 import dev.architectury.networking.NetworkManager;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.AbstractContainerMenu;
-import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
-import net.minecraft.world.phys.AABB;
 import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.common.blocks.entities.machines.base.BaseEnergyContainerBlockEntity;
 import org.exodusstudio.stellaris.common.menus.GravityManipulatorMenu;
@@ -20,8 +17,6 @@ import org.exodusstudio.stellaris.common.network.packets.SyncGravityManipulatorD
 import org.exodusstudio.stellaris.common.network.packets.SyncGravityManipulatorDataPacketS2C;
 import org.exodusstudio.stellaris.common.registries.BlockEntitiesRegistry;
 import org.exodusstudio.stellaris.common.utils.Utils;
-
-import java.util.List;
 
 public class GravityManipulatorBlockEntity extends BaseEnergyContainerBlockEntity {
 

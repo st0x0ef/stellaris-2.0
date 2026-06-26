@@ -4,7 +4,6 @@ import dev.architectury.networking.NetworkManager;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.Container;
-import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -31,7 +30,7 @@ public class RocketStationMenu extends AbstractContainerMenu {
 
     public static RocketStationMenu create(int syncId, Inventory inventory, BlockPos pos) {
         EngineeringStationBlockEntity blockEntity = (EngineeringStationBlockEntity) inventory.player.level().getBlockEntity(pos);
-        return new RocketStationMenu(syncId, inventory, new SimpleContainer(15), blockEntity);
+        return new RocketStationMenu(syncId, inventory, blockEntity, blockEntity);
     }
 
     public RocketStationMenu(int syncId, Inventory playerInventory, Container container, EngineeringStationBlockEntity blockEntity) {

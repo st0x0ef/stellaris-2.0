@@ -28,6 +28,7 @@ public class StellardownRenderer {
 
         //We only parse one time the text
         this.segments = parser.parse(parser.tokenize(formattedText));
+
         updateLayout(areaWidth);
     }
 
@@ -184,6 +185,11 @@ public class StellardownRenderer {
 
     public static MutableComponent toComponent(String text, StellardownParser.Style style) {
         MutableComponent comp = Component.literal(text);
+
+
+        if(style.translatable) {
+            comp = Component.translatable(text);
+        }
 
         //We automatically make reference text blue, but we can also specify a custom color if needed
 

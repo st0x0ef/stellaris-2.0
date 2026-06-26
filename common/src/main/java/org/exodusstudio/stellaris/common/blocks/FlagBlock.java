@@ -11,13 +11,16 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.Entity;
 
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import net.minecraft.world.item.*;
 import net.minecraft.world.item.component.ResolvableProfile;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
@@ -34,10 +37,17 @@ import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.common.blocks.entities.FlagBlockEntity;
+import org.exodusstudio.stellaris.common.registries.BlocksRegistry;
 import org.jetbrains.annotations.Nullable;
 
 
 public class FlagBlock extends BaseEntityBlock implements SimpleWaterloggedBlock {
+
+    private static final Set<BlockPos> CLEANING_UP = new HashSet<>();
+
+    static boolean isCleaningUp(BlockPos pos) {
+        return CLEANING_UP.contains(pos);
+    }
 
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
     public static final EnumProperty<Direction> FACING = HorizontalDirectionalBlock.FACING;
@@ -84,9 +94,13 @@ public class FlagBlock extends BaseEntityBlock implements SimpleWaterloggedBlock
         BlockPos blockpos = context.getClickedPos();
         Level level = context.getLevel();
 
-        if (blockpos.getY() < level.getMaxY() - 1 && context.getLevel().getBlockState(blockpos.above()).canBeReplaced(context)) {
+        Direction facing = context.getHorizontalDirection();
+        if (blockpos.getY() < level.getMaxY() - 2
+                && context.getLevel().getBlockState(blockpos.above()).canBeReplaced(context)
+                && context.getLevel().getBlockState(blockpos.above(2)).canBeReplaced(context)
+                && context.getLevel().getBlockState(blockpos.above(2).relative(facing.getClockWise())).canBeReplaced(context)) {
             boolean flag = context.getLevel().getFluidState(context.getClickedPos()).is(Fluids.WATER);
-            return this.defaultBlockState().setValue(FACING, context.getHorizontalDirection()).setValue(WATERLOGGED, flag);
+            return this.defaultBlockState().setValue(FACING, facing).setValue(WATERLOGGED, flag);
         }
         else {
             return null;
@@ -97,8 +111,7 @@ public class FlagBlock extends BaseEntityBlock implements SimpleWaterloggedBlock
     public void setPlacedBy(Level worldIn, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack stack) {
         if(worldIn.isClientSide()) return;
 
-
-        BlockEntity blockEntity = worldIn.getBlockEntity(new BlockPos(pos.getX(), pos.getY() + 1, pos.getZ()));
+        BlockEntity blockEntity = worldIn.getBlockEntity(pos);
 
         if(blockEntity instanceof FlagBlockEntity flagBlockEntity) {
 
@@ -116,27 +129,42 @@ public class FlagBlock extends BaseEntityBlock implements SimpleWaterloggedBlock
             }
         }
         super.setPlacedBy(worldIn, pos, state.setValue(WATERLOGGED, false), placer, stack);
+
+        Direction facing = state.getValue(FACING);
+        worldIn.setBlock(pos.above(), BlocksRegistry.FLAG_PROXY.get().defaultBlockState().setValue(FlagProxyBlock.PART, 1).setValue(FlagProxyBlock.FACING, facing), 3);
+        worldIn.setBlock(pos.above(2), BlocksRegistry.FLAG_PROXY.get().defaultBlockState().setValue(FlagProxyBlock.PART, 2).setValue(FlagProxyBlock.FACING, facing), 3);
+        worldIn.setBlock(pos.above(2).relative(facing.getClockWise()), BlocksRegistry.FLAG_PROXY.get().defaultBlockState().setValue(FlagProxyBlock.PART, 3).setValue(FlagProxyBlock.FACING, facing), 3);
     }
 
-    @Override
-    protected InteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) {
-        BlockEntity blockEntity = level.getBlockEntity(pos);
+    public static InteractionResult handleInteraction(ItemStack stack, Level level, BlockPos mainPos, Player player, InteractionHand hand, BlockHitResult hitResult) {
+        BlockEntity blockEntity = level.getBlockEntity(mainPos);
         if (blockEntity instanceof FlagBlockEntity flagBlockEntity) {
-            if(stack.getItem() instanceof DyeItem dyeItem) {
+            if (stack.getItem() instanceof DyeItem dyeItem) {
                 flagBlockEntity.setDyeColor(dyeItem.components().get(DataComponents.DYE));
-                level.sendBlockUpdated(pos, state, state, 3);
+                BlockState mainState = level.getBlockState(mainPos);
+                level.sendBlockUpdated(mainPos, mainState, mainState, 3);
                 return InteractionResult.SUCCESS;
             }
 
-            if(stack.has(DataComponents.PROFILE)) {
+            if (stack.has(DataComponents.PROFILE)) {
                 Stellaris.LOG.error("Setting profile from itemstack");
                 ResolvableProfile resolvableprofile = stack.get(DataComponents.PROFILE);
                 flagBlockEntity.setProfile(resolvableprofile);
-                level.sendBlockUpdated(pos, state, state, 3);
+                BlockState mainState = level.getBlockState(mainPos);
+                level.sendBlockUpdated(mainPos, mainState, mainState, 3);
                 return InteractionResult.SUCCESS;
             }
         }
 
+        return InteractionResult.PASS;
+    }
+
+    @Override
+    protected InteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) {
+        InteractionResult result = handleInteraction(stack, level, pos, player, hand, hitResult);
+        if (result != InteractionResult.PASS) {
+            return result;
+        }
         return super.useItemOn(stack, state, level, pos, player, hand, hitResult);
     }
 
@@ -154,6 +182,32 @@ public class FlagBlock extends BaseEntityBlock implements SimpleWaterloggedBlock
     protected void onPlace(BlockState state, Level level, BlockPos pos, BlockState oldState, boolean movedByPiston) {
         state = state.setValue(WATERLOGGED, false);
         super.onPlace(state, level, pos, oldState, movedByPiston);
+    }
+
+    @Override
+    protected void affectNeighborsAfterRemoval(BlockState state, ServerLevel level, BlockPos pos, boolean movedByPiston) {
+        BlockPos immutable = pos.immutable();
+        CLEANING_UP.add(immutable);
+        try {
+            for (int offset = 1; offset <= 2; offset++) {
+                BlockPos proxyPos = pos.above(offset);
+                BlockState proxyState = level.getBlockState(proxyPos);
+                if (proxyState.getBlock() instanceof FlagProxyBlock
+                        && FlagProxyBlock.getMainPos(proxyPos, proxyState).equals(pos)) {
+                    level.removeBlock(proxyPos, false);
+                }
+            }
+            Direction facing = state.getValue(FACING);
+            BlockPos lateralProxyPos = pos.above(2).relative(facing.getClockWise());
+            BlockState lateralState = level.getBlockState(lateralProxyPos);
+            if (lateralState.getBlock() instanceof FlagProxyBlock
+                    && FlagProxyBlock.getMainPos(lateralProxyPos, lateralState).equals(pos)) {
+                level.removeBlock(lateralProxyPos, false);
+            }
+        } finally {
+            CLEANING_UP.remove(immutable);
+        }
+        super.affectNeighborsAfterRemoval(state, level, pos, movedByPiston);
     }
 
     @Override

@@ -1,7 +1,7 @@
 package org.exodusstudio.stellaris.common.blocks.entities.machines;
 
 import com.fej1fun.potentials.components.FluidAmountMapDataComponent;
-import com.fej1fun.potentials.fluid.UniversalFluidStorage;
+import com.fej1fun.potentials.providers.FluidProvider;
 import dev.architectury.fluid.FluidStack;
 import dev.architectury.networking.NetworkManager;
 import net.minecraft.core.BlockPos;
@@ -15,12 +15,10 @@ import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
+import org.exodusstudio.stellaris.common.blocks.base.BaseMachineBlock;
 import org.exodusstudio.stellaris.common.blocks.entities.machines.base.BaseEnergyContainerBlockEntity;
-import org.exodusstudio.stellaris.common.blocks.entities.machines.base.FluidOutputManager;
-import org.exodusstudio.stellaris.common.blocks.entities.machines.base.FluidOutputable;
 import org.exodusstudio.stellaris.common.data.recipes.FuelRefineryRecipe;
 import org.exodusstudio.stellaris.common.data.recipes.input.FluidInput;
 import org.exodusstudio.stellaris.common.fluid.FluidUtil;
@@ -36,12 +34,11 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 import java.util.Optional;
 
-public class FuelRefineryBlockEntity extends BaseEnergyContainerBlockEntity implements FluidOutputable {
+public class FuelRefineryBlockEntity extends BaseEnergyContainerBlockEntity implements FluidProvider.BLOCK {
 
     private final SingleFluidStorage inputTank;
     private final SingleFluidStorage outputFuelTank;
     private final SingleFluidStorage outputDieselTank;
-    public final FluidOutputManager outputManager;
     private final RecipeManager.CachedCheck<FluidInput, FuelRefineryRecipe> cachedCheck = RecipeManager.createCheck(RecipesRegistry.FUEL_REFINERY_TYPE.get());
 
     public FuelRefineryBlockEntity(BlockPos pos, BlockState state) {
@@ -68,8 +65,9 @@ public class FuelRefineryBlockEntity extends BaseEnergyContainerBlockEntity impl
             protected void onChange() {
                 setChanged();
                 if (level != null && level.getServer() != null && !level.getServer().getPlayerList().getPlayers().isEmpty()) {
+                    Direction fuelDir = getBlockState().getValue(BaseMachineBlock.FACING).getClockWise();
                     NetworkManager.sendToPlayers(level.getServer().getPlayerList().getPlayers(),
-                            new SyncFluidPacket(new FluidAmountMapDataComponent(List.of(getFluidInTank(0).getFluid()), List.of(getFluidValueInTank())), 0, getBlockPos(), Direction.NORTH));
+                            new SyncFluidPacket(new FluidAmountMapDataComponent(List.of(getFluidInTank(0).getFluid()), List.of(getFluidValueInTank())), 0, getBlockPos(), fuelDir));
                 }
             }
         };
@@ -78,18 +76,13 @@ public class FuelRefineryBlockEntity extends BaseEnergyContainerBlockEntity impl
             protected void onChange() {
                 setChanged();
                 if (level != null && level.getServer() != null && !level.getServer().getPlayerList().getPlayers().isEmpty()) {
+                    Direction dieselDir = getBlockState().getValue(BaseMachineBlock.FACING).getCounterClockWise();
                     NetworkManager.sendToPlayers(level.getServer().getPlayerList().getPlayers(),
-                            new SyncFluidPacket(new FluidAmountMapDataComponent(List.of(getFluidInTank(0).getFluid()), List.of(getFluidValueInTank())), 0, getBlockPos(), Direction.SOUTH));
+                            new SyncFluidPacket(new FluidAmountMapDataComponent(List.of(getFluidInTank(0).getFluid()), List.of(getFluidValueInTank())), 0, getBlockPos(), dieselDir));
                 }
             }
         };
 
-        this.outputManager = new FluidOutputManager(this);
-
-        this.outputManager.setDefault(
-                new FluidOutputManager.FluidOutputEntry(Direction.NORTH, FluidStack.create(FluidsRegistry.FUEL_STILL.get(), 1)),
-                new FluidOutputManager.FluidOutputEntry(Direction.SOUTH, FluidStack.create(FluidsRegistry.DIESEL_STILL.get(), 1))
-        );
     }
 
     @Override
@@ -133,7 +126,10 @@ public class FuelRefineryBlockEntity extends BaseEnergyContainerBlockEntity impl
             }
         }
 
-        getFluidOutputManager().distributeFluids(level, getBlockPos());
+        // Output fuel and diesel out the machine's right and left faces relative to its facing.
+        Direction facing = getBlockState().getValue(BaseMachineBlock.FACING);
+        FluidUtil.distributeFluidNearby(level, getBlockPos(), outputFuelTank.getFluidInTank(0), List.of(facing.getClockWise()));
+        FluidUtil.distributeFluidNearby(level, getBlockPos(), outputDieselTank.getFluidInTank(0), List.of(facing.getCounterClockWise()));
     }
 
     @Override
@@ -147,12 +143,13 @@ public class FuelRefineryBlockEntity extends BaseEnergyContainerBlockEntity impl
             NetworkManager.sendToPlayer(serverPlayer, new SyncFluidPacket(
                     new com.fej1fun.potentials.components.FluidAmountMapDataComponent(List.of(inputTank.getFluidInTank(0).getFluid()), List.of(inputTank.getFluidValueInTank())),
                     0, getBlockPos(), Direction.UP));
+            Direction facing = getBlockState().getValue(BaseMachineBlock.FACING);
             NetworkManager.sendToPlayer(serverPlayer, new SyncFluidPacket(
                     new com.fej1fun.potentials.components.FluidAmountMapDataComponent(List.of(outputFuelTank.getFluidInTank(0).getFluid()), List.of(outputFuelTank.getFluidValueInTank())),
-                    0, getBlockPos(), Direction.NORTH));
+                    0, getBlockPos(), facing.getClockWise()));
             NetworkManager.sendToPlayer(serverPlayer, new SyncFluidPacket(
                     new com.fej1fun.potentials.components.FluidAmountMapDataComponent(List.of(outputDieselTank.getFluidInTank(0).getFluid()), List.of(outputDieselTank.getFluidValueInTank())),
-                    0, getBlockPos(), Direction.SOUTH));
+                    0, getBlockPos(), facing.getCounterClockWise()));
         }
         return new FuelRefineryMenu(containerId, inventory, this, this);
     }
@@ -168,7 +165,6 @@ public class FuelRefineryBlockEntity extends BaseEnergyContainerBlockEntity impl
         inputTank.load(input, "input");
         outputFuelTank.load(input, "fuel");
         outputDieselTank.load(input, "diesel");
-        outputManager.load(input);
     }
 
     @Override
@@ -177,7 +173,6 @@ public class FuelRefineryBlockEntity extends BaseEnergyContainerBlockEntity impl
         inputTank.save(output, "input");
         outputFuelTank.save(output, "fuel");
         outputDieselTank.save(output, "diesel");
-        outputManager.save(output);
     }
 
     public SingleFluidStorage getIngredientTank() {
@@ -192,23 +187,8 @@ public class FuelRefineryBlockEntity extends BaseEnergyContainerBlockEntity impl
 
 
     @Override
-    public List<Fluid> getFluidsOutput() {
-        return List.of(FluidsRegistry.DIESEL_STILL.get(), FluidsRegistry.FUEL_STILL.get());
-    }
-
-    @Override
-    public List<UniversalFluidStorage> getOutputFluidsTank() {
-        return List.of(outputFuelTank, outputDieselTank);
-    }
-
-    @Override
     public ClientboundBlockEntityDataPacket getUpdatePacket() {
         return ClientboundBlockEntityDataPacket.create(this);
-    }
-
-    @Override
-    public FluidOutputManager getFluidOutputManager() {
-        return outputManager;
     }
 
     @Override
@@ -216,11 +196,13 @@ public class FuelRefineryBlockEntity extends BaseEnergyContainerBlockEntity impl
         if (direction == null) {
             return inputTank;
         }
-
-        return switch (direction) {
-            case UP, DOWN -> inputTank;
-            case EAST, NORTH -> outputFuelTank;
-            case WEST, SOUTH -> outputDieselTank;
-        };
+        Direction facing = getBlockState().getValue(BaseMachineBlock.FACING);
+        if (direction == facing.getClockWise()) {
+            return outputFuelTank;
+        }
+        if (direction == facing.getCounterClockWise()) {
+            return outputDieselTank;
+        }
+        return inputTank;
     }
 }

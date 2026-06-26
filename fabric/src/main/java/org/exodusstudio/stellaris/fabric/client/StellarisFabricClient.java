@@ -17,6 +17,7 @@ import org.exodusstudio.stellaris.client.renderers.entity.vehicle.rover.RoverRen
 import org.exodusstudio.stellaris.client.renderers.flag.FlagBlockRenderer;
 import org.exodusstudio.stellaris.client.renderers.gravity_manipulator.GravityManipulatorBlockRenderer;
 import org.exodusstudio.stellaris.client.renderers.lander.LanderRenderer;
+import org.exodusstudio.stellaris.client.renderers.launchpad.RocketLaunchPadBlockRenderer;
 import org.exodusstudio.stellaris.client.renderers.mobs.*;
 import org.exodusstudio.stellaris.client.renderers.rockets.RocketRenderer;
 import org.exodusstudio.stellaris.client.screens.*;
@@ -29,6 +30,7 @@ import org.exodusstudio.stellaris.client.screens.tablet.MainTabletScreen;
 import org.exodusstudio.stellaris.client.screens.tablet.application.planets.PlanetSelectionAppScreen;
 import org.exodusstudio.stellaris.client.screens.tablet.application.sd.SDCardReaderApplicationScreen;
 import org.exodusstudio.stellaris.client.screens.tablet.application.wiki.WikiApplicationScreen;
+import org.exodusstudio.stellaris.common.blocks.entities.RocketLaunchPadBlockEntity;
 import org.exodusstudio.stellaris.common.blocks.entities.machines.GravityManipulatorBlockEntity;
 import org.exodusstudio.stellaris.common.menus.WikiApplicationMenu;
 import org.exodusstudio.stellaris.common.registries.BlockEntitiesRegistry;
@@ -88,6 +90,7 @@ public final class StellarisFabricClient implements ClientModInitializer {
         BlockEntityRenderers.register(BlockEntitiesRegistry.MOD_SIGN.get(), StandingSignRenderer::new);
         BlockEntityRenderers.register(BlockEntitiesRegistry.MOD_HANGING_SIGN.get(), HangingSignRenderer::new);
         BlockEntityRenderers.register(BlockEntitiesRegistry.FLAG.get(), FlagBlockRenderer::new);
+        BlockEntityRenderers.register((BlockEntityType<RocketLaunchPadBlockEntity>)BlockEntitiesRegistry.ROCKET_LAUNCH_PAD.get(), RocketLaunchPadBlockRenderer::new);
 
         EntityRendererRegistry.register(EntityTypesRegistry.LANDER.get(), LanderRenderer::new);
         EntityRendererRegistry.register(EntityTypesRegistry.ROCKET.get(), RocketRenderer::new);

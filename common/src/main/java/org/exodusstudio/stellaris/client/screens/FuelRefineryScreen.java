@@ -7,15 +7,12 @@ import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Inventory;
-import org.exodusstudio.stellaris.client.screens.components.FluidOutputManagerWidget;
 import org.exodusstudio.stellaris.client.screens.components.GaugeWidget;
 import org.exodusstudio.stellaris.client.screens.utils.GUISprites;
 import org.exodusstudio.stellaris.common.blocks.entities.machines.FuelRefineryBlockEntity;
 import org.exodusstudio.stellaris.common.fluid.SingleFluidStorage;
 import org.exodusstudio.stellaris.common.menus.FuelRefineryMenu;
 import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
-
-import java.util.List;
 
 public class FuelRefineryScreen extends AbstractContainerScreen<FuelRefineryMenu> {
 
@@ -53,18 +50,13 @@ public class FuelRefineryScreen extends AbstractContainerScreen<FuelRefineryMenu
                 GUISprites.FUEL_OVERLAY, GUISprites.FLUID_TANK_OVERLAY, fuelTank.getTankCapacity(0), GaugeWidget.Direction4.DOWN_UP);
         addRenderableWidget(fuelTankGauge);
 
-        SingleFluidStorage dieselTank = blockEntity.getOutputFuelTank();
+        SingleFluidStorage dieselTank = blockEntity.getOutputDieselTank();
         dieselTankGauge = new GaugeWidget(leftPos + 128, topPos + 78, 12, 46, Component.translatable("stellaris.screen.diesel"),
                 GUISprites.DIESEL_OVERLAY, GUISprites.FLUID_TANK_OVERLAY, dieselTank.getTankCapacity(0), GaugeWidget.Direction4.DOWN_UP);
         addRenderableWidget(dieselTankGauge);
 
         energyGauge = new GaugeWidget(leftPos + 68, topPos + 20, 44, 6, Component.translatable("stellaris.screen.energyContainer"), GUISprites.SIDEWAYS_ENERGY_FULL, null, blockEntity.getEnergy(null).getMaxEnergy(), GaugeWidget.Direction4.LEFT_RIGHT);
         addRenderableWidget(energyGauge);
-
-        FluidOutputManagerWidget fluidOutputManagerWidget = new FluidOutputManagerWidget(leftPos - FluidOutputManagerWidget.WIDTH, topPos, blockEntity.outputManager, this, blockEntity);
-        fluidOutputManagerWidget.addDefaultChildren();
-        addRenderableWidget(fluidOutputManagerWidget);
-
     }
 
     @Override

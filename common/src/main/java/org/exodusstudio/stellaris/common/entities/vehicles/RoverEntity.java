@@ -353,7 +353,7 @@ public class RoverEntity extends AbstractRoverBase implements HasCustomInventory
 
                 @Override
                 public Component getDisplayName() {
-                    return Component.literal("Rover");
+                    return Component.translatable("container.stellaris.rover");
                 }
 
                 @Override

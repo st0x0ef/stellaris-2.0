@@ -11,11 +11,9 @@ import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Inventory;
-import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.client.screens.components.Padding;
 import org.exodusstudio.stellaris.client.screens.components.TexturedButton;
 import org.exodusstudio.stellaris.client.screens.components.containers.ScrollableContainer;
-import org.exodusstudio.stellaris.client.screens.tablet.application.sd.SDCardReaderApplicationScreen;
 import org.exodusstudio.stellaris.common.data.space_station.SpaceStationData;
 import org.exodusstudio.stellaris.common.data.space_station.SpaceStationRecipe;
 import org.exodusstudio.stellaris.common.menus.engineering_station.SpaceStationPlannerMenu;
@@ -66,9 +64,7 @@ public class SpaceStationPlannerScreen extends AbstractContainerScreen<SpaceStat
 
         int i = 0;
         for(SpaceStationRecipe recipe : SpaceStationData.SPACE_STATION_RECIPES) {
-            TexturedButton button = new TexturedButton(container.getX() + 5, this.container.getY() + 5 + i * 25, 60, 20, btn -> {
-                this.changeSelectRecipe(recipe, btn);
-            }).tex(IdentifierUtils.id("util/machine_button"), IdentifierUtils.id("util/machine_button_hover"))
+            TexturedButton button = new TexturedButton(container.getX() + 5, this.container.getY() + 5 + i * 25, 60, 20, btn -> this.changeSelectRecipe(recipe, btn)).tex(IdentifierUtils.id("util/machine_button"), IdentifierUtils.id("util/machine_button_hover"))
                     .useSprite(true)
                     .setText(recipe.getDisplayName())
                     .setTextPadding(new Padding(2, 0))
