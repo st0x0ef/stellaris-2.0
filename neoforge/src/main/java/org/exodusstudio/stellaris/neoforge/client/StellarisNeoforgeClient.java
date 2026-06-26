@@ -88,6 +88,8 @@ public class StellarisNeoforgeClient {
         event.register(MenuTypesRegistry.PLANET_SELECTION_MENU.get(), PlanetSelectionAppScreen::new);
         event.register(MenuTypesRegistry.CARGO_UNLOADER.get(), CargoUnloaderScreen::new);
         event.register(MenuTypesRegistry.FLUID_TANK_MENU.get(), FluidTankScreen::new);
+        event.register(MenuTypesRegistry.ANTENNA.get(), AntennaScreen::new);
+
     }
 
     @SuppressWarnings("unchecked")
