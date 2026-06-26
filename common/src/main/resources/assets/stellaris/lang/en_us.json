@@ -146,6 +146,7 @@
   "item.stellaris.diesel_bucket": "Diesel Bucket",
   "item.stellaris.blue_liquid_bucket": "Blue Liquid Bucket",
   "item.stellaris.rocket_launch_pad": "Rocket Launch Pad",
+  "item.stellaris.launch_pad_towers": "Launch Pad Towers",
 
 
   "item.stellaris.cable_t1": "Cable",
@@ -451,6 +452,8 @@
 
   "message.stellaris.antenna.not_owner": "You are not the owner of this launch pad.",
   "message.stellaris.not_owner_of_launch_pad": "You are not the owner of this launch pad.",
+  "message.stellaris.launch_pad_towers_obstructed": "There isn't enough room to build the launch pad towers here.",
+  "message.stellaris.launch_pad_antenna_obstructed": "You can't place an antenna here. The block under the launch pad can't be replaced.",
   "message.stellaris.friends_list.use_on_player": "Use this item on a player to add it to your friends list.",
   "message.stellaris.friends_list.antenna_not_configured": "This antenna hasn't been configured yet.",
   "message.stellaris.friends_list.use_success": "Your antenna whitelist has been updated successfully.",

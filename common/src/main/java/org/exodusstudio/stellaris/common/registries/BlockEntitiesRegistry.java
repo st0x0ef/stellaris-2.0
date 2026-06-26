@@ -74,4 +74,7 @@ public class BlockEntitiesRegistry {
     public static final Supplier<BlockEntityType<?>> LABORATORY = BLOCK_ENTITY_TYPE.register("laboratory",
             () -> new BlockEntityType<>(LaboratoryBlockEntity::new, Set.of(BlocksRegistry.LABORATORY.block().get())));
 
+    public static final Supplier<BlockEntityType<?>> ROCKET_LAUNCH_PAD = BLOCK_ENTITY_TYPE.register("rocket_launch_pad",
+            () -> new BlockEntityType<>(RocketLaunchPadBlockEntity::new, Set.of(BlocksRegistry.ROCKET_LAUNCH_PAD.block().get())));
+
 }

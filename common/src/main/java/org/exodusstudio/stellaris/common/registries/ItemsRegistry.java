@@ -186,6 +186,7 @@ public final class ItemsRegistry {
     public static final RegistrySupplier<Item> ROCKET_ENGINE = item("rocket_engine");
     public static final RegistrySupplier<Item> ROCKET_FIN = item("rocket_fin");
     public static final RegistrySupplier<Item> ROCKET_NOSE_CONE = item("rocket_nose_cone");
+    public static final RegistrySupplier<Item> LAUNCH_PAD_TOWERS = item("launch_pad_towers");
 
     // Moon lore items
     public static final RegistrySupplier<ParasiteItem> PARASITE = item("parasite", ParasiteItem::new);
