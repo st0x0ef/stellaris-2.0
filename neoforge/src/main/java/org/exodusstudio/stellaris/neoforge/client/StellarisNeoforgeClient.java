@@ -29,6 +29,7 @@ import org.exodusstudio.stellaris.client.renderers.gravity_manipulator.GravityMa
 import org.exodusstudio.stellaris.client.renderers.lander.LanderModel;
 import org.exodusstudio.stellaris.client.renderers.lander.LanderRenderer;
 import org.exodusstudio.stellaris.client.renderers.launchpad.RocketLaunchPadBlockRenderer;
+import org.exodusstudio.stellaris.client.renderers.launchpad.RocketLaunchPadModel;
 import org.exodusstudio.stellaris.client.renderers.mobs.*;
 import org.exodusstudio.stellaris.client.renderers.rockets.RocketRenderer;
 import org.exodusstudio.stellaris.client.renderers.rockets.models.BigRocketModel;
@@ -133,6 +134,7 @@ public class StellarisNeoforgeClient {
         event.registerLayerDefinition(ParasiteAffectedVillagerModel.LAYER_LOCATION, ParasiteAffectedVillagerModel::createBodyLayer);
         event.registerLayerDefinition(EvolvedParasiteAffectedVillagerModel.LAYER_LOCATION, EvolvedParasiteAffectedVillagerModel::createBodyLayer);
         event.registerLayerDefinition(LunaShadowModel.LAYER_LOCATION, LunaShadowModel::createBodyLayer);
+        event.registerLayerDefinition(RocketLaunchPadModel.LAYER_LOCATION, RocketLaunchPadModel::createBodyLayer);
 
         event.registerLayerDefinition(SpaceSuitModel.LAYER_LOCATION, SpaceSuitModel::createBodyLayer);
         event.registerLayerDefinition(BoatModelLayerRegistry.LUNAR_BOAT, BoatModel::createBoatModel);
