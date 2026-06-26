@@ -76,8 +76,8 @@
   "item.stellaris.casus_astrum_stone": "Casus Astrum Stone",
   "item.stellaris.casus_astrum_stone_slab": "Casus Astrum Stone Slab",
   "item.stellaris.casus_astrum_stone_stairs": "Casus Astrum Stone Stairs",
-  "item.stellaris.astrum_vitreus_block": "Astrum Viterus Block",
-  "item.stellaris.astrum_vitreus_cluster": "Astrum Viterus Cluster",
+  "item.stellaris.astrum_vitreus_block": "Astrum Vitreus Block",
+  "item.stellaris.astrum_vitreus_cluster": "Astrum Vitreus Cluster",
   "item.stellaris.casus_astrum_grass": "Casus Astrum Grass",
   "item.stellaris.casus_astrum_dirt": "Casus Astrum Dirt",
   "item.stellaris.astrum_liquidus_bucket": "Astrum Liquidus Bucket",
@@ -439,7 +439,7 @@
 
   "stat.stellaris.rocket_launched": "Rocket Launched",
   "stat.stellaris.space_traveled": "Space Traveled",
-  "stat.stellaris.sd_card_read": "Sd Cards Read",
+  "stat.stellaris.sd_card_read": "SD Cards Read",
   "stat.stellaris.lander_exploded": "Lander Exploded",
 
   "key.stellaris.rocket_start": "Start Rocket",
@@ -529,7 +529,7 @@
   "block.stellaris.desh_plating_block": "Desh Plating Block",
   "block.stellaris.desh_plating_slab": "Desh Plating Slab",
   "block.stellaris.desh_plating_stairs": "Desh Plating Stairs",
-  "block.stellaris.desh_pillar": "Desh pillar",
+  "block.stellaris.desh_pillar": "Desh Pillar",
   "block.stellaris.vertical_desh_slab": "Vertical Desh Slab",
   "block.stellaris.vertical_desh_plating_slab": "Vertical Desh Plating Slab",
   "block.stellaris.lunar_stoned_wood_log": "Lunar Stoned Wood Log",
