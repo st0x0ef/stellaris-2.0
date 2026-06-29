@@ -83,6 +83,8 @@ public class CommonConfig {
         public int rocketTpHeight = 400;
         public boolean shouldLanderExplode = true;
         public int cargoUnloadingRadius = 5;
+
+        public int orbitTeleportationYCoord = 62;
     }
 
     @ScreenInfos.InnerConfig

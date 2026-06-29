@@ -2,6 +2,7 @@ package org.exodusstudio.stellaris.common.data;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.codec.ByteBufCodecs;
@@ -11,13 +12,16 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.Level;
 
-public record Planet(String translationKey, Identifier dimension, double gravity, boolean hasOxygen , Boolean allowSpaceStation) {
+import java.util.Optional;
+
+public record Planet(String translationKey, Identifier dimension, double gravity, boolean hasOxygen , Boolean allowSpaceStation, Optional<ResourceKey<Level>> parentPlanet) {
     public static final Codec<Planet> CODEC = RecordCodecBuilder.create(instance -> instance.group(
             Codec.STRING.fieldOf("translation_key").forGetter(Planet::translationKey),
             Identifier.CODEC.fieldOf("dimension").forGetter(Planet::dimension),
             Codec.DOUBLE.fieldOf("gravity").forGetter(Planet::gravity),
             Codec.BOOL.fieldOf("has_oxygen").forGetter(Planet::hasOxygen),
-            Codec.BOOL.optionalFieldOf("allow_space_stations", false).forGetter(Planet::allowSpaceStation)
+            Codec.BOOL.optionalFieldOf("allow_space_stations", false).forGetter(Planet::allowSpaceStation),
+            ResourceKey.codec(Registries.DIMENSION).optionalFieldOf("parent_planet").forGetter(Planet::parentPlanet)
         ).apply(instance, Planet::new)
     );
 
@@ -27,6 +31,7 @@ public record Planet(String translationKey, Identifier dimension, double gravity
             ByteBufCodecs.DOUBLE, Planet::gravity,
             ByteBufCodecs.BOOL, Planet::hasOxygen,
             ByteBufCodecs.BOOL, Planet::allowSpaceStation,
+            ByteBufCodecs.optional(ResourceKey.streamCodec(Registries.DIMENSION)), Planet::parentPlanet,
             Planet::new
     );
 

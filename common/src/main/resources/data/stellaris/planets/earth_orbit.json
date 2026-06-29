@@ -3,5 +3,6 @@
   "dimension": "stellaris:earth_orbit",
   "gravity": 0.5,
   "has_oxygen": false,
+  "parent_planet": "minecraft:overworld",
   "allow_space_stations": true
 }
