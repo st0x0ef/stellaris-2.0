@@ -53,8 +53,7 @@ public class StellarisClient {
         ClientTickEvent.CLIENT_POST.register(OxygenDebugRenderer::clientTick);
 
         ClientEvents.init();
-        PlatformClientHelper.registerConfigScreen(Stellaris.MOD_ID, Stellaris.CONFIG);
-        PlatformClientHelper.registerConfigScreen(Stellaris.MOD_ID, CLIENT_CONFIG);
+        PlatformClientHelper.registerConfigScreens(Stellaris.MOD_ID, Stellaris.CONFIG, CLIENT_CONFIG);
     }
 
     public static void registerOverlays() {
