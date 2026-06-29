@@ -84,7 +84,7 @@ public class CommonConfig {
         public boolean shouldLanderExplode = true;
         public int cargoUnloadingRadius = 5;
 
-        public int orbitTeleportationYCoord = 0;
+        public int orbitTeleportationYCoord = 62;
     }
 
     @ScreenInfos.InnerConfig
