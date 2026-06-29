@@ -71,13 +71,14 @@ public class RocketLaunchPadProxyBlock extends Block {
 
     @Override
     protected InteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) {
+        BlockPos mainPos = getMainPos(pos, state);
+
         if (stack.is(ItemsRegistry.LAUNCH_PAD_TOWERS.get())) {
-            BlockPos mainPos = getMainPos(pos, state);
             return RocketLaunchPadBlock.tryEnableTowers(level, mainPos, level.getBlockState(mainPos), player, stack);
         }
 
         if (stack.is(BlocksRegistry.ANTENNA.item().get())) {
-            return RocketLaunchPadBlock.tryPlaceAntenna(level, getMainPos(pos, state), player, stack);
+            return RocketLaunchPadBlock.tryPlaceAntenna(level, mainPos, level.getBlockState(mainPos), player, stack);
         }
 
         return super.useItemOn(stack, state, level, pos, player, hand, hitResult);

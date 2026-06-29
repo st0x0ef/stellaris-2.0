@@ -64,6 +64,11 @@ public class RocketLaunchPadModel extends Model<BlockEntityRenderState> {
         this.antenna.visible = visible;
     }
 
+    public void setAntennaVisible(boolean visible) {
+        this.antenna.visible = visible;
+    }
+
+
     public void setBaseVisible(boolean visible) {
         this.Platform.visible = visible;
     }

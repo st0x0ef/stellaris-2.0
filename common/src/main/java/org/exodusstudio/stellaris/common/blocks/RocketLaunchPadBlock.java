@@ -42,6 +42,7 @@ public class RocketLaunchPadBlock extends BaseEntityBlock  {
 
     public static final EnumProperty<Direction> FACING = HorizontalDirectionalBlock.FACING;
     public static final BooleanProperty TOWERS = BooleanProperty.create("towers");
+    public static final BooleanProperty ANTENNA = BooleanProperty.create("antenna");
 
     private static final Set<BlockPos> CLEANING_UP_MAINS = new HashSet<>();
 
@@ -49,7 +50,10 @@ public class RocketLaunchPadBlock extends BaseEntityBlock  {
 
     public RocketLaunchPadBlock(Properties properties) {
         super(properties);
-        this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH).setValue(TOWERS, false));
+        this.registerDefaultState(this.stateDefinition.any()
+                .setValue(FACING, Direction.NORTH)
+                .setValue(TOWERS, false)
+                .setValue(ANTENNA, false));
     }
 
     @Override
@@ -154,7 +158,7 @@ public class RocketLaunchPadBlock extends BaseEntityBlock  {
         }
 
         if (stack.is(BlocksRegistry.ANTENNA.item().get())) {
-            return tryPlaceAntenna(level, pos, player, stack);
+            return tryPlaceAntenna(level, pos, state, player, stack);
         }
 
         return super.useItemOn(stack, state, level, pos, player, hand, hitResult);
@@ -175,7 +179,7 @@ public class RocketLaunchPadBlock extends BaseEntityBlock  {
      * replaceable ({@link TagsRegistry.BlockTags#ANTENNA_REPLACEABLES}). Callable from the main
      * block or any proxy (resolved to its main position).
      */
-    public static InteractionResult tryPlaceAntenna(Level level, BlockPos mainPos, Player player, ItemStack stack) {
+    public static InteractionResult tryPlaceAntenna(Level level, BlockPos mainPos, BlockState mainState, Player player, ItemStack stack) {
         if (level.isClientSide()) {
             return InteractionResult.SUCCESS;
         }
@@ -188,6 +192,9 @@ public class RocketLaunchPadBlock extends BaseEntityBlock  {
             if (!player.getAbilities().instabuild) {
                 stack.shrink(1);
             }
+            level.setBlock(mainPos, mainState.setValue(ANTENNA, true), 3);
+
+
 
             return InteractionResult.SUCCESS;
         }
@@ -272,7 +279,7 @@ public class RocketLaunchPadBlock extends BaseEntityBlock  {
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
-        builder.add(FACING, TOWERS);
+        builder.add(FACING, TOWERS, ANTENNA);
     }
 
     @Override

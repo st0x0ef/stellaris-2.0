@@ -16,6 +16,8 @@ import net.minecraft.client.resources.model.sprite.SpriteGetter;
 import net.minecraft.client.resources.model.sprite.SpriteId;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.Identifier;
+import net.minecraft.world.phys.Vec3;
+import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.common.blocks.GravityManipulatorBlock;
 import org.exodusstudio.stellaris.common.blocks.RocketLaunchPadBlock;
 import org.exodusstudio.stellaris.common.blocks.entities.RocketLaunchPadBlockEntity;
@@ -41,10 +43,14 @@ public class RocketLaunchPadBlockRenderer<T extends RocketLaunchPadBlockEntity> 
     public void submit(BlockEntityRenderState renderState, PoseStack poseStack, SubmitNodeCollector nodeCollector, CameraRenderState cameraRenderState) {
         if (Minecraft.getInstance().level != null && Minecraft.getInstance().level.getBlockEntity(renderState.blockPos) instanceof  RocketLaunchPadBlockEntity rocketLaunchPadBlockEntity) {
             Direction direction = rocketLaunchPadBlockEntity.getBlockState().getValue(GravityManipulatorBlock.FACING);
+
             boolean towers = rocketLaunchPadBlockEntity.getBlockState().getValue(RocketLaunchPadBlock.TOWERS);
+            boolean antenna = rocketLaunchPadBlockEntity.getBlockState().getValue(RocketLaunchPadBlock.ANTENNA);
+
 
             model.setTowersVisible(towers);
             model.setBaseVisible(true);
+            model.setAntennaVisible(antenna);
             model.setBarsAngle(rocketLaunchPadBlockEntity.getBarAngle());
 
             poseStack.pushPose();
@@ -61,5 +67,10 @@ public class RocketLaunchPadBlockRenderer<T extends RocketLaunchPadBlockEntity> 
     @Override
     public BlockEntityRenderState createRenderState() {
         return new BlockEntityRenderState();
+    }
+
+    @Override
+    public boolean shouldRender(T blockEntity, Vec3 cameraPosition) {
+        return true;
     }
 }
