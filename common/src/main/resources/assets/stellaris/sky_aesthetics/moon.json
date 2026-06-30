@@ -3,24 +3,32 @@
   "id": "stellaris:moon",
 
   "condition": {
-    "condition": true,
     "biomes": "stellaris:is_moon_surface"
   },
 
-  "sky_type": "NONE",
-
-  "sky_color": {
-    "custom_color": true,
-    "color": [0, 0, 0, 255]
-  },
-
-  "cloud": false,
   "weather": false,
 
-  "custom_vanilla_object": {
-    "sun": true,
-    "sun_size": 0.75,
-    "moon": false
+  "cloud_settings": {
+    "cloud": false
+  },
+
+  "fog_settings": {
+    "fog": false
+  },
+
+  "sky_color": {
+    "sky_color": [0.0, 0.0, 0.0, 1.0],
+    "sunset_color": [0, 0, 0],
+    "sunset_alpha_modifier": 0
+  },
+
+  "sun": {
+    "size": 22.5,
+    "intensity": 1.0
+  },
+
+  "moon": {
+    "show": false
   },
 
   "stars": {
