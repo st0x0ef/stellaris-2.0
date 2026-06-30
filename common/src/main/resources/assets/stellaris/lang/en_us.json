@@ -356,8 +356,6 @@
   "tooltip.item.stellaris.antenna": "Place this block under a rocket launch pad.",
   "tooltip.item.stellaris.space_station_blueprint": "Blueprint : ",
 
-  "config.stellaris.debugMode": "Debug Mode",
-  "config.stellaris.debugMode.desc": "Select to enter the debug mode.",
   "config.stellaris.regenDimension.desc": "When selected, all the dimensions in the dimensionsToRegen will be regenerated.",
   "config.stellaris.regenDimension": "Regenerate dimensions",
   "config.stellaris.dimensionsToRegen": "Dimensions to Regenerate",
@@ -379,6 +377,8 @@
   "config.stellaris.gravityConfig.enableGravityEffects.desc": "Enable or disable gravity effects on players.",
   "config.stellaris.gravityConfig.gravityUpdateInterval.desc": "How often (in ticks) gravity is recalculated.",
   "config.stellaris.gravityConfig.maxGravityManipulatorValue.desc": "The maximum gravity value the Gravity Manipulator block can set.",
+  "config.stellaris.gravityManipulatorEnergyPerTick": "Gravity Manipulator Energy Per Tick",
+  "config.stellaris.gravityConfig.gravityManipulatorEnergyPerTick.desc": "Energy consumed per tick while the Gravity Manipulator is active.",
 
   "config.stellaris.oxygenConfig": "Oxygen Settings",
   "config.stellaris.enableOxygenSystem": "Enable Oxygen System",
@@ -395,6 +395,8 @@
   "config.stellaris.jetFuelConsumptionInterval": "Jet Fuel Consumption Interval",
   "config.stellaris.spaceSuitConfig.desc": "Settings related to the space suit.",
   "config.stellaris.spaceSuitConfig.jetFuelConsumptionInterval.desc": "How often (in ticks) the jet module consumes fuel.",
+  "config.stellaris.maxJetUpwardSpeed": "Max Jet Upward Speed",
+  "config.stellaris.spaceSuitConfig.maxJetUpwardSpeed.desc": "Maximum upward speed (blocks/tick) when using the jet in normal fly mode.",
 
   "config.stellaris.parasiteConfig.desc": "Settings related to the parasite infection system.",
   "config.stellaris.researchDelay": "Research Delay",
@@ -403,7 +405,26 @@
   "config.stellaris.rocketTpHeight": "Rocket Teleport Height",
   "config.stellaris.shouldLanderExplode": "Lander Explodes on Impact",
   "config.stellaris.cargoUnloadingRadius": "Cargo Unloading Radius",
+  "config.stellaris.orbitTeleportationYCoord": "Orbit Teleportation Y Coord",
   "config.stellaris.vehicleConfig.desc": "Settings related to vehicles (rockets, rovers, landers).",
+
+  "config.stellaris.effectsConfig": "Effects Settings",
+  "config.stellaris.infectionTickChance": "Infection Tick Chance",
+  "config.stellaris.infectionDamage": "Infection Damage",
+  "config.stellaris.corrosionTickInterval": "Corrosion Tick Interval",
+  "config.stellaris.corrosionDamage": "Corrosion Damage",
+  "config.stellaris.effectsConfig.desc": "Settings related to harmful status effects (infection, corrosion).",
+  "config.stellaris.effectsConfig.infectionTickChance.desc": "Chance per tick that the Infection effect deals damage, expressed as 1 in N (set to 0 to disable).",
+  "config.stellaris.effectsConfig.infectionDamage.desc": "Base damage dealt by the Infection effect (amplifier adds half a point per level).",
+  "config.stellaris.effectsConfig.corrosionTickInterval.desc": "How often (in ticks) the Corrosion effect deals damage (set to 0 to disable).",
+  "config.stellaris.effectsConfig.corrosionDamage.desc": "Base damage dealt by the Corrosion effect (amplifier adds half a point per level).",
+
+  "config.stellaris.machineConfig": "Machine Settings",
+  "config.stellaris.vacuumatorEnergyPerTick": "Vacuumator Energy Per Tick",
+  "config.stellaris.vacuumatorDurationMultiplier": "Vacuumator Duration Multiplier",
+  "config.stellaris.machineConfig.desc": "Settings related to machine processing and energy use.",
+  "config.stellaris.machineConfig.vacuumatorEnergyPerTick.desc": "Energy consumed per tick by the Vacuumator while processing.",
+  "config.stellaris.machineConfig.vacuumatorDurationMultiplier.desc": "Multiplier applied to a food's nutrition to determine vacuumation duration (in ticks).",
 
   "config.stellaris.showOxygenDebug": "Show Oxygen Debug",
   "config.stellaris.showOxygenDebug.desc": "Show oxygen debug information on the HUD.",
@@ -415,7 +436,7 @@
   "config.stellaris.fluidOutputConfig.showNeighborsBlock.desc": "Highlight neighbour blocks when configuring fluid output.",
   "config.stellaris.fluidOutputConfig.fluidsColors.desc": "Colors used to identify each fluid output side.",
 
-
+  "config.stellaris.admin": "Admin Settings",
 
   "config.stellaris_client.showOxygenDebug": "Show Oxygen Debug.",
   "config.stellaris_client.fluidOutputConfig": "Fluid Output Settings.",

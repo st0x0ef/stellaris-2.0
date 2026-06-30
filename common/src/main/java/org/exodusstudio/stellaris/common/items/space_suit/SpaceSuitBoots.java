@@ -103,8 +103,9 @@ public class SpaceSuitBoots extends SpaceSuitItem {
 
             player.addDeltaMovement(new Vec3(0, 0.1, 0));
             Vec3 deltaMovement = player.getDeltaMovement();
-            if (deltaMovement.y() > 0.5) { // Limit upward speed TODO : make configurable
-                player.setDeltaMovement(new Vec3(deltaMovement.x(), 0.5, deltaMovement.z()));
+            double maxJetUpwardSpeed = Stellaris.CONFIG.spaceSuitConfig.maxJetUpwardSpeed;
+            if (deltaMovement.y() > maxJetUpwardSpeed) { // Limit upward speed
+                player.setDeltaMovement(new Vec3(deltaMovement.x(), maxJetUpwardSpeed, deltaMovement.z()));
             }
 
             player.hurtMarked = true;

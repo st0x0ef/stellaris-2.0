@@ -17,7 +17,6 @@ import net.minecraft.client.resources.model.sprite.SpriteId;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.phys.Vec3;
-import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.common.blocks.GravityManipulatorBlock;
 import org.exodusstudio.stellaris.common.blocks.RocketLaunchPadBlock;
 import org.exodusstudio.stellaris.common.blocks.entities.RocketLaunchPadBlockEntity;

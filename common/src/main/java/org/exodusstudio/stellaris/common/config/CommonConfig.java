@@ -8,8 +8,6 @@ import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
 @ConfigInfos(modDisplayName = "Stellaris", name = "stellaris")
 public class CommonConfig {
 
-    public boolean debugMode = false;
-
     @ScreenInfos.InnerConfig
     public OilConfig oilConfig = new OilConfig();
 
@@ -34,6 +32,9 @@ public class CommonConfig {
 
         @ScreenInfos.Description(value = "config.stellaris.gravityConfig.maxGravityManipulatorValue.desc")
         public double maxGravityManipulatorValue = 20.0;
+
+        @ScreenInfos.Description(value = "config.stellaris.gravityConfig.gravityManipulatorEnergyPerTick.desc")
+        public int gravityManipulatorEnergyPerTick = 1;
     }
 
     @ScreenInfos.InnerConfig
@@ -61,6 +62,9 @@ public class CommonConfig {
     public static class SpaceSuitConfig {
         @ScreenInfos.Description(value = "config.stellaris.spaceSuitConfig.jetFuelConsumptionInterval.desc")
         public int jetFuelConsumptionInterval = 20;
+
+        @ScreenInfos.Description(value = "config.stellaris.spaceSuitConfig.maxJetUpwardSpeed.desc")
+        public double maxJetUpwardSpeed = 0.5;
     }
 
     @ScreenInfos.InnerConfig
@@ -88,14 +92,40 @@ public class CommonConfig {
     }
 
     @ScreenInfos.InnerConfig
+    @ScreenInfos.Description("config.stellaris.effectsConfig.desc")
+    public EffectsConfig effectsConfig = new EffectsConfig();
+
+    public static class EffectsConfig {
+        @ScreenInfos.Description(value = "config.stellaris.effectsConfig.infectionTickChance.desc")
+        public int infectionTickChance = 100;
+
+        @ScreenInfos.Description(value = "config.stellaris.effectsConfig.infectionDamage.desc")
+        public float infectionDamage = 1.0f;
+
+        @ScreenInfos.Description(value = "config.stellaris.effectsConfig.corrosionTickInterval.desc")
+        public int corrosionTickInterval = 20;
+
+        @ScreenInfos.Description(value = "config.stellaris.effectsConfig.corrosionDamage.desc")
+        public float corrosionDamage = 1.0f;
+    }
+
+    @ScreenInfos.InnerConfig
+    @ScreenInfos.Description("config.stellaris.machineConfig.desc")
+    public MachineConfig machineConfig = new MachineConfig();
+
+    public static class MachineConfig {
+        @ScreenInfos.Description(value = "config.stellaris.machineConfig.vacuumatorEnergyPerTick.desc")
+        public int vacuumatorEnergyPerTick = 5;
+
+        @ScreenInfos.Description(value = "config.stellaris.machineConfig.vacuumatorDurationMultiplier.desc")
+        public int vacuumatorDurationMultiplier = 20;
+    }
+
+    @ScreenInfos.InnerConfig
     @ScreenInfos.Description(value = "The admin part of the config. Beware...", translate = false)
     public Admin admin = new Admin();
 
     public static class Admin {
-
-        @ScreenInfos.Description(value = "config.stellaris.debugMode.desc")
-        public boolean debugMode = false;
-
         @ScreenInfos.Description(value = "config.stellaris.regenDimension.desc")
         public boolean regenDimension = false;
         public Identifier[] dimensionsToRegen = new Identifier[]{IdentifierUtils.id("moon")};

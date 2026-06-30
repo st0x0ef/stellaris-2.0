@@ -50,7 +50,7 @@ public class Events {
 
     public static void init() {
         LifecycleEvent.SERVER_STARTING.register((MinecraftServer server) -> {
-            if(Stellaris.CONFIG.admin.debugMode && Stellaris.CONFIG.admin.regenDimension) {
+            if (Stellaris.CONFIG.admin.regenDimension) {
                 regenStellarisDim(server);
             }
         });
