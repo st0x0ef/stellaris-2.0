@@ -15,6 +15,7 @@ import org.exodusstudio.stellaris.client.StellarisClient;
 import org.exodusstudio.stellaris.client.registry.BoatModelLayerRegistry;
 import org.exodusstudio.stellaris.client.renderers.entity.vehicle.rover.RoverRenderer;
 import org.exodusstudio.stellaris.client.renderers.flag.FlagBlockRenderer;
+import org.exodusstudio.stellaris.client.renderers.globe.GlobeBlockRenderer;
 import org.exodusstudio.stellaris.client.renderers.gravity_manipulator.GravityManipulatorBlockRenderer;
 import org.exodusstudio.stellaris.client.renderers.lander.LanderRenderer;
 import org.exodusstudio.stellaris.client.renderers.launchpad.RocketLaunchPadBlockRenderer;
@@ -90,6 +91,7 @@ public final class StellarisFabricClient implements ClientModInitializer {
         BlockEntityRenderers.register(BlockEntitiesRegistry.MOD_SIGN.get(), StandingSignRenderer::new);
         BlockEntityRenderers.register(BlockEntitiesRegistry.MOD_HANGING_SIGN.get(), HangingSignRenderer::new);
         BlockEntityRenderers.register(BlockEntitiesRegistry.FLAG.get(), FlagBlockRenderer::new);
+        BlockEntityRenderers.register(BlockEntitiesRegistry.GLOBE.get(), GlobeBlockRenderer::new);
         BlockEntityRenderers.register((BlockEntityType<RocketLaunchPadBlockEntity>)BlockEntitiesRegistry.ROCKET_LAUNCH_PAD.get(), RocketLaunchPadBlockRenderer::new);
 
         EntityRendererRegistry.register(EntityTypesRegistry.LANDER.get(), LanderRenderer::new);

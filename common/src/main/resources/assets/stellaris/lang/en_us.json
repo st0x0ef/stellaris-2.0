@@ -507,6 +507,8 @@
   "advancements.stellaris.kill_all_moon_mobs.description": "Kill all the mobs on the moon",
 
   "block.stellaris.meteorite": "Meteorite",
+  "block.stellaris.earth_globe": "Earth Globe",
+  "block.stellaris.moon_globe": "Moon Globe",
   "block.stellaris.titanium_ore": "Titanium Ore",
   "block.stellaris.deepslate_titanium_ore": "Deepslate Titanium Ore",
   "block.stellaris.raw_titanium_block": "Raw Titanium Block",

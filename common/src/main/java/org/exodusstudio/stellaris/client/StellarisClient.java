@@ -19,6 +19,7 @@ import org.exodusstudio.stellaris.client.registry.KeyMappingsRegistry;
 import org.exodusstudio.stellaris.client.renderers.entity.vehicle.rover.RoverModel;
 import org.exodusstudio.stellaris.client.renderers.flag.FlagBlockModel;
 import org.exodusstudio.stellaris.client.renderers.flag.FlagHeadModel;
+import org.exodusstudio.stellaris.client.renderers.globe.GlobeModel;
 import org.exodusstudio.stellaris.client.renderers.gravity_manipulator.GravityManipulatorModel;
 import org.exodusstudio.stellaris.client.renderers.lander.LanderModel;
 import org.exodusstudio.stellaris.client.renderers.launchpad.RocketLaunchPadModel;
@@ -76,6 +77,7 @@ public class StellarisClient {
 
     public static void registerEntityModelLayer() {
         EntityModelLayerRegistry.register(GravityManipulatorModel.LAYER_LOCATION, GravityManipulatorModel::createBodyLayer);
+        EntityModelLayerRegistry.register(GlobeModel.LAYER_LOCATION, GlobeModel::createBodyLayer);
         EntityModelLayerRegistry.register(FlagHeadModel.HUMANOID_LAYER_LOCATION, FlagHeadModel::createHumanoidHeadLayer);
         EntityModelLayerRegistry.register(FlagHeadModel.MOB_LAYER_LOCATION, FlagHeadModel::createMobHeadLayer);
         EntityModelLayerRegistry.register(FlagBlockModel.LAYER_LOCATION, FlagBlockModel::createBodyLayer);

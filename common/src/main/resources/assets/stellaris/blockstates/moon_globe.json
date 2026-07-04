@@ -1,0 +1,8 @@
+{
+  "variants": {
+    "facing=north": { "model": "stellaris:block/moon_globe" },
+    "facing=east": { "model": "stellaris:block/moon_globe", "y": 90 },
+    "facing=south": { "model": "stellaris:block/moon_globe", "y": 180 },
+    "facing=west": { "model": "stellaris:block/moon_globe", "y": 270 }
+  }
+}

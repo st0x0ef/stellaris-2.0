@@ -24,7 +24,9 @@ import org.exodusstudio.stellaris.client.renderers.entity.vehicle.rover.RoverRen
 import org.exodusstudio.stellaris.client.renderers.flag.FlagBlockModel;
 import org.exodusstudio.stellaris.client.renderers.flag.FlagBlockRenderer;
 import org.exodusstudio.stellaris.client.renderers.flag.FlagHeadModel;
+import org.exodusstudio.stellaris.client.renderers.globe.GlobeBlockRenderer;
 import org.exodusstudio.stellaris.client.renderers.gravity_manipulator.GravityManipulatorBlockRenderer;
+import org.exodusstudio.stellaris.client.renderers.globe.GlobeModel;
 import org.exodusstudio.stellaris.client.renderers.gravity_manipulator.GravityManipulatorModel;
 import org.exodusstudio.stellaris.client.renderers.lander.LanderModel;
 import org.exodusstudio.stellaris.client.renderers.lander.LanderRenderer;
@@ -99,6 +101,7 @@ public class StellarisNeoforgeClient {
         event.registerBlockEntityRenderer(BlockEntitiesRegistry.MOD_SIGN.get(), StandingSignRenderer::new);
         event.registerBlockEntityRenderer(BlockEntitiesRegistry.MOD_HANGING_SIGN.get(), HangingSignRenderer::new);
         event.registerBlockEntityRenderer(BlockEntitiesRegistry.FLAG.get(), FlagBlockRenderer::new);
+        event.registerBlockEntityRenderer(BlockEntitiesRegistry.GLOBE.get(), GlobeBlockRenderer::new);
         event.registerBlockEntityRenderer((BlockEntityType<RocketLaunchPadBlockEntity>)BlockEntitiesRegistry.ROCKET_LAUNCH_PAD.get(), RocketLaunchPadBlockRenderer::new);
 
 
@@ -127,6 +130,7 @@ public class StellarisNeoforgeClient {
     @SubscribeEvent
     public static void registerEntityLayer(EntityRenderersEvent.RegisterLayerDefinitions event) {
         event.registerLayerDefinition(GravityManipulatorModel.LAYER_LOCATION, GravityManipulatorModel::createBodyLayer);
+        event.registerLayerDefinition(GlobeModel.LAYER_LOCATION, GlobeModel::createBodyLayer);
         event.registerLayerDefinition(FlagHeadModel.HUMANOID_LAYER_LOCATION, FlagHeadModel::createHumanoidHeadLayer);
         event.registerLayerDefinition(FlagHeadModel.MOB_LAYER_LOCATION, FlagHeadModel::createMobHeadLayer);
         event.registerLayerDefinition(FlagBlockModel.LAYER_LOCATION, FlagBlockModel::createBodyLayer);

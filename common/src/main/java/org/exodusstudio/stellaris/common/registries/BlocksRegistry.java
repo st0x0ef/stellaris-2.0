@@ -260,6 +260,13 @@ public final class BlocksRegistry {
             FlagProxyBlock::new
     );
 
+    public static final BlockItemRegistrySupplier EARTH_GLOBE = blockWithItem("earth_globe",
+            BlockBehaviour.Properties.of().mapColor(MapColor.STONE).strength(2.5F).sound(SoundType.STONE).noOcclusion(),
+            GlobeBlock::new);
+    public static final BlockItemRegistrySupplier MOON_GLOBE = blockWithItem("moon_globe",
+            BlockBehaviour.Properties.of().mapColor(MapColor.STONE).strength(2.5F).sound(SoundType.STONE).noOcclusion(),
+            GlobeBlock::new);
+
 
     public static <B extends Block> @NotNull RegistrySupplier<B> block(String name,
                                                                        BlockBehaviour.Properties properties,
