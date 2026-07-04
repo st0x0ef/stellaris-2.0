@@ -1,0 +1,10 @@
+{
+  "trades": [
+    "stellaris:alien/butcher/5/butcher_5_sweet_berries"
+  ],
+  "amount": {
+    "type": "minecraft:constant",
+    "value": 2.0
+  },
+  "allow_duplicates": false
+}

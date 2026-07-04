@@ -1,0 +1,12 @@
+{
+  "trades": [
+    "stellaris:alien/leatherworker/2/leatherworker_2_dyed_leather_boots",
+    "stellaris:alien/leatherworker/2/leatherworker_2_dyed_leather_helmet",
+    "stellaris:alien/leatherworker/2/leatherworker_2_flint"
+  ],
+  "amount": {
+    "type": "minecraft:constant",
+    "value": 2.0
+  },
+  "allow_duplicates": false
+}

@@ -1,0 +1,10 @@
+{
+  "trades": [
+    "stellaris:alien/cartographer/3/cartographer_3_compass"
+  ],
+  "amount": {
+    "type": "minecraft:constant",
+    "value": 2.0
+  },
+  "allow_duplicates": false
+}

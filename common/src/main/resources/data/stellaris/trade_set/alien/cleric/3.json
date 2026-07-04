@@ -1,0 +1,11 @@
+{
+  "trades": [
+    "stellaris:alien/cleric/3/cleric_3_glowstone",
+    "stellaris:alien/cleric/3/cleric_3_rabbit_foot"
+  ],
+  "amount": {
+    "type": "minecraft:constant",
+    "value": 2.0
+  },
+  "allow_duplicates": false
+}

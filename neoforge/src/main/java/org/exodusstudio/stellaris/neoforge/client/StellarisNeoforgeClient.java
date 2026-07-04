@@ -125,6 +125,7 @@ public class StellarisNeoforgeClient {
                         0.65F
                 )
         );
+        event.registerEntityRenderer(EntityTypesRegistry.ALIEN.get(), AlienRenderer::new);
     }
 
     @SubscribeEvent
@@ -140,6 +141,7 @@ public class StellarisNeoforgeClient {
         event.registerLayerDefinition(ParasiteAffectedVillagerModel.LAYER_LOCATION, ParasiteAffectedVillagerModel::createBodyLayer);
         event.registerLayerDefinition(EvolvedParasiteAffectedVillagerModel.LAYER_LOCATION, EvolvedParasiteAffectedVillagerModel::createBodyLayer);
         event.registerLayerDefinition(LunaShadowModel.LAYER_LOCATION, LunaShadowModel::createBodyLayer);
+        event.registerLayerDefinition(AlienModel.LAYER_LOCATION, AlienModel::createBodyLayer);
         event.registerLayerDefinition(RocketLaunchPadModel.LAYER_LOCATION, RocketLaunchPadModel::createBodyLayer);
 
         event.registerLayerDefinition(SpaceSuitModel.LAYER_LOCATION, SpaceSuitModel::createBodyLayer);

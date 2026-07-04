@@ -1,0 +1,11 @@
+{
+  "trades": [
+    "stellaris:alien/fisherman/5/fisherman_5_boat",
+    "stellaris:alien/fisherman/5/fisherman_5_pufferfish"
+  ],
+  "amount": {
+    "type": "minecraft:constant",
+    "value": 2.0
+  },
+  "allow_duplicates": false
+}

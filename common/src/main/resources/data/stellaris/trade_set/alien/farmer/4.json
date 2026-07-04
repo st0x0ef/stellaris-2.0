@@ -1,0 +1,16 @@
+{
+  "trades": [
+    "stellaris:alien/farmer/4/farmer_4_cake",
+    "stellaris:alien/farmer/4/farmer_4_stew_blindness",
+    "stellaris:alien/farmer/4/farmer_4_stew_jump_boost",
+    "stellaris:alien/farmer/4/farmer_4_stew_lightvision",
+    "stellaris:alien/farmer/4/farmer_4_stew_poison",
+    "stellaris:alien/farmer/4/farmer_4_stew_saturation",
+    "stellaris:alien/farmer/4/farmer_4_stew_weakness"
+  ],
+  "amount": {
+    "type": "minecraft:constant",
+    "value": 2.0
+  },
+  "allow_duplicates": false
+}

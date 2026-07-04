@@ -1,0 +1,14 @@
+{
+  "trades": [
+    "stellaris:alien/shepherd/1/shepherd_1_shears",
+    "stellaris:alien/shepherd/1/shepherd_1_wool_black",
+    "stellaris:alien/shepherd/1/shepherd_1_wool_brown",
+    "stellaris:alien/shepherd/1/shepherd_1_wool_gray",
+    "stellaris:alien/shepherd/1/shepherd_1_wool_white"
+  ],
+  "amount": {
+    "type": "minecraft:constant",
+    "value": 2.0
+  },
+  "allow_duplicates": false
+}

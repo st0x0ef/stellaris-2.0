@@ -1,0 +1,14 @@
+{
+  "trades": [
+    "stellaris:alien/farmer/1/farmer_1_beetroot",
+    "stellaris:alien/farmer/1/farmer_1_bread",
+    "stellaris:alien/farmer/1/farmer_1_carrot",
+    "stellaris:alien/farmer/1/farmer_1_potato",
+    "stellaris:alien/farmer/1/farmer_1_wheat"
+  ],
+  "amount": {
+    "type": "minecraft:constant",
+    "value": 2.0
+  },
+  "allow_duplicates": false
+}

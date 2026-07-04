@@ -1,0 +1,12 @@
+{
+  "trades": [
+    "stellaris:alien/weaponsmith/1/weaponsmith_1_coal",
+    "stellaris:alien/weaponsmith/1/weaponsmith_1_enchanted_iron_sword",
+    "stellaris:alien/weaponsmith/1/weaponsmith_1_iron_axe"
+  ],
+  "amount": {
+    "type": "minecraft:constant",
+    "value": 2.0
+  },
+  "allow_duplicates": false
+}

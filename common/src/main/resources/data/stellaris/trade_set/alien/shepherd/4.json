@@ -1,0 +1,31 @@
+{
+  "trades": [
+    "stellaris:alien/shepherd/4/shepherd_4_banner_black",
+    "stellaris:alien/shepherd/4/shepherd_4_banner_blue",
+    "stellaris:alien/shepherd/4/shepherd_4_banner_brown",
+    "stellaris:alien/shepherd/4/shepherd_4_banner_cyan",
+    "stellaris:alien/shepherd/4/shepherd_4_banner_gray",
+    "stellaris:alien/shepherd/4/shepherd_4_banner_green",
+    "stellaris:alien/shepherd/4/shepherd_4_banner_light_blue",
+    "stellaris:alien/shepherd/4/shepherd_4_banner_light_gray",
+    "stellaris:alien/shepherd/4/shepherd_4_banner_lime",
+    "stellaris:alien/shepherd/4/shepherd_4_banner_magenta",
+    "stellaris:alien/shepherd/4/shepherd_4_banner_orange",
+    "stellaris:alien/shepherd/4/shepherd_4_banner_pink",
+    "stellaris:alien/shepherd/4/shepherd_4_banner_purple",
+    "stellaris:alien/shepherd/4/shepherd_4_banner_red",
+    "stellaris:alien/shepherd/4/shepherd_4_banner_white",
+    "stellaris:alien/shepherd/4/shepherd_4_banner_yellow",
+    "stellaris:alien/shepherd/4/shepherd_4_dye_blue",
+    "stellaris:alien/shepherd/4/shepherd_4_dye_brown",
+    "stellaris:alien/shepherd/4/shepherd_4_dye_cyan",
+    "stellaris:alien/shepherd/4/shepherd_4_dye_green",
+    "stellaris:alien/shepherd/4/shepherd_4_dye_magenta",
+    "stellaris:alien/shepherd/4/shepherd_4_dye_purple"
+  ],
+  "amount": {
+    "type": "minecraft:constant",
+    "value": 2.0
+  },
+  "allow_duplicates": false
+}

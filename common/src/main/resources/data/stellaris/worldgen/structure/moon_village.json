@@ -2,10 +2,22 @@
   "type": "minecraft:jigsaw",
   "biomes": "#stellaris:moon_biomes",
   "step": "surface_structures",
-  "spawn_overrides": {},
+  "spawn_overrides": {
+    "creature": {
+      "bounding_box": "piece",
+      "spawns": [
+        {
+          "type": "stellaris:alien",
+          "weight": 1,
+          "minCount": 1,
+          "maxCount": 1
+        }
+      ]
+    }
+  },
   "terrain_adaptation": "beard_thin",
   "start_pool": "stellaris:moon/moon_village",
-  "size": 6,
+  "size": 7,
   "start_height": {
     "absolute": 0
   },

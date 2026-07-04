@@ -1,0 +1,11 @@
+{
+  "trades": [
+    "stellaris:alien/leatherworker/5/leatherworker_5_dyed_leather_helmet",
+    "stellaris:alien/leatherworker/5/leatherworker_5_saddle"
+  ],
+  "amount": {
+    "type": "minecraft:constant",
+    "value": 2.0
+  },
+  "allow_duplicates": false
+}

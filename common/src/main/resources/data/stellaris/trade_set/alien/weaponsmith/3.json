@@ -1,0 +1,10 @@
+{
+  "trades": [
+    "stellaris:alien/weaponsmith/3/weaponsmith_3_flint"
+  ],
+  "amount": {
+    "type": "minecraft:constant",
+    "value": 2.0
+  },
+  "allow_duplicates": false
+}

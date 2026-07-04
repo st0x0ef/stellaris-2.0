@@ -1,0 +1,10 @@
+{
+  "trades": [
+    "stellaris:alien/fisherman/4/fisherman_4_tropical_fish"
+  ],
+  "amount": {
+    "type": "minecraft:constant",
+    "value": 2.0
+  },
+  "allow_duplicates": false
+}

@@ -250,6 +250,9 @@
   "item.stellaris.parasite_affected_villager_spawn_egg": "Parasite-Affected Villager Spawn Egg",
   "item.stellaris.parasite_affected_villager_evolved_spawn_egg": "Evolved Parasite-Affected Villager Spawn Egg",
   "item.stellaris.luna_shadow_spawn_egg": "Luna Shadow Spawn Egg",
+  "item.stellaris.alien_spawn_egg": "Alien Spawn Egg",
+
+  "entity.stellaris.alien": "Alien",
 
   "item.stellaris.oil_finder": "Oil Finder",
 
@@ -400,6 +403,9 @@
 
   "config.stellaris.parasiteConfig.desc": "Settings related to the parasite infection system.",
   "config.stellaris.researchDelay": "Research Delay",
+
+  "config.stellaris.alienConfig.desc": "Settings related to Aliens.",
+  "config.stellaris.alienConfig.enableAlienSpawn.desc": "Enable or disable Aliens. When disabled, existing Aliens despawn.",
 
   "config.stellaris.vehicleConfig": "Vehicle Settings",
   "config.stellaris.rocketTpHeight": "Rocket Teleport Height",

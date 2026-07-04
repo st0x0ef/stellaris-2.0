@@ -1,0 +1,11 @@
+{
+  "trades": [
+    "stellaris:alien/cleric/1/cleric_1_redstone",
+    "stellaris:alien/cleric/1/cleric_1_rotten_flesh"
+  ],
+  "amount": {
+    "type": "minecraft:constant",
+    "value": 2.0
+  },
+  "allow_duplicates": false
+}

@@ -1,0 +1,12 @@
+{
+  "trades": [
+    "stellaris:alien/butcher/2/butcher_2_coal",
+    "stellaris:alien/butcher/2/butcher_2_cooked_chicken",
+    "stellaris:alien/butcher/2/butcher_2_cooked_porkchop"
+  ],
+  "amount": {
+    "type": "minecraft:constant",
+    "value": 2.0
+  },
+  "allow_duplicates": false
+}

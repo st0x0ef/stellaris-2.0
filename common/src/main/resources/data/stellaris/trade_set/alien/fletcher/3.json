@@ -1,0 +1,11 @@
+{
+  "trades": [
+    "stellaris:alien/fletcher/3/fletcher_3_crossbow",
+    "stellaris:alien/fletcher/3/fletcher_3_string"
+  ],
+  "amount": {
+    "type": "minecraft:constant",
+    "value": 2.0
+  },
+  "allow_duplicates": false
+}

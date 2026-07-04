@@ -1,0 +1,10 @@
+{
+  "trades": [
+    "stellaris:alien/cartographer/5/cartographer_5_globe_banner_pattern"
+  ],
+  "amount": {
+    "type": "minecraft:constant",
+    "value": 2.0
+  },
+  "allow_duplicates": false
+}

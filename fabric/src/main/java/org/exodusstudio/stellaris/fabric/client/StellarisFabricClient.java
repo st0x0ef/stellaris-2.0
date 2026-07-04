@@ -113,6 +113,7 @@ public final class StellarisFabricClient implements ClientModInitializer {
                         0.65F
                 )
         );
+        EntityRendererRegistry.register(EntityTypesRegistry.ALIEN.get(), AlienRenderer::new);
     }
 
     private void registerFluidRenderers() {

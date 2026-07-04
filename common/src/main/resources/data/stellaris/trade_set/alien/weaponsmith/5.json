@@ -1,0 +1,10 @@
+{
+  "trades": [
+    "stellaris:alien/weaponsmith/5/weaponsmith_5_enchanted_diamond_sword"
+  ],
+  "amount": {
+    "type": "minecraft:constant",
+    "value": 2.0
+  },
+  "allow_duplicates": false
+}

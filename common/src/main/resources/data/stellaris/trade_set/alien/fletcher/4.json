@@ -1,0 +1,11 @@
+{
+  "trades": [
+    "stellaris:alien/fletcher/4/fletcher_4_enchanted_bow",
+    "stellaris:alien/fletcher/4/fletcher_4_feather"
+  ],
+  "amount": {
+    "type": "minecraft:constant",
+    "value": 2.0
+  },
+  "allow_duplicates": false
+}

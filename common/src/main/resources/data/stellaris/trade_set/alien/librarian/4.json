@@ -1,0 +1,13 @@
+{
+  "trades": [
+    "stellaris:alien/librarian/4/librarian_4_clock",
+    "stellaris:alien/librarian/4/librarian_4_compass",
+    "stellaris:alien/librarian/4/librarian_4_enchanted_book",
+    "stellaris:alien/librarian/4/librarian_4_writable_book"
+  ],
+  "amount": {
+    "type": "minecraft:constant",
+    "value": 2.0
+  },
+  "allow_duplicates": false
+}

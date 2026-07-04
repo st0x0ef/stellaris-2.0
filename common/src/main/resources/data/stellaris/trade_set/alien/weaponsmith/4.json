@@ -1,0 +1,11 @@
+{
+  "trades": [
+    "stellaris:alien/weaponsmith/4/weaponsmith_4_diamond",
+    "stellaris:alien/weaponsmith/4/weaponsmith_4_enchanted_diamond_axe"
+  ],
+  "amount": {
+    "type": "minecraft:constant",
+    "value": 2.0
+  },
+  "allow_duplicates": false
+}

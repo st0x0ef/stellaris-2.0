@@ -1,0 +1,11 @@
+{
+  "trades": [
+    "stellaris:alien/cleric/2/cleric_2_gold_ingot",
+    "stellaris:alien/cleric/2/cleric_2_lapis_lazuli"
+  ],
+  "amount": {
+    "type": "minecraft:constant",
+    "value": 2.0
+  },
+  "allow_duplicates": false
+}

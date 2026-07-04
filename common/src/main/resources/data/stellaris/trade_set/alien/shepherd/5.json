@@ -1,0 +1,10 @@
+{
+  "trades": [
+    "stellaris:alien/shepherd/5/shepherd_5_painting"
+  ],
+  "amount": {
+    "type": "minecraft:constant",
+    "value": 2.0
+  },
+  "allow_duplicates": false
+}

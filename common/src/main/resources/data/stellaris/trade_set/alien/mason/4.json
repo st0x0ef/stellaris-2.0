@@ -1,0 +1,42 @@
+{
+  "trades": [
+    "stellaris:alien/mason/4/mason_4_glazed_terracotta_black",
+    "stellaris:alien/mason/4/mason_4_glazed_terracotta_blue",
+    "stellaris:alien/mason/4/mason_4_glazed_terracotta_brown",
+    "stellaris:alien/mason/4/mason_4_glazed_terracotta_cyan",
+    "stellaris:alien/mason/4/mason_4_glazed_terracotta_gray",
+    "stellaris:alien/mason/4/mason_4_glazed_terracotta_green",
+    "stellaris:alien/mason/4/mason_4_glazed_terracotta_light_blue",
+    "stellaris:alien/mason/4/mason_4_glazed_terracotta_light_gray",
+    "stellaris:alien/mason/4/mason_4_glazed_terracotta_lime",
+    "stellaris:alien/mason/4/mason_4_glazed_terracotta_magenta",
+    "stellaris:alien/mason/4/mason_4_glazed_terracotta_orange",
+    "stellaris:alien/mason/4/mason_4_glazed_terracotta_pink",
+    "stellaris:alien/mason/4/mason_4_glazed_terracotta_purple",
+    "stellaris:alien/mason/4/mason_4_glazed_terracotta_red",
+    "stellaris:alien/mason/4/mason_4_glazed_terracotta_white",
+    "stellaris:alien/mason/4/mason_4_glazed_terracotta_yellow",
+    "stellaris:alien/mason/4/mason_4_quartz",
+    "stellaris:alien/mason/4/mason_4_terracotta_black",
+    "stellaris:alien/mason/4/mason_4_terracotta_blue",
+    "stellaris:alien/mason/4/mason_4_terracotta_brown",
+    "stellaris:alien/mason/4/mason_4_terracotta_cyan",
+    "stellaris:alien/mason/4/mason_4_terracotta_gray",
+    "stellaris:alien/mason/4/mason_4_terracotta_green",
+    "stellaris:alien/mason/4/mason_4_terracotta_light_blue",
+    "stellaris:alien/mason/4/mason_4_terracotta_light_gray",
+    "stellaris:alien/mason/4/mason_4_terracotta_lime",
+    "stellaris:alien/mason/4/mason_4_terracotta_magenta",
+    "stellaris:alien/mason/4/mason_4_terracotta_orange",
+    "stellaris:alien/mason/4/mason_4_terracotta_pink",
+    "stellaris:alien/mason/4/mason_4_terracotta_purple",
+    "stellaris:alien/mason/4/mason_4_terracotta_red",
+    "stellaris:alien/mason/4/mason_4_terracotta_white",
+    "stellaris:alien/mason/4/mason_4_terracotta_yellow"
+  ],
+  "amount": {
+    "type": "minecraft:constant",
+    "value": 2.0
+  },
+  "allow_duplicates": false
+}

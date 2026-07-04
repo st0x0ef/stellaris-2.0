@@ -80,6 +80,15 @@ public class CommonConfig {
     }
 
     @ScreenInfos.InnerConfig
+    @ScreenInfos.Description("config.stellaris.alienConfig.desc")
+    public AlienConfig alienConfig = new AlienConfig();
+
+    public static class AlienConfig {
+        @ScreenInfos.Description(value = "config.stellaris.alienConfig.enableAlienSpawn.desc")
+        public boolean enableAlienSpawn = true;
+    }
+
+    @ScreenInfos.InnerConfig
     @ScreenInfos.Description("config.stellaris.vehicleConfig.desc")
     public VehicleConfig vehicleConfig = new VehicleConfig();
 

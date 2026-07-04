@@ -87,6 +87,7 @@ public class StellarisClient {
         EntityModelLayerRegistry.register(ParasiteAffectedVillagerModel.LAYER_LOCATION, ParasiteAffectedVillagerModel::createBodyLayer);
         EntityModelLayerRegistry.register(EvolvedParasiteAffectedVillagerModel.LAYER_LOCATION, EvolvedParasiteAffectedVillagerModel::createBodyLayer);
         EntityModelLayerRegistry.register(LunaShadowModel.LAYER_LOCATION, LunaShadowModel::createBodyLayer);
+        EntityModelLayerRegistry.register(AlienModel.LAYER_LOCATION, AlienModel::createBodyLayer);
         EntityModelLayerRegistry.register(RocketLaunchPadModel.LAYER_LOCATION, RocketLaunchPadModel::createBodyLayer);
 
         EntityModelLayerRegistry.register(SpaceSuitModel.LAYER_LOCATION, SpaceSuitModel::createBodyLayer);

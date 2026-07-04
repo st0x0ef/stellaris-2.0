@@ -1,0 +1,10 @@
+{
+  "trades": [
+    "stellaris:alien/cartographer/2/cartographer_2_glass_pane"
+  ],
+  "amount": {
+    "type": "minecraft:constant",
+    "value": 2.0
+  },
+  "allow_duplicates": false
+}
