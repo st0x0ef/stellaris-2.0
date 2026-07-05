@@ -54,6 +54,16 @@ public class GravityUtils {
             setLivingEntityGravity(entity, planet);
         }
     }
+    public static double getEntityGravity(Entity entity) {
+        Planet planet = PlanetsData.getPlanet(entity.level().dimension());
+
+        if (planet == null || !Stellaris.CONFIG.gravityConfig.enableGravityEffects) {
+            planet = PlanetsData.getPlanet(Level.OVERWORLD);
+        }
+
+        return planet.gravity();
+    }
+
 
     public static double getEntityGravity(BigDecimal conversionRate, Entity entity) {
         Planet planet = PlanetsData.getPlanet(entity.level().dimension());
@@ -62,7 +72,6 @@ public class GravityUtils {
             planet = PlanetsData.getPlanet(Level.OVERWORLD);
         }
         return getGravity(conversionRate, planet) + normalizeGravity(planet, entity.level(), conversionRate, entity.blockPosition());
-
     }
 
     public static double normalizeGravity(Planet planet, Level level, BigDecimal conversionRate, BlockPos entityPos) {

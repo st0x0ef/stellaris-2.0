@@ -28,6 +28,7 @@ import org.exodusstudio.stellaris.common.entities.vehicles.base.VehicleEntity;
 import org.exodusstudio.stellaris.common.keybinds.KeyVariables;
 import org.exodusstudio.stellaris.common.menus.LanderMenu;
 import org.exodusstudio.stellaris.common.registries.EntityTypesRegistry;
+import org.exodusstudio.stellaris.common.utils.GravityUtils;
 import org.jetbrains.annotations.NotNull;
 
 public class LanderEntity extends VehicleEntity {
@@ -65,10 +66,11 @@ public class LanderEntity extends VehicleEntity {
     @Override
     public boolean causeFallDamage(double fallDistance, float damageMultiplier, DamageSource damageSource) {
         if (fallDistance > 5.0F) {
-            if (!this.level().isClientSide()) {
+            if (this.level() instanceof ServerLevel serverLevel) {
                 if (!this.entityData.get(AUTOPILOT) && Stellaris.CONFIG.vehicleConfig.shouldLanderExplode) {
                     this.level().explode(this, this.getX(), this.getY(), this.getZ(), 10, true,
                             Level.ExplosionInteraction.TNT);
+                    this.dropEquipment(serverLevel);
                     this.remove(RemovalReason.DISCARDED);
                 }
 
@@ -93,31 +95,31 @@ public class LanderEntity extends VehicleEntity {
 
     @Override
     public @NotNull InteractionResult interact(Player player, InteractionHand hand, Vec3 location) {
-        super.interact(player, hand, location);
-        InteractionResult result = level().isClientSide() ? InteractionResult.SUCCESS : InteractionResult.SUCCESS_SERVER;
+        if (this.level().isClientSide()) {
+            return InteractionResult.SUCCESS;
+        }
 
-        if (!this.level().isClientSide()) {
-            if (player.isCrouching()) {
-                this.openCustomInventoryScreen(player);
-
-                return InteractionResult.CONSUME;
-            }
-
-            player.startRiding(this);
+        if (player.isCrouching()) {
+            this.openCustomInventoryScreen(player);
             return InteractionResult.CONSUME;
         }
 
-        return result;
+        if (this.canAddPassenger(player)) {
+            player.startRiding(this);
+        }
+        return InteractionResult.CONSUME;
     }
 
     @Override
     public void tick() {
         super.tick();
 
-        if (this.getDeltaMovement().y < this.getMaxLanderSpeed() - 0.1) {
+        double terminalVelocity = -GravityUtils.getEntityGravity(this);
+        Vec3 delta = this.getDeltaMovement();
+        if (delta.y > terminalVelocity) {
             this.addDeltaMovement(new Vec3(0, -0.1, 0));
         } else {
-            this.setDeltaMovement(new Vec3(0, this.getMaxLanderSpeed(), 0));
+            this.setDeltaMovement(delta.x, terminalVelocity, delta.z);
         }
 
         if (KeyVariables.isHoldingJump(getFirstPlayerPassenger()) || this.entityData.get(AUTOPILOT)) {
@@ -189,11 +191,6 @@ public class LanderEntity extends VehicleEntity {
                 return new LanderMenu(id, playerInv, inventory);
             }
         });
-    }
-
-
-    public double getMaxLanderSpeed() {
-        return 0.7;
     }
 
     @Override
