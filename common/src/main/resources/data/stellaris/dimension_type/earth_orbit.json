@@ -1,10 +1,5 @@
 {
-  "ultrawarm": false,
-  "natural": false,
-  "piglin_safe": false,
-  "respawn_anchor_works": false,
-  "bed_works": true,
-  "has_raids": false,
+  "default_clock": "minecraft:overworld",
   "has_skylight": true,
   "has_ceiling": false,
   "has_ender_dragon_fight": false,
@@ -14,7 +9,9 @@
   "infiniburn": "#minecraft:infiniburn_overworld",
   "min_y": 0,
   "height": 256,
-  "effects": "stellaris:orbit",
   "monster_spawn_light_level": 0,
-  "monster_spawn_block_light_limit": 0
+  "monster_spawn_block_light_limit": 0,
+  "timelines": [
+    "stellaris:earth_orbit"
+  ]
 }

@@ -13,6 +13,7 @@ import org.exodusstudio.stellaris.client.events.ClientEvents;
 import org.exodusstudio.stellaris.client.overlays.FadeOverlay;
 import org.exodusstudio.stellaris.client.overlays.LanderOverlay;
 import org.exodusstudio.stellaris.client.overlays.RocketTimerOverlay;
+import org.exodusstudio.stellaris.client.overlays.TemperatureOverlay;
 import org.exodusstudio.stellaris.client.registry.BoatModelLayerRegistry;
 import org.exodusstudio.stellaris.client.registry.FluidInfosRegistry;
 import org.exodusstudio.stellaris.client.registry.KeyMappingsRegistry;
@@ -61,6 +62,7 @@ public class StellarisClient {
         ClientGuiEvent.RENDER_HUD.register(RocketTimerOverlay::render);
         ClientGuiEvent.RENDER_HUD.register(FadeOverlay::render);
         ClientGuiEvent.RENDER_HUD.register(LanderOverlay::render);
+        ClientGuiEvent.RENDER_HUD.register(TemperatureOverlay::render);
     }
 
     public static void registerArmors() {

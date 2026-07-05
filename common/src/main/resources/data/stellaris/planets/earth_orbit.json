@@ -4,5 +4,9 @@
   "gravity": 0.5,
   "has_oxygen": false,
   "parent_planet": "minecraft:overworld",
-  "allow_space_stations": true
+  "allow_space_stations": true,
+  "temperature": {
+    "dayTimeTemperature": -270,
+    "nightTimeTemperature": -270
+  }
 }
