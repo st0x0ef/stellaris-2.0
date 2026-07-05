@@ -2,7 +2,6 @@ package org.exodusstudio.stellaris.client.screens.components.wiki;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
-import net.minecraft.client.gui.screens.inventory.InventoryScreen;
 import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
@@ -13,6 +12,7 @@ import org.exodusstudio.stellaris.common.data.wiki.EntryInfo;
 import org.exodusstudio.stellaris.client.screens.components.containers.ScrollableContainer;
 import org.exodusstudio.stellaris.client.utils.ActionBox;
 import org.exodusstudio.stellaris.client.utils.ClientUtils;
+import org.jetbrains.annotations.NotNull;
 import org.joml.Matrix3x2fStack;
 
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -20,7 +20,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class WikiInfosWidget extends ScrollableContainer {
 
-    private AtomicInteger finalHeight = new AtomicInteger(0);
+    private final AtomicInteger finalHeight = new AtomicInteger(0);
 
     public EntryInfo info;
     private final CopyOnWriteArrayList<ActionBox> actionBoxes = new CopyOnWriteArrayList<>();
@@ -95,14 +95,14 @@ public class WikiInfosWidget extends ScrollableContainer {
                         matrixStack.popMatrix();
                     }
                 });
-                case "entity" -> component.entity().ifPresent((entity) -> {
-                    int height = (int) (this.getOffsetHeight() + finalHeight.get() + entity.scale());
-                    Entity entity1 = ClientUtils.createEntity(Minecraft.getInstance().level, entity.location());
+                case "entity" -> component.entity().ifPresent((entityComponent) -> {
+                    int height = (int) (this.getOffsetHeight() + finalHeight.get() + entityComponent.scale());
+                    Entity entity1 = ClientUtils.createEntity(Minecraft.getInstance().level, entityComponent.location());
                     if(entity1 instanceof LivingEntity livingEntity) {
                         int cornerX = guiGraphics.guiWidth() / 2 - 25;
 
-                        InventoryScreen.extractEntityInInventoryFollowsMouse(guiGraphics, cornerX, height, cornerX + 50, height + entity.scale() + 30, entity.scale(), 0.25F, mouseX, mouseY, livingEntity);
-                        finalHeight.addAndGet(height + entity.scale() + 30);
+                        ClientUtils.renderEntityInGui(guiGraphics, cornerX, height, cornerX + 50, height + entityComponent.scale() + 30, entityComponent.scale(), 0.25F, mouseX, mouseY, livingEntity, entityComponent.defaultRotation().orElse(null));
+                        finalHeight.addAndGet(height + entityComponent.scale() + 30);
                     }
                 });
             }
@@ -142,7 +142,7 @@ public class WikiInfosWidget extends ScrollableContainer {
         return super.mouseClicked(event, isDoubleClick);
     }
 
-    public void refresh(EntryInfo entryInfo) {
+    public void refresh(@NotNull EntryInfo entryInfo) {
         this.info = entryInfo;
         this.setScrollAmount(0);
         actionBoxes.clear();

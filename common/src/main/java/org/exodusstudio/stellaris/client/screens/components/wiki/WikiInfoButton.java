@@ -3,7 +3,6 @@ package org.exodusstudio.stellaris.client.screens.components.wiki;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.Tooltip;
-import net.minecraft.client.gui.screens.inventory.InventoryScreen;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
@@ -12,6 +11,7 @@ import net.minecraft.world.entity.LivingEntity;
 import org.exodusstudio.stellaris.common.data.wiki.EntryInfo;
 import org.exodusstudio.stellaris.client.screens.components.TexturedButton;
 import org.exodusstudio.stellaris.client.utils.ClientUtils;
+import org.joml.Vector3f;
 
 public class WikiInfoButton extends TexturedButton {
 
@@ -62,10 +62,11 @@ public class WikiInfoButton extends TexturedButton {
                 info.components().stream().filter((c) -> c.type().equals("item")).findFirst().ifPresent((item) -> graphics.item(item.item().get().stack().create(), this.getX() + 2, this.getY() + 2));
                 break;
             case "entity":
-                info.components().stream().filter((c) -> c.type().equals("entity")).findFirst().ifPresent((entity) -> {
-                    Entity entity1 = ClientUtils.createEntity(Minecraft.getInstance().level, entity.entity().get().location());
+                info.components().stream().filter((c) -> c.type().equals("entity")).findFirst().ifPresent((info) -> {
+                    EntryInfo.EntityComponent entityComponent = info.entity().get();
+                    Entity entity1 = ClientUtils.createEntity(Minecraft.getInstance().level, entityComponent.location());
                     if(entity1 instanceof LivingEntity livingEntity) {
-                        InventoryScreen.extractEntityInInventoryFollowsMouse(graphics, this.getX() + 2, this.getY(), this.getX() + 18, this.getY() + 16, 8, 0.25F, mouseX, mouseY, livingEntity);
+                        ClientUtils.renderEntityInGui(graphics, this.getX() + 2, this.getY(), this.getX() + 18, this.getY() + 16, 8, 0.25F, mouseX, mouseY, livingEntity, entityComponent.defaultRotation().orElse(new Vector3f()));
                     }
                 });
         }

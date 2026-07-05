@@ -8,7 +8,9 @@
       "type": "entity",
       "entity": {
         "id": "stellaris:parasite_affected_villager_evolved",
-        "scale": 25
+        "scale": 25,
+        "defaultRotation": [0, 180, 0]
+
       }
     },
     {
