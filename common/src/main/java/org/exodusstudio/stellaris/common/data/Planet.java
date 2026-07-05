@@ -54,6 +54,11 @@ public record Planet(String translationKey, Identifier dimension, double gravity
         return false;
     }
 
+    @Override
+    public int hashCode() {
+        return this.dimension.hashCode();
+    }
+
     public Component getDisplayInfo() {
         StringBuilder sb = new StringBuilder();
         sb.append("----- Planet Info -----").append("\n");
