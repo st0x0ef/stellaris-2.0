@@ -65,12 +65,15 @@ public class OxygenDistributorBlockEntity extends BaseEnergyContainerBlockEntity
 
                     Set<BlockPos> newOxygenatedPosition = OxygenUtils.propagateOxygen(level, worldPosition, coveredChunks);
                     if (!newOxygenatedPosition.isEmpty()) {
-                        oxygenatedPosition.addAll(newOxygenatedPosition);
+                        int livingEntitiesCount = OxygenUtils.getEntityWhoNeedsOxygen(level, coveredChunks, newOxygenatedPosition);
 
-                        int livingEntitiesCount = OxygenUtils.getEntityWhoNeedsOxygen(level, coveredChunks);
-                        if (livingEntitiesCount > 0 && fluidStack.getAmount() >= livingEntitiesCount) {
+                        if (livingEntitiesCount == 0) {
+                            oxygenatedPosition.addAll(newOxygenatedPosition);
+                            energyContainer.extract(1, false);
+                        } else if (fluidStack.getAmount() >= livingEntitiesCount) {
                             itemStorage.drain(fluidStack.copyWithAmount(livingEntitiesCount), false);
                             energyContainer.extract(1, false);
+                            oxygenatedPosition.addAll(newOxygenatedPosition);
                         }
                     }
                 }

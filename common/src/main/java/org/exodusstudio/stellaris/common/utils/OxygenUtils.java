@@ -175,7 +175,7 @@ public class OxygenUtils {
         return getBasicAllowedChunks(ChunkPos.containing(pos));
     }
 
-    public static int getEntityWhoNeedsOxygen(Level level, Set<ChunkPos> chunks) {
+    public static int getEntityWhoNeedsOxygen(Level level, Set<ChunkPos> chunks, Set<BlockPos> oxygenatedPositions) {
         Set<LivingEntity> counted = new HashSet<>();
 
         for (ChunkPos chunkPos : chunks) {
@@ -187,6 +187,7 @@ public class OxygenUtils {
             for (LivingEntity entity : level.getEntitiesOfClass(LivingEntity.class, aabb)) {
                 if (entity.is(TagsRegistry.EntityTags.NO_OXYGEN_NEEDED)) continue;
                 if (counted.contains(entity)) continue;
+                if (!oxygenatedPositions.contains(entity.blockPosition())) continue;
 
                 ItemStack headSlot = entity.getItemBySlot(EquipmentSlot.HEAD);
                 if (Utils.isLivingInSpaceSuit(entity) && headSlot.getItem() instanceof SpaceSuitHelmet helmet) {
