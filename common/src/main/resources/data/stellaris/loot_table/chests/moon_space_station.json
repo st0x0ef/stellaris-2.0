@@ -230,6 +230,45 @@
               }
             }
           ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "stellaris:sd_card",
+          "weight": 4,
+          "functions": [
+            {
+              "function": "minecraft:set_components",
+              "components": {
+                "stellaris:sd_card_name": "stellaris:space_base_log_1"
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "stellaris:sd_card",
+          "weight": 4,
+          "functions": [
+            {
+              "function": "minecraft:set_components",
+              "components": {
+                "stellaris:sd_card_name": "stellaris:space_base_log_2"
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "stellaris:sd_card",
+          "weight": 4,
+          "functions": [
+            {
+              "function": "minecraft:set_components",
+              "components": {
+                "stellaris:sd_card_name": "stellaris:space_base_log_3"
+              }
+            }
+          ]
         }
       ]
     }

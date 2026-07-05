@@ -281,6 +281,45 @@
           "type": "minecraft:item",
           "name": "stellaris:frost_skin",
           "weight": 3
+        },
+        {
+          "type": "minecraft:item",
+          "name": "stellaris:sd_card",
+          "weight": 4,
+          "functions": [
+            {
+              "function": "minecraft:set_components",
+              "components": {
+                "stellaris:sd_card_name": "stellaris:meteor_log_1"
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "stellaris:sd_card",
+          "weight": 4,
+          "functions": [
+            {
+              "function": "minecraft:set_components",
+              "components": {
+                "stellaris:sd_card_name": "stellaris:meteor_log_2"
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "stellaris:sd_card",
+          "weight": 4,
+          "functions": [
+            {
+              "function": "minecraft:set_components",
+              "components": {
+                "stellaris:sd_card_name": "stellaris:meteor_log_3"
+              }
+            }
+          ]
         }
       ]
     }

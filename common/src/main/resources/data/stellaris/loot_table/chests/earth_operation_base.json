@@ -273,6 +273,45 @@
           "type": "minecraft:item",
           "name": "stellaris:oil_finder",
           "weight": 2
+        },
+        {
+          "type": "minecraft:item",
+          "name": "stellaris:sd_card",
+          "weight": 4,
+          "functions": [
+            {
+              "function": "minecraft:set_components",
+              "components": {
+                "stellaris:sd_card_name": "stellaris:operation_base_log_1"
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "stellaris:sd_card",
+          "weight": 4,
+          "functions": [
+            {
+              "function": "minecraft:set_components",
+              "components": {
+                "stellaris:sd_card_name": "stellaris:operation_base_log_2"
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "stellaris:sd_card",
+          "weight": 4,
+          "functions": [
+            {
+              "function": "minecraft:set_components",
+              "components": {
+                "stellaris:sd_card_name": "stellaris:operation_base_log_3"
+              }
+            }
+          ]
         }
       ]
     }

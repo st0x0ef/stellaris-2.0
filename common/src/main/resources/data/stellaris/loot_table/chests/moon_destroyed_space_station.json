@@ -2,30 +2,10 @@
   "pools": [
     {
       "rolls": {
-        "min": 3,
-        "max": 8
+        "min": 2,
+        "max": 5
       },
       "entries": [
-        {
-          "type": "minecraft:item",
-          "name": "stellaris:flag",
-          "weight": 15
-        },
-        {
-          "type": "minecraft:item",
-          "name": "minecraft:iron_ingot",
-          "weight": 20,
-          "functions": [
-            {
-              "function": "minecraft:set_count",
-              "count": {
-                "type": "minecraft:uniform",
-                "min": 1,
-                "max": 4
-              }
-            }
-          ]
-        },
         {
           "type": "minecraft:item",
           "name": "stellaris:titanium_ingot",
@@ -36,7 +16,67 @@
               "count": {
                 "type": "minecraft:uniform",
                 "min": 1,
+                "max": 3
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:iron_ingot",
+          "weight": 15,
+          "functions": [
+            {
+              "function": "minecraft:set_count",
+              "count": {
+                "type": "minecraft:uniform",
+                "min": 1,
+                "max": 3
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "stellaris:silicon",
+          "weight": 15,
+          "functions": [
+            {
+              "function": "minecraft:set_count",
+              "count": {
+                "type": "minecraft:uniform",
+                "min": 1,
                 "max": 4
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:redstone",
+          "weight": 15,
+          "functions": [
+            {
+              "function": "minecraft:set_count",
+              "count": {
+                "type": "minecraft:uniform",
+                "min": 1,
+                "max": 6
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:glass",
+          "weight": 15,
+          "functions": [
+            {
+              "function": "minecraft:set_count",
+              "count": {
+                "type": "minecraft:uniform",
+                "min": 2,
+                "max": 6
               }
             }
           ]
@@ -44,132 +84,59 @@
         {
           "type": "minecraft:item",
           "name": "minecraft:coal",
-          "weight": 20,
+          "weight": 15,
           "functions": [
             {
               "function": "minecraft:set_count",
               "count": {
                 "type": "minecraft:uniform",
                 "min": 1,
-                "max": 16
+                "max": 8
               }
             }
           ]
         },
         {
           "type": "minecraft:item",
-          "name": "minecraft:diamond_sword",
-          "weight": 10,
-          "functions": [
-            {
-              "function": "minecraft:enchant_randomly"
-            }
-          ]
+          "name": "stellaris:flag",
+          "weight": 10
         },
         {
           "type": "minecraft:item",
-          "name": "minecraft:diamond_axe",
-          "weight": 10,
-          "functions": [
-            {
-              "function": "minecraft:enchant_randomly"
-            }
-          ]
+          "name": "stellaris:red_can",
+          "weight": 8
         },
         {
           "type": "minecraft:item",
-          "name": "minecraft:diamond_hoe",
-          "weight": 10,
-          "functions": [
-            {
-              "function": "minecraft:enchant_randomly"
-            }
-          ]
+          "name": "stellaris:blue_can",
+          "weight": 8
         },
         {
           "type": "minecraft:item",
-          "name": "minecraft:diamond_shovel",
-          "weight": 10,
-          "functions": [
-            {
-              "function": "minecraft:enchant_randomly"
-            }
-          ]
+          "name": "stellaris:space_suit_boots",
+          "weight": 6
         },
         {
           "type": "minecraft:item",
-          "name": "minecraft:diamond",
-          "weight": 5,
-          "functions": [
-            {
-              "function": "minecraft:set_count",
-              "count": {
-                "type": "minecraft:uniform",
-                "min": 1,
-                "max": 4
-              }
-            }
-          ]
-        },
-        {
-          "type": "minecraft:item",
-          "name": "stellaris:moon_desh_ore",
-          "weight": 10,
-          "functions": [
-            {
-              "function": "minecraft:set_count",
-              "count": {
-                "type": "minecraft:uniform",
-                "min": 1,
-                "max": 4
-              }
-            }
-          ]
-        },
-        {
-          "type": "minecraft:item",
-          "name": "minecraft:netherite_ingot",
-          "weight": 5
+          "name": "stellaris:space_suit_helmet",
+          "weight": 6
         },
         {
           "type": "minecraft:item",
           "name": "stellaris:hydrogen_motor",
-          "weight": 10
+          "weight": 5
         },
         {
           "type": "minecraft:item",
-          "name": "stellaris:moon_berries",
-          "weight": 10,
+          "name": "minecraft:honey_bottle",
+          "weight": 6,
           "functions": [
             {
               "function": "minecraft:set_count",
               "count": {
                 "type": "minecraft:uniform",
                 "min": 1,
-                "max": 4
-              }
-            }
-          ]
-        },
-        {
-          "type": "minecraft:item",
-          "name": "stellaris:frost_skin",
-          "weight": 10
-        },
-        {
-          "type": "minecraft:item",
-          "name": "stellaris:tiny_model",
-          "weight": 10
-        },
-        {
-          "type": "minecraft:item",
-          "name": "stellaris:sd_card",
-          "weight": 4,
-          "functions": [
-            {
-              "function": "minecraft:set_components",
-              "components": {
-                "stellaris:sd_card_name": "stellaris:moon_dungeon_log_1"
+                "max": 3
               }
             }
           ]
@@ -182,7 +149,7 @@
             {
               "function": "minecraft:set_components",
               "components": {
-                "stellaris:sd_card_name": "stellaris:moon_dungeon_log_2"
+                "stellaris:sd_card_name": "stellaris:destroyed_ship_log_1"
               }
             }
           ]
@@ -195,7 +162,7 @@
             {
               "function": "minecraft:set_components",
               "components": {
-                "stellaris:sd_card_name": "stellaris:moon_dungeon_log_3"
+                "stellaris:sd_card_name": "stellaris:destroyed_ship_log_2"
               }
             }
           ]

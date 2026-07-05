@@ -185,6 +185,32 @@
           "type": "minecraft:item",
           "name": "stellaris:space_suit_oxygen_module_tier_1",
           "weight": 10
+        },
+        {
+          "type": "minecraft:item",
+          "name": "stellaris:sd_card",
+          "weight": 4,
+          "functions": [
+            {
+              "function": "minecraft:set_components",
+              "components": {
+                "stellaris:sd_card_name": "stellaris:moon_dungeon_boss_log_1"
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "stellaris:sd_card",
+          "weight": 4,
+          "functions": [
+            {
+              "function": "minecraft:set_components",
+              "components": {
+                "stellaris:sd_card_name": "stellaris:moon_dungeon_boss_log_2"
+              }
+            }
+          ]
         }
       ]
     }
