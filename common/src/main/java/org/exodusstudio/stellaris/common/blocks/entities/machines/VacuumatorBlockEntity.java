@@ -73,12 +73,20 @@ public class VacuumatorBlockEntity extends BaseEnergyContainerBlockEntity {
         super.loadAdditional(input);
         this.items = NonNullList.withSize(this.getContainerSize(), ItemStack.EMPTY);
         ContainerHelper.loadAllItems(input, this.items);
+        this.litTime = input.getInt("BurnTime").orElse(0);
+        this.litDuration = input.getInt("BurnDuration").orElse(0);
+        this.resultStack = input.read("ResultStack", ItemStack.CODEC).orElse(null);
     }
 
     @Override
     protected void saveAdditional(ValueOutput output) {
         super.saveAdditional(output);
         ContainerHelper.saveAllItems(output, this.items);
+        output.putInt("BurnTime", this.litTime);
+        output.putInt("BurnDuration", this.litDuration);
+        if (this.resultStack != null && !this.resultStack.isEmpty()) {
+            output.store("ResultStack", ItemStack.CODEC, this.resultStack);
+        }
     }
 
     @Override
@@ -136,27 +144,20 @@ public class VacuumatorBlockEntity extends BaseEnergyContainerBlockEntity {
         }
 
         if (isLit() && resultStack != null) {
-            litTime--;
-
             int energyPerTick = Stellaris.CONFIG.machineConfig.vacuumatorEnergyPerTick;
 
-            if (getEnergy(null).getEnergy() < energyPerTick) {
-                litTime++;
+            if (getEnergy(null).getEnergy() >= energyPerTick) {
+                getEnergy(null).extract(energyPerTick, false);
+                litTime--;
 
-                if (litTime > litDuration) {
-                    litTime = 0;
+                if (litTime <= 0) {
+                    setItem(3, resultStack);
+                    setItem(4, PotionContents.createItemStack(Items.POTION, Potions.WATER));
+
+                    resultStack = null;
+
+                    getBlockState().setValue(CoalGeneratorBlock.LIT, false);
                 }
-            }
-
-            getEnergy(null).extract(energyPerTick, false);
-
-            if (litTime <= 0) {
-                setItem(3, resultStack);
-                setItem(4, PotionContents.createItemStack(Items.POTION, Potions.WATER));
-
-                resultStack = null;
-
-                getBlockState().setValue(CoalGeneratorBlock.LIT, false);
             }
 
             setChanged();
