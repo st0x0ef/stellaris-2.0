@@ -8,7 +8,8 @@
       "type": "entity",
       "entity": {
         "id": "stellaris:lunar_parasite",
-        "scale": 50
+        "scale": 50,
+        "defaultRotation":[0, 180, 0]
       }
     },
     {
