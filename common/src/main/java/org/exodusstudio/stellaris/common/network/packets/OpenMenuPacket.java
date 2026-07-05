@@ -34,12 +34,21 @@ public record OpenMenuPacket(String menuId) implements CustomPacketPayload {
 
 
     public static void handle(OpenMenuPacket packet, NetworkManager.PacketContext context) {
-        if (context.getPlayer() instanceof ServerPlayer player) {
+        context.queue(() -> {
+            if (context.getPlayer() instanceof ServerPlayer player) {
+                MenuType menuType = MenuType.TYPES.get(packet.menuId);
+                if (menuType == null) {
+                    return;
+                }
 
-            @NotNull ExtendedMenuProvider extendedMenuProvider = MenuType.TYPES.get(packet.menuId).menu.open(context);
-            MenuRegistry.openExtendedMenu(player, extendedMenuProvider);
+                ExtendedMenuProvider extendedMenuProvider = menuType.menu.open(context);
+                if (extendedMenuProvider == null) {
+                    return;
+                }
 
-        }
+                MenuRegistry.openExtendedMenu(player, extendedMenuProvider);
+            }
+        });
     }
 
     @Override
