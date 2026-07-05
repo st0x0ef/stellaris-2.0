@@ -6,7 +6,7 @@ import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.entity.LivingEntity;
 import org.exodusstudio.stellaris.Stellaris;
-import org.exodusstudio.stellaris.common.registries.TagsRegistry;
+import org.exodusstudio.stellaris.common.utils.MoonLoreUtils;
 
 public class InfectedEffect extends MobEffect {
     public InfectedEffect() {
@@ -15,7 +15,7 @@ public class InfectedEffect extends MobEffect {
 
     @Override
     public boolean applyEffectTick(ServerLevel level, LivingEntity entity, int amplifier) {
-        if (entity.is(TagsRegistry.EntityTags.INFECTION_IMMUNE)) {
+        if (MoonLoreUtils.isImmuneToInfection(entity)) {
             return false;
         }
 

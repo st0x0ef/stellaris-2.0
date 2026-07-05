@@ -5,6 +5,7 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.Level;
+import org.exodusstudio.stellaris.common.registries.EffectsRegistry;
 import org.exodusstudio.stellaris.common.utils.MoonLoreUtils;
 
 public class VaccineItem extends Item {
@@ -22,6 +23,8 @@ public class VaccineItem extends Item {
                     player.sendSystemMessage(MoonLoreUtils.PLAYER_NOW_IMMUNISED_MESSAGE);
                     MoonLoreUtils.immunisePlayerToInfection(player);
                 }
+
+                player.removeEffect(EffectsRegistry.getHolder(EffectsRegistry.INFECTED));
             } else {
                 player.sendSystemMessage(MoonLoreUtils.PLAYER_NOT_READY_FOR_VACCINE);
             }
