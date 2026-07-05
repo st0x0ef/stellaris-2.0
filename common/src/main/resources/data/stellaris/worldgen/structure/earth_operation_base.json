@@ -3,7 +3,7 @@
   "biomes": "#stellaris:has_structure/earth_biomes",
   "step": "underground_structures",
   "spawn_overrides": {},
-  "terrain_adaptation": "beard_thin",
+  "terrain_adaptation": "encapsulate",
   "start_pool": "stellaris:earth/earth_operation_base",
   "size": 1,
   "start_height": {

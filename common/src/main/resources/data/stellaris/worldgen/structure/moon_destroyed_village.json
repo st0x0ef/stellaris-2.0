@@ -3,7 +3,7 @@
   "biomes": "#stellaris:moon_biomes",
   "step": "surface_structures",
   "spawn_overrides": {},
-  "terrain_adaptation": "none",
+  "terrain_adaptation": "beard_thin",
   "start_pool": "stellaris:moon/moon_destroyed_village_walkway",
   "size": 6,
   "start_height": {
