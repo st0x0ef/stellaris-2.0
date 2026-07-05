@@ -131,11 +131,20 @@ public class RocketEntity extends VehicleEntity {
         FluidStack fuel = FluidStack.create(FluidsRegistry.FUEL_STILL.get(), this.getFuel());
         for (RocketModule module : this.getRocketModules()) {
             if (module instanceof RocketModule.CustomFuelModule customFuelModule) {
-                fuel = customFuelModule.getFuel();
+                fuel = FluidStack.create(customFuelModule.getFuel().getFluid(), this.getFuel());
             }
         }
 
         return fuel;
+    }
+
+    private Fluid getExpectedFuelFluid() {
+        for (RocketModule module : this.getRocketModules()) {
+            if (module instanceof RocketModule.CustomFuelModule customFuelModule) {
+                return customFuelModule.getFuel().getFluid();
+            }
+        }
+        return FluidsRegistry.FUEL_STILL.get();
     }
 
     /**
@@ -148,8 +157,6 @@ public class RocketEntity extends VehicleEntity {
 
         int fuelLevel = getFuelLevel();
         int tankCapacity = getTankCapacity();
-        FluidStack fuelType = getFuelType();
-
 
         if (this.level().isClientSide()) {
             return false;
@@ -165,8 +172,7 @@ public class RocketEntity extends VehicleEntity {
 
             Fluid fluid = bucketItem.arch$getFluid();
 
-            // Check if the fluid from the bucket matches the rocket's fuel type or if the rocket has no specific fuel type set
-            if(fluid == null || (!fluid.isSame(fuelType.getFluid()) && !fuelType.isEmpty())) {
+            if (fluid == null || !fluid.isSame(getExpectedFuelFluid())) {
                 return false;
             }
 

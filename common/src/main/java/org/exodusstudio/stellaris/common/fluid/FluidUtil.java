@@ -25,6 +25,11 @@ public class FluidUtil {
             return;
         }
 
+        // Don't proceed if the result slot already holds something: filling would overwrite (destroy) it.
+        if (slot != resultSlot && !items.get(resultSlot).isEmpty()) {
+            return;
+        }
+
         UniversalFluidItemStorage to = Capabilities.Fluid.ITEM.getCapability(items.get(slot));
 
         if (to == null) {
@@ -32,7 +37,15 @@ public class FluidUtil {
         }
 
         amount = Math.min(amount, to.getTankCapacity(0) - to.getFluidInTank(0).getAmount());
-        moveFluid(from, to, from.getFluidInTank(tank).copyWithAmount(amount));
+        if (amount <= 0) {
+            return;
+        }
+
+        FluidStack moved = moveFluid(from, to, from.getFluidInTank(tank).copyWithAmount(amount));
+
+        if (moved.isEmpty()) {
+            return;
+        }
 
         if (slot != resultSlot) items.set(slot, ItemStack.EMPTY);
         items.set(resultSlot, to.getContainer());
