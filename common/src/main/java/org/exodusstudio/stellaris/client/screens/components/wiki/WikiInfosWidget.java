@@ -15,6 +15,8 @@ import org.exodusstudio.stellaris.client.utils.ClientUtils;
 import org.jetbrains.annotations.NotNull;
 import org.joml.Matrix3x2fStack;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -24,6 +26,9 @@ public class WikiInfosWidget extends ScrollableContainer {
 
     public EntryInfo info;
     private final CopyOnWriteArrayList<ActionBox> actionBoxes = new CopyOnWriteArrayList<>();
+
+    private final Map<String, StellardownRenderer> rendererCache = new HashMap<>();
+    private int cachedTextWidth = -1;
 
     private boolean firstRender = true;
 
@@ -48,11 +53,19 @@ public class WikiInfosWidget extends ScrollableContainer {
 
         if(info == null) return;
 
+        int textWidth = getWidth() - 40;
+        if (textWidth != cachedTextWidth) {
+            rendererCache.clear();
+            cachedTextWidth = textWidth;
+        }
+
         for(EntryInfo.InfoComponent component : info.components()) {
             switch (component.type().toLowerCase()) {
                 case "text" -> component.text().ifPresent((text) -> {
 
-                    int descriptionHeight = new StellardownRenderer(text, getWidth() - 40, Minecraft.getInstance().font)
+                    StellardownRenderer renderer = rendererCache.computeIfAbsent(text,
+                            t -> new StellardownRenderer(t, textWidth, Minecraft.getInstance().font));
+                    int descriptionHeight = renderer
                             .render(this.getX() + 5, (int) (this.getOffsetHeight() + finalHeight.get() + 5), guiGraphics, this::addClickBox);
                     finalHeight.addAndGet(descriptionHeight);
 
@@ -146,6 +159,7 @@ public class WikiInfosWidget extends ScrollableContainer {
         this.info = entryInfo;
         this.setScrollAmount(0);
         actionBoxes.clear();
+        rendererCache.clear();
         this.firstRender = true;
 
     }
