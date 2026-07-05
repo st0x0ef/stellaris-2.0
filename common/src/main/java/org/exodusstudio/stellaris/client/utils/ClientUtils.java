@@ -23,7 +23,6 @@ import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
 
 import org.joml.Quaternionf;
-import org.joml.Vector3d;
 import org.joml.Vector3f;
 
 public class ClientUtils {

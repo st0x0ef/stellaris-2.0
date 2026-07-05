@@ -13,6 +13,7 @@ import org.exodusstudio.stellaris.client.screens.components.containers.Scrollabl
 import org.exodusstudio.stellaris.client.utils.ActionBox;
 import org.exodusstudio.stellaris.client.utils.ClientUtils;
 import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
 import org.joml.Matrix3x2fStack;
 
 import java.util.HashMap;
@@ -110,12 +111,15 @@ public class WikiInfosWidget extends ScrollableContainer {
                 });
                 case "entity" -> component.entity().ifPresent((entityComponent) -> {
                     int height = (int) (this.getOffsetHeight() + finalHeight.get() + entityComponent.scale());
+                    float scrollAdjustedMouseY = mouseY + (float) this.scrollAmount();
+
+
                     Entity entity1 = ClientUtils.createEntity(Minecraft.getInstance().level, entityComponent.location());
                     if(entity1 instanceof LivingEntity livingEntity) {
                         int cornerX = guiGraphics.guiWidth() / 2 - 25;
 
-                        ClientUtils.renderEntityInGui(guiGraphics, cornerX, height, cornerX + 50, height + entityComponent.scale() + 30, entityComponent.scale(), 0.25F, mouseX, mouseY, livingEntity, entityComponent.defaultRotation().orElse(null));
-                        finalHeight.addAndGet(height + entityComponent.scale() + 30);
+                        ClientUtils.renderEntityInGui(guiGraphics, cornerX, height, cornerX + 50, height + entityComponent.scale() + 30, entityComponent.scale(), 0.25F, mouseX, scrollAdjustedMouseY, livingEntity, entityComponent.defaultRotation().orElse(null));
+                        finalHeight.addAndGet(entityComponent.scale() * 2 + 30);
                     }
                 });
             }
@@ -134,6 +138,7 @@ public class WikiInfosWidget extends ScrollableContainer {
     }
 
     @Override
+    @SuppressWarnings("nullness")
     public void mouseMoved(double mouseX, double mouseY) {
         for (ActionBox clickBox : actionBoxes) {
 
@@ -145,7 +150,8 @@ public class WikiInfosWidget extends ScrollableContainer {
     }
 
     @Override
-    public boolean mouseClicked(MouseButtonEvent event, boolean isDoubleClick) {
+    @SuppressWarnings("nullness")
+    public boolean mouseClicked(@NonNull MouseButtonEvent event, boolean isDoubleClick) {
         for (ActionBox clickBox : actionBoxes) {
             if (clickBox.isHovered(event.x(), event.y(), this.scrollAmount())) {
                 clickBox.onClick(this);
