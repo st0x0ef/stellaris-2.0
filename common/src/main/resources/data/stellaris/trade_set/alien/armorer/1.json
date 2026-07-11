@@ -1,0 +1,14 @@
+{
+  "trades": [
+    "stellaris:alien/armorer/1/armorer_1_coal",
+    "stellaris:alien/armorer/1/armorer_1_iron_boots",
+    "stellaris:alien/armorer/1/armorer_1_iron_chestplate",
+    "stellaris:alien/armorer/1/armorer_1_iron_helmet",
+    "stellaris:alien/armorer/1/armorer_1_iron_leggings"
+  ],
+  "amount": {
+    "type": "minecraft:constant",
+    "value": 2.0
+  },
+  "allow_duplicates": false
+}

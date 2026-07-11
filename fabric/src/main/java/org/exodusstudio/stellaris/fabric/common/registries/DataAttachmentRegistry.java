@@ -37,7 +37,7 @@ public class DataAttachmentRegistry {
         OIL = AttachmentRegistry.create(
                 IdentifierUtils.id("oil"),
                 builder -> builder
-                        .initializer(() -> 20) // start with a default value like hunger
+                        .initializer(() -> -1)
                         .persistent(Codec.INT) // persist across restarts
                         .syncWith(ByteBufCodecs.INT, AttachmentSyncPredicate.all()) // only the player's own client needs the value for rendering
         );

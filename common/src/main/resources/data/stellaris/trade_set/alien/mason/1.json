@@ -1,0 +1,11 @@
+{
+  "trades": [
+    "stellaris:alien/mason/1/mason_1_brick",
+    "stellaris:alien/mason/1/mason_1_clay_ball"
+  ],
+  "amount": {
+    "type": "minecraft:constant",
+    "value": 2.0
+  },
+  "allow_duplicates": false
+}

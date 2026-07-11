@@ -1,0 +1,11 @@
+{
+  "trades": [
+    "stellaris:alien/leatherworker/4/leatherworker_4_dyed_leather_horse_armor",
+    "stellaris:alien/leatherworker/4/leatherworker_4_scute"
+  ],
+  "amount": {
+    "type": "minecraft:constant",
+    "value": 2.0
+  },
+  "allow_duplicates": false
+}

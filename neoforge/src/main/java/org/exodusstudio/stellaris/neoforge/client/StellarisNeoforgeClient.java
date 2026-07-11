@@ -24,10 +24,14 @@ import org.exodusstudio.stellaris.client.renderers.entity.vehicle.rover.RoverRen
 import org.exodusstudio.stellaris.client.renderers.flag.FlagBlockModel;
 import org.exodusstudio.stellaris.client.renderers.flag.FlagBlockRenderer;
 import org.exodusstudio.stellaris.client.renderers.flag.FlagHeadModel;
+import org.exodusstudio.stellaris.client.renderers.globe.GlobeBlockRenderer;
 import org.exodusstudio.stellaris.client.renderers.gravity_manipulator.GravityManipulatorBlockRenderer;
+import org.exodusstudio.stellaris.client.renderers.globe.GlobeModel;
 import org.exodusstudio.stellaris.client.renderers.gravity_manipulator.GravityManipulatorModel;
 import org.exodusstudio.stellaris.client.renderers.lander.LanderModel;
 import org.exodusstudio.stellaris.client.renderers.lander.LanderRenderer;
+import org.exodusstudio.stellaris.client.renderers.launchpad.RocketLaunchPadBlockRenderer;
+import org.exodusstudio.stellaris.client.renderers.launchpad.RocketLaunchPadModel;
 import org.exodusstudio.stellaris.client.renderers.mobs.*;
 import org.exodusstudio.stellaris.client.renderers.rockets.RocketRenderer;
 import org.exodusstudio.stellaris.client.renderers.rockets.models.BigRocketModel;
@@ -44,6 +48,7 @@ import org.exodusstudio.stellaris.client.screens.tablet.MainTabletScreen;
 import org.exodusstudio.stellaris.client.screens.tablet.application.planets.PlanetSelectionAppScreen;
 import org.exodusstudio.stellaris.client.screens.tablet.application.sd.SDCardReaderApplicationScreen;
 import org.exodusstudio.stellaris.client.screens.tablet.application.wiki.WikiApplicationScreen;
+import org.exodusstudio.stellaris.common.blocks.entities.RocketLaunchPadBlockEntity;
 import org.exodusstudio.stellaris.common.blocks.entities.machines.GravityManipulatorBlockEntity;
 import org.exodusstudio.stellaris.common.registries.BlockEntitiesRegistry;
 import org.exodusstudio.stellaris.common.registries.EntityTypesRegistry;
@@ -85,6 +90,8 @@ public class StellarisNeoforgeClient {
         event.register(MenuTypesRegistry.PLANET_SELECTION_MENU.get(), PlanetSelectionAppScreen::new);
         event.register(MenuTypesRegistry.CARGO_UNLOADER.get(), CargoUnloaderScreen::new);
         event.register(MenuTypesRegistry.FLUID_TANK_MENU.get(), FluidTankScreen::new);
+        event.register(MenuTypesRegistry.ANTENNA.get(), AntennaScreen::new);
+
     }
 
     @SuppressWarnings("unchecked")
@@ -94,6 +101,10 @@ public class StellarisNeoforgeClient {
         event.registerBlockEntityRenderer(BlockEntitiesRegistry.MOD_SIGN.get(), StandingSignRenderer::new);
         event.registerBlockEntityRenderer(BlockEntitiesRegistry.MOD_HANGING_SIGN.get(), HangingSignRenderer::new);
         event.registerBlockEntityRenderer(BlockEntitiesRegistry.FLAG.get(), FlagBlockRenderer::new);
+        event.registerBlockEntityRenderer(BlockEntitiesRegistry.GLOBE.get(), GlobeBlockRenderer::new);
+        event.registerBlockEntityRenderer((BlockEntityType<RocketLaunchPadBlockEntity>)BlockEntitiesRegistry.ROCKET_LAUNCH_PAD.get(), RocketLaunchPadBlockRenderer::new);
+
+
         event.registerEntityRenderer(EntityTypesRegistry.LANDER.get(), LanderRenderer::new);
         event.registerEntityRenderer(EntityTypesRegistry.ROCKET.get(), RocketRenderer::new);
         event.registerEntityRenderer(EntityTypesRegistry.ROVER.get(), RoverRenderer::new);
@@ -114,11 +125,13 @@ public class StellarisNeoforgeClient {
                         0.65F
                 )
         );
+        event.registerEntityRenderer(EntityTypesRegistry.ALIEN.get(), AlienRenderer::new);
     }
 
     @SubscribeEvent
     public static void registerEntityLayer(EntityRenderersEvent.RegisterLayerDefinitions event) {
         event.registerLayerDefinition(GravityManipulatorModel.LAYER_LOCATION, GravityManipulatorModel::createBodyLayer);
+        event.registerLayerDefinition(GlobeModel.LAYER_LOCATION, GlobeModel::createBodyLayer);
         event.registerLayerDefinition(FlagHeadModel.HUMANOID_LAYER_LOCATION, FlagHeadModel::createHumanoidHeadLayer);
         event.registerLayerDefinition(FlagHeadModel.MOB_LAYER_LOCATION, FlagHeadModel::createMobHeadLayer);
         event.registerLayerDefinition(FlagBlockModel.LAYER_LOCATION, FlagBlockModel::createBodyLayer);
@@ -128,6 +141,8 @@ public class StellarisNeoforgeClient {
         event.registerLayerDefinition(ParasiteAffectedVillagerModel.LAYER_LOCATION, ParasiteAffectedVillagerModel::createBodyLayer);
         event.registerLayerDefinition(EvolvedParasiteAffectedVillagerModel.LAYER_LOCATION, EvolvedParasiteAffectedVillagerModel::createBodyLayer);
         event.registerLayerDefinition(LunaShadowModel.LAYER_LOCATION, LunaShadowModel::createBodyLayer);
+        event.registerLayerDefinition(AlienModel.LAYER_LOCATION, AlienModel::createBodyLayer);
+        event.registerLayerDefinition(RocketLaunchPadModel.LAYER_LOCATION, RocketLaunchPadModel::createBodyLayer);
 
         event.registerLayerDefinition(SpaceSuitModel.LAYER_LOCATION, SpaceSuitModel::createBodyLayer);
         event.registerLayerDefinition(BoatModelLayerRegistry.LUNAR_BOAT, BoatModel::createBoatModel);

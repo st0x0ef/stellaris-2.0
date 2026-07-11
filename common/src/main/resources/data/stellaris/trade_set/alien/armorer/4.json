@@ -1,0 +1,11 @@
+{
+  "trades": [
+    "stellaris:alien/armorer/4/armorer_4_enchanted_diamond_boots",
+    "stellaris:alien/armorer/4/armorer_4_enchanted_diamond_leggings"
+  ],
+  "amount": {
+    "type": "minecraft:constant",
+    "value": 2.0
+  },
+  "allow_duplicates": false
+}

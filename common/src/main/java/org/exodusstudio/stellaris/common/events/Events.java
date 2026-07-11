@@ -22,7 +22,6 @@ import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.common.antennas.Antenna;
 import org.exodusstudio.stellaris.common.antennas.AntennaSavedData;
 import org.exodusstudio.stellaris.common.blocks.CoalLanternBlock;
-import org.exodusstudio.stellaris.common.blocks.RocketLaunchPadBlock;
 import org.exodusstudio.stellaris.common.blocks.WallCoalTorchBlock;
 import org.exodusstudio.stellaris.common.blocks.entities.AntennaBlockEntity;
 import org.exodusstudio.stellaris.common.blocks.entities.FlagBlockEntity;
@@ -51,7 +50,7 @@ public class Events {
 
     public static void init() {
         LifecycleEvent.SERVER_STARTING.register((MinecraftServer server) -> {
-            if(Stellaris.CONFIG.admin.debugMode && Stellaris.CONFIG.admin.regenDimension) {
+            if (Stellaris.CONFIG.admin.regenDimension) {
                 regenStellarisDim(server);
             }
         });
@@ -155,7 +154,7 @@ public class Events {
 
                     Block.popResource(level, pos, stack);
                 }
-            } else if(state.is(BlocksRegistry.ROCKET_LAUNCH_PAD.block().get())) {
+            } else if(state.is(BlocksRegistry.ROCKET_LAUNCH_PAD.block().get()) || state.is(BlocksRegistry.ROCKET_LAUNCH_PAD_PROXY.get())) {
 
                 if(Utils.checkIfAntennaIsNear(pos, level, 1) || Utils.checkIfRocketIsNear(pos, level, 1)) {
                     return EventResult.interruptFalse();
@@ -209,10 +208,10 @@ public class Events {
                 }
             }
 
-            if(state.is(BlocksRegistry.ANTENNA.block().get())) {
-                if (level.getBlockState(pos.above()).is(BlocksRegistry.ROCKET_LAUNCH_PAD.block().get()) && level.getBlockState(pos.above()).getValue(RocketLaunchPadBlock.STAGE)) {
-                    return EventResult.pass();
-                }
+            if (state.is(BlocksRegistry.ANTENNA.block().get())) {
+                //if (level.getBlockState(pos.above()).is(BlocksRegistry.ROCKET_LAUNCH_PAD.block().get()) && level.getBlockState(pos.above()).getValue(RocketLaunchPadBlock.STAGE)) {
+                //    return EventResult.pass();
+                //}
                 return EventResult.interruptFalse();
             }
 

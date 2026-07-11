@@ -1,0 +1,11 @@
+{
+  "trades": [
+    "stellaris:alien/cartographer/1/cartographer_1_map",
+    "stellaris:alien/cartographer/1/cartographer_1_paper"
+  ],
+  "amount": {
+    "type": "minecraft:constant",
+    "value": 2.0
+  },
+  "allow_duplicates": false
+}

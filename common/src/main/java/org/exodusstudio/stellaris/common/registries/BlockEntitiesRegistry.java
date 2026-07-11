@@ -50,6 +50,9 @@ public class BlockEntitiesRegistry {
     public static final Supplier<BlockEntityType<FlagBlockEntity>> FLAG = BLOCK_ENTITY_TYPE.register("flag",
             () -> new BlockEntityType<>(FlagBlockEntity::new, Set.of(BlocksRegistry.FLAG.block().get())));
 
+    public static final Supplier<BlockEntityType<GlobeBlockEntity>> GLOBE = BLOCK_ENTITY_TYPE.register("globe",
+            () -> new BlockEntityType<>(GlobeBlockEntity::new, Set.of(BlocksRegistry.EARTH_GLOBE.block().get(), BlocksRegistry.MOON_GLOBE.block().get())));
+
     public static final Supplier<BlockEntityType<ModSignBlockEntity>> MOD_SIGN = BLOCK_ENTITY_TYPE.register("sign",
             () -> new BlockEntityType<>(ModSignBlockEntity::new, Set.of(BlocksRegistry.LUNAR_SIGN.get(), BlocksRegistry.LUNAR_WALL_SIGN.get())));
 
@@ -73,5 +76,8 @@ public class BlockEntitiesRegistry {
 
     public static final Supplier<BlockEntityType<?>> LABORATORY = BLOCK_ENTITY_TYPE.register("laboratory",
             () -> new BlockEntityType<>(LaboratoryBlockEntity::new, Set.of(BlocksRegistry.LABORATORY.block().get())));
+
+    public static final Supplier<BlockEntityType<?>> ROCKET_LAUNCH_PAD = BLOCK_ENTITY_TYPE.register("rocket_launch_pad",
+            () -> new BlockEntityType<>(RocketLaunchPadBlockEntity::new, Set.of(BlocksRegistry.ROCKET_LAUNCH_PAD.block().get())));
 
 }

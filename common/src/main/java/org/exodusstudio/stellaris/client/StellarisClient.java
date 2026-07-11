@@ -13,14 +13,17 @@ import org.exodusstudio.stellaris.client.events.ClientEvents;
 import org.exodusstudio.stellaris.client.overlays.FadeOverlay;
 import org.exodusstudio.stellaris.client.overlays.LanderOverlay;
 import org.exodusstudio.stellaris.client.overlays.RocketTimerOverlay;
+import org.exodusstudio.stellaris.client.overlays.TemperatureOverlay;
 import org.exodusstudio.stellaris.client.registry.BoatModelLayerRegistry;
 import org.exodusstudio.stellaris.client.registry.FluidInfosRegistry;
 import org.exodusstudio.stellaris.client.registry.KeyMappingsRegistry;
 import org.exodusstudio.stellaris.client.renderers.entity.vehicle.rover.RoverModel;
 import org.exodusstudio.stellaris.client.renderers.flag.FlagBlockModel;
 import org.exodusstudio.stellaris.client.renderers.flag.FlagHeadModel;
+import org.exodusstudio.stellaris.client.renderers.globe.GlobeModel;
 import org.exodusstudio.stellaris.client.renderers.gravity_manipulator.GravityManipulatorModel;
 import org.exodusstudio.stellaris.client.renderers.lander.LanderModel;
+import org.exodusstudio.stellaris.client.renderers.launchpad.RocketLaunchPadModel;
 import org.exodusstudio.stellaris.client.renderers.mobs.*;
 import org.exodusstudio.stellaris.client.renderers.rockets.models.BigRocketModel;
 import org.exodusstudio.stellaris.client.renderers.rockets.models.SmallRocketModel;
@@ -52,14 +55,14 @@ public class StellarisClient {
         ClientTickEvent.CLIENT_POST.register(OxygenDebugRenderer::clientTick);
 
         ClientEvents.init();
-        PlatformClientHelper.registerConfigScreen(Stellaris.MOD_ID, Stellaris.CONFIG);
-        PlatformClientHelper.registerConfigScreen(Stellaris.MOD_ID, CLIENT_CONFIG);
+        PlatformClientHelper.registerConfigScreens(Stellaris.MOD_ID, Stellaris.CONFIG, CLIENT_CONFIG);
     }
 
     public static void registerOverlays() {
         ClientGuiEvent.RENDER_HUD.register(RocketTimerOverlay::render);
         ClientGuiEvent.RENDER_HUD.register(FadeOverlay::render);
         ClientGuiEvent.RENDER_HUD.register(LanderOverlay::render);
+        ClientGuiEvent.RENDER_HUD.register(TemperatureOverlay::render);
     }
 
     public static void registerArmors() {
@@ -76,6 +79,7 @@ public class StellarisClient {
 
     public static void registerEntityModelLayer() {
         EntityModelLayerRegistry.register(GravityManipulatorModel.LAYER_LOCATION, GravityManipulatorModel::createBodyLayer);
+        EntityModelLayerRegistry.register(GlobeModel.LAYER_LOCATION, GlobeModel::createBodyLayer);
         EntityModelLayerRegistry.register(FlagHeadModel.HUMANOID_LAYER_LOCATION, FlagHeadModel::createHumanoidHeadLayer);
         EntityModelLayerRegistry.register(FlagHeadModel.MOB_LAYER_LOCATION, FlagHeadModel::createMobHeadLayer);
         EntityModelLayerRegistry.register(FlagBlockModel.LAYER_LOCATION, FlagBlockModel::createBodyLayer);
@@ -85,6 +89,8 @@ public class StellarisClient {
         EntityModelLayerRegistry.register(ParasiteAffectedVillagerModel.LAYER_LOCATION, ParasiteAffectedVillagerModel::createBodyLayer);
         EntityModelLayerRegistry.register(EvolvedParasiteAffectedVillagerModel.LAYER_LOCATION, EvolvedParasiteAffectedVillagerModel::createBodyLayer);
         EntityModelLayerRegistry.register(LunaShadowModel.LAYER_LOCATION, LunaShadowModel::createBodyLayer);
+        EntityModelLayerRegistry.register(AlienModel.LAYER_LOCATION, AlienModel::createBodyLayer);
+        EntityModelLayerRegistry.register(RocketLaunchPadModel.LAYER_LOCATION, RocketLaunchPadModel::createBodyLayer);
 
         EntityModelLayerRegistry.register(SpaceSuitModel.LAYER_LOCATION, SpaceSuitModel::createBodyLayer);
         EntityModelLayerRegistry.register(BoatModelLayerRegistry.LUNAR_BOAT, BoatModel::createBoatModel);

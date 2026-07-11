@@ -1,0 +1,11 @@
+{
+  "trades": [
+    "stellaris:alien/mason/5/mason_5_quartz_block",
+    "stellaris:alien/mason/5/mason_5_quartz_pillar"
+  ],
+  "amount": {
+    "type": "minecraft:constant",
+    "value": 2.0
+  },
+  "allow_duplicates": false
+}

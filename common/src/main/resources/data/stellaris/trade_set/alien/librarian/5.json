@@ -1,0 +1,10 @@
+{
+  "trades": [
+    "stellaris:alien/librarian/5/librarian_5_name_tag"
+  ],
+  "amount": {
+    "type": "minecraft:constant",
+    "value": 2.0
+  },
+  "allow_duplicates": false
+}

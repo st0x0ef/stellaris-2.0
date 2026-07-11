@@ -1,0 +1,10 @@
+{
+  "trades": [
+    "stellaris:alien/toolsmith/5/toolsmith_5_enchanted_diamond_pickaxe"
+  ],
+  "amount": {
+    "type": "minecraft:constant",
+    "value": 2.0
+  },
+  "allow_duplicates": false
+}

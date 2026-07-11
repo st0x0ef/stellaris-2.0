@@ -1,0 +1,12 @@
+{
+  "trades": [
+    "stellaris:alien/toolsmith/4/toolsmith_4_diamond",
+    "stellaris:alien/toolsmith/4/toolsmith_4_enchanted_diamond_axe",
+    "stellaris:alien/toolsmith/4/toolsmith_4_enchanted_diamond_shovel"
+  ],
+  "amount": {
+    "type": "minecraft:constant",
+    "value": 2.0
+  },
+  "allow_duplicates": false
+}

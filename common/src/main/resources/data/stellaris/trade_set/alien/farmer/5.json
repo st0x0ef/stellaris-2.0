@@ -1,0 +1,11 @@
+{
+  "trades": [
+    "stellaris:alien/farmer/5/farmer_5_glistering_melon_slice",
+    "stellaris:alien/farmer/5/farmer_5_golden_carrot"
+  ],
+  "amount": {
+    "type": "minecraft:constant",
+    "value": 2.0
+  },
+  "allow_duplicates": false
+}

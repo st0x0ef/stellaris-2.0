@@ -1,0 +1,11 @@
+{
+  "model": {
+    "type": "minecraft:special",
+    "base": "stellaris:item/launch_pad_towers",
+    "model": {
+      "type": "stellaris:rocket_launch_pad",
+      "texture": "stellaris:block/rocket_launch_pad",
+      "towers": true
+    }
+  }
+}

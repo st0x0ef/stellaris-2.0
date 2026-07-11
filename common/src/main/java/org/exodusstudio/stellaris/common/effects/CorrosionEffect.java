@@ -1,5 +1,6 @@
 package org.exodusstudio.stellaris.common.effects;
 
+import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.common.registries.TagsRegistry;
 
 import net.minecraft.server.level.ServerLevel;
@@ -19,12 +20,13 @@ public class CorrosionEffect extends MobEffect {
             return false;
         }
 
-        entity.hurtServer(level, entity.damageSources().magic(), 1.0F + ((float) amplifier / 2));
+        entity.hurtServer(level, entity.damageSources().magic(), Stellaris.CONFIG.effectsConfig.corrosionDamage + ((float) amplifier / 2));
         return true;
     }
 
     @Override
     public boolean shouldApplyEffectTickThisTick(int duration, int amplifier) {
-        return duration % 20 == 0; // TODO : make this value configurable
+        int interval = Stellaris.CONFIG.effectsConfig.corrosionTickInterval;
+        return interval > 0 && duration % interval == 0;
     }
 }

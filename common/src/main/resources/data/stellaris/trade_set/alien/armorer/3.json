@@ -1,0 +1,14 @@
+{
+  "trades": [
+    "stellaris:alien/armorer/3/armorer_3_chainmail_chestplate",
+    "stellaris:alien/armorer/3/armorer_3_chainmail_helmet",
+    "stellaris:alien/armorer/3/armorer_3_diamond",
+    "stellaris:alien/armorer/3/armorer_3_lava_bucket",
+    "stellaris:alien/armorer/3/armorer_3_shield"
+  ],
+  "amount": {
+    "type": "minecraft:constant",
+    "value": 2.0
+  },
+  "allow_duplicates": false
+}

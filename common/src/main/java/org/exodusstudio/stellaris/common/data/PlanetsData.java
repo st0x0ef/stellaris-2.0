@@ -10,6 +10,7 @@ import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.packs.resources.SimpleJsonResourceReloadListener;
 import net.minecraft.util.profiling.ProfilerFiller;
 import net.minecraft.world.level.Level;
+import org.exodusstudio.stellaris.common.utils.GravityUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -28,6 +29,8 @@ public class PlanetsData extends SimpleJsonResourceReloadListener<Planet> {
 
     @Override
     protected void apply(Map<Identifier, Planet> planetMap, ResourceManager resourceManager, ProfilerFiller profiler) {
+        GravityUtils.clearCaches();
+
         PLANETS.clear();
         PLANETS.addAll(planetMap.values());
 

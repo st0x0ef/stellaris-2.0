@@ -1,0 +1,12 @@
+{
+  "trades": [
+    "stellaris:alien/farmer/2/farmer_2_apple",
+    "stellaris:alien/farmer/2/farmer_2_pumpkin",
+    "stellaris:alien/farmer/2/farmer_2_pumpkin_pie"
+  ],
+  "amount": {
+    "type": "minecraft:constant",
+    "value": 2.0
+  },
+  "allow_duplicates": false
+}

@@ -29,6 +29,7 @@ import org.exodusstudio.stellaris.common.network.packets.ParasiteCameraShakePack
 import org.exodusstudio.stellaris.common.registries.EffectsRegistry;
 import org.exodusstudio.stellaris.common.registries.EntityTypesRegistry;
 import org.exodusstudio.stellaris.common.registries.TagsRegistry;
+import org.exodusstudio.stellaris.common.utils.MoonLoreUtils;
 
 import java.util.EnumSet;
 import java.util.List;
@@ -113,7 +114,7 @@ public class EvolvedParasiteAffectedVillagerEntity extends ParasiteAffectedVilla
             List<LivingEntity> entities = this.level().getEntitiesOfClass(
                     LivingEntity.class,
                     this.getBoundingBox().inflate(4.0D),
-                    entity -> entity != this && !entity.is(TagsRegistry.EntityTags.INFECTION_IMMUNE)
+                    entity -> entity != this && !MoonLoreUtils.isImmuneToInfection(entity)
             );
 
             for (LivingEntity entity : entities) {
@@ -323,7 +324,9 @@ public class EvolvedParasiteAffectedVillagerEntity extends ParasiteAffectedVilla
 
     private void applyEvolvedOnHitEffects(ServerLevel level, LivingEntity target, int variant) {
         target.addEffect(new MobEffectInstance(MobEffects.WEAKNESS, 20 * 8, 0));
-        target.addEffect(new MobEffectInstance(EffectsRegistry.getHolder(EffectsRegistry.INFECTED), 20 * 8, 0));
+        if (!MoonLoreUtils.isImmuneToInfection(target)) {
+            target.addEffect(new MobEffectInstance(EffectsRegistry.getHolder(EffectsRegistry.INFECTED), 20 * 8, 0));
+        }
 
         if (variant == ATTACK_TENTACLE) {
             target.addEffect(new MobEffectInstance(MobEffects.SLOWNESS, 20 * 3, 0));
@@ -333,7 +336,7 @@ public class EvolvedParasiteAffectedVillagerEntity extends ParasiteAffectedVilla
             List<LivingEntity> splashTargets = this.level().getEntitiesOfClass(
                     LivingEntity.class,
                     target.getBoundingBox().inflate(2.25D),
-                    entity -> entity != this && entity.isAlive() && !entity.is(TagsRegistry.EntityTags.INFECTION_IMMUNE)
+                    entity -> entity != this && entity.isAlive() && !MoonLoreUtils.isImmuneToInfection(entity)
             );
 
             for (LivingEntity splashTarget : splashTargets) {
@@ -381,6 +384,11 @@ public class EvolvedParasiteAffectedVillagerEntity extends ParasiteAffectedVilla
         }
 
         super.die(damageSource);
+    }
+
+    @Override
+    protected void evolve() {
+
     }
 
     private void spawnParasite(ServerLevel level) {

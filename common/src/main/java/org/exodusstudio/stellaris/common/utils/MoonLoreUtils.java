@@ -3,10 +3,12 @@ package org.exodusstudio.stellaris.common.utils;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import org.exodusstudio.stellaris.common.registries.DataComponentsRegistry;
 import org.exodusstudio.stellaris.common.registries.ItemsRegistry;
+import org.exodusstudio.stellaris.common.registries.TagsRegistry;
 
 public class MoonLoreUtils {
     public static final Identifier MOON_LORE_PROGRESSION = IdentifierUtils.id("moon_lore_progression");
@@ -75,5 +77,13 @@ public class MoonLoreUtils {
 
     public static void immunisePlayerToInfection(Player player) {
         player.stellaris$saveDataAttachments(PLAYER_IMMUNISED_TO_INFECTION, true);
+    }
+
+    public static boolean isImmuneToInfection(LivingEntity entity) {
+        if (entity.is(TagsRegistry.EntityTags.INFECTION_IMMUNE)) {
+            return true;
+        }
+
+        return entity instanceof Player player && isPlayerImmunisedToInfection(player);
     }
 }

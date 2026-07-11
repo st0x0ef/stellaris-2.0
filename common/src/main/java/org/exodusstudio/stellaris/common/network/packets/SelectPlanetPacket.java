@@ -1,10 +1,16 @@
 package org.exodusstudio.stellaris.common.network.packets;
 
 import dev.architectury.networking.NetworkManager;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
 import org.exodusstudio.stellaris.common.data.Planet;
+import org.exodusstudio.stellaris.common.data.PlanetsData;
 import org.exodusstudio.stellaris.common.registries.DataComponentsRegistry;
 import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
 import org.exodusstudio.stellaris.common.utils.Utils;
@@ -19,10 +25,28 @@ public record SelectPlanetPacket(Planet destination) implements CustomPacketPayl
     );
 
     public static void handle(SelectPlanetPacket data, NetworkManager.PacketContext context) {
-        context.getPlayer().getActiveItem().set(DataComponentsRegistry.AUTOPILOT.get(), data.destination);
-        context.getPlayer().stellaris$setPlanetMenuOpen(false, context.getPlayer(), true);
-        Utils.stopFade(context.getPlayer());
-        context.getPlayer().closeContainer();
+        context.queue(() -> {
+            Player player = context.getPlayer();
+            if (player == null) {
+                return;
+            }
+
+            // Only accept a real planet as the destination.
+            ResourceKey<Level> dimensionKey = ResourceKey.create(Registries.DIMENSION, data.destination().dimension());
+            if (PlanetsData.getPlanet(dimensionKey) == null) {
+                return;
+            }
+
+            ItemStack active = player.getActiveItem();
+            if (active.isEmpty()) {
+                return;
+            }
+
+            active.set(DataComponentsRegistry.AUTOPILOT.get(), data.destination());
+            player.stellaris$setPlanetMenuOpen(false, player, true);
+            Utils.stopFade(player);
+            player.closeContainer();
+        });
     }
 
 

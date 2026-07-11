@@ -1,0 +1,12 @@
+{
+  "trades": [
+    "stellaris:alien/fletcher/1/fletcher_1_arrow",
+    "stellaris:alien/fletcher/1/fletcher_1_flint",
+    "stellaris:alien/fletcher/1/fletcher_1_stick"
+  ],
+  "amount": {
+    "type": "minecraft:constant",
+    "value": 2.0
+  },
+  "allow_duplicates": false
+}

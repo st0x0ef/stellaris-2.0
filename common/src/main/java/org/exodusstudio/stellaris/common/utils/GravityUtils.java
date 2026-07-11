@@ -39,6 +39,12 @@ public class GravityUtils {
     private static final Map<Planet, Double> SAFE_FALL_DISTANCE_CACHE = new ConcurrentHashMap<>();
     private static final Map<Planet, Double> FALL_DAMAGE_MULT_CACHE = new ConcurrentHashMap<>();
 
+    public static void clearCaches() {
+        GRAVITY_CACHE.clear();
+        SAFE_FALL_DISTANCE_CACHE.clear();
+        FALL_DAMAGE_MULT_CACHE.clear();
+    }
+
     public static void setLivingEntityGravity(LivingEntity entity) {
         Planet planet = PlanetsData.getPlanet(entity.level().dimension());
 
@@ -48,6 +54,16 @@ public class GravityUtils {
             setLivingEntityGravity(entity, planet);
         }
     }
+    public static double getEntityGravity(Entity entity) {
+        Planet planet = PlanetsData.getPlanet(entity.level().dimension());
+
+        if (planet == null || !Stellaris.CONFIG.gravityConfig.enableGravityEffects) {
+            planet = PlanetsData.getPlanet(Level.OVERWORLD);
+        }
+
+        return planet.gravity();
+    }
+
 
     public static double getEntityGravity(BigDecimal conversionRate, Entity entity) {
         Planet planet = PlanetsData.getPlanet(entity.level().dimension());
@@ -56,7 +72,6 @@ public class GravityUtils {
             planet = PlanetsData.getPlanet(Level.OVERWORLD);
         }
         return getGravity(conversionRate, planet) + normalizeGravity(planet, entity.level(), conversionRate, entity.blockPosition());
-
     }
 
     public static double normalizeGravity(Planet planet, Level level, BigDecimal conversionRate, BlockPos entityPos) {
@@ -125,6 +140,11 @@ public class GravityUtils {
 
     /// @param newGravity in m/s²
     private static double computeSafeFallDistance(double newGravity) {
+        // A zero-gravity planet (e.g. deep space / orbit) would divide by zero. In that case there is
+        // effectively no fall damage, so return a very large safe-fall distance (the attribute clamps it).
+        if (newGravity <= 0) {
+            return Double.MAX_VALUE;
+        }
         return SAFE_FALL_DISTANCE_CONVERSION_RATE.divide(new BigDecimal(newGravity), 5, RoundingMode.HALF_UP).doubleValue();
     }
 

@@ -17,6 +17,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
+import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.common.blocks.CoalGeneratorBlock;
 import org.exodusstudio.stellaris.common.blocks.entities.machines.base.BaseEnergyContainerBlockEntity;
 import org.exodusstudio.stellaris.common.items.CanItem;
@@ -72,12 +73,20 @@ public class VacuumatorBlockEntity extends BaseEnergyContainerBlockEntity {
         super.loadAdditional(input);
         this.items = NonNullList.withSize(this.getContainerSize(), ItemStack.EMPTY);
         ContainerHelper.loadAllItems(input, this.items);
+        this.litTime = input.getInt("BurnTime").orElse(0);
+        this.litDuration = input.getInt("BurnDuration").orElse(0);
+        this.resultStack = input.read("ResultStack", ItemStack.CODEC).orElse(null);
     }
 
     @Override
     protected void saveAdditional(ValueOutput output) {
         super.saveAdditional(output);
         ContainerHelper.saveAllItems(output, this.items);
+        output.putInt("BurnTime", this.litTime);
+        output.putInt("BurnDuration", this.litDuration);
+        if (this.resultStack != null && !this.resultStack.isEmpty()) {
+            output.store("ResultStack", ItemStack.CODEC, this.resultStack);
+        }
     }
 
     @Override
@@ -135,25 +144,20 @@ public class VacuumatorBlockEntity extends BaseEnergyContainerBlockEntity {
         }
 
         if (isLit() && resultStack != null) {
-            litTime--;
+            int energyPerTick = Stellaris.CONFIG.machineConfig.vacuumatorEnergyPerTick;
 
-            if (getEnergy(null).getEnergy() < 5) {
-                litTime++;
+            if (getEnergy(null).getEnergy() >= energyPerTick) {
+                getEnergy(null).extract(energyPerTick, false);
+                litTime--;
 
-                if (litTime > litDuration) {
-                    litTime = 0;
+                if (litTime <= 0) {
+                    setItem(3, resultStack);
+                    setItem(4, PotionContents.createItemStack(Items.POTION, Potions.WATER));
+
+                    resultStack = null;
+
+                    getBlockState().setValue(CoalGeneratorBlock.LIT, false);
                 }
-            }
-
-            getEnergy(null).extract(5, false); // TODO : config option for energy consumption per tick
-
-            if (litTime <= 0) {
-                setItem(3, resultStack);
-                setItem(4, PotionContents.createItemStack(Items.POTION, Potions.WATER));
-
-                resultStack = null;
-
-                getBlockState().setValue(CoalGeneratorBlock.LIT, false);
             }
 
             setChanged();
@@ -177,7 +181,7 @@ public class VacuumatorBlockEntity extends BaseEnergyContainerBlockEntity {
             return 0;
         }
 
-        return stack.get(DataComponents.FOOD).nutrition() * 20; // TODO : config option for duration multiplier
+        return stack.get(DataComponents.FOOD).nutrition() * Stellaris.CONFIG.machineConfig.vacuumatorDurationMultiplier;
     }
 
     private boolean isLit() {

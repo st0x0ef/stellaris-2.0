@@ -9,6 +9,7 @@ import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.phys.Vec3;
 import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.common.blocks.entities.machines.base.TabSwitchableBlockEntity;
 import org.jetbrains.annotations.NotNull;
@@ -50,15 +51,25 @@ public class OpenBlockEntityMenusPacket implements CustomPacketPayload {
     }
 
     public static void handle(OpenBlockEntityMenusPacket packet, NetworkManager.PacketContext context) {
-        if (context.getPlayer() instanceof ServerPlayer player) {
-            TabSwitchableBlockEntity be = player.level().getBlockEntity(packet.stationPos) instanceof TabSwitchableBlockEntity t ? t : null;
-            if (be != null) be.setTabSwitching(true);
+        context.queue(() -> {
+            if (context.getPlayer() instanceof ServerPlayer player) {
+                if (packet.menuProvider == null) {
+                    return;
+                }
 
-            ExtendedMenuProvider menuProvider = packet.menuProvider.menu.apply(packet.stationPos);
-            MenuRegistry.openExtendedMenu(player, menuProvider);
+                if (player.distanceToSqr(Vec3.atCenterOf(packet.stationPos)) > 64.0) {
+                    return;
+                }
 
-            if (be != null) be.setTabSwitching(false);
-        }
+                TabSwitchableBlockEntity be = player.level().getBlockEntity(packet.stationPos) instanceof TabSwitchableBlockEntity t ? t : null;
+                if (be != null) be.setTabSwitching(true);
+
+                ExtendedMenuProvider menuProvider = packet.menuProvider.menu.apply(packet.stationPos);
+                MenuRegistry.openExtendedMenu(player, menuProvider);
+
+                if (be != null) be.setTabSwitching(false);
+            }
+        });
     }
 
     @Override

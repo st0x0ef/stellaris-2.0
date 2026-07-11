@@ -7,14 +7,20 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.tags.TagKey;
+import net.minecraft.util.Util;
 import net.minecraft.world.item.ItemStackTemplate;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.phys.Vec2;
+import org.joml.Vector3f;
 
 import java.util.List;
 import java.util.Optional;
 
 public record EntryInfo(Identifier id, Identifier entryId, String title, String iconType, List<InfoComponent> components,
                         Optional<List<Either<TagKey<Block>, ResourceKey<Block>>>> associatedBlocks) {
+
+    public static Codec<Vector3f> VEC3F = Codec.FLOAT.listOf().comapFlatMap((list) -> Util.fixedSize(list, 3).map((listx) -> new Vector3f(listx.getFirst(), listx.get(1), listx.getLast())), (vector3f) -> List.of(vector3f.x, vector3f.y,vector3f.z));
+
 
     public static final Codec<EntryInfo> CODEC = RecordCodecBuilder.create(instance -> instance.group(
             Identifier.CODEC.fieldOf("id").forGetter(EntryInfo::id),
@@ -86,11 +92,12 @@ public record EntryInfo(Identifier id, Identifier entryId, String title, String 
      * @param location the location of the entity to render
      * @param scale the entity scale
      */
-    public record EntityComponent(Identifier location, int scale) {
+    public record EntityComponent(Identifier location, int scale, Optional<Vector3f> defaultRotation) {
 
         public static final Codec<EntityComponent> CODEC = RecordCodecBuilder.create(instance -> instance.group(
                 Identifier.CODEC.fieldOf("id").forGetter(EntityComponent::location),
-                Codec.INT.fieldOf("scale").forGetter(EntityComponent::scale)
+                Codec.INT.fieldOf("scale").forGetter(EntityComponent::scale),
+                VEC3F.optionalFieldOf("defaultRotation").forGetter(EntityComponent::defaultRotation)
         ).apply(instance, EntityComponent::new));
 
     }

@@ -1,0 +1,11 @@
+{
+  "trades": [
+    "stellaris:alien/butcher/3/butcher_3_beef",
+    "stellaris:alien/butcher/3/butcher_3_mutton"
+  ],
+  "amount": {
+    "type": "minecraft:constant",
+    "value": 2.0
+  },
+  "allow_duplicates": false
+}

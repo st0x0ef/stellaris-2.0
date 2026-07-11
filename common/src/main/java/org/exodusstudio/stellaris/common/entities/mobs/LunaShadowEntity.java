@@ -29,6 +29,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import org.exodusstudio.stellaris.common.network.packets.ParasiteCameraShakePacket;
 import org.exodusstudio.stellaris.common.registries.EffectsRegistry;
+import org.exodusstudio.stellaris.common.utils.MoonLoreUtils;
 
 import java.util.EnumSet;
 
@@ -334,7 +335,9 @@ public class LunaShadowEntity extends Monster {
 
         if (hurt && target instanceof LivingEntity livingEntity) {
             livingEntity.addEffect(new MobEffectInstance(MobEffects.DARKNESS, 20 * 6, 0));
-            livingEntity.addEffect(new MobEffectInstance(EffectsRegistry.getHolder(EffectsRegistry.INFECTED), 20 * 8, 0));
+            if (!MoonLoreUtils.isImmuneToInfection(livingEntity)) {
+                livingEntity.addEffect(new MobEffectInstance(EffectsRegistry.getHolder(EffectsRegistry.INFECTED), 20 * 8, 0));
+            }
 
             this.level().playSound(
                     null,

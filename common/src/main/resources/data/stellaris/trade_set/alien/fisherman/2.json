@@ -1,0 +1,12 @@
+{
+  "trades": [
+    "stellaris:alien/fisherman/2/fisherman_2_campfire",
+    "stellaris:alien/fisherman/2/fisherman_2_cod",
+    "stellaris:alien/fisherman/2/fisherman_2_cooked_salmon"
+  ],
+  "amount": {
+    "type": "minecraft:constant",
+    "value": 2.0
+  },
+  "allow_duplicates": false
+}

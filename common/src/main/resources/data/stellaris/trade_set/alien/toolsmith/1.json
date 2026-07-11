@@ -1,0 +1,14 @@
+{
+  "trades": [
+    "stellaris:alien/toolsmith/1/toolsmith_1_coal",
+    "stellaris:alien/toolsmith/1/toolsmith_1_stone_axe",
+    "stellaris:alien/toolsmith/1/toolsmith_1_stone_hoe",
+    "stellaris:alien/toolsmith/1/toolsmith_1_stone_pickaxe",
+    "stellaris:alien/toolsmith/1/toolsmith_1_stone_shovel"
+  ],
+  "amount": {
+    "type": "minecraft:constant",
+    "value": 2.0
+  },
+  "allow_duplicates": false
+}

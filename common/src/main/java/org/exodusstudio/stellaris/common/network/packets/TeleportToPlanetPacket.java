@@ -9,10 +9,13 @@ import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.level.Level;
 import org.exodusstudio.stellaris.common.data.space_station.SpaceStationRecipe;
 
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.level.ServerPlayer;
 import org.exodusstudio.stellaris.common.data.Planet;
+import org.exodusstudio.stellaris.common.data.PlanetsData;
 import org.exodusstudio.stellaris.common.entities.vehicles.RocketEntity;
 import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
 import org.exodusstudio.stellaris.common.utils.TeleportUtil;
@@ -32,24 +35,40 @@ public record TeleportToPlanetPacket(Planet destination, Optional<BlockPos> pos,
     );
 
     public static void handle(TeleportToPlanetPacket data, NetworkManager.PacketContext context) {
-        BlockPos destPos = data.pos.orElse(context.getPlayer().getOnPos());
-
-        MinecraftServer server = context.getPlayer().level().getServer();
-
-        if (server != null && context.getPlayer().getVehicle() instanceof RocketEntity rocket) {
-            TeleportUtil.teleportRocketToPlanet(context.getPlayer(), server.getLevel(ResourceKey.create(Registries.DIMENSION, data.destination.dimension())), rocket, destPos, false);
-            context.getPlayer().stellaris$setPlanetMenuOpen(false, context.getPlayer(), true);
-
-            if(data.recipe.isPresent()) {
-                ServerLevel level = context.getPlayer().level().getServer().getLevel(ResourceKey.create(Registries.DIMENSION, data.destination().dimension()));
-                if (level != null) {
-                    Utils.placeSpaceStation(context.getPlayer(), level, data.recipe.get());
-                }
+        context.queue(() -> {
+            if (!(context.getPlayer() instanceof ServerPlayer player)) {
+                return;
             }
 
-            Utils.stopFade(context.getPlayer());
-            context.getPlayer().closeContainer();
-        }
+            MinecraftServer server = player.level().getServer();
+
+            if (!(player.getVehicle() instanceof RocketEntity rocket)) {
+                return;
+            }
+
+            ResourceKey<Level> dimensionKey = ResourceKey.create(Registries.DIMENSION, data.destination().dimension());
+            Planet planet = PlanetsData.getPlanet(dimensionKey);
+            if (planet == null) {
+                return;
+            }
+
+            ServerLevel level = server.getLevel(dimensionKey);
+            if (level == null) {
+                return;
+            }
+
+            BlockPos destPos = data.pos().orElse(player.getOnPos());
+
+            TeleportUtil.teleportRocketToPlanet(player, level, rocket, destPos, false);
+            player.stellaris$setPlanetMenuOpen(false, player, true);
+
+            if (data.recipe().isPresent() && planet.allowSpaceStation()) {
+                Utils.placeSpaceStation(player, level, data.recipe().get());
+            }
+
+            Utils.stopFade(player);
+            player.closeContainer();
+        });
     }
 
     @Override

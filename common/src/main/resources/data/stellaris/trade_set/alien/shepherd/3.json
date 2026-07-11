@@ -1,0 +1,30 @@
+{
+  "trades": [
+    "stellaris:alien/shepherd/3/shepherd_3_bed_black",
+    "stellaris:alien/shepherd/3/shepherd_3_bed_blue",
+    "stellaris:alien/shepherd/3/shepherd_3_bed_brown",
+    "stellaris:alien/shepherd/3/shepherd_3_bed_cyan",
+    "stellaris:alien/shepherd/3/shepherd_3_bed_gray",
+    "stellaris:alien/shepherd/3/shepherd_3_bed_green",
+    "stellaris:alien/shepherd/3/shepherd_3_bed_light_blue",
+    "stellaris:alien/shepherd/3/shepherd_3_bed_light_gray",
+    "stellaris:alien/shepherd/3/shepherd_3_bed_lime",
+    "stellaris:alien/shepherd/3/shepherd_3_bed_magenta",
+    "stellaris:alien/shepherd/3/shepherd_3_bed_orange",
+    "stellaris:alien/shepherd/3/shepherd_3_bed_pink",
+    "stellaris:alien/shepherd/3/shepherd_3_bed_purple",
+    "stellaris:alien/shepherd/3/shepherd_3_bed_red",
+    "stellaris:alien/shepherd/3/shepherd_3_bed_white",
+    "stellaris:alien/shepherd/3/shepherd_3_bed_yellow",
+    "stellaris:alien/shepherd/3/shepherd_3_dye_light_gray",
+    "stellaris:alien/shepherd/3/shepherd_3_dye_orange",
+    "stellaris:alien/shepherd/3/shepherd_3_dye_pink",
+    "stellaris:alien/shepherd/3/shepherd_3_dye_red",
+    "stellaris:alien/shepherd/3/shepherd_3_dye_yellow"
+  ],
+  "amount": {
+    "type": "minecraft:constant",
+    "value": 2.0
+  },
+  "allow_duplicates": false
+}

@@ -1,0 +1,14 @@
+{
+  "trades": [
+    "stellaris:alien/toolsmith/3/toolsmith_3_diamond_hoe",
+    "stellaris:alien/toolsmith/3/toolsmith_3_enchanted_iron_axe",
+    "stellaris:alien/toolsmith/3/toolsmith_3_enchanted_iron_pickaxe",
+    "stellaris:alien/toolsmith/3/toolsmith_3_enchanted_iron_shovel",
+    "stellaris:alien/toolsmith/3/toolsmith_3_flint"
+  ],
+  "amount": {
+    "type": "minecraft:constant",
+    "value": 2.0
+  },
+  "allow_duplicates": false
+}

@@ -1,0 +1,10 @@
+{
+  "trades": [
+    "stellaris:alien/butcher/4/butcher_4_dried_kelp_block"
+  ],
+  "amount": {
+    "type": "minecraft:constant",
+    "value": 2.0
+  },
+  "allow_duplicates": false
+}

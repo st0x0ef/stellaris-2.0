@@ -1,0 +1,12 @@
+{
+  "trades": [
+    "stellaris:alien/librarian/3/librarian_3_enchanted_book",
+    "stellaris:alien/librarian/3/librarian_3_glass",
+    "stellaris:alien/librarian/3/librarian_3_ink_sac"
+  ],
+  "amount": {
+    "type": "minecraft:constant",
+    "value": 2.0
+  },
+  "allow_duplicates": false
+}

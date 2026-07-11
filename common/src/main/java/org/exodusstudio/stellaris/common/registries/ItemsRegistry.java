@@ -186,6 +186,7 @@ public final class ItemsRegistry {
     public static final RegistrySupplier<Item> ROCKET_ENGINE = item("rocket_engine");
     public static final RegistrySupplier<Item> ROCKET_FIN = item("rocket_fin");
     public static final RegistrySupplier<Item> ROCKET_NOSE_CONE = item("rocket_nose_cone");
+    public static final RegistrySupplier<Item> LAUNCH_PAD_TOWERS = item("launch_pad_towers");
 
     // Moon lore items
     public static final RegistrySupplier<ParasiteItem> PARASITE = item("parasite", ParasiteItem::new);
@@ -198,6 +199,7 @@ public final class ItemsRegistry {
     public static final RegistrySupplier<SpawnEggItem> PARASITE_AFFECTED_VILLAGER_SPAWN_EGG = item("parasite_affected_villager_spawn_egg", p -> new SpawnEggItem(p.spawnEgg(EntityTypesRegistry.PARASITE_AFFECTED_VILLAGER.get())));
     public static final RegistrySupplier<SpawnEggItem> PARASITE_AFFECTED_VILLAGER_EVOLVED_SPAWN_EGG = item("parasite_affected_villager_evolved_spawn_egg", p -> new SpawnEggItem(p.spawnEgg(EntityTypesRegistry.PARASITE_AFFECTED_VILLAGER_EVOLVED.get())));
     public static final RegistrySupplier<SpawnEggItem> LUNA_SHADOW_SPAWN_EGG = item("luna_shadow_spawn_egg", p -> new SpawnEggItem(p.spawnEgg(EntityTypesRegistry.LUNA_SHADOW.get())));
+    public static final RegistrySupplier<SpawnEggItem> ALIEN_SPAWN_EGG = item("alien_spawn_egg", p -> new SpawnEggItem(p.spawnEgg(EntityTypesRegistry.ALIEN.get())));
 
     /** Lunar Forest Items */
     public static final RegistrySupplier<Item> LUNAR_BOAT = item("lunar_boat", p -> new BoatItem((EntityType<? extends AbstractBoat>) EntityTypesRegistry.LUNAR_BOAT.get(), p));

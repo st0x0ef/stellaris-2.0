@@ -14,7 +14,7 @@
   "mixins": [
     "ChunkAccessMixin",
     "ConsumableMixin",
-    "EntityMixinAttachment",
+    "EntityMixin",
     "FireMixin",
     "LivingEntityMixin",
     "PlayerMixin",

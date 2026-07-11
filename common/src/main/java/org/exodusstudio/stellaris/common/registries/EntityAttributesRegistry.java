@@ -1,6 +1,7 @@
 package org.exodusstudio.stellaris.common.registries;
 
 import dev.architectury.registry.level.entity.EntityAttributeRegistry;
+import org.exodusstudio.stellaris.common.entities.alien.AlienEntity;
 import org.exodusstudio.stellaris.common.entities.mobs.BlueFishEntity;
 import org.exodusstudio.stellaris.common.entities.mobs.EvolvedParasiteAffectedVillagerEntity;
 import org.exodusstudio.stellaris.common.entities.mobs.LunaShadowEntity;
@@ -14,5 +15,6 @@ public class EntityAttributesRegistry {
         EntityAttributeRegistry.register(EntityTypesRegistry.PARASITE_AFFECTED_VILLAGER, ParasiteAffectedVillagerEntity::createAttributes);
         EntityAttributeRegistry.register(EntityTypesRegistry.PARASITE_AFFECTED_VILLAGER_EVOLVED, EvolvedParasiteAffectedVillagerEntity::createAttributes);
         EntityAttributeRegistry.register(EntityTypesRegistry.LUNA_SHADOW, LunaShadowEntity::createAttributes);
+        EntityAttributeRegistry.register(EntityTypesRegistry.ALIEN, AlienEntity::createAttributes);
     }
 }

@@ -8,6 +8,7 @@ import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.vehicle.boat.Boat;
 import net.minecraft.world.entity.vehicle.boat.ChestBoat;
 import org.exodusstudio.stellaris.Stellaris;
+import org.exodusstudio.stellaris.common.entities.alien.AlienEntity;
 import org.exodusstudio.stellaris.common.entities.mobs.*;
 import org.exodusstudio.stellaris.common.entities.vehicles.LanderEntity;
 import org.exodusstudio.stellaris.common.entities.vehicles.RocketEntity;
@@ -51,4 +52,9 @@ public class EntityTypesRegistry {
                 .sized(1.1F, 2.6F)
                 .fireImmune()
                 .build(IdentifierUtils.resourceKey(Registries.ENTITY_TYPE, "luna_shadow")));
+
+    public static final RegistrySupplier<EntityType<AlienEntity>> ALIEN = ENTITY_TYPE.register("alien",
+        () -> EntityType.Builder.of(AlienEntity::new, MobCategory.CREATURE)
+                .sized(0.75F, 2.5F)
+                .build(IdentifierUtils.resourceKey(Registries.ENTITY_TYPE, "alien")));
 }

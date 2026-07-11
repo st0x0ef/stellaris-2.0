@@ -1,0 +1,11 @@
+{
+  "trades": [
+    "stellaris:alien/cleric/5/cleric_5_experience_bottle",
+    "stellaris:alien/cleric/5/cleric_5_nether_wart"
+  ],
+  "amount": {
+    "type": "minecraft:constant",
+    "value": 2.0
+  },
+  "allow_duplicates": false
+}

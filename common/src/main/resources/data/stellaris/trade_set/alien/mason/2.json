@@ -1,0 +1,11 @@
+{
+  "trades": [
+    "stellaris:alien/mason/2/mason_2_chiseled_stone_bricks",
+    "stellaris:alien/mason/2/mason_2_stone"
+  ],
+  "amount": {
+    "type": "minecraft:constant",
+    "value": 2.0
+  },
+  "allow_duplicates": false
+}

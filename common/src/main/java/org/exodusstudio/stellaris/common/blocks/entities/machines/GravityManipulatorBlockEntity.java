@@ -39,7 +39,7 @@ public class GravityManipulatorBlockEntity extends BaseEnergyContainerBlockEntit
     @Override
     public void tick(Level level, BlockState state) {
         if  (isActive() && this.level != null) {
-            this.energyContainer.extract(1, false); // TODO : adjust energy consumption based on new gravity
+            this.energyContainer.extract(Stellaris.CONFIG.gravityConfig.gravityManipulatorEnergyPerTick, false);
             syncDataAccess();
         }
     }

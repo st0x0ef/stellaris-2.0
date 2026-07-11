@@ -1,0 +1,16 @@
+{
+  "trades": [
+    "stellaris:alien/mason/3/mason_3_andesite",
+    "stellaris:alien/mason/3/mason_3_diorite",
+    "stellaris:alien/mason/3/mason_3_dripstone_block",
+    "stellaris:alien/mason/3/mason_3_granite",
+    "stellaris:alien/mason/3/mason_3_polished_andesite",
+    "stellaris:alien/mason/3/mason_3_polished_diorite",
+    "stellaris:alien/mason/3/mason_3_polished_granite"
+  ],
+  "amount": {
+    "type": "minecraft:constant",
+    "value": 2.0
+  },
+  "allow_duplicates": false
+}

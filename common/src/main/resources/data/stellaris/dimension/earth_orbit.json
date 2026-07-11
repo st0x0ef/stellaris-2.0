@@ -1,5 +1,5 @@
 {
-  "type": "stellaris:orbit",
+  "type": "stellaris:earth_orbit",
   "generator": {
     "type": "minecraft:noise",
     "settings": "stellaris:space",

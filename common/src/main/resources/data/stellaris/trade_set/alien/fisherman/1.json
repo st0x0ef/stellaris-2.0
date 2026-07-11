@@ -1,0 +1,13 @@
+{
+  "trades": [
+    "stellaris:alien/fisherman/1/fisherman_1_coal",
+    "stellaris:alien/fisherman/1/fisherman_1_cod_bucket",
+    "stellaris:alien/fisherman/1/fisherman_1_cooked_cod",
+    "stellaris:alien/fisherman/1/fisherman_1_string"
+  ],
+  "amount": {
+    "type": "minecraft:constant",
+    "value": 2.0
+  },
+  "allow_duplicates": false
+}

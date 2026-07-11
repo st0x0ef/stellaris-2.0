@@ -1,0 +1,26 @@
+{
+  "trades": [
+    "stellaris:alien/cartographer/4/cartographer_4_banner_black",
+    "stellaris:alien/cartographer/4/cartographer_4_banner_blue",
+    "stellaris:alien/cartographer/4/cartographer_4_banner_brown",
+    "stellaris:alien/cartographer/4/cartographer_4_banner_cyan",
+    "stellaris:alien/cartographer/4/cartographer_4_banner_gray",
+    "stellaris:alien/cartographer/4/cartographer_4_banner_green",
+    "stellaris:alien/cartographer/4/cartographer_4_banner_light_blue",
+    "stellaris:alien/cartographer/4/cartographer_4_banner_light_gray",
+    "stellaris:alien/cartographer/4/cartographer_4_banner_lime",
+    "stellaris:alien/cartographer/4/cartographer_4_banner_magenta",
+    "stellaris:alien/cartographer/4/cartographer_4_banner_orange",
+    "stellaris:alien/cartographer/4/cartographer_4_banner_pink",
+    "stellaris:alien/cartographer/4/cartographer_4_banner_purple",
+    "stellaris:alien/cartographer/4/cartographer_4_banner_red",
+    "stellaris:alien/cartographer/4/cartographer_4_banner_white",
+    "stellaris:alien/cartographer/4/cartographer_4_banner_yellow",
+    "stellaris:alien/cartographer/4/cartographer_4_item_frame"
+  ],
+  "amount": {
+    "type": "minecraft:constant",
+    "value": 2.0
+  },
+  "allow_duplicates": false
+}

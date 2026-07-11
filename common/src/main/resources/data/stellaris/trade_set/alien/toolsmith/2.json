@@ -1,0 +1,11 @@
+{
+  "trades": [
+    "stellaris:alien/toolsmith/2/toolsmith_2_bell",
+    "stellaris:alien/toolsmith/2/toolsmith_2_iron_ingot"
+  ],
+  "amount": {
+    "type": "minecraft:constant",
+    "value": 2.0
+  },
+  "allow_duplicates": false
+}

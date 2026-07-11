@@ -1,0 +1,12 @@
+{
+  "trades": [
+    "stellaris:alien/cleric/4/cleric_4_ender_pearl",
+    "stellaris:alien/cleric/4/cleric_4_glass_bottle",
+    "stellaris:alien/cleric/4/cleric_4_scute"
+  ],
+  "amount": {
+    "type": "minecraft:constant",
+    "value": 2.0
+  },
+  "allow_duplicates": false
+}

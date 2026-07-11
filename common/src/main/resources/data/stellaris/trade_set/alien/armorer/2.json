@@ -1,0 +1,13 @@
+{
+  "trades": [
+    "stellaris:alien/armorer/2/armorer_2_bell",
+    "stellaris:alien/armorer/2/armorer_2_chainmail_boots",
+    "stellaris:alien/armorer/2/armorer_2_chainmail_leggings",
+    "stellaris:alien/armorer/2/armorer_2_iron_ingot"
+  ],
+  "amount": {
+    "type": "minecraft:constant",
+    "value": 2.0
+  },
+  "allow_duplicates": false
+}

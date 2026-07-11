@@ -86,7 +86,7 @@ public class StellardownParser {
                 i += 5;
                 textStart = i;
             }
-            else if (input.startsWith("[color=", i)) {
+            else if (input.startsWith("[color=", i) && input.indexOf(']', i) != -1) {
                 if (i > textStart)
                     tokens.add(new Token(TokenType.TEXT, input.substring(textStart, i)));
 
@@ -104,7 +104,7 @@ public class StellardownParser {
                 i += 7;
                 textStart = i;
 
-            } else if (input.startsWith("[ref=", i)) {
+            } else if (input.startsWith("[ref=", i) && input.indexOf(']', i) != -1) {
                 if (i > textStart)
                     tokens.add(new Token(TokenType.TEXT, input.substring(textStart, i)));
 

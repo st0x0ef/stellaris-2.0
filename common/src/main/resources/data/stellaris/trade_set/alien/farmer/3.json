@@ -1,0 +1,11 @@
+{
+  "trades": [
+    "stellaris:alien/farmer/3/farmer_3_cookie",
+    "stellaris:alien/farmer/3/farmer_3_melon"
+  ],
+  "amount": {
+    "type": "minecraft:constant",
+    "value": 2.0
+  },
+  "allow_duplicates": false
+}

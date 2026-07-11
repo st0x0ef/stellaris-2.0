@@ -1,0 +1,11 @@
+{
+  "trades": [
+    "stellaris:alien/armorer/5/armorer_5_enchanted_diamond_chestplate",
+    "stellaris:alien/armorer/5/armorer_5_enchanted_diamond_helmet"
+  ],
+  "amount": {
+    "type": "minecraft:constant",
+    "value": 2.0
+  },
+  "allow_duplicates": false
+}

@@ -1,26 +1,22 @@
 {
-  "period_ticks": 24000,
-  "clock": "minecraft:overworld",
-  "tracks": {
-    "minecraft:visual/sun_angle": {
-      "ease": {
-        "cubic_bezier": [
-          0.362,
-          0.241,
-          0.638,
-          0.759
-        ]
-      },
-      "keyframes": [
-        {
-          "ticks": 6000,
-          "value": 360
-        },
-        {
-          "ticks": 6000,
-          "value": 0
-        }
-      ]
+  "clock": "stellaris:moon",
+  "period_ticks": 708000,
+  "time_markers": {
+    "minecraft:day": {
+      "show_in_commands": true,
+      "ticks": 29500
+    },
+    "minecraft:midnight": {
+      "show_in_commands": true,
+      "ticks": 531000
+    },
+    "minecraft:night": {
+      "show_in_commands": true,
+      "ticks": 383500
+    },
+    "minecraft:noon": {
+      "show_in_commands": true,
+      "ticks": 177000
     }
   }
 }

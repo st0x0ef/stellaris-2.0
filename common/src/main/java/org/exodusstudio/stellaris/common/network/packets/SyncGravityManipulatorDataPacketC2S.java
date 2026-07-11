@@ -6,7 +6,9 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.Vec3;
 import org.exodusstudio.stellaris.common.blocks.entities.machines.GravityManipulatorBlockEntity;
 import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
 
@@ -26,7 +28,20 @@ public record SyncGravityManipulatorDataPacketC2S(BlockPos gravityManipulatorPos
 
     public static void handle(final SyncGravityManipulatorDataPacketC2S data, final NetworkManager.PacketContext context) {
         context.queue(() -> {
-            Level level = context.getPlayer().level();
+            Player player = context.getPlayer();
+            if (player == null) {
+                return;
+            }
+
+            if (!Double.isFinite(data.gravity())) {
+                return;
+            }
+
+            if (player.distanceToSqr(Vec3.atCenterOf(data.gravityManipulatorPos())) > 64.0) {
+                return;
+            }
+
+            Level level = player.level();
             if (level.getBlockEntity(data.gravityManipulatorPos()) instanceof GravityManipulatorBlockEntity blockEntity) {
                 blockEntity.setGravity(data.gravity(), false);
             }

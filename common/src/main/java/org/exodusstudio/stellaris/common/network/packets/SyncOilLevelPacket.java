@@ -22,8 +22,13 @@ public record SyncOilLevelPacket(int oilLevel, int chunkX, int chunkZ) implement
 
 
     public static void handle(SyncOilLevelPacket packet, NetworkManager.PacketContext context) {
-        Player player = context.getPlayer();
-        player.level().getChunk(packet.chunkX, packet.chunkZ).stellaris$setChunkOilLevel(packet.oilLevel);
+        context.queue(() -> {
+            Player player = context.getPlayer();
+            if (player == null) {
+                return;
+            }
+            player.level().getChunk(packet.chunkX, packet.chunkZ).stellaris$setChunkOilLevel(packet.oilLevel);
+        });
     }
 
     @Override

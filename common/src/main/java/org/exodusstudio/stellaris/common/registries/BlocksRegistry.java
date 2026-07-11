@@ -50,9 +50,9 @@ public final class BlocksRegistry {
     public static final BlockItemRegistrySupplier TITANIUM_SLAB = blockWithItem("titanium_slab", ofFullCopy(Blocks.IRON_BLOCK), SlabBlock::new);
     public static final BlockItemRegistrySupplier TITANIUM_STAIRS = blockWithItem("titanium_stairs", ofFullCopy(Blocks.COBBLESTONE_STAIRS), p -> new StairBlock(TITANIUM_BLOCK.block().get().defaultBlockState(), p));
     public static final BlockItemRegistrySupplier TITANIUM_PILLAR = blockWithItem("titanium_pillar", ofFullCopy(Blocks.IRON_BLOCK), RotatedPillarBlock::new);
-    public static final BlockItemRegistrySupplier TIANIUM_PLATING_BLOCK = blockWithItem("titanium_plating_block", ofFullCopy(Blocks.IRON_BLOCK));
-    public static final BlockItemRegistrySupplier TIANIUM_PLATING_SLAB = blockWithItem("titanium_plating_slab", ofFullCopy(Blocks.IRON_BLOCK), SlabBlock::new);
-    public static final BlockItemRegistrySupplier TIANIUM_PLATING_STAIRS = blockWithItem("titanium_plating_stairs", ofFullCopy(Blocks.COBBLESTONE_STAIRS), p -> new StairBlock(TITANIUM_BLOCK.block().get().defaultBlockState(), p));
+    public static final BlockItemRegistrySupplier TITANIUM_PLATING_BLOCK = blockWithItem("titanium_plating_block", ofFullCopy(Blocks.IRON_BLOCK));
+    public static final BlockItemRegistrySupplier TITANIUM_PLATING_SLAB = blockWithItem("titanium_plating_slab", ofFullCopy(Blocks.IRON_BLOCK), SlabBlock::new);
+    public static final BlockItemRegistrySupplier TITANIUM_PLATING_STAIRS = blockWithItem("titanium_plating_stairs", ofFullCopy(Blocks.COBBLESTONE_STAIRS), p -> new StairBlock(TITANIUM_BLOCK.block().get().defaultBlockState(), p));
     public static final BlockItemRegistrySupplier VERTICAL_TITANIUM_SLAB = blockWithItem("vertical_titanium_slab", ofFullCopy(Blocks.IRON_BLOCK), p -> new VerticalSlab(p));
     public static final BlockItemRegistrySupplier VERTICAL_TIANIUM_PLATING_SLAB = blockWithItem("vertical_titanium_plating_slab", ofFullCopy(Blocks.IRON_BLOCK), p -> new VerticalSlab(p));
     public static final BlockItemRegistrySupplier IRON_PLATING_BLOCK = blockWithItem("iron_plating_block", ofFullCopy(Blocks.IRON_BLOCK));
@@ -213,6 +213,14 @@ public final class BlocksRegistry {
     // ROCKET
     public static final BlockItemRegistrySupplier ENGINEERING_STATION = blockWithCustomItem("engineering_station", BlockBehaviour.Properties.of(), EngineeringStationBlock::new, new Item.Properties(), BlockItem::new);
     public static final BlockItemRegistrySupplier ROCKET_LAUNCH_PAD = blockWithCustomItem("rocket_launch_pad", BlockBehaviour.Properties.of(), RocketLaunchPadBlock::new, new Item.Properties(), BlockItem::new);
+    public static final RegistrySupplier<Block> ROCKET_LAUNCH_PAD_PROXY = block(
+            "rocket_launch_pad_proxy",
+            BlockBehaviour.Properties.of()
+                    .noOcclusion()
+                    .isSuffocating(BlocksRegistry::never)
+                    .isViewBlocking(BlocksRegistry::never),
+            RocketLaunchPadProxyBlock::new
+    );
     public static final BlockItemRegistrySupplier ANTENNA = blockWithCustomItem("antenna", BlockBehaviour.Properties.of(), AntennaBlock::new, new Item.Properties(),
             (b, p) -> new TooltipBlockItem(b, p).addTooltip(AntennaBlock.TOOLTIP));
     public static final BlockItemRegistrySupplier CARGO_UNLOADER = blockWithItem("cargo_unloader", BlockBehaviour.Properties.of().noOcclusion(), CargoUnloaderBlock::new);
@@ -254,6 +262,13 @@ public final class BlocksRegistry {
                     .isViewBlocking(BlocksRegistry::never),
             FlagProxyBlock::new
     );
+
+    public static final BlockItemRegistrySupplier EARTH_GLOBE = blockWithItem("earth_globe",
+            BlockBehaviour.Properties.of().mapColor(MapColor.STONE).strength(2.5F).sound(SoundType.STONE).noOcclusion(),
+            GlobeBlock::new);
+    public static final BlockItemRegistrySupplier MOON_GLOBE = blockWithItem("moon_globe",
+            BlockBehaviour.Properties.of().mapColor(MapColor.STONE).strength(2.5F).sound(SoundType.STONE).noOcclusion(),
+            GlobeBlock::new);
 
 
     public static <B extends Block> @NotNull RegistrySupplier<B> block(String name,

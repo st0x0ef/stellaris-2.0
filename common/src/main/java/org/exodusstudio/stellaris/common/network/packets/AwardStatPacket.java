@@ -38,14 +38,23 @@ public record AwardStatPacket(Identifier stat, int amount) implements CustomPack
     }
 
     public static void handle(AwardStatPacket packet, NetworkManager.PacketContext context) {
-        Player player = context.getPlayer();
+        context.queue(() -> {
+            Player player = context.getPlayer();
+            if (player == null) {
+                return;
+            }
 
-        Identifier registeredStat = BuiltInRegistries.CUSTOM_STAT.getValue(packet.stat);
-        if (registeredStat == null) {
-            registeredStat = packet.stat;
-        }
+            if (!Stellaris.MOD_ID.equals(packet.stat.getNamespace()) || packet.amount <= 0 || packet.amount > 1000) {
+                return;
+            }
 
-        player.awardStat(registeredStat, packet.amount);
+            Identifier registeredStat = BuiltInRegistries.CUSTOM_STAT.getValue(packet.stat);
+            if (registeredStat == null) {
+                return;
+            }
+
+            player.awardStat(registeredStat, packet.amount);
+        });
     }
 
     @Override
