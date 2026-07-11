@@ -9,6 +9,7 @@ import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConf
 import org.exodusstudio.stellaris.common.world.features.AshFloorFeature;
 import org.exodusstudio.stellaris.common.world.features.BurntForestTreeFeature;
 import org.exodusstudio.stellaris.common.world.features.CraterFeature;
+import org.exodusstudio.stellaris.common.world.features.LunarTreeFeature;
 
 
 public class FeaturesRegistry {
@@ -24,6 +25,9 @@ public class FeaturesRegistry {
 
     public static final RegistrySupplier<Feature<NoneFeatureConfiguration>> BURNT_FOREST_TREE =
             FEATURES.register("burnt_forest_tree", () -> new BurntForestTreeFeature(NoneFeatureConfiguration.CODEC));
+
+    public static final RegistrySupplier<Feature<NoneFeatureConfiguration>> LUNAR_TREE =
+            FEATURES.register("lunar_tree", () -> new LunarTreeFeature(NoneFeatureConfiguration.CODEC));
 
     public static final RegistrySupplier<Feature<NoneFeatureConfiguration>> ASH_FLOOR =
             FEATURES.register("ash_floor", () -> new AshFloorFeature(NoneFeatureConfiguration.CODEC));

@@ -12,6 +12,7 @@ import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.*;
+import net.minecraft.world.level.block.TintedParticleLeavesBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.grower.TreeGrower;
 import net.minecraft.world.level.block.state.BlockState;
@@ -123,7 +124,7 @@ public final class BlocksRegistry {
     public static final BlockItemRegistrySupplier LUNAR_PRESSURE_PLATE = blockWithItem("lunar_pressure_plate", ofFullCopy(Blocks.OAK_PRESSURE_PLATE), p -> new PressurePlateBlock(WoodTypesRegister.LUNAR, p));
     public static final BlockItemRegistrySupplier LUNAR_BUTTON = blockWithItem("lunar_button", ofFullCopy(Blocks.OAK_BUTTON), p -> new ButtonBlock(WoodTypesRegister.LUNAR, 30, p));
 
-    public static final BlockItemRegistrySupplier LUNAR_LEAVES = blockWithItem("lunar_leaves", ofFullCopy(Blocks.OAK_LEAVES), p -> new TintedParticleLeavesBlock(0.01F, p.mapColor(MapColor.PLANT).strength(0.2F).randomTicks().sound(SoundType.GRASS).noOcclusion().isValidSpawn(BlocksRegistry::ocelotOrParrot).isSuffocating(BlocksRegistry::never).isViewBlocking(BlocksRegistry::never).ignitedByLava().pushReaction(PushReaction.DESTROY).isRedstoneConductor(BlocksRegistry::never).lightLevel((s) -> 15)));
+    public static final BlockItemRegistrySupplier LUNAR_LEAVES = blockWithItem("lunar_leaves", ofFullCopy(Blocks.OAK_LEAVES), p -> new LunarLeavesBlock(p.mapColor(MapColor.COLOR_BLUE).strength(0.2F).randomTicks().sound(SoundType.GRASS).noOcclusion().isValidSpawn(BlocksRegistry::ocelotOrParrot).isSuffocating(BlocksRegistry::never).isViewBlocking(BlocksRegistry::never).ignitedByLava().pushReaction(PushReaction.DESTROY).isRedstoneConductor(BlocksRegistry::never).lightLevel((s) -> 15)));
     public static final BlockItemRegistrySupplier LUNAR_SAPLING = blockWithItem("lunar_sapling", ofFullCopy(Blocks.OAK_SAPLING), p -> new LunarSaplingBlock(new TreeGrower("lunar", Optional.empty(), Optional.of(ModConfiguredFeatures.LUNAR_TREE), Optional.empty()), p));
     public static final BlockItemRegistrySupplier LUNAR_VINES = blockWithItem("lunar_vines", ofFullCopy(Blocks.TWISTING_VINES), p -> new LunarVinesBlock(p));
     public static final RegistrySupplier<Block> LUNAR_VINES_PLANT = block("lunar_vines_plant", ofFullCopy(Blocks.TWISTING_VINES_PLANT), p -> new LunarVinesPlantBlock(p));

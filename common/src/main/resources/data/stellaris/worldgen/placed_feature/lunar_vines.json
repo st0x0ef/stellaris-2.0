@@ -1,5 +1,5 @@
 {
-  "feature": "stellaris:moon_vines",
+  "feature": "stellaris:lunar_vines",
   "placement": [
     {
       "type": "minecraft:count",
@@ -43,3 +43,4 @@
     }
   ]
 }
+
