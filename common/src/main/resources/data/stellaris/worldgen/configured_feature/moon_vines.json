@@ -14,26 +14,26 @@
             {
               "data": {
                 "type": "minecraft:uniform",
-                "max_inclusive": 19,
-                "min_inclusive": 0
-              },
-              "weight": 2
-            },
-            {
-              "data": {
-                "type": "minecraft:uniform",
-                "max_inclusive": 2,
-                "min_inclusive": 0
+                "max_inclusive": 25,
+                "min_inclusive": 5
               },
               "weight": 3
             },
             {
               "data": {
                 "type": "minecraft:uniform",
-                "max_inclusive": 6,
-                "min_inclusive": 0
+                "max_inclusive": 15,
+                "min_inclusive": 3
               },
-              "weight": 10
+              "weight": 5
+            },
+            {
+              "data": {
+                "type": "minecraft:uniform",
+                "max_inclusive": 12,
+                "min_inclusive": 2
+              },
+              "weight": 12
             }
           ]
         },
@@ -47,7 +47,7 @@
                   "berries": "false"
                 }
               },
-              "weight": 4
+              "weight": 3
             },
             {
               "data": {
@@ -56,7 +56,7 @@
                   "berries": "true"
                 }
               },
-              "weight": 1
+              "weight": 2
             }
           ]
         }
@@ -69,26 +69,26 @@
           "source": {
             "type": "minecraft:weighted_state_provider",
             "entries": [
-              {
-                "data": {
-                  "Name": "stellaris:moon_vines",
-                  "Properties": {
-                    "age": "0",
-                    "berries": "false"
-                  }
-                },
-                "weight": 4
-              },
-              {
-                "data": {
-                  "Name": "stellaris:moon_vines",
-                  "Properties": {
-                    "age": "0",
-                    "berries": "true"
-                  }
-                },
-                "weight": 1
-              }
+               {
+                 "data": {
+                   "Name": "stellaris:moon_vines",
+                   "Properties": {
+                     "age": "0",
+                     "berries": "false"
+                   }
+                 },
+                 "weight": 3
+               },
+               {
+                 "data": {
+                   "Name": "stellaris:moon_vines",
+                   "Properties": {
+                     "age": "0",
+                     "berries": "true"
+                   }
+                 },
+                 "weight": 2
+               }
             ]
           },
           "values": {
