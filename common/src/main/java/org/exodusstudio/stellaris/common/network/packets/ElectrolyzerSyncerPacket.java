@@ -6,7 +6,7 @@ import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import org.exodusstudio.stellaris.common.compats.jei.recipe_cache.ElectrolyzerRecipeCache;
-import org.exodusstudio.stellaris.common.compats.jei.JEIPlugin;
+import org.exodusstudio.stellaris.common.compats.jei.JEICompat;
 import org.exodusstudio.stellaris.common.data.recipes.ElectrolyzeRecipe;
 import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
 
@@ -25,7 +25,7 @@ public record ElectrolyzerSyncerPacket(List<ElectrolyzeRecipe> recipes) implemen
     public static void handle(ElectrolyzerSyncerPacket packet, PacketContext context) {
         context.queue(() -> {
             ElectrolyzerRecipeCache.set(packet.recipes);
-            JEIPlugin.reloadRecipes();
+            JEICompat.reloadRecipesSafe();
         });
     }
 

@@ -6,7 +6,7 @@ import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import org.exodusstudio.stellaris.common.compats.jei.recipe_cache.FuelRefineryRecipeCache;
-import org.exodusstudio.stellaris.common.compats.jei.JEIPlugin;
+import org.exodusstudio.stellaris.common.compats.jei.JEICompat;
 import org.exodusstudio.stellaris.common.data.recipes.FuelRefineryRecipe;
 import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
 
@@ -25,7 +25,7 @@ public record FuelRefinerySyncerPacket(List<FuelRefineryRecipe> recipes) impleme
     public static void handle(FuelRefinerySyncerPacket packet, PacketContext context) {
         context.queue(() -> {
             FuelRefineryRecipeCache.set(packet.recipes);
-            JEIPlugin.reloadRecipes();
+            JEICompat.reloadRecipesSafe();
         });
     }
 
