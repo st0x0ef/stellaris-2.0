@@ -6,10 +6,10 @@
     " I "
   ],
   "key": {
-    "I": "minecraft:iron_ingot"
+    "I": "minecraft:iron_nugget"
   },
   "result": {
     "id": "stellaris:pipe_t1",
-    "count": 6
+    "count": 4
   }
 }

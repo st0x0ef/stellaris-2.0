@@ -2,15 +2,15 @@
   "type": "minecraft:crafting_shaped",
   "pattern": [
     " T ",
-    "TRT",
+    "TCT",
     " T "
   ],
   "key": {
-    "T": "stellaris:titanium_ingot",
-    "R": "minecraft:redstone"
+    "T": "stellaris:titanium_nugget",
+    "C": "minecraft:copper_nugget"
   },
   "result": {
     "id": "stellaris:cable_t1",
-    "count": 6
+    "count": 4
   }
 }
