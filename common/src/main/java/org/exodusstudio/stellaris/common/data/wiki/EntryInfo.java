@@ -10,7 +10,6 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.util.Util;
 import net.minecraft.world.item.ItemStackTemplate;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.phys.Vec2;
 import org.joml.Vector3f;
 
 import java.util.List;

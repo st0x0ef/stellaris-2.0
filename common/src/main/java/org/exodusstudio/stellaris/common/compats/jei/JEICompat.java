@@ -1,7 +1,5 @@
 package org.exodusstudio.stellaris.common.compats.jei;
 
-import org.exodusstudio.stellaris.Stellaris;
-
 public final class JEICompat {
 
     private static final boolean JEI_AVAILABLE;
