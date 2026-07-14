@@ -17,6 +17,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.chunk.ChunkAccess;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
+import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.common.blocks.CoalGeneratorBlock;
 import org.exodusstudio.stellaris.common.blocks.PumpjackBlock;
 import org.exodusstudio.stellaris.common.blocks.entities.machines.base.BaseEnergyContainerBlockEntity;
@@ -34,7 +35,6 @@ import java.util.List;
 public class PumpjackBlockEntity extends BaseEnergyContainerBlockEntity implements FluidProvider.BLOCK {
 
     private boolean isGenerating = false;
-    private static final long oilToExtract = 10;
     public final SingleFluidStorage resultTank;
 
     public PumpjackBlockEntity(BlockPos pos, BlockState state) {
@@ -69,14 +69,14 @@ public class PumpjackBlockEntity extends BaseEnergyContainerBlockEntity implemen
             NetworkManager.sendToPlayers(level.getServer().getPlayerList().getPlayers(), new SyncOilLevelPacket(access.stellaris$getChunkOilLevel(), pos.x(), pos.z()));
         }
 
-        int actualOilToExtract = (int) oilToExtract;
+        int actualOilToExtract = Stellaris.CONFIG.oilConfig.oilExtractionPerTick;
 
-        if (access.stellaris$getChunkOilLevel() < oilToExtract) {
+        if (access.stellaris$getChunkOilLevel() < actualOilToExtract) {
             actualOilToExtract = access.stellaris$getChunkOilLevel();
+        }
 
-            if (actualOilToExtract == 0) {
-                return;
-            }
+        if (actualOilToExtract == 0) {
+            return;
         }
 
         if (energyContainer.getEnergy() >= 2 * actualOilToExtract) {

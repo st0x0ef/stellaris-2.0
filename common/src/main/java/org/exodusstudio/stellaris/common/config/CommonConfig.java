@@ -17,6 +17,7 @@ public class CommonConfig {
         public int minOil = 10;
         public int maxOil = 50000;
 
+        public int oilExtractionPerTick = 5;
     }
 
     @ScreenInfos.InnerConfig

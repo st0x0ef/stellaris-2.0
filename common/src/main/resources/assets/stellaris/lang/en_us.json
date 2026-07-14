@@ -373,6 +373,7 @@
   "config.stellaris.chunkOilChance": "Chunk Oil Chance",
   "config.stellaris.minOil": "Minimum Oil",
   "config.stellaris.maxOil": "Maximum Oil",
+  "config.stellaris.oilExtractionPerTick": "Oil Extraction Per Tick",
 
   "config.stellaris.gravityConfig": "Gravity Settings",
   "config.stellaris.enableGravityEffects": "Enable Gravity Effects",
