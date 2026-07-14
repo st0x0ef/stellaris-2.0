@@ -170,65 +170,59 @@ public final class BlocksRegistry {
      */
 
     // ENERGY GENERATORS
-    public static final BlockItemRegistrySupplier SOLAR_PANEL = blockWithItem("solar_panel", BlockBehaviour.Properties.of(), SolarPanelBlock::new);
-    public static final BlockItemRegistrySupplier COAL_GENERATOR = blockWithItem("coal_generator", BlockBehaviour.Properties.of(), CoalGeneratorBlock::new);
-    public static final BlockItemRegistrySupplier DIESEL_GENERATOR = blockWithItem("diesel_generator", BlockBehaviour.Properties.of(), DieselGeneratorBlock::new);
+    public static final BlockItemRegistrySupplier SOLAR_PANEL = blockWithItem("solar_panel", BlockBehaviour.Properties.of().strength(3.0F).noOcclusion(), SolarPanelBlock::new);
+    public static final BlockItemRegistrySupplier COAL_GENERATOR = blockWithItem("coal_generator", BlockBehaviour.Properties.of().strength(3.0F), CoalGeneratorBlock::new);
+    public static final BlockItemRegistrySupplier DIESEL_GENERATOR = blockWithItem("diesel_generator", BlockBehaviour.Properties.of().strength(3.0F), DieselGeneratorBlock::new);
 
     // FOOD PROCESSING
-    public static final BlockItemRegistrySupplier VACUUMATOR = blockWithItem("vacuumator", BlockBehaviour.Properties.of(), VacuumatorBlock::new);
+    public static final BlockItemRegistrySupplier VACUUMATOR = blockWithItem("vacuumator", BlockBehaviour.Properties.of().strength(3.0F), VacuumatorBlock::new);
 
-    // POWER STORAGE
-    public static final BlockItemRegistrySupplier POWER_BANK_T1 = blockWithCustomItem("power_bank_t1", BlockBehaviour.Properties.of(), (p) -> new PowerBankBlock(p, (short) 1), new Item.Properties(), PowerBankItem::new);
+    // STORAGE
+    public static final BlockItemRegistrySupplier POWER_BANK_T1 = blockWithCustomItem("power_bank_t1", BlockBehaviour.Properties.of().strength(3.0F), (p) -> new PowerBankBlock(p, (short) 1), new Item.Properties(), PowerBankItem::new);
+    public static final BlockItemRegistrySupplier FLUID_TANK_T1 = blockWithItem("fluid_tank_t1", BlockBehaviour.Properties.of().strength(3.0F), (p) -> new FluidTankBlock(p, 5000), new Item.Properties()); // TODO : item should keep it fluid inside
 
-    // CABLES/PIPES/FLUIDS
-    public static final BlockItemRegistrySupplier CABLE_T1 = blockWithItem("cable_t1", BlockBehaviour.Properties.of(), (p) -> new CableBlock(p, 20));
-    public static final BlockItemRegistrySupplier T1_PIPE = blockWithItem("pipe_t1", BlockBehaviour.Properties.ofFullCopy(Blocks.IRON_CHAIN), (p) -> new PipeBlock(p, 1000, 250, 250));
-    public static final BlockItemRegistrySupplier FLUID_TANK_T1 = blockWithItem("fluid_tank_t1", BlockBehaviour.Properties.of(), (p) -> new FluidTankBlock(p, 5000), new Item.Properties()); // TODO : item should keep it fluid inside
+    // CABLES/PIPES
+    public static final BlockItemRegistrySupplier CABLE_T1 = blockWithItem("cable_t1", BlockBehaviour.Properties.of().strength(1.0F).noOcclusion(), (p) -> new CableBlock(p, 20));
+    public static final BlockItemRegistrySupplier T1_PIPE = blockWithItem("pipe_t1", BlockBehaviour.Properties.of().strength(1.0F).noOcclusion(), (p) -> new PipeBlock(p, 1000, 250, 250));
 
     // TECH
-    public static final BlockItemRegistrySupplier ELECTROLYZER = blockWithItem("electrolyzer", BlockBehaviour.Properties.of(), ElectrolyzerBlock::new, new Item.Properties());
-    public static final BlockItemRegistrySupplier GRAVITY_MANIPULATOR = blockWithItem("gravity_manipulator", BlockBehaviour.Properties.of().noOcclusion(), GravityManipulatorBlock::new);
+    public static final BlockItemRegistrySupplier ELECTROLYZER = blockWithItem("electrolyzer", BlockBehaviour.Properties.of().strength(3.0F), ElectrolyzerBlock::new, new Item.Properties());
+    public static final BlockItemRegistrySupplier GRAVITY_MANIPULATOR = blockWithItem("gravity_manipulator", BlockBehaviour.Properties.of().strength(3.0F).noOcclusion(), GravityManipulatorBlock::new);
     public static final BlockItemRegistrySupplier PUMPJACK = blockWithItem(
             "pumpjack",
-            BlockBehaviour.Properties.of()
-                    .noOcclusion()
-                    .isSuffocating(BlocksRegistry::never)
-                    .isViewBlocking(BlocksRegistry::never),
+            BlockBehaviour.Properties.of().strength(3.0F).noOcclusion().isSuffocating(BlocksRegistry::never).isViewBlocking(BlocksRegistry::never),
             PumpjackBlock::new,
             new Item.Properties()
     );
     public static final RegistrySupplier<Block> PUMPJACK_PROXY = block(
             "pumpjack_proxy",
-            BlockBehaviour.Properties.of()
-                    .noOcclusion()
-                    .isSuffocating(BlocksRegistry::never)
-                    .isViewBlocking(BlocksRegistry::never),
+            BlockBehaviour.Properties.of().strength(3.0F).noOcclusion().isSuffocating(BlocksRegistry::never).isViewBlocking(BlocksRegistry::never),
             PumpjackProxyBlock::new
     );
-    public static final BlockItemRegistrySupplier FUEL_REFINERY = blockWithItem("fuel_refinery", BlockBehaviour.Properties.of(), FuelRefineryBlock::new, new Item.Properties());
+    public static final BlockItemRegistrySupplier FUEL_REFINERY = blockWithItem("fuel_refinery", BlockBehaviour.Properties.of().strength(3.0F), FuelRefineryBlock::new, new Item.Properties());
 
     // OXYGEN
-    public static final BlockItemRegistrySupplier OXYGEN_DISTRIBUTOR = blockWithItem("oxygen_distributor", BlockBehaviour.Properties.of(), OxygenDistributorBlock::new);
-    public static final BlockItemRegistrySupplier OXYGEN_PROPAGATOR = blockWithItem("oxygen_propagator", BlockBehaviour.Properties.of(), OxygenPropagatorBlock::new);
+    public static final BlockItemRegistrySupplier OXYGEN_DISTRIBUTOR = blockWithItem("oxygen_distributor", BlockBehaviour.Properties.of().strength(3.0F), OxygenDistributorBlock::new);
+    public static final BlockItemRegistrySupplier OXYGEN_PROPAGATOR = blockWithItem("oxygen_propagator", BlockBehaviour.Properties.of().strength(3.0F), OxygenPropagatorBlock::new);
 
     // ROCKET
-    public static final BlockItemRegistrySupplier ENGINEERING_STATION = blockWithCustomItem("engineering_station", BlockBehaviour.Properties.of(), EngineeringStationBlock::new, new Item.Properties(), BlockItem::new);
-    public static final BlockItemRegistrySupplier ROCKET_LAUNCH_PAD = blockWithCustomItem("rocket_launch_pad", BlockBehaviour.Properties.of(), RocketLaunchPadBlock::new, new Item.Properties(), BlockItem::new);
+    public static final BlockItemRegistrySupplier ENGINEERING_STATION = blockWithCustomItem("engineering_station", BlockBehaviour.Properties.of().strength(3.0F).noOcclusion(), EngineeringStationBlock::new, new Item.Properties(), BlockItem::new);
+    public static final BlockItemRegistrySupplier ROCKET_LAUNCH_PAD = blockWithCustomItem("rocket_launch_pad", BlockBehaviour.Properties.of().strength(3.0F).noOcclusion(), RocketLaunchPadBlock::new, new Item.Properties(), BlockItem::new);
     public static final RegistrySupplier<Block> ROCKET_LAUNCH_PAD_PROXY = block(
             "rocket_launch_pad_proxy",
-            BlockBehaviour.Properties.of()
+            BlockBehaviour.Properties.of().strength(3.0F)
                     .noOcclusion()
                     .isSuffocating(BlocksRegistry::never)
                     .isViewBlocking(BlocksRegistry::never),
             RocketLaunchPadProxyBlock::new
     );
-    public static final BlockItemRegistrySupplier ANTENNA = blockWithCustomItem("antenna", BlockBehaviour.Properties.of(), AntennaBlock::new, new Item.Properties(),
+    public static final BlockItemRegistrySupplier ANTENNA = blockWithCustomItem("antenna", BlockBehaviour.Properties.of().strength(3.0F), AntennaBlock::new, new Item.Properties(),
             (b, p) -> new TooltipBlockItem(b, p).addTooltip(AntennaBlock.TOOLTIP));
-    public static final BlockItemRegistrySupplier CARGO_UNLOADER = blockWithItem("cargo_unloader", BlockBehaviour.Properties.of().noOcclusion(), CargoUnloaderBlock::new);
+    public static final BlockItemRegistrySupplier CARGO_UNLOADER = blockWithItem("cargo_unloader", BlockBehaviour.Properties.of().strength(3.0F).noOcclusion(), CargoUnloaderBlock::new);
 
 
     // LORE
-    public static final BlockItemRegistrySupplier LABORATORY = blockWithItem("laboratory", BlockBehaviour.Properties.of(), LaboratoryBlock::new, new Item.Properties());
+    public static final BlockItemRegistrySupplier LABORATORY = blockWithItem("laboratory", BlockBehaviour.Properties.of().strength(3.0F).noOcclusion(), LaboratoryBlock::new, new Item.Properties());
 
 
     /**
@@ -251,7 +245,8 @@ public final class BlocksRegistry {
             BlockBehaviour.Properties.of()
                     .noOcclusion()
                     .isSuffocating(BlocksRegistry::never)
-                    .isViewBlocking(BlocksRegistry::never),
+                    .isViewBlocking(BlocksRegistry::never)
+                    .strength(2.5F),
             FlagBlock::new
     );
 
@@ -260,7 +255,8 @@ public final class BlocksRegistry {
             BlockBehaviour.Properties.of()
                     .noOcclusion()
                     .isSuffocating(BlocksRegistry::never)
-                    .isViewBlocking(BlocksRegistry::never),
+                    .isViewBlocking(BlocksRegistry::never)
+                    .strength(2.5F),
             FlagProxyBlock::new
     );
 
