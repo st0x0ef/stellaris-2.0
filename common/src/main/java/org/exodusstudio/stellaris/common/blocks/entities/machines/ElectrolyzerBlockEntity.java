@@ -95,6 +95,7 @@ public class ElectrolyzerBlockEntity extends BaseEnergyContainerBlockEntity impl
 
         //Move fluid to item for ingredient tank
         FluidUtil.moveFluidFromItem(0, 1, 0, items, ingredientTank, 1000);
+        setChanged();
 
         if (level instanceof ServerLevel serverLevel) {
             Optional<RecipeHolder<ElectrolyzeRecipe>> recipeHolder = cachedCheck.getRecipeFor(new FluidInput(this), serverLevel);

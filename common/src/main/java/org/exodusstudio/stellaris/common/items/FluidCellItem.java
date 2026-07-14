@@ -63,8 +63,6 @@ public class FluidCellItem extends Item implements FluidProvider.ITEM {
 
     @Override
     public void appendHoverText(ItemStack stack, TooltipContext context, TooltipDisplay tooltipDisplay, Consumer<Component> tooltipAdder, TooltipFlag flag) {
-        super.appendHoverText(stack, context, tooltipDisplay, tooltipAdder, flag);
-
         UniversalFluidItemStorage fluidStorage = getFluidTank(stack);
         if (fluidStorage != null) {
             FluidStack fluidStack = fluidStorage.getFluidInTank(0);

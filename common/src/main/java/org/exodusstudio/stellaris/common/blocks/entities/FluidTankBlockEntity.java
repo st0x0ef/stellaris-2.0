@@ -82,15 +82,18 @@ public class FluidTankBlockEntity extends BaseContainerBlockEntity implements Fl
 
     @Override
     public void tick(Level level, BlockState state) {
-
+        boolean changed = false;
         //First - Insert slot
         if (!items.getFirst().isEmpty()) {
             FluidUtil.moveFluidFromItem(0, 0, 0, items, fluidTank, 1000);
+            changed = true;
         }
 
         //Last - Extract slot
-        if (!items.getLast().isEmpty())
+        if (!items.getLast().isEmpty()) {
             FluidUtil.moveFluidToItem(0, fluidTank, 1, 1, items, 1000);
+            changed = true;
+        }
 
         // Output to every side except the top (the top is the fill face).
         FluidUtil.distributeFluidNearby(level, getBlockPos(), fluidTank.getFluidInTank(0),
@@ -101,6 +104,10 @@ public class FluidTankBlockEntity extends BaseContainerBlockEntity implements Fl
         if (initialRenderStage != state.getValue(FluidTankBlock.STAGE)) {
             BlockState newState = state.setValue(FluidTankBlock.STAGE, initialRenderStage);
             level.setBlock(getBlockPos(), newState, 3);
+            changed = true;
+        }
+
+        if (changed) {
             setChanged();
         }
     }

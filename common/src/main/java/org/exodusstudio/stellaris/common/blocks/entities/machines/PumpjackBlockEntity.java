@@ -57,6 +57,7 @@ public class PumpjackBlockEntity extends BaseEnergyContainerBlockEntity implemen
     @Override
     public void tick(Level level, BlockState state) {
         FluidUtil.moveFluidToItem(0, resultTank, 0, 1, items, 1000);
+        setChanged();
 
         // Push extracted oil into any adjacent pipe network (or a directly-touching tank/machine).
         FluidUtil.distributeFluidNearby(level, worldPosition, resultTank.getFluidInTank(0));

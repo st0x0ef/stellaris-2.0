@@ -91,6 +91,7 @@ public class FuelRefineryBlockEntity extends BaseEnergyContainerBlockEntity impl
         FluidUtil.moveFluidToItem(0, inputTank, 0, 1, items, 1000);
         FluidUtil.moveFluidToItem(0, outputFuelTank, 2, 3, items, 1000);
         FluidUtil.moveFluidToItem(0, outputDieselTank, 4, 5, items, 1000);
+        setChanged();
 
 
         if (level == null) {
