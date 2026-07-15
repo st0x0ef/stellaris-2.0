@@ -1,14 +1,15 @@
 {
   "type": "minecraft:crafting_shaped",
   "pattern": [
-    "TIT",
-    "ICI",
+    "CIC",
+    "BTB",
     "TIT"
   ],
   "key": {
     "T": "stellaris:titanium_ingot",
     "I": "minecraft:iron_ingot",
-    "R": "stellaris:cable_t1"
+    "R": "stellaris:cable_t1",
+    "B": "minecraft:bucket"
   },
   "result": {
     "id": "stellaris:electrolyzer",
