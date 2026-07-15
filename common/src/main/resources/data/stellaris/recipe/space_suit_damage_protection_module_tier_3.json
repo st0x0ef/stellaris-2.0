@@ -1,14 +1,14 @@
 {
   "type": "minecraft:crafting_shaped",
   "pattern": [
-    "ABA",
-    "BCB",
-    "ABA"
+    "NTN",
+    "TMT",
+    "NTN"
   ],
   "key": {
-    "A": "stellaris:desh_ingot",
-    "B": "stellaris:titanium_ingot",
-    "C": "minecraft:netherite_chestplate"
+    "N": "minecraft:netherite_ingot",
+    "M": "stellaris:space_suit_damage_protection_module_tier_2",
+    "T": "stellaris:titanium_ingot"
   },
   "result": {"id": "stellaris:space_suit_damage_protection_module_tier_3"}
 }

@@ -1,14 +1,14 @@
 {
   "type": "minecraft:crafting_shaped",
   "pattern": [
-    "ABA",
-    "BCB",
-    "ABA"
+    "NTN",
+    "TIT",
+    "NTN"
   ],
   "key": {
-    "A": "minecraft:iron_ingot",
-    "B": "stellaris:titanium_nugget",
-    "C": "minecraft:iron_chestplate"
+    "N": "minecraft:iron_nugget",
+    "T": "stellaris:titanium_ingot",
+    "I": "minecraft:iron_ingot"
   },
   "result": {"id": "stellaris:space_suit_damage_protection_module_tier_1"}
 }
