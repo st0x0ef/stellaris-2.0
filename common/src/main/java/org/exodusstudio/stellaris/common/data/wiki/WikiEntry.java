@@ -2,8 +2,14 @@ package org.exodusstudio.stellaris.common.data.wiki;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.tags.TagKey;
 
 public record WikiEntry(
         Identifier id,
@@ -18,6 +24,16 @@ public record WikiEntry(
             Identifier.CODEC.fieldOf("icon").forGetter(WikiEntry::icon),
             Identifier.CODEC.fieldOf("hoverIcon").forGetter(WikiEntry::hoverIcon)
     ).apply(instance, WikiEntry::new));
+
+
+    public static final StreamCodec<RegistryFriendlyByteBuf, WikiEntry> STREAM_CODEC = StreamCodec.composite(
+            Identifier.STREAM_CODEC, WikiEntry::id,
+            ByteBufCodecs.STRING_UTF8, WikiEntry::description,
+            Identifier.STREAM_CODEC, WikiEntry::icon,
+            Identifier.STREAM_CODEC, WikiEntry::hoverIcon,
+            WikiEntry::new
+    );
+
 
     public Component getTitle() {
         return Component.translatable("wiki." + id.getNamespace() + "." + id.getPath() + ".title");
