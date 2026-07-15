@@ -48,7 +48,7 @@ public class FluidUtil {
         }
 
         if (slot != resultSlot) items.set(slot, ItemStack.EMPTY);
-        items.set(resultSlot, to.getContainer());
+        items.set(resultSlot, to.getContainer().copy());
     }
 
     public static void moveFluidFromItem(int tank, int slot, int remainingItemSlot, NonNullList<ItemStack> items, UniversalFluidStorage to, long amount) {
@@ -75,12 +75,14 @@ public class FluidUtil {
             items.set(slot, ItemStack.EMPTY);
         }
 
+        ItemStack remainingContainer = from.getContainer().copy();
+
         if (!fluidMoved.isEmpty() && actualRemainingItems.isEmpty()) {
-            items.set(remainingItemSlot, from.getContainer());
+            items.set(remainingItemSlot, remainingContainer);
         }
-        else if (!fluidMoved.isEmpty() && actualRemainingItems.is(from.getContainer().getItem())) {
-            if (actualRemainingItems.getCount() + from.getContainer().getCount() < actualRemainingItems.getMaxStackSize()) {
-                items.set(remainingItemSlot, actualRemainingItems.copyWithCount(actualRemainingItems.getCount() + from.getContainer().getCount()));
+        else if (!fluidMoved.isEmpty() && actualRemainingItems.is(remainingContainer.getItem())) {
+            if (actualRemainingItems.getCount() + remainingContainer.getCount() < actualRemainingItems.getMaxStackSize()) {
+                items.set(remainingItemSlot, actualRemainingItems.copyWithCount(actualRemainingItems.getCount() + remainingContainer.getCount()));
             }
             else {
                 items.set(remainingItemSlot, actualRemainingItems.copyWithCount(actualRemainingItems.getMaxStackSize()));
