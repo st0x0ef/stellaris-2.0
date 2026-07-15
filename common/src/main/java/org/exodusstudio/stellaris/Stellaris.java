@@ -16,6 +16,7 @@ import org.exodusstudio.stellaris.common.data.PlanetsData;
 import org.exodusstudio.stellaris.common.data.SdCardData;
 import org.exodusstudio.stellaris.common.events.Events;
 import org.exodusstudio.stellaris.common.network.NetworkRegistry;
+import org.exodusstudio.stellaris.common.network.packets.SyncSDCards;
 import org.exodusstudio.stellaris.common.network.packets.SyncWiki;
 import org.exodusstudio.stellaris.common.registries.*;
 import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
@@ -79,6 +80,8 @@ public final class Stellaris {
     public static void onDatapackSyncEvent(ServerPlayer player, boolean joined) {
         if (joined) {
             NetworkManager.sendToPlayer(player, new SyncWiki(WikiPacks.ENTRY_COMPONENTS, WikiPacks.ENTRIES));
+            NetworkManager.sendToPlayer(player, new SyncSDCards(SdCardData.SD_CARDS));
+
         }
     }
 
