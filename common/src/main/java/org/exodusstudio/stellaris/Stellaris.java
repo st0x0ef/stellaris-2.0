@@ -53,6 +53,7 @@ public final class Stellaris {
         CreativeTabsRegistry.register();
         StatsRegistry.STATS.register();
         MenuTypesRegistry.MENU_TYPE.register();
+        MenuProviderRegistry.register();
         SoundRegistry.SOUNDS.register();
 
         ArgumentsTypesRegistry.init();

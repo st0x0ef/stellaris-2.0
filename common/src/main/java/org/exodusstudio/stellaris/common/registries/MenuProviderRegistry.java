@@ -13,4 +13,5 @@ public class MenuProviderRegistry {
     public static final OpenBlockEntityMenusPacket.BlockEntityMenuProvider VACCINE = new OpenBlockEntityMenusPacket.BlockEntityMenuProvider("vaccine", MenuUtils::createVaccineMenu);
     public static final OpenBlockEntityMenusPacket.BlockEntityMenuProvider RESEARCH = new OpenBlockEntityMenusPacket.BlockEntityMenuProvider("research", MenuUtils::createResearchMenu);
 
+    public static void register() {}
 }

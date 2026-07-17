@@ -87,5 +87,4 @@ public class OpenBlockEntityMenusPacket implements CustomPacketPayload {
             TYPES.put(this.id, this);
         }
     }
-
 }
