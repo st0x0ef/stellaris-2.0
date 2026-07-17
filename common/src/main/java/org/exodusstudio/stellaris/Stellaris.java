@@ -4,8 +4,10 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.Strictness;
 import com.google.gson.ToNumberPolicy;
+import dev.architectury.networking.NetworkManager;
 import dev.architectury.registry.ReloadListenerRegistry;
 import fr.tathan.exoconfig.common.loader.ConfigsRegistry;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.packs.PackType;
 import org.exodusstudio.stellaris.common.data.space_station.SpaceStationData;
 import org.exodusstudio.stellaris.common.data.wiki.WikiPacks;
@@ -14,6 +16,8 @@ import org.exodusstudio.stellaris.common.data.PlanetsData;
 import org.exodusstudio.stellaris.common.data.SdCardData;
 import org.exodusstudio.stellaris.common.events.Events;
 import org.exodusstudio.stellaris.common.network.NetworkRegistry;
+import org.exodusstudio.stellaris.common.network.packets.SyncSDCards;
+import org.exodusstudio.stellaris.common.network.packets.SyncWiki;
 import org.exodusstudio.stellaris.common.registries.*;
 import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
 import org.slf4j.Logger;
@@ -73,4 +77,13 @@ public final class Stellaris {
         ReloadListenerRegistry.register(PackType.SERVER_DATA, new WikiPacks.WikiEntryPack(), IdentifierUtils.id(WikiPacks.WikiEntryPack.ID));
         ReloadListenerRegistry.register(PackType.SERVER_DATA, new WikiPacks.EntryInfoPack(), IdentifierUtils.id(WikiPacks.EntryInfoPack.ID));
     }
+
+    public static void onDatapackSyncEvent(ServerPlayer player, boolean joined) {
+        if (joined) {
+            NetworkManager.sendToPlayer(player, new SyncWiki(WikiPacks.ENTRY_COMPONENTS, WikiPacks.ENTRIES));
+            NetworkManager.sendToPlayer(player, new SyncSDCards(SdCardData.SD_CARDS));
+
+        }
+    }
+
 }

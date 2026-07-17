@@ -12,7 +12,7 @@ import java.util.Map;
 public class SdCardData extends SimpleJsonResourceReloadListener<SdCard> {
     public static final String ID = "sd_cards";
 
-    private static final Map<String, SdCard> SD_CARDS = new HashMap<>();
+    public static final Map<String, SdCard> SD_CARDS = new HashMap<>();
 
     public SdCardData() {
         super(SdCard.CODEC, FileToIdConverter.json(ID));
@@ -29,4 +29,5 @@ public class SdCardData extends SimpleJsonResourceReloadListener<SdCard> {
     public static SdCard getSdCard(String identifier) {
         return SD_CARDS.getOrDefault(identifier, SD_CARDS.get("stellaris:error"));
     }
+
 }
