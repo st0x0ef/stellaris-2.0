@@ -20,6 +20,7 @@ import org.exodusstudio.stellaris.client.renderers.gravity_manipulator.GravityMa
 import org.exodusstudio.stellaris.client.renderers.lander.LanderRenderer;
 import org.exodusstudio.stellaris.client.renderers.launchpad.RocketLaunchPadBlockRenderer;
 import org.exodusstudio.stellaris.client.renderers.mobs.*;
+import org.exodusstudio.stellaris.client.renderers.mobs.starcrawler.StarCrawlerRenderer;
 import org.exodusstudio.stellaris.client.renderers.rockets.RocketRenderer;
 import org.exodusstudio.stellaris.client.screens.*;
 import org.exodusstudio.stellaris.client.screens.engineering_station.EngineUpgraderScreen;
@@ -113,6 +114,7 @@ public final class StellarisFabricClient implements ClientModInitializer {
                         0.65F
                 )
         );
+        EntityRendererRegistry.register(EntityTypesRegistry.STAR_CRAWLER.get(), StarCrawlerRenderer::new);
         EntityRendererRegistry.register(EntityTypesRegistry.ALIEN.get(), AlienRenderer::new);
     }
 

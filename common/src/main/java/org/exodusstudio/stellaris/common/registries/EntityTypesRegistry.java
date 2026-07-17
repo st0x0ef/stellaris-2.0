@@ -10,6 +10,7 @@ import net.minecraft.world.entity.vehicle.boat.ChestBoat;
 import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.common.entities.alien.AlienEntity;
 import org.exodusstudio.stellaris.common.entities.mobs.*;
+import org.exodusstudio.stellaris.common.entities.mobs.starcrawler.StarCrawlerEntity;
 import org.exodusstudio.stellaris.common.entities.vehicles.LanderEntity;
 import org.exodusstudio.stellaris.common.entities.vehicles.RocketEntity;
 import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
@@ -52,6 +53,12 @@ public class EntityTypesRegistry {
                 .sized(1.1F, 2.6F)
                 .fireImmune()
                 .build(IdentifierUtils.resourceKey(Registries.ENTITY_TYPE, "luna_shadow")));
+
+    public static final RegistrySupplier<EntityType<StarCrawlerEntity>> STAR_CRAWLER = ENTITY_TYPE.register("star_crawler",
+        () -> EntityType.Builder.of(StarCrawlerEntity::new, MobCategory.MONSTER)
+                .sized(1.45F, 1.25F)
+                .clientTrackingRange(8)
+                .build(IdentifierUtils.resourceKey(Registries.ENTITY_TYPE, "star_crawler")));
 
     public static final RegistrySupplier<EntityType<AlienEntity>> ALIEN = ENTITY_TYPE.register("alien",
         () -> EntityType.Builder.of(AlienEntity::new, MobCategory.CREATURE)

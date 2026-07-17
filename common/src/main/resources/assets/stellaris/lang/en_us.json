@@ -252,6 +252,7 @@
   "item.stellaris.parasite_affected_villager_spawn_egg": "Parasite-Affected Villager Spawn Egg",
   "item.stellaris.parasite_affected_villager_evolved_spawn_egg": "Evolved Parasite-Affected Villager Spawn Egg",
   "item.stellaris.luna_shadow_spawn_egg": "Luna Shadow Spawn Egg",
+  "item.stellaris.star_crawler_spawn_egg": "Starcrawler Spawn Egg",
   "item.stellaris.alien_spawn_egg": "Alien Spawn Egg",
 
   "entity.stellaris.alien": "Alien",
@@ -465,6 +466,7 @@
   "entity.stellaris.parasite_affected_villager": "Parasite-Affected Villager",
   "entity.stellaris.parasite_affected_villager_evolved": "Evolved Parasite-Affected Villager",
   "entity.stellaris.luna_shadow": "Luna Shadow",
+  "entity.stellaris.star_crawler": "Starcrawler",
 
 
   "stat.stellaris.rocket_launched": "Rocket Launched",
