@@ -5,16 +5,11 @@ import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
-import net.minecraft.resources.Identifier;
 import org.exodusstudio.stellaris.common.data.SdCard;
 import org.exodusstudio.stellaris.common.data.SdCardData;
-import org.exodusstudio.stellaris.common.data.wiki.EntryInfo;
-import org.exodusstudio.stellaris.common.data.wiki.WikiEntry;
-import org.exodusstudio.stellaris.common.data.wiki.WikiPacks;
 import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public record SyncSDCards(Map<String, SdCard> sdCards) implements CustomPacketPayload {

@@ -4,8 +4,6 @@ import com.mojang.datafixers.util.Either;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import io.netty.buffer.ByteBuf;
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
@@ -16,7 +14,6 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.util.Util;
 import net.minecraft.world.item.ItemStackTemplate;
 import net.minecraft.world.level.block.Block;
-import org.exodusstudio.stellaris.common.network.packets.SyncEnergyPacket;
 import org.joml.Vector3f;
 
 import java.util.List;

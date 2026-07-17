@@ -138,11 +138,10 @@ public class BurntForestTreeFeature extends Feature<NoneFeatureConfiguration> {
                     int h = (random.nextFloat() > 0.8f)
                             ? 20 + random.nextInt(7) : 6 + random.nextInt(8);
                     placeTrunk(level, pos, h, random);
-                    placedAny = true;
                 } else {
                     placeFallenLog(level, pos, origin, random);
-                    placedAny = true;
                 }
+                placedAny = true;
             }
         }
         return placedAny;
