@@ -50,9 +50,7 @@ public class MoonLoreUtils {
                 player.stellaris$saveDataAttachments(MOON_LORE_PROGRESSION, 0);
                 return true;
             } else {
-                if (random.nextInt(100) <= parasiteUsed / (currentStage + 1)) {
-                    return true;
-                }
+                return random.nextInt(100) <= parasiteUsed / (currentStage + 1);
             }
         }
 

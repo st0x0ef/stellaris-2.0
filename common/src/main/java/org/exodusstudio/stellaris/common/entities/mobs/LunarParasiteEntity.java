@@ -939,11 +939,7 @@ public class LunarParasiteEntity extends Monster {
         this.refreshDimensions();
         this.setOldPosAndRot();
 
-        if (nextTarget != null) {
-            this.setTarget(nextTarget);
-        } else {
-            this.setTarget(null);
-        }
+        this.setTarget(nextTarget);
 
         Vec3 dropDirection = Vec3.ZERO;
 
