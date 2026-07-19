@@ -41,7 +41,7 @@ public class ElectrolyzerBlockEntity extends BaseEnergyContainerBlockEntity impl
 
     private final RecipeManager.CachedCheck<FluidInput, ElectrolyzeRecipe> cachedCheck = RecipeManager.createCheck(RecipesRegistry.ELECTROLYZE_RECIPE_TYPE.get());
 
-    public final SingleFluidStorage ingredientTank = new SingleFluidStorage(3000, 3000, 0) {
+    public final SingleFluidStorage ingredientTank = new SingleFluidStorage(10000, 10000, 0) {
 
         @Override
         protected void onChange() {
@@ -59,7 +59,7 @@ public class ElectrolyzerBlockEntity extends BaseEnergyContainerBlockEntity impl
         }
     };
 
-    public final MultipleFluidStorage resultTanks = new MultipleFluidStorage(2, 6000, 0, 1000) {
+    public final MultipleFluidStorage resultTanks = new MultipleFluidStorage(2, 10000, 0, 10000) {
 
         @Override
         protected void onChange(int tank) {
