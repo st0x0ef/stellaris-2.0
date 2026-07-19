@@ -612,6 +612,7 @@
   "block.stellaris.electrolyzer": "Electrolyzer",
   "block.stellaris.gravity_manipulator": "Gravity Manipulator",
   "block.stellaris.fuel_refinery": "Fuel Refinery",
+  "block.stellaris.water_pump": "Water Pump",
   "block.stellaris.oxygen_distributor": "Oxygen Distributor",
   "block.stellaris.oxygen_propagator": "Oxygen Propagator",
   "block.stellaris.engineering_station": "Engineering Station",

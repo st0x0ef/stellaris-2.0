@@ -29,6 +29,9 @@ public class BlockEntitiesRegistry {
     public static final Supplier<BlockEntityType<?>> FUEL_REFINERY = BLOCK_ENTITY_TYPE.register("fuel_refinery",
             () -> new BlockEntityType<>(FuelRefineryBlockEntity::new, Set.of(BlocksRegistry.FUEL_REFINERY.block().get())));
 
+    public static final Supplier<BlockEntityType<?>> WATER_PUMP = BLOCK_ENTITY_TYPE.register("water_pump",
+            () -> new BlockEntityType<>(WaterPumpBlockEntity::new, Set.of(BlocksRegistry.WATER_PUMP.block().get())));
+
     public static final Supplier<BlockEntityType<?>> CARGO_UNLOADER = BLOCK_ENTITY_TYPE.register("cargo_unloader",
             () -> new BlockEntityType<>(CargoUnloaderBlockEntity::new, Set.of(BlocksRegistry.CARGO_UNLOADER.block().get())));
 

@@ -199,6 +199,7 @@ public final class BlocksRegistry {
             PumpjackProxyBlock::new
     );
     public static final BlockItemRegistrySupplier FUEL_REFINERY = blockWithItem("fuel_refinery", BlockBehaviour.Properties.of().strength(3.0F), FuelRefineryBlock::new, new Item.Properties());
+    public static final BlockItemRegistrySupplier WATER_PUMP = blockWithItem("water_pump", BlockBehaviour.Properties.of().mapColor(MapColor.METAL).strength(4.5F, 3F).sound(SoundType.METAL).noOcclusion(), WaterPumpBlock::new);
 
     // OXYGEN
     public static final BlockItemRegistrySupplier OXYGEN_DISTRIBUTOR = blockWithItem("oxygen_distributor", BlockBehaviour.Properties.of().strength(3.0F), OxygenDistributorBlock::new);

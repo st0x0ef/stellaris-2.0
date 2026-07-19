@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "T",
+    "X",
+    "S"
+  ],
+  "key": {
+    "T": "stellaris:cable_t1",
+    "X": "minecraft:bucket",
+    "S": "stellaris:titanium_ingot"
+  },
+  "result": {
+    "id": "stellaris:water_pump",
+    "count": 1
+  }
+}

@@ -5,19 +5,6 @@
     "stellaris:deepslate_titanium_ore",
     "stellaris:moon_titanium_ore",
     "stellaris:moon_desh_ore",
-    "stellaris:moon_stone_iron_ore",
-    "stellaris:solar_panel",
-    "stellaris:coal_generator",
-    "stellaris:diesel_generator",
-    "stellaris:vacuumator",
-    "stellaris:power_bank_t1",
-    "stellaris:electrolyzer",
-    "stellaris:gravity_manipulator",
-    "stellaris:pumpjack",
-    "stellaris:fuel_refinery",
-    "stellaris:oxygen_distributor",
-    "stellaris:oxygen_propagator",
-    "stellaris:engineering_station",
-    "stellaris:rocket_launch_pad"
+    "stellaris:moon_stone_iron_ore"
   ]
 }
