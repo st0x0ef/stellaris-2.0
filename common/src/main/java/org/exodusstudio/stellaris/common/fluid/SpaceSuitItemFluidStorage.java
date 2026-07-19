@@ -16,7 +16,7 @@ public class SpaceSuitItemFluidStorage extends ItemFluidStorage {
     }
 
     @Override
-    public boolean isFluidValid(int tank, FluidStack stack) {
-        return stack.getFluid().isSame(tankModule.getFuel());
+    public boolean isFluidValid(int tank, FluidStack fluidStack) {
+        return fluidStack.getFluid().isSame(tankModule.getFuel());
     }
 }

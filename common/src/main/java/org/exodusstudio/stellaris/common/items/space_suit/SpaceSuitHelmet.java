@@ -2,10 +2,10 @@ package org.exodusstudio.stellaris.common.items.space_suit;
 
 import com.fej1fun.potentials.energy.ItemEnergyStorage;
 import com.fej1fun.potentials.energy.UniversalEnergyStorage;
-import com.fej1fun.potentials.fluid.ItemFluidStorage;
 import com.fej1fun.potentials.fluid.UniversalFluidItemStorage;
 import com.fej1fun.potentials.providers.EnergyProvider;
 import com.fej1fun.potentials.providers.FluidProvider;
+import org.exodusstudio.stellaris.common.fluid.OxygenItemFluidStorage;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
@@ -28,7 +28,7 @@ public class SpaceSuitHelmet extends SpaceSuitItem implements FluidProvider.ITEM
 
     @Override
     public @Nullable UniversalFluidItemStorage getFluidTank(@NotNull ItemStack itemStack) {
-        return new ItemFluidStorage(DataComponentsRegistry.FLUID_LIST.get(), itemStack, 1, getOxygenCapacity(itemStack));
+        return new OxygenItemFluidStorage(DataComponentsRegistry.FLUID_LIST.get(), itemStack, 1, getOxygenCapacity(itemStack));
     }
 
     public int getOxygenCapacity(ItemStack stack) {

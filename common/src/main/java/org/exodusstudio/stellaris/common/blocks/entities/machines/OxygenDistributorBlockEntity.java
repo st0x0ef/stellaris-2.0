@@ -1,6 +1,5 @@
 package org.exodusstudio.stellaris.common.blocks.entities.machines;
 
-import com.fej1fun.potentials.capabilities.Capabilities;
 import com.fej1fun.potentials.fluid.UniversalFluidItemStorage;
 import dev.architectury.fluid.FluidStack;
 import net.minecraft.core.BlockPos;
@@ -15,6 +14,7 @@ import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.common.blocks.entities.machines.base.BaseEnergyContainerBlockEntity;
+import org.exodusstudio.stellaris.common.fluid.FluidUtil;
 import org.exodusstudio.stellaris.common.menus.OxygenDistributorMenu;
 import org.exodusstudio.stellaris.common.registries.BlockEntitiesRegistry;
 import org.exodusstudio.stellaris.common.utils.OxygenUtils;
@@ -56,7 +56,7 @@ public class OxygenDistributorBlockEntity extends BaseEnergyContainerBlockEntity
         coveredChunks.clear();
 
         if (energyContainer.getEnergy() > 0) {
-            UniversalFluidItemStorage itemStorage = Capabilities.Fluid.ITEM.getCapability(getItem(0));
+            UniversalFluidItemStorage itemStorage = FluidUtil.getItemFluidStorage(getItem(0));
             if (itemStorage != null) {
                 FluidStack fluidStack = itemStorage.getFluidInTank(0);
                 if (!fluidStack.isEmpty()) {

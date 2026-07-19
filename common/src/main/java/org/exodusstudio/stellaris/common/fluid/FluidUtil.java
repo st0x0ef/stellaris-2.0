@@ -4,6 +4,7 @@ import com.fej1fun.potentials.capabilities.Capabilities;
 import com.fej1fun.potentials.fluid.BaseFluidStorage;
 import com.fej1fun.potentials.fluid.UniversalFluidItemStorage;
 import com.fej1fun.potentials.fluid.UniversalFluidStorage;
+import com.fej1fun.potentials.providers.FluidProvider;
 import dev.architectury.fluid.FluidStack;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -20,6 +21,16 @@ public class FluidUtil {
 
     private static final List<Direction> ALL_DIRECTIONS = List.of(Direction.values());
 
+    public static UniversalFluidItemStorage getItemFluidStorage(ItemStack stack) {
+        if (stack.getItem() instanceof FluidProvider.ITEM provider) {
+            UniversalFluidItemStorage storage = provider.getFluidTank(stack);
+            if (storage != null) {
+                return storage;
+            }
+        }
+        return Capabilities.Fluid.ITEM.getCapability(stack);
+    }
+
     public static void moveFluidToItem(int tank, UniversalFluidStorage from, int slot, int resultSlot, NonNullList<ItemStack> items, long amount) {
         if (items.get(slot).isEmpty()) {
             return;
@@ -30,7 +41,7 @@ public class FluidUtil {
             return;
         }
 
-        UniversalFluidItemStorage to = Capabilities.Fluid.ITEM.getCapability(items.get(slot));
+        UniversalFluidItemStorage to = getItemFluidStorage(items.get(slot));
 
         if (to == null) {
             return;
@@ -62,7 +73,7 @@ public class FluidUtil {
             return;
         }
 
-        UniversalFluidItemStorage from = Capabilities.Fluid.ITEM.getCapability(items.get(slot));
+        UniversalFluidItemStorage from = getItemFluidStorage(items.get(slot));
 
         if (from == null) {
             return;
