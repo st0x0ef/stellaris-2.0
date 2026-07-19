@@ -26,6 +26,6 @@ public class ArmorMaterialsRegistry {
             10,
             SoundEvents.ARMOR_EQUIP_GENERIC,
             2.0F, 0.0F,
-            TagsRegistry.ItemTags.TITANIUM_MATERIALS, // TODO : change repair item tag
+            TagsRegistry.ItemTags.TITANIUM_INGOTS,
             ResourceKey.create(key, IdentifierUtils.id("space_suit")));
 }

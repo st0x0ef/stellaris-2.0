@@ -17,14 +17,14 @@ public class TagsRegistry {
         public static final TagKey<Item> CAN = addTag("can");
         public static final TagKey<Item> SPACE_SUIT = addTag("space_suit");
 
-        public static final TagKey<Item> TITANIUM_MATERIALS = addCTag("titanium_materials");
+        public static final TagKey<Item> TITANIUM_INGOTS = addCTag("ingots/titanium");
 
         public static TagKey<Item> addTag(String path) {
             return TagKey.create(Registries.ITEM, IdentifierUtils.id(path));
         }
 
         public static TagKey<Item> addTag(String path, String modid) {
-            return TagKey.create(Registries.ITEM, Identifier.fromNamespaceAndPath(path, modid));
+            return TagKey.create(Registries.ITEM, Identifier.fromNamespaceAndPath(modid, path));
         }
 
         public static TagKey<Item> addCTag(String path) {
@@ -48,7 +48,7 @@ public class TagsRegistry {
         }
 
         public static TagKey<Block> addTag(String path, String modid) {
-            return TagKey.create(Registries.BLOCK, Identifier.fromNamespaceAndPath(path, modid));
+            return TagKey.create(Registries.BLOCK, Identifier.fromNamespaceAndPath(modid, path));
         }
 
         public static TagKey<Block> addCTag(String path) {
@@ -78,7 +78,7 @@ public class TagsRegistry {
         }
 
         public static TagKey<EntityType<?>> addTag(String path, String modid) {
-            return TagKey.create(Registries.ENTITY_TYPE, Identifier.fromNamespaceAndPath(path, modid));
+            return TagKey.create(Registries.ENTITY_TYPE, Identifier.fromNamespaceAndPath(modid, path));
         }
 
         public static TagKey<EntityType<?>> addCTag(String path) {
@@ -94,7 +94,7 @@ public class TagsRegistry {
         }
 
         public static TagKey<Fluid> addTag(String path, String modid) {
-            return TagKey.create(Registries.FLUID, Identifier.fromNamespaceAndPath(path, modid));
+            return TagKey.create(Registries.FLUID, Identifier.fromNamespaceAndPath(modid, path));
         }
 
         public static TagKey<Fluid> addCTag(String path) {
