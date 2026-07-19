@@ -13,7 +13,7 @@ import net.minecraft.world.item.ItemStack;
 public class ArmorPlatform {
     @FunctionalInterface
     public interface ArmorFactory {
-        HumanoidModel<?> create(ModelPart root, EquipmentSlot slot, ItemStack stack, HumanoidModel<HumanoidRenderState> parentModel);
+        HumanoidModel<HumanoidRenderState> create(ModelPart root, EquipmentSlot slot, ItemStack stack, HumanoidModel<HumanoidRenderState> parentModel);
     }
 
     @ExpectPlatform

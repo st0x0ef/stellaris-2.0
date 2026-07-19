@@ -144,6 +144,14 @@ public class SpaceSuitModel extends HumanoidModel<HumanoidRenderState> {
     }
 
     @Override
+    public void setupAnim(HumanoidRenderState state) {
+        super.setupAnim(state);                             // poses head/body/arms/legs (+ resetPose)
+        this.waist.loadPose(this.body.storePose());         // waist follows the torso
+        this.leftShoe.loadPose(this.leftLeg.storePose());   // boots follow the legs
+        this.rightShoe.loadPose(this.rightLeg.storePose());
+    }
+
+    @Override
     public ModelPart getArm(HumanoidArm side) {
         return switch (side) {
             case LEFT -> this.leftArm;
