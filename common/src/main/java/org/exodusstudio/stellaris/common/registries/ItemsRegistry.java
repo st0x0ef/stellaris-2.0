@@ -86,9 +86,9 @@ public final class ItemsRegistry {
     public static final RegistrySupplier<RocketSkinModuleItem> MILITARY_SKIN = item("military_skin", p -> new RocketSkinModuleItem(p, "military"));
 
     // Models
-    public static final RegistrySupplier<RocketModelModuleItem<?>> TINY_MODEL = item("tiny_model", p -> new RocketModelModuleItem<>(p, "tiny", "tiny", 3.75f));
-    public static final RegistrySupplier<RocketModelModuleItem<?>> SMALL_MODEL = item("small_model", p -> new RocketModelModuleItem<>(p, "small", "small", 4.75f));
-    public static final RegistrySupplier<RocketModelModuleItem<?>> BIG_MODEL = item("big_model", p -> new RocketModelModuleItem<>(p, "big", "big", 4.25f));
+    public static final RegistrySupplier<RocketModelModuleItem<?>> TINY_ROCKET_MODEL = item("tiny_rocket_model", p -> new RocketModelModuleItem<>(p, "tiny", "tiny", 4.75f));
+    public static final RegistrySupplier<RocketModelModuleItem<?>> SMALL_ROCKET_MODEL = item("small_rocket_model", p -> new RocketModelModuleItem<>(p, "small", "small", 4.25f));
+    public static final RegistrySupplier<RocketModelModuleItem<?>> BIG_ROCKET_MODEL = item("big_rocket_model", p -> new RocketModelModuleItem<>(p, "big", "big", 3.75f));
 
     /** Space Suit Items */
     public static final RegistrySupplier<Item> SPACE_SUIT_HELMET = item("space_suit_helmet",  SpaceSuitHelmet::new);

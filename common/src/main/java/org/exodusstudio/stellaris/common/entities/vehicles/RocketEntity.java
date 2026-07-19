@@ -331,7 +331,7 @@ public class RocketEntity extends VehicleEntity {
 
     @Override
     public @NotNull Vec3 getPassengerRidingPosition(Entity entity) {
-        float yOffset = 3.75f;
+        float yOffset = 4.75f;
         for (RocketModule rocketModule : this.getRocketModules()) {
             if (rocketModule instanceof RocketModule.CustomModelModule modelUpgrade) {
                 yOffset = modelUpgrade.getPlayerYOffset();

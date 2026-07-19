@@ -163,7 +163,7 @@
         },
         {
           "type": "minecraft:item",
-          "name": "stellaris:tiny_model",
+          "name": "stellaris:small_rocket_model",
           "weight": 10
         },
         {
