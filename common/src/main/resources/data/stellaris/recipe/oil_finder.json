@@ -2,13 +2,13 @@
   "type": "minecraft:crafting_shaped",
   "pattern": [
     " X ",
-    "YZY",
+    "YSY",
     " Y "
   ],
   "key": {
     "X": "minecraft:redstone_torch",
     "Y": "stellaris:titanium_nugget",
-    "Z": "minecraft:glass_pane"
+    "S": "stellaris:silicon"
   },
   "result": {
     "id": "stellaris:oil_finder"

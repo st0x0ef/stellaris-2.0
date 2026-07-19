@@ -3,7 +3,7 @@
   "energyContainer": 50,
   "ingredient": {
     "id": "minecraft:water",
-    "amount": 5
+    "amount": 10
   },
   "results": [
     {

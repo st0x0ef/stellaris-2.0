@@ -3,12 +3,13 @@
   "pattern": [
     "TIT",
     "IPI",
-    "TIT"
+    "SSS"
   ],
   "key": {
     "T": "stellaris:titanium_ingot",
     "I": "minecraft:iron_ingot",
-    "P": "minecraft:piston"
+    "P": "minecraft:piston",
+    "S": "stellaris:silicon"
   },
   "result": {
     "id": "stellaris:pumpjack",

@@ -2,13 +2,13 @@
   "type": "minecraft:crafting_shaped",
   "pattern": [
     "ABA",
-    "BCB",
+    "BMB",
     "ABA"
   ],
   "key": {
     "A": "stellaris:desh_ingot",
     "B": "stellaris:titanium_ingot",
-    "C": "stellaris:engine_fan"
+    "M": "stellaris:space_suit_jet_module_tier_2"
   },
   "result": {"id": "stellaris:space_suit_jet_module_tier_3"}
 }

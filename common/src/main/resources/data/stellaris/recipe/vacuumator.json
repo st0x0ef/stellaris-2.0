@@ -3,13 +3,14 @@
   "pattern": [
     "TGT",
     "TRT",
-    "III"
+    "ISI"
   ],
   "key": {
     "T": "stellaris:titanium_ingot",
     "G": "minecraft:glass",
     "R": "minecraft:redstone",
-    "I": "minecraft:iron_ingot"
+    "I": "minecraft:iron_ingot",
+    "S": "stellaris:silicon"
   },
   "result": {
     "id": "stellaris:vacuumator",

@@ -3,12 +3,13 @@
   "pattern": [
     "DTD",
     "TCT",
-    "DTD"
+    "STS"
   ],
   "key": {
     "D": "minecraft:diamond",
     "T": "stellaris:titanium_ingot",
-    "C": "minecraft:crafting_table"
+    "C": "minecraft:crafting_table",
+    "S": "stellaris:silicon"
   },
   "result": {
     "id": "stellaris:engineering_station",

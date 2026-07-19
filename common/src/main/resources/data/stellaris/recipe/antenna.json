@@ -2,13 +2,14 @@
   "type": "minecraft:crafting_shaped",
   "pattern": [
     "RLR",
-    "SRS",
-    "SSS"
+    "TRT",
+    "STS"
   ],
   "key": {
     "L": "minecraft:lightning_rod",
-    "S": "stellaris:titanium_ingot",
-    "R": "minecraft:redstone"
+    "T": "stellaris:titanium_ingot",
+    "R": "minecraft:redstone",
+    "S": "stellaris:silicon"
   },
   "result": {
     "id": "stellaris:antenna",

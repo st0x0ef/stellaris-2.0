@@ -2,13 +2,13 @@
   "type": "minecraft:crafting_shaped",
   "pattern": [
     "ABA",
-    "BCB",
+    "BMB",
     "ABA"
   ],
   "key": {
     "A": "stellaris:titanium_ingot",
     "B": "minecraft:iron_ingot",
-    "C": "minecraft:compass"
+    "M": "stellaris:space_suit_oil_finder_module_tier_1"
   },
   "result": {"id": "stellaris:space_suit_oil_finder_module_tier_2"}
 }

@@ -1,13 +1,13 @@
 {
   "type": "minecraft:crafting_shaped",
   "pattern": [
-    " T ",
-    "TGT",
-    " T "
+    "TTT",
+    "TFT",
+    "TTT"
   ],
   "key": {
     "T": "stellaris:titanium_ingot",
-    "G": "minecraft:glass"
+    "F": "stellaris:engine_fan"
   },
   "result": {
     "id": "stellaris:oxygen_propagator"
