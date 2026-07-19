@@ -9,6 +9,7 @@ import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.client.renderer.state.level.CameraRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.Identifier;
+import net.minecraft.util.Mth;
 import net.minecraft.world.phys.AABB;
 import org.exodusstudio.stellaris.common.entities.vehicles.RoverEntity;
 import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
@@ -36,7 +37,7 @@ public class RoverRenderer extends EntityRenderer<RoverEntity, RoverRenderState>
         state.isForward = entity.isForward();
         state.isBackward = entity.isBackward();
         state.xRot = entity.getXRot();
-        state.yRot = entity.getYRot();
+        state.yRot = Mth.rotLerp(partialTick, entity.yRotO, entity.getYRot());
         state.deltaMovement = entity.getDeltaMovement();
         state.direction = entity.getDirection();
         state.ageInTicks = entity.tickCount + partialTick;

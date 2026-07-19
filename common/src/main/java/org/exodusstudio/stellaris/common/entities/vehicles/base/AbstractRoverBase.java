@@ -42,6 +42,8 @@ public abstract class AbstractRoverBase extends IVehicleEntity {
 
     protected float deltaRotation;
 
+    private static final float STEERING_SMOOTHING = 0.2F;
+
     private float wheelRotation;
 
     private boolean collidedLastTick;
@@ -172,6 +174,8 @@ public abstract class AbstractRoverBase extends IVehicleEntity {
             distanceBeforeNextFuelConsumption = distanceBetweenFuelConsumption;
         }
 
+        this.yRotO = this.getYRot();
+
         float speed = getRoverSpeed(0.5F);
 
         setSpeed(speed);
@@ -182,19 +186,19 @@ public abstract class AbstractRoverBase extends IVehicleEntity {
             rotationSpeed = Mth.clamp(rotationSpeed, getMinRotationSpeed(), getMaxRotationSpeed());
         }
 
-        deltaRotation = 0;
-
         if (speed < 0) {
             rotationSpeed = -rotationSpeed;
         }
 
+        float targetRotation = 0;
         if (isLeft()) {
-            deltaRotation -= rotationSpeed;
+            targetRotation -= rotationSpeed;
         }
         if (isRight()) {
-            deltaRotation += rotationSpeed;
+            targetRotation += rotationSpeed;
         }
 
+        deltaRotation += (targetRotation - deltaRotation) * STEERING_SMOOTHING;
         deltaRotation = Mth.clamp(deltaRotation, -45.0F, 45.0F);
 
         setYRot(getYRot() + deltaRotation);
@@ -494,10 +498,6 @@ public abstract class AbstractRoverBase extends IVehicleEntity {
     @Override
     public LivingEntity getControllingPassenger() {
         return getDriver();
-    }
-
-    public boolean canBeCollidedWith() {
-        return true;
     }
 
     public boolean displayFireAnimation() {
