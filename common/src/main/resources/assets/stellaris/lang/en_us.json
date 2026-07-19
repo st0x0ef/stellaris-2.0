@@ -46,7 +46,7 @@
   "item.stellaris.desh_plating_stairs": "Desh Plating Stairs",
   "item.stellaris.vertical_desh_plating_slab": "Vertical Desh Plating Slab",
   "item.stellaris.vertical_desh_slab": "Vertical Desh Slab",
-  "item.stellaris.desh_pillar": "Desh pillar",
+  "item.stellaris.desh_pillar": "Desh Pillar",
 
   "item.stellaris.silicon": "Silicon",
 
@@ -129,6 +129,7 @@
   "item.stellaris.vacuumator": "Vacuumator",
   "item.stellaris.electrolyzer": "Electrolyzer",
   "item.stellaris.pumpjack": "Pumpjack",
+  "item.stellaris.water_pump": "Water Pump",
   "item.stellaris.fuel_refinery": "Fuel Refinery",
   "item.stellaris.gravity_manipulator": "Gravity Manipulator",
   "item.stellaris.engineering_station": "Engineering Station",
@@ -143,7 +144,6 @@
 
   "item.stellaris.hydrogen_bucket": "Hydrogen Bucket",
   "item.stellaris.fuel_bucket": "Fuel Bucket",
-  "item.stellaris.oxygen_bucket": "Oxygen Bucket",
   "item.stellaris.oil_bucket": "Oil Bucket",
   "item.stellaris.diesel_bucket": "Diesel Bucket",
   "item.stellaris.blue_liquid_bucket": "Blue Liquid Bucket",
@@ -243,6 +243,9 @@
   "item.stellaris.big_yellow_can": "Big Yellow Can",
 
   "item.stellaris.flag": "Flag",
+
+  "item.stellaris.earth_globe": "Earth Globe",
+  "item.stellaris.moon_globe": "Moon Globe",
 
   "item.stellaris.parasite": "Parasite",
   "item.stellaris.pathogen_storage_cell": "Pathogen Storage Cell",
@@ -408,6 +411,8 @@
   "config.stellaris.parasiteConfig.desc": "Settings related to the parasite infection system.",
   "config.stellaris.researchDelay": "Research Delay",
 
+  "config.stellaris.alienConfig": "Alien Settings",
+  "config.stellaris.enableAlienSpawn": "Enable Alien Spawn",
   "config.stellaris.alienConfig.desc": "Settings related to Aliens.",
   "config.stellaris.alienConfig.enableAlienSpawn.desc": "Enable or disable Aliens. When disabled, existing Aliens despawn.",
 
@@ -455,6 +460,7 @@
 
 
   "effect.stellaris.infected": "Infected",
+  "effect.stellaris.corrosion": "Corrosion",
 
   "entity.stellaris.rocket": "Rocket",
   "entity.stellaris.lander": "Lander",
@@ -597,14 +603,15 @@
   "block.stellaris.casus_astrum_stone": "Casus Astrum Stone",
   "block.stellaris.casus_astrum_stone_slab": "Casus Astrum Stone Slab",
   "block.stellaris.casus_astrum_stone_stairs": "Casus Astrum Stone Stairs",
-  "block.stellaris.astrum_vitreus_block": "Astrum Viterus Block",
-  "block.stellaris.astrum_vitreus_cluster": "Astrum Viterus Cluster",
+  "block.stellaris.astrum_vitreus_block": "Astrum Vitreus Block",
+  "block.stellaris.astrum_vitreus_cluster": "Astrum Vitreus Cluster",
   "block.stellaris.casus_astrum_dirt": "Casus Astrum Dirt",
   "block.stellaris.casus_astrum_grass": "Casus Astrum Grass",
   "block.stellaris.solar_panel": "Solar Panel",
   "block.stellaris.coal_generator": "Coal Generator",
   "block.stellaris.diesel_generator": "Diesel Generator",
   "block.stellaris.vacuumator": "Vacuumator",
+  "block.stellaris.pumpjack": "Pumpjack",
   "block.stellaris.power_bank_t1": "Tier 1 Power Bank",
   "block.stellaris.cable_t1": "Cable",
   "block.stellaris.pipe_t1": "Pipe",
@@ -619,5 +626,6 @@
   "block.stellaris.rocket_launch_pad": "Rocket Launch Pad",
   "block.stellaris.antenna": "Antenna",
   "block.stellaris.cargo_unloader": "Cargo Unloader",
-  "block.stellaris.laboratory": "Laboratory"
+  "block.stellaris.laboratory": "Laboratory",
+  "block.stellaris.flag": "Flag"
 }
