@@ -22,7 +22,7 @@ import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.NotNull;
 
-public class FlagProxyBlock extends Block {
+public class FlagProxyBlock extends Block implements MultiblockProxyBlock {
 
     public static final IntegerProperty PART = IntegerProperty.create("part", 1, 3);
     public static final EnumProperty<Direction> FACING = HorizontalDirectionalBlock.FACING;
@@ -108,6 +108,11 @@ public class FlagProxyBlock extends Block {
             return proxyPos.below(2).relative(proxyState.getValue(FACING).getCounterClockWise());
         }
         return proxyPos.below(part);
+    }
+
+    @Override
+    public BlockPos getControllerPos(BlockPos proxyPos, BlockState proxyState) {
+        return getMainPos(proxyPos, proxyState);
     }
 
     @Override

@@ -39,6 +39,8 @@ dependencies {
     compileOnly "mezz.jei:jei-$rootProject.minecraft_version-neoforge-api:$rootProject.jei_version"
     runtimeOnly "mezz.jei:jei-$rootProject.minecraft_version-neoforge:$rootProject.jei_version"
 
+    runtimeOnly "maven.modrinth:jade:${rootProject.jade_version}+neoforge"
+
     common(project(path: ':common')) { transitive = false }
     shadowCommon(project(path: ':common', configuration: 'transformProductionNeoForge')) { transitive = false }
 }

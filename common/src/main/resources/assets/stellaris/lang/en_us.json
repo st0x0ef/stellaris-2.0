@@ -1,4 +1,8 @@
 {
+  "jade.stellaris.flag_owner": "Placed by %s",
+  "config.jade.plugin_stellaris.proxy_as_main": "Multiblock Proxy as Main Block",
+  "config.jade.plugin_stellaris.flag_owner": "Flag Owner",
+
   "itemGroup.stellaris.stellaris": "Stellaris",
   "itemGroup.stellaris.stellaris_blocks" : "Stellaris Blocks",
 

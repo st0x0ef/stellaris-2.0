@@ -42,6 +42,7 @@ subprojects {
         maven { url 'https://maven.exodusstudio.org/snapshots' }
         maven { url 'https://maven.terraformersmc.com/releases' }
         maven { url 'https://maven.blamejared.com/' }
+        maven { url 'https://api.modrinth.com/maven' } // Jade
         maven {
             name = 'NeoForged'
             url = 'https://maven.neoforged.net/releases'

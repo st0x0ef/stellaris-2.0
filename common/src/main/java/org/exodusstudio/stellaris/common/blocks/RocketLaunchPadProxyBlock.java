@@ -28,7 +28,7 @@ import java.util.EnumMap;
 import java.util.Locale;
 import java.util.Map;
 
-public class RocketLaunchPadProxyBlock extends Block {
+public class RocketLaunchPadProxyBlock extends Block implements MultiblockProxyBlock {
 
     public static final EnumProperty<Direction> FACING = BlockStateProperties.HORIZONTAL_FACING;
     public static final EnumProperty<RocketLaunchPadProxyPart> PART = EnumProperty.create("part", RocketLaunchPadProxyPart.class);
@@ -209,6 +209,11 @@ public class RocketLaunchPadProxyBlock extends Block {
                 .relative(facing, -part.forwardOffset)
                 .relative(facing.getClockWise(), -part.cwOffset)
                 .below(part.upOffset);
+    }
+
+    @Override
+    public BlockPos getControllerPos(BlockPos proxyPos, BlockState proxyState) {
+        return getMainPos(proxyPos, proxyState);
     }
 
     public enum RocketLaunchPadProxyPart implements StringRepresentable {

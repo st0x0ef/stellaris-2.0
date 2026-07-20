@@ -24,7 +24,7 @@ import java.util.Locale;
 
 // Proxy block for the Pumpjack multiblock, basically just place them everywhere the model goes :)
 
-public class PumpjackProxyBlock extends Block {
+public class PumpjackProxyBlock extends Block implements MultiblockProxyBlock {
 
     public static final EnumProperty<Direction> FACING = BlockStateProperties.HORIZONTAL_FACING;
     public static final EnumProperty<PumpjackProxyPart> PART = EnumProperty.create("part", PumpjackProxyPart.class);
@@ -133,6 +133,11 @@ public class PumpjackProxyBlock extends Block {
         return proxyPos
                 .relative(facing, -part.forwardOffset)
                 .below(part.upOffset);
+    }
+
+    @Override
+    public BlockPos getControllerPos(BlockPos proxyPos, BlockState proxyState) {
+        return getMainPos(proxyPos, proxyState);
     }
 
     public enum PumpjackProxyPart implements StringRepresentable {
