@@ -17,7 +17,6 @@ import java.util.List;
 public interface NetworkRegistry {
 
     CustomPacketPayload.Type<OpenMenuPacket> OPEN_MENU_PACKET_TYPE = new CustomPacketPayload.Type<>(Identifier.fromNamespaceAndPath(Stellaris.MOD_ID, "open_menu"));
-    CustomPacketPayload.Type<SyncRoverComponentPacket> SYNC_ROVER_COMPONENT_ID = new CustomPacketPayload.Type<>(Identifier.fromNamespaceAndPath(Stellaris.MOD_ID, "sync_rover_component"));
     CustomPacketPayload.Type<SyncRoverPacket> SYNC_ROVER_CONTROLS = new CustomPacketPayload.Type<>(Identifier.fromNamespaceAndPath(Stellaris.MOD_ID, "sync_rover_packet"));
 
     static void init() {
@@ -60,7 +59,7 @@ public interface NetworkRegistry {
         registerC2S(OxygenDebugRequestPacket.TYPE, OxygenDebugRequestPacket.STREAM_CODEC, OxygenDebugRequestPacket::handle);
         registerS2C(OxygenDebugResponsePacket.TYPE, OxygenDebugResponsePacket.STREAM_CODEC, OxygenDebugResponsePacket::handle);
 
-        registerS2C(SYNC_ROVER_COMPONENT_ID, SyncRoverComponentPacket.STREAM_CODEC, SyncRoverComponentPacket::handle);
+        registerS2C(SyncRoverDataPacket.TYPE, SyncRoverDataPacket.STREAM_CODEC, SyncRoverDataPacket::handle);
         registerC2S(SYNC_ROVER_CONTROLS, SyncRoverPacket.STREAM_CODEC, SyncRoverPacket::handle);
     }
 

@@ -15,14 +15,13 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.SpawnEggItem;
 import net.minecraft.world.item.SignItem;
 import net.minecraft.world.item.equipment.ArmorMaterials;
-import org.exodusstudio.stellaris.client.screens.utils.GUISprites;
-import org.exodusstudio.stellaris.common.components.RoverComponent;
 import org.exodusstudio.stellaris.common.data.space_station.SpaceStationRecipe;
 import org.exodusstudio.stellaris.common.items.*;
 import org.exodusstudio.stellaris.common.items.infection.ParasiteItem;
 import org.exodusstudio.stellaris.common.items.infection.PathogenStorageCellItem;
 import org.exodusstudio.stellaris.common.items.infection.VaccineItem;
 import org.exodusstudio.stellaris.common.items.modules.rocket.*;
+import org.exodusstudio.stellaris.common.items.modules.rover.*;
 import org.exodusstudio.stellaris.common.items.modules.space_suit.*;
 import org.exodusstudio.stellaris.common.items.space_suit.SpaceSuitBoots;
 import org.exodusstudio.stellaris.common.items.space_suit.SpaceSuitChestplate;
@@ -30,8 +29,7 @@ import org.exodusstudio.stellaris.common.items.space_suit.SpaceSuitHelmet;
 import org.exodusstudio.stellaris.common.items.space_suit.SpaceSuitLeggings;
 import org.exodusstudio.stellaris.common.items.tools.*;
 import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
-import org.exodusstudio.stellaris.common.vehicle_upgrade.MotorUpgrade;
-import org.exodusstudio.stellaris.common.vehicle_upgrade.TankUpgrade;
+import org.exodusstudio.stellaris.common.vehicle_upgrade.FuelType;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.function.Function;
@@ -68,7 +66,13 @@ public final class ItemsRegistry {
     public static final RegistrySupplier<SDCardItem> SD_CARD = item("sd_card", (p) -> new SDCardItem(p, "stellaris:creative"));
 
     /** Rover */
-    public static final RegistrySupplier<RoverItem> ROVER = item("rover", p -> new RoverItem(p.component(DataComponentsRegistry.ROVER_COMPONENT.get(), new RoverComponent(MotorUpgrade.getBasic(false).getFuelType().getSerializedName(), 0, GUISprites.FUEL_OVERLAY, TankUpgrade.getBasic().getTankCapacity(), 1))));
+    public static final RegistrySupplier<RoverItem> ROVER = item("rover", RoverItem::new);
+
+    // Rover Modules
+    public static final RegistrySupplier<RoverCargoModuleItem> ROVER_CARGO_MODULE = item("rover_cargo_module", p -> new RoverCargoModuleItem(p, 2));
+    public static final RegistrySupplier<RoverTankModuleItem> ROVER_TANK_MODULE = item("rover_tank_module", p -> new RoverTankModuleItem(p, 6000));
+    public static final RegistrySupplier<RoverSpeedModuleItem> ROVER_SPEED_MODULE = item("rover_speed_module", p -> new RoverSpeedModuleItem(p, 1.5f));
+    public static final RegistrySupplier<RoverMotorModuleItem> ROVER_HYDROGEN_MOTOR = item("rover_hydrogen_motor", p -> new RoverMotorModuleItem(p, FuelType.Type.HYDROGEN));
 
 
     /** Rocket */

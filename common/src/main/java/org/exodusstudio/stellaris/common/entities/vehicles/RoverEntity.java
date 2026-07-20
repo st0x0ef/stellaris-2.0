@@ -1,22 +1,23 @@
 package org.exodusstudio.stellaris.common.entities.vehicles;
 
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.world.inventory.ContainerListener;
 import net.minecraft.world.phys.Vec3;
-import org.exodusstudio.stellaris.common.components.RoverComponent;
 import org.exodusstudio.stellaris.common.entities.vehicles.base.AbstractRoverBase;
-import org.exodusstudio.stellaris.common.items.VehicleUpgradeItem;
 import org.exodusstudio.stellaris.common.menus.RoverMenu;
-import org.exodusstudio.stellaris.common.network.packets.SyncRoverComponentPacket;
+import org.exodusstudio.stellaris.common.modules.Modules;
+import org.exodusstudio.stellaris.common.modules.rover.RoverModule;
+import org.exodusstudio.stellaris.common.modules.rover.RoverModules;
+import org.exodusstudio.stellaris.common.network.packets.SyncRoverDataPacket;
 import org.exodusstudio.stellaris.common.registries.DataComponentsRegistry;
+import org.exodusstudio.stellaris.common.registries.EntityDataSerializersRegistry;
 import org.exodusstudio.stellaris.common.registries.ItemsRegistry;
+import org.exodusstudio.stellaris.common.registries.ModulesRegistry;
 import org.exodusstudio.stellaris.common.vehicle_upgrade.FuelType;
-import org.exodusstudio.stellaris.common.vehicle_upgrade.MotorUpgrade;
-import org.exodusstudio.stellaris.common.vehicle_upgrade.SpeedUpgrade;
-import org.exodusstudio.stellaris.common.vehicle_upgrade.TankUpgrade;
 import dev.architectury.networking.NetworkManager;
 import dev.architectury.registry.menu.ExtendedMenuProvider;
 import dev.architectury.registry.menu.MenuRegistry;
-import io.netty.buffer.Unpooled;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
@@ -39,51 +40,104 @@ import net.minecraft.world.level.storage.ValueOutput;
 import org.exodusstudio.stellaris.common.utils.InventorySaver;
 import org.joml.Vector3d;
 
+import java.util.Optional;
+
 public class RoverEntity extends AbstractRoverBase implements HasCustomInventoryScreen, ContainerListener {
 
-    public MotorUpgrade motorUpgrade;
-    public TankUpgrade tankUpgrade;
-    public SpeedUpgrade speedUpgrade;
-    public final SimpleContainer inventory;
+    public static final EntityDataAccessor<Modules<RoverModule>> ROVER_MODULES = SynchedEntityData.defineId(RoverEntity.class, EntityDataSerializersRegistry.ROVER_MODULES);
 
-    public RoverComponent roverComponent;
+    /** Maximum inventory rows (1 base + cargo module rows). Governs the backing container size. */
+    public static final int MAX_INVENTORY_ROWS = 3;
+
+    private static final int BASE_TANK_CAPACITY = 3000;
+    private static final int REFUEL_AMOUNT = 1000;
+
+    /**
+     * Fuel burned each time the {@code distanceBetweenFuelConsumption} interval (20 blocks) is crossed while driving.
+     * At 2 units / 20 blocks a full {@link #BASE_TANK_CAPACITY} tank lasts ~30,000 blocks (~10,000 per bucket).
+     */
+    private static final int FUEL_CONSUMPTION_PER_INTERVAL = 2;
+
+    public final SimpleContainer inventory;
 
     public RoverEntity(EntityType type, Level worldIn) {
         super(type, worldIn);
-        this.inventory = new SimpleContainer(13);
-
-        this.motorUpgrade = MotorUpgrade.getBasic(false);
-        this.tankUpgrade = TankUpgrade.getBasic();
-        this.speedUpgrade = SpeedUpgrade.getBasic();
+        this.inventory = new SimpleContainer(2 + 9 * MAX_INVENTORY_ROWS);
         this.FUEL = 0;
         this.FUEL_TYPE = FuelType.Type.DIESEL;
-        this.roverComponent = new RoverComponent(FUEL_TYPE.getSerializedName(), FUEL, FUEL_TYPE.getFuelTexture(),
-                tankUpgrade.getTankCapacity(), speedUpgrade.getSpeedModifier());
     }
 
-    public void setRoverComponent(RoverComponent roverComponent) {
-        this.roverComponent = roverComponent;
+    @Override
+    protected void defineSynchedData(SynchedEntityData.Builder builder) {
+        super.defineSynchedData(builder);
+        builder.define(ROVER_MODULES, RoverModules.empty());
+    }
 
-        this.motorUpgrade = roverComponent.getMotorUpgrade();
-        this.tankUpgrade = roverComponent.getTankUpgrade();
-        this.speedUpgrade = roverComponent.getSpeedUpgrade();
-        this.FUEL = roverComponent.getFuel();
-        this.FUEL_TYPE = roverComponent.getFuelType();
+    public void setRoverModules(Modules<RoverModule> modules) {
+        this.entityData.set(ROVER_MODULES, modules);
+    }
+
+    public Modules<RoverModule> getRoverModules() {
+        return this.entityData.get(ROVER_MODULES);
+    }
+
+    /**
+     * The fuel type the motor accepts, driven by an installed MOTOR module (defaults to diesel).
+     */
+    public FuelType.Type getMotorFuelType() {
+        for (RoverModule module : this.getRoverModules()) {
+            if (module.getRoverFeature() == RoverModule.RoverFeature.MOTOR && module.getFuelType() != null) {
+                return module.getFuelType();
+            }
+        }
+        return FuelType.Type.DIESEL;
+    }
+
+    /**
+     * The tank capacity, driven by an installed TANK module (defaults to {@link #BASE_TANK_CAPACITY}).
+     */
+    public int getTankCapacity() {
+        for (RoverModule module : this.getRoverModules()) {
+            if (module.getRoverFeature() == RoverModule.RoverFeature.TANK && module.getTankCapacity() > 0) {
+                return module.getTankCapacity();
+            }
+        }
+        return BASE_TANK_CAPACITY;
+    }
+
+    /**
+     * The speed multiplier, driven by an installed SPEED module (defaults to 1).
+     */
+    public float getSpeedModifier() {
+        for (RoverModule module : this.getRoverModules()) {
+            if (module.getRoverFeature() == RoverModule.RoverFeature.SPEED) {
+                return module.getSpeedModifier();
+            }
+        }
+        return 1f;
+    }
+
+    public int getInventoryRows() {
+        int rows = 1;
+        for (RoverModule module : this.getRoverModules()) {
+            rows += module.getExtraInventoryRows();
+        }
+        return Math.min(rows, MAX_INVENTORY_ROWS);
     }
 
     @Override
     public float getMaxSpeed() {
-        return 0.8F * speedUpgrade.getSpeedModifier();
+        return 0.8F * getSpeedModifier();
     }
 
     @Override
     public float getMaxReverseSpeed() {
-        return 0.6F * speedUpgrade.getSpeedModifier();
+        return 0.6F * getSpeedModifier();
     }
 
     @Override
     public float getAcceleration() {
-        return (1.8F * speedUpgrade.getSpeedModifier() * 0.5f) / 2;
+        return (1.8F * getSpeedModifier() * 0.5f) / 2;
     }
 
     @Override
@@ -165,7 +219,7 @@ public class RoverEntity extends AbstractRoverBase implements HasCustomInventory
         this.checkContainer();
 
         if (getDriver() instanceof ServerPlayer serverPlayer) {
-            this.syncRocketData(serverPlayer);
+            this.syncRoverData(serverPlayer);
         }
     }
 
@@ -175,38 +229,14 @@ public class RoverEntity extends AbstractRoverBase implements HasCustomInventory
             return false;
         }
 
-        FUEL -= 1;
+        FUEL = Math.max(0, FUEL - FUEL_CONSUMPTION_PER_INTERVAL);
 
-        return this.getFuel() >= 0;
+        return true;
     }
 
     private void checkContainer() {
         if (this.level().isClientSide()) {
             return;
-        }
-
-        if (this.getInventory().getItem(2).getItem() instanceof VehicleUpgradeItem item) {
-            if (item.getUpgrade() instanceof MotorUpgrade upgrade) {
-                this.motorUpgrade = upgrade;
-            }
-        } else if (this.getInventory().getItem(2).isEmpty()) {
-            this.motorUpgrade = MotorUpgrade.getBasic(false);
-        }
-
-        if (this.getInventory().getItem(3).getItem() instanceof VehicleUpgradeItem item) {
-            if (item.getUpgrade() instanceof SpeedUpgrade upgrade) {
-                this.speedUpgrade = upgrade;
-            }
-        } else if (this.getInventory().getItem(3).isEmpty()) {
-            this.speedUpgrade = SpeedUpgrade.getBasic();
-        }
-
-        if (this.getInventory().getItem(4).getItem() instanceof VehicleUpgradeItem item) {
-            if (item.getUpgrade() instanceof TankUpgrade upgrade) {
-                this.tankUpgrade = upgrade;
-            }
-        } else if (this.getInventory().getItem(4).isEmpty()) {
-            this.tankUpgrade = TankUpgrade.getBasic();
         }
 
         tryFillUpRover(this.getInventory().getItem(0).getItem(), true);
@@ -220,7 +250,7 @@ public class RoverEntity extends AbstractRoverBase implements HasCustomInventory
         if (this.level().isClientSide()) {
             return false;
         }
-        if (FUEL >= tankUpgrade.getTankCapacity() || item == null) {
+        if (FUEL >= getTankCapacity() || item == null) {
             return false;
         }
 
@@ -229,7 +259,7 @@ public class RoverEntity extends AbstractRoverBase implements HasCustomInventory
             return false;
         }
 
-        FuelType.Type motorType = motorUpgrade.getFuelType();
+        FuelType.Type motorType = getMotorFuelType();
 
         if (motorType == itemType.getMotorType()) {
             if (FUEL == 0) {
@@ -237,9 +267,9 @@ public class RoverEntity extends AbstractRoverBase implements HasCustomInventory
             }
 
             if (itemType == FUEL_TYPE) {
-                FUEL += 1000;
-                if (FUEL > tankUpgrade.getTankCapacity()) {
-                    FUEL = tankUpgrade.getTankCapacity();
+                FUEL += REFUEL_AMOUNT;
+                if (FUEL > getTankCapacity()) {
+                    FUEL = getTankCapacity();
                 }
 
                 if (isFromInventory) {
@@ -281,24 +311,30 @@ public class RoverEntity extends AbstractRoverBase implements HasCustomInventory
         return false;
     }
 
-    public void syncRocketData(ServerPlayer player) {
-        this.roverComponent = new RoverComponent(FUEL_TYPE.getSerializedName(), FUEL, FUEL_TYPE.getFuelTexture(),
-                tankUpgrade.getTankCapacity(), speedUpgrade.getSpeedModifier());
+    public void syncRoverData(ServerPlayer player) {
         if (!level().isClientSide()) {
-            NetworkManager.sendToPlayer(player, new SyncRoverComponentPacket(roverComponent));
+            NetworkManager.sendToPlayer(player, new SyncRoverDataPacket(this.getId(), FUEL, FUEL_TYPE.getSerializedName()));
         }
     }
 
     private void spawnRoverItem(ServerLevel level) {
-        ItemEntity entityToSpawn = new ItemEntity(level, this.getX(), this.getY(), this.getZ(), this.getRoverItem());
+        ItemEntity entityToSpawn = new ItemEntity(level, this.getX(), this.getY(), this.getZ(), this.toItemStack());
         entityToSpawn.setPickUpDelay(10);
-        entityToSpawn.getItem().set(DataComponentsRegistry.ROVER_COMPONENT.get(), roverComponent);
 
         level.addFreshEntity(entityToSpawn);
     }
 
-    private ItemStack getRoverItem() {
-        return ItemsRegistry.ROVER.get().getDefaultInstance();
+    public ItemStack toItemStack() {
+        ItemStack roverStack = new ItemStack(ItemsRegistry.ROVER.get(), 1);
+        roverStack.set(DataComponentsRegistry.ROVER_MODULES.get(), this.getRoverModules());
+        return roverStack;
+    }
+
+    public static RoverEntity fromItemStack(Level level, ItemStack stack) {
+        RoverEntity rover = new RoverEntity(org.exodusstudio.stellaris.common.registries.EntityTypesRegistry.ROVER.get(), level);
+        Modules<RoverModule> modules = stack.getOrDefault(DataComponentsRegistry.ROVER_MODULES.get(), RoverModules.empty());
+        rover.setRoverModules(modules);
+        return rover;
     }
 
     protected void dropEquipment(ServerLevel level) {
@@ -310,14 +346,14 @@ public class RoverEntity extends AbstractRoverBase implements HasCustomInventory
         }
     }
 
-
-
     @Override
     protected void addAdditionalSaveData(ValueOutput output) {
         super.addAdditionalSaveData(output);
 
         InventorySaver saver = InventorySaver.fromContainer(this.inventory);
         saver.saveInventory(output);
+
+        output.store("rover_modules", RoverModules.CODEC, this.getRoverModules());
 
         output.putInt("fuel", FUEL);
 
@@ -332,6 +368,9 @@ public class RoverEntity extends AbstractRoverBase implements HasCustomInventory
 
         InventorySaver.readInventory(input, this.inventory);
 
+        Optional<Modules<RoverModule>> modules = input.read("rover_modules", RoverModules.CODEC);
+        modules.ifPresent(this::setRoverModules);
+
         input.getInt("fuel").ifPresent(fuel -> FUEL = fuel);
 
         input.getString("currentFuelItemType").ifPresent(type -> {
@@ -344,6 +383,9 @@ public class RoverEntity extends AbstractRoverBase implements HasCustomInventory
     @Override
     public void openCustomInventoryScreen(Player player) {
         if (player instanceof ServerPlayer serverPlayer) {
+            // push the current fuel state so the gauge is correct as soon as the screen opens
+            this.syncRoverData(serverPlayer);
+
             MenuRegistry.openExtendedMenu(serverPlayer, new ExtendedMenuProvider() {
 
                 @Override
@@ -358,17 +400,14 @@ public class RoverEntity extends AbstractRoverBase implements HasCustomInventory
 
                 @Override
                 public AbstractContainerMenu createMenu(int syncId, Inventory inv, Player player) {
-                    FriendlyByteBuf packetBuffer = new FriendlyByteBuf(Unpooled.buffer());
-                    packetBuffer.writeInt(RoverEntity.this.FUEL);
-                    packetBuffer.writeVarInt(RoverEntity.this.getId());
-                    return new RoverMenu(syncId, inv, inventory, RoverEntity.this.getId());
+                    return new RoverMenu(syncId, inv, inventory, RoverEntity.this.getId(), RoverEntity.this.getInventoryRows());
                 }
             });
         }
     }
 
-    public RoverComponent getRoverComponent() {
-        return roverComponent;
+    public boolean hasCargoModule() {
+        return this.getRoverModules().contains(ModulesRegistry.ROVER_CARGO.get());
     }
 
     @Override

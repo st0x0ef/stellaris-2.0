@@ -173,6 +173,11 @@
   "item.stellaris.autopilot_module": "Autopilot Module",
   "item.stellaris.cargo_module": "Cargo Module",
 
+  "item.stellaris.rover_cargo_module": "Rover Cargo Module",
+  "item.stellaris.rover_tank_module": "Rover Tank Module",
+  "item.stellaris.rover_speed_module": "Rover Speed Module",
+  "item.stellaris.rover_hydrogen_motor": "Rover Hydrogen Motor",
+
   "item.stellaris.galaxy_skin": "Galaxy Skin",
   "item.stellaris.frost_skin": "Frost Skin",
   "item.stellaris.military_skin": "Military Skin",
@@ -362,6 +367,7 @@
   "tooltip.item.stellaris.can_be_applied_to_space_suit_helmet_module": "This module can be applied to the space suit helmet.",
   "tooltip.item.stellaris.can_be_applied_to_space_suit_module": "This module can be applied to any space suit part.",
   "tooltip.item.stellaris.can_be_applied_to_rocket_module": "This module can be applied to the rocket.",
+  "tooltip.item.stellaris.can_be_applied_to_rover_module": "This module can be applied to the rover.",
   "tooltip.item.stellaris.antenna": "Place this block under a rocket launch pad.",
   "tooltip.item.stellaris.space_station_blueprint": "Blueprint : ",
 

@@ -11,9 +11,6 @@ import net.minecraft.world.item.ItemStack;
 
 import org.exodusstudio.stellaris.common.entities.vehicles.RoverEntity;
 import org.exodusstudio.stellaris.common.menus.slot.ResultSlot;
-import org.exodusstudio.stellaris.common.menus.slot.MotorUpgradeSlot;
-import org.exodusstudio.stellaris.common.menus.slot.SpeedUpgradeSlot;
-import org.exodusstudio.stellaris.common.menus.slot.TankUpgradeSlot;
 import org.exodusstudio.stellaris.common.menus.slot.VehicleFuelSlot;
 import org.exodusstudio.stellaris.common.registries.MenuTypesRegistry;
 
@@ -21,19 +18,24 @@ public class RoverMenu extends AbstractContainerMenu implements IVehicleMenu {
 
     private final Container inventory;
     private final RoverEntity rover;
+    private final int inventoryRows;
 
-    public RoverMenu(int syncId, Inventory inventory, FriendlyByteBuf buffer) {
-        this(syncId, inventory, new SimpleContainer(13), buffer.readVarInt());
+    public static RoverMenu create(int syncId, Inventory inventory, FriendlyByteBuf buffer) {
+        int entityId = buffer.readVarInt();
+        RoverEntity entity = (RoverEntity) inventory.player.level().getEntity(entityId);
+        int rows = entity != null ? entity.getInventoryRows() : 1;
+        return new RoverMenu(syncId, inventory, new SimpleContainer(2 + 9 * rows), entityId, rows);
     }
 
-    public RoverMenu(int syncId, Inventory playerInventory, Container container, int entityId) {
+    public RoverMenu(int syncId, Inventory playerInventory, Container container, int entityId, int inventoryRows) {
         super(MenuTypesRegistry.ROVER_MENU.get(), syncId);
 
         this.rover = (RoverEntity) playerInventory.player.level().getEntity(entityId);
-        checkContainerSize(container, 13);
+        this.inventoryRows = inventoryRows;
+        checkContainerSize(container, 2 + 9 * inventoryRows);
         this.inventory = container;
 
-        addSlots(inventory);
+        addSlots(container, inventoryRows);
 
         addPlayerHotbar(playerInventory);
         addPlayerInventory(playerInventory);
@@ -41,29 +43,7 @@ public class RoverMenu extends AbstractContainerMenu implements IVehicleMenu {
 
     @Override
     public ItemStack quickMoveStack(Player player, int invSlot) {
-        ItemStack newStack = ItemStack.EMPTY;
-        Slot slot = this.slots.get(invSlot);
-        if (slot.hasItem()) {
-            ItemStack originalStack = slot.getItem();
-            newStack = originalStack.copy();
-            if (invSlot < this.inventory.getContainerSize()) {
-                if (!this.moveItemStackTo(originalStack, this.inventory.getContainerSize(), this.slots.size(), true)) {
-                    return ItemStack.EMPTY;
-                }
-            }
-            else if (!this.moveItemStackTo(originalStack, 0, this.inventory.getContainerSize(), false)) {
-                return ItemStack.EMPTY;
-            }
-
-            if (originalStack.isEmpty()) {
-                slot.set(ItemStack.EMPTY);
-            }
-            else {
-                slot.setChanged();
-            }
-        }
-
-        return newStack;
+        return MenuQuickMoveHelper.quickMoveMachineFirst(this, player, invSlot, 2 + 9 * inventoryRows);
     }
 
     @Override
@@ -71,42 +51,30 @@ public class RoverMenu extends AbstractContainerMenu implements IVehicleMenu {
         return this.inventory.stillValid(player);
     }
 
+    private void addSlots(Container inventory, int inventoryRows) {
+        // fuel slots
+        this.addSlot(new VehicleFuelSlot(inventory, 0, 68, 18));
+        this.addSlot(new ResultSlot(inventory, 1, 68, 52));
 
-    private void addSlots(Container inventory) {
-        //FUEL SLOTS
-        this.addSlot(new VehicleFuelSlot(inventory, 0, 20, 28));
-        this.addSlot(new ResultSlot(inventory, 1, 20, 62));
-
-        //UPGRADE SLOTS
-        this.addSlot(new MotorUpgradeSlot(inventory, 2, 82, 74, this.rover));
-        this.addSlot(new SpeedUpgradeSlot(inventory, 3, 109, 74));
-        this.addSlot(new TankUpgradeSlot(inventory, 4, 136, 74));
-
-        //INVENTORY SLOTS
-        this.addSlot(new Slot(inventory, 5, 82, 28));
-        this.addSlot(new Slot(inventory, 6, 82, 46));
-
-        this.addSlot(new Slot(inventory, 7, 100, 28));
-        this.addSlot(new Slot(inventory, 8, 100, 46));
-
-        this.addSlot(new Slot(inventory, 9, 118, 28));
-        this.addSlot(new Slot(inventory, 10, 118, 46));
-
-        this.addSlot(new Slot(inventory, 11, 136, 28));
-        this.addSlot(new Slot(inventory, 12, 136, 46));
+        // cargo slots
+        for (int i = 0; i < inventoryRows; i++) {
+            for (int l = 0; l < 9; l++) {
+                this.addSlot(new Slot(inventory, l + i * 9 + 2, 10 + l * 18, 77 + i * 18));
+            }
+        }
     }
 
     private void addPlayerInventory(Inventory playerInventory) {
         for (int i = 0; i < 3; ++i) {
             for (int l = 0; l < 9; ++l) {
-                this.addSlot(new Slot(playerInventory, l + i * 9 + 9, 10 + l * 18, (95 + i * 18) + 11));
+                this.addSlot(new Slot(playerInventory, l + i * 9 + 9, 10 + l * 18, 142 + i * 18));
             }
         }
     }
 
     private void addPlayerHotbar(Inventory playerInventory) {
         for (int i = 0; i < 9; ++i) {
-            this.addSlot(new Slot(playerInventory, i, 10 + i * 18, 164));
+            this.addSlot(new Slot(playerInventory, i, 10 + i * 18, 200));
         }
     }
 

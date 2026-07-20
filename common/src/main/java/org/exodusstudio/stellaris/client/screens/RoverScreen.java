@@ -15,13 +15,14 @@ import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
 
 public class RoverScreen extends AbstractContainerScreen<RoverMenu> {
 
-    private static final Identifier TEXTURE = IdentifierUtils.guiTexture("rover");
+    private static final Identifier SMALL_INVENTORY_TEXTURE = IdentifierUtils.guiTexture("vehicle_small_inventory");
+    private static final Identifier FULL_INVENTORY_TEXTURE = IdentifierUtils.guiTexture("vehicle_full_inventory");
 
-    private RoverEntity rover;
+    private final RoverEntity rover;
     private GaugeWidget fuelGauge;
 
     public RoverScreen(RoverMenu abstractContainerMenu, Inventory inventory, Component component) {
-        super(abstractContainerMenu, inventory, component, 180, 188);
+        super(abstractContainerMenu, inventory, component, 180, 224);
         this.rover = getMenu().getRover();
 
         titleLabelX = (180 - Minecraft.getInstance().font.width(title.getString())) / 2;
@@ -36,7 +37,10 @@ public class RoverScreen extends AbstractContainerScreen<RoverMenu> {
             return;
         }
 
-        fuelGauge = new GaugeWidget(leftPos + 52, topPos + 30, 12, 46, Component.translatable("stellaris.screen.diesel"), rover.getRoverComponent().getFuelType().getFuelTexture(), GUISprites.FLUID_TANK_OVERLAY, rover.getRoverComponent().getTankCapacity(), GaugeWidget.Direction4.DOWN_UP);
+        fuelGauge = new GaugeWidget(leftPos + 100, topPos + 20, 12, 46,
+                Component.translatable("stellaris.screen.diesel"),
+                rover.getFuelType().getFuelTexture(), GUISprites.FLUID_TANK_OVERLAY,
+                rover.getTankCapacity(), GaugeWidget.Direction4.DOWN_UP);
         addRenderableWidget(fuelGauge);
     }
 
@@ -51,7 +55,7 @@ public class RoverScreen extends AbstractContainerScreen<RoverMenu> {
         }
 
         fuelGauge.updateAmount(rover.getFuel());
-        fuelGauge.updateSprite(rover.getRoverComponent().getFuelType().getFuelTexture());
+        fuelGauge.updateSprite(rover.getFuelType().getFuelTexture());
 
         fuelGauge.renderTooltips(graphics, mouseX, mouseY, font);
     }
@@ -59,11 +63,14 @@ public class RoverScreen extends AbstractContainerScreen<RoverMenu> {
     @Override
     public void extractBackground(GuiGraphicsExtractor guiGraphics, int mouseX, int mouseY, float partialTick) {
         super.extractBackground(guiGraphics, mouseX, mouseY, partialTick);
-        guiGraphics.blit(RenderPipelines.GUI_TEXTURED, TEXTURE, leftPos, topPos, 0, 0, imageWidth, imageHeight, imageWidth, imageHeight);
+        if (rover != null) {
+            Identifier texture = rover.hasCargoModule() ? FULL_INVENTORY_TEXTURE : SMALL_INVENTORY_TEXTURE;
+            guiGraphics.blit(RenderPipelines.GUI_TEXTURED, texture, leftPos, topPos, 0, 0, imageWidth, imageHeight, imageWidth, imageHeight);
+        }
     }
 
     @Override
     protected void extractLabels(GuiGraphicsExtractor guiGraphics, int mouseX, int mouseY) {
-        guiGraphics.text(this.font, this.title, this.titleLabelX, this.titleLabelY, 5726575, false);
+        guiGraphics.text(this.font, this.title, this.titleLabelX, this.titleLabelY, -11050641, false);
     }
 }

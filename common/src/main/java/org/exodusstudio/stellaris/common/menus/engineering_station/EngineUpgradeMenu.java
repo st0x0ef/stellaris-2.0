@@ -13,11 +13,14 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
 import org.exodusstudio.stellaris.common.blocks.entities.machines.EngineeringStationBlockEntity;
 import org.exodusstudio.stellaris.common.items.RocketItem;
+import org.exodusstudio.stellaris.common.items.RoverItem;
 import org.exodusstudio.stellaris.common.items.space_suit.SpaceSuitItem;
 import org.exodusstudio.stellaris.common.menus.base.BaseItemCombinerMenu;
 import org.exodusstudio.stellaris.common.modules.Modules;
 import org.exodusstudio.stellaris.common.modules.rocket.RocketModule;
 import org.exodusstudio.stellaris.common.modules.rocket.RocketModules;
+import org.exodusstudio.stellaris.common.modules.rover.RoverModule;
+import org.exodusstudio.stellaris.common.modules.rover.RoverModules;
 import org.exodusstudio.stellaris.common.modules.space_suit.SpaceSuitModule;
 import org.exodusstudio.stellaris.common.modules.space_suit.SpaceSuitModules;
 import org.exodusstudio.stellaris.common.network.packets.OpenBlockEntityMenusPacket;
@@ -115,6 +118,34 @@ public class EngineUpgradeMenu extends BaseItemCombinerMenu {
 
         /* --------------------------------------------------------------- */
 
+        /** ROVER MODULES HANDLING */
+        Modules<RoverModule> roverModules = itemToUpgrade.getOrDefault(DataComponentsRegistry.ROVER_MODULES.get(), RoverModules.empty());
+
+        if (module.getItem() instanceof RoverModule validModule) {
+            if (!itemToUpgrade.isEmpty() && !module.isEmpty()
+                    && !roverModules.contains(validModule)
+            ) {
+                List<RoverModule> modules = roverModules.getModules();
+                List<RoverModule> newRoverModules = new ArrayList<>();
+                for (RoverModule mod : modules) {
+                    if (mod.asModule().getRoverFeature() != validModule.asModule().getRoverFeature()) {
+                        newRoverModules.add(mod.asModule());
+                    }
+                }
+                newRoverModules.add(validModule.asModule());
+
+                itemToUpgrade.set(DataComponentsRegistry.ROVER_MODULES.get(), new RoverModules(newRoverModules));
+
+                this.resultSlots.setItem(0, itemToUpgrade);
+                this.broadcastChanges();
+            }
+            else {
+                this.resultSlots.setItem(0, ItemStack.EMPTY);
+            }
+        }
+
+        /* --------------------------------------------------------------- */
+
         /** SPACE SUITS MODULES HANDLING */
         Modules<SpaceSuitModule> spaceSuitModules = itemToUpgrade.getOrDefault(DataComponentsRegistry.SPACE_SUIT_MODULES.get(), SpaceSuitModules.empty());
 
@@ -171,6 +202,15 @@ public class EngineUpgradeMenu extends BaseItemCombinerMenu {
             }
             return canUpgradeFuel(module, rocket);
         }
+
+        Modules<RoverModule> roverModules = rocket.getOrDefault(DataComponentsRegistry.ROVER_MODULES.get(), RoverModules.empty());
+
+        if (module.getItem() instanceof RoverModule validModule) {
+            if (roverModules.contains(validModule)) {
+                return Error.DUPLICATE_MODULE;
+            }
+            return Error.NONE;
+        }
         return Error.NONE;
     }
 
@@ -186,7 +226,7 @@ public class EngineUpgradeMenu extends BaseItemCombinerMenu {
     @Override
     protected @NotNull ItemCombinerMenuSlotDefinition createInputSlotDefinitions() {
         return ItemCombinerMenuSlotDefinition.create()
-                .withSlot(0, 31, 48, itemStack -> itemStack.getItem() instanceof RocketItem || itemStack.is(TagsRegistry.ItemTags.SPACE_SUIT))
+                .withSlot(0, 31, 48, itemStack -> itemStack.getItem() instanceof RocketItem || itemStack.getItem() instanceof RoverItem || itemStack.is(TagsRegistry.ItemTags.SPACE_SUIT))
                 .withSlot(1, 75, 48, this::mayPlaceModule)
                 .withResultSlot(2, 127, 48)
                 .build();
@@ -195,6 +235,8 @@ public class EngineUpgradeMenu extends BaseItemCombinerMenu {
     private boolean mayPlaceModule(ItemStack module) {
         if (this.inputSlots.getItem(0).is(ItemsRegistry.ROCKET.get())) {
             return module.getItem() instanceof RocketModule rocketModule && StellarisRegistries.ROCKET_MODULES.containsValue(rocketModule);
+        } else if (this.inputSlots.getItem(0).is(ItemsRegistry.ROVER.get())) {
+            return module.getItem() instanceof RoverModule roverModule && StellarisRegistries.ROVER_MODULES.containsValue(roverModule);
         } else if (this.inputSlots.getItem(0).is(TagsRegistry.ItemTags.SPACE_SUIT)) {
             return module.getItem() instanceof SpaceSuitModule spaceSuitModule && StellarisRegistries.SPACE_SUIT_MODULES.containsValue(spaceSuitModule) && spaceSuitModule.canBeAppliedToSpaceSuitPart(this.inputSlots.getItem(0));
         }

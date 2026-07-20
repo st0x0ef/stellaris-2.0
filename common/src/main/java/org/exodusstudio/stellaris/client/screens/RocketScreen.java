@@ -19,8 +19,8 @@ import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
 
 public class RocketScreen extends AbstractContainerScreen<RocketMenu> {
 
-    private static final Identifier SMALL_INVENTORY_TEXTURE = IdentifierUtils.guiTexture("rocket_small_inventory");
-    private static final Identifier FULL_INVENTORY_TEXTURE = IdentifierUtils.guiTexture("rocket_full_inventory");
+    private static final Identifier SMALL_INVENTORY_TEXTURE = IdentifierUtils.guiTexture("vehicle_small_inventory");
+    private static final Identifier FULL_INVENTORY_TEXTURE = IdentifierUtils.guiTexture("vehicle_full_inventory");
 
     private GaugeChunkWidget fuelGauge;
     private FluidStack fuel;
