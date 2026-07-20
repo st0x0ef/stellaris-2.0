@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "minecraft:item/cod_spawn_egg"
+    "layer0": "stellaris:item/blue_fish_spawn_egg"
   }
 }

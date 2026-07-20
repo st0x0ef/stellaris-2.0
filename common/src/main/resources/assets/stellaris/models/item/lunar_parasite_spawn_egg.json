@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "minecraft:item/endermite_spawn_egg"
+    "layer0": "stellaris:item/lunar_parasite_spawn_egg"
   }
 }
