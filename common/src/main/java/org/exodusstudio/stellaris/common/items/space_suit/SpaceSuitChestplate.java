@@ -8,6 +8,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.component.TooltipDisplay;
 import net.minecraft.world.item.equipment.ArmorType;
+import org.exodusstudio.stellaris.common.fluid.FluidUtil;
 import org.exodusstudio.stellaris.common.fluid.SpaceSuitItemFluidStorage;
 import org.exodusstudio.stellaris.common.modules.space_suit.SpaceSuitModule;
 import org.exodusstudio.stellaris.common.registries.DataComponentsRegistry;
@@ -44,13 +45,11 @@ public class SpaceSuitChestplate extends SpaceSuitItem implements FluidProvider.
         SpaceSuitModule.CustomFuelModule tankModule = ModuleUtils.getSpaceSuitModule(stack, SpaceSuitModule.CustomFuelModule.class);
         if (tankModule != null) {
             int oxygenCapacity = getFuelCapacity(tankModule);
-            UniversalFluidItemStorage fluidTank = getFluidTank(stack);
-            if (fluidTank != null) {
-                FluidStack fluidStackToGetName = FluidStack.create(tankModule.getFuel(), 1);
-                String fluidName = fluidStackToGetName.getName().getString().replace("_", " ");
-                tooltipAdder.accept(Component.literal("-- " + fluidName + " Tank Module --").withColor(Utils.getMinecraftColor("cyan")));
-                tooltipAdder.accept(Component.literal(fluidName + " " + fluidTank.getFluidInTank(0).getAmount() + " / " + oxygenCapacity + " mb").withColor(Utils.getMinecraftColor("cyan")));
-            }
+            long fuel = FluidUtil.readStoredFluid(stack, DataComponentsRegistry.FLUID_LIST.get(), 0).getAmount();
+            FluidStack fluidStackToGetName = FluidStack.create(tankModule.getFuel(), 1);
+            String fluidName = fluidStackToGetName.getName().getString().replace("_", " ");
+            tooltipAdder.accept(Component.literal("-- " + fluidName + " Tank Module --").withColor(Utils.getMinecraftColor("cyan")));
+            tooltipAdder.accept(Component.literal(fluidName + " " + fuel + " / " + oxygenCapacity + " mb").withColor(Utils.getMinecraftColor("cyan")));
         }
     }
 }

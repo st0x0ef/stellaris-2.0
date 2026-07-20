@@ -63,16 +63,13 @@ public class FluidCellItem extends Item implements FluidProvider.ITEM {
 
     @Override
     public void appendHoverText(ItemStack stack, TooltipContext context, TooltipDisplay tooltipDisplay, Consumer<Component> tooltipAdder, TooltipFlag flag) {
-        UniversalFluidItemStorage fluidStorage = getFluidTank(stack);
-        if (fluidStorage != null) {
-            FluidStack fluidStack = fluidStorage.getFluidInTank(0);
-            if (!fluidStack.isEmpty()) {
-                String fluidInfo = fluidStack.getName().getString() + " : " + fluidStack.getAmount() + " / " + capacity;
-                tooltipAdder.accept(Component.literal(fluidInfo));
-            } else {
-                String fluidInfo = "Empty: 0 / " + capacity;
-                tooltipAdder.accept(Component.literal(fluidInfo));
-            }
+        FluidStack fluidStack = FluidUtil.readStoredFluid(stack, DataComponentsRegistry.FLUID_LIST.get(), 0);
+        if (!fluidStack.isEmpty()) {
+            String fluidInfo = fluidStack.getName().getString() + " : " + fluidStack.getAmount() + " / " + capacity;
+            tooltipAdder.accept(Component.literal(fluidInfo));
+        } else {
+            String fluidInfo = "Empty: 0 / " + capacity;
+            tooltipAdder.accept(Component.literal(fluidInfo));
         }
     }
 }

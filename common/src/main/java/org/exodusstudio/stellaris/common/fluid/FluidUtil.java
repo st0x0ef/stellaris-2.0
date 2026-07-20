@@ -1,6 +1,7 @@
 package org.exodusstudio.stellaris.common.fluid;
 
 import com.fej1fun.potentials.capabilities.Capabilities;
+import com.fej1fun.potentials.components.FluidAmountMapDataComponent;
 import com.fej1fun.potentials.fluid.BaseFluidStorage;
 import com.fej1fun.potentials.fluid.UniversalFluidItemStorage;
 import com.fej1fun.potentials.fluid.UniversalFluidStorage;
@@ -9,6 +10,7 @@ import dev.architectury.fluid.FluidStack;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
+import net.minecraft.core.component.DataComponentType;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import org.exodusstudio.stellaris.common.transport.Transport;
@@ -20,6 +22,11 @@ import java.util.*;
 public class FluidUtil {
 
     private static final List<Direction> ALL_DIRECTIONS = List.of(Direction.values());
+
+    public static FluidStack readStoredFluid(ItemStack stack, DataComponentType<FluidAmountMapDataComponent> component, int tank) {
+        FluidAmountMapDataComponent comp = stack.get(component);
+        return comp == null ? FluidStack.empty() : comp.getAsFluidStack(tank);
+    }
 
     public static UniversalFluidItemStorage getItemFluidStorage(ItemStack stack) {
         if (stack.getItem() instanceof FluidProvider.ITEM provider) {

@@ -1,7 +1,7 @@
 package org.exodusstudio.stellaris.client.overlays;
 
 import com.fej1fun.potentials.energy.UniversalEnergyStorage;
-import com.fej1fun.potentials.fluid.UniversalFluidStorage;
+import dev.architectury.fluid.FluidStack;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
@@ -18,7 +18,9 @@ import net.minecraft.world.item.ItemStack;
 import org.exodusstudio.stellaris.common.items.space_suit.SpaceSuitBoots;
 import org.exodusstudio.stellaris.common.items.space_suit.SpaceSuitChestplate;
 import org.exodusstudio.stellaris.common.items.space_suit.SpaceSuitHelmet;
+import org.exodusstudio.stellaris.common.fluid.FluidUtil;
 import org.exodusstudio.stellaris.common.modules.space_suit.SpaceSuitModule;
+import org.exodusstudio.stellaris.common.registries.DataComponentsRegistry;
 import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
 import org.exodusstudio.stellaris.common.utils.ModuleUtils;
 import org.exodusstudio.stellaris.common.utils.Utils;
@@ -50,14 +52,8 @@ public class SpaceSuitOverlay {
         ItemStack helmetStack = player.getItemBySlot(EquipmentSlot.HEAD);
 
         if (helmetStack.getItem() instanceof SpaceSuitHelmet helmet && helmet.getOxygenCapacity(helmetStack) > 0) {
-            UniversalFluidStorage oxygenStorage = helmet.getFluidTank(helmetStack);
-
-            if (oxygenStorage == null) {
-                return 0;
-            }
-
-            long oxygen = oxygenStorage.getFluidInTank(0).getAmount();
-            long maxOxygen = oxygenStorage.getTankCapacity(0);
+            long oxygen = FluidUtil.readStoredFluid(helmetStack, DataComponentsRegistry.FLUID_LIST.get(), 0).getAmount();
+            long maxOxygen = helmet.getOxygenCapacity(helmetStack);
 
             int x = 5;
 
@@ -135,17 +131,13 @@ public class SpaceSuitOverlay {
         SpaceSuitModule.CustomFuelModule tankModule = ModuleUtils.getSpaceSuitModule(chestplateStack, SpaceSuitModule.CustomFuelModule.class);
 
         if (tankModule != null && chestplateStack.getItem() instanceof SpaceSuitChestplate chestplate && chestplate.getFuelCapacity(tankModule) > 0) {
-            UniversalFluidStorage fuelStorage = chestplate.getFluidTank(chestplateStack);
+            FluidStack fuelFluid = FluidUtil.readStoredFluid(chestplateStack, DataComponentsRegistry.FLUID_LIST.get(), 0);
 
-            if (fuelStorage == null) {
-                return 0;
-            }
-
-            long fuel = fuelStorage.getFluidInTank(0).getAmount();
-            long maxFuel = fuelStorage.getTankCapacity(0);
+            long fuel = fuelFluid.getAmount();
+            long maxFuel = chestplate.getFuelCapacity(tankModule);
 
             /** FUEL AMOUNT TEXT */
-            String fuelName = fuelStorage.getFluidInTank(0).getName().getString();
+            String fuelName = fuelFluid.getName().getString();
             Component text = Component.literal(fuelName).append(": ").withStyle(ChatFormatting.RED).append("§7" + Math.round(((float) fuel / maxFuel) * 100) + "%");
             graphics.text(font, text, 5, yOffset, 0xFFFFFFFF);
 

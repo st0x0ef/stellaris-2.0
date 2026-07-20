@@ -5,6 +5,7 @@ import com.fej1fun.potentials.energy.UniversalEnergyStorage;
 import com.fej1fun.potentials.fluid.UniversalFluidItemStorage;
 import com.fej1fun.potentials.providers.EnergyProvider;
 import com.fej1fun.potentials.providers.FluidProvider;
+import org.exodusstudio.stellaris.common.fluid.FluidUtil;
 import org.exodusstudio.stellaris.common.fluid.OxygenItemFluidStorage;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
@@ -55,9 +56,9 @@ public class SpaceSuitHelmet extends SpaceSuitItem implements FluidProvider.ITEM
 
         if (ModuleUtils.hasSpaceSuitModule(stack, SpaceSuitModule.OxygenModule.class)) {
             int oxygenCapacity = getOxygenCapacity(stack);
-            UniversalFluidItemStorage fluidTank = getFluidTank(stack);
+            long oxygen = FluidUtil.readStoredFluid(stack, DataComponentsRegistry.FLUID_LIST.get(), 0).getAmount();
             tooltipAdder.accept(Component.literal("-- Oxygen Module --").withColor(Utils.getMinecraftColor("cyan")));
-            tooltipAdder.accept(Component.literal("Oxygen " + fluidTank.getFluidInTank(0).getAmount() + " / " + oxygenCapacity + " mb").withColor(Utils.getMinecraftColor("cyan")));
+            tooltipAdder.accept(Component.literal("Oxygen " + oxygen + " / " + oxygenCapacity + " mb").withColor(Utils.getMinecraftColor("cyan")));
         }
 
         SpaceSuitModule.OilFinderModule oilFinderModule = ModuleUtils.getSpaceSuitModule(stack, SpaceSuitModule.OilFinderModule.class);
