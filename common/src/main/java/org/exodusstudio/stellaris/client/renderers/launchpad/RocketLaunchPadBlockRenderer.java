@@ -72,4 +72,9 @@ public class RocketLaunchPadBlockRenderer<T extends RocketLaunchPadBlockEntity> 
     public boolean shouldRender(T blockEntity, Vec3 cameraPosition) {
         return true;
     }
+
+    @Override
+    public boolean shouldRenderOffScreen() {
+        return true;
+    }
 }
