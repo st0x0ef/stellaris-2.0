@@ -38,7 +38,6 @@ import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.phys.Vec3;
 import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.common.data.Planet;
-import org.exodusstudio.stellaris.common.data.PlanetsData;
 import org.exodusstudio.stellaris.common.entities.vehicles.base.VehicleEntity;
 import org.exodusstudio.stellaris.common.menus.PlanetSelectionMenu;
 import org.exodusstudio.stellaris.common.menus.RocketMenu;
