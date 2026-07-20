@@ -69,7 +69,7 @@ public class BlockEntitiesRegistry {
             () -> new BlockEntityType<>(OxygenPropagatorBlockEntity::new, Set.of(BlocksRegistry.OXYGEN_PROPAGATOR.block().get())));
 
     public static final Supplier<BlockEntityType<?>> PIPE_ENTITY = BLOCK_ENTITY_TYPE.register("pipe",
-            () -> new BlockEntityType<>(PipeBlockEntity::create, Set.of(BlocksRegistry.T1_PIPE.block().get())));
+            () -> new BlockEntityType<>(PipeBlockEntity::create, Set.of(BlocksRegistry.PIPE_T1.block().get())));
 
     public static final Supplier<BlockEntityType<?>> FLUID_TANK = BLOCK_ENTITY_TYPE.register("fluid_tank",
             () -> new BlockEntityType<>(FluidTankBlockEntity::new, Set.of(BlocksRegistry.FLUID_TANK_T1.block().get())));

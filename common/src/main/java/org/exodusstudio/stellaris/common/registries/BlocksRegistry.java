@@ -182,7 +182,7 @@ public final class BlocksRegistry {
 
     // CABLES/PIPES
     public static final BlockItemRegistrySupplier CABLE_T1 = blockWithItem("cable_t1", BlockBehaviour.Properties.of().strength(1.0F).noOcclusion(), (p) -> new CableBlock(p, 20));
-    public static final BlockItemRegistrySupplier T1_PIPE = blockWithItem("pipe_t1", BlockBehaviour.Properties.of().strength(1.0F).noOcclusion(), (p) -> new PipeBlock(p, 1000, 250, 250));
+    public static final BlockItemRegistrySupplier PIPE_T1 = blockWithItem("pipe_t1", BlockBehaviour.Properties.of().strength(1.0F).noOcclusion(), (p) -> new PipeBlock(p, 1000, 250, 250));
 
     // TECH
     public static final BlockItemRegistrySupplier ELECTROLYZER = blockWithItem("electrolyzer", BlockBehaviour.Properties.of().strength(3.0F), ElectrolyzerBlock::new, new Item.Properties());
