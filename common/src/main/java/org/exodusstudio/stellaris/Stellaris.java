@@ -16,12 +16,15 @@ import org.exodusstudio.stellaris.common.data.PlanetsData;
 import org.exodusstudio.stellaris.common.data.SdCardData;
 import org.exodusstudio.stellaris.common.events.Events;
 import org.exodusstudio.stellaris.common.network.NetworkRegistry;
+import org.exodusstudio.stellaris.common.network.packets.SyncPlanetsPacket;
 import org.exodusstudio.stellaris.common.network.packets.SyncSDCards;
 import org.exodusstudio.stellaris.common.network.packets.SyncWiki;
 import org.exodusstudio.stellaris.common.registries.*;
 import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.ArrayList;
 
 public final class Stellaris {
     public static final String MOD_ID = "stellaris";
@@ -82,8 +85,7 @@ public final class Stellaris {
         if (joined) {
             NetworkManager.sendToPlayer(player, new SyncWiki(WikiPacks.ENTRY_COMPONENTS, WikiPacks.ENTRIES));
             NetworkManager.sendToPlayer(player, new SyncSDCards(SdCardData.SD_CARDS));
-
+            NetworkManager.sendToPlayer(player, new SyncPlanetsPacket(new ArrayList<>(PlanetsData.PLANETS)));
         }
     }
-
 }

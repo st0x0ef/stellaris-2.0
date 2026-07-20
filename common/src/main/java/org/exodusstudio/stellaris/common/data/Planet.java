@@ -38,6 +38,11 @@ public record Planet(String translationKey, Identifier dimension, double gravity
     );
 
 
+    public static final Planet FALLBACK = new Planet(
+            "dimension.minecraft.overworld",
+            Level.OVERWORLD.identifier(),
+            9.81, true, false, Optional.empty(), Optional.empty());
+
     public boolean is(ServerLevel level) {
         return is(level.dimension());
     }

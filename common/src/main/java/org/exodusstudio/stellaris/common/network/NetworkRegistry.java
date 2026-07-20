@@ -41,6 +41,7 @@ public interface NetworkRegistry {
 
         registerS2C(SyncWiki.TYPE, SyncWiki.STREAM_CODEC, SyncWiki::handle);
         registerS2C(SyncSDCards.TYPE, SyncSDCards.STREAM_CODEC, SyncSDCards::handle);
+        registerS2C(SyncPlanetsPacket.TYPE, SyncPlanetsPacket.STREAM_CODEC, SyncPlanetsPacket::handle);
 
 
         registerS2C(SyncGravityManipulatorDataPacketS2C.TYPE_S2C, SyncGravityManipulatorDataPacketS2C.STREAM_CODEC, SyncGravityManipulatorDataPacketS2C::handle);

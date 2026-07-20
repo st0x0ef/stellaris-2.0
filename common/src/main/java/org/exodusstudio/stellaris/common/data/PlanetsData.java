@@ -13,6 +13,7 @@ import net.minecraft.world.level.Level;
 import org.exodusstudio.stellaris.common.utils.GravityUtils;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -29,12 +30,20 @@ public class PlanetsData extends SimpleJsonResourceReloadListener<Planet> {
 
     @Override
     protected void apply(Map<Identifier, Planet> planetMap, ResourceManager resourceManager, ProfilerFiller profiler) {
+        //TODO : sort them by distance
+        setPlanets(planetMap.values());
+    }
+
+    /**
+     * Replaces the current planet store and rebuilds the dimension->level-key map. Used both by
+     * the server-data reload ({@link #apply}) and by the client-side sync packet handler, so
+     * clients populate {@link #PLANETS} (they never run the reload listener on a dedicated server).
+     */
+    public static void setPlanets(Collection<Planet> planets) {
         GravityUtils.clearCaches();
 
         PLANETS.clear();
-        PLANETS.addAll(planetMap.values());
-
-        //TODO : sort them by distance
+        PLANETS.addAll(planets);
 
         PLANETS_LEVEL.clear();
         for (Planet planet : PLANETS) {

@@ -263,7 +263,7 @@ public class RocketEntity extends VehicleEntity {
         builder.define(ROCKET_MODULES, RocketModules.empty());
         builder.define(ROCKET_START, false);
         builder.define(ROCKET_START_TIMER, 0);
-        builder.define(AUTOPILOT_DESTINATION, Objects.requireNonNull(PlanetsData.getPlanet(Level.OVERWORLD))); // default value, shouldn't be used
+        builder.define(AUTOPILOT_DESTINATION, Planet.FALLBACK);
     }
 
     @Override
