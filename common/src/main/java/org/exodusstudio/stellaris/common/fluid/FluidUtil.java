@@ -86,6 +86,11 @@ public class FluidUtil {
             return;
         }
 
+        if (slot != remainingItemSlot && !actualRemainingItems.isEmpty()
+                && !actualRemainingItems.is(from.getContainer().getItem())) {
+            return;
+        }
+
         amount = Math.min(amount, to.getTankCapacity(tank) - to.getFluidInTank(tank).getAmount());
         FluidStack fluidMoved = moveFluid(from, to, from.getFluidInTank(tank).copyWithAmount(amount));
 
