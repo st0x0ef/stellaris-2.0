@@ -267,9 +267,14 @@ public class RocketEntity extends VehicleEntity {
         Entity entity = this.getPassengers().getFirst();
 
         if (entity instanceof ServerPlayer player) {
-            if (this.getFuel() > 0 || player.isCreative()) {
+            if (this.getFuel() >= 1000 || player.isCreative()) {
                 if (!this.entityData.get(ROCKET_START)) {
                     this.entityData.set(ROCKET_START, true);
+
+                    if (!player.isCreative()) {
+                        // TODO: adjust fuel consumption based on planet distance
+                        this.entityData.set(FUEL, Math.max(0, this.getFuel() - 1000));
+                    }
 
                     player.awardStat(StatsRegistry.ROCKET_LAUNCHED.get());
                     AdvancementTriggerRegistry.ROCKET_LAUNCHED.get().trigger(player, player.getStats()
