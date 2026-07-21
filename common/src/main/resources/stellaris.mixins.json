@@ -17,6 +17,7 @@
     "EntityMixin",
     "FireMixin",
     "LivingEntityMixin",
+    "NetherPortalMixin",
     "PlayerMixin",
     "gravity_modifier.AbstractArrowEntityMixin",
     "gravity_modifier.AbstractBoatEntityMixin",
