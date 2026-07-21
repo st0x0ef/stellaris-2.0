@@ -1,5 +1,6 @@
 package org.exodusstudio.stellaris.mixin;
 
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -8,6 +9,7 @@ import net.minecraft.world.item.alchemy.PotionContents;
 import net.minecraft.world.item.alchemy.Potions;
 import net.minecraft.world.item.component.Consumable;
 import org.exodusstudio.stellaris.common.registries.TagsRegistry;
+import org.exodusstudio.stellaris.common.utils.OxygenUtils;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -19,6 +21,12 @@ public class ConsumableMixin {
 
     @Inject(method = "canConsume", at = @At("HEAD"), cancellable = true)
     public void canConsume(LivingEntity entity, ItemStack stack, CallbackInfoReturnable<Boolean> cir) {
+        if (stack.has(DataComponents.FOOD) && !stack.is(TagsRegistry.ItemTags.CAN)
+                && !OxygenUtils.isOxygenated(entity.level(), entity.blockPosition())) {
+            cir.setReturnValue(false);
+            return;
+        }
+
         Item waterBottle = PotionContents.createItemStack(Items.POTION, Potions.WATER).getItem();
         if (stack.is(waterBottle)) {
             if (entity.getMainHandItem().equals(stack) && entity.getOffhandItem().is(TagsRegistry.ItemTags.CAN)) {
