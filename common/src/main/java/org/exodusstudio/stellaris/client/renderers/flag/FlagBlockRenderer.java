@@ -18,9 +18,12 @@ import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.client.resources.model.sprite.SpriteGetter;
 import net.minecraft.client.resources.model.sprite.SpriteId;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.component.ResolvableProfile;
 import net.minecraft.world.level.block.SkullBlock;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.phys.AABB;
 import org.exodusstudio.stellaris.common.blocks.FlagBlock;
 import org.exodusstudio.stellaris.common.blocks.entities.FlagBlockEntity;
 import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
@@ -75,6 +78,17 @@ public class FlagBlockRenderer implements BlockEntityRenderer<FlagBlockEntity, B
     @Override
     public BlockEntityRenderState createRenderState() {
         return new BlockEntityRenderState();
+    }
+
+    @Override
+    public boolean shouldRenderOffScreen() {
+        return true;
+    }
+
+    public AABB getRenderBoundingBox(BlockEntity blockEntity) {
+        BlockPos pos = blockEntity.getBlockPos();
+        return new AABB(pos.getX() - 2, pos.getY(), pos.getZ() - 2,
+                pos.getX() + 3, pos.getY() + 4, pos.getZ() + 3);
     }
 
     @Override

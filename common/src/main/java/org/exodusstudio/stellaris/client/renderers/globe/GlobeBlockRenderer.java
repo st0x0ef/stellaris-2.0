@@ -13,8 +13,11 @@ import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.client.resources.model.sprite.SpriteGetter;
 import net.minecraft.client.resources.model.sprite.SpriteId;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.AABB;
 import org.exodusstudio.stellaris.common.blocks.GlobeBlock;
 import org.exodusstudio.stellaris.common.blocks.entities.GlobeBlockEntity;
 import org.exodusstudio.stellaris.common.registries.BlocksRegistry;
@@ -81,5 +84,16 @@ public class GlobeBlockRenderer implements BlockEntityRenderer<GlobeBlockEntity,
     @Override
     public BlockEntityRenderState createRenderState() {
         return new BlockEntityRenderState();
+    }
+
+    @Override
+    public boolean shouldRenderOffScreen() {
+        return true;
+    }
+
+    public AABB getRenderBoundingBox(BlockEntity blockEntity) {
+        BlockPos pos = blockEntity.getBlockPos();
+        return new AABB(pos.getX() - 1, pos.getY(), pos.getZ() - 1,
+                pos.getX() + 2, pos.getY() + 3, pos.getZ() + 2);
     }
 }

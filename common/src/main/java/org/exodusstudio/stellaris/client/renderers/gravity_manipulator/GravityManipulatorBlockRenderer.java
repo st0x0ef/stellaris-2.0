@@ -14,8 +14,11 @@ import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.client.resources.model.sprite.SpriteGetter;
 import net.minecraft.client.resources.model.sprite.SpriteId;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.Identifier;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.phys.AABB;
 import org.exodusstudio.stellaris.common.blocks.GravityManipulatorBlock;
 import org.exodusstudio.stellaris.common.blocks.entities.machines.GravityManipulatorBlockEntity;
 import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
@@ -59,5 +62,16 @@ public class GravityManipulatorBlockRenderer<T extends GravityManipulatorBlockEn
     @Override
     public BlockEntityRenderState createRenderState() {
         return new BlockEntityRenderState();
+    }
+
+    @Override
+    public boolean shouldRenderOffScreen() {
+        return true;
+    }
+
+    public AABB getRenderBoundingBox(BlockEntity blockEntity) {
+        BlockPos pos = blockEntity.getBlockPos();
+        return new AABB(pos.getX() - 1, pos.getY() - 1, pos.getZ() - 1,
+                pos.getX() + 2, pos.getY() + 3, pos.getZ() + 2);
     }
 }
