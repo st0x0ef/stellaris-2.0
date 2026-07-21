@@ -25,8 +25,9 @@ public class KeyMappingsRegistry {
         if (player == null) {
             return;
         }
-        if (player.getVehicle() != null && player.getVehicle() instanceof RocketEntity) {
-            while (ROCKET_START.consumeClick()) {
+        boolean inRocket = player.getVehicle() instanceof RocketEntity;
+        while (ROCKET_START.consumeClick()) {
+            if (inRocket) {
                 NetworkManager.sendToServer(new KeyHandlerPacket("start_rocket", true));
             }
         }
