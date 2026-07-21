@@ -82,8 +82,8 @@ public class DieselGeneratorBlockEntity extends BaseGeneratorBlockEntity impleme
 
         if (!dieselTank.isEmpty() && !isLit()) {
             // TODO : use recipe to manage diesel consumption and energy production
-            litTime = 10;
-            dieselTank.drain(dieselTank.getFluidInTank(0).copyWithAmount(5), false);
+            litTime = 5;
+            dieselTank.drain(dieselTank.getFluidInTank(0).copyWithAmount(1), false);
             shouldUpdate = true;
         }
 
