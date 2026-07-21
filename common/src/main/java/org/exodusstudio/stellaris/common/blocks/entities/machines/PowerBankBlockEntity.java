@@ -21,7 +21,7 @@ public class PowerBankBlockEntity extends BaseEnergyContainerBlockEntity {
     }
 
     public PowerBankBlockEntity(BlockPos pos, BlockState state, int tier) {
-        super(BlockEntitiesRegistry.POWER_BANKS.get(), pos, state, (int) Math.pow(2,4*tier)*1000);
+        super(BlockEntitiesRegistry.POWER_BANKS.get(), pos, state, (int) Math.pow(2, 4 * tier) * 1000);
     }
 
     @Override

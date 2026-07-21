@@ -64,7 +64,7 @@ public class SpaceSuitBoots extends SpaceSuitItem {
                 UniversalFluidItemStorage storage = chestplate.getFluidTank(player.getItemBySlot(EquipmentSlot.CHEST));
                 SpaceSuitModule.JetModule jetModule = ModuleUtils.getSpaceSuitModule(player.getItemBySlot(EquipmentSlot.FEET), SpaceSuitModule.JetModule.class);
 
-                if (storage == null) {
+                if (storage == null || jetModule == null) {
                     return;
                 }
 
@@ -111,14 +111,12 @@ public class SpaceSuitBoots extends SpaceSuitItem {
             player.hurtMarked = true;
             player.resetFallDistance();
             Utils.disableFlyAntiCheat(player);
-        } else if (!player.isCrouching()) {
+        } else if (!player.isCrouching() && !player.onGround()) {
             Vec3 vec3 = player.getDeltaMovement();
             if (vec3.y() > 0) {
-                player.setDeltaMovement(new Vec3(vec3.x, vec3.y - 0.03, vec3.z)); // Slow down upward movement when not holding jump
-            } else {
-                player.setDeltaMovement(new Vec3(vec3.x, 0, vec3.z));
+                player.setDeltaMovement(new Vec3(vec3.x, vec3.y - 0.03, vec3.z));
+                player.hurtMarked = true;
             }
-            player.hurtMarked = true;
         }
 
         if (!player.onGround()) {
