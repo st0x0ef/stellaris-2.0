@@ -90,11 +90,11 @@ public class ElectrolyzerBlockEntity extends BaseEnergyContainerBlockEntity impl
         }
 
         //Move fluid to item for results tanks and ingredient tank
-        FluidUtil.moveFluidToItem(0, resultTanks, 2, 2, items, 1000);
-        FluidUtil.moveFluidToItem(1, resultTanks, 3, 3, items, 1000);
+        FluidUtil.moveFluidToItem(0, resultTanks, 2, 2, this, Long.MAX_VALUE);
+        FluidUtil.moveFluidToItem(1, resultTanks, 3, 3, this, Long.MAX_VALUE);
 
         //Move fluid to item for ingredient tank
-        FluidUtil.moveFluidFromItem(0, 1, 0, items, ingredientTank, 1000);
+        FluidUtil.moveFluidFromItem(0, 1, 0, this, ingredientTank, Long.MAX_VALUE);
         setChanged();
 
         if (level instanceof ServerLevel serverLevel) {

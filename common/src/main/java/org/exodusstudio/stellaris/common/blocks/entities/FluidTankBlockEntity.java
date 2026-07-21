@@ -85,13 +85,13 @@ public class FluidTankBlockEntity extends BaseContainerBlockEntity implements Fl
         boolean changed = false;
         //First - Insert slot
         if (!items.getFirst().isEmpty()) {
-            FluidUtil.moveFluidFromItem(0, 0, 0, items, fluidTank, 1000);
+            FluidUtil.moveFluidFromItem(0, 0, 0, this, fluidTank, Long.MAX_VALUE);
             changed = true;
         }
 
         //Last - Extract slot
         if (!items.getLast().isEmpty()) {
-            FluidUtil.moveFluidToItem(0, fluidTank, 1, 1, items, 1000);
+            FluidUtil.moveFluidToItem(0, fluidTank, 1, 1, this, Long.MAX_VALUE);
             changed = true;
         }
 

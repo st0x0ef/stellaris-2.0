@@ -9,8 +9,8 @@ import com.fej1fun.potentials.providers.FluidProvider;
 import dev.architectury.fluid.FluidStack;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.NonNullList;
 import net.minecraft.core.component.DataComponentType;
+import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import org.exodusstudio.stellaris.common.transport.Transport;
@@ -38,17 +38,17 @@ public class FluidUtil {
         return Capabilities.Fluid.ITEM.getCapability(stack);
     }
 
-    public static void moveFluidToItem(int tank, UniversalFluidStorage from, int slot, int resultSlot, NonNullList<ItemStack> items, long amount) {
-        if (items.get(slot).isEmpty()) {
+    public static void moveFluidToItem(int tank, UniversalFluidStorage from, int slot, int resultSlot, Container container, long amount) {
+        if (container.getItem(slot).isEmpty()) {
             return;
         }
 
         // Don't proceed if the result slot already holds something: filling would overwrite (destroy) it.
-        if (slot != resultSlot && !items.get(resultSlot).isEmpty()) {
+        if (slot != resultSlot && !container.getItem(resultSlot).isEmpty()) {
             return;
         }
 
-        UniversalFluidItemStorage to = getItemFluidStorage(items.get(slot));
+        UniversalFluidItemStorage to = getItemFluidStorage(container.getItem(slot));
 
         if (to == null) {
             return;
@@ -65,52 +65,78 @@ public class FluidUtil {
             return;
         }
 
-        if (slot != resultSlot) items.set(slot, ItemStack.EMPTY);
-        items.set(resultSlot, to.getContainer().copy());
+        if (slot != resultSlot) container.setItem(slot, ItemStack.EMPTY);
+        container.setItem(resultSlot, to.getContainer().copy());
     }
 
-    public static void moveFluidFromItem(int tank, int slot, int remainingItemSlot, NonNullList<ItemStack> items, UniversalFluidStorage to, long amount) {
-        if (items.get(slot).isEmpty()) {
+    public static void moveFluidFromItem(int tank, int slot, int remainingItemSlot, Container container, UniversalFluidStorage to, long amount) {
+        ItemStack input = container.getItem(slot);
+        if (input.isEmpty()) {
             return;
         }
 
-        ItemStack actualRemainingItems = items.get(remainingItemSlot);
-
-        if (actualRemainingItems.getCount() == actualRemainingItems.getMaxStackSize()) {
+        ItemStack remaining = container.getItem(remainingItemSlot);
+        if (slot != remainingItemSlot && remaining.getCount() >= remaining.getMaxStackSize()) {
             return;
         }
 
-        UniversalFluidItemStorage from = getItemFluidStorage(items.get(slot));
-
+        UniversalFluidItemStorage from = getItemFluidStorage(input);
         if (from == null) {
             return;
         }
 
-        if (slot != remainingItemSlot && !actualRemainingItems.isEmpty()
-                && !actualRemainingItems.is(from.getContainer().getItem())) {
+        amount = Math.min(amount, to.getTankCapacity(tank) - to.getFluidInTank(tank).getAmount());
+        if (amount <= 0) {
             return;
         }
 
-        amount = Math.min(amount, to.getTankCapacity(tank) - to.getFluidInTank(tank).getAmount());
+        ItemStack inputBackup = input.copy();
         FluidStack fluidMoved = moveFluid(from, to, from.getFluidInTank(tank).copyWithAmount(amount));
-
-        if (!fluidMoved.isEmpty() && slot != remainingItemSlot) {
-            items.set(slot, ItemStack.EMPTY);
+        if (fluidMoved.isEmpty()) {
+            return;
         }
 
-        ItemStack remainingContainer = from.getContainer().copy();
+        // Single-slot tanks (input == output) keep the emptied container in place.
+        if (slot == remainingItemSlot) {
+            return;
+        }
 
-        if (!fluidMoved.isEmpty() && actualRemainingItems.isEmpty()) {
-            items.set(remainingItemSlot, remainingContainer);
+        // Deposit the *actual* emptied container (which may be a different item than the input, e.g. a
+        // bucket) into the output slot. If it can't be deposited (slot holds a different item, or is
+        // full), roll the drain back so nothing is consumed or destroyed.
+        ItemStack emptied = from.getContainer().copy();
+        if (addToSlot(container, remainingItemSlot, emptied)) {
+            container.setItem(slot, ItemStack.EMPTY);
         }
-        else if (!fluidMoved.isEmpty() && actualRemainingItems.is(remainingContainer.getItem())) {
-            if (actualRemainingItems.getCount() + remainingContainer.getCount() < actualRemainingItems.getMaxStackSize()) {
-                items.set(remainingItemSlot, actualRemainingItems.copyWithCount(actualRemainingItems.getCount() + remainingContainer.getCount()));
-            }
-            else {
-                items.set(remainingItemSlot, actualRemainingItems.copyWithCount(actualRemainingItems.getMaxStackSize()));
-            }
+        else {
+            to.drain(fluidMoved.copy(), false);
+            container.setItem(slot, inputBackup);
         }
+    }
+
+    /**
+     * Deposits {@code stack} into {@code slot}, stacking onto a matching item and respecting the max
+     * stack size. Returns {@code true} if it was deposited (the slot was updated); {@code false} if the
+     * slot holds a different item or has no room, in which case nothing changes.
+     */
+    public static boolean addToSlot(Container container, int slot, ItemStack stack) {
+        if (stack.isEmpty()) {
+            return true;
+        }
+
+        ItemStack existing = container.getItem(slot);
+        if (existing.isEmpty()) {
+            container.setItem(slot, stack.copy());
+            return true;
+        }
+
+        if (existing.is(stack.getItem())
+                && existing.getCount() + stack.getCount() <= existing.getMaxStackSize()) {
+            container.setItem(slot, existing.copyWithCount(existing.getCount() + stack.getCount()));
+            return true;
+        }
+
+        return false;
     }
 
     public static FluidStack moveFluid(UniversalFluidStorage from, UniversalFluidStorage to, FluidStack stack) {

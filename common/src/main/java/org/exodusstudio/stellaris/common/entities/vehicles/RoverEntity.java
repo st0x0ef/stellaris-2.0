@@ -14,8 +14,12 @@ import org.exodusstudio.stellaris.common.registries.DataComponentsRegistry;
 import org.exodusstudio.stellaris.common.registries.EntityDataSerializersRegistry;
 import org.exodusstudio.stellaris.common.registries.ItemsRegistry;
 import org.exodusstudio.stellaris.common.registries.ModulesRegistry;
+import org.exodusstudio.stellaris.common.fluid.FluidUtil;
+import org.exodusstudio.stellaris.common.fluid.VehicleFuelStorage;
 import org.exodusstudio.stellaris.common.vehicle_upgrade.FuelType;
+import dev.architectury.fluid.FluidStack;
 import dev.architectury.networking.NetworkManager;
+import net.minecraft.world.level.material.Fluid;
 import dev.architectury.registry.menu.ExtendedMenuProvider;
 import dev.architectury.registry.menu.MenuRegistry;
 import net.minecraft.network.FriendlyByteBuf;
@@ -59,6 +63,50 @@ public class RoverEntity extends AbstractRoverBase implements HasCustomInventory
     private static final int FUEL_CONSUMPTION_PER_INTERVAL = 2;
 
     public final SimpleContainer inventory;
+
+    /**
+     * Exposes the rover's integer fuel as a fluid tank so it can reuse the machine slot logic. The
+     * accepted fuel is gated by the motor's fuel type, and the tank's {@link #FUEL_TYPE} is set from
+     * the inserted fluid when filling from empty (mirroring {@link #tryFillUpRover}).
+     */
+    private final VehicleFuelStorage fuelTank = new VehicleFuelStorage() {
+        @Override
+        public long getFuelAmount() {
+            return RoverEntity.this.FUEL;
+        }
+
+        @Override
+        public void setFuelAmount(long amount) {
+            RoverEntity.this.FUEL = (int) amount;
+        }
+
+        @Override
+        public long getCapacity() {
+            return RoverEntity.this.getTankCapacity();
+        }
+
+        @Override
+        public Fluid getFuelFluid() {
+            return FuelType.Type.getFluidBasedOnType(FUEL_TYPE);
+        }
+
+        @Override
+        public boolean isFluidValid(int tank, FluidStack stack) {
+            FuelType.Type type = FuelType.Type.getTypeBasedOnFluid(stack.getFluid());
+            if (type == null || getMotorFuelType() != type.getMotorType()) {
+                return false;
+            }
+            return FUEL <= 0 || type == FUEL_TYPE;
+        }
+
+        @Override
+        protected void onFill(FluidStack inserted) {
+            FuelType.Type type = FuelType.Type.getTypeBasedOnFluid(inserted.getFluid());
+            if (type != null) {
+                FUEL_TYPE = type;
+            }
+        }
+    };
 
     public RoverEntity(EntityType type, Level worldIn) {
         super(type, worldIn);
@@ -239,7 +287,13 @@ public class RoverEntity extends AbstractRoverBase implements HasCustomInventory
             return;
         }
 
-        tryFillUpRover(this.getInventory().getItem(0).getItem(), true);
+        ItemStack input = this.getInventory().getItem(0);
+        if (tryFillUpRover(input.getItem(), true)) {
+            return;
+        }
+
+        // Fluid cells (and other fluid containers) drain into the tank via the shared machine logic.
+        FluidUtil.moveFluidFromItem(0, 0, 1, getInventory(), fuelTank, Long.MAX_VALUE);
     }
 
     private SimpleContainer getInventory() {
@@ -267,17 +321,22 @@ public class RoverEntity extends AbstractRoverBase implements HasCustomInventory
             }
 
             if (itemType == FUEL_TYPE) {
+                if (isFromInventory) {
+                    boolean leavesEmptyBucket = item == ItemsRegistry.FUEL_BUCKET.get()
+                            || item == ItemsRegistry.HYDROGEN_BUCKET.get()
+                            || item == ItemsRegistry.DIESEL_BUCKET.get();
+
+                    // If the fuel item leaves an empty bucket, only refuel when it can stack into the remaining slot.
+                    if (leavesEmptyBucket && !FluidUtil.addToSlot(getInventory(), 1, new ItemStack(Items.BUCKET))) {
+                        return false;
+                    }
+
+                    inventory.removeItem(0, 1);
+                }
+
                 FUEL += REFUEL_AMOUNT;
                 if (FUEL > getTankCapacity()) {
                     FUEL = getTankCapacity();
-                }
-
-                if (isFromInventory) {
-                    ItemStack fuelItem = inventory.removeItem(0, 1);
-
-                    if (fuelItem.is(ItemsRegistry.FUEL_BUCKET.get()) || fuelItem.is(ItemsRegistry.HYDROGEN_BUCKET.get()) || fuelItem.is(ItemsRegistry.DIESEL_BUCKET.get())) {
-                        inventory.setItem(1, new ItemStack(Items.BUCKET, inventory.getItem(1).getCount() + 1));
-                    }
                 }
 
                 return true;

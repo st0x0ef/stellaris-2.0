@@ -78,7 +78,7 @@ public class DieselGeneratorBlockEntity extends BaseGeneratorBlockEntity impleme
             --litTime;
         }
 
-        FluidUtil.moveFluidFromItem(0, 0, 1, items, dieselTank, 1000);
+        FluidUtil.moveFluidFromItem(0, 0, 1, this, dieselTank, Long.MAX_VALUE);
 
         if (!dieselTank.isEmpty() && !isLit()) {
             // TODO : use recipe to manage diesel consumption and energy production

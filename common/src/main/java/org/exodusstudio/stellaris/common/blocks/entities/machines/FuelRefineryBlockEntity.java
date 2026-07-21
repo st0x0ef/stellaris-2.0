@@ -87,10 +87,10 @@ public class FuelRefineryBlockEntity extends BaseEnergyContainerBlockEntity impl
 
     @Override
     public void tick(Level level, BlockState state) {
-        FluidUtil.moveFluidFromItem(0, 0, 1, items, inputTank, 1000);
-        FluidUtil.moveFluidToItem(0, inputTank, 0, 1, items, 1000);
-        FluidUtil.moveFluidToItem(0, outputFuelTank, 2, 3, items, 1000);
-        FluidUtil.moveFluidToItem(0, outputDieselTank, 4, 5, items, 1000);
+        FluidUtil.moveFluidFromItem(0, 0, 1, this, inputTank, Long.MAX_VALUE);
+        FluidUtil.moveFluidToItem(0, inputTank, 0, 1, this, Long.MAX_VALUE);
+        FluidUtil.moveFluidToItem(0, outputFuelTank, 2, 3, this, Long.MAX_VALUE);
+        FluidUtil.moveFluidToItem(0, outputDieselTank, 4, 5, this, Long.MAX_VALUE);
         setChanged();
 
 

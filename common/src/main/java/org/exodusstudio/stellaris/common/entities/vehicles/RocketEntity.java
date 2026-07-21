@@ -39,6 +39,8 @@ import net.minecraft.world.phys.Vec3;
 import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.common.data.Planet;
 import org.exodusstudio.stellaris.common.entities.vehicles.base.VehicleEntity;
+import org.exodusstudio.stellaris.common.fluid.FluidUtil;
+import org.exodusstudio.stellaris.common.fluid.VehicleFuelStorage;
 import org.exodusstudio.stellaris.common.menus.PlanetSelectionMenu;
 import org.exodusstudio.stellaris.common.menus.RocketMenu;
 import org.exodusstudio.stellaris.common.modules.Modules;
@@ -65,6 +67,29 @@ public class RocketEntity extends VehicleEntity {
     public static final EntityDataAccessor<Planet> AUTOPILOT_DESTINATION = SynchedEntityData.defineId(RocketEntity.class, EntityDataSerializersRegistry.PLANET);
 
     private boolean inventoryDirty = false;
+
+    /** Exposes the rocket's integer fuel as a fluid tank so it can reuse the machine slot logic. */
+    private final VehicleFuelStorage fuelTank = new VehicleFuelStorage() {
+        @Override
+        public long getFuelAmount() {
+            return RocketEntity.this.getFuel();
+        }
+
+        @Override
+        public void setFuelAmount(long amount) {
+            RocketEntity.this.entityData.set(FUEL, (int) amount);
+        }
+
+        @Override
+        public long getCapacity() {
+            return RocketEntity.this.getTankCapacity();
+        }
+
+        @Override
+        public Fluid getFuelFluid() {
+            return RocketEntity.this.getExpectedFuelFluid();
+        }
+    };
 
     public RocketEntity(EntityType<?> entityType, Level level) {
         super(entityType, level, 29);
@@ -175,17 +200,20 @@ public class RocketEntity extends VehicleEntity {
                 return false;
             }
 
-            this.entityData.set(FUEL, fuelLevel + 1000);
-            if (getFuelLevel() > tankCapacity) {
-                this.entityData.set(FUEL, tankCapacity);
+            // Only refuel if the emptied bucket can stack into the remaining slot.
+            if (!FluidUtil.addToSlot(getInventory(), 1, new ItemStack(Items.BUCKET))) {
+                return false;
             }
 
+            this.entityData.set(FUEL, Math.min(tankCapacity, fuelLevel + 1000));
             inventory.removeItem(0, 1);
-
-            inventory.setItem(1, new ItemStack(Items.BUCKET, inventory.getItem(1).getCount() + 1));
 
             return true;
         }
+
+        // Fluid cells (and other fluid containers) drain into the tank via the shared machine logic.
+        FluidUtil.moveFluidFromItem(0, 0, 1, getInventory(), fuelTank, Long.MAX_VALUE);
+
         return false;
     }
 

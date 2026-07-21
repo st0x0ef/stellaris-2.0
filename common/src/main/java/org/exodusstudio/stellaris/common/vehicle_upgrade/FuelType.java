@@ -3,10 +3,12 @@ package org.exodusstudio.stellaris.common.vehicle_upgrade;
 import com.mojang.serialization.Codec;
 import org.exodusstudio.stellaris.client.screens.utils.GUISprites;
 import org.exodusstudio.stellaris.common.data.Planet;
+import org.exodusstudio.stellaris.common.registries.FluidsRegistry;
 import org.exodusstudio.stellaris.common.registries.ItemsRegistry;
 import net.minecraft.resources.Identifier;
 import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.level.material.Fluid;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Locale;
@@ -102,6 +104,35 @@ public class FuelType {
             }
 
             return null;
+        }
+
+        /** Maps a stored fluid to its fuel type, mirroring {@link #getTypeBasedOnItem} for cells/tanks. */
+        public static Type getTypeBasedOnFluid(Fluid fluid) {
+            if (fluid == null) {
+                return null;
+            }
+            if (fluid.isSame(FluidsRegistry.HYDROGEN_STILL.get())) {
+                return HYDROGEN;
+            } else if (fluid.isSame(FluidsRegistry.DIESEL_STILL.get()) || fluid.isSame(FluidsRegistry.OIL_STILL.get())) {
+                return DIESEL;
+            } else if (fluid.isSame(FluidsRegistry.FUEL_STILL.get())) {
+                return FUEL;
+            }
+
+            return null;
+        }
+
+        /** The canonical fluid that represents this fuel type, or {@code null} for non-fluid fuels. */
+        public static Fluid getFluidBasedOnType(Type type) {
+            if (type == null) {
+                return null;
+            }
+            return switch (type) {
+                case HYDROGEN -> FluidsRegistry.HYDROGEN_STILL.get();
+                case DIESEL -> FluidsRegistry.DIESEL_STILL.get();
+                case FUEL -> FluidsRegistry.FUEL_STILL.get();
+                default -> null;
+            };
         }
 
         public static Type fromString(String name) {
