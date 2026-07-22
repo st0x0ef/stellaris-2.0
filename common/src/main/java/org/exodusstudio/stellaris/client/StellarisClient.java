@@ -12,6 +12,7 @@ import org.exodusstudio.stellaris.client.effects.ParasiteCameraShake;
 import org.exodusstudio.stellaris.client.events.ClientEvents;
 import org.exodusstudio.stellaris.client.overlays.FadeOverlay;
 import org.exodusstudio.stellaris.client.overlays.LanderOverlay;
+import org.exodusstudio.stellaris.client.overlays.RocketBarOverlay;
 import org.exodusstudio.stellaris.client.overlays.RocketTimerOverlay;
 import org.exodusstudio.stellaris.client.overlays.TemperatureOverlay;
 import org.exodusstudio.stellaris.client.registry.BoatModelLayerRegistry;
@@ -61,6 +62,7 @@ public class StellarisClient {
 
     public static void registerOverlays() {
         ClientGuiEvent.RENDER_HUD.register(RocketTimerOverlay::render);
+        ClientGuiEvent.RENDER_HUD.register(RocketBarOverlay::render);
         ClientGuiEvent.RENDER_HUD.register(FadeOverlay::render);
         ClientGuiEvent.RENDER_HUD.register(LanderOverlay::render);
         ClientGuiEvent.RENDER_HUD.register(TemperatureOverlay::render);

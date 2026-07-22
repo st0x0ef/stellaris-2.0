@@ -5,6 +5,7 @@
   "has_oxygen": false,
   "parent_planet": "minecraft:overworld",
   "allow_space_stations": true,
+  "planet_bar": "stellaris:textures/planet_bar/orbit_planet_bar.png",
   "temperature": {
     "dayTimeTemperature": -270,
     "nightTimeTemperature": -270

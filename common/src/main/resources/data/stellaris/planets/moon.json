@@ -3,6 +3,7 @@
   "dimension": "stellaris:moon",
   "gravity": 1.62,
   "has_oxygen": false,
+  "planet_bar": "stellaris:textures/planet_bar/moon_planet_bar.png",
   "temperature": {
     "dayTimeTemperature": 123,
     "nightTimeTemperature": -233
