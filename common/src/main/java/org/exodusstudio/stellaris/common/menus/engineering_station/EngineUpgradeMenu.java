@@ -59,8 +59,9 @@ public class EngineUpgradeMenu extends BaseItemCombinerMenu {
 
     @Override
     protected void onTake(Player player, ItemStack stack) {
-        inputSlots.getItem(0).shrink(stack.getCount());
-        inputSlots.getItem(1).shrink(stack.getCount());
+        inputSlots.getItem(0).shrink(1);
+        inputSlots.getItem(1).shrink(1);
+        broadcastChanges();
     }
 
     @Override
