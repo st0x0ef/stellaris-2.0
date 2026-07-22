@@ -7,7 +7,7 @@
     {
       "type": "image",
       "image": {
-        "location": "stellaris:textures/wiki/rendered_blocks/vacuumator",
+        "location": "stellaris:textures/wiki/rendered_blocks/antenna",
         "width": 96,
         "height": 96,
         "legend": "Antenna"

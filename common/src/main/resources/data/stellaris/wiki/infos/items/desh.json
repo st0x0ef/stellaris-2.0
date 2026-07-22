@@ -1,0 +1,26 @@
+{
+  "components": [
+    {
+      "type": "text",
+      "text": "Desh is a rare metal found on the [color=yellow]Moon[color], used for advanced space technology."
+    },
+    {
+      "type": "item",
+      "item": {
+        "scale": 4,
+        "stack": {
+          "count": 1,
+          "id": "stellaris:desh_ingot"
+        }
+      }
+    },
+    {
+      "type": "text",
+      "text": "You mine [color=cyan]Moon Desh Ore[color] to obtain Raw Desh, then smelt it into a Desh Ingot. [br] Unlike [ref=stellaris:items/titanium]Titanium[ref], desh is only found off Earth, so you will need to travel before you can gather it. [br] [br] It is used to craft some of the mod's most advanced components."
+    }
+  ],
+  "iconType": "item",
+  "id": "stellaris:desh",
+  "entryId": "stellaris:items",
+  "title": "Desh"
+}

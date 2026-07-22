@@ -1,0 +1,28 @@
+{
+  "components": [
+    {
+      "type": "text",
+      "text": "The Blue Fish is a peaceful schooling creature. It swims in water and in [ref=stellaris:items/blue_liquid]Blue Liquid[ref]."
+    },
+    {
+      "type": "entity",
+      "entity": {
+        "id": "stellaris:blue_fish",
+        "scale": 55,
+        "defaultRotation": [0, 180, 0]
+      }
+    },
+    {
+      "type": "text",
+      "text": "Like most fish, it prefers to travel in schools and will keep close to others of its kind. [br] It is completely [color=green]passive[color] and will simply flee when attacked. [br] [br]"
+    },
+    {
+      "type": "text",
+      "text": "Stats : [br] - Health : 3.0 [br] - Damage : 1.0"
+    }
+  ],
+  "iconType": "entity",
+  "id": "stellaris:blue_fish",
+  "entryId": "stellaris:mobs",
+  "title": "Blue Fish"
+}

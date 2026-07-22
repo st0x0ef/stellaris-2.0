@@ -1,0 +1,28 @@
+{
+  "components": [
+    {
+      "type": "text",
+      "text": "The Luna Shadow is a [color=purple]hostile[color] creature that lurks in the darkness of the Moon."
+    },
+    {
+      "type": "entity",
+      "entity": {
+        "id": "stellaris:luna_shadow",
+        "scale": 35,
+        "defaultRotation": [0, 180, 0]
+      }
+    },
+    {
+      "type": "text",
+      "text": "This shadowy predator hunts players, villagers and iron golems alike. [br] It is [color=red]immune to fire[color] and resists knockback, making it a dangerous opponent. [br] It can be found on the Moon. [br] [br]"
+    },
+    {
+      "type": "text",
+      "text": "Stats : [br] - Health : 34.0 [br] - Speed : 0.26 [br] - Damage : 6.0 [br] - Knockback Resistance : 0.35"
+    }
+  ],
+  "iconType": "entity",
+  "id": "stellaris:luna_shadow",
+  "entryId": "stellaris:mobs",
+  "title": "Luna Shadow"
+}

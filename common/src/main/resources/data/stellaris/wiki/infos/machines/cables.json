@@ -1,0 +1,42 @@
+{
+  "components": [
+    {
+      "type": "text",
+      "text": "Cables carry [color=yellow]energy[color] between your machines."
+    },
+    {
+      "type": "image",
+      "image": {
+        "location": "stellaris:textures/wiki/rendered_blocks/cable_t1",
+        "width": 96,
+        "height": 96,
+        "legend": "Cable"
+      }
+    },
+    {
+      "type": "text",
+      "text": "Connect generators such as the [ref=stellaris:machines/solar_panel]Solar Panel[ref] or [ref=stellaris:machines/coal_generator]Coal Generator[ref] to the machines that need power, and store the surplus in a [ref=stellaris:machines/power_bank]Power Bank[ref]. [br] [br]"
+    },
+    {
+      "type": "text",
+      "text": "Stats : [br] - Transfer Rate : 20 FE/t"
+    },
+    {
+      "type": "item",
+      "item": {
+        "stack": {
+          "count": 1,
+          "id": "stellaris:cable_t1"
+        },
+        "onlyIcon": true
+      }
+    }
+  ],
+  "iconType": "item",
+  "id": "stellaris:cables",
+  "entryId": "stellaris:machines",
+  "title": "Machines : Cables",
+  "associatedBlocks": [
+    "stellaris:cable_t1"
+  ]
+}

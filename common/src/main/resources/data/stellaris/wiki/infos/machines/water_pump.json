@@ -1,0 +1,38 @@
+{
+  "components": [
+    {
+      "type": "text",
+      "text": "The [color=yellow]Water Pump[color] draws water from the world and feeds it into your fluid network."
+    },
+    {
+      "type": "image",
+      "image": {
+        "location": "stellaris:textures/wiki/rendered_blocks/water_pump",
+        "width": 96,
+        "height": 96,
+        "legend": "Water Pump"
+      }
+    },
+    {
+      "type": "text",
+      "text": "Place it near a water source and connect it with [ref=stellaris:machines/pipes]Pipes[ref] to supply machines such as the [ref=stellaris:machines/electrolyzer]Electrolyzer[ref], which splits water into oxygen and hydrogen. [br] [br]"
+    },
+    {
+      "type": "item",
+      "item": {
+        "stack": {
+          "count": 1,
+          "id": "stellaris:water_pump"
+        },
+        "onlyIcon": true
+      }
+    }
+  ],
+  "iconType": "item",
+  "id": "stellaris:water_pump",
+  "entryId": "stellaris:machines",
+  "title": "Machines : Water Pump",
+  "associatedBlocks": [
+    "stellaris:water_pump"
+  ]
+}

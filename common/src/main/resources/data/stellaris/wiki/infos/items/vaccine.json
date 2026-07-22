@@ -1,0 +1,44 @@
+{
+  "components": [
+    {
+      "type": "text",
+      "text": "The [color=green]Vaccine[color] is your cure against the [color=purple]parasite infection[color] that spreads on the Moon."
+    },
+    {
+      "type": "item",
+      "item": {
+        "scale": 4,
+        "stack": {
+          "count": 1,
+          "id": "stellaris:vaccine"
+        }
+      }
+    },
+    {
+      "type": "text",
+      "text": "The [ref=stellaris:mobs/parasite]Lunar Parasite[ref] can attach to you and inflict the infection. To fight back, you must research a cure. [br] [br]"
+    },
+    {
+      "type": "text",
+      "text": "First, capture a sample in a [color=cyan]Pathogen Storage Cell[color] :"
+    },
+    {
+      "type": "item",
+      "item": {
+        "scale": 4,
+        "stack": {
+          "count": 1,
+          "id": "stellaris:pathogen_storage_cell"
+        }
+      }
+    },
+    {
+      "type": "text",
+      "text": "Then use the [ref=stellaris:machines/laboratory]Laboratory[ref] to research the pathogen and produce a Vaccine. Applying it removes the infection and protects you."
+    }
+  ],
+  "iconType": "item",
+  "id": "stellaris:vaccine",
+  "entryId": "stellaris:items",
+  "title": "Vaccine"
+}

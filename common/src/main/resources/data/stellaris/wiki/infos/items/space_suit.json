@@ -1,0 +1,34 @@
+{
+  "components": [
+    {
+      "type": "text",
+      "text": "The [color=yellow]Space Suit[color] is what keeps you alive beyond Earth. Without it, the vacuum, cold and lack of oxygen would kill you in seconds."
+    },
+    {
+      "type": "item",
+      "item": {
+        "scale": 3,
+        "stack": {
+          "count": 1,
+          "id": "stellaris:space_suit_chestplate"
+        }
+      }
+    },
+    {
+      "type": "text",
+      "text": "A full set is made of four pieces : [br] - Helmet [br] - Chestplate [br] - Leggings [br] - Boots [br] [br] Wear all four to be protected in space. [br] [br]"
+    },
+    {
+      "type": "text",
+      "text": "**Modules**"
+    },
+    {
+      "type": "text",
+      "text": "The suit can be upgraded with modules, each available in three tiers : [br] - [color=cyan]Oxygen[color] modules store the air you breathe, paired with an [ref=stellaris:machines/oxygen]Oxygen Distributor[ref] to refill. [br] - [color=cyan]Oil Finder[color] modules add the [ref=stellaris:items/oil_finder]Oil Finder[ref] ability to your suit. [br] - [color=cyan]Diesel[color] and [color=cyan]Hydrogen[color] tank modules carry fuel with you. [br] - [color=cyan]Jet[color] modules let you fly. [br] - [color=cyan]Damage Protection[color] modules increase your armor (iron, diamond then netherite tier)."
+    }
+  ],
+  "iconType": "item",
+  "id": "stellaris:space_suit",
+  "entryId": "stellaris:items",
+  "title": "Space Suit"
+}
