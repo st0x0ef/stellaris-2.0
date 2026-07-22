@@ -8,8 +8,58 @@
       "entries": [
         {
           "type": "minecraft:item",
+          "name": "stellaris:desh_ingot",
+          "weight": 4,
+          "functions": [
+            {
+              "function": "minecraft:set_count",
+              "count": {
+                "type": "minecraft:uniform",
+                "min": 1,
+                "max": 3
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "stellaris:space_suit_oxygen_module_tier_2",
+          "weight": 2
+        },
+        {
+          "type": "minecraft:item",
+          "name": "stellaris:space_suit_oil_finder_module_tier_2",
+          "weight": 2
+        },
+        {
+          "type": "minecraft:item",
+          "name": "stellaris:space_suit_damage_protection_module_tier_2",
+          "weight": 2
+        },
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:emerald",
+          "weight": 4,
+          "functions": [
+            {
+              "function": "minecraft:set_count",
+              "count": {
+                "type": "minecraft:uniform",
+                "min": 2,
+                "max": 5
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:diamond_block",
+          "weight": 2
+        },
+        {
+          "type": "minecraft:item",
           "name": "stellaris:moon_berries",
-          "weight": 40,
+          "weight": 25,
           "functions": [
             {
               "function": "minecraft:set_count",
@@ -76,52 +126,172 @@
         {
           "type": "minecraft:item",
           "name": "stellaris:blue_can",
-          "weight": 5
+          "weight": 5,
+          "functions": [
+            {
+              "function": "minecraft:set_components",
+              "components": {
+                "minecraft:food": {
+                  "nutrition": 10,
+                  "saturation": 5.0
+                },
+                "minecraft:consumable": {}
+              }
+            }
+          ]
         },
         {
           "type": "minecraft:item",
           "name": "stellaris:big_blue_can",
-          "weight": 5
+          "weight": 5,
+          "functions": [
+            {
+              "function": "minecraft:set_components",
+              "components": {
+                "minecraft:food": {
+                  "nutrition": 20,
+                  "saturation": 10.0
+                },
+                "minecraft:consumable": {}
+              }
+            }
+          ]
         },
         {
           "type": "minecraft:item",
           "name": "stellaris:red_can",
-          "weight": 5
+          "weight": 5,
+          "functions": [
+            {
+              "function": "minecraft:set_components",
+              "components": {
+                "minecraft:food": {
+                  "nutrition": 10,
+                  "saturation": 5.0
+                },
+                "minecraft:consumable": {}
+              }
+            }
+          ]
         },
         {
           "type": "minecraft:item",
           "name": "stellaris:big_red_can",
-          "weight": 5
+          "weight": 5,
+          "functions": [
+            {
+              "function": "minecraft:set_components",
+              "components": {
+                "minecraft:food": {
+                  "nutrition": 20,
+                  "saturation": 10.0
+                },
+                "minecraft:consumable": {}
+              }
+            }
+          ]
         },
         {
           "type": "minecraft:item",
           "name": "stellaris:green_can",
-          "weight": 5
+          "weight": 5,
+          "functions": [
+            {
+              "function": "minecraft:set_components",
+              "components": {
+                "minecraft:food": {
+                  "nutrition": 10,
+                  "saturation": 5.0
+                },
+                "minecraft:consumable": {}
+              }
+            }
+          ]
         },
         {
           "type": "minecraft:item",
           "name": "stellaris:big_green_can",
-          "weight": 5
+          "weight": 5,
+          "functions": [
+            {
+              "function": "minecraft:set_components",
+              "components": {
+                "minecraft:food": {
+                  "nutrition": 20,
+                  "saturation": 10.0
+                },
+                "minecraft:consumable": {}
+              }
+            }
+          ]
         },
         {
           "type": "minecraft:item",
           "name": "stellaris:purple_can",
-          "weight": 5
+          "weight": 5,
+          "functions": [
+            {
+              "function": "minecraft:set_components",
+              "components": {
+                "minecraft:food": {
+                  "nutrition": 10,
+                  "saturation": 5.0
+                },
+                "minecraft:consumable": {}
+              }
+            }
+          ]
         },
         {
           "type": "minecraft:item",
           "name": "stellaris:big_purple_can",
-          "weight": 5
+          "weight": 5,
+          "functions": [
+            {
+              "function": "minecraft:set_components",
+              "components": {
+                "minecraft:food": {
+                  "nutrition": 20,
+                  "saturation": 10.0
+                },
+                "minecraft:consumable": {}
+              }
+            }
+          ]
         },
         {
           "type": "minecraft:item",
           "name": "stellaris:yellow_can",
-          "weight": 5
+          "weight": 5,
+          "functions": [
+            {
+              "function": "minecraft:set_components",
+              "components": {
+                "minecraft:food": {
+                  "nutrition": 10,
+                  "saturation": 5.0
+                },
+                "minecraft:consumable": {}
+              }
+            }
+          ]
         },
         {
           "type": "minecraft:item",
           "name": "stellaris:big_yellow_can",
-          "weight": 5
+          "weight": 5,
+          "functions": [
+            {
+              "function": "minecraft:set_components",
+              "components": {
+                "minecraft:food": {
+                  "nutrition": 20,
+                  "saturation": 10.0
+                },
+                "minecraft:consumable": {}
+              }
+            }
+          ]
         },
         {
           "type": "minecraft:item",
@@ -174,7 +344,13 @@
           "weight": 10,
           "functions": [
             {
-              "function": "minecraft:enchant_randomly"
+              "function": "minecraft:enchant_randomly",
+              "conditions": [
+                {
+                  "condition": "minecraft:random_chance",
+                  "chance": 0.25
+                }
+              ]
             }
           ]
         },
@@ -184,7 +360,13 @@
           "weight": 10,
           "functions": [
             {
-              "function": "minecraft:enchant_randomly"
+              "function": "minecraft:enchant_randomly",
+              "conditions": [
+                {
+                  "condition": "minecraft:random_chance",
+                  "chance": 0.25
+                }
+              ]
             }
           ]
         },
@@ -194,7 +376,13 @@
           "weight": 10,
           "functions": [
             {
-              "function": "minecraft:enchant_randomly"
+              "function": "minecraft:enchant_randomly",
+              "conditions": [
+                {
+                  "condition": "minecraft:random_chance",
+                  "chance": 0.25
+                }
+              ]
             }
           ]
         },
@@ -204,7 +392,13 @@
           "weight": 10,
           "functions": [
             {
-              "function": "minecraft:enchant_randomly"
+              "function": "minecraft:enchant_randomly",
+              "conditions": [
+                {
+                  "condition": "minecraft:random_chance",
+                  "chance": 0.25
+                }
+              ]
             }
           ]
         },

@@ -8,6 +8,61 @@
       "entries": [
         {
           "type": "minecraft:item",
+          "name": "stellaris:desh_ingot",
+          "weight": 4,
+          "functions": [
+            {
+              "function": "minecraft:set_count",
+              "count": {
+                "type": "minecraft:uniform",
+                "min": 1,
+                "max": 3
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "stellaris:space_suit_oxygen_module_tier_2",
+          "weight": 2
+        },
+        {
+          "type": "minecraft:item",
+          "name": "stellaris:space_suit_oil_finder_module_tier_2",
+          "weight": 2
+        },
+        {
+          "type": "minecraft:item",
+          "name": "stellaris:space_suit_damage_protection_module_tier_2",
+          "weight": 2
+        },
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:emerald",
+          "weight": 4,
+          "functions": [
+            {
+              "function": "minecraft:set_count",
+              "count": {
+                "type": "minecraft:uniform",
+                "min": 2,
+                "max": 5
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:netherite_scrap",
+          "weight": 2
+        },
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:diamond_block",
+          "weight": 2
+        },
+        {
+          "type": "minecraft:item",
           "name": "stellaris:titanium_ingot",
           "weight": 20,
           "functions": [
@@ -104,12 +159,36 @@
         {
           "type": "minecraft:item",
           "name": "stellaris:red_can",
-          "weight": 8
+          "weight": 8,
+          "functions": [
+            {
+              "function": "minecraft:set_components",
+              "components": {
+                "minecraft:food": {
+                  "nutrition": 10,
+                  "saturation": 5.0
+                },
+                "minecraft:consumable": {}
+              }
+            }
+          ]
         },
         {
           "type": "minecraft:item",
           "name": "stellaris:blue_can",
-          "weight": 8
+          "weight": 8,
+          "functions": [
+            {
+              "function": "minecraft:set_components",
+              "components": {
+                "minecraft:food": {
+                  "nutrition": 10,
+                  "saturation": 5.0
+                },
+                "minecraft:consumable": {}
+              }
+            }
+          ]
         },
         {
           "type": "minecraft:item",
