@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "S",
+    "S"
+  ],
+  "key": {
+    "S": "stellaris:vertical_desh_plating_slab"
+  },
+  "result": {
+    "id": "stellaris:desh_plating_block"
+  }
+}
