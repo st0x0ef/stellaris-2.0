@@ -145,17 +145,20 @@ public record EntryInfo(Identifier id, Identifier entryId, String title, String 
      * @param location the location of the entity to render
      * @param scale the entity scale
      */
-    public record EntityComponent(Identifier location, int scale, Optional<Vector3f> defaultRotation) {
+    public record EntityComponent(Identifier location, int scale, int width, Optional<Vector3f> defaultRotation) {
 
         public static final Codec<EntityComponent> CODEC = RecordCodecBuilder.create(instance -> instance.group(
                 Identifier.CODEC.fieldOf("id").forGetter(EntityComponent::location),
                 Codec.INT.fieldOf("scale").forGetter(EntityComponent::scale),
+                Codec.INT.optionalFieldOf("width", 50).forGetter(EntityComponent::width),
+
                 VEC3F.optionalFieldOf("defaultRotation").forGetter(EntityComponent::defaultRotation)
         ).apply(instance, EntityComponent::new));
 
         public static final StreamCodec<ByteBuf, EntityComponent> STREAM_CODEC = StreamCodec.composite(
                 Identifier.STREAM_CODEC, EntityComponent::location,
                 ByteBufCodecs.INT, EntityComponent::scale,
+                ByteBufCodecs.INT, EntityComponent::width,
                 ByteBufCodecs.optional(STREAM_CODEC_VEC3F), EntityComponent::defaultRotation,
                 EntityComponent::new
         );

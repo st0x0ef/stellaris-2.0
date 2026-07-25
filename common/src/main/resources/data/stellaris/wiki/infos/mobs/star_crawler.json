@@ -9,7 +9,8 @@
       "entity": {
         "id": "stellaris:star_crawler",
         "scale": 35,
-        "defaultRotation": [0, 180, 0]
+        "defaultRotation": [0, 180, 0],
+        "width": 150
       }
     },
     {
