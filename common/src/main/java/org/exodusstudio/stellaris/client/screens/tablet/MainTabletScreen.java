@@ -13,6 +13,7 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
+import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.client.screens.components.TexturedButton;
 import org.exodusstudio.stellaris.client.screens.tablet.application.ApplicationRegistry;
 import org.exodusstudio.stellaris.client.utils.ClientUtils;
@@ -45,14 +46,19 @@ public class MainTabletScreen extends AbstractContainerScreen<MainTabletMenu> {
 
     @Override
     protected void init() {
-        super.init();
-        this.openNextScreen(menu.nextScreen);
+        if(menu.nextScreen != null) {
+            this.openNextScreen(menu.nextScreen);
+            return;
+        }
 
+        super.init();
         createAppsButton();
     }
 
     @Override
     public void extractBackground(GuiGraphicsExtractor guiGraphics, int mouseX, int mouseY, float partialTick) {
+        if(this.menu.nextScreen != null) return; //We don't render if we need to show another screen, the other screen will handle the rendering.
+
         super.extractBackground(guiGraphics, mouseX, mouseY, partialTick);
         guiGraphics.blit(RenderPipelines.GUI_TEXTURED, BACKGROUND, this.leftPos, this.topPos, 0, 0, this.imageWidth, this.imageHeight, this.imageWidth, this.imageHeight);
     }

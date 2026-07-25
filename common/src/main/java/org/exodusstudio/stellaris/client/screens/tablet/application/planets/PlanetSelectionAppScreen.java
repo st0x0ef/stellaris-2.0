@@ -34,6 +34,7 @@ import org.exodusstudio.stellaris.common.network.packets.OpenMenuPacket;
 import org.exodusstudio.stellaris.common.network.packets.SelectPlanetPacket;
 import org.exodusstudio.stellaris.common.network.packets.TeleportToPlanetPacket;
 import org.exodusstudio.stellaris.common.registries.DataComponentsRegistry;
+import org.exodusstudio.stellaris.common.registries.ItemsRegistry;
 import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
 import org.exodusstudio.stellaris.common.utils.Utils;
 import org.jetbrains.annotations.Nullable;
@@ -50,6 +51,7 @@ public class PlanetSelectionAppScreen extends AbstractContainerScreen<PlanetSele
     private final PlanetSelectionMenu selectionMenu;
     private final boolean inSpace;
     private PlanetInfoComponent planetInfoComponent;
+    private final boolean isSelectingAutoPilot;
     public AntennaSavedData antennaSavedData;
 
     public PlanetSelectionAppScreen(PlanetSelectionMenu selectionMenu, Inventory playerInventory, Component component) {
@@ -58,6 +60,7 @@ public class PlanetSelectionAppScreen extends AbstractContainerScreen<PlanetSele
         this.antennaSavedData = selectionMenu.antennaSavedData;
         this.selectionMenu = selectionMenu;
         this.inventoryLabelY = -this.imageHeight;
+        this.isSelectingAutoPilot = selectionMenu.player.getActiveItem().is(ItemsRegistry.AUTOPILOT_MODULE.get());
         this.titleLabelY = -this.imageHeight;
     }
 
@@ -148,7 +151,7 @@ public class PlanetSelectionAppScreen extends AbstractContainerScreen<PlanetSele
      * @return true if the select planet button should be visible, false otherwise.
      */
     public boolean isSelectPlanetButtonVisible() {
-        return this.selectedPlanet != null && !this.inSpace && this.canTeleportToPlanet();
+        return this.selectedPlanet != null && this.inSpace && this.canTeleportToPlanet() || this.isSelectingAutoPilot;
     }
 
     /**

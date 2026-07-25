@@ -37,14 +37,16 @@ public record SelectPlanetPacket(Planet destination) implements CustomPacketPayl
                 return;
             }
 
+
             ItemStack active = player.getActiveItem();
-            if (active.isEmpty()) {
-                return;
+
+            if (!active.isEmpty()) {
+                active.set(DataComponentsRegistry.AUTOPILOT.get(), data.destination());
+            } else{
+                Utils.stopFade(player);
             }
 
-            active.set(DataComponentsRegistry.AUTOPILOT.get(), data.destination());
             player.stellaris$setPlanetMenuOpen(false, player, true);
-            Utils.stopFade(player);
             player.closeContainer();
         });
     }
