@@ -24,4 +24,6 @@ public record PathogenStorageComponent(int stored, int capacity) {
                 buf -> new PathogenStorageComponent(buf.readInt(), buf.readInt())
         );
     }
+
+    public static PathogenStorageComponent DEFAULT = new PathogenStorageComponent(0, 500);
 }

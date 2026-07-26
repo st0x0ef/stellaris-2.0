@@ -9,6 +9,8 @@ import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import org.exodusstudio.stellaris.common.blocks.entities.machines.LaboratoryBlockEntity;
+import org.exodusstudio.stellaris.common.components.PathogenStorageComponent;
+import org.exodusstudio.stellaris.common.registries.DataComponentsRegistry;
 import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
 import org.exodusstudio.stellaris.common.utils.MoonLoreUtils;
 
@@ -33,7 +35,9 @@ public record InfectionResearchPacket(BlockPos laboratoryPos, boolean success) i
                 player.stellaris$saveDataAttachments(MoonLoreUtils.MOON_LORE_PROGRESSION, nextStage);
             }
 
-            laboratory.setItem(0, ItemStack.EMPTY);
+            ItemStack slot0ItemToReturn = laboratory.getItem(0).copy();
+            slot0ItemToReturn.set(DataComponentsRegistry.PATHOGEN_STORED.get(), PathogenStorageComponent.DEFAULT);
+            laboratory.setItem(0, slot0ItemToReturn);
         }
     }
 

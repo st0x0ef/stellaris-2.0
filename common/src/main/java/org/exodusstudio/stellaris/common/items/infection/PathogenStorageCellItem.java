@@ -17,17 +17,15 @@ import org.exodusstudio.stellaris.common.registries.DataComponentsRegistry;
 import java.util.function.Consumer;
 
 public class PathogenStorageCellItem extends Item {
-    private static final PathogenStorageComponent DEFAULT_COMPONENT = new PathogenStorageComponent(0, 500);
-
     public PathogenStorageCellItem(Properties properties) {
-        super(properties.component(DataComponentsRegistry.PATHOGEN_STORED.get(), DEFAULT_COMPONENT));
+        super(properties.component(DataComponentsRegistry.PATHOGEN_STORED.get(), PathogenStorageComponent.DEFAULT));
     }
 
     @Override
     public void appendHoverText(ItemStack stack, TooltipContext context, TooltipDisplay tooltipDisplay, Consumer<Component> tooltipAdder, TooltipFlag flag) {
         super.appendHoverText(stack, context, tooltipDisplay, tooltipAdder, flag);
 
-        PathogenStorageComponent pathogenStorageComponents = stack.getOrDefault(DataComponentsRegistry.PATHOGEN_STORED.get(), DEFAULT_COMPONENT);
+        PathogenStorageComponent pathogenStorageComponents = stack.getOrDefault(DataComponentsRegistry.PATHOGEN_STORED.get(), PathogenStorageComponent.DEFAULT);
         String stored = String.valueOf(pathogenStorageComponents.stored());
         String capacity = String.valueOf(pathogenStorageComponents.capacity());
 
@@ -41,7 +39,7 @@ public class PathogenStorageCellItem extends Item {
             Inventory inventory = player.getInventory();
 
             ItemStack storageCellStack = player.getItemInHand(hand);
-            PathogenStorageComponent pathogenStorageComponents = storageCellStack.getOrDefault(DataComponentsRegistry.PATHOGEN_STORED.get(), DEFAULT_COMPONENT);
+            PathogenStorageComponent pathogenStorageComponents = storageCellStack.getOrDefault(DataComponentsRegistry.PATHOGEN_STORED.get(), PathogenStorageComponent.DEFAULT);
 
             for (int i = 0; i < inventory.getContainerSize(); i++) {
                 if (inventory.getItem(i).getItem() instanceof ParasiteItem) {

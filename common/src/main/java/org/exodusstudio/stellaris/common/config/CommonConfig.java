@@ -74,8 +74,8 @@ public class CommonConfig {
 
     public static class ParasiteConfig {
         public boolean enableParasiteDrop = true;
-        public int minDropIntervalTicks = 200;
-        public int randomDropIntervalMaxTicks = 2200;
+        public int minDropIntervalTicks = 100;
+        public int randomDropIntervalMaxTicks = 1100;
 
         public int researchDelay = 600; // 30s
     }
