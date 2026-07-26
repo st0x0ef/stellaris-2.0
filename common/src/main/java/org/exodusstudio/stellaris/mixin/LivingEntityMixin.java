@@ -49,7 +49,8 @@ public class LivingEntityMixin {
             stellaris$oxygenCounter = 0;
 
             if (stellaris$entity.level() instanceof ServerLevel serverLevel) {
-                if (!OxygenUtils.isOxygenated(stellaris$entity.level(), stellaris$entity.blockPosition())) {
+                if (!OxygenUtils.isOxygenated(stellaris$entity.level(), stellaris$entity.blockPosition()) ||
+                        (stellaris$entity instanceof Player player && player.isUnderWater())) {
                     ItemStack headSlot = stellaris$entity.getItemBySlot(EquipmentSlot.HEAD);
                     if (Utils.isLivingInSpaceSuit(stellaris$entity) && headSlot.getItem() instanceof SpaceSuitHelmet helmet) {
                         if (stellaris$entity instanceof Player player) {

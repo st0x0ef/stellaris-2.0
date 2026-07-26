@@ -75,10 +75,6 @@ public class OxygenUtils {
     }
 
     public static boolean isOxygenated(Level level, BlockPos entityPos) {
-        if (level.getFluidState(entityPos) != Fluids.EMPTY.defaultFluidState()) {
-            return false;
-        }
-
         Planet planet = PlanetsData.getPlanet(level.dimension());
         if (planet == null || planet.hasOxygen()) {
             return true;
