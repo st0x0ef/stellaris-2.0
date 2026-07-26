@@ -9,6 +9,8 @@ import net.neoforged.neoforge.registries.DeferredRegister;
 import net.neoforged.neoforge.registries.NeoForgeRegistries;
 import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.client.overlays.FadingHolder;
+import org.exodusstudio.stellaris.common.assistant.AssistantPlayerData;
+import org.exodusstudio.stellaris.common.infection.ParasitePlayerData;
 import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
 import org.exodusstudio.stellaris.common.utils.MoonLoreUtils;
 
@@ -39,11 +41,21 @@ public class DataAttachmentRegistry {
 
 
 
+    private static final Supplier<AttachmentType<?>> ASSISTANT_DATA = ATTACHMENT_TYPES.register(
+            "assistant_data", () -> AttachmentType.builder(AssistantPlayerData::empty).serialize(AssistantPlayerData.CODEC.fieldOf("assistant_data")).build()
+    );
+
+    private static final Supplier<AttachmentType<?>> PARASITE_DATA = ATTACHMENT_TYPES.register(
+            "parasite_data", () -> AttachmentType.builder(ParasitePlayerData::empty).serialize(ParasitePlayerData.CODEC.fieldOf("parasite_data")).build()
+    );
+
     public static void register(IEventBus bus) {
         ATTACHMENTS.put(IdentifierUtils.id("oil"), OIL);
         ATTACHMENTS.put(IdentifierUtils.id("player_fade"), PLAYER_FADE);
         ATTACHMENTS.put(MoonLoreUtils.MOON_LORE_PROGRESSION, MOON_LORE_PROGRESSION);
         ATTACHMENTS.put(MoonLoreUtils.PLAYER_IMMUNISED_TO_INFECTION, PLAYER_IMMUNISED_TO_INFECTION);
+        ATTACHMENTS.put(AssistantPlayerData.KEY, ASSISTANT_DATA);
+        ATTACHMENTS.put(ParasitePlayerData.KEY, PARASITE_DATA);
 
         ATTACHMENT_TYPES.register(bus);
     }

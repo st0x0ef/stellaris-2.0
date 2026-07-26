@@ -26,9 +26,9 @@ import net.minecraft.world.entity.npc.villager.AbstractVillager;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import org.exodusstudio.stellaris.common.network.packets.ParasiteCameraShakePacket;
-import org.exodusstudio.stellaris.common.registries.EffectsRegistry;
 import org.exodusstudio.stellaris.common.registries.EntityTypesRegistry;
 import org.exodusstudio.stellaris.common.registries.TagsRegistry;
+import org.exodusstudio.stellaris.common.utils.InfectionUtils;
 import org.exodusstudio.stellaris.common.utils.MoonLoreUtils;
 
 import java.util.EnumSet;
@@ -118,7 +118,7 @@ public class EvolvedParasiteAffectedVillagerEntity extends ParasiteAffectedVilla
             );
 
             for (LivingEntity entity : entities) {
-                entity.addEffect(new MobEffectInstance(EffectsRegistry.getHolder(EffectsRegistry.INFECTED), 20 * 10, 0));
+                InfectionUtils.infect(entity, 20 * 10);
 
                 if (entity instanceof ServerPlayer serverPlayer) {
                     NetworkManager.sendToPlayer(serverPlayer, new ParasiteCameraShakePacket(8, 0.35F));
@@ -324,9 +324,7 @@ public class EvolvedParasiteAffectedVillagerEntity extends ParasiteAffectedVilla
 
     private void applyEvolvedOnHitEffects(ServerLevel level, LivingEntity target, int variant) {
         target.addEffect(new MobEffectInstance(MobEffects.WEAKNESS, 20 * 8, 0));
-        if (!MoonLoreUtils.isImmuneToInfection(target)) {
-            target.addEffect(new MobEffectInstance(EffectsRegistry.getHolder(EffectsRegistry.INFECTED), 20 * 8, 0));
-        }
+        InfectionUtils.infect(target, 20 * 8);
 
         if (variant == ATTACK_TENTACLE) {
             target.addEffect(new MobEffectInstance(MobEffects.SLOWNESS, 20 * 3, 0));
@@ -340,7 +338,7 @@ public class EvolvedParasiteAffectedVillagerEntity extends ParasiteAffectedVilla
             );
 
             for (LivingEntity splashTarget : splashTargets) {
-                splashTarget.addEffect(new MobEffectInstance(EffectsRegistry.getHolder(EffectsRegistry.INFECTED), 20 * 10, 0));
+                InfectionUtils.infect(splashTarget, 20 * 10);
                 splashTarget.addEffect(new MobEffectInstance(MobEffects.WEAKNESS, 20 * 5, 0));
 
                 if (splashTarget instanceof ServerPlayer serverPlayer) {

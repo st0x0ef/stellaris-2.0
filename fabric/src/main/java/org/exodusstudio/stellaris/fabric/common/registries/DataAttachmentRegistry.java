@@ -7,6 +7,8 @@ import net.fabricmc.fabric.api.attachment.v1.AttachmentType;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.resources.Identifier;
 import org.exodusstudio.stellaris.client.overlays.FadingHolder;
+import org.exodusstudio.stellaris.common.assistant.AssistantPlayerData;
+import org.exodusstudio.stellaris.common.infection.ParasitePlayerData;
 import org.exodusstudio.stellaris.common.modules.Modules;
 import org.exodusstudio.stellaris.common.modules.rocket.RocketModule;
 import org.exodusstudio.stellaris.common.modules.rocket.RocketModules;
@@ -28,6 +30,8 @@ public class DataAttachmentRegistry {
     public static final AttachmentType<FadingHolder> FADE;
     public static final AttachmentType<Integer> MOON_LORE_PROGRESSION;
     public static final AttachmentType<Boolean> PLAYER_IMMUNISED_TO_INFECTION;
+    public static final AttachmentType<AssistantPlayerData> ASSISTANT_DATA;
+    public static final AttachmentType<ParasitePlayerData> PARASITE_DATA;
 
     public static void register() {
 
@@ -67,6 +71,20 @@ public class DataAttachmentRegistry {
         );
 
 
+        ASSISTANT_DATA = AttachmentRegistry.create(
+                AssistantPlayerData.KEY,
+                builder -> builder
+                        .initializer(AssistantPlayerData::empty)
+                        .persistent(AssistantPlayerData.CODEC) // the client never reads this, so it is not synced
+        );
+
+        PARASITE_DATA = AttachmentRegistry.create(
+                ParasitePlayerData.KEY,
+                builder -> builder
+                        .initializer(ParasitePlayerData::empty)
+                        .persistent(ParasitePlayerData.CODEC) // server side history, the client never reads it
+        );
+
         FADE = AttachmentRegistry.create(
                 IdentifierUtils.id("player_fade"),
                 builder -> builder
@@ -81,6 +99,8 @@ public class DataAttachmentRegistry {
         ATTACHMENT_TYPES.put(FADE.identifier(), FADE);
         ATTACHMENT_TYPES.put(MOON_LORE_PROGRESSION.identifier(), MOON_LORE_PROGRESSION);
         ATTACHMENT_TYPES.put(PLAYER_IMMUNISED_TO_INFECTION.identifier(), PLAYER_IMMUNISED_TO_INFECTION);
+        ATTACHMENT_TYPES.put(ASSISTANT_DATA.identifier(), ASSISTANT_DATA);
+        ATTACHMENT_TYPES.put(PARASITE_DATA.identifier(), PARASITE_DATA);
 
     }
 

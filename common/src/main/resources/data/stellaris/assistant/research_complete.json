@@ -1,0 +1,8 @@
+{
+  "trigger": "research_complete",
+  "once_per_player": false,
+  "priority": 0,
+  "lines": [
+    { "text": { "translate": "assistant.stellaris.research.complete" }, "delay": 0 }
+  ]
+}

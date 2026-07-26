@@ -1,0 +1,10 @@
+{
+  "trigger": "infected",
+  "once_per_player": true,
+  "priority": 0,
+  "lines": [
+    { "text": { "translate": "assistant.stellaris.infected.1" }, "delay": 0 },
+    { "text": { "translate": "assistant.stellaris.infected.2" }, "delay": 80 },
+    { "text": { "translate": "assistant.stellaris.infected.3" }, "delay": 160 }
+  ]
+}

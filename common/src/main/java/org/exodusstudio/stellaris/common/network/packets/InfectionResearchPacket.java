@@ -6,9 +6,12 @@ import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import org.exodusstudio.stellaris.common.assistant.AssistantManager;
 import org.exodusstudio.stellaris.common.blocks.entities.machines.LaboratoryBlockEntity;
+import org.exodusstudio.stellaris.common.data.assistant.AssistantTrigger;
 import org.exodusstudio.stellaris.common.components.PathogenStorageComponent;
 import org.exodusstudio.stellaris.common.registries.DataComponentsRegistry;
 import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
@@ -28,11 +31,17 @@ public record InfectionResearchPacket(BlockPos laboratoryPos, boolean success) i
         LaboratoryBlockEntity laboratory = (LaboratoryBlockEntity) player.level().getBlockEntity(data.laboratoryPos());
 
         if (laboratory != null) {
+            int currentStage = MoonLoreUtils.getResearchProgressionStage(player);
+
             if (data.success()) {
-                int nextStage = MoonLoreUtils.getResearchProgressionStage(player) + 1;
+                int nextStage = currentStage + 1;
                 ItemStack sdCard = MoonLoreUtils.getSdCardForStage(nextStage);
                 laboratory.setItem(1, sdCard);
                 player.stellaris$saveDataAttachments(MoonLoreUtils.MOON_LORE_PROGRESSION, nextStage);
+            }
+
+            if (player instanceof ServerPlayer serverPlayer) {
+                announceResearch(serverPlayer, currentStage, data.success());
             }
 
             ItemStack slot0ItemToReturn = laboratory.getItem(0).copy();
@@ -41,6 +50,27 @@ public record InfectionResearchPacket(BlockPos laboratoryPos, boolean success) i
         }
     }
 
+
+    private static void announceResearch(ServerPlayer player, int stageBeforeResearch, boolean success) {
+        if (stageBeforeResearch >= MoonLoreUtils.MAX_STAGE) {
+            AssistantManager.fire(player, AssistantTrigger.RESEARCH_COMPLETE);
+            return;
+        }
+
+        if (success) {
+            int reachedStage = stageBeforeResearch + 1;
+
+            if (reachedStage >= MoonLoreUtils.MAX_STAGE) {
+                AssistantManager.fire(player, AssistantTrigger.RESEARCH_COMPLETE);
+            } else {
+                AssistantManager.fire(player, AssistantTrigger.RESEARCH_SUCCESS,
+                        reachedStage, MoonLoreUtils.getParasitesNeededToLeaveStage(reachedStage));
+            }
+        } else {
+            AssistantManager.fire(player, AssistantTrigger.RESEARCH_FAILURE,
+                    Math.max(0, stageBeforeResearch), MoonLoreUtils.getParasitesNeededToLeaveStage(stageBeforeResearch));
+        }
+    }
 
     @Override
     public CustomPacketPayload.Type<InfectionResearchPacket> type() {

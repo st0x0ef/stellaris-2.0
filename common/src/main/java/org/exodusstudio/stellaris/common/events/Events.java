@@ -5,6 +5,7 @@ import dev.architectury.event.events.common.BlockEvent;
 import dev.architectury.event.events.common.EntityEvent;
 import dev.architectury.event.events.common.LifecycleEvent;
 import dev.architectury.event.events.common.PlayerEvent;
+import dev.architectury.event.events.common.TickEvent;
 import dev.architectury.networking.NetworkManager;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.component.DataComponents;
@@ -20,6 +21,7 @@ import net.minecraft.world.level.block.*;
 import org.apache.commons.io.FileUtils;
 import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.common.antennas.Antenna;
+import org.exodusstudio.stellaris.common.assistant.AssistantManager;
 import org.exodusstudio.stellaris.common.antennas.AntennaSavedData;
 import org.exodusstudio.stellaris.common.blocks.CoalLanternBlock;
 import org.exodusstudio.stellaris.common.blocks.WallCoalTorchBlock;
@@ -54,6 +56,9 @@ public class Events {
                 regenStellarisDim(server);
             }
         });
+
+        TickEvent.SERVER_POST.register(AssistantManager::tick);
+        LifecycleEvent.SERVER_STOPPING.register(server -> AssistantManager.clear());
 
         EntityEvent.ENTER_SECTION.register((entity, sectionX, sectionY, sectionZ, prevX, prevY, prevZ) -> {
             if (entity instanceof Player player && (sectionX != prevX || sectionZ != prevZ)) {

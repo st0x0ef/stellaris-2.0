@@ -14,6 +14,7 @@ import org.exodusstudio.stellaris.common.data.wiki.WikiPacks;
 import org.exodusstudio.stellaris.common.config.CommonConfig;
 import org.exodusstudio.stellaris.common.data.PlanetsData;
 import org.exodusstudio.stellaris.common.data.SdCardData;
+import org.exodusstudio.stellaris.common.data.assistant.AssistantData;
 import org.exodusstudio.stellaris.common.events.Events;
 import org.exodusstudio.stellaris.common.network.NetworkRegistry;
 import org.exodusstudio.stellaris.common.network.packets.SyncPlanetsPacket;
@@ -76,6 +77,7 @@ public final class Stellaris {
         ReloadListenerRegistry.register(PackType.SERVER_DATA, new PlanetsData(), IdentifierUtils.id(PlanetsData.ID));
         ReloadListenerRegistry.register(PackType.SERVER_DATA, new SdCardData(), IdentifierUtils.id(SdCardData.ID));
         ReloadListenerRegistry.register(PackType.SERVER_DATA, new SpaceStationData(), IdentifierUtils.id(SpaceStationData.ID));
+        ReloadListenerRegistry.register(PackType.SERVER_DATA, new AssistantData(), IdentifierUtils.id(AssistantData.ID));
 
         ReloadListenerRegistry.register(PackType.SERVER_DATA, new WikiPacks.WikiEntryPack(), IdentifierUtils.id(WikiPacks.WikiEntryPack.ID));
         ReloadListenerRegistry.register(PackType.SERVER_DATA, new WikiPacks.EntryInfoPack(), IdentifierUtils.id(WikiPacks.EntryInfoPack.ID));

@@ -40,8 +40,8 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import org.exodusstudio.stellaris.common.network.packets.ParasiteCameraShakePacket;
 import org.exodusstudio.stellaris.common.registries.AdvancementTriggerRegistry;
-import org.exodusstudio.stellaris.common.registries.EffectsRegistry;
 import org.exodusstudio.stellaris.common.registries.TagsRegistry;
+import org.exodusstudio.stellaris.common.utils.InfectionUtils;
 import org.exodusstudio.stellaris.common.utils.MoonLoreUtils;
 
 import java.util.EnumSet;
@@ -719,7 +719,7 @@ public class LunarParasiteEntity extends Monster {
 
         this.updateAttachedTransform(host);
 
-        host.addEffect(new MobEffectInstance(EffectsRegistry.getHolder(EffectsRegistry.INFECTED), 20 * 18, 0));
+        InfectionUtils.infect(host, 20 * 18);
 
         if (host instanceof ServerPlayer serverPlayer) {
             NetworkManager.sendToPlayer(serverPlayer, new ParasiteCameraShakePacket(26, 1.4F));
@@ -755,7 +755,7 @@ public class LunarParasiteEntity extends Monster {
                 host.hurtServer(serverLevel, this.damageSources().mobAttack(this), 1.0F);
                 host.setDeltaMovement(this.sanitizeHostVelocity(hostVelocityBeforeDamage));
 
-                host.addEffect(new MobEffectInstance(EffectsRegistry.getHolder(EffectsRegistry.INFECTED), 20 * 20, 0));
+                InfectionUtils.infect(host, 20 * 20);
 
                 serverLevel.sendParticles(
                         ParticleTypes.SCULK_SOUL,

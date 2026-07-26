@@ -22,8 +22,8 @@ import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
-import org.exodusstudio.stellaris.common.registries.EffectsRegistry;
 import org.exodusstudio.stellaris.common.registries.EntityTypesRegistry;
+import org.exodusstudio.stellaris.common.utils.InfectionUtils;
 import org.exodusstudio.stellaris.common.utils.MoonLoreUtils;
 
 import java.util.EnumSet;
@@ -206,7 +206,7 @@ public class ParasiteAffectedVillagerEntity extends Monster {
         boolean hurt = super.doHurtTarget(level, target);
 
         if (hurt && target instanceof LivingEntity livingEntity && !MoonLoreUtils.isImmuneToInfection(livingEntity)) {
-            livingEntity.addEffect(new MobEffectInstance(EffectsRegistry.getHolder(EffectsRegistry.INFECTED), 20 * 16, 0));
+            InfectionUtils.infect(livingEntity, 20 * 16);
             livingEntity.addEffect(new MobEffectInstance(MobEffects.SLOWNESS, 20 * 4, 0));
         }
 

@@ -132,6 +132,15 @@ public class CommonConfig {
     }
 
     @ScreenInfos.InnerConfig
+    @ScreenInfos.Description("config.stellaris.assistantConfig.desc")
+    public AssistantConfig assistantConfig = new AssistantConfig();
+
+    public static class AssistantConfig {
+        @ScreenInfos.Description(value = "config.stellaris.assistantConfig.enableAssistant.desc")
+        public boolean enableAssistant = true;
+    }
+
+    @ScreenInfos.InnerConfig
     @ScreenInfos.Description(value = "The admin part of the config. Beware...", translate = false)
     public Admin admin = new Admin();
 

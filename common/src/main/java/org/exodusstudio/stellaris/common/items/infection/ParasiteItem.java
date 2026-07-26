@@ -15,7 +15,7 @@ import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.component.TooltipDisplay;
 import org.exodusstudio.stellaris.common.components.TimerComponent;
 import org.exodusstudio.stellaris.common.registries.DataComponentsRegistry;
-import org.exodusstudio.stellaris.common.registries.EffectsRegistry;
+import org.exodusstudio.stellaris.common.utils.InfectionUtils;
 import org.exodusstudio.stellaris.common.utils.MoonLoreUtils;
 import org.jetbrains.annotations.Nullable;
 
@@ -60,7 +60,7 @@ public class ParasiteItem extends Item {
                 tickDataMap.put(stack, new TickData(currentTime, newTime));
             } else {
                 if (entity instanceof Player player && !MoonLoreUtils.isPlayerImmunisedToInfection(player)) {
-                    player.addEffect(new MobEffectInstance(EffectsRegistry.getHolder(EffectsRegistry.INFECTED), 5 * 60 * 20, 0));
+                    InfectionUtils.infect(player, 5 * 60 * 20);
                     stack.consume(1, player);
                 }
             }

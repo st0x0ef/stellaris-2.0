@@ -25,6 +25,7 @@ import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.phys.Vec3;
 import org.exodusstudio.stellaris.Stellaris;
+import org.exodusstudio.stellaris.common.assistant.AssistantManager;
 import org.exodusstudio.stellaris.common.entities.vehicles.base.VehicleEntity;
 import org.exodusstudio.stellaris.common.keybinds.KeyVariables;
 import org.exodusstudio.stellaris.common.menus.LanderMenu;
@@ -137,9 +138,13 @@ public class LanderEntity extends VehicleEntity {
             slowDownLander();
         }
 
-        if (this.verticalCollisionBelow) {
+        if (this.verticalCollisionBelow && !this.entityData.get(LANDED)) {
             this.setSpeed(0);
             this.entityData.set(LANDED, true);
+
+            if (this.level() instanceof ServerLevel && getFirstPlayerPassenger() instanceof ServerPlayer player) {
+                AssistantManager.onPlanetLanding(player);
+            }
         }
 
         this.move(MoverType.SELF, this.getDeltaMovement());

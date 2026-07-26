@@ -57,6 +57,18 @@ public class MoonLoreUtils {
         return false;
     }
 
+    public static int getParasitesNeededToLeaveStage(int currentStage) {
+        if (currentStage >= MAX_STAGE) {
+            return 0;
+        }
+
+        if (currentStage < 0) {
+            return 1;
+        }
+
+        return 100 * (currentStage + 1);
+    }
+
     public static ItemStack getSdCardForStage(int stage) {
         ItemStack stack = ItemsRegistry.SD_CARD.get().getDefaultInstance();
         stack.set(DataComponentsRegistry.SD_CARD_NAME.get(), "stellaris:infection_vaccine_stage_" + stage);
