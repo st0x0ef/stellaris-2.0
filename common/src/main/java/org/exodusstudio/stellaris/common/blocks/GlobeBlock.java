@@ -8,13 +8,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.BaseEntityBlock;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.HorizontalDirectionalBlock;
-import net.minecraft.world.level.block.Mirror;
-import net.minecraft.world.level.block.RenderShape;
-import net.minecraft.world.level.block.Rotation;
-import net.minecraft.world.level.block.SimpleWaterloggedBlock;
+import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -29,6 +23,7 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.common.blocks.entities.GlobeBlockEntity;
 import org.jetbrains.annotations.Nullable;
 
@@ -103,7 +98,10 @@ public class GlobeBlock extends BaseEntityBlock implements SimpleWaterloggedBloc
             globe.setRotationalInertia(value);
             globe.setChanged();
             BlockState here = level.getBlockState(pos);
+
             level.sendBlockUpdated(pos, here, here, 3);
+            level.updateNeighborsAt(pos, this);
+
         }
         return InteractionResult.SUCCESS;
     }
@@ -113,7 +111,25 @@ public class GlobeBlock extends BaseEntityBlock implements SimpleWaterloggedBloc
         return (l, p, s, e) -> {
             if (e instanceof GlobeBlockEntity globe) {
                 globe.tick();
+                if (globe.getRotationalInertia() > 0) {
+                    l.sendBlockUpdated(p, s, s, 3);
+                    l.updateNeighborsAt(p, this);
+                }
             }
         };
+    }
+
+    @Override
+    protected boolean hasAnalogOutputSignal(BlockState state) {
+        return true;
+    }
+
+    @Override
+    protected int getAnalogOutputSignal(BlockState state, Level level, BlockPos pos, Direction direction) {
+        if(level.getBlockEntity(pos) instanceof GlobeBlockEntity globe) {
+            return (int) (globe.getRotationalInertia() * 20);
+        } else {
+            return 0;
+        }
     }
 }

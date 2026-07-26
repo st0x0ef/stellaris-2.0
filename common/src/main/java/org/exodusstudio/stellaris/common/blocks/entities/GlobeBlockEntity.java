@@ -4,6 +4,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.util.Mth;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.ValueInput;
@@ -12,28 +13,30 @@ import org.exodusstudio.stellaris.common.registries.BlockEntitiesRegistry;
 
 public class GlobeBlockEntity extends BlockEntity {
 
-    private float rotationalInertia = 0.0f;
-    private float yaw = 0.0f;
-    private float yaw0 = 0.0f;
+    private float rotationalInertia;
+    private float yaw;
+    private float yaw0;
 
     public GlobeBlockEntity(BlockPos pos, BlockState state) {
         super(BlockEntitiesRegistry.GLOBE.get(), pos, state);
+        rotationalInertia = 0.0f;
+        yaw = 16.0f; // a little rotation for placement looks
+        yaw0 = yaw;
     }
 
     @Override
     protected void saveAdditional(ValueOutput output) {
         super.saveAdditional(output);
         output.putFloat("inertia", this.rotationalInertia);
-        output.putFloat("yaw", this.yaw);
-        output.putFloat("yaw0", this.yaw0);
+        //output.putFloat("yaw", this.yaw); this caused desync issues
     }
 
     @Override
     protected void loadAdditional(ValueInput input) {
         super.loadAdditional(input);
         this.rotationalInertia = input.getFloatOr("inertia", 0.0f);
-        this.yaw = input.getFloatOr("yaw", 0.0f);
-        this.yaw0 = input.getFloatOr("yaw0", 0.0f);
+        //this.yaw = input.getFloatOr("yaw", 0.0f);
+        //this.yaw0 = this.yaw;
     }
 
     @Override
@@ -47,18 +50,17 @@ public class GlobeBlockEntity extends BlockEntity {
     }
 
     public void tick() {
-        if (this.level == null) {
+        if (this.level == null)
             return;
-        }
-        if (this.rotationalInertia > 0) {
-            this.rotationalInertia -= 0.0075f;
-            if (this.rotationalInertia < 0) {
-                this.rotationalInertia = 0;
-            }
-            this.yaw0 = this.yaw;
-            this.yaw -= this.rotationalInertia;
-            if (this.rotationalInertia == 0 && !this.level.isClientSide()) {
-                this.setChanged();
+
+        yaw0 = yaw;
+
+        if (rotationalInertia > 0) {
+            yaw = Mth.wrapDegrees(yaw - rotationalInertia);
+
+            rotationalInertia -= 0.0075f;
+            if (rotationalInertia < 0) {
+                rotationalInertia = 0;
             }
         }
     }

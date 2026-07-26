@@ -15,6 +15,7 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -30,6 +31,8 @@ import org.exodusstudio.stellaris.common.menus.LanderMenu;
 import org.exodusstudio.stellaris.common.registries.EntityTypesRegistry;
 import org.exodusstudio.stellaris.common.utils.GravityUtils;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.List;
 
 public class LanderEntity extends VehicleEntity {
     public static final EntityDataAccessor<Boolean> AUTOPILOT = SynchedEntityData.defineId(LanderEntity.class, EntityDataSerializers.BOOLEAN);
@@ -68,8 +71,16 @@ public class LanderEntity extends VehicleEntity {
         if (fallDistance > 5.0F) {
             if (this.level() instanceof ServerLevel serverLevel) {
                 if (!this.entityData.get(AUTOPILOT) && Stellaris.CONFIG.vehicleConfig.shouldLanderExplode) {
+
                     this.level().explode(this, this.getX(), this.getY(), this.getZ(), 10, true,
                             Level.ExplosionInteraction.TNT);
+
+                    List<Entity> passengersToDamage = this.getPassengers().stream().filter(entity -> !entity.isInvulnerable()).toList();
+                    for (Entity passenger : passengersToDamage) {
+                        if (passenger instanceof LivingEntity living)
+                            living.setHealth(1);
+                    }
+
                     this.dropEquipment(serverLevel);
                     this.remove(RemovalReason.DISCARDED);
                 }
