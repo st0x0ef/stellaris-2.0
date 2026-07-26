@@ -1,6 +1,7 @@
 package org.exodusstudio.stellaris.mixin;
 
 import net.minecraft.core.component.DataComponents;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -27,15 +28,14 @@ public class ConsumableMixin {
             return;
         }
 
-        Item waterBottle = PotionContents.createItemStack(Items.POTION, Potions.WATER).getItem();
-        if (stack.is(waterBottle)) {
-            if (entity.getMainHandItem().equals(stack) && entity.getOffhandItem().is(TagsRegistry.ItemTags.CAN)) {
+        if (stack.is(Items.POTION)) {
+            if (entity.getMainHandItem().is(Items.POTION) && entity.getOffhandItem().is(TagsRegistry.ItemTags.CAN)) {
                 cir.setReturnValue(false);
-            } else if (entity.getOffhandItem().equals(stack) && entity.getMainHandItem().is(TagsRegistry.ItemTags.CAN)) {
+            } else if (entity.getOffhandItem().is(Items.POTION) && entity.getMainHandItem().is(TagsRegistry.ItemTags.CAN)) {
                 cir.setReturnValue(false);
             }
         } else if (stack.is(TagsRegistry.ItemTags.CAN)) {
-            if (!entity.getMainHandItem().is(waterBottle) && !entity.getOffhandItem().is(waterBottle)) {
+            if (!entity.getMainHandItem().is(Items.POTION) && !entity.getOffhandItem().is(Items.POTION)) {
                 cir.setReturnValue(false);
             }
         }
