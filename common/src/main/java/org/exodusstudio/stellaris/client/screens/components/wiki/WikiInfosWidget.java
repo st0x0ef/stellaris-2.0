@@ -113,9 +113,12 @@ public class WikiInfosWidget extends ScrollableContainer {
 
                     Entity entity1 = ClientUtils.createEntity(Minecraft.getInstance().level, entityComponent.location());
                     if(entity1 instanceof LivingEntity livingEntity) {
-                        int cornerX = guiGraphics.guiWidth() / 2 - 25;
 
-                        ClientUtils.renderEntityInGui(guiGraphics, cornerX, height, cornerX + 50, height + entityComponent.scale() + 30, entityComponent.scale(), 0.25F, mouseX, scrollAdjustedMouseY, livingEntity, entityComponent.defaultRotation().orElse(null));
+                        int ENTITY_WIDTH = entityComponent.width();
+
+                        int cornerX = guiGraphics.guiWidth() / 2 - (ENTITY_WIDTH / 2);
+
+                        ClientUtils.renderEntityInGui(guiGraphics, cornerX, height, cornerX + ENTITY_WIDTH, height + entityComponent.scale() + 30, entityComponent.scale(), 0.25F, mouseX, scrollAdjustedMouseY, livingEntity, entityComponent.defaultRotation().orElse(null));
                         finalHeight.addAndGet(entityComponent.scale() * 2 + 30);
                     }
                 });
