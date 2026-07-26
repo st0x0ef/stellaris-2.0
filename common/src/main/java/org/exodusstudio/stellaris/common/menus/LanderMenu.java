@@ -10,7 +10,6 @@ import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import org.exodusstudio.stellaris.common.menus.slot.ResultSlot;
 import org.exodusstudio.stellaris.common.registries.MenuTypesRegistry;
-import org.exodusstudio.stellaris.common.menus.MenuQuickMoveHelper;
 
 public class LanderMenu extends AbstractContainerMenu {
 

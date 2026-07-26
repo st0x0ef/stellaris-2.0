@@ -2,11 +2,7 @@ package org.exodusstudio.stellaris.common.registries;
 
 import dev.architectury.registry.level.entity.EntityAttributeRegistry;
 import org.exodusstudio.stellaris.common.entities.alien.AlienEntity;
-import org.exodusstudio.stellaris.common.entities.mobs.BlueFishEntity;
-import org.exodusstudio.stellaris.common.entities.mobs.EvolvedParasiteAffectedVillagerEntity;
-import org.exodusstudio.stellaris.common.entities.mobs.LunaShadowEntity;
-import org.exodusstudio.stellaris.common.entities.mobs.LunarParasiteEntity;
-import org.exodusstudio.stellaris.common.entities.mobs.ParasiteAffectedVillagerEntity;
+import org.exodusstudio.stellaris.common.entities.mobs.*;
 import org.exodusstudio.stellaris.common.entities.mobs.starcrawler.StarCrawlerEntity;
 
 public class EntityAttributesRegistry {

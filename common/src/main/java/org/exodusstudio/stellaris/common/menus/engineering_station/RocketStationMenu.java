@@ -10,11 +10,11 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import org.exodusstudio.stellaris.common.blocks.entities.machines.EngineeringStationBlockEntity;
+import org.exodusstudio.stellaris.common.menus.MenuQuickMoveHelper;
 import org.exodusstudio.stellaris.common.menus.slot.ResultSlot;
 import org.exodusstudio.stellaris.common.network.packets.OpenBlockEntityMenusPacket;
 import org.exodusstudio.stellaris.common.registries.MenuProviderRegistry;
 import org.exodusstudio.stellaris.common.registries.MenuTypesRegistry;
-import org.exodusstudio.stellaris.common.menus.MenuQuickMoveHelper;
 
 
 public class RocketStationMenu extends AbstractContainerMenu {

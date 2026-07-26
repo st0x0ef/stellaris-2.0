@@ -1,14 +1,14 @@
 package org.exodusstudio.stellaris.common.vehicle_upgrade;
 
 import com.mojang.serialization.Codec;
-import org.exodusstudio.stellaris.client.screens.utils.GUISprites;
-import org.exodusstudio.stellaris.common.data.Planet;
-import org.exodusstudio.stellaris.common.registries.FluidsRegistry;
-import org.exodusstudio.stellaris.common.registries.ItemsRegistry;
 import net.minecraft.resources.Identifier;
 import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.material.Fluid;
+import org.exodusstudio.stellaris.client.screens.utils.GUISprites;
+import org.exodusstudio.stellaris.common.data.Planet;
+import org.exodusstudio.stellaris.common.registries.FluidsRegistry;
+import org.exodusstudio.stellaris.common.registries.ItemsRegistry;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Locale;

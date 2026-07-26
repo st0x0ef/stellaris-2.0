@@ -19,7 +19,6 @@ import org.exodusstudio.stellaris.common.menus.slot.SpecificItemsSlot;
 import org.exodusstudio.stellaris.common.menus.slot.SpecificTagsSlot;
 import org.exodusstudio.stellaris.common.registries.MenuTypesRegistry;
 import org.exodusstudio.stellaris.common.registries.TagsRegistry;
-import org.exodusstudio.stellaris.common.menus.MenuQuickMoveHelper;
 import org.jetbrains.annotations.NotNull;
 
 public class VacuumatorMenu extends AbstractContainerMenu {

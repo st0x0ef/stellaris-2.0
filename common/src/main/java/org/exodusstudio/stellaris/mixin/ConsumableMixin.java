@@ -1,13 +1,9 @@
 package org.exodusstudio.stellaris.mixin;
 
 import net.minecraft.core.component.DataComponents;
-import net.minecraft.tags.ItemTags;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.item.alchemy.PotionContents;
-import net.minecraft.world.item.alchemy.Potions;
 import net.minecraft.world.item.component.Consumable;
 import org.exodusstudio.stellaris.common.registries.TagsRegistry;
 import org.exodusstudio.stellaris.common.utils.OxygenUtils;

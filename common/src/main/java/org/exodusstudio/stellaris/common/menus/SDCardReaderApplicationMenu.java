@@ -8,7 +8,6 @@ import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
-import org.exodusstudio.stellaris.common.menus.MenuQuickMoveHelper;
 import net.minecraft.world.item.ItemStack;
 import org.exodusstudio.stellaris.common.menus.base.BaseContainer;
 import org.exodusstudio.stellaris.common.menus.slot.SDCardSlot;

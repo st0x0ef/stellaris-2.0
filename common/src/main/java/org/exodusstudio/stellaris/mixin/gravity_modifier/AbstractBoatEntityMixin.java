@@ -1,6 +1,12 @@
 package org.exodusstudio.stellaris.mixin.gravity_modifier;
 
+import net.minecraft.tags.FluidTags;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.vehicle.boat.AbstractBoat;
+import net.minecraft.world.level.material.Fluid;
+import net.minecraft.world.level.material.FluidState;
+import org.exodusstudio.stellaris.common.registries.FluidsRegistry;
+import org.exodusstudio.stellaris.common.registries.TagsRegistry;
 import org.exodusstudio.stellaris.common.utils.GravityUtils;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
@@ -8,12 +14,6 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-import net.minecraft.tags.FluidTags;
-import net.minecraft.tags.TagKey;
-import net.minecraft.world.level.material.Fluid;
-import net.minecraft.world.level.material.FluidState;
-import org.exodusstudio.stellaris.common.registries.FluidsRegistry;
-import org.exodusstudio.stellaris.common.registries.TagsRegistry;
 
 
 @Mixin(AbstractBoat.class)

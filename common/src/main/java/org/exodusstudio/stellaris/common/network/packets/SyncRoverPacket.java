@@ -6,9 +6,8 @@ import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
-
-import org.exodusstudio.stellaris.common.network.NetworkRegistry;
 import org.exodusstudio.stellaris.common.entities.vehicles.base.AbstractRoverBase;
+import org.exodusstudio.stellaris.common.network.NetworkRegistry;
 
 import java.util.UUID;
 

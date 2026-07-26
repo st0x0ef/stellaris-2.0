@@ -1,8 +1,8 @@
 package org.exodusstudio.stellaris.common.utils;
 
 import net.minecraft.core.Registry;
-import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceKey;
 import org.exodusstudio.stellaris.Stellaris;
 
 public class IdentifierUtils {

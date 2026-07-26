@@ -3,7 +3,10 @@ package org.exodusstudio.stellaris.common.registries;
 
 import dev.architectury.registry.registries.RegistrySupplier;
 import org.exodusstudio.stellaris.common.items.modules.rocket.*;
-import org.exodusstudio.stellaris.common.items.modules.rover.*;
+import org.exodusstudio.stellaris.common.items.modules.rover.RoverCargoModuleItem;
+import org.exodusstudio.stellaris.common.items.modules.rover.RoverMotorModuleItem;
+import org.exodusstudio.stellaris.common.items.modules.rover.RoverSpeedModuleItem;
+import org.exodusstudio.stellaris.common.items.modules.rover.RoverTankModuleItem;
 import org.exodusstudio.stellaris.common.items.modules.space_suit.*;
 import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
 

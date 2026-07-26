@@ -1,12 +1,11 @@
 package org.exodusstudio.stellaris.common.effects;
 
-import org.exodusstudio.stellaris.Stellaris;
-import org.exodusstudio.stellaris.common.registries.TagsRegistry;
-
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.entity.LivingEntity;
+import org.exodusstudio.stellaris.Stellaris;
+import org.exodusstudio.stellaris.common.registries.TagsRegistry;
 
 public class CorrosionEffect extends MobEffect {
 

@@ -9,8 +9,8 @@ import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
-import org.exodusstudio.stellaris.common.data.wiki.WikiEntry;
 import org.exodusstudio.stellaris.client.screens.components.TexturedButton;
+import org.exodusstudio.stellaris.common.data.wiki.WikiEntry;
 
 public class WikiEntryButton extends TexturedButton {
 

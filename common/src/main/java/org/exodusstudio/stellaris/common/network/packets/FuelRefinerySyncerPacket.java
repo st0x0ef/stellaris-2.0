@@ -5,8 +5,8 @@ import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
-import org.exodusstudio.stellaris.common.compats.jei.recipe_cache.FuelRefineryRecipeCache;
 import org.exodusstudio.stellaris.common.compats.jei.JEICompat;
+import org.exodusstudio.stellaris.common.compats.jei.recipe_cache.FuelRefineryRecipeCache;
 import org.exodusstudio.stellaris.common.data.recipes.FuelRefineryRecipe;
 import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
 
