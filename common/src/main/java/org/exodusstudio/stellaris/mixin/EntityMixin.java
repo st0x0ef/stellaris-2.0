@@ -4,17 +4,20 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.level.Explosion;
 import net.minecraft.world.level.Level;
 import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.common.data.Planet;
 import org.exodusstudio.stellaris.common.data.PlanetsData;
 import org.exodusstudio.stellaris.common.entities.EntityDataAttachmentAccessor;
+import org.exodusstudio.stellaris.common.registries.EntityTypesRegistry;
 import org.exodusstudio.stellaris.common.utils.TeleportUtil;
 import org.exodusstudio.stellaris.platform.DataAttachmentsPlatform;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(Entity.class)
 public class EntityMixin implements EntityDataAttachmentAccessor {
@@ -39,7 +42,7 @@ public class EntityMixin implements EntityDataAttachmentAccessor {
     }
 
 
-    @Inject( method = "tick", at = @At("HEAD"))
+    @Inject(method = "tick", at = @At("HEAD"))
     public void entityFalling(CallbackInfo ci) {
         Entity entity = (Entity)(Object)this;
         Level level = entity.level();
@@ -63,5 +66,13 @@ public class EntityMixin implements EntityDataAttachmentAccessor {
             }
         }
     }
+
+    @Inject(method = "ignoreExplosion", at = @At("HEAD"), cancellable = true)
+    public void ignoreExplosion(Explosion explosion, CallbackInfoReturnable<Boolean> cir) {
+        Entity source = explosion.getDirectSourceEntity();
+        if (source != null && source.is(EntityTypesRegistry.LANDER.get()))
+            cir.setReturnValue(true);
+    }
+
 
 }
