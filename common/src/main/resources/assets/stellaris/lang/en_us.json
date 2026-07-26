@@ -286,6 +286,14 @@
   "fluid.stellaris.blue_liquid": "Blue Liquid",
   "fluid.stellaris.astrum_liquidus": "Astrum Liquidus",
 
+  "block.stellaris.hydrogen_block": "Hydrogen",
+  "block.stellaris.oxygen_block": "Oxygen",
+  "block.stellaris.fuel_block": "Fuel",
+  "block.stellaris.oil": "Oil",
+  "block.stellaris.diesel": "Diesel",
+  "block.stellaris.blue_liquid": "Blue Liquid",
+  "block.stellaris.astrum_liquidus": "Astrum Liquidus",
+
   "biome.stellaris.red_desert": "Red Desert",
   "biome.stellaris.ice_caps": "Ice Caps",
   "biome.stellaris.mars_valleys": "Mars Valleys",

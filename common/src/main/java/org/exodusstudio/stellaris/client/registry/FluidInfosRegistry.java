@@ -24,8 +24,9 @@ public class FluidInfosRegistry {
         boolean alreadyIn = FLUIDS_INFO.containsKey(fluid.arch$registryName());
         if(!alreadyIn || overwrite) {
             FLUIDS_INFO.put(fluid.arch$registryName(), fluidInfos);
+        } else {
+            Stellaris.LOG.warn("Already registered fluids infos for {}", fluid.arch$registryName());
         }
-        Stellaris.LOG.warn("Already registered fluids infos for {}", fluid.arch$registryName());
     }
 
     public static void register(Fluid fluid, FluidInfos fluidInfos) {
@@ -60,7 +61,11 @@ public class FluidInfosRegistry {
         if (FLUIDS_INFO.containsKey(fluid.arch$registryName())) {
             return FLUIDS_INFO.get(fluid.arch$registryName()).component();
         }
-        return Component.literal("Empty");
+        if (fluid == Fluids.EMPTY) {
+            return Component.literal("Empty");
+        }
+        // Fall back to the fluid's own name so unregistered fluids (ours or another mod's) still show something.
+        return FluidStack.create(fluid, FluidStack.bucketAmount()).getName();
     }
 
     public static void init() {
@@ -72,6 +77,12 @@ public class FluidInfosRegistry {
                 new FluidInfos(GUISprites.OXYGEN_OVERLAY, Component.translatable("fluid.stellaris.oxygen")));
         register(FluidsRegistry.OIL_STILL.get(),
                 new FluidInfos(GUISprites.OIL_OVERLAY, Component.translatable("fluid.stellaris.oil")));
+        register(FluidsRegistry.DIESEL_STILL.get(),
+                new FluidInfos(GUISprites.DIESEL_OVERLAY, Component.translatable("fluid.stellaris.diesel")));
+        register(FluidsRegistry.BLUE_LIQUID_STILL.get(),
+                new FluidInfos(GUISprites.WATER_OVERLAY, Component.translatable("fluid.stellaris.blue_liquid")));
+        register(FluidsRegistry.ASTRUM_LIQUIDUS_STILL.get(),
+                new FluidInfos(GUISprites.WATER_OVERLAY, Component.translatable("fluid.stellaris.astrum_liquidus")));
         register(Fluids.WATER,
                 new FluidInfos(GUISprites.WATER_OVERLAY,  Component.translatable("fluid.stellaris.water" )));
         register(Fluids.EMPTY,
