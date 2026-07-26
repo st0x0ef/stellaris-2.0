@@ -5,6 +5,11 @@
   "has_skylight": true,
   "has_ceiling": false,
   "ambient_light": 0.1,
+  "attributes": {
+    "minecraft:gameplay/sky_light_level": 15.0,
+    "minecraft:visual/sky_light_factor": 1.0,
+    "minecraft:visual/sky_light_color": "#ffffff"
+  },
   "monster_spawn_light_level": {
     "type": "minecraft:uniform",
     "max_inclusive": 7,
