@@ -1,16 +1,15 @@
 {
   "type": "minecraft:crafting_shaped",
   "pattern": [
-    "IGI",
-    "G G",
-    "IGI"
+    "STS",
+    "T T",
+    "STS"
   ],
   "key": {
-    "I": "minecraft:iron_ingot",
-    "G": "minecraft:glass"
+    "S": "minecraft:amethyst_shard",
+    "T": "stellaris:titanium_ingot"
   },
   "result": {
-    "id": "stellaris:pathogen_storage_cell",
-    "count": 1
+    "id": "stellaris:pathogen_storage_cell"
   }
 }

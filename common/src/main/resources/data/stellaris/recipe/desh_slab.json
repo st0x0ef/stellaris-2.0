@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "###"
+  ],
+  "key": {
+    "#": "stellaris:desh_block"
+  },
+  "result": {
+    "id": "stellaris:desh_slab",
+    "count": 6
+  }
+}

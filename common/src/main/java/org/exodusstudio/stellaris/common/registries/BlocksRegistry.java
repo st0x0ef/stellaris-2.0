@@ -87,6 +87,7 @@ public final class BlocksRegistry {
     public static final BlockItemRegistrySupplier MOON_STONE_IRON_ORE = blockWithItem("moon_stone_iron_ore", ofFullCopy(Blocks.IRON_ORE));
 
     public static final BlockItemRegistrySupplier DESH_BLOCK = blockWithItem("desh_block", ofFullCopy(Blocks.IRON_BLOCK));
+    public static final BlockItemRegistrySupplier DESH_SLAB = blockWithItem("desh_slab", ofFullCopy(Blocks.IRON_BLOCK), SlabBlock::new);
     public static final BlockItemRegistrySupplier RAW_DESH_BLOCK = blockWithItem("raw_desh_block", ofFullCopy(Blocks.IRON_BLOCK));
     public static final BlockItemRegistrySupplier DESH_PLATING_BLOCK = blockWithItem("desh_plating_block", ofFullCopy(Blocks.IRON_BLOCK));
     public static final BlockItemRegistrySupplier DESH_PLATING_SLAB = blockWithItem("desh_plating_slab", ofFullCopy(Blocks.IRON_BLOCK), SlabBlock::new);

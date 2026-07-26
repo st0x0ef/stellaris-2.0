@@ -124,6 +124,7 @@
   "item.stellaris.mars_ice": "Mars Ice",
 
   "item.stellaris.desh_block": "Desh Block",
+  "item.stellaris.desh_slab": "Desh Slab",
   "item.stellaris.rusted_iron": "Rusted Iron",
 
   "item.stellaris.solar_panel": "Solar Panel",
@@ -575,6 +576,7 @@
   "block.stellaris.moon_desh_ore": "Moon Desh Ore",
   "block.stellaris.moon_stone_iron_ore": "Moon Iron Ore",
   "block.stellaris.desh_block": "Desh Block",
+  "block.stellaris.desh_slab": "Desh Slab",
   "block.stellaris.raw_desh_block": "Raw Desh Block",
   "block.stellaris.desh_plating_block": "Desh Plating Block",
   "block.stellaris.desh_plating_slab": "Desh Plating Slab",
