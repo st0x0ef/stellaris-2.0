@@ -162,9 +162,5 @@ public record EntryInfo(Identifier id, Identifier entryId, String title, String 
                 ByteBufCodecs.optional(STREAM_CODEC_VEC3F), EntityComponent::defaultRotation,
                 EntityComponent::new
         );
-
-
     }
-
-
 }

@@ -1,11 +1,13 @@
 package org.exodusstudio.stellaris.common.blocks.entities;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.redstone.ExperimentalRedstoneUtils;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 import org.exodusstudio.stellaris.common.registries.BlockEntitiesRegistry;
@@ -61,6 +63,7 @@ public class GlobeBlockEntity extends BlockEntity {
                 this.setChanged();
             }
         }
+
     }
 
     public float getRotationalInertia() {
