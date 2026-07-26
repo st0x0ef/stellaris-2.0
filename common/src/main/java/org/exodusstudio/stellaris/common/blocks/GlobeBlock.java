@@ -102,8 +102,6 @@ public class GlobeBlock extends BaseEntityBlock implements SimpleWaterloggedBloc
             level.sendBlockUpdated(pos, here, here, 3);
             level.updateNeighborsAt(pos, this);
 
-
-
         }
         return InteractionResult.SUCCESS;
     }
@@ -113,26 +111,25 @@ public class GlobeBlock extends BaseEntityBlock implements SimpleWaterloggedBloc
         return (l, p, s, e) -> {
             if (e instanceof GlobeBlockEntity globe) {
                 globe.tick();
-                level.sendBlockUpdated(p, s, s, 3);
-                level.updateNeighborsAt(p, this);
-
+                if (globe.getRotationalInertia() > 0) {
+                    l.sendBlockUpdated(p, s, s, 3);
+                    l.updateNeighborsAt(p, this);
+                }
             }
         };
     }
 
     @Override
-    protected boolean isSignalSource(final BlockState state) {
+    protected boolean hasAnalogOutputSignal(BlockState state) {
         return true;
     }
 
     @Override
-    protected int getSignal(final BlockState state, final BlockGetter level, final BlockPos pos, final Direction direction) {
+    protected int getAnalogOutputSignal(BlockState state, Level level, BlockPos pos, Direction direction) {
         if(level.getBlockEntity(pos) instanceof GlobeBlockEntity globe) {
             return (int) (globe.getRotationalInertia() * 20);
         } else {
             return 0;
         }
-
     }
-
 }
