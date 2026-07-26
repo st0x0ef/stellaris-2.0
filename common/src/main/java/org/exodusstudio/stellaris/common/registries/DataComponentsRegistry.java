@@ -12,9 +12,8 @@ import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.common.components.JetComponent;
 import org.exodusstudio.stellaris.common.components.PathogenStorageComponent;
 import org.exodusstudio.stellaris.common.components.TimerComponent;
-import org.exodusstudio.stellaris.common.data.space_station.SpaceStationRecipe;
-
 import org.exodusstudio.stellaris.common.data.Planet;
+import org.exodusstudio.stellaris.common.data.space_station.SpaceStationRecipe;
 import org.exodusstudio.stellaris.common.modules.Modules;
 import org.exodusstudio.stellaris.common.modules.rocket.RocketModule;
 import org.exodusstudio.stellaris.common.modules.rocket.RocketModules;

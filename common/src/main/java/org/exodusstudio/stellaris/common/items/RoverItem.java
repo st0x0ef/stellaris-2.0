@@ -1,7 +1,5 @@
 package org.exodusstudio.stellaris.common.items;
 
-import org.exodusstudio.stellaris.common.entities.vehicles.RoverEntity;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
@@ -13,6 +11,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
+import org.exodusstudio.stellaris.common.entities.vehicles.RoverEntity;
 import org.jetbrains.annotations.NotNull;
 
 public class RoverItem extends Item {

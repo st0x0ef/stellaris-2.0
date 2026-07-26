@@ -3,14 +3,12 @@ package org.exodusstudio.stellaris.common.items;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
-import net.minecraft.tags.PotionTags;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.*;
 import net.minecraft.world.item.alchemy.PotionContents;
-import net.minecraft.world.item.alchemy.Potions;
 import net.minecraft.world.item.component.Consumable;
 import net.minecraft.world.item.component.TooltipDisplay;
 import net.minecraft.world.level.Level;
@@ -112,7 +110,7 @@ public class CanItem extends Item {
             potionStack = entity.getOffhandItem();
             hand = InteractionHand.OFF_HAND;
         }
-        potionStack.get(DataComponents.POTION_CONTENTS).onConsume(level, entity, potionStack, null);
+        potionStack.getOrDefault(DataComponents.POTION_CONTENTS, PotionContents.EMPTY).onConsume(level, entity, potionStack, null);
         if (entity instanceof Player player)
             entity.setItemInHand(hand, ItemUtils.createFilledResult(potionStack, player, new ItemStack(Items.GLASS_BOTTLE)));
     }

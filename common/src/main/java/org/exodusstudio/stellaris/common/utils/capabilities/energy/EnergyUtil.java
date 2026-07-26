@@ -9,7 +9,7 @@ import net.minecraft.world.level.Level;
 import org.exodusstudio.stellaris.common.transport.Transport;
 import org.exodusstudio.stellaris.common.transport.TransportMedium;
 
-import java.util.*;
+import java.util.List;
 
 public class EnergyUtil {
 

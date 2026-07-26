@@ -13,8 +13,8 @@ import org.exodusstudio.stellaris.common.entities.mobs.*;
 import org.exodusstudio.stellaris.common.entities.mobs.starcrawler.StarCrawlerEntity;
 import org.exodusstudio.stellaris.common.entities.vehicles.LanderEntity;
 import org.exodusstudio.stellaris.common.entities.vehicles.RocketEntity;
-import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
 import org.exodusstudio.stellaris.common.entities.vehicles.RoverEntity;
+import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
 
 public class EntityTypesRegistry {
     public static final DeferredRegister<EntityType<?>> ENTITY_TYPE = DeferredRegister.create(Stellaris.MOD_ID, Registries.ENTITY_TYPE);

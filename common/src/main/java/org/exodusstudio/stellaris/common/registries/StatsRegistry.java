@@ -1,12 +1,12 @@
 package org.exodusstudio.stellaris.common.registries;
 
+import dev.architectury.event.events.common.LifecycleEvent;
 import dev.architectury.registry.registries.DeferredRegister;
 import dev.architectury.registry.registries.RegistrySupplier;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.Identifier;
 import net.minecraft.stats.StatFormatter;
 import net.minecraft.stats.Stats;
-import dev.architectury.event.events.common.LifecycleEvent;
 import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
 

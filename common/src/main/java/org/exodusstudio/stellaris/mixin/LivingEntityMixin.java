@@ -1,25 +1,17 @@
 package org.exodusstudio.stellaris.mixin;
 
 import com.fej1fun.potentials.fluid.UniversalFluidItemStorage;
-import dev.architectury.fluid.FluidStack;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.levelgen.structure.Structure;
 import org.exodusstudio.stellaris.Stellaris;
-import org.exodusstudio.stellaris.common.data.Planet;
-import org.exodusstudio.stellaris.common.data.PlanetsData;
 import org.exodusstudio.stellaris.common.entities.vehicles.base.VehicleEntity;
-import org.exodusstudio.stellaris.common.fluid.OxygenItemFluidStorage;
 import org.exodusstudio.stellaris.common.items.space_suit.SpaceSuitHelmet;
-import org.exodusstudio.stellaris.common.registries.FluidsRegistry;
 import org.exodusstudio.stellaris.common.registries.TagsRegistry;
 import org.exodusstudio.stellaris.common.utils.GravityUtils;
 import org.exodusstudio.stellaris.common.utils.OxygenUtils;
-import org.exodusstudio.stellaris.common.utils.PlanetUtil;
 import org.exodusstudio.stellaris.common.utils.Utils;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;

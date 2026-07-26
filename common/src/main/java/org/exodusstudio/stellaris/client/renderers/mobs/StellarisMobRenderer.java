@@ -14,11 +14,7 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.phys.AABB;
-import org.exodusstudio.stellaris.common.entities.mobs.BlueFishEntity;
-import org.exodusstudio.stellaris.common.entities.mobs.EvolvedParasiteAffectedVillagerEntity;
-import org.exodusstudio.stellaris.common.entities.mobs.LunaShadowEntity;
-import org.exodusstudio.stellaris.common.entities.mobs.LunarParasiteEntity;
-import org.exodusstudio.stellaris.common.entities.mobs.ParasiteAffectedVillagerEntity;
+import org.exodusstudio.stellaris.common.entities.mobs.*;
 import org.jetbrains.annotations.NotNull;
 
 public class StellarisMobRenderer<T extends Mob> extends EntityRenderer<T, StellarisMobRenderState> {
