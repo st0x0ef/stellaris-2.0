@@ -41,8 +41,6 @@ public class EntityMixin implements EntityDataAttachmentAccessor {
 
     @Inject( method = "tick", at = @At("HEAD"))
     public void entityFalling(CallbackInfo ci) {
-
-
         Entity entity = (Entity)(Object)this;
         Level level = entity.level();
 

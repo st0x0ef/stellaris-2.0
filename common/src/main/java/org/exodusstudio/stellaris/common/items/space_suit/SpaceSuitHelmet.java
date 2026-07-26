@@ -29,10 +29,10 @@ public class SpaceSuitHelmet extends SpaceSuitItem implements FluidProvider.ITEM
 
     @Override
     public @Nullable UniversalFluidItemStorage getFluidTank(@NotNull ItemStack itemStack) {
-        return new OxygenItemFluidStorage(DataComponentsRegistry.FLUID_LIST.get(), itemStack, 1, getOxygenCapacity(itemStack));
+        return new OxygenItemFluidStorage(DataComponentsRegistry.FLUID_LIST.get(), itemStack, 1, SpaceSuitHelmet.getOxygenCapacity(itemStack));
     }
 
-    public int getOxygenCapacity(ItemStack stack) {
+    public static int getOxygenCapacity(ItemStack stack) {
         AtomicInteger oxygenCapacity = new AtomicInteger(0);
         ModuleUtils.getSpaceSuitModules(stack).getModules().forEach(module -> {
             if (module instanceof SpaceSuitModule.OxygenModule oxygenModule) {

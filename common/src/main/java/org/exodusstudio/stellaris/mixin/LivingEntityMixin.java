@@ -1,17 +1,25 @@
 package org.exodusstudio.stellaris.mixin;
 
 import com.fej1fun.potentials.fluid.UniversalFluidItemStorage;
+import dev.architectury.fluid.FluidStack;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.levelgen.structure.Structure;
 import org.exodusstudio.stellaris.Stellaris;
+import org.exodusstudio.stellaris.common.data.Planet;
+import org.exodusstudio.stellaris.common.data.PlanetsData;
 import org.exodusstudio.stellaris.common.entities.vehicles.base.VehicleEntity;
+import org.exodusstudio.stellaris.common.fluid.OxygenItemFluidStorage;
 import org.exodusstudio.stellaris.common.items.space_suit.SpaceSuitHelmet;
+import org.exodusstudio.stellaris.common.registries.FluidsRegistry;
 import org.exodusstudio.stellaris.common.registries.TagsRegistry;
 import org.exodusstudio.stellaris.common.utils.GravityUtils;
 import org.exodusstudio.stellaris.common.utils.OxygenUtils;
+import org.exodusstudio.stellaris.common.utils.PlanetUtil;
 import org.exodusstudio.stellaris.common.utils.Utils;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
@@ -80,6 +88,20 @@ public class LivingEntityMixin {
         if(stellaris$entity.getVehicle() instanceof VehicleEntity vehicleEntity) {
             stellaris$entity.setPose(vehicleEntity.getRiderPose());
             stellaris$entity.refreshDimensions();
+        }
+    }
+
+    @Inject(at = @At(value = "HEAD"), method = "canBreatheUnderwater", cancellable = true)
+    private void canBreatheUnderwater(CallbackInfoReturnable<Boolean> cir) {
+        if (Utils.isLivingInSpaceSuit(stellaris$entity)) {
+            ItemStack helmetStack = stellaris$entity.getItemBySlot(EquipmentSlot.HEAD);
+            int oxygenCapacity = SpaceSuitHelmet.getOxygenCapacity(helmetStack);
+            if (oxygenCapacity > 0 && helmetStack.getItem() instanceof SpaceSuitHelmet helmet) {
+                UniversalFluidItemStorage storage = helmet.getFluidTank(helmetStack);
+                if (storage != null &&  !storage.getFluidInTank(0).isEmpty()) {
+                    cir.setReturnValue(true);
+                }
+            }
         }
     }
 }

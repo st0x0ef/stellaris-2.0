@@ -12,6 +12,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.chunk.LevelChunk;
+import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.AABB;
 import org.exodusstudio.stellaris.common.blocks.entities.machines.OxygenDistributorBlockEntity;
 import org.exodusstudio.stellaris.common.blocks.entities.machines.OxygenPropagatorBlockEntity;
@@ -74,6 +75,10 @@ public class OxygenUtils {
     }
 
     public static boolean isOxygenated(Level level, BlockPos entityPos) {
+        if (level.getFluidState(entityPos) != Fluids.EMPTY.defaultFluidState()) {
+            return false;
+        }
+
         Planet planet = PlanetsData.getPlanet(level.dimension());
         if (planet == null || planet.hasOxygen()) {
             return true;
