@@ -58,10 +58,9 @@ public class GlobeBlockEntity extends BlockEntity {
         if (rotationalInertia > 0) {
             yaw = Mth.wrapDegrees(yaw - rotationalInertia);
 
-            rotationalInertia -= 0.0075f;
-            if (rotationalInertia < 0) {
-                rotationalInertia = 0;
-            }
+            rotationalInertia = Math.max(0, rotationalInertia * 0.96f);
+            if (rotationalInertia <= 0.0005f)
+                rotationalInertia = 0.0f;
         }
     }
 
