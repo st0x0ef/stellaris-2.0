@@ -3,12 +3,12 @@ package org.exodusstudio.stellaris.fabric.client;
 import dev.architectury.registry.client.gui.MenuScreenRegistry;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.render.fluid.v1.FluidRenderingRegistry;
-import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import net.minecraft.client.renderer.block.FluidModel;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
 import net.minecraft.client.renderer.blockentity.HangingSignRenderer;
 import net.minecraft.client.renderer.blockentity.StandingSignRenderer;
 import net.minecraft.client.renderer.entity.BoatRenderer;
+import net.minecraft.client.renderer.entity.EntityRenderers;
 import net.minecraft.client.resources.model.sprite.Material;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import org.exodusstudio.stellaris.client.StellarisClient;
@@ -34,7 +34,6 @@ import org.exodusstudio.stellaris.client.screens.tablet.application.sd.SDCardRea
 import org.exodusstudio.stellaris.client.screens.tablet.application.wiki.WikiApplicationScreen;
 import org.exodusstudio.stellaris.common.blocks.entities.RocketLaunchPadBlockEntity;
 import org.exodusstudio.stellaris.common.blocks.entities.machines.GravityManipulatorBlockEntity;
-import org.exodusstudio.stellaris.common.menus.WikiApplicationMenu;
 import org.exodusstudio.stellaris.common.registries.BlockEntitiesRegistry;
 import org.exodusstudio.stellaris.common.registries.EntityTypesRegistry;
 import org.exodusstudio.stellaris.common.registries.FluidsRegistry;
@@ -53,10 +52,7 @@ public final class StellarisFabricClient implements ClientModInitializer {
     private void registerScreens() {
         MenuScreenRegistry.registerScreenFactory(MenuTypesRegistry.TABLET.get(), MainTabletScreen::new);
         MenuScreenRegistry.registerScreenFactory(MenuTypesRegistry.SD_CARD_READER.get(), SDCardReaderApplicationScreen::new);
-        MenuScreenRegistry.registerScreenFactory(
-                MenuTypesRegistry.WIKI.get(),
-                (MenuScreenRegistry.ScreenFactory<WikiApplicationMenu, WikiApplicationScreen>) WikiApplicationScreen::new
-        );
+        MenuScreenRegistry.registerScreenFactory(MenuTypesRegistry.WIKI.get(), WikiApplicationScreen::new);
 
         MenuScreenRegistry.registerScreenFactory(MenuTypesRegistry.SOLAR_PANEL.get(), SolarPanelScreen::new);
         MenuScreenRegistry.registerScreenFactory(MenuTypesRegistry.COAL_GENERATOR.get(), CoalGeneratorScreen::new);
@@ -95,16 +91,16 @@ public final class StellarisFabricClient implements ClientModInitializer {
         BlockEntityRenderers.register(BlockEntitiesRegistry.GLOBE.get(), GlobeBlockRenderer::new);
         BlockEntityRenderers.register((BlockEntityType<RocketLaunchPadBlockEntity>)BlockEntitiesRegistry.ROCKET_LAUNCH_PAD.get(), RocketLaunchPadBlockRenderer::new);
 
-        EntityRendererRegistry.register(EntityTypesRegistry.LANDER.get(), LanderRenderer::new);
-        EntityRendererRegistry.register(EntityTypesRegistry.ROCKET.get(), RocketRenderer::new);
-        EntityRendererRegistry.register(EntityTypesRegistry.ROVER.get(), RoverRenderer::new);
-        EntityRendererRegistry.register(EntityTypesRegistry.LUNAR_BOAT.get(), (c) -> new BoatRenderer(c, BoatModelLayerRegistry.LUNAR_BOAT));
-        EntityRendererRegistry.register(EntityTypesRegistry.LUNAR_CHEST_BOAT.get(), (c) -> new BoatRenderer(c, BoatModelLayerRegistry.LUNAR_CHEST_BOAT));
-        EntityRendererRegistry.register(EntityTypesRegistry.BLUE_FISH.get(), (c) -> new StellarisMobRenderer<>(c, new BlueFishModel(c.bakeLayer(BlueFishModel.LAYER_LOCATION)), IdentifierUtils.texture("entity/mob_blue_fish"), 0.72F, 1.35F, 0.18F));
-        EntityRendererRegistry.register(EntityTypesRegistry.LUNAR_PARASITE.get(), (c) -> new StellarisMobRenderer<>(c, new LunarParasiteModel(c.bakeLayer(LunarParasiteModel.LAYER_LOCATION)), IdentifierUtils.texture("entity/mob_lunar_parasite"), 0.82F, 1.45F, 0.25F));
-        EntityRendererRegistry.register(EntityTypesRegistry.PARASITE_AFFECTED_VILLAGER.get(), (c) -> new StellarisMobRenderer<>(c, new ParasiteAffectedVillagerModel(c.bakeLayer(ParasiteAffectedVillagerModel.LAYER_LOCATION)), IdentifierUtils.texture("entity/mob_parasite_affected_villager"), 0.94F, 1.5F, 0.45F));
-        EntityRendererRegistry.register(EntityTypesRegistry.PARASITE_AFFECTED_VILLAGER_EVOLVED.get(), (c) -> new StellarisMobRenderer<>(c, new EvolvedParasiteAffectedVillagerModel(c.bakeLayer(EvolvedParasiteAffectedVillagerModel.LAYER_LOCATION)), IdentifierUtils.texture("entity/mob_parasite_affected_villager_evolved"), 1.05F, 1.58F, 0.65F));
-        EntityRendererRegistry.register(EntityTypesRegistry.LUNA_SHADOW.get(), (c) ->
+        EntityRenderers.register(EntityTypesRegistry.LANDER.get(), LanderRenderer::new);
+        EntityRenderers.register(EntityTypesRegistry.ROCKET.get(), RocketRenderer::new);
+        EntityRenderers.register(EntityTypesRegistry.ROVER.get(), RoverRenderer::new);
+        EntityRenderers.register(EntityTypesRegistry.LUNAR_BOAT.get(), (c) -> new BoatRenderer(c, BoatModelLayerRegistry.LUNAR_BOAT));
+        EntityRenderers.register(EntityTypesRegistry.LUNAR_CHEST_BOAT.get(), (c) -> new BoatRenderer(c, BoatModelLayerRegistry.LUNAR_CHEST_BOAT));
+        EntityRenderers.register(EntityTypesRegistry.BLUE_FISH.get(), (c) -> new StellarisMobRenderer<>(c, new BlueFishModel(c.bakeLayer(BlueFishModel.LAYER_LOCATION)), IdentifierUtils.texture("entity/mob_blue_fish"), 0.72F, 1.35F, 0.18F));
+        EntityRenderers.register(EntityTypesRegistry.LUNAR_PARASITE.get(), (c) -> new StellarisMobRenderer<>(c, new LunarParasiteModel(c.bakeLayer(LunarParasiteModel.LAYER_LOCATION)), IdentifierUtils.texture("entity/mob_lunar_parasite"), 0.82F, 1.45F, 0.25F));
+        EntityRenderers.register(EntityTypesRegistry.PARASITE_AFFECTED_VILLAGER.get(), (c) -> new StellarisMobRenderer<>(c, new ParasiteAffectedVillagerModel(c.bakeLayer(ParasiteAffectedVillagerModel.LAYER_LOCATION)), IdentifierUtils.texture("entity/mob_parasite_affected_villager"), 0.94F, 1.5F, 0.45F));
+        EntityRenderers.register(EntityTypesRegistry.PARASITE_AFFECTED_VILLAGER_EVOLVED.get(), (c) -> new StellarisMobRenderer<>(c, new EvolvedParasiteAffectedVillagerModel(c.bakeLayer(EvolvedParasiteAffectedVillagerModel.LAYER_LOCATION)), IdentifierUtils.texture("entity/mob_parasite_affected_villager_evolved"), 1.05F, 1.58F, 0.65F));
+        EntityRenderers.register(EntityTypesRegistry.LUNA_SHADOW.get(), (c) ->
                 new StellarisMobRenderer<>(
                         c,
                         new LunaShadowModel(c.bakeLayer(LunaShadowModel.LAYER_LOCATION)),
@@ -114,8 +110,8 @@ public final class StellarisFabricClient implements ClientModInitializer {
                         0.65F
                 )
         );
-        EntityRendererRegistry.register(EntityTypesRegistry.STAR_CRAWLER.get(), StarCrawlerRenderer::new);
-        EntityRendererRegistry.register(EntityTypesRegistry.ALIEN.get(), AlienRenderer::new);
+        EntityRenderers.register(EntityTypesRegistry.STAR_CRAWLER.get(), StarCrawlerRenderer::new);
+        EntityRenderers.register(EntityTypesRegistry.ALIEN.get(), AlienRenderer::new);
     }
 
     private void registerFluidRenderers() {

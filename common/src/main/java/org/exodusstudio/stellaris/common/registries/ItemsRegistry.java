@@ -52,16 +52,16 @@ public final class ItemsRegistry {
     public static final RegistrySupplier<Item> RAW_DESH = item("raw_desh");
 
     /** Tools */
-    public static final RegistrySupplier<Item> TITANIUM_PICKAXE = item("titanium_pickaxe", p -> new CustomPickaxeItem(p, ToolMaterialsRegistry.TITANIUM, 1.0F, -2.8F));
-    public static final RegistrySupplier<Item> TITANIUM_AXE = item("titanium_axe", p -> new CustomAxeItem(p, ToolMaterialsRegistry.TITANIUM, 6.0F, -3.1F));
-    public static final RegistrySupplier<Item> TITANIUM_SHOVEL = item("titanium_shovel", p -> new CustomShovelItem(p, ToolMaterialsRegistry.TITANIUM, 1.5F, -3.0F));
-    public static final RegistrySupplier<Item> TITANIUM_SWORD = item("titanium_sword", p -> new CustomSwordItem(p, ToolMaterialsRegistry.TITANIUM, 3.0F, -2.4F));
-    public static final RegistrySupplier<Item> TITANIUM_HOE = item("titanium_hoe", p -> new CustomHoeItem(p, ToolMaterialsRegistry.TITANIUM, -3.0F, 0.0F));
+    public static final RegistrySupplier<CustomPickaxeItem> TITANIUM_PICKAXE = item("titanium_pickaxe", p -> new CustomPickaxeItem(p, ToolMaterialsRegistry.TITANIUM, 1.0F, -2.8F));
+    public static final RegistrySupplier<CustomAxeItem> TITANIUM_AXE = item("titanium_axe", p -> new CustomAxeItem(p, ToolMaterialsRegistry.TITANIUM, 6.0F, -3.1F));
+    public static final RegistrySupplier<CustomShovelItem> TITANIUM_SHOVEL = item("titanium_shovel", p -> new CustomShovelItem(p, ToolMaterialsRegistry.TITANIUM, 1.5F, -3.0F));
+    public static final RegistrySupplier<CustomSwordItem> TITANIUM_SWORD = item("titanium_sword", p -> new CustomSwordItem(p, ToolMaterialsRegistry.TITANIUM, 3.0F, -2.4F));
+    public static final RegistrySupplier<CustomHoeItem> TITANIUM_HOE = item("titanium_hoe", p -> new CustomHoeItem(p, ToolMaterialsRegistry.TITANIUM, -3.0F, 0.0F));
 
 
     /** Special Items */
     public static final RegistrySupplier<TabletItem> TABLET = item("tablet", TabletItem::new);
-    public static final RegistrySupplier<Item> OIL_FINDER = item("oil_finder", OilFinderItem::new);
+    public static final RegistrySupplier<OilFinderItem> OIL_FINDER = item("oil_finder", OilFinderItem::new);
     public static final RegistrySupplier<SDCardItem> SD_CARD = item("sd_card", (p) -> new SDCardItem(p, "stellaris:creative"));
 
     /** Rover */
@@ -94,10 +94,10 @@ public final class ItemsRegistry {
     public static final RegistrySupplier<RocketModelModuleItem<?>> BIG_ROCKET_MODEL = item("big_rocket_model", p -> new RocketModelModuleItem<>(p, "big", "big", 3.75f));
 
     /** Space Suit Items */
-    public static final RegistrySupplier<Item> SPACE_SUIT_HELMET = item("space_suit_helmet",  SpaceSuitHelmet::new);
-    public static final RegistrySupplier<Item> SPACE_SUIT_CHESTPLATE = item("space_suit_chestplate", SpaceSuitChestplate::new);
-    public static final RegistrySupplier<Item> SPACE_SUIT_LEGGINGS = item("space_suit_leggings", SpaceSuitLeggings::new);
-    public static final RegistrySupplier<Item> SPACE_SUIT_BOOTS = item("space_suit_boots", SpaceSuitBoots::new);
+    public static final RegistrySupplier<SpaceSuitHelmet> SPACE_SUIT_HELMET = item("space_suit_helmet", SpaceSuitHelmet::new);
+    public static final RegistrySupplier<SpaceSuitChestplate> SPACE_SUIT_CHESTPLATE = item("space_suit_chestplate", SpaceSuitChestplate::new);
+    public static final RegistrySupplier<SpaceSuitLeggings> SPACE_SUIT_LEGGINGS = item("space_suit_leggings", SpaceSuitLeggings::new);
+    public static final RegistrySupplier<SpaceSuitBoots> SPACE_SUIT_BOOTS = item("space_suit_boots", SpaceSuitBoots::new);
 
     // Space Suit Modules
     // Oxygen Modules
@@ -182,7 +182,7 @@ public final class ItemsRegistry {
     public static final RegistrySupplier<ArchitecturyBucketItem> DIESEL_BUCKET = item("diesel_bucket", properties -> new ArchitecturyBucketItem(FluidsRegistry.DIESEL_STILL, properties.stacksTo(1)));
     public static final RegistrySupplier<ArchitecturyBucketItem> BLUE_LIQUID_BUCKET = item("blue_liquid_bucket", properties -> new ArchitecturyBucketItem(FluidsRegistry.BLUE_LIQUID_STILL, properties.stacksTo(1)));
     public static final RegistrySupplier<ArchitecturyBucketItem> ASTRUM_LIQUIDUS_BUCKET = item("astrum_liquidus_bucket", properties -> new ArchitecturyBucketItem(FluidsRegistry.ASTRUM_LIQUIDUS_STILL, properties.stacksTo(1)));
-    public static final RegistrySupplier<Item> FLUID_CELL = item("fluid_cell", properties -> new FluidCellItem(properties, 3000));
+    public static final RegistrySupplier<FluidCellItem> FLUID_CELL = item("fluid_cell", properties -> new FluidCellItem(properties, 3000));
 
     // Crafting items
     public static final RegistrySupplier<Item> ENGINE_FAN = item("engine_fan");
@@ -193,8 +193,8 @@ public final class ItemsRegistry {
 
     // Moon lore items
     public static final RegistrySupplier<ParasiteItem> PARASITE = item("parasite", ParasiteItem::new);
-    public static final RegistrySupplier<Item> PATHOGEN_STORAGE_CELL = item("pathogen_storage_cell", PathogenStorageCellItem::new);
-    public static final RegistrySupplier<Item> VACCINE = item("vaccine", VaccineItem::new);
+    public static final RegistrySupplier<PathogenStorageCellItem> PATHOGEN_STORAGE_CELL = item("pathogen_storage_cell", PathogenStorageCellItem::new);
+    public static final RegistrySupplier<VaccineItem> VACCINE = item("vaccine", VaccineItem::new);
 
     /** Mobs */
     public static final RegistrySupplier<SpawnEggItem> BLUE_FISH_SPAWN_EGG = item("blue_fish_spawn_egg", p -> new SpawnEggItem(p.spawnEgg(EntityTypesRegistry.BLUE_FISH.get())));
@@ -209,8 +209,8 @@ public final class ItemsRegistry {
     public static final RegistrySupplier<Item> LUNAR_BOAT = item("lunar_boat", p -> new BoatItem((EntityType<? extends AbstractBoat>) EntityTypesRegistry.LUNAR_BOAT.get(), p));
     public static final RegistrySupplier<Item> LUNAR_CHEST_BOAT = item("lunar_chest_boat", p -> new BoatItem((EntityType<? extends AbstractBoat>) EntityTypesRegistry.LUNAR_CHEST_BOAT.get(), p));
 
-    public static final RegistrySupplier<Item> LUNAR_SIGN = ItemsRegistry.item("lunar_sign", p -> new SignItem(BlocksRegistry.LUNAR_SIGN.get(), BlocksRegistry.LUNAR_WALL_SIGN.get(), p));
-    public static final RegistrySupplier<Item> LUNAR_HANGING_SIGN = ItemsRegistry.item("lunar_hanging_sign", p -> new HangingSignItem(BlocksRegistry.LUNAR_HANGING_SIGN.get(), BlocksRegistry.LUNAR_WALL_HANGING_SIGN.get(), p));
+    public static final RegistrySupplier<SignItem> LUNAR_SIGN = ItemsRegistry.item("lunar_sign", p -> new SignItem(BlocksRegistry.LUNAR_SIGN.get(), BlocksRegistry.LUNAR_WALL_SIGN.get(), p));
+    public static final RegistrySupplier<HangingSignItem> LUNAR_HANGING_SIGN = ItemsRegistry.item("lunar_hanging_sign", p -> new HangingSignItem(BlocksRegistry.LUNAR_HANGING_SIGN.get(), BlocksRegistry.LUNAR_WALL_HANGING_SIGN.get(), p));
 
     public static RegistrySupplier<Item> item(String name) {
         return item(name, new Item.Properties().arch$tab(CreativeTabsRegistry.STELLARIS_MAIN));

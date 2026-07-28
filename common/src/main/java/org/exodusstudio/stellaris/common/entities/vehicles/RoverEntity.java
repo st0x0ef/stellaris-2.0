@@ -1,9 +1,12 @@
 package org.exodusstudio.stellaris.common.entities.vehicles;
 
+import com.fej1fun.potentials.fluid.UniversalFluidStorage;
+import com.fej1fun.potentials.providers.FluidProvider;
 import dev.architectury.fluid.FluidStack;
 import dev.architectury.networking.NetworkManager;
 import dev.architectury.registry.menu.ExtendedMenuProvider;
 import dev.architectury.registry.menu.MenuRegistry;
+import net.minecraft.core.Direction;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -44,11 +47,12 @@ import org.exodusstudio.stellaris.common.registries.ItemsRegistry;
 import org.exodusstudio.stellaris.common.registries.ModulesRegistry;
 import org.exodusstudio.stellaris.common.utils.InventorySaver;
 import org.exodusstudio.stellaris.common.vehicle_upgrade.FuelType;
+import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3d;
 
 import java.util.Optional;
 
-public class RoverEntity extends AbstractRoverBase implements HasCustomInventoryScreen, ContainerListener {
+public class RoverEntity extends AbstractRoverBase implements HasCustomInventoryScreen, ContainerListener, FluidProvider.ENTITY {
 
     public static final EntityDataAccessor<Modules<RoverModule>> ROVER_MODULES = SynchedEntityData.defineId(RoverEntity.class, EntityDataSerializersRegistry.ROVER_MODULES);
 
@@ -484,5 +488,10 @@ public class RoverEntity extends AbstractRoverBase implements HasCustomInventory
     @Override
     public void dataChanged(AbstractContainerMenu container, int id, int value) {
 
+    }
+
+    @Override
+    public @Nullable UniversalFluidStorage getFluidTank(@Nullable Direction direction) {
+        return fuelTank;
     }
 }
