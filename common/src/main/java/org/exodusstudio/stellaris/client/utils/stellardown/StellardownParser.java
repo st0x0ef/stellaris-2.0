@@ -1,7 +1,6 @@
-package org.exodusstudio.stellaris.client.utils.minedown;
+package org.exodusstudio.stellaris.client.utils.stellardown;
 
 import net.minecraft.resources.Identifier;
-import org.exodusstudio.stellaris.Stellaris;
 import org.jetbrains.annotations.NotNull;
 import org.joml.Vector3f;
 import oshi.util.tuples.Pair;

@@ -48,6 +48,9 @@ public class MarkdownData extends SimplePreparableReloadListener<Map<Identifier,
     protected void apply(Map<Identifier, String> preparations, ResourceManager manager, ProfilerFiller profiler) {
         for(Identifier id : preparations.keySet()) {
 
+
+            //TODO
+            //Note for my self : the id already has the folder in it.
             MarkdownPage page = new MarkdownPage(id, preparations.get(id));
             ENTRY_PAGES.put(id, page);
 
