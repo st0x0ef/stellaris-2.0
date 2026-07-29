@@ -5,7 +5,7 @@ import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
 import net.minecraft.network.chat.Component;
-import org.exodusstudio.stellaris.client.utils.minedown.StellardownRenderer;
+import org.exodusstudio.stellaris.client.utils.stellardown.StellardownRenderer;
 
 /**
  * A Widget that allow to render our markdown system.

@@ -1,4 +1,4 @@
-package org.exodusstudio.stellaris.client.utils.minedown;
+package org.exodusstudio.stellaris.client.utils.stellardown;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
@@ -9,13 +9,13 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
-import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.client.utils.ActionBox;
 import org.exodusstudio.stellaris.client.utils.ClientUtils;
 import org.exodusstudio.stellaris.common.utils.Utils;
 import oshi.util.tuples.Pair;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.function.Consumer;
 import java.util.regex.Matcher;
@@ -210,11 +210,20 @@ public class StellardownRenderer {
 
                 MutableComponent component = toComponent(seg.text, seg.style);
 
+                int textX = x + seg.x;
+                int textY = y + line.y + (line.height - seg.height) / 2;
+
+                if(seg.style.ref != null) {
+                    HashMap<String, String> data = new HashMap<>();
+                    data.put("ref", seg.style.ref);
+                    clickBoxConsumer.accept(new ActionBox(textX, textY, textX + seg.width, textY + seg.height, seg.style.ref, data));
+                }
+
                 guiGraphics.text(
                         font,
                         component,
-                        x + seg.x,
-                        y + line.y + (line.height - font.lineHeight) / 2,
+                        textX,
+                        textY,
                         Utils.getMinecraftColor("white"));
             }
         }

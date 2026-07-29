@@ -7,7 +7,7 @@ import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
-import org.exodusstudio.stellaris.client.utils.minedown.StellardownRenderer;
+import org.exodusstudio.stellaris.client.utils.stellardown.StellardownRenderer;
 import org.exodusstudio.stellaris.common.data.wiki.EntryInfo;
 import org.exodusstudio.stellaris.client.screens.components.containers.ScrollableContainer;
 import org.exodusstudio.stellaris.client.utils.ActionBox;
@@ -144,7 +144,7 @@ public class WikiInfosWidget extends ScrollableContainer {
         for (ActionBox clickBox : actionBoxes) {
 
             if (clickBox.isHovered(mouseX,mouseY, 0)) {
-                clickBox.onHover(this);
+                //clickBox.onHover(this);
             }
         }
         super.mouseMoved(mouseX, mouseY);
@@ -155,7 +155,7 @@ public class WikiInfosWidget extends ScrollableContainer {
     public boolean mouseClicked(@NonNull MouseButtonEvent event, boolean isDoubleClick) {
         for (ActionBox clickBox : actionBoxes) {
             if (clickBox.isHovered(event.x(), event.y(), this.scrollAmount())) {
-                clickBox.onClick(this);
+                //clickBox.onClick(this);
             }
         }
 
