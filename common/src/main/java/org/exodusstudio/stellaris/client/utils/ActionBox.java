@@ -1,11 +1,6 @@
 package org.exodusstudio.stellaris.client.utils;
 
 
-import net.minecraft.client.gui.GuiGraphicsExtractor;
-import net.minecraft.network.chat.Component;
-import net.minecraft.resources.Identifier;
-import org.exodusstudio.stellaris.client.screens.components.wiki.WikiInfosWidget;
-import org.exodusstudio.stellaris.client.screens.tablet.application.wiki.WikiApplicationScreen;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Consumer;
@@ -20,8 +15,8 @@ import java.util.function.Consumer;
  * @param clickAction action to perform when the box is clicked
  * @param id
  */
-public record ActionBox(int x, int y, int width, int height, @Nullable Consumer<RenderingInfo> hoverAction,
-                        @Nullable Consumer<RenderingInfo> clickAction, String id) {
+public record ActionBox<T>(int x, int y, int width, int height, @Nullable Consumer<RenderingInfo<T>> hoverAction,
+                        @Nullable Consumer<RenderingInfo<T>> clickAction, String id) {
 
     public boolean isHovered(double mouseX, double mouseY, double finalHeight) {
         mouseY += finalHeight;
@@ -29,33 +24,19 @@ public record ActionBox(int x, int y, int width, int height, @Nullable Consumer<
     }
 
 
-    public void onClick(WikiInfosWidget infos) {
+    public void onClick(T widget) {
         if (clickAction != null) {
-            clickAction.accept(new RenderingInfo(infos, this));
+            clickAction.accept(new RenderingInfo(widget, this));
         }
     }
 
-    public void onHover(WikiInfosWidget infos) {
+    public void onHover(T widget) {
         if (hoverAction != null) {
-            hoverAction.accept(new RenderingInfo(infos, this));
-        }
-    }
-
-    /**
-     * ActionBox helper method
-     */
-    public void showTooltip(GuiGraphicsExtractor guiGraphics, double mouseX, double mouseY, Component component) {
-        guiGraphics.setTooltipForNextFrame(component, (int) mouseX, (int) mouseY);
-    }
-
-    public void changePage(WikiInfosWidget infos, String location) {
-        var entryInfo = WikiApplicationScreen.getEntryInfo(Identifier.parse(location));
-        if (entryInfo != null && infos.info.id() != entryInfo.id()) {
-            infos.refresh(entryInfo);
+            hoverAction.accept(new RenderingInfo(widget, this));
         }
     }
 
 
-    public record RenderingInfo(WikiInfosWidget infoWidget, ActionBox actionBox) {}
+    public record RenderingInfo<T>(T widget, ActionBox actionBox) {}
 
 }

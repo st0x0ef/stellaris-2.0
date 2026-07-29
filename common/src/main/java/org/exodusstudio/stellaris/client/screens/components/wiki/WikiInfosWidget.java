@@ -67,7 +67,7 @@ public class WikiInfosWidget extends ScrollableContainer {
                     StellardownRenderer renderer = rendererCache.computeIfAbsent(text,
                             t -> new StellardownRenderer(t, textWidth, Minecraft.getInstance().font));
                     int descriptionHeight = renderer
-                            .render(this.getX() + 5, (int) (this.getOffsetHeight() + finalHeight.get() + 5), guiGraphics, this::addClickBox);
+                            .render(this.getX() + 5, (int) (this.getOffsetHeight() + finalHeight.get() + 5), guiGraphics, mouseX, mouseY, this::addClickBox);
                     finalHeight.addAndGet(descriptionHeight);
 
                 });
@@ -113,6 +113,7 @@ public class WikiInfosWidget extends ScrollableContainer {
 
                     Entity entity1 = ClientUtils.createEntity(Minecraft.getInstance().level, entityComponent.location());
                     if(entity1 instanceof LivingEntity livingEntity) {
+
 
                         int ENTITY_WIDTH = entityComponent.width();
 

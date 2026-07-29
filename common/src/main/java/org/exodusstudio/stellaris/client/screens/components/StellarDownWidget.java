@@ -21,7 +21,7 @@ public class StellarDownWidget extends AbstractWidget {
 
     @Override
     protected void extractWidgetRenderState(GuiGraphicsExtractor guiGraphics, int mouseX, int mouseY, float partialTick) {
-        this.wikiEntryTextRenderer.render(this.getX(), this.getY(), guiGraphics);
+        this.wikiEntryTextRenderer.render(this.getX(), this.getY(), guiGraphics, mouseX, mouseY);
     }
 
     @Override

@@ -8,9 +8,16 @@ associatedBlocks: [minecraft:sand,stellaris:antenna_replaceable]
 
 Welcome to the **wiki**!
 
-[entity width=100]stellaris:crawler[entity]
 
-this is a crawler
+[image=stellaris:textures/wiki/rendered_blocks/electrolyzer.png width=100 height=100]
 
 
-[item scale=1]stellaris:block[item]
+[entity=stellaris:star_crawler scale=20 width=150]
+
+
+This is so cool !!
+
+
+
+
+Cool
