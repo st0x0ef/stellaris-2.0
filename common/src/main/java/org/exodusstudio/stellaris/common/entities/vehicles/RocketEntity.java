@@ -1,12 +1,15 @@
 package org.exodusstudio.stellaris.common.entities.vehicles;
 
 import com.fej1fun.potentials.components.FluidAmountMapDataComponent;
+import com.fej1fun.potentials.fluid.UniversalFluidStorage;
+import com.fej1fun.potentials.providers.FluidProvider;
 import com.mojang.serialization.Codec;
 import dev.architectury.fluid.FluidStack;
 import dev.architectury.networking.NetworkManager;
 import dev.architectury.registry.menu.ExtendedMenuProvider;
 import dev.architectury.registry.menu.MenuRegistry;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.registries.Registries;
@@ -59,7 +62,7 @@ import java.util.Objects;
 import java.util.Optional;
 
 
-public class RocketEntity extends VehicleEntity {
+public class RocketEntity extends VehicleEntity implements FluidProvider.ENTITY {
 
     public static final EntityDataAccessor<Modules<RocketModule>> ROCKET_MODULES = SynchedEntityData.defineId(RocketEntity.class, EntityDataSerializersRegistry.ROCKET_MODULES);
     public static final EntityDataAccessor<Boolean> ROCKET_START = SynchedEntityData.defineId(RocketEntity.class, EntityDataSerializers.BOOLEAN);
@@ -534,5 +537,10 @@ public class RocketEntity extends VehicleEntity {
 
     public RocketEntity getRocketEntity() {
         return this;
+    }
+
+    @Override
+    public @Nullable UniversalFluidStorage getFluidTank(@Nullable Direction direction) {
+        return fuelTank;
     }
 }

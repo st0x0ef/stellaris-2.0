@@ -1,6 +1,10 @@
 package org.exodusstudio.stellaris.common.registries;
 
 import com.fej1fun.potentials.capabilities.Capabilities;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+
+import java.util.function.Supplier;
 
 public class CapabilitiesRegistry {
 
@@ -58,4 +62,10 @@ public class CapabilitiesRegistry {
         Capabilities.Fluid.ITEM.registerForItem(ItemsRegistry.SPACE_SUIT_HELMET);
         Capabilities.Fluid.ITEM.registerForItem(ItemsRegistry.SPACE_SUIT_CHESTPLATE);
     }
+
+    private static void registerFluidEntities() {
+        Capabilities.Fluid.ENTITY.registerForEntity(EntityTypesRegistry.ROCKET);
+        Capabilities.Fluid.ENTITY.registerForEntity(EntityTypesRegistry.ROVER);
+    }
+
 }
