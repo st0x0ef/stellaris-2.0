@@ -17,6 +17,7 @@ import org.exodusstudio.stellaris.common.registries.BlockEntitiesRegistry;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+@Deprecated(forRemoval = true)
 public class CableBlock extends BaseCableBlock {
 
     public final int transferRate;
@@ -54,7 +55,7 @@ public class CableBlock extends BaseCableBlock {
 
     @Override
     public BlockEntityType<?> getBlockEntityType() {
-        return BlockEntitiesRegistry.CABLES.get();
+        return BlockEntitiesRegistry.CABLE_ENTITY.get();
     }
 
     @Override

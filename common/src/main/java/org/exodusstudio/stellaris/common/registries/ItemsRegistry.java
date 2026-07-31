@@ -60,6 +60,7 @@ public final class ItemsRegistry {
 
 
     /** Special Items */
+    public static final RegistrySupplier<WrenchItem> WRENCH = item("wrench", WrenchItem::new);
     public static final RegistrySupplier<TabletItem> TABLET = item("tablet", TabletItem::new);
     public static final RegistrySupplier<OilFinderItem> OIL_FINDER = item("oil_finder", OilFinderItem::new);
     public static final RegistrySupplier<SDCardItem> SD_CARD = item("sd_card", (p) -> new SDCardItem(p, "stellaris:creative"));

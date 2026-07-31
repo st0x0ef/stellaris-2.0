@@ -23,6 +23,7 @@ import java.util.Set;
  * The per-tick cache guarantees each network is flooded at most once per tick no matter how many
  * producers push into it. All access happens on the single server thread.
  */
+@Deprecated(forRemoval = true)
 public final class TransportGraph {
 
     /** Hard cap so a pathological build can never freeze the server. */

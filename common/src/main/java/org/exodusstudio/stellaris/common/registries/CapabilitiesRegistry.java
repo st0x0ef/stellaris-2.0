@@ -1,10 +1,9 @@
 package org.exodusstudio.stellaris.common.registries;
 
 import com.fej1fun.potentials.capabilities.Capabilities;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityType;
-
-import java.util.function.Supplier;
+import org.exodusstudio.stellaris.common.networks.NetworkProvider;
+import org.exodusstudio.stellaris.common.networks.capabilities.EnergyNetwork;
+import org.exodusstudio.stellaris.common.networks.capabilities.FluidNetwork;
 
 public class CapabilitiesRegistry {
 
@@ -14,6 +13,9 @@ public class CapabilitiesRegistry {
 
         registerFluidBlockEntities();
         registerFluidItems();
+        registerFluidEntities();
+
+        registerNetworkBlocks();
     }
 
     private static void registerEnergyBlockEntities() {
@@ -32,7 +34,7 @@ public class CapabilitiesRegistry {
         Capabilities.Energy.BLOCK.registerForBlockEntity(BlockEntitiesRegistry.CARGO_UNLOADER);
 
         // Cables expose a stateless passthrough so other mods' conduits can push energy into a Stellaris line.
-        Capabilities.Energy.BLOCK.registerForBlockEntity(BlockEntitiesRegistry.CABLES);
+        Capabilities.Energy.BLOCK.registerForBlockEntity(BlockEntitiesRegistry.CABLE_ENTITY);
     }
 
     private static void registerEnergyItems() {
@@ -66,6 +68,22 @@ public class CapabilitiesRegistry {
     private static void registerFluidEntities() {
         Capabilities.Fluid.ENTITY.registerForEntity(EntityTypesRegistry.ROCKET);
         Capabilities.Fluid.ENTITY.registerForEntity(EntityTypesRegistry.ROVER);
+    }
+
+    private static void registerNetworkBlocks() {
+        EnergyNetwork.NETWORK_CAPABILITY.registerForBlockEntity(
+                (blockEntity, dir) -> {
+                    if (!(blockEntity instanceof NetworkProvider<?> provider)) return null;
+                    if (provider.getNetwork(dir) instanceof EnergyNetwork network) return network;
+                    return null;
+                }, BlockEntitiesRegistry.CABLE_ENTITY);
+
+        FluidNetwork.NETWORK_CAPABILITY.registerForBlockEntity(
+                (blockEntity, dir) -> {
+                    if (!(blockEntity instanceof NetworkProvider<?> provider)) return null;
+                    if (provider.getNetwork(dir) instanceof FluidNetwork network) return network;
+                    return null;
+                }, BlockEntitiesRegistry.PIPE_ENTITY);
     }
 
 }

@@ -4,6 +4,8 @@ import dev.architectury.registry.registries.DeferredRegister;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import org.exodusstudio.stellaris.Stellaris;
+import org.exodusstudio.stellaris.common.blocks.cables.EnergyCableBlockEntity;
+import org.exodusstudio.stellaris.common.blocks.cables.FluidPipeBlockEntity;
 import org.exodusstudio.stellaris.common.blocks.entities.*;
 import org.exodusstudio.stellaris.common.blocks.entities.machines.*;
 
@@ -38,8 +40,8 @@ public class BlockEntitiesRegistry {
     public static final Supplier<BlockEntityType<PowerBankBlockEntity>> POWER_BANKS = BLOCK_ENTITY_TYPE.register("power_bank",
             () -> new BlockEntityType<>(PowerBankBlockEntity::new, Set.of(BlocksRegistry.POWER_BANK_T1.block().get())));
 
-    public static final Supplier<BlockEntityType<CableBlockEntity>> CABLES = BLOCK_ENTITY_TYPE.register("cables",
-            () -> new BlockEntityType<>(CableBlockEntity::new, Set.of(BlocksRegistry.CABLE_T1.block().get())));
+    public static final Supplier<BlockEntityType<EnergyCableBlockEntity>> CABLE_ENTITY = BLOCK_ENTITY_TYPE.register("cables",
+            () -> new BlockEntityType<>(EnergyCableBlockEntity::new, Set.of(BlocksRegistry.CABLE_T1.block().get())));
 
     public static final Supplier<BlockEntityType<ElectrolyzerBlockEntity>> ELECTROLYZER = BLOCK_ENTITY_TYPE.register("electrolyzer",
             () -> new BlockEntityType<>(ElectrolyzerBlockEntity::new, Set.of(BlocksRegistry.ELECTROLYZER.block().get())));
@@ -68,8 +70,8 @@ public class BlockEntitiesRegistry {
     public static final Supplier<BlockEntityType<OxygenPropagatorBlockEntity>> OXYGEN_PROPAGATOR = BLOCK_ENTITY_TYPE.register("oxygen_propagator",
             () -> new BlockEntityType<>(OxygenPropagatorBlockEntity::new, Set.of(BlocksRegistry.OXYGEN_PROPAGATOR.block().get())));
 
-    public static final Supplier<BlockEntityType<PipeBlockEntity>> PIPE_ENTITY = BLOCK_ENTITY_TYPE.register("pipe",
-            () -> new BlockEntityType<>(PipeBlockEntity::create, Set.of(BlocksRegistry.PIPE_T1.block().get())));
+    public static final Supplier<BlockEntityType<FluidPipeBlockEntity>> PIPE_ENTITY = BLOCK_ENTITY_TYPE.register("pipe",
+            () -> new BlockEntityType<>(FluidPipeBlockEntity::new, Set.of(BlocksRegistry.PIPE_T1.block().get())));
 
     public static final Supplier<BlockEntityType<FluidTankBlockEntity>> FLUID_TANK = BLOCK_ENTITY_TYPE.register("fluid_tank",
             () -> new BlockEntityType<>(FluidTankBlockEntity::new, Set.of(BlocksRegistry.FLUID_TANK_T1.block().get())));

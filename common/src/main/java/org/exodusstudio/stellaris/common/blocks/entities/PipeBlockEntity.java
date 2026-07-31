@@ -19,6 +19,7 @@ import org.jetbrains.annotations.Nullable;
  * push directly into a Stellaris line; that capability routes straight into the network and stores
  * nothing. The block entity itself neither ticks nor persists anything.
  */
+@Deprecated(forRemoval = true)
 public class PipeBlockEntity extends BlockEntity implements FluidProvider.BLOCK {
 
     public PipeBlockEntity(BlockPos pos, BlockState state) {

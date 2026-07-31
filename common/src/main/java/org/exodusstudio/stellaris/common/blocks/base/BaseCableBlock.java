@@ -24,6 +24,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Map;
 
+@Deprecated(forRemoval = true)
 public abstract class BaseCableBlock extends BaseTickingEntityBlock {
 
     private static final Direction[] DIRECTIONS = Direction.values();

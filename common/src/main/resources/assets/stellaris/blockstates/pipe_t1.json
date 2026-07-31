@@ -5,59 +5,30 @@
         "model": "stellaris:block/pipes/t1/pipe_t1"
       }
     },
+
     {
-      "apply": {
-        "model": "stellaris:block/pipes/t1/pipe_north_t1",
-        "uvlock": true
-      },
-      "when": {
-        "north": "true"
-      }
+      "apply": { "model": "stellaris:block/pipes/t1/pipe_north_t1", "uvlock": true },
+      "when": { "north_mode": "normal|pull|push" }
     },
     {
-      "apply": {
-        "model": "stellaris:block/pipes/t1/pipe_east_t1",
-        "uvlock": true
-      },
-      "when": {
-        "east": "true"
-      }
+      "apply": { "model": "stellaris:block/pipes/t1/pipe_east_t1", "uvlock": true },
+      "when": { "east_mode": "normal|pull|push" }
     },
     {
-      "apply": {
-        "model": "stellaris:block/pipes/t1/pipe_south_t1",
-        "uvlock": true
-      },
-      "when": {
-        "south": "true"
-      }
+      "apply": { "model": "stellaris:block/pipes/t1/pipe_south_t1", "uvlock": true },
+      "when": { "south_mode": "normal|pull|push" }
     },
     {
-      "apply": {
-        "model": "stellaris:block/pipes/t1/pipe_west_t1",
-        "uvlock": true
-      },
-      "when": {
-        "west": "true"
-      }
+      "apply": { "model": "stellaris:block/pipes/t1/pipe_west_t1", "uvlock": true },
+      "when": { "west_mode": "normal|pull|push" }
     },
     {
-      "apply": {
-        "model": "stellaris:block/pipes/t1/pipe_up_t1",
-        "uvlock": true
-      },
-      "when": {
-        "up": "true"
-      }
+      "apply": { "model": "stellaris:block/pipes/t1/pipe_up_t1", "uvlock": true },
+      "when": { "up_mode": "normal|pull|push" }
     },
     {
-      "apply": {
-        "model": "stellaris:block/pipes/t1/pipe_down_t1",
-        "uvlock": true
-      },
-      "when": {
-        "down": "true"
-      }
+      "apply": { "model": "stellaris:block/pipes/t1/pipe_down_t1", "uvlock": true },
+      "when": { "down_mode": "normal|pull|push" }
     }
   ]
 }

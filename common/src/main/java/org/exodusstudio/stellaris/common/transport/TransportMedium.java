@@ -33,6 +33,7 @@ import java.util.function.ToLongFunction;
  *
  * @param <S> the storage type the capability exposes ({@link UniversalFluidStorage} / {@link UniversalEnergyStorage})
  */
+@Deprecated(forRemoval = true)
 public final class TransportMedium<S> {
 
     public final NoProviderBlockCapabilityHolder<S, Direction> capability;

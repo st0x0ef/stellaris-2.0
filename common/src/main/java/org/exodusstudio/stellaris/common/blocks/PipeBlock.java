@@ -17,6 +17,7 @@ import org.exodusstudio.stellaris.common.registries.BlockEntitiesRegistry;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+@Deprecated(forRemoval = true)
 public class PipeBlock extends BaseCableBlock {
 
     public final int capacity;

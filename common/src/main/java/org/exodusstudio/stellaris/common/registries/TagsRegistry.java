@@ -16,24 +16,22 @@ public class TagsRegistry {
         public static final TagKey<Item> COAL_GENERATOR_FUEL = addTag("coal_generator_fuel");
         public static final TagKey<Item> CAN = addTag("can");
         public static final TagKey<Item> SPACE_SUIT = addTag("space_suit");
+        public static final TagKey<Item> WRENCH = addTag("wrench");
 
         public static final TagKey<Item> TITANIUM_INGOTS = addCTag("ingots/titanium");
 
-        public static TagKey<Item> addTag(String path) {
+        protected static TagKey<Item> addTag(String path) {
             return TagKey.create(Registries.ITEM, IdentifierUtils.id(path));
         }
 
-        public static TagKey<Item> addTag(String path, String modid) {
+        protected static TagKey<Item> addTag(String path, String modid) {
             return TagKey.create(Registries.ITEM, Identifier.fromNamespaceAndPath(modid, path));
         }
 
-        public static TagKey<Item> addCTag(String path) {
+        protected static TagKey<Item> addCTag(String path) {
             return addTag(path, "c");
         }
 
-        public static TagKey<EntityType<?>> addEntityTag(String path) {
-            return TagKey.create(Registries.ENTITY_TYPE, IdentifierUtils.id(path));
-        }
     }
 
     public static class BlockTags {
@@ -41,17 +39,18 @@ public class TagsRegistry {
         public static final TagKey<Block> LUNAR_LOGS = addTag("lunar_logs");
         public static final TagKey<Block> MOON_STONE_ORE_REPLACEABLES = addTag("moon_stone_ore_replaceables");
         public static final TagKey<Block> FLUID_TANKS = addTag("fluid_tanks");
-        public static final TagKey<Block> ANTENNA_REPLACEABLES = TagKey.create(Registries.BLOCK, IdentifierUtils.id("antenna_replaceable"));
+        public static final TagKey<Block> ANTENNA_REPLACEABLES = addTag("antenna_replaceable");
+        public static final TagKey<Block> WRENCH_DESTROYABLE = addTag("wrench_destroyable");
 
-        public static TagKey<Block> addTag(String path) {
+        protected static TagKey<Block> addTag(String path) {
             return TagKey.create(Registries.BLOCK, IdentifierUtils.id(path));
         }
 
-        public static TagKey<Block> addTag(String path, String modid) {
+        protected static TagKey<Block> addTag(String path, String modid) {
             return TagKey.create(Registries.BLOCK, Identifier.fromNamespaceAndPath(modid, path));
         }
 
-        public static TagKey<Block> addCTag(String path) {
+        protected static TagKey<Block> addCTag(String path) {
             return addTag(path, "c");
         }
     }
@@ -62,7 +61,7 @@ public class TagsRegistry {
         public static final TagKey<Biome> IS_MOON_WATER = addTag("is_moon_water");
         public static final TagKey<Biome> IS_MOON_FOREST = addTag("is_moon_forest");
 
-        public static TagKey<Biome> addTag(String path) {
+        protected static TagKey<Biome> addTag(String path) {
             return TagKey.create(Registries.BIOME, IdentifierUtils.id(path));
         }
     }
@@ -73,15 +72,15 @@ public class TagsRegistry {
         public static final TagKey<EntityType<?>> NO_OXYGEN_NEEDED = addTag("no_oxygen_needed");
         public static final TagKey<EntityType<?>> LUNAR_BOATS = addTag("lunar_boats");
 
-        public static TagKey<EntityType<?>> addTag(String path) {
+        protected static TagKey<EntityType<?>> addTag(String path) {
             return TagKey.create(Registries.ENTITY_TYPE, IdentifierUtils.id(path));
         }
 
-        public static TagKey<EntityType<?>> addTag(String path, String modid) {
+        protected static TagKey<EntityType<?>> addTag(String path, String modid) {
             return TagKey.create(Registries.ENTITY_TYPE, Identifier.fromNamespaceAndPath(modid, path));
         }
 
-        public static TagKey<EntityType<?>> addCTag(String path) {
+        protected static TagKey<EntityType<?>> addCTag(String path) {
             return addTag(path, "c");
         }
     }
@@ -89,15 +88,15 @@ public class TagsRegistry {
     public static class FluidTags {
         public static final TagKey<Fluid> BLUE_LIQUID = addTag("blue_liquid");
 
-        public static TagKey<Fluid> addTag(String path) {
+        protected static TagKey<Fluid> addTag(String path) {
             return TagKey.create(Registries.FLUID, IdentifierUtils.id(path));
         }
 
-        public static TagKey<Fluid> addTag(String path, String modid) {
+        protected static TagKey<Fluid> addTag(String path, String modid) {
             return TagKey.create(Registries.FLUID, Identifier.fromNamespaceAndPath(modid, path));
         }
 
-        public static TagKey<Fluid> addCTag(String path) {
+        protected static TagKey<Fluid> addCTag(String path) {
             return addTag(path, "c");
         }
     }

@@ -1,63 +1,41 @@
 {
   "multipart": [
     {
-      "apply": {
-        "model": "stellaris:block/cables/t1/cable_t1"
-      }
+      "apply": { "model": "stellaris:block/cables/t1/cable_t1" }
+    },
+
+    {
+      "apply": { "model": "stellaris:block/cables/t1/cable_north_t1", "uvlock": true },
+      "when": { "north": "true" }
     },
     {
-      "apply": {
-        "model": "stellaris:block/cables/t1/cable_north_t1",
-        "uvlock": true
-      },
-      "when": {
-        "north": "true"
-      }
+      "apply": { "model": "stellaris:block/cables/t1/cable_east_t1", "uvlock": true },
+      "when": { "east": "true" }
     },
     {
-      "apply": {
-        "model": "stellaris:block/cables/t1/cable_east_t1",
-        "uvlock": true
-      },
-      "when": {
-        "east": "true"
-      }
+      "apply": { "model": "stellaris:block/cables/t1/cable_south_t1", "uvlock": true },
+      "when": { "south": "true" }
     },
     {
-      "apply": {
-        "model": "stellaris:block/cables/t1/cable_south_t1",
-        "uvlock": true
-      },
-      "when": {
-        "south": "true"
-      }
+      "apply": { "model": "stellaris:block/cables/t1/cable_west_t1", "uvlock": true },
+      "when": { "west": "true" }
     },
     {
-      "apply": {
-        "model": "stellaris:block/cables/t1/cable_west_t1",
-        "uvlock": true
-      },
-      "when": {
-        "west": "true"
-      }
+      "apply": { "model": "stellaris:block/cables/t1/cable_up_t1", "uvlock": true },
+      "when": { "up": "true" }
     },
     {
-      "apply": {
-        "model": "stellaris:block/cables/t1/cable_up_t1",
-        "uvlock": true
-      },
-      "when": {
-        "up": "true"
-      }
+      "apply": { "model": "stellaris:block/cables/t1/cable_down_t1", "uvlock": true },
+      "when": { "down": "true" }
+    },
+
+    {
+      "apply": { "model": "stellaris:block/cables/t1/overlay_pull_north", "uvlock": true },
+      "when": { "north": "true", "north_mode": "pull" }
     },
     {
-      "apply": {
-        "model": "stellaris:block/cables/t1/cable_down_t1",
-        "uvlock": true
-      },
-      "when": {
-        "down": "true"
-      }
+      "apply": { "model": "stellaris:block/cables/t1/overlay_push_north", "uvlock": true },
+      "when": { "north": "true", "north_mode": "push" }
     }
   ]
 }
