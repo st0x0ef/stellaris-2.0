@@ -30,7 +30,7 @@ import org.exodusstudio.stellaris.common.data.PlanetsData;
 import org.exodusstudio.stellaris.common.entities.vehicles.LanderEntity;
 import org.exodusstudio.stellaris.common.entities.vehicles.RocketEntity;
 import org.exodusstudio.stellaris.common.menus.MainTabletMenu;
-import org.exodusstudio.stellaris.common.network.packets.StartFadePacket;
+import org.exodusstudio.stellaris.common.networking.packets.StartFadePacket;
 import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
 import org.exodusstudio.stellaris.common.utils.MoonLoreUtils;
 import org.exodusstudio.stellaris.common.utils.PlanetUtil;

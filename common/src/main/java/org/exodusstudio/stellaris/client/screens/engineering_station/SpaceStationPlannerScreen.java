@@ -17,7 +17,7 @@ import org.exodusstudio.stellaris.client.screens.components.containers.Scrollabl
 import org.exodusstudio.stellaris.common.data.space_station.SpaceStationData;
 import org.exodusstudio.stellaris.common.data.space_station.SpaceStationRecipe;
 import org.exodusstudio.stellaris.common.menus.engineering_station.SpaceStationPlannerMenu;
-import org.exodusstudio.stellaris.common.network.packets.PlanSpaceStationPacket;
+import org.exodusstudio.stellaris.common.networking.packets.PlanSpaceStationPacket;
 import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
 
 public class SpaceStationPlannerScreen extends AbstractContainerScreen<SpaceStationPlannerMenu> {

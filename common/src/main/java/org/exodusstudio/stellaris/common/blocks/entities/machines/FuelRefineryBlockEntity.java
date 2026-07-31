@@ -24,7 +24,7 @@ import org.exodusstudio.stellaris.common.data.recipes.input.FluidInput;
 import org.exodusstudio.stellaris.common.fluid.FluidUtil;
 import org.exodusstudio.stellaris.common.fluid.SingleFluidStorage;
 import org.exodusstudio.stellaris.common.menus.FuelRefineryMenu;
-import org.exodusstudio.stellaris.common.network.packets.SyncFluidPacket;
+import org.exodusstudio.stellaris.common.networking.packets.SyncFluidPacket;
 import org.exodusstudio.stellaris.common.registries.BlockEntitiesRegistry;
 import org.exodusstudio.stellaris.common.registries.FluidsRegistry;
 import org.exodusstudio.stellaris.common.registries.RecipesRegistry;

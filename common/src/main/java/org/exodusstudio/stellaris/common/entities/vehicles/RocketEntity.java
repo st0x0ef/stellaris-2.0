@@ -49,7 +49,7 @@ import org.exodusstudio.stellaris.common.menus.RocketMenu;
 import org.exodusstudio.stellaris.common.modules.Modules;
 import org.exodusstudio.stellaris.common.modules.rocket.RocketModule;
 import org.exodusstudio.stellaris.common.modules.rocket.RocketModules;
-import org.exodusstudio.stellaris.common.network.packets.SyncRocketPacket;
+import org.exodusstudio.stellaris.common.networking.packets.SyncRocketPacket;
 import org.exodusstudio.stellaris.common.registries.*;
 import org.exodusstudio.stellaris.common.utils.InventorySaver;
 import org.exodusstudio.stellaris.common.utils.TeleportUtil;

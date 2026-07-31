@@ -21,7 +21,7 @@ import org.exodusstudio.stellaris.common.blocks.entities.machines.base.BaseGener
 import org.exodusstudio.stellaris.common.fluid.FluidUtil;
 import org.exodusstudio.stellaris.common.fluid.SingleFluidStorage;
 import org.exodusstudio.stellaris.common.menus.DieselGeneratorMenu;
-import org.exodusstudio.stellaris.common.network.packets.SyncFluidPacketWithoutDirection;
+import org.exodusstudio.stellaris.common.networking.packets.SyncFluidPacketWithoutDirection;
 import org.exodusstudio.stellaris.common.registries.BlockEntitiesRegistry;
 import org.exodusstudio.stellaris.common.registries.FluidsRegistry;
 import org.exodusstudio.stellaris.common.utils.capabilities.energy.EnergyUtil;

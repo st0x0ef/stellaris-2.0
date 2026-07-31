@@ -40,7 +40,7 @@ import org.exodusstudio.stellaris.common.menus.RoverMenu;
 import org.exodusstudio.stellaris.common.modules.Modules;
 import org.exodusstudio.stellaris.common.modules.rover.RoverModule;
 import org.exodusstudio.stellaris.common.modules.rover.RoverModules;
-import org.exodusstudio.stellaris.common.network.packets.SyncRoverDataPacket;
+import org.exodusstudio.stellaris.common.networking.packets.SyncRoverDataPacket;
 import org.exodusstudio.stellaris.common.registries.DataComponentsRegistry;
 import org.exodusstudio.stellaris.common.registries.EntityDataSerializersRegistry;
 import org.exodusstudio.stellaris.common.registries.ItemsRegistry;

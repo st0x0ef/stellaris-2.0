@@ -23,7 +23,7 @@ import org.exodusstudio.stellaris.common.modules.rover.RoverModule;
 import org.exodusstudio.stellaris.common.modules.rover.RoverModules;
 import org.exodusstudio.stellaris.common.modules.space_suit.SpaceSuitModule;
 import org.exodusstudio.stellaris.common.modules.space_suit.SpaceSuitModules;
-import org.exodusstudio.stellaris.common.network.packets.OpenBlockEntityMenusPacket;
+import org.exodusstudio.stellaris.common.networking.packets.OpenBlockEntityMenusPacket;
 import org.exodusstudio.stellaris.common.registries.*;
 import org.jetbrains.annotations.NotNull;
 

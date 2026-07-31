@@ -21,7 +21,7 @@ import org.exodusstudio.stellaris.client.overlays.FadingHolder;
 import org.exodusstudio.stellaris.common.antennas.Antenna;
 import org.exodusstudio.stellaris.common.blocks.entities.AntennaBlockEntity;
 import org.exodusstudio.stellaris.common.data.space_station.SpaceStationRecipe;
-import org.exodusstudio.stellaris.common.network.packets.StartFadePacket;
+import org.exodusstudio.stellaris.common.networking.packets.StartFadePacket;
 import org.exodusstudio.stellaris.common.registries.BlocksRegistry;
 import org.exodusstudio.stellaris.common.registries.EntityTypesRegistry;
 import org.exodusstudio.stellaris.common.registries.ItemsRegistry;

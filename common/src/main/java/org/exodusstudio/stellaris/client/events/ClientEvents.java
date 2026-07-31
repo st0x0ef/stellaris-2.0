@@ -6,7 +6,7 @@ import dev.architectury.event.events.client.ClientTickEvent;
 import dev.architectury.networking.NetworkManager;
 import org.exodusstudio.stellaris.common.entities.vehicles.base.AbstractRoverBase;
 import org.exodusstudio.stellaris.common.keybinds.KeyVariables;
-import org.exodusstudio.stellaris.common.network.packets.KeyHandlerPacket;
+import org.exodusstudio.stellaris.common.networking.packets.KeyHandlerPacket;
 import org.lwjgl.glfw.GLFW;
 
 public class ClientEvents {

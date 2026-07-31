@@ -28,7 +28,7 @@ import org.exodusstudio.stellaris.common.fluid.FluidUtil;
 import org.exodusstudio.stellaris.common.fluid.MultipleFluidStorage;
 import org.exodusstudio.stellaris.common.fluid.SingleFluidStorage;
 import org.exodusstudio.stellaris.common.menus.ElectrolyzerMenu;
-import org.exodusstudio.stellaris.common.network.packets.SyncFluidPacket;
+import org.exodusstudio.stellaris.common.networking.packets.SyncFluidPacket;
 import org.exodusstudio.stellaris.common.registries.BlockEntitiesRegistry;
 import org.exodusstudio.stellaris.common.registries.RecipesRegistry;
 import org.jetbrains.annotations.NotNull;

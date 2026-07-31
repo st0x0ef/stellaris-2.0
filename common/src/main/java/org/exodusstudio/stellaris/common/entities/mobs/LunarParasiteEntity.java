@@ -29,7 +29,7 @@ import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
-import org.exodusstudio.stellaris.common.network.packets.ParasiteCameraShakePacket;
+import org.exodusstudio.stellaris.common.networking.packets.ParasiteCameraShakePacket;
 import org.exodusstudio.stellaris.common.registries.AdvancementTriggerRegistry;
 import org.exodusstudio.stellaris.common.registries.TagsRegistry;
 import org.exodusstudio.stellaris.common.utils.InfectionUtils;

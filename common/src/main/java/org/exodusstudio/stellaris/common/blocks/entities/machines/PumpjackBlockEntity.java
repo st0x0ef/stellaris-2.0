@@ -24,8 +24,8 @@ import org.exodusstudio.stellaris.common.blocks.entities.machines.base.BaseEnerg
 import org.exodusstudio.stellaris.common.fluid.FluidUtil;
 import org.exodusstudio.stellaris.common.fluid.SingleFluidStorage;
 import org.exodusstudio.stellaris.common.menus.PumpjackMenu;
-import org.exodusstudio.stellaris.common.network.packets.SyncFluidPacket;
-import org.exodusstudio.stellaris.common.network.packets.SyncOilLevelPacket;
+import org.exodusstudio.stellaris.common.networking.packets.SyncFluidPacket;
+import org.exodusstudio.stellaris.common.networking.packets.SyncOilLevelPacket;
 import org.exodusstudio.stellaris.common.registries.BlockEntitiesRegistry;
 import org.exodusstudio.stellaris.common.registries.FluidsRegistry;
 import org.jetbrains.annotations.Nullable;

@@ -22,8 +22,8 @@ import net.minecraft.world.level.block.state.BlockState;
 import org.exodusstudio.stellaris.common.data.wiki.EntryInfo;
 import org.exodusstudio.stellaris.common.data.wiki.WikiPacks;
 import org.exodusstudio.stellaris.common.menus.WikiApplicationMenu;
-import org.exodusstudio.stellaris.common.network.packets.OpenMenuPacket;
-import org.exodusstudio.stellaris.common.network.packets.OpenWikiEntry;
+import org.exodusstudio.stellaris.common.networking.packets.OpenMenuPacket;
+import org.exodusstudio.stellaris.common.networking.packets.OpenWikiEntry;
 import org.exodusstudio.stellaris.common.registries.AdvancementTriggerRegistry;
 
 import java.util.Map;

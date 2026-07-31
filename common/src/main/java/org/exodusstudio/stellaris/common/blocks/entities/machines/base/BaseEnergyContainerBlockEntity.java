@@ -20,7 +20,7 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
-import org.exodusstudio.stellaris.common.network.packets.SyncEnergyPacketWithoutDirection;
+import org.exodusstudio.stellaris.common.networking.packets.SyncEnergyPacketWithoutDirection;
 import org.exodusstudio.stellaris.common.utils.Utils;
 import org.exodusstudio.stellaris.common.utils.capabilities.energy.EnergyStorage;
 import org.jetbrains.annotations.NotNull;

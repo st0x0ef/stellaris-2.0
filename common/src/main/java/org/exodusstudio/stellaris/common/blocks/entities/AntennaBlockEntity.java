@@ -16,7 +16,7 @@ import net.minecraft.world.level.storage.ValueOutput;
 import org.exodusstudio.stellaris.common.antennas.Antenna;
 import org.exodusstudio.stellaris.common.blocks.entities.machines.base.TickingBlockEntity;
 import org.exodusstudio.stellaris.common.menus.AntennaMenu;
-import org.exodusstudio.stellaris.common.network.packets.AntennasOperations;
+import org.exodusstudio.stellaris.common.networking.packets.AntennasOperations;
 import org.exodusstudio.stellaris.common.registries.BlockEntitiesRegistry;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;

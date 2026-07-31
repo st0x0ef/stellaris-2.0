@@ -13,8 +13,8 @@ import net.minecraft.world.level.storage.ValueOutput;
 import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.common.blocks.entities.machines.base.BaseEnergyContainerBlockEntity;
 import org.exodusstudio.stellaris.common.menus.GravityManipulatorMenu;
-import org.exodusstudio.stellaris.common.network.packets.SyncGravityManipulatorDataPacketC2S;
-import org.exodusstudio.stellaris.common.network.packets.SyncGravityManipulatorDataPacketS2C;
+import org.exodusstudio.stellaris.common.networking.packets.SyncGravityManipulatorDataPacketC2S;
+import org.exodusstudio.stellaris.common.networking.packets.SyncGravityManipulatorDataPacketS2C;
 import org.exodusstudio.stellaris.common.registries.BlockEntitiesRegistry;
 import org.exodusstudio.stellaris.common.utils.Utils;
 

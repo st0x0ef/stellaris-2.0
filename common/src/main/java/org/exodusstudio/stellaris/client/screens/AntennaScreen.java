@@ -21,7 +21,7 @@ import org.exodusstudio.stellaris.client.screens.utils.GUISprites;
 import org.exodusstudio.stellaris.common.antennas.Antenna;
 import org.exodusstudio.stellaris.common.blocks.entities.AntennaBlockEntity;
 import org.exodusstudio.stellaris.common.menus.AntennaMenu;
-import org.exodusstudio.stellaris.common.network.packets.AntennasOperations;
+import org.exodusstudio.stellaris.common.networking.packets.AntennasOperations;
 import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
 import org.jetbrains.annotations.Nullable;
 import org.lwjgl.glfw.GLFW;

@@ -12,7 +12,7 @@ import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import org.exodusstudio.stellaris.client.StellarisClient;
-import org.exodusstudio.stellaris.common.network.packets.OxygenDebugRequestPacket;
+import org.exodusstudio.stellaris.common.networking.packets.OxygenDebugRequestPacket;
 
 import java.util.ArrayList;
 import java.util.HashSet;

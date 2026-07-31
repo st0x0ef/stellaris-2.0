@@ -301,7 +301,7 @@ public abstract class AbstractRoverBase extends IVehicleEntity {
             needsUpdate = true;
         }
         if (level().isClientSide() && needsUpdate) {
-            NetworkManager.sendToServer(new org.exodusstudio.stellaris.common.network.packets.SyncRoverPacket(forward, backward, left, right, player));
+            NetworkManager.sendToServer(new org.exodusstudio.stellaris.common.networking.packets.SyncRoverPacket(forward, backward, left, right, player));
         }
     }
 

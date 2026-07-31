@@ -19,7 +19,7 @@ import org.exodusstudio.stellaris.common.data.wiki.WikiEntry;
 import org.exodusstudio.stellaris.common.data.wiki.WikiPacks;
 import org.exodusstudio.stellaris.common.menus.MainTabletMenu;
 import org.exodusstudio.stellaris.common.menus.WikiApplicationMenu;
-import org.exodusstudio.stellaris.common.network.packets.OpenMenuPacket;
+import org.exodusstudio.stellaris.common.networking.packets.OpenMenuPacket;
 import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
 import org.exodusstudio.stellaris.common.utils.Utils;
 import org.jetbrains.annotations.Nullable;

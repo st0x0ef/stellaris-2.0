@@ -23,7 +23,7 @@ import net.minecraft.world.entity.npc.villager.AbstractVillager;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
-import org.exodusstudio.stellaris.common.network.packets.ParasiteCameraShakePacket;
+import org.exodusstudio.stellaris.common.networking.packets.ParasiteCameraShakePacket;
 import org.exodusstudio.stellaris.common.utils.InfectionUtils;
 
 import java.util.EnumSet;

@@ -21,7 +21,7 @@ import net.minecraft.world.entity.animal.golem.IronGolem;
 import net.minecraft.world.entity.npc.villager.AbstractVillager;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
-import org.exodusstudio.stellaris.common.network.packets.ParasiteCameraShakePacket;
+import org.exodusstudio.stellaris.common.networking.packets.ParasiteCameraShakePacket;
 import org.exodusstudio.stellaris.common.registries.EntityTypesRegistry;
 import org.exodusstudio.stellaris.common.registries.TagsRegistry;
 import org.exodusstudio.stellaris.common.utils.InfectionUtils;

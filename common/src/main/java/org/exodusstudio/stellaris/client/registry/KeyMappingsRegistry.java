@@ -8,7 +8,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.world.entity.player.Player;
 import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.common.entities.vehicles.RocketEntity;
-import org.exodusstudio.stellaris.common.network.packets.KeyHandlerPacket;
+import org.exodusstudio.stellaris.common.networking.packets.KeyHandlerPacket;
 import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
 
 public class KeyMappingsRegistry {

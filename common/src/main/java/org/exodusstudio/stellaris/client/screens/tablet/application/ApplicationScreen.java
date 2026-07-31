@@ -10,7 +10,7 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
-import org.exodusstudio.stellaris.common.network.packets.OpenMenuPacket;
+import org.exodusstudio.stellaris.common.networking.packets.OpenMenuPacket;
 import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
 
 /**

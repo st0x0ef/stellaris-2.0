@@ -8,7 +8,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import org.exodusstudio.stellaris.Stellaris;
-import org.exodusstudio.stellaris.common.network.packets.SyncPlanetMenuState;
+import org.exodusstudio.stellaris.common.networking.packets.SyncPlanetMenuState;
 import org.exodusstudio.stellaris.common.registries.ItemsRegistry;
 import org.exodusstudio.stellaris.common.registries.TagsRegistry;
 import org.exodusstudio.stellaris.common.utils.CustomPlayerData;
