@@ -58,6 +58,7 @@ public class Events {
         });
 
         TickEvent.SERVER_POST.register(AssistantManager::tick);
+        TickEvent.SERVER_LEVEL_POST.register(Events::ServerLevelPost);
         LifecycleEvent.SERVER_STOPPING.register(server -> AssistantManager.clear());
 
         EntityEvent.ENTER_SECTION.register((entity, sectionX, sectionY, sectionZ, prevX, prevY, prevZ) -> {
@@ -222,5 +223,18 @@ public class Events {
 
             return EventResult.pass();
         });
+    }
+
+    public static void ServerLevelPost(ServerLevel level) {
+        if (level instanceof ServerLevel serverLevel) {
+            // Fetch your network manager and tick networks
+            org.exodusstudio.stellaris.common.networks.NetworkManager<?> fluidManager = serverLevel.getDataStorage()
+                    .computeIfAbsent(org.exodusstudio.stellaris.common.networks.NetworkManager.FLUID_DATA_TYPE);
+            fluidManager.tick(serverLevel);
+
+            org.exodusstudio.stellaris.common.networks.NetworkManager<?> energyManager = serverLevel.getDataStorage()
+                    .computeIfAbsent(org.exodusstudio.stellaris.common.networks.NetworkManager.ENERGY_DATA_TYPE);
+            energyManager.tick(serverLevel);
+        }
     }
 }

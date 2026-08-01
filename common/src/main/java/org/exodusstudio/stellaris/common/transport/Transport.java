@@ -20,6 +20,7 @@ import java.util.*;
  * {@code long} amounts through a {@link Mover}, which closes over the concrete resource (a specific
  * fluid, or energy) so this class never needs to know which one it is moving.
  */
+@Deprecated(forRemoval = true)
 public final class Transport {
 
     private Transport() {

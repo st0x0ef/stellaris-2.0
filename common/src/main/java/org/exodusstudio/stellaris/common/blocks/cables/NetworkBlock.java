@@ -124,13 +124,20 @@ public abstract class NetworkBlock<N extends Network, BE extends NetworkBlockEnt
         boolean isDisabled = (newMode == ConnectionMode.DISABLED);
 
         if (!wasDisabled && isDisabled) {
-            // Sever edge between pos and neighborPos without removing pos
+            // Face disabled: sever connection (handles split + rebuild internally)
             handleFaceDisabled(level, pos, face);
         } else if (wasDisabled && !isDisabled) {
-            // Restore edge and merge networks if pos and neighbor belong to different networks
+            // Face enabled: re-connect (handles merge + rebuild internally)
             handleFaceEnabled(level, pos, face);
+        } else {
+            // Fast path: NORMAL <-> PULL <-> PUSH mode toggle
+            NetworkManager<N> manager = level.getDataStorage().computeIfAbsent(getNetworkDataType());
+            N network = manager.getNetworkAt(pos);
+            if (network != null) {
+                // Incremental update for just this single face!
+                network.updateEndpoint(pos, face, newMode);
+            }
         }
-        // NORMAL <-> PULL <-> PUSH mode swaps do nothing to network topology or capacity
     }
 
     // ==========================================
@@ -280,6 +287,11 @@ public abstract class NetworkBlock<N extends Network, BE extends NetworkBlockEnt
                 manager.removeNetwork(deadNetwork.id());
             }
         }
+
+        N activeNetwork = manager.getNetworkAt(pos);
+        if (activeNetwork != null) {
+            activeNetwork.rebuildEndpoints(level);
+        }
     }
 
     @Override
@@ -294,6 +306,8 @@ public abstract class NetworkBlock<N extends Network, BE extends NetworkBlockEnt
         N network = manager.getNetworkAt(brokenPos);
         if (network == null) return;
 
+        // 1. Remove all endpoints attached to the destroyed cable position
+        network.removeCableEndpoints(brokenPos);
         network.cables().remove(brokenPos);
 
         if (network.cables().isEmpty()) {
@@ -311,6 +325,8 @@ public abstract class NetworkBlock<N extends Network, BE extends NetworkBlockEnt
 
         if (adjacentCables.size() <= 1) {
             recalculateNetwork(level, network);
+            // 2. Rebuild endpoints for survivor network (no split occurred)
+            network.rebuildEndpoints(level);
             return;
         }
 
@@ -346,6 +362,8 @@ public abstract class NetworkBlock<N extends Network, BE extends NetworkBlockEnt
 
         if (disconnectedSubNetworks.size() == 1) {
             recalculateNetwork(level, network);
+            // 3. Rebuild endpoints for survivor network (network stayed connected via another loop)
+            network.rebuildEndpoints(level);
         } else {
             Set<BlockPos> survivorComponent = disconnectedSubNetworks.get(0);
             network.cables().retainAll(survivorComponent);
@@ -364,7 +382,12 @@ public abstract class NetworkBlock<N extends Network, BE extends NetworkBlockEnt
 
             splitNetwork(level, network, newSubNetworks, disconnectedSubNetworks);
 
+            // 4. Rebuild endpoints for survivor network after resource/capacity splitting
+            network.rebuildEndpoints(level);
+
+            // 5. Rebuild endpoints for each newly generated sub-network
             for (N newSubNetwork : newSubNetworks) {
+                newSubNetwork.rebuildEndpoints(level);
                 manager.addNetwork(newSubNetwork);
             }
         }

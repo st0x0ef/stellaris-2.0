@@ -2,9 +2,14 @@ package org.exodusstudio.stellaris.common.networks;
 
 import com.mojang.serialization.Codec;
 import net.minecraft.core.BlockPos;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.UUID;
+import net.minecraft.core.Direction;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.EnumProperty;
+import org.exodusstudio.stellaris.common.blocks.cables.BaseCableLikeBlock;
+import org.exodusstudio.stellaris.common.blocks.cables.ConnectionMode;
+
+import java.util.*;
 
 public abstract class Network {
 
@@ -12,6 +17,8 @@ public abstract class Network {
     private final HashSet<BlockPos> cables;
     private boolean invalid = false;
     private Runnable markDirtyCallback;
+
+    protected final List<NetworkEndpoint> cachedEndpoints = new ArrayList<>();
 
     public Network(UUID id, HashSet<BlockPos> cables) {
         this.id = id;
@@ -58,9 +65,59 @@ public abstract class Network {
     public HashSet<BlockPos> cables() {
         return cables;
     }
+    public List<NetworkEndpoint> getEndpoints() {
+        return cachedEndpoints;
+    }
+
+    public void updateEndpoint(BlockPos cablePos, Direction dir, ConnectionMode newMode) {
+        // 1. Always purge any existing endpoint for this cable and direction
+        cachedEndpoints.removeIf(e -> e.cablePos().equals(cablePos) && e.direction() == dir);
+
+        // 2. Only add if the mode is PUSH or PULL
+        if (newMode == ConnectionMode.PUSH || newMode == ConnectionMode.PULL) {
+            BlockPos targetPos = cablePos.relative(dir);
+
+            // 3. Ensure target is an external block, not a cable inside this network
+            if (!cables.contains(targetPos)) {
+                cachedEndpoints.add(new NetworkEndpoint(cablePos, targetPos, dir, newMode));
+            }
+        }
+    }
+
+    public void removeCableEndpoints(BlockPos cablePos) {
+        cachedEndpoints.removeIf(e -> e.cablePos().equals(cablePos));
+    }
+
+    public void rebuildEndpoints(ServerLevel level) {
+        this.cachedEndpoints.clear();
+
+        for (BlockPos cablePos : cables) {
+            BlockState state = level.getBlockState(cablePos);
+
+            if (!(state.getBlock() instanceof BaseCableLikeBlock)) continue;
+
+            for (Direction dir : Direction.values()) {
+                EnumProperty<ConnectionMode> modeProp = BaseCableLikeBlock.MODE_BY_DIRECTION.get(dir);
+
+                if (state.hasProperty(modeProp)) {
+                    ConnectionMode mode = state.getValue(modeProp);
+
+                    // Strictly PUSH or PULL only
+                    if (mode == ConnectionMode.PUSH || mode == ConnectionMode.PULL) {
+                        BlockPos targetPos = cablePos.relative(dir);
+
+                        if (!cables.contains(targetPos)) {
+                            this.cachedEndpoints.add(new NetworkEndpoint(cablePos, targetPos, dir, mode));
+                        }
+                    }
+                }
+            }
+        }
+    }
 
     public abstract Codec<? extends Network> getCodec();
     public abstract <N extends Network> boolean canMergeWith(N other);
+    public abstract void tick(ServerLevel level);
 
     @Override
     public boolean equals(Object o) {

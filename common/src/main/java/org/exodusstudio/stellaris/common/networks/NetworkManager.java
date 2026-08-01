@@ -4,6 +4,7 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.Identifier;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.datafix.DataFixTypes;
 import net.minecraft.world.level.saveddata.SavedData;
 import net.minecraft.world.level.saveddata.SavedDataType;
@@ -27,6 +28,7 @@ public class NetworkManager<T extends Network> extends SavedData {
 
 
     private final Map<UUID, T> networks;
+    private transient int tick = 0;
 
     public NetworkManager() {
         this.networks = new HashMap<>();
@@ -56,6 +58,17 @@ public class NetworkManager<T extends Network> extends SavedData {
                 return network;
 
         return null;
+    }
+
+    public void tick(ServerLevel level) {
+        if (tick > 0) {
+            tick--;
+            return;
+        }
+        else tick = 20;
+
+        for (T network : networks.values())
+            network.tick(level);
     }
 
     public static <T extends Network> NetworkManager<T> load(Map<UUID, T> networks) {
