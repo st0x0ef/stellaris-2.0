@@ -69,8 +69,6 @@ public class MarkdownData extends SimplePreparableReloadListener<Map<Identifier,
             Identifier id = lister.fileToId(location);
 
             try (Reader reader = (entry.getValue()).openAsReader()) {
-                Stellaris.LOG.error("scanning {}", id);
-
                 result.putIfAbsent(id, reader.readAllAsString());
             } catch (IllegalArgumentException | IOException | JsonParseException e) {
                 Stellaris.LOG.error("Couldn't parse data file '{}' from '{}'",id, location, e);

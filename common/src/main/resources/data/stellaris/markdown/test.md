@@ -13,7 +13,6 @@ Welcome to the [ref=stellaris:test2]wiki![ref]
 
 [entity=stellaris:star_crawler scale=20 width=150]
 
-
 This is so cool !!
 
 Welcome to the [ref=stellaris:test2]wiki![ref]

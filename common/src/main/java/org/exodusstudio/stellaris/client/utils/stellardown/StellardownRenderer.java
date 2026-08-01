@@ -228,7 +228,6 @@ public class StellardownRenderer {
             }
         }
 
-        Line lastLine = renderedLines.getLast();
         return layoutHeight;
     }
 
@@ -265,6 +264,10 @@ public class StellardownRenderer {
             comp.withColor(Utils.getMinecraftColor("coral"));
         }
         return comp;
+    }
+
+    public int getLayoutHeight() {
+        return this.layoutHeight;
     }
 
     static class PositionedSegment {
@@ -309,7 +312,7 @@ public class StellardownRenderer {
             this.entity = entity;
             this.x = x;
             this.width = entity.width();
-            this.height = entity.width();
+            this.height = entity.height();
         }
 
         public boolean isImage() {

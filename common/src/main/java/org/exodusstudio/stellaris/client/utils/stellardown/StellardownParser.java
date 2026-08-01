@@ -380,7 +380,7 @@ public class StellardownParser {
 
     }
 
-    public record EntityStyle(Identifier identifier, int width, int scale, Vector3f rotation) {
+    public record EntityStyle(Identifier identifier, int width, int height, int scale, Vector3f rotation) {
 
         public static EntityStyle parse(String content) {
             String[] params = content.split(" "); //all the params are separated with a space
@@ -388,6 +388,7 @@ public class StellardownParser {
             Identifier entityId = Identifier.parse(params[0]);
             int scale = 10;
             int width = 50;
+            int height = 50;
             Vector3f rotation = null;
 
             for(int i = 1; i < params.length; i++) {
@@ -400,6 +401,9 @@ public class StellardownParser {
                 if(param.startsWith("scale=") ) {
                     scale = Integer.parseInt(param.substring("scale=".length()));
                 }
+                if(param.startsWith("height=") ) {
+                    height = Integer.parseInt(param.substring("height=".length()));
+                }
                 if(param.startsWith("rotation=") ) {
                     String onlyDigits = param.substring("scale=".length()).trim().replace("[", "").replace("]", "");
                     // Parse the rotation values (assuming they are comma-separated)
@@ -409,7 +413,7 @@ public class StellardownParser {
                     }
                 }
             }
-            return new EntityStyle(entityId, width, scale, rotation);
+            return new EntityStyle(entityId, width, height, scale, rotation);
         }
 
     }

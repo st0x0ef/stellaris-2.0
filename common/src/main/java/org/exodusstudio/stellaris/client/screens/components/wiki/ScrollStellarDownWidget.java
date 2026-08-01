@@ -28,24 +28,30 @@ public class ScrollStellarDownWidget extends ScrollableContainer {
 
     private final CopyOnWriteArrayList<ActionBox> actionBoxes = new CopyOnWriteArrayList<>();
 
-    private boolean firstRender = true;
+    private boolean firstRender;
 
     public ScrollStellarDownWidget(int x, int y, int width, int height, MarkdownPage page) {
         super(x, y, width, height, Component.empty());
         this.page = page;
         this.firstRender = true;
         this.renderer = new StellardownRenderer(page.content, width, Minecraft.getInstance().font);
+        this.finalHeight = this.renderer.getLayoutHeight();
     }
 
 
     @Override
     protected int contentHeight() {
-        return this.finalHeight;
+        return this.finalHeight + padding.top + padding.bottom;
     }
 
     @Override
     public void renderContent(GuiGraphicsExtractor guiGraphics, int mouseX, int mouseY, float partialTick) {
-        this.finalHeight = renderer.render(this.getX(), (int) this.getOffsetHeight(), guiGraphics, mouseX, mouseY, this::addClickBox);
+
+        renderer.render(
+                this.getX() + this.padding.left,
+                (int) this.getOffsetHeight() + this.padding.top,
+                guiGraphics, mouseX, mouseY, this::addClickBox
+        );
         firstRender = false;
     }
 
@@ -99,9 +105,8 @@ public class ScrollStellarDownWidget extends ScrollableContainer {
         this.page = newPage;
         this.setScrollAmount(0);
         actionBoxes.clear();
-        this.finalHeight = 0;
-        this.firstRender = true;
-        this.renderer = new StellardownRenderer(newPage.content, this.getWidth(), Minecraft.getInstance().font);
-
+        int renderWidth = this.getWidth() - this.padding.left - this.padding.right;
+        this.renderer = new StellardownRenderer(newPage.content, renderWidth, Minecraft.getInstance().font);
+        this.finalHeight = this.renderer.getLayoutHeight();
     }
 }
