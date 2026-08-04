@@ -1,12 +1,18 @@
 package org.exodusstudio.stellaris.common.modules.space_suit;
 
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
+import net.minecraft.client.DeltaTracker;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.renderer.rendertype.RenderType;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.equipment.ArmorMaterial;
 import net.minecraft.world.level.material.Fluid;
 import org.exodusstudio.stellaris.client.renderers.rockets.RocketRenderer;
 import org.exodusstudio.stellaris.common.modules.Module;
 import org.jetbrains.annotations.Nullable;
+import org.joml.Vector2i;
 
 public interface SpaceSuitModule extends Module<SpaceSuitModule> {
 
@@ -46,6 +52,25 @@ public interface SpaceSuitModule extends Module<SpaceSuitModule> {
     @Nullable
     default RenderType getRenderType(RocketRenderer.RenderingContext context) {
         return null;
+    }
+
+    /**
+     *
+     * @param graphics
+     * @param deltaTracker
+     * @param player
+     * @param stack
+     * @param x the x position you use for your first render (increment by texture width/font length)
+     * @param y the y position you use for your first render (increment by texture height/font length)
+     * @return the y position of the last render (usually var y)
+     */
+    //@Environment(EnvType.CLIENT)
+    default Vector2i renderStackedGui(GuiGraphicsExtractor graphics, DeltaTracker deltaTracker, Player player, ItemStack stack, int x, int y) {
+        return new Vector2i(0, 0);
+    }
+
+    default int renderPriority() {
+        return 0;
     }
 
     interface CustomFuelModule extends SpaceSuitModule {
