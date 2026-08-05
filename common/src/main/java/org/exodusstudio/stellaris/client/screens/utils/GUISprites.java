@@ -47,4 +47,9 @@ public class GUISprites {
 
     public static final Identifier OUTPUT_BUTTON = IdentifierUtils.id("util/output_button");
 
+    // MODULES
+    public static final Identifier SPACESUIT_FULL_BAR_SPRITE = IdentifierUtils.id("util/bar_full");
+    public static final Identifier SPACESUIT_ENERGY_BAR = IdentifierUtils.texture("overlay/energy_hud");
+
+
 }
