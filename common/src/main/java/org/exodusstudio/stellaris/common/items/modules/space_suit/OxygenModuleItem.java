@@ -6,7 +6,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.renderer.RenderPipelines;
-import net.minecraft.client.renderer.ShapeRenderer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.util.Mth;
@@ -15,7 +14,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.component.TooltipDisplay;
-import org.exodusstudio.stellaris.client.overlays.SpaceSuitOverlay2;
+import org.exodusstudio.stellaris.client.overlays.SpaceSuitOverlay;
 import org.exodusstudio.stellaris.common.fluid.FluidUtil;
 import org.exodusstudio.stellaris.common.items.space_suit.SpaceSuitHelmet;
 import org.exodusstudio.stellaris.common.modules.space_suit.SpaceSuitModule;
@@ -60,7 +59,7 @@ public class OxygenModuleItem extends Item implements SpaceSuitModule.OxygenModu
     public Vector2i renderStackedGui(GuiGraphicsExtractor graphics, DeltaTracker deltaTracker, Player player, ItemStack stack, int x, int y) {
 
         Font font = Minecraft.getInstance().font;
-        x = SpaceSuitOverlay2.PADDING;
+        x = SpaceSuitOverlay.PADDING;
 
         if (stack.getItem() instanceof SpaceSuitHelmet && SpaceSuitHelmet.getOxygenCapacity(stack) > 0) {
             long oxygen = FluidUtil.readStoredFluid(stack, DataComponentsRegistry.FLUID_LIST.get(), 0).getAmount();

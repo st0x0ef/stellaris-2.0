@@ -7,13 +7,12 @@ import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.component.TooltipDisplay;
-import org.exodusstudio.stellaris.client.overlays.SpaceSuitOverlay2;
+import org.exodusstudio.stellaris.client.overlays.SpaceSuitOverlay;
 import org.exodusstudio.stellaris.common.items.space_suit.SpaceSuitBoots;
 import org.exodusstudio.stellaris.common.modules.space_suit.SpaceSuitModule;
 import org.exodusstudio.stellaris.common.registries.ItemsRegistry;
@@ -50,7 +49,7 @@ public class JetModuleItem extends Item implements SpaceSuitModule.JetModule {
     @Override
     public Vector2i renderStackedGui(GuiGraphicsExtractor graphics, DeltaTracker deltaTracker, Player player, ItemStack stack, int x, int y) {
 
-        x = SpaceSuitOverlay2.PADDING;
+        x = SpaceSuitOverlay.PADDING;
         Font font = Minecraft.getInstance().font;
 
         SpaceSuitModule.JetModule jetModule = ModuleUtils.getSpaceSuitModule(stack, SpaceSuitModule.JetModule.class);

@@ -62,7 +62,7 @@ public class StellarisClient {
         ClientGuiEvent.RENDER_HUD.register(FadeOverlay::render);
         ClientGuiEvent.RENDER_HUD.register(LanderOverlay::render);
         ClientGuiEvent.RENDER_HUD.register(TemperatureOverlay::render);
-        ClientGuiEvent.RENDER_HUD.register(SpaceSuitOverlay2::render);
+        ClientGuiEvent.RENDER_HUD.register(SpaceSuitOverlay::render);
     }
 
     public static void registerArmors() {

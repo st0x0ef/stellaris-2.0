@@ -17,6 +17,7 @@ public class KeyMappingsRegistry {
 
     public static KeyMapping ROCKET_START = new KeyMapping("key." + Stellaris.MOD_ID + ".rocket_start", InputConstants.KEY_SPACE, CATEGORY);
     public static KeyMapping JET_SWITCH_MODE = new KeyMapping("key." + Stellaris.MOD_ID + ".jet_switch_mode", InputConstants.KEY_V, CATEGORY);
+    public static KeyMapping ENABLE_NIGHT_VISION = new KeyMapping("key." + Stellaris.MOD_ID + ".night_vision", InputConstants.KEY_M, CATEGORY);
 
 
     public static void clientTick(Minecraft minecraft) {
@@ -32,12 +33,20 @@ public class KeyMappingsRegistry {
             }
         }
         while (JET_SWITCH_MODE.consumeClick()) {
+
             NetworkManager.sendToServer(new KeyHandlerPacket("switch_jet_mode", true));
+
+        }
+        while (ENABLE_NIGHT_VISION.consumeClick()) {
+            NetworkManager.sendToServer(new KeyHandlerPacket("night_vision", true));
+
         }
     }
 
     public static void init() {
         KeyMappingRegistry.register(ROCKET_START);
         KeyMappingRegistry.register(JET_SWITCH_MODE);
+        KeyMappingRegistry.register(ENABLE_NIGHT_VISION);
+
     }
 }

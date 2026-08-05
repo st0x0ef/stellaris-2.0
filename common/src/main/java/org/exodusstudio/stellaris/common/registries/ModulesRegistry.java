@@ -58,5 +58,8 @@ public class ModulesRegistry {
     public static final RegistrySupplier<DamageProtectionModuleItem> DAMAGE_PROTECTION_MODULE_T2 = StellarisRegistries.SPACE_SUIT_MODULES.register(IdentifierUtils.id("damage_protection_module_tier_2"), ItemsRegistry.SPACE_SUIT_DAMAGE_PROTECTION_MODULE_T2);
     public static final RegistrySupplier<DamageProtectionModuleItem> DAMAGE_PROTECTION_MODULE_T3 = StellarisRegistries.SPACE_SUIT_MODULES.register(IdentifierUtils.id("damage_protection_module_tier_3"), ItemsRegistry.SPACE_SUIT_DAMAGE_PROTECTION_MODULE_T3);
 
+    public static final RegistrySupplier<NightVisionModuleItem> NIGHT_VISION_MODULE = StellarisRegistries.SPACE_SUIT_MODULES.register(IdentifierUtils.id("night_vision"), ItemsRegistry.SPACE_SUIT_NIGHT_VISION_MODULE);
+
+
     public static void init() {}
 }

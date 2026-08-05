@@ -67,6 +67,10 @@ public class DataComponentsRegistry {
     public static final RegistrySupplier<DataComponentType<Planet>> AUTOPILOT =
             register("autopilot", builder -> builder.persistent(Planet.CODEC).networkSynchronized(Planet.STREAM_CODEC));
 
+    public static final RegistrySupplier<DataComponentType<Boolean>> NIGHT_VISION =
+            register("night_vision", builder -> builder.persistent(Codec.BOOL).networkSynchronized(ByteBufCodecs.BOOL));
+
+
     private static <T> RegistrySupplier<DataComponentType<T>> register(String name, UnaryOperator<DataComponentType.Builder<T>> builderOperator) {
         return DATA_COMPONENT_TYPE.register(name, () -> builderOperator.apply(DataComponentType.builder()).build());
     }

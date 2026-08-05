@@ -9,6 +9,7 @@ import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Player;
 import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.common.entities.vehicles.RocketEntity;
+import org.exodusstudio.stellaris.common.items.modules.space_suit.NightVisionModuleItem;
 import org.exodusstudio.stellaris.common.items.space_suit.SpaceSuitBoots;
 import org.exodusstudio.stellaris.common.keybinds.KeyVariables;
 import org.jetbrains.annotations.NotNull;
@@ -61,6 +62,9 @@ public class KeyHandlerPacket implements CustomPacketPayload {
                     break;
                 case "switch_jet_mode":
                     SpaceSuitBoots.switchJetSuitMode(player, player.getItemBySlot(EquipmentSlot.FEET));
+                    break;
+                case "night_vision":
+                    NightVisionModuleItem.switchNightVision(player);
                     break;
                 default:
                     KeyVariables.setKeyVariable(packet.key, player.getUUID(), packet.condition);

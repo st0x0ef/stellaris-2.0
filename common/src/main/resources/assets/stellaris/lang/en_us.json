@@ -504,8 +504,11 @@
   "stat.stellaris.sd_card_read": "SD Cards Read",
   "stat.stellaris.lander_exploded": "Lander Exploded",
 
+
+
   "key.stellaris.rocket_start": "Start Rocket",
   "key.stellaris.jet_switch_mode": "Switch Jet Mode",
+  "key.stellaris.night_vision": "Enable Night Vision",
 
   "planet.stellaris.moon": "Moon",
   "planet.stellaris.mars": "Mars",

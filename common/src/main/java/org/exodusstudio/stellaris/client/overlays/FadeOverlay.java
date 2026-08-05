@@ -3,7 +3,9 @@ package org.exodusstudio.stellaris.client.overlays;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.util.Mth;
+import net.minecraft.world.entity.monster.Creeper;
 import net.minecraft.world.entity.player.Player;
 import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
 
@@ -16,6 +18,7 @@ public class FadeOverlay {
         if (player == null) {
             return;
         }
+
 
         FadingHolder playerFade = player.stellaris$getDataAttachments(IdentifierUtils.id("player_fade"), FadingHolder.class);
         if (playerFade != null) {
