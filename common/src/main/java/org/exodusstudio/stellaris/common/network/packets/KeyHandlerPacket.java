@@ -60,7 +60,7 @@ public class KeyHandlerPacket implements CustomPacketPayload {
                     }
                     break;
                 case "switch_jet_mode":
-                    SpaceSuitBoots.switchJetSuitMode(player.getItemBySlot(EquipmentSlot.FEET));
+                    SpaceSuitBoots.switchJetSuitMode(player, player.getItemBySlot(EquipmentSlot.FEET));
                     break;
                 default:
                     KeyVariables.setKeyVariable(packet.key, player.getUUID(), packet.condition);

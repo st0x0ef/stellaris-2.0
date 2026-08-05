@@ -3,16 +3,19 @@ package org.exodusstudio.stellaris.common.items.space_suit;
 import com.fej1fun.potentials.fluid.UniversalFluidItemStorage;
 import com.mojang.serialization.Codec;
 import net.minecraft.ChatFormatting;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.StringRepresentable;
+import net.minecraft.util.Unit;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.component.TooltipDisplay;
 import net.minecraft.world.item.equipment.ArmorType;
@@ -58,7 +61,7 @@ public class SpaceSuitBoots extends SpaceSuitItem {
     @Override
     public void inventoryTick(ItemStack itemStack, ServerLevel serverLevel, Entity entity, @Nullable EquipmentSlot equipmentSlot) {
         super.inventoryTick(itemStack, serverLevel, entity, equipmentSlot);
-
+        
         if (entity instanceof Player player && Utils.isLivingInSpaceSuit(player)) {
             if (player.getItemBySlot(EquipmentSlot.CHEST).getItem() instanceof SpaceSuitChestplate chestplate) {
                 UniversalFluidItemStorage storage = chestplate.getFluidTank(player.getItemBySlot(EquipmentSlot.CHEST));
@@ -192,13 +195,14 @@ public class SpaceSuitBoots extends SpaceSuitItem {
             player.startFallFlying();
             Utils.disableFlyAntiCheat(player);
         } else if (player.isSprinting() && player.onGround() && KeyVariables.isHoldingJump(player)) {
-            player.move(MoverType.SELF, new Vec3(player.getX(), player.getY() + 2, player.getZ()));
+
+            player.move(MoverType.SELF, new Vec3(player.getX(), player.getY() + 5, player.getZ()));
             player.hurtMarked = true;
         }
     }
 
 
-    public static void switchJetSuitMode(ItemStack itemStack) {
+    public static void switchJetSuitMode(Player player, ItemStack itemStack) {
         if (itemStack.getItem() instanceof SpaceSuitBoots) {
             JetComponent jetComponent;
             if (getMode(itemStack) < 3) {
@@ -206,6 +210,13 @@ public class SpaceSuitBoots extends SpaceSuitItem {
             } else {
                 jetComponent = new JetComponent(ModeType.fromInt(0));
             }
+
+            if(jetComponent.type() == ModeType.ELYTRA) {
+                player.getItemBySlot(EquipmentSlot.CHEST).set(DataComponents.GLIDER, Unit.INSTANCE);
+            } else {
+                player.getItemBySlot(EquipmentSlot.CHEST).remove(DataComponents.GLIDER);
+            }
+
             itemStack.set(DataComponentsRegistry.JET_COMPONENT.get(), jetComponent);
         }
     }
