@@ -4,6 +4,7 @@ import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.client.markdown.MarkdownPage;
+import org.exodusstudio.stellaris.client.screens.components.Padding;
 import org.exodusstudio.stellaris.client.screens.components.wiki.ScrollStellarDownWidget;
 import org.exodusstudio.stellaris.common.data.wiki.MarkdownData;
 
@@ -27,7 +28,7 @@ public class TestScreen extends Screen {
 
         int x = this.width / 2 - 200;
         this.stellarDownWidget = new ScrollStellarDownWidget(x, 50, 800, height, page);
-
+        this.stellarDownWidget.setPadding(new Padding(0, 0, 0, 40));
 
 
         this.addRenderableWidget(stellarDownWidget);

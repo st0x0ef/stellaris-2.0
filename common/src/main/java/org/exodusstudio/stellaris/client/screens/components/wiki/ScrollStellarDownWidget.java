@@ -21,13 +21,9 @@ public class ScrollStellarDownWidget extends ScrollableContainer {
 
 
     public MarkdownPage page;
-
     public StellardownRenderer renderer;
-
-    public int finalHeight = 0;
-
+    public int finalHeight;
     private final CopyOnWriteArrayList<ActionBox> actionBoxes = new CopyOnWriteArrayList<>();
-
     private boolean firstRender;
 
     public ScrollStellarDownWidget(int x, int y, int width, int height, MarkdownPage page) {
@@ -108,5 +104,6 @@ public class ScrollStellarDownWidget extends ScrollableContainer {
         int renderWidth = this.getWidth() - this.padding.left - this.padding.right;
         this.renderer = new StellardownRenderer(newPage.content, renderWidth, Minecraft.getInstance().font);
         this.finalHeight = this.renderer.getLayoutHeight();
+        this.firstRender = true;
     }
 }

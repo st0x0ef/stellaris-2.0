@@ -34,8 +34,11 @@ public class ClientUtils {
      * @return The entity created
      */
     public static Entity createEntity(Level level, Identifier location) {
-
         Optional<EntityType<?>> maybeType = BuiltInRegistries.ENTITY_TYPE.getOptional(location);
+        return createEntity(level, maybeType);
+    }
+
+    public static Entity createEntity(Level level, Optional<EntityType<?>> maybeType) {
         if (maybeType.isEmpty()) {
             return EntityType.PIG.create(level, EntitySpawnReason.LOAD);
         }
