@@ -9,6 +9,7 @@ import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.level.block.Block;
 import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.client.utils.stellardown.StellardownParser;
+import org.exodusstudio.stellaris.client.utils.stellardown.StellardownStyle;
 import org.jspecify.annotations.NonNull;
 import oshi.util.tuples.Pair;
 
@@ -111,7 +112,7 @@ public class MarkdownPage {
         return builder.toString();
     }
 
-    public StellardownParser.EntityStyle getEntityIcon() {
+    public StellardownStyle.EntityStyle getEntityIcon() {
         for (Pair<String, StellardownParser.Style> segment : segments) {
             StellardownParser.Style style = segment.getB();
             if(style.entityStyle != null) {
@@ -121,7 +122,7 @@ public class MarkdownPage {
         return null;
     }
 
-    public StellardownParser.ItemStyle getItemIcon() {
+    public StellardownStyle.ItemStyle getItemIcon() {
         for (Pair<String, StellardownParser.Style> segment : segments) {
             StellardownParser.Style style = segment.getB();
             if(style.itemStyle != null) {

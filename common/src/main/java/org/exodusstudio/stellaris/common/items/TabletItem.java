@@ -20,6 +20,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import org.exodusstudio.stellaris.common.data.wiki.EntryInfo;
+import org.exodusstudio.stellaris.common.data.wiki.MarkdownData;
 import org.exodusstudio.stellaris.common.data.wiki.WikiPacks;
 import org.exodusstudio.stellaris.common.menus.WikiApplicationMenu;
 import org.exodusstudio.stellaris.common.network.packets.OpenMenuPacket;
@@ -67,13 +68,13 @@ public class TabletItem extends Item {
 
             //First we check if we have the block
             ResourceKey<Block> blockResourceKey = ResourceKey.create(Registries.BLOCK, blockId);
-            if(WikiPacks.EntryInfoPack.BLOCK_ENTRY_RESOLVER.containsKey(blockResourceKey)) {
-                MenuRegistry.openExtendedMenu(serverPlayer, WikiApplicationMenu.createProvider(WikiPacks.EntryInfoPack.BLOCK_ENTRY_RESOLVER.get(blockResourceKey)));
+            if(MarkdownData.BLOCK_ENTRY_RESOLVER.containsKey(blockResourceKey)) {
+                MenuRegistry.openExtendedMenu(serverPlayer, WikiApplicationMenu.createProvider(MarkdownData.BLOCK_ENTRY_RESOLVER.get(blockResourceKey)));
                 return InteractionResult.SUCCESS;
             }
 
             //Then we check if we have a tag associated
-            for(Map.Entry<TagKey<Block>, Identifier> entry : WikiPacks.EntryInfoPack.TAG_ENTRY_RESOLVER.entrySet()) {
+            for(Map.Entry<TagKey<Block>, Identifier> entry : MarkdownData.TAG_ENTRY_RESOLVER.entrySet()) {
                 if(blockUsedOn.is(entry.getKey())) {
                     MenuRegistry.openExtendedMenu(serverPlayer, WikiApplicationMenu.createProvider(entry.getValue()));
                     return InteractionResult.SUCCESS;
@@ -81,7 +82,7 @@ public class TabletItem extends Item {
             }
 
             //Then we do some weird things
-            WikiPacks.ENTRY_COMPONENTS.forEach((entryId, entry) -> {
+            MarkdownData.ENTRY_PAGES.forEach((entryId, page) -> {
 
                 String entryName = entryId.getPath().split("/")[1];
 
