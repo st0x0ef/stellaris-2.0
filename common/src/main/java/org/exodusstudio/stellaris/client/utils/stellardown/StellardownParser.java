@@ -157,6 +157,18 @@ public class StellardownParser {
                 i = end + 1;
                 textStart = i;
             }
+            else if (input.startsWith("[item=", i) && input.indexOf(']', i) != -1) {
+                if (i > textStart)
+                    tokens.add(new Token(TokenType.TEXT, input.substring(textStart, i)));
+
+                int end = input.indexOf(']', i);
+
+                String value = input.substring(i + "[item=".length(), end);
+                tokens.add(new Token(TokenType.ITEM, value));
+
+                i = end + 1;
+                textStart = i;
+            }
             else {
                 i++;
             }
@@ -261,6 +273,9 @@ public class StellardownParser {
                 case ENTITY:
                     segments.add(new Pair<>("", styleStack.peek().withEntity(EntityStyle.parse(token.content()))));
                     break;
+                case ITEM:
+                    segments.add(new Pair<>("", styleStack.peek().withItem(ItemStyle.parse(token.content()))));
+                    break;
                 case TEXT:
                     segments.add(new Pair<>(token.content(), styleStack.peek()));
                     break;
@@ -279,20 +294,21 @@ public class StellardownParser {
 
     public static class Style {
 
-        boolean bold ;
-        String color ;
-        boolean italic ;
-        boolean underline ;
-        String ref;
-        boolean strikethrough;
-        boolean obfuscated;
-        boolean translatable;
-        ImageStyle image;
-        EntityStyle entityStyle;
+        public boolean bold ;
+        public String color ;
+        public boolean italic ;
+        public boolean underline ;
+        public String ref;
+        public boolean strikethrough;
+        public boolean obfuscated;
+        public boolean translatable;
+        public ImageStyle image;
+        public EntityStyle entityStyle;
+        public ItemStyle itemStyle;
         public static final Style DEFAULT = new Style();
 
 
-        private Style(boolean bold, boolean italic, boolean underline, String color, String ref, boolean strikethrough, boolean obfuscated, boolean translatable, ImageStyle image, EntityStyle entityStyle) {
+        private Style(boolean bold, boolean italic, boolean underline, String color, String ref, boolean strikethrough, boolean obfuscated, boolean translatable, ImageStyle image, EntityStyle entityStyle,  ItemStyle itemStyle) {
             this.bold = bold;
             this.italic = italic;
             this.underline = underline;
@@ -306,52 +322,56 @@ public class StellardownParser {
         }
 
         public Style() {
-            this(false, false, false, "white", null, false, false, false, null, null);
+            this(false, false, false, "white", null, false, false, false, null, null, null);
         }
 
         public Style withBold(boolean bold) {
-            return new Style(bold, this.italic, this.underline, this.color, this.ref, this.strikethrough, this.obfuscated, this.translatable, this.image, this.entityStyle);
+            return new Style(bold, this.italic, this.underline, this.color, this.ref, this.strikethrough, this.obfuscated, this.translatable, this.image, this.entityStyle, this.itemStyle);
         }
 
         public Style withStrikethrough(boolean strikethrough) {
-            return new Style(this.bold, this.italic, this.underline, this.color, this.ref, strikethrough, this.obfuscated, this.translatable, this.image, this.entityStyle);
+            return new Style(this.bold, this.italic, this.underline, this.color, this.ref, strikethrough, this.obfuscated, this.translatable, this.image, this.entityStyle, this.itemStyle);
         }
 
         public Style withItalic(boolean italic) {
-            return new Style(this.bold, italic, this.underline, this.color, this.ref, this.strikethrough, this.obfuscated, this.translatable, this.image, this.entityStyle);
+            return new Style(this.bold, italic, this.underline, this.color, this.ref, this.strikethrough, this.obfuscated, this.translatable, this.image, this.entityStyle, this.itemStyle);
         }
 
         public Style withObfuscated(boolean obfuscated) {
-            return new Style(this.bold, this.italic, this.underline, this.color, this.ref, this.strikethrough, obfuscated, this.translatable, this.image, this.entityStyle);
+            return new Style(this.bold, this.italic, this.underline, this.color, this.ref, this.strikethrough, obfuscated, this.translatable, this.image, this.entityStyle, this.itemStyle);
         }
 
         public Style withUnderline(boolean underline) {
-            return new Style(this.bold, this.italic, underline, this.color, this.ref, this.strikethrough, this.obfuscated, this.translatable, this.image, this.entityStyle);
+            return new Style(this.bold, this.italic, underline, this.color, this.ref, this.strikethrough, this.obfuscated, this.translatable, this.image, this.entityStyle, this.itemStyle);
         }
 
         public Style withColor(String color) {
-            return new Style(this.bold, this.italic, this.underline, color, this.ref, this.strikethrough, this.obfuscated, this.translatable, this.image, this.entityStyle);
+            return new Style(this.bold, this.italic, this.underline, color, this.ref, this.strikethrough, this.obfuscated, this.translatable, this.image, this.entityStyle, this.itemStyle);
         }
 
         public Style withRef(String ref) {
-            return new Style(this.bold, this.italic, this.underline, this.color, ref, this.strikethrough, this.obfuscated, this.translatable, this.image, this.entityStyle);
+            return new Style(this.bold, this.italic, this.underline, this.color, ref, this.strikethrough, this.obfuscated, this.translatable, this.image, this.entityStyle, this.itemStyle);
         }
 
         public Style withTranslatable(boolean translatable) {
-            return new Style(this.bold, this.italic, this.underline, this.color, this.ref, this.strikethrough, this.obfuscated, translatable, this.image, this.entityStyle);
+            return new Style(this.bold, this.italic, this.underline, this.color, this.ref, this.strikethrough, this.obfuscated, translatable, this.image, this.entityStyle, this.itemStyle);
         }
 
         public Style withImage(ImageStyle image) {
-            return new Style(this.bold, this.italic, this.underline, this.color, this.ref, this.strikethrough, this.obfuscated, this.translatable, image, this.entityStyle);
+            return new Style(this.bold, this.italic, this.underline, this.color, this.ref, this.strikethrough, this.obfuscated, this.translatable, image, this.entityStyle, this.itemStyle);
         }
 
         public Style withEntity(EntityStyle entityStyle) {
-            return new Style(this.bold, this.italic, this.underline, this.color, this.ref, this.strikethrough, this.obfuscated, this.translatable, this.image, entityStyle);
+            return new Style(this.bold, this.italic, this.underline, this.color, this.ref, this.strikethrough, this.obfuscated, this.translatable, this.image, entityStyle, this.itemStyle);
+        }
+
+        public Style withItem(ItemStyle itemStyle) {
+            return new Style(this.bold, this.italic, this.underline, this.color, this.ref, this.strikethrough, this.obfuscated, this.translatable, this.image, this.entityStyle, itemStyle);
         }
     }
 
     public enum TokenType {
-        BOLD, ITALIC, STRIKETHROUGH, UNDERLINE, OBFUSCATED, COLOR_OPEN, COLOR_CLOSE, REF_OPEN, REF_CLOSE, NEWLINE, TEXT, TRANSLATABLE_OPEN, TRANSLATABLE_CLOSE, IMAGE, ENTITY
+        BOLD, ITALIC, STRIKETHROUGH, UNDERLINE, OBFUSCATED, COLOR_OPEN, COLOR_CLOSE, REF_OPEN, REF_CLOSE, NEWLINE, TEXT, TRANSLATABLE_OPEN, TRANSLATABLE_CLOSE, IMAGE, ENTITY, ITEM
 
     }
 
@@ -377,7 +397,30 @@ public class StellardownParser {
             }
             return new ImageStyle(imageId, width, height);
         }
+    }
 
+    public record ItemStyle(Identifier identifier, int scale, boolean onlyIcon) {
+
+        public static ItemStyle parse(String content) {
+            String[] params = content.split(" "); //all the params are separated with a space
+
+            Identifier itemId = Identifier.parse(params[0]);
+            int scale = 2;
+            boolean onlyIcon = false;
+
+            for(int i = 1; i < params.length; i++) {
+
+                String param = params[i];
+
+                if(param.startsWith("scale=") ) {
+                    scale = Integer.parseInt(param.substring("scale=".length()));
+                }
+                if(param.startsWith("onlyIcon") ) {
+                    onlyIcon = true;
+                }
+            }
+            return new ItemStyle(itemId, scale, onlyIcon);
+        }
     }
 
     public record EntityStyle(Identifier identifier, int width, int height, int scale, Vector3f rotation) {

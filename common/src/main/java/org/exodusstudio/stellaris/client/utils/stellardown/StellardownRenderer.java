@@ -9,6 +9,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.client.utils.ActionBox;
 import org.exodusstudio.stellaris.client.utils.ClientUtils;
 import org.exodusstudio.stellaris.common.utils.Utils;
@@ -31,6 +32,15 @@ public class StellardownRenderer {
     private List<Line> renderedLines;
 
     private int layoutHeight;
+
+
+    public StellardownRenderer(int areaWidth, Font font, List<Pair<String, StellardownParser.Style>> segments) {
+        this.font = font;
+        this.parser = new StellardownParser();
+
+        this.segments = segments;
+        updateLayout(areaWidth);
+    }
 
     public StellardownRenderer(String formattedText, int areaWidth, Font font) {
         this.font = font;
@@ -181,7 +191,7 @@ public class StellardownRenderer {
                             RenderPipelines.GUI_TEXTURED,
                             seg.image.identifier(),
                             x + seg.x,
-                            y + line.y + (line.height - seg.height) / 2,
+                            y + line.y ,
                             0,
                             0,
                             seg.width,
@@ -198,20 +208,21 @@ public class StellardownRenderer {
                     Entity entity = ClientUtils.createEntity(Minecraft.getInstance().level, entityStyle.identifier());
                     if(entity instanceof LivingEntity livingEntity) {
 
-                        int ENTITY_WIDTH = entityStyle.width();
 
-                        int cornerX = x + seg.x;
+                        int left = x + seg.x;
+                        int top = y + line.y ;
 
-                        ClientUtils.renderEntityInGui(guiGraphics, cornerX, y + line.y + (line.height - seg.height) / 2, cornerX + ENTITY_WIDTH, y + line.y + (line.height - seg.height) / 2 + entityStyle.scale() + 30, entityStyle.scale(), 0.25F, mouseX, mouseY, livingEntity, entityStyle.rotation());
+                        int right = left + seg.width;
+                        int bottom = top + seg.height;
+                        ClientUtils.renderEntityInGui(guiGraphics, left, top, right, bottom, entityStyle.scale(), 0.25F, mouseX, mouseY, livingEntity, entityStyle.rotation());
                     }
-                    // Render entity
                     continue;
                 }
 
                 MutableComponent component = toComponent(seg.text, seg.style);
 
                 int textX = x + seg.x;
-                int textY = y + line.y + (line.height - seg.height) / 2;
+                int textY = y + line.y;
 
                 if(seg.style.ref != null) {
                     HashMap<String, String> data = new HashMap<>();

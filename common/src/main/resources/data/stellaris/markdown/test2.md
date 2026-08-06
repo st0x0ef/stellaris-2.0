@@ -1,6 +1,6 @@
 ---
 title: My Entry
-entryId: stellaris:test2
+entryId: stellaris:mobs
 iconType: ENTITY
 associatedBlocks: [minecraft:sand,stellaris:antenna_replaceable]
 

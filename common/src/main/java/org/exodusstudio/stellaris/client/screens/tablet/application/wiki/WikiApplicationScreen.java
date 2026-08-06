@@ -7,16 +7,18 @@ import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Inventory;
+import org.exodusstudio.stellaris.client.markdown.MarkdownPage;
+import org.exodusstudio.stellaris.common.data.wiki.EntryInfo;
+import org.exodusstudio.stellaris.common.data.wiki.MarkdownData;
+import org.exodusstudio.stellaris.common.data.wiki.WikiEntry;
+import org.exodusstudio.stellaris.common.data.wiki.WikiPacks;
 import org.exodusstudio.stellaris.client.screens.components.TexturedButton;
-import org.exodusstudio.stellaris.client.screens.components.containers.ScrollableContainer;
 import org.exodusstudio.stellaris.client.screens.components.wiki.WikiEntryButton;
+import org.exodusstudio.stellaris.client.screens.components.containers.ScrollableContainer;
 import org.exodusstudio.stellaris.client.screens.components.wiki.WikiInfoButton;
 import org.exodusstudio.stellaris.client.screens.tablet.application.ApplicationRegistry;
 import org.exodusstudio.stellaris.client.screens.tablet.application.ApplicationScreen;
 import org.exodusstudio.stellaris.client.utils.ClientUtils;
-import org.exodusstudio.stellaris.common.data.wiki.EntryInfo;
-import org.exodusstudio.stellaris.common.data.wiki.WikiEntry;
-import org.exodusstudio.stellaris.common.data.wiki.WikiPacks;
 import org.exodusstudio.stellaris.common.menus.MainTabletMenu;
 import org.exodusstudio.stellaris.common.menus.WikiApplicationMenu;
 import org.exodusstudio.stellaris.common.network.packets.OpenMenuPacket;
@@ -44,7 +46,7 @@ public class WikiApplicationScreen extends AbstractContainerScreen<WikiApplicati
 
 
     /** Variables */
-     public ScrollableContainer scrollableContainer;
+    public ScrollableContainer scrollableContainer;
 
 
     public WikiEntry currentEntry;
@@ -52,7 +54,7 @@ public class WikiApplicationScreen extends AbstractContainerScreen<WikiApplicati
 
 
     //The list of the infos for the currentEntry
-    public List<EntryInfo> INFOS;
+    public List<MarkdownPage> INFOS;
     public int currentInfosPage = 0;
 
     public ArrayList<ArrayList<WikiInfoButton>> ENTRY_BUTTONS = new ArrayList<>();
@@ -93,7 +95,7 @@ public class WikiApplicationScreen extends AbstractContainerScreen<WikiApplicati
         super.init();
 
         if(this.openedInfo != null) {
-           this.setEntryInfo(WikiPacks.ENTRY_COMPONENTS.get(this.openedInfo));
+            this.setEntryInfo(MarkdownData.ENTRY_PAGES.get(this.openedInfo));
         }
 
         if(!WikiPacks.ENTRIES.isEmpty()) {
@@ -170,12 +172,12 @@ public class WikiApplicationScreen extends AbstractContainerScreen<WikiApplicati
      * @param entry
      * @return List of EntryInfo for the given entry
      */
-    public List<EntryInfo> getInfosForEntry(WikiEntry entry) {
-        List<EntryInfo> infos = new ArrayList<>();
+    public List<MarkdownPage> getInfosForEntry(WikiEntry entry) {
+        List<MarkdownPage> infos = new ArrayList<>();
 
-        WikiPacks.ENTRY_COMPONENTS.forEach((key, info) -> {
-            if(info.entryId().equals(entry.id())) {
-                infos.add(info);
+        MarkdownData.ENTRY_PAGES.forEach((key, page) -> {
+            if(page.entryId.equals(entry.id())) {
+                infos.add(page);
             }
         });
         return infos;
@@ -275,7 +277,7 @@ public class WikiApplicationScreen extends AbstractContainerScreen<WikiApplicati
 
     }
 
-    public void setEntryInfo(EntryInfo entryInfo) {
+    public void setEntryInfo(MarkdownPage entryInfo) {
         if(entryInfo == null) return;
         this.minecraft.setScreen(new WikiEntryScreen(this, WikiState.fromWiki(this), entryInfo));
     }

@@ -8,7 +8,9 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.level.block.Block;
 import org.exodusstudio.stellaris.Stellaris;
+import org.exodusstudio.stellaris.client.utils.stellardown.StellardownParser;
 import org.jspecify.annotations.NonNull;
+import oshi.util.tuples.Pair;
 
 import java.io.IOException;
 import java.io.StringReader;
@@ -22,7 +24,7 @@ public class MarkdownPage {
 
     public Identifier id;
     public String title;
-    public String entryId;
+    public Identifier entryId;
     public IconType iconType;
 
 
@@ -32,10 +34,16 @@ public class MarkdownPage {
     //Only the rendered part
     public String content;
 
+    //We already parse the content to have access to the items/entity rendered
+    private final List<Pair<String, StellardownParser.Style>> segments;
+
+
     public MarkdownPage(Identifier id,  String rawContent) {
         this.id = id;
         this.rawContent = rawContent;
         this.content = scanMetadata();
+        StellardownParser parser = new StellardownParser();
+        this.segments = parser.parse(parser.tokenize(this.content));
     }
 
     public String scanMetadata()  {
@@ -72,7 +80,7 @@ public class MarkdownPage {
             }
 
             if (line.startsWith("entryId:")) {
-                this.entryId = line.substring(8).trim();
+                this.entryId = Identifier.parse(line.substring(8).trim());
             }
 
             if(line.startsWith("associatedBlocks:")) {
@@ -101,6 +109,26 @@ public class MarkdownPage {
         }
 
         return builder.toString();
+    }
+
+    public StellardownParser.EntityStyle getEntityIcon() {
+        for (Pair<String, StellardownParser.Style> segment : segments) {
+            StellardownParser.Style style = segment.getB();
+            if(style.entityStyle != null) {
+                return style.entityStyle;
+            }
+        }
+        return null;
+    }
+
+    public StellardownParser.ItemStyle getItemIcon() {
+        for (Pair<String, StellardownParser.Style> segment : segments) {
+            StellardownParser.Style style = segment.getB();
+            if(style.itemStyle != null) {
+                return style.itemStyle;
+            }
+        }
+        return null;
     }
 
     @Override

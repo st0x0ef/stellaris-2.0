@@ -5,10 +5,12 @@ import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.input.KeyEvent;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
+import org.exodusstudio.stellaris.client.markdown.MarkdownPage;
+import org.exodusstudio.stellaris.client.screens.components.wiki.ScrollStellarDownWidget;
+import org.exodusstudio.stellaris.common.data.wiki.EntryInfo;
 import org.exodusstudio.stellaris.client.screens.components.TexturedButton;
 import org.exodusstudio.stellaris.client.screens.components.wiki.WikiInfosWidget;
 import org.exodusstudio.stellaris.client.screens.tablet.application.ApplicationScreen;
-import org.exodusstudio.stellaris.common.data.wiki.EntryInfo;
 import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
 import org.exodusstudio.stellaris.common.utils.Utils;
 import org.lwjgl.glfw.GLFW;
@@ -19,15 +21,15 @@ import org.lwjgl.glfw.GLFW;
  */
 public class WikiEntryScreen extends Screen {
 
-    public EntryInfo info;
-    public WikiInfosWidget widget;
+    public MarkdownPage page;
+    public ScrollStellarDownWidget widget;
     public WikiApplicationScreen wikiApplicationScreen;
     public WikiApplicationScreen.WikiState wikiState;
 
-    protected WikiEntryScreen(WikiApplicationScreen wikiApplicationScreen, WikiApplicationScreen.WikiState wikiState, EntryInfo info) {
-        super(Component.literal(info.title()));
+    protected WikiEntryScreen(WikiApplicationScreen wikiApplicationScreen, WikiApplicationScreen.WikiState wikiState, MarkdownPage page) {
+        super(Component.literal(page.title));
         this.wikiApplicationScreen = wikiApplicationScreen;
-        this.info = info;
+        this.page = page;
         this.wikiState = wikiState;
     }
 
@@ -35,7 +37,7 @@ public class WikiEntryScreen extends Screen {
     public void extractRenderState(GuiGraphicsExtractor guiGraphics, int mouseX, int mouseY, float partialTick) {
         super.extractRenderState(guiGraphics, mouseX, mouseY, partialTick);
 
-        guiGraphics.centeredText(this.font, this.widget.info.title(), this.width / 2 + 3, this.getTopPos() + 30, Utils.getMinecraftColor("white"));
+        guiGraphics.centeredText(this.font, this.widget.page.title, this.width / 2 + 3, this.getTopPos() + 30, Utils.getMinecraftColor("white"));
     }
 
     @Override
@@ -49,7 +51,7 @@ public class WikiEntryScreen extends Screen {
                 (b) -> this.minecraft.setScreen(this.wikiState.toScreen(wikiApplicationScreen)))
                 .tex(IdentifierUtils.texture("gui/tablet/back_page"), IdentifierUtils.texture("gui/tablet/back_page_hover")));
 
-        this.widget = new WikiInfosWidget(wikiEntryX,  wikiEntryY,230, 128, this.info);
+        this.widget = new ScrollStellarDownWidget(wikiEntryX,  wikiEntryY, 230, 128, this.page);
         this.addRenderableWidget(this.widget);
 
     }
