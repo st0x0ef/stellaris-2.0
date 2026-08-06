@@ -84,9 +84,9 @@ public final class ItemsRegistry {
     public static final RegistrySupplier<CargoModuleItem> CARGO_MODULE = item("cargo_module", CargoModuleItem::new);
 
     // Skins
-    public static final RegistrySupplier<RocketSkinModuleItem> GALAXY_SKIN = item("galaxy_skin", p -> new RocketSkinModuleItem(p, "galaxy"));
-    public static final RegistrySupplier<RocketSkinModuleItem> FROST_SKIN = item("frost_skin", p -> new RocketSkinModuleItem(p, "frost"));
-    public static final RegistrySupplier<RocketSkinModuleItem> MILITARY_SKIN = item("military_skin", p -> new RocketSkinModuleItem(p, "military"));
+    public static final RegistrySupplier<RocketSkinModuleItem> GALAXY_SKIN = item("skin_galaxy", p -> new RocketSkinModuleItem(p, "galaxy"));
+    public static final RegistrySupplier<RocketSkinModuleItem> FROST_SKIN = item("skin_frost", p -> new RocketSkinModuleItem(p, "frost"));
+    public static final RegistrySupplier<RocketSkinModuleItem> MILITARY_SKIN = item("skin_military", p -> new RocketSkinModuleItem(p, "military"));
 
     // Models
     public static final RegistrySupplier<RocketModelModuleItem<?>> TINY_ROCKET_MODEL = item("tiny_rocket_model", p -> new RocketModelModuleItem<>(p, "tiny", "tiny", 4.75f));

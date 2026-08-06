@@ -183,9 +183,9 @@
   "item.stellaris.rover_speed_module": "Rover Speed Module",
   "item.stellaris.rover_hydrogen_motor": "Rover Hydrogen Motor",
 
-  "item.stellaris.galaxy_skin": "Galaxy Skin",
-  "item.stellaris.frost_skin": "Frost Skin",
-  "item.stellaris.military_skin": "Military Skin",
+  "item.stellaris.skin_galaxy": "Galaxy Skin",
+  "item.stellaris.skin_frost": "Frost Skin",
+  "item.stellaris.skin_military": "Military Skin",
 
   "item.stellaris.space_suit_helmet": "Space Suit Helmet",
   "item.stellaris.space_suit_chestplate": "Space Suit Chestplate",

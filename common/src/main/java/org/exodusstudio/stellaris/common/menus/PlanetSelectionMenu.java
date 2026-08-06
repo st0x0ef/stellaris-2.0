@@ -31,9 +31,7 @@ public class PlanetSelectionMenu extends AbstractContainerMenu {
         this.player = playerInventory.player;
         this.antennaSavedData = antennaSavedData;
 
-
     }
-
 
 
     @Override
