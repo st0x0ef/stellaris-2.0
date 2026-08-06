@@ -9,10 +9,12 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.ItemStack;
 import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.client.utils.ActionBox;
 import org.exodusstudio.stellaris.client.utils.ClientUtils;
 import org.exodusstudio.stellaris.common.utils.Utils;
+import org.joml.Matrix3x2fStack;
 import oshi.util.tuples.Pair;
 
 import java.util.ArrayList;
@@ -33,13 +35,16 @@ public class StellardownRenderer {
 
     private int layoutHeight;
 
+    private int areaWidth;
 
     public StellardownRenderer(int areaWidth, Font font, List<Pair<String, StellardownParser.Style>> segments) {
         this.font = font;
         this.parser = new StellardownParser();
 
         this.segments = segments;
+        this.areaWidth = areaWidth;
         updateLayout(areaWidth);
+
     }
 
     public StellardownRenderer(String formattedText, int areaWidth, Font font) {
@@ -48,6 +53,7 @@ public class StellardownRenderer {
 
         //We only parse one time the text
         this.segments = parser.parse(parser.tokenize(formattedText));
+        this.areaWidth = areaWidth;
 
         updateLayout(areaWidth);
     }
@@ -95,9 +101,9 @@ public class StellardownRenderer {
 
             if (segment.getB().image != null) {
 
-                StellardownParser.ImageStyle image = segment.getB().image;
+                StellardownStyle.ImageStyle image = segment.getB().image;
 
-                if (cursorX + image.width() > areaWidth && cursorX > 0) {
+                if (cursorX + image.getWidth() > areaWidth && cursorX > 0) {
                     lines.add(currentLine);
                     currentLine = new Line();
                     cursorX = 0;
@@ -105,7 +111,7 @@ public class StellardownRenderer {
 
                 currentLine.add(new PositionedSegment(image, cursorX));
 
-                cursorX += image.width();
+                cursorX += image.getWidth();
 
                 continue;
             }
@@ -116,9 +122,9 @@ public class StellardownRenderer {
 
             if (segment.getB().entityStyle != null) {
 
-                StellardownParser.EntityStyle entity = segment.getB().entityStyle;
+                StellardownStyle.EntityStyle entity = segment.getB().entityStyle;
 
-                if (cursorX + entity.width() > areaWidth && cursorX > 0) {
+                if (cursorX + entity.getWidth() > areaWidth && cursorX > 0) {
                     lines.add(currentLine);
                     currentLine = new Line();
                     cursorX = 0;
@@ -126,7 +132,31 @@ public class StellardownRenderer {
 
                 currentLine.add(new PositionedSegment(entity, cursorX));
 
-                cursorX += entity.width();
+                cursorX += entity.getWidth();
+
+                continue;
+            }
+
+            // -------------------------------------------------------
+            // ITEM
+            // -------------------------------------------------------
+
+
+            if (segment.getB().itemStyle != null) {
+
+                StellardownStyle.ItemStyle item = segment.getB().itemStyle;
+
+                int width = item.scale * 16;
+
+                if (cursorX + width > areaWidth && cursorX > 0) {
+                    lines.add(currentLine);
+                    currentLine = new Line();
+                    cursorX = 0;
+                }
+
+                currentLine.add(new PositionedSegment(item, cursorX));
+
+                cursorX += width;
 
                 continue;
             }
@@ -187,10 +217,16 @@ public class StellardownRenderer {
 
                 if (seg.isImage()) {
 
+                    int imageX = x + seg.x;
+
+                    if(seg.image.centered) {
+                        imageX = x + this.areaWidth / 2 - (seg.width / 2);
+                    }
+
                     guiGraphics.blit(
                             RenderPipelines.GUI_TEXTURED,
-                            seg.image.identifier(),
-                            x + seg.x,
+                            seg.image.texture,
+                            imageX,
                             y + line.y ,
                             0,
                             0,
@@ -203,19 +239,54 @@ public class StellardownRenderer {
                 }
 
                 if (seg.isEntity()) {
-                    StellardownParser.EntityStyle entityStyle = seg.entity;
 
-                    Entity entity = ClientUtils.createEntity(Minecraft.getInstance().level, entityStyle.identifier());
+                    StellardownStyle.EntityStyle entityStyle = seg.entity;
+
+                    Entity entity = ClientUtils.createEntity(Minecraft.getInstance().level, entityStyle.identifier);
+
                     if(entity instanceof LivingEntity livingEntity) {
 
 
                         int left = x + seg.x;
+                        int right = left + seg.width;
+
+                        if (entityStyle.centered) {
+                            left = x + this.areaWidth / 2 - (seg.width / 2);
+                        }
+
                         int top = y + line.y ;
 
-                        int right = left + seg.width;
                         int bottom = top + seg.height;
-                        ClientUtils.renderEntityInGui(guiGraphics, left, top, right, bottom, entityStyle.scale(), 0.25F, mouseX, mouseY, livingEntity, entityStyle.rotation());
+                        ClientUtils.renderEntityInGui(guiGraphics, left, top, right, bottom, entityStyle.scale, 0.25F, mouseX, mouseY, livingEntity, entityStyle.rotation);
                     }
+                    continue;
+                }
+
+                if (seg.isItem()) {
+                    StellardownStyle.ItemStyle itemStyle = seg.item;
+
+                    Matrix3x2fStack matrixStack = guiGraphics.pose();
+                    matrixStack.pushMatrix();
+
+                    float scale = itemStyle.scale;
+                    int itemSize = 16;
+
+                    int yPos = y + line.y;
+
+                    float tx = x;
+
+                    if (itemStyle.centered) {
+                        tx = x + this.areaWidth / 2f - (scale * itemSize / 2f);
+                    }
+
+                    matrixStack.translate(tx, yPos);
+                    matrixStack.scale(scale, scale);
+
+                    guiGraphics.item(new ItemStack(itemStyle.getItem()), 0, 0);
+
+
+                    matrixStack.popMatrix();
+
                     continue;
                 }
 
@@ -286,8 +357,9 @@ public class StellardownRenderer {
         String text;
         StellardownParser.Style style;
 
-        StellardownParser.ImageStyle image;
-        StellardownParser.EntityStyle entity;
+        StellardownStyle.ImageStyle image;
+        StellardownStyle.EntityStyle entity;
+        StellardownStyle.ItemStyle item;
 
         int x;
         int width;
@@ -305,25 +377,37 @@ public class StellardownRenderer {
             this.height = height;
         }
 
-        public PositionedSegment(StellardownParser.ImageStyle image,
+        public PositionedSegment(StellardownStyle.ImageStyle image,
                                  int x) {
             this.text = null;
             this.style = null;
             this.image = image;
             this.x = x;
-            this.width = image.width();
-            this.height = image.height();
+            this.width = image.getWidth();
+            this.height = image.getHeight();
         }
 
-        public PositionedSegment(StellardownParser.EntityStyle entity,
+        public PositionedSegment(StellardownStyle.EntityStyle entity,
                                  int x) {
             this.text = null;
             this.style = null;
             this.image = null;
             this.entity = entity;
             this.x = x;
-            this.width = entity.width();
-            this.height = entity.height();
+            this.width = entity.getWidth();
+            this.height = entity.getHeight();
+        }
+
+        public PositionedSegment(StellardownStyle.ItemStyle item,
+                                 int x) {
+            this.text = null;
+            this.style = null;
+            this.image = null;
+            this.entity = null;
+            this.item = item;
+            this.x = x;
+            this.width = item.getWidth();
+            this.height = item.getHeight();
         }
 
         public boolean isImage() {
@@ -333,6 +417,8 @@ public class StellardownRenderer {
         public boolean isEntity() {
             return entity != null;
         }
+
+        public boolean isItem() { return item != null; }
     }
 
     public class Line {

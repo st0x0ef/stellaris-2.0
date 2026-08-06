@@ -15,6 +15,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import org.exodusstudio.stellaris.client.markdown.MarkdownPage;
 import org.exodusstudio.stellaris.client.utils.stellardown.StellardownParser;
+import org.exodusstudio.stellaris.client.utils.stellardown.StellardownStyle;
 import org.exodusstudio.stellaris.common.data.wiki.EntryInfo;
 import org.exodusstudio.stellaris.client.screens.components.TexturedButton;
 import org.exodusstudio.stellaris.client.utils.ClientUtils;
@@ -37,9 +38,9 @@ public class WikiInfoButton extends TexturedButton {
         switch (page.iconType) {
             case MarkdownPage.IconType.ITEM:
 
-                StellardownParser.ItemStyle itemStyle = page.getItemIcon();
+                StellardownStyle.ItemStyle itemStyle = page.getItemIcon();
                 if(itemStyle != null) {
-                     BuiltInRegistries.ITEM.get(itemStyle.identifier()).ifPresent((item) -> {
+                     BuiltInRegistries.ITEM.get(itemStyle.identifier).ifPresent((item) -> {
                         this.tooltip(Tooltip.create(new ItemStack(item).getHoverName()));
                     });
                     return;
@@ -47,10 +48,10 @@ public class WikiInfoButton extends TexturedButton {
                 break;
             case MarkdownPage.IconType.ENTITY:
 
-                StellardownParser.EntityStyle entityStyle = page.getEntityIcon();
+                StellardownStyle.EntityStyle entityStyle = page.getEntityIcon();
                 if(entityStyle != null) {
 
-                    Entity entity = ClientUtils.createEntity(Minecraft.getInstance().level, entityStyle.identifier());
+                    Entity entity = ClientUtils.createEntity(Minecraft.getInstance().level, entityStyle.identifier);
                     this.tooltip(Tooltip.create(entity.getDisplayName()));
                     return;
                 }
@@ -79,20 +80,20 @@ public class WikiInfoButton extends TexturedButton {
         switch (page.iconType) {
             case MarkdownPage.IconType.ITEM:
 
-                StellardownParser.ItemStyle itemStyle = page.getItemIcon();
+                StellardownStyle.ItemStyle itemStyle = page.getItemIcon();
                 if(itemStyle != null) {
-                    BuiltInRegistries.ITEM.get(itemStyle.identifier()).ifPresent((item) -> {
+                    BuiltInRegistries.ITEM.get(itemStyle.identifier).ifPresent((item) -> {
                         graphics.item(new ItemStack(item), this.getX() + 2, this.getY() + 2);
                     });
                 }
                 break;
             case MarkdownPage.IconType.ENTITY:
 
-                StellardownParser.EntityStyle entityStyle = page.getEntityIcon();
+                StellardownStyle.EntityStyle entityStyle = page.getEntityIcon();
                 if(entityStyle != null) {
-                    Entity entity = ClientUtils.createEntity(Minecraft.getInstance().level, entityStyle.identifier());
+                    Entity entity = ClientUtils.createEntity(Minecraft.getInstance().level, entityStyle.identifier);
                     if(entity instanceof LivingEntity livingEntity) {
-                        ClientUtils.renderEntityInGui(graphics, this.getX() + 2, this.getY(), this.getX() + 18, this.getY() + 16, 8, 0.25F, mouseX, mouseY, livingEntity, entityStyle.rotation());
+                        ClientUtils.renderEntityInGui(graphics, this.getX() + 2, this.getY(), this.getX() + 18, this.getY() + 16, 8, 0.25F, mouseX, mouseY, livingEntity, entityStyle.rotation);
                     }
                 }
         }

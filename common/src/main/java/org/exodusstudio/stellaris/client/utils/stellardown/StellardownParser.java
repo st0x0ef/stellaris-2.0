@@ -1,8 +1,7 @@
 package org.exodusstudio.stellaris.client.utils.stellardown;
 
-import net.minecraft.resources.Identifier;
+import org.exodusstudio.stellaris.Stellaris;
 import org.jetbrains.annotations.NotNull;
-import org.joml.Vector3f;
 import oshi.util.tuples.Pair;
 
 import java.util.ArrayDeque;
@@ -268,13 +267,14 @@ public class StellardownParser {
                     if (styleStack.size() > 1) styleStack.pop();
                     break;
                 case IMAGE:
-                    segments.add(new Pair<>("", styleStack.peek().withImage(ImageStyle.parse(token.content()))));
+                    segments.add(new Pair<>("", styleStack.peek().withImage(StellardownStyle.ImageStyle.parse(token.content()))));
                     break;
                 case ENTITY:
-                    segments.add(new Pair<>("", styleStack.peek().withEntity(EntityStyle.parse(token.content()))));
+
+                    segments.add(new Pair<>("", styleStack.peek().withEntity(StellardownStyle.EntityStyle.parse(token.content()))));
                     break;
                 case ITEM:
-                    segments.add(new Pair<>("", styleStack.peek().withItem(ItemStyle.parse(token.content()))));
+                    segments.add(new Pair<>("", styleStack.peek().withItem(StellardownStyle.ItemStyle.parse(token.content()))));
                     break;
                 case TEXT:
                     segments.add(new Pair<>(token.content(), styleStack.peek()));
@@ -302,13 +302,13 @@ public class StellardownParser {
         public boolean strikethrough;
         public boolean obfuscated;
         public boolean translatable;
-        public ImageStyle image;
-        public EntityStyle entityStyle;
-        public ItemStyle itemStyle;
+        public StellardownStyle.ImageStyle image;
+        public StellardownStyle.EntityStyle entityStyle;
+        public StellardownStyle.ItemStyle itemStyle;
         public static final Style DEFAULT = new Style();
 
 
-        private Style(boolean bold, boolean italic, boolean underline, String color, String ref, boolean strikethrough, boolean obfuscated, boolean translatable, ImageStyle image, EntityStyle entityStyle,  ItemStyle itemStyle) {
+        private Style(boolean bold, boolean italic, boolean underline, String color, String ref, boolean strikethrough, boolean obfuscated, boolean translatable, StellardownStyle.ImageStyle image, StellardownStyle.EntityStyle entityStyle,  StellardownStyle.ItemStyle itemStyle) {
             this.bold = bold;
             this.italic = italic;
             this.underline = underline;
@@ -319,6 +319,7 @@ public class StellardownParser {
             this.translatable = translatable;
             this.image = image;
             this.entityStyle = entityStyle;
+            this.itemStyle = itemStyle;
         }
 
         public Style() {
@@ -357,15 +358,15 @@ public class StellardownParser {
             return new Style(this.bold, this.italic, this.underline, this.color, this.ref, this.strikethrough, this.obfuscated, translatable, this.image, this.entityStyle, this.itemStyle);
         }
 
-        public Style withImage(ImageStyle image) {
+        public Style withImage(StellardownStyle.ImageStyle image) {
             return new Style(this.bold, this.italic, this.underline, this.color, this.ref, this.strikethrough, this.obfuscated, this.translatable, image, this.entityStyle, this.itemStyle);
         }
 
-        public Style withEntity(EntityStyle entityStyle) {
+        public Style withEntity(StellardownStyle.EntityStyle entityStyle) {
             return new Style(this.bold, this.italic, this.underline, this.color, this.ref, this.strikethrough, this.obfuscated, this.translatable, this.image, entityStyle, this.itemStyle);
         }
 
-        public Style withItem(ItemStyle itemStyle) {
+        public Style withItem(StellardownStyle.ItemStyle itemStyle) {
             return new Style(this.bold, this.italic, this.underline, this.color, this.ref, this.strikethrough, this.obfuscated, this.translatable, this.image, this.entityStyle, itemStyle);
         }
     }
@@ -375,89 +376,4 @@ public class StellardownParser {
 
     }
 
-    public record ImageStyle(Identifier identifier, int width, int height) {
-
-        public static ImageStyle parse(String content) {
-            String[] params = content.split(" "); //all the params are separated with a space
-
-            Identifier imageId = Identifier.parse(params[0]);
-            int width = 100;
-            int height = 50;
-
-            for(int i = 1; i < params.length; i++) {
-
-                String param = params[i];
-
-                if(param.startsWith("width=") ) {
-                    width = Integer.parseInt(param.substring("width=".length()));
-                }
-                if(param.startsWith("height=") ) {
-                    height = Integer.parseInt(param.substring("height=".length()));
-                }
-            }
-            return new ImageStyle(imageId, width, height);
-        }
-    }
-
-    public record ItemStyle(Identifier identifier, int scale, boolean onlyIcon) {
-
-        public static ItemStyle parse(String content) {
-            String[] params = content.split(" "); //all the params are separated with a space
-
-            Identifier itemId = Identifier.parse(params[0]);
-            int scale = 2;
-            boolean onlyIcon = false;
-
-            for(int i = 1; i < params.length; i++) {
-
-                String param = params[i];
-
-                if(param.startsWith("scale=") ) {
-                    scale = Integer.parseInt(param.substring("scale=".length()));
-                }
-                if(param.startsWith("onlyIcon") ) {
-                    onlyIcon = true;
-                }
-            }
-            return new ItemStyle(itemId, scale, onlyIcon);
-        }
-    }
-
-    public record EntityStyle(Identifier identifier, int width, int height, int scale, Vector3f rotation) {
-
-        public static EntityStyle parse(String content) {
-            String[] params = content.split(" "); //all the params are separated with a space
-
-            Identifier entityId = Identifier.parse(params[0]);
-            int scale = 10;
-            int width = 50;
-            int height = 50;
-            Vector3f rotation = null;
-
-            for(int i = 1; i < params.length; i++) {
-
-                String param = params[i];
-
-                if(param.startsWith("width=") ) {
-                    width = Integer.parseInt(param.substring("width=".length()));
-                }
-                if(param.startsWith("scale=") ) {
-                    scale = Integer.parseInt(param.substring("scale=".length()));
-                }
-                if(param.startsWith("height=") ) {
-                    height = Integer.parseInt(param.substring("height=".length()));
-                }
-                if(param.startsWith("rotation=") ) {
-                    String onlyDigits = param.substring("scale=".length()).trim().replace("[", "").replace("]", "");
-                    // Parse the rotation values (assuming they are comma-separated)
-                    String[] rotationValues = onlyDigits.split(",");
-                    if (rotationValues.length == 3) {
-                        rotation = new Vector3f(Float.parseFloat(rotationValues[0]), Float.parseFloat(rotationValues[1]), Float.parseFloat(rotationValues[2]));
-                    }
-                }
-            }
-            return new EntityStyle(entityId, width, height, scale, rotation);
-        }
-
-    }
 }
