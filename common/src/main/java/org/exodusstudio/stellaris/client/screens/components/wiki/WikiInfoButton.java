@@ -13,6 +13,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.client.markdown.MarkdownPage;
 import org.exodusstudio.stellaris.client.utils.stellardown.StellardownParser;
 import org.exodusstudio.stellaris.client.utils.stellardown.StellardownStyle;
@@ -37,7 +38,6 @@ public class WikiInfoButton extends TexturedButton {
         Component title = Component.literal(page.title);
         switch (page.iconType) {
             case MarkdownPage.IconType.ITEM:
-
                 StellardownStyle.ItemStyle itemStyle = page.getItemIcon();
                 if(itemStyle != null) {
                      BuiltInRegistries.ITEM.get(itemStyle.identifier).ifPresent((item) -> {

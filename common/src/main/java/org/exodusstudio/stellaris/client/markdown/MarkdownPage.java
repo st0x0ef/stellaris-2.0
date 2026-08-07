@@ -48,7 +48,6 @@ public class MarkdownPage {
     }
 
     public String scanMetadata()  {
-
         List<String> lines;
 
         try {
@@ -57,39 +56,58 @@ public class MarkdownPage {
             throw new RuntimeException(e);
         }
 
+        boolean insideMetadata = false;
+        int contentStart = 0;
 
-        int metadataPart = 0;
-        int metadataLine = 0;
+        for (int i = 0; i < lines.size(); i++) {
+            String line = lines.get(i).trim();
 
-        for (String line : lines) {
-            metadataLine++;
-
-            //We check if the metadata are finished
-            if (line.equals(METADATA_DELIMITOR)) {
-                metadataPart++;
-                if(metadataPart == 2) {
+            if (line.contains(METADATA_DELIMITOR.trim())) {
+                if (!insideMetadata) {
+                    insideMetadata = true;
+                } else {
+                    contentStart = i + 1;
                     break;
                 }
+                continue;
             }
 
-            if (line.startsWith("title:")) {
-                this.title = line.substring(6).trim();
+            if (insideMetadata) {
+                parseMetadataLine(line);
             }
+        }
 
-            if (line.startsWith("iconType:")) {
-                this.iconType = IconType.fromString(line.substring(9).trim());
-            }
 
-            if (line.startsWith("entryId:")) {
-                this.entryId = Identifier.parse(line.substring(8).trim());
-            }
+        StringBuilder builder = new StringBuilder();
 
-            if(line.startsWith("associatedBlocks:")) {
-                String list = line.substring(17).trim();
-                list = list.replace("[", "").replace("]", "");
-                String[] blocks = list.split(",");
-                for (String block : blocks) {
-                    block = block.trim();
+        for(int i = contentStart; i < lines.size(); i++) {
+            // Process the content lines after metadata
+            builder.append(lines.get(i)).append("\n");
+        }
+
+        return builder.toString();
+    }
+
+    public void parseMetadataLine(String line) {
+        if (line.startsWith("title:")) {
+            this.title = line.substring(6).trim();
+        }
+
+        if (line.startsWith("iconType:")) {
+            this.iconType = IconType.fromString(line.substring(9).trim());
+        }
+
+        if (line.startsWith("entryId:")) {
+            this.entryId = Identifier.parse(line.substring(8).trim());
+        }
+
+        if(line.startsWith("associatedBlocks:")) {
+            String list = line.substring(17).trim();
+            list = list.replace("[", "").replace("]", "");
+            String[] blocks = list.split(",");
+            for (String block : blocks) {
+                block = block.trim();
+                if (!block.isEmpty()) {
                     if (block.startsWith("#")) {
                         // It's a tag
                         this.associatedBlocks.add(Either.left(TagKey.create(Registries.BLOCK, Identifier.parse(block.substring(1)))));
@@ -99,17 +117,8 @@ public class MarkdownPage {
                     }
                 }
             }
-
         }
 
-        StringBuilder builder = new StringBuilder();
-
-        for(int i = metadataLine; i < lines.size(); i++) {
-            // Process the content lines after metadata
-            builder.append(lines.get(i)).append("\n");
-        }
-
-        return builder.toString();
     }
 
     public StellardownStyle.EntityStyle getEntityIcon() {
