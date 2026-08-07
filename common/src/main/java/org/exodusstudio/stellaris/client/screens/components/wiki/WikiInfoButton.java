@@ -4,23 +4,16 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.renderer.RenderPipelines;
-import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import org.exodusstudio.stellaris.Stellaris;
-import org.exodusstudio.stellaris.client.markdown.MarkdownPage;
-import org.exodusstudio.stellaris.client.utils.stellardown.StellardownParser;
+import org.exodusstudio.stellaris.common.data.wiki.MarkdownPage;
 import org.exodusstudio.stellaris.client.utils.stellardown.StellardownStyle;
-import org.exodusstudio.stellaris.common.data.wiki.EntryInfo;
 import org.exodusstudio.stellaris.client.screens.components.TexturedButton;
 import org.exodusstudio.stellaris.client.utils.ClientUtils;
-import org.joml.Vector3f;
 
 public class WikiInfoButton extends TexturedButton {
 

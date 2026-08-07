@@ -2,11 +2,10 @@ package org.exodusstudio.stellaris.client.screens;
 
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
-import org.exodusstudio.stellaris.Stellaris;
-import org.exodusstudio.stellaris.client.markdown.MarkdownPage;
+import org.exodusstudio.stellaris.common.data.wiki.MarkdownPage;
 import org.exodusstudio.stellaris.client.screens.components.Padding;
 import org.exodusstudio.stellaris.client.screens.components.wiki.ScrollStellarDownWidget;
-import org.exodusstudio.stellaris.common.data.wiki.MarkdownData;
+import org.exodusstudio.stellaris.common.data.wiki.WikiMarkdownData;
 
 public class TestScreen extends Screen {
 
@@ -23,7 +22,7 @@ public class TestScreen extends Screen {
     protected void init() {
         super.init();
 
-        MarkdownPage page = MarkdownData.ENTRY_PAGES.values().iterator().next();
+        MarkdownPage page = WikiMarkdownData.ENTRY_PAGES.values().iterator().next();
 
 
         int x = this.width / 2 - 200;

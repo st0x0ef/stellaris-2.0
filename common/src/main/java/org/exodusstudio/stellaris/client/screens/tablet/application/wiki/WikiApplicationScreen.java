@@ -7,11 +7,10 @@ import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Inventory;
-import org.exodusstudio.stellaris.client.markdown.MarkdownPage;
-import org.exodusstudio.stellaris.common.data.wiki.EntryInfo;
-import org.exodusstudio.stellaris.common.data.wiki.MarkdownData;
+import org.exodusstudio.stellaris.common.data.wiki.MarkdownPage;
+import org.exodusstudio.stellaris.common.data.wiki.WikiEntryPack;
+import org.exodusstudio.stellaris.common.data.wiki.WikiMarkdownData;
 import org.exodusstudio.stellaris.common.data.wiki.WikiEntry;
-import org.exodusstudio.stellaris.common.data.wiki.WikiPacks;
 import org.exodusstudio.stellaris.client.screens.components.TexturedButton;
 import org.exodusstudio.stellaris.client.screens.components.wiki.WikiEntryButton;
 import org.exodusstudio.stellaris.client.screens.components.containers.ScrollableContainer;
@@ -46,7 +45,7 @@ public class WikiApplicationScreen extends AbstractContainerScreen<WikiApplicati
 
 
     /** Variables */
-    public ScrollableContainer scrollableContainer;
+     public ScrollableContainer scrollableContainer;
 
 
     public WikiEntry currentEntry;
@@ -95,10 +94,10 @@ public class WikiApplicationScreen extends AbstractContainerScreen<WikiApplicati
         super.init();
 
         if(this.openedInfo != null) {
-            this.setEntryInfo(MarkdownData.ENTRY_PAGES.get(this.openedInfo));
+           this.setEntryInfo(WikiMarkdownData.ENTRY_PAGES.get(this.openedInfo));
         }
 
-        if(!WikiPacks.ENTRIES.isEmpty()) {
+        if(!WikiEntryPack.ENTRIES.isEmpty()) {
             setupScrollableContainer();
             setupNavigationButtons();
 
@@ -129,7 +128,7 @@ public class WikiApplicationScreen extends AbstractContainerScreen<WikiApplicati
                 .setBackground(IdentifierUtils.guiTexture("tablet/tablet_entries_background"));
 
         int height = 5;
-        for (WikiEntry entry : WikiPacks.ENTRIES) {
+        for (WikiEntry entry : WikiEntryPack.ENTRIES) {
             WikiEntryButton button = new WikiEntryButton(this.scrollableContainer.getX() + 5, this.scrollableContainer.getY() + height, 90, 20, entry,
                     button1 -> switchEntry(entry, 0)).tex(IdentifierUtils.guiTexture("tablet/tablet_entry_button"), IdentifierUtils.guiTexture("tablet/tablet_entry_button"));
             this.scrollableContainer.addChild(this, button);
@@ -163,10 +162,6 @@ public class WikiApplicationScreen extends AbstractContainerScreen<WikiApplicati
     }
 
 
-    public static @Nullable EntryInfo getEntryInfo(Identifier Identifier) {
-        return WikiPacks.ENTRY_COMPONENTS.getOrDefault(Identifier, null);
-    }
-
     /**
      * Collect the infos for the given entry
      * @param entry
@@ -175,7 +170,7 @@ public class WikiApplicationScreen extends AbstractContainerScreen<WikiApplicati
     public List<MarkdownPage> getInfosForEntry(WikiEntry entry) {
         List<MarkdownPage> infos = new ArrayList<>();
 
-        MarkdownData.ENTRY_PAGES.forEach((key, page) -> {
+        WikiMarkdownData.ENTRY_PAGES.forEach((key, page) -> {
             if(page.entryId.equals(entry.id())) {
                 infos.add(page);
             }

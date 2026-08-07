@@ -6,11 +6,11 @@ import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import org.exodusstudio.stellaris.Stellaris;
-import org.exodusstudio.stellaris.client.markdown.MarkdownPage;
+import org.exodusstudio.stellaris.common.data.wiki.MarkdownPage;
 import org.exodusstudio.stellaris.client.screens.components.containers.ScrollableContainer;
 import org.exodusstudio.stellaris.client.utils.ActionBox;
 import org.exodusstudio.stellaris.client.utils.stellardown.StellardownRenderer;
-import org.exodusstudio.stellaris.common.data.wiki.MarkdownData;
+import org.exodusstudio.stellaris.common.data.wiki.WikiMarkdownData;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.jspecify.annotations.NonNull;
@@ -86,7 +86,7 @@ public class ScrollStellarDownWidget extends ScrollableContainer {
 
         Identifier pageId = Identifier.tryParse(page);
         //Find the page
-        MarkdownPage newPage = MarkdownData.ENTRY_PAGES.get(pageId);
+        MarkdownPage newPage = WikiMarkdownData.ENTRY_PAGES.get(pageId);
 
         if(newPage ==null) {
             Stellaris.LOG.error("Could not find page with id: " + pageId);
