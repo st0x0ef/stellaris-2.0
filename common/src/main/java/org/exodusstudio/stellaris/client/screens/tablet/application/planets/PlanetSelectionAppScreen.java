@@ -346,7 +346,7 @@ public class PlanetSelectionAppScreen extends AbstractContainerScreen<PlanetSele
             builder.addText("Has Oxygen:").conditionColorText(planet.hasOxygen() ? "Yes" : "No", "green", "red", this.selectionAppScreen.selectedPlanet.hasOxygen()).breakL();
             builder.addText("-----------------------");
 
-            StellarDownWidget widget = builder.build(this.getX() - 3, this.getY() + 20, 300, Minecraft.getInstance().font.lineHeight * 6);
+            StellarDownWidget widget = builder.build(this.getX(), this.getY() + 20, 300, Minecraft.getInstance().font.lineHeight * 6);
             addAntennaWidget(widget);
             return widget.getHeight() + 20;
         }

@@ -10,15 +10,13 @@ import fr.tathan.exoconfig.common.loader.ConfigsRegistry;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.packs.PackType;
 import org.exodusstudio.stellaris.common.data.space_station.SpaceStationData;
-import org.exodusstudio.stellaris.common.data.wiki.MarkdownData;
 import org.exodusstudio.stellaris.common.data.wiki.WikiEntryPack;
 import org.exodusstudio.stellaris.common.config.CommonConfig;
 import org.exodusstudio.stellaris.common.data.PlanetsData;
 import org.exodusstudio.stellaris.common.data.SdCardData;
 import org.exodusstudio.stellaris.common.data.assistant.AssistantData;
-import org.exodusstudio.stellaris.common.data.space_station.SpaceStationData;
-import org.exodusstudio.stellaris.common.data.wiki.WikiPacks;
 
+import org.exodusstudio.stellaris.common.data.wiki.WikiMarkdownData;
 import org.exodusstudio.stellaris.common.events.Events;
 import org.exodusstudio.stellaris.common.network.NetworkRegistry;
 import org.exodusstudio.stellaris.common.network.packets.SyncPlanetsPacket;

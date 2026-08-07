@@ -55,7 +55,7 @@ public class StellarDownWidget extends AbstractWidget {
         }
 
         public Builder breakL() {
-            textBuilder.append("[br]");
+            textBuilder.append("\n");
             return this;
         }
 
