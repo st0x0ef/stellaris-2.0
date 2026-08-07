@@ -45,6 +45,10 @@ public abstract class StellardownStyle {
         public static ImageStyle parse(String content) {
             String[] params = content.split(" "); //all the params are separated with a space
 
+            if(!params[0].endsWith(".png")) {
+                params[0] += ".png";
+            }
+
             Identifier imageId = Identifier.parse(params[0]);
             ImageStyle image = new ImageStyle(imageId);
 
@@ -134,7 +138,7 @@ public abstract class StellardownStyle {
                     style.height = Integer.parseInt(param.substring("height=".length()));
                 }
                 if(param.startsWith("rotation=") ) {
-                    String onlyDigits = param.substring("scale=".length()).trim().replace("[", "").replace("]", "");
+                    String onlyDigits = param.substring("rotation=".length()).trim().replace("(", "").replace(")", "");
                     // Parse the rotation values (assuming they are comma-separated)
                     String[] rotationValues = onlyDigits.split(",");
                     if (rotationValues.length == 3) {

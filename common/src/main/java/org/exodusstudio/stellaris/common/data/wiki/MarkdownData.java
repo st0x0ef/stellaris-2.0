@@ -58,7 +58,6 @@ public class MarkdownData extends SimplePreparableReloadListener<Map<Identifier,
                 associatedBlock.ifLeft(tagKey -> TAG_ENTRY_RESOLVER.put(tagKey, id));
                 associatedBlock.ifRight(resourceKey -> BLOCK_ENTRY_RESOLVER.put(resourceKey, id));
             }
-            Stellaris.LOG.error("reading {} \n content : \n{}", id, page);
         }
     }
 

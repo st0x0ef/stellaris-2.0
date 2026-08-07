@@ -142,7 +142,7 @@ public class StellardownRenderer {
             // -------------------------------------------------------
 
 
-            if (segment.getB().itemStyle != null) {
+            if (segment.getB().itemStyle != null && !segment.getB().itemStyle.onlyIcon) {
 
                 StellardownStyle.ItemStyle item = segment.getB().itemStyle;
 
@@ -257,6 +257,7 @@ public class StellardownRenderer {
                         int top = y + line.y ;
 
                         int bottom = top + seg.height;
+
                         ClientUtils.renderEntityInGui(guiGraphics, left, top, right, bottom, entityStyle.scale, 0.25F, mouseX, mouseY, livingEntity, entityStyle.rotation);
                     }
                     continue;
