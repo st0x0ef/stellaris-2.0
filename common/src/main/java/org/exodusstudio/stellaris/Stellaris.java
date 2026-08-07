@@ -10,8 +10,8 @@ import fr.tathan.exoconfig.common.loader.ConfigsRegistry;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.packs.PackType;
 import org.exodusstudio.stellaris.common.data.space_station.SpaceStationData;
-import org.exodusstudio.stellaris.common.data.wiki.MarkdownData;
-import org.exodusstudio.stellaris.common.data.wiki.WikiPacks;
+import org.exodusstudio.stellaris.common.data.wiki.WikiMarkdownData;
+import org.exodusstudio.stellaris.common.data.wiki.WikiEntryPack;
 import org.exodusstudio.stellaris.common.config.CommonConfig;
 import org.exodusstudio.stellaris.common.data.PlanetsData;
 import org.exodusstudio.stellaris.common.data.SdCardData;
@@ -78,14 +78,14 @@ public final class Stellaris {
         ReloadListenerRegistry.register(PackType.SERVER_DATA, new SdCardData(), IdentifierUtils.id(SdCardData.ID));
         ReloadListenerRegistry.register(PackType.SERVER_DATA, new SpaceStationData(), IdentifierUtils.id(SpaceStationData.ID));
 
-        ReloadListenerRegistry.register(PackType.SERVER_DATA, new MarkdownData(), IdentifierUtils.id(MarkdownData.ID));
-        ReloadListenerRegistry.register(PackType.SERVER_DATA, new WikiPacks.WikiEntryPack(), IdentifierUtils.id(WikiPacks.WikiEntryPack.ID));
-        ReloadListenerRegistry.register(PackType.SERVER_DATA, new WikiPacks.EntryInfoPack(), IdentifierUtils.id(WikiPacks.EntryInfoPack.ID));
+        ReloadListenerRegistry.register(PackType.SERVER_DATA, new WikiMarkdownData(), IdentifierUtils.id(WikiMarkdownData.ID));
+        ReloadListenerRegistry.register(PackType.SERVER_DATA, new WikiEntryPack(), IdentifierUtils.id(WikiEntryPack.ID));
     }
 
     public static void onDatapackSyncEvent(ServerPlayer player, boolean joined) {
         if (joined) {
-            NetworkManager.sendToPlayer(player, new SyncWiki(WikiPacks.ENTRY_COMPONENTS, WikiPacks.ENTRIES));
+
+            NetworkManager.sendToPlayer(player, new SyncWiki(WikiMarkdownData.ENTRY_PAGES, WikiEntryPack.ENTRIES));
             NetworkManager.sendToPlayer(player, new SyncSDCards(SdCardData.SD_CARDS));
             NetworkManager.sendToPlayer(player, new SyncPlanetsPacket(new ArrayList<>(PlanetsData.PLANETS)));
         }
