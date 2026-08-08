@@ -10,7 +10,6 @@ import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
-import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.client.utils.ActionBox;
 import org.exodusstudio.stellaris.client.utils.ClientUtils;
 import org.exodusstudio.stellaris.common.utils.Utils;
@@ -66,6 +65,11 @@ public class StellardownRenderer {
      * @param areaWidth the new width of the area where the text is rendered
      */
     public void updateLayout(int areaWidth) {
+        if (areaWidth == this.areaWidth && renderedLines != null) {
+            return;
+        }
+
+        this.areaWidth = areaWidth;
         this.renderedLines = layout(areaWidth);
     }
 
@@ -103,13 +107,13 @@ public class StellardownRenderer {
 
                 StellardownStyle.ImageStyle image = segment.getB().image;
 
-                if (cursorX + image.getWidth() > areaWidth && cursorX > 0) {
+                if (needsNewLine(image.getWidth(), cursorX, areaWidth)) {
                     lines.add(currentLine);
                     currentLine = new Line();
                     cursorX = 0;
                 }
 
-                currentLine.add(new PositionedSegment(image, cursorX));
+                currentLine.add(new ImageSegment(image, cursorX));
 
                 cursorX += image.getWidth();
 
@@ -124,13 +128,13 @@ public class StellardownRenderer {
 
                 StellardownStyle.EntityStyle entity = segment.getB().entityStyle;
 
-                if (cursorX + entity.getWidth() > areaWidth && cursorX > 0) {
+                if (needsNewLine(entity.getWidth(), cursorX, areaWidth)) {
                     lines.add(currentLine);
                     currentLine = new Line();
                     cursorX = 0;
                 }
 
-                currentLine.add(new PositionedSegment(entity, cursorX));
+                currentLine.add(new EntitySegment(entity, cursorX));
 
                 cursorX += entity.getWidth();
 
@@ -141,20 +145,19 @@ public class StellardownRenderer {
             // ITEM
             // -------------------------------------------------------
 
-
             if (segment.getB().itemStyle != null && !segment.getB().itemStyle.onlyIcon) {
 
                 StellardownStyle.ItemStyle item = segment.getB().itemStyle;
 
                 int width = item.scale * 16;
 
-                if (cursorX + width > areaWidth && cursorX > 0) {
+                if (needsNewLine(item.getWidth(), cursorX, areaWidth)) {
                     lines.add(currentLine);
                     currentLine = new Line();
                     cursorX = 0;
                 }
 
-                currentLine.add(new PositionedSegment(item, cursorX));
+                currentLine.add(new ItemSegment(item, cursorX));
 
                 cursorX += width;
 
@@ -187,7 +190,7 @@ public class StellardownRenderer {
                     width = measureWord(word, segment.getB());
                 }
 
-                currentLine.add(new PositionedSegment(
+                currentLine.add(new TextSegment(
                         word,
                         segment.getB(),
                         cursorX,
@@ -213,105 +216,108 @@ public class StellardownRenderer {
 
     public int render(int x, int y, GuiGraphicsExtractor guiGraphics, int mouseX, int mouseY, Consumer<ActionBox> clickBoxConsumer) {
         for (Line line : this.renderedLines) {
-            for (PositionedSegment seg : line.segments) {
+            for (PositionnedSegment seg : line.segments) {
+                
+                
+                switch (seg) {
+                    case TextSegment textSeg -> {
+                        MutableComponent component = toComponent(textSeg.text, textSeg.style);
 
-                if (seg.isImage()) {
+                        int textX = x + textSeg.x;
+                        int textY = y + line.y;
 
-                    int imageX = x + seg.x;
-
-                    if(seg.image.centered) {
-                        imageX = x + this.areaWidth / 2 - (seg.width / 2);
-                    }
-
-                    guiGraphics.blit(
-                            RenderPipelines.GUI_TEXTURED,
-                            seg.image.texture,
-                            imageX,
-                            y + line.y ,
-                            0,
-                            0,
-                            seg.width,
-                            seg.height,
-                            seg.width,
-                            seg.height);
-
-                    continue;
-                }
-
-                if (seg.isEntity()) {
-
-                    StellardownStyle.EntityStyle entityStyle = seg.entity;
-
-                    Entity entity = ClientUtils.createEntity(Minecraft.getInstance().level, entityStyle.identifier);
-
-                    if(entity instanceof LivingEntity livingEntity) {
-
-
-                        int left = x + seg.x;
-                        int right = left + seg.width;
-
-                        if (entityStyle.centered) {
-                            left = x + this.areaWidth / 2 - (seg.width / 2);
+                        if(textSeg.style.ref != null) {
+                            HashMap<String, String> data = new HashMap<>();
+                            data.put("ref", textSeg.style.ref);
+                            clickBoxConsumer.accept(new ActionBox(textX, textY, textX + textSeg.width, textY + textSeg.height, textSeg.style.ref, data));
                         }
 
-                        int top = y + line.y ;
-
-                        int bottom = top + seg.height;
-
-                        ClientUtils.renderEntityInGui(guiGraphics, left, top, right, bottom, entityStyle.scale, 0.25F, mouseX, mouseY, livingEntity, entityStyle.rotation);
+                        guiGraphics.text(
+                                font,
+                                component,
+                                textX,
+                                textY,
+                                Utils.getMinecraftColor("white"));
                     }
-                    continue;
-                }
+                    case ImageSegment imageSeg -> {
+                        int imageX = x + imageSeg.x;
 
-                if (seg.isItem()) {
-                    StellardownStyle.ItemStyle itemStyle = seg.item;
+                        if(imageSeg.image.centered) {
+                            imageX = x + this.areaWidth / 2 - (imageSeg.getWidth() / 2);
+                        }
 
-                    Matrix3x2fStack matrixStack = guiGraphics.pose();
-                    matrixStack.pushMatrix();
+                        guiGraphics.blit(
+                                RenderPipelines.GUI_TEXTURED,
+                                imageSeg.image.texture,
+                                imageX,
+                                y + line.y ,
+                                0,
+                                0,
+                                imageSeg.getWidth(),
+                                imageSeg.getHeight(),
+                                imageSeg.getWidth(),
+                                imageSeg.getHeight());
 
-                    float scale = itemStyle.scale;
-                    int itemSize = 16;
-
-                    int yPos = y + line.y;
-
-                    float tx = x;
-
-                    if (itemStyle.centered) {
-                        tx = x + this.areaWidth / 2f - (scale * itemSize / 2f);
                     }
+                    case EntitySegment entitySeg -> {
+                        StellardownStyle.EntityStyle entityStyle = entitySeg.entity;
 
-                    matrixStack.translate(tx, yPos);
-                    matrixStack.scale(scale, scale);
+                        Entity entity = ClientUtils.createEntity(Minecraft.getInstance().level, entityStyle.identifier);
 
-                    guiGraphics.item(new ItemStack(itemStyle.getItem()), 0, 0);
+                        if(entity instanceof LivingEntity livingEntity) {
 
 
-                    matrixStack.popMatrix();
+                            int left = x + entitySeg.x;
+                            int right = left + entitySeg.getWidth();
 
-                    continue;
+                            if (entityStyle.centered) {
+                                left = x  + entitySeg.x + this.areaWidth / 2  - (entitySeg.getWidth() / 4);
+                            }
+
+                            int top = y + line.y ;
+
+                            int bottom = top + entitySeg.getHeight();
+
+                            ClientUtils.renderEntityInGui(guiGraphics, left, top, right, bottom, entityStyle.scale, 0.25F, mouseX, mouseY, livingEntity, entityStyle.rotation);
+                        }
+                    }
+                    case ItemSegment itemSeg -> {
+                        StellardownStyle.ItemStyle itemStyle = itemSeg.item;
+
+                        Matrix3x2fStack matrixStack = guiGraphics.pose();
+                        matrixStack.pushMatrix();
+
+                        float scale = itemStyle.scale;
+                        int itemSize = 16;
+
+                        int yPos = y + line.y;
+
+                        float tx = x;
+
+                        if (itemStyle.centered) {
+                            tx = x + this.areaWidth / 2f - (scale * itemSize / 2f);
+                        }
+
+                        matrixStack.translate(tx, yPos);
+                        matrixStack.scale(scale, scale);
+
+                        guiGraphics.item(new ItemStack(itemStyle.getItem()), 0, 0);
+
+
+                        matrixStack.popMatrix();
+                    }
+                    default -> throw new IllegalStateException("Unexpected value: " + seg);
                 }
-
-                MutableComponent component = toComponent(seg.text, seg.style);
-
-                int textX = x + seg.x;
-                int textY = y + line.y;
-
-                if(seg.style.ref != null) {
-                    HashMap<String, String> data = new HashMap<>();
-                    data.put("ref", seg.style.ref);
-                    clickBoxConsumer.accept(new ActionBox(textX, textY, textX + seg.width, textY + seg.height, seg.style.ref, data));
-                }
-
-                guiGraphics.text(
-                        font,
-                        component,
-                        textX,
-                        textY,
-                        Utils.getMinecraftColor("white"));
+                
             }
         }
 
         return layoutHeight;
+    }
+
+    private boolean needsNewLine(int contentWidth, int cursorX, int width) {
+        return cursorX > 0 &&
+                cursorX + contentWidth > width;
     }
 
     public int render(int x, int y, GuiGraphicsExtractor guiGraphics, int mouseX, int mouseY) {
@@ -352,94 +358,90 @@ public class StellardownRenderer {
     public int getLayoutHeight() {
         return this.layoutHeight;
     }
-
-    static class PositionedSegment {
-
-        String text;
-        StellardownParser.Style style;
-
-        StellardownStyle.ImageStyle image;
-        StellardownStyle.EntityStyle entity;
-        StellardownStyle.ItemStyle item;
-
-        int x;
-        int width;
-        int height;
-
-        public PositionedSegment(String text,
-                                 StellardownParser.Style style,
-                                 int x,
-                                 int width,
-                                 int height) {
-            this.text = text;
-            this.style = style;
-            this.x = x;
-            this.width = width;
-            this.height = height;
+    
+    public interface PositionnedSegment{
+        
+        int getX();
+        int getWidth();
+        int getHeight();
+        
+    }
+    
+    public record TextSegment(String text, StellardownParser.Style style, int x, int width, int height) implements PositionnedSegment {
+        @Override
+        public int getX() {
+            return x;
         }
-
-        public PositionedSegment(StellardownStyle.ImageStyle image,
-                                 int x) {
-            this.text = null;
-            this.style = null;
-            this.image = image;
-            this.x = x;
-            this.width = image.getWidth();
-            this.height = image.getHeight();
+        @Override
+        public int getWidth() {
+            return width;
         }
-
-        public PositionedSegment(StellardownStyle.EntityStyle entity,
-                                 int x) {
-            this.text = null;
-            this.style = null;
-            this.image = null;
-            this.entity = entity;
-            this.x = x;
-            this.width = entity.getWidth();
-            this.height = entity.getHeight();
+        @Override
+        public int getHeight() {
+            return height;
         }
+    }
 
-        public PositionedSegment(StellardownStyle.ItemStyle item,
-                                 int x) {
-            this.text = null;
-            this.style = null;
-            this.image = null;
-            this.entity = null;
-            this.item = item;
-            this.x = x;
-            this.width = item.getWidth();
-            this.height = item.getHeight();
+    public record ImageSegment(StellardownStyle.ImageStyle image, int x) implements PositionnedSegment {
+        @Override
+        public int getX() {
+            return x;
         }
-
-        public boolean isImage() {
-            return image != null;
+        @Override
+        public int getWidth() {
+            return image.getWidth();
         }
-
-        public boolean isEntity() {
-            return entity != null;
+        @Override
+        public int getHeight() {
+            return image.getHeight();
         }
+    }
 
-        public boolean isItem() { return item != null; }
+    public record EntitySegment(StellardownStyle.EntityStyle entity, int x) implements PositionnedSegment {
+        @Override
+        public int getX() {
+            return x;
+        }
+        @Override
+        public int getWidth() {
+            return entity.getWidth();
+        }
+        @Override
+        public int getHeight() {
+            return entity.getHeight();
+        }
+    }
+    
+    public record ItemSegment(StellardownStyle.ItemStyle item, int x)  implements PositionnedSegment {
+
+        @Override
+        public int getX() {
+            return x;
+        }
+        @Override
+        public int getWidth() {
+            return item.getWidth();
+        }
+        @Override
+        public int getHeight() {
+            return item.getHeight();
+        }
     }
 
     public class Line {
 
-        List<PositionedSegment> segments = new ArrayList<>();
+        List<PositionnedSegment> segments = new ArrayList<>();
 
         int totalWidth;
         int height = font.lineHeight;
         int y;
 
-        public void add(PositionedSegment segment) {
+        public void add(PositionnedSegment segment) {
 
             segments.add(segment);
 
-            totalWidth = segment.x + segment.width;
-            height = Math.max(height, segment.height);
-        }
-
-        boolean isEmpty() {
-            return segments.isEmpty();
+            totalWidth = segment.getX() + segment.getWidth();
+            height = Math.max(height, segment.getHeight());
         }
     }
 

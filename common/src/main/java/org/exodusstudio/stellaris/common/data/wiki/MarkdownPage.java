@@ -157,6 +157,10 @@ public class MarkdownPage {
         return null;
     }
 
+    public List<Pair<String, StellardownParser.Style>> getSegments() {
+        return segments;
+    }
+
     @Override
     public String toString() {
         return "Metadata : \n ---\n"

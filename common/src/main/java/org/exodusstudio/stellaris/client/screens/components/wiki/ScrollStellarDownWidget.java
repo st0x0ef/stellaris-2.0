@@ -30,7 +30,7 @@ public class ScrollStellarDownWidget extends ScrollableContainer {
         super(x, y, width, height, Component.empty());
         this.page = page;
         this.firstRender = true;
-        this.renderer = new StellardownRenderer(page.content, width, Minecraft.getInstance().font);
+        this.renderer = new StellardownRenderer(width, Minecraft.getInstance().font, page.getSegments());
         this.finalHeight = this.renderer.getLayoutHeight();
     }
 
@@ -102,7 +102,7 @@ public class ScrollStellarDownWidget extends ScrollableContainer {
         this.setScrollAmount(0);
         actionBoxes.clear();
         int renderWidth = this.getWidth() - this.padding.left - this.padding.right;
-        this.renderer = new StellardownRenderer(newPage.content, renderWidth, Minecraft.getInstance().font);
+        this.renderer = new StellardownRenderer(renderWidth, Minecraft.getInstance().font, newPage.getSegments());
         this.finalHeight = this.renderer.getLayoutHeight();
         this.firstRender = true;
     }
