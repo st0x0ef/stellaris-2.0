@@ -338,27 +338,27 @@
         },
         {
           "type": "minecraft:item",
-          "name": "stellaris:military_skin",
+          "name": "stellaris:skin_military",
           "weight": 3
         },
         {
           "type": "minecraft:item",
-          "name": "stellaris:frost_skin",
+          "name": "stellaris:skin_frost",
           "weight": 3
         },
         {
           "type": "minecraft:item",
-          "name": "stellaris:galaxy_skin",
+          "name": "stellaris:skin_galaxy",
           "weight": 3
         },
         {
           "type": "minecraft:item",
-          "name": "stellaris:military_skin",
+          "name": "stellaris:skin_military",
           "weight": 3
         },
         {
           "type": "minecraft:item",
-          "name": "stellaris:frost_skin",
+          "name": "stellaris:skin_frost",
           "weight": 3
         },
         {
