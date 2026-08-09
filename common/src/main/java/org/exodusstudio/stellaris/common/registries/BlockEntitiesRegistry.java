@@ -83,4 +83,7 @@ public class BlockEntitiesRegistry {
     public static final Supplier<BlockEntityType<RocketLaunchPadBlockEntity>> ROCKET_LAUNCH_PAD = BLOCK_ENTITY_TYPE.register("rocket_launch_pad",
             () -> new BlockEntityType<>(RocketLaunchPadBlockEntity::new, Set.of(BlocksRegistry.ROCKET_LAUNCH_PAD.block().get())));
 
+    public static final Supplier<BlockEntityType<SpaceFarmBlockEntity>> SPACE_FARM = BLOCK_ENTITY_TYPE.register("space_farm",
+            () -> new BlockEntityType<>(SpaceFarmBlockEntity::new, Set.of(BlocksRegistry.SPACE_FARM.block().get())));
+
 }

@@ -19,6 +19,7 @@ import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.level.material.PushReaction;
 import org.exodusstudio.stellaris.common.blocks.*;
 import org.exodusstudio.stellaris.common.blocks.PipeBlock;
+import org.exodusstudio.stellaris.common.blocks.SpaceFarmBlock;
 import org.exodusstudio.stellaris.common.items.PowerBankItem;
 import org.exodusstudio.stellaris.common.items.TooltipBlockItem;
 import org.exodusstudio.stellaris.common.registries.utils.BlockItemRegistrySupplier;
@@ -224,6 +225,8 @@ public final class BlocksRegistry {
 
     // LORE
     public static final BlockItemRegistrySupplier LABORATORY = blockWithItem("laboratory", BlockBehaviour.Properties.of().strength(3.0F).noOcclusion(), LaboratoryBlock::new, new Item.Properties());
+
+    public static final BlockItemRegistrySupplier SPACE_FARM = blockWithItem("space_farm", BlockBehaviour.Properties.of().strength(3.0F).noOcclusion(), SpaceFarmBlock::new, new Item.Properties());
 
 
     /**
