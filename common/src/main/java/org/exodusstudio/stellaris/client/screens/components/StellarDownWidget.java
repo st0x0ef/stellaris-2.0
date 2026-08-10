@@ -5,7 +5,7 @@ import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
 import net.minecraft.network.chat.Component;
-import org.exodusstudio.stellaris.client.utils.minedown.StellardownRenderer;
+import org.exodusstudio.stellaris.client.utils.stellardown.StellardownRenderer;
 
 /**
  * A Widget that allow to render our markdown system.
@@ -21,7 +21,7 @@ public class StellarDownWidget extends AbstractWidget {
 
     @Override
     protected void extractWidgetRenderState(GuiGraphicsExtractor guiGraphics, int mouseX, int mouseY, float partialTick) {
-        this.wikiEntryTextRenderer.render(this.getX(), this.getY(), guiGraphics);
+        this.wikiEntryTextRenderer.render(this.getX(), this.getY(), guiGraphics, mouseX, mouseY);
     }
 
     @Override
@@ -55,7 +55,7 @@ public class StellarDownWidget extends AbstractWidget {
         }
 
         public Builder breakL() {
-            textBuilder.append("[br]");
+            textBuilder.append("\n");
             return this;
         }
 
