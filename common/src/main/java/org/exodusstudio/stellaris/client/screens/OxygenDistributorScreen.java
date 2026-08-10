@@ -19,6 +19,7 @@ public class OxygenDistributorScreen extends AbstractContainerScreen<OxygenDistr
     public static final Identifier TEXTURE = IdentifierUtils.guiTexture("oxygen_distributor");
 
     private final OxygenDistributorBlockEntity blockEntity = getMenu().getBlockEntity();
+    private GaugeWidget oxygenGauge;
     private GaugeWidget energyGauge;
 
     public OxygenDistributorScreen(OxygenDistributorMenu abstractContainerMenu, Inventory inventory, Component component) {
@@ -36,6 +37,10 @@ public class OxygenDistributorScreen extends AbstractContainerScreen<OxygenDistr
             return;
         }
 
+        oxygenGauge = new GaugeWidget(leftPos + 76, topPos + 42, 12, 46, Component.translatable("fluid.stellaris.oxygen"),
+                GUISprites.OXYGEN_OVERLAY, GUISprites.FLUID_TANK_OVERLAY, blockEntity.getOxygenTank().getTankCapacity(0), GaugeWidget.Direction4.DOWN_UP);
+        addRenderableWidget(oxygenGauge);
+
         energyGauge = new GaugeWidget(leftPos + 68, topPos + 20, 44, 6, Component.translatable("stellaris.screen.energyContainer"), GUISprites.SIDEWAYS_ENERGY_FULL, null, blockEntity.getEnergy(null).getMaxEnergy(), GaugeWidget.Direction4.LEFT_RIGHT);
         addRenderableWidget(energyGauge);
     }
@@ -50,6 +55,7 @@ public class OxygenDistributorScreen extends AbstractContainerScreen<OxygenDistr
             return;
         }
 
+        oxygenGauge.updateAmount(blockEntity.getOxygenTank().getFluidValueInTank());
         energyGauge.updateAmount(blockEntity.getEnergy(null).getEnergy());
     }
 
@@ -62,6 +68,7 @@ public class OxygenDistributorScreen extends AbstractContainerScreen<OxygenDistr
     @Override
     protected void extractTooltip(GuiGraphicsExtractor guiGraphics, int x, int y) {
         super.extractTooltip(guiGraphics, x, y);
+        oxygenGauge.renderTooltips(guiGraphics, x, y, this.font);
         energyGauge.renderTooltips(guiGraphics, x, y, this.font);
     }
 

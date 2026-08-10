@@ -50,6 +50,7 @@ public class CapabilitiesRegistry {
         Capabilities.Fluid.BLOCK.registerForBlockEntity(BlockEntitiesRegistry.WATER_PUMP);
         Capabilities.Fluid.BLOCK.registerForBlockEntity(BlockEntitiesRegistry.FLUID_TANK);
         Capabilities.Fluid.BLOCK.registerForBlockEntity(BlockEntitiesRegistry.VACUUMATOR);
+        Capabilities.Fluid.BLOCK.registerForBlockEntity(BlockEntitiesRegistry.OXYGEN_DISTRIBUTOR);
 
         // Pipes expose a stateless passthrough so other mods' conduits can push fluid into a Stellaris line.
         Capabilities.Fluid.BLOCK.registerForBlockEntity(BlockEntitiesRegistry.PIPE_ENTITY);
