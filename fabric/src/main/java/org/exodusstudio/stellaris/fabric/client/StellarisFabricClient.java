@@ -22,6 +22,7 @@ import org.exodusstudio.stellaris.client.renderers.launchpad.RocketLaunchPadBloc
 import org.exodusstudio.stellaris.client.renderers.mobs.*;
 import org.exodusstudio.stellaris.client.renderers.mobs.starcrawler.StarCrawlerRenderer;
 import org.exodusstudio.stellaris.client.renderers.rockets.RocketRenderer;
+import org.exodusstudio.stellaris.client.renderers.space_farm.SpaceFarmRenderer;
 import org.exodusstudio.stellaris.client.screens.*;
 import org.exodusstudio.stellaris.client.screens.engineering_station.EngineUpgraderScreen;
 import org.exodusstudio.stellaris.client.screens.engineering_station.RocketStationScreen;
@@ -90,6 +91,7 @@ public final class StellarisFabricClient implements ClientModInitializer {
         BlockEntityRenderers.register(BlockEntitiesRegistry.FLAG.get(), FlagBlockRenderer::new);
         BlockEntityRenderers.register(BlockEntitiesRegistry.GLOBE.get(), GlobeBlockRenderer::new);
         BlockEntityRenderers.register((BlockEntityType<RocketLaunchPadBlockEntity>)BlockEntitiesRegistry.ROCKET_LAUNCH_PAD.get(), RocketLaunchPadBlockRenderer::new);
+        BlockEntityRenderers.register(BlockEntitiesRegistry.SPACE_FARM.get(), SpaceFarmRenderer::new);
 
         EntityRenderers.register(EntityTypesRegistry.LANDER.get(), LanderRenderer::new);
         EntityRenderers.register(EntityTypesRegistry.ROCKET.get(), RocketRenderer::new);
