@@ -11,11 +11,10 @@ import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.inventory.SimpleContainerData;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import org.exodusstudio.stellaris.common.blocks.entities.machines.VacuumatorBlockEntity;
+import org.exodusstudio.stellaris.common.menus.slot.FluidContainerSlot;
 import org.exodusstudio.stellaris.common.menus.slot.FoodSlot;
 import org.exodusstudio.stellaris.common.menus.slot.ResultSlot;
-import org.exodusstudio.stellaris.common.menus.slot.SpecificItemsSlot;
 import org.exodusstudio.stellaris.common.menus.slot.SpecificTagsSlot;
 import org.exodusstudio.stellaris.common.registries.MenuTypesRegistry;
 import org.exodusstudio.stellaris.common.registries.TagsRegistry;
@@ -41,12 +40,12 @@ public class VacuumatorMenu extends AbstractContainerMenu {
 
         this.data = containerData;
 
-        addSlot(new SpecificTagsSlot(container, 0, 56, 43, TagsRegistry.ItemTags.CAN));
-        addSlot(new FoodSlot(container, 1, 82, 43));
-        addSlot(new SpecificItemsSlot(container, 2, 108, 43, Items.GLASS_BOTTLE));
+        addSlot(new FoodSlot(container, VacuumatorBlockEntity.FOOD_SLOT, 38, 42));
+        addSlot(new SpecificTagsSlot(container, VacuumatorBlockEntity.CAN_SLOT, 82, 58, TagsRegistry.ItemTags.CAN));
+        addSlot(new ResultSlot(container, VacuumatorBlockEntity.RESULT_SLOT, 38, 70));
 
-        addSlot(new ResultSlot(container, 3, 68, 69));
-        addSlot(new ResultSlot(container, 4, 96, 69));
+        addSlot(new FluidContainerSlot(container, VacuumatorBlockEntity.FLUID_CONTAINER_SLOT, 146, 42, true));
+        addSlot(new ResultSlot(container, VacuumatorBlockEntity.FILLED_CONTAINER_SLOT, 146, 76));
 
         addPlayerHotbar(inventory);
         addPlayerInventory(inventory);
