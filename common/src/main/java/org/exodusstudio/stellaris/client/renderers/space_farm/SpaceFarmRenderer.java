@@ -4,15 +4,20 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.SubmitNodeCollector;
+import net.minecraft.client.renderer.block.BlockModelResolver;
 import net.minecraft.client.renderer.block.dispatch.BlockStateModelPart;
+import net.minecraft.client.renderer.block.model.BlockDisplayContext;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.feature.ModelFeatureRenderer;
 import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.client.renderer.state.level.CameraRenderState;
+import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.resources.model.ModelManager;
 import net.minecraft.resources.Identifier;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.phys.Vec3;
+import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.common.blocks.entities.machines.SpaceFarmBlockEntity;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
@@ -21,8 +26,13 @@ import java.util.ArrayList;
 
 public class SpaceFarmRenderer implements BlockEntityRenderer<SpaceFarmBlockEntity, SpaceFarmRenderState> {
 
+    private final BlockModelResolver blockModelResolver;
+    private static final BlockDisplayContext BLOCK_DISPLAY_CONTEXT = BlockDisplayContext.create();
+
 
     public SpaceFarmRenderer(BlockEntityRendererProvider.Context context) {
+        this.blockModelResolver = context.blockModelResolver();
+
     }
 
 
@@ -39,26 +49,11 @@ public class SpaceFarmRenderer implements BlockEntityRenderer<SpaceFarmBlockEnti
             return;
         }
 
+
         poseStack.pushPose();
-        poseStack.translate(0.5, 1, 0.5);
-        poseStack.mulPose(Axis.XP.rotationDegrees(90));
-        poseStack.scale(1/2f, 1/2f, 1/2f);
-
-
-        ArrayList<BlockStateModelPart> parts = new ArrayList<>();
-
-        ModelManager modelManager = Minecraft.getInstance().getModelManager();
-
-        modelManager.getBlockStateModelSet().get(state.cropState).collectParts(Minecraft.getInstance().level.getRandom(), parts);
-        submitNodeCollector.submitBlockModel(
-                poseStack,
-                RenderTypes.entitySolid(Identifier.parse("minecraft:block/dirt")),
-                parts,
-                new int[0],
-                0xF000F0,
-                0xF000F0,
-                0xF000F0
-        );
+        poseStack.translate(0.15, 1.05, 0.15);
+        poseStack.scale(0.75f, 0.75f, 0.75f);
+        state.cropRenderState.submit(poseStack, submitNodeCollector, state.lightCoords, OverlayTexture.NO_OVERLAY, 0);
 
         poseStack.popPose();
 
@@ -69,6 +64,13 @@ public class SpaceFarmRenderer implements BlockEntityRenderer<SpaceFarmBlockEnti
     public void extractRenderState(SpaceFarmBlockEntity blockEntity, @NonNull SpaceFarmRenderState state, float partialTicks, Vec3 cameraPosition, ModelFeatureRenderer.@Nullable CrumblingOverlay breakProgress) {
         BlockEntityRenderer.super.extractRenderState(blockEntity, state, partialTicks, cameraPosition, breakProgress);
         state.cropState = blockEntity.cropState;
+
+        //state.cropState = Blocks.WHEAT.defaultBlockState();
+
+        if(state.cropState != null) {
+
+            blockModelResolver.update(state.cropRenderState, state.cropState, BLOCK_DISPLAY_CONTEXT);
+        }
     }
 
 }
