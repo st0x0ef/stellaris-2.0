@@ -30,6 +30,7 @@ import org.exodusstudio.stellaris.common.items.CanItem;
 import org.exodusstudio.stellaris.common.menus.VacuumatorMenu;
 import org.exodusstudio.stellaris.common.network.packets.SyncFluidPacketWithoutDirection;
 import org.exodusstudio.stellaris.common.registries.BlockEntitiesRegistry;
+import org.exodusstudio.stellaris.common.registries.TagsRegistry;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -44,6 +45,11 @@ public class VacuumatorBlockEntity extends BaseEnergyContainerBlockEntity implem
     public static final int FILLED_CONTAINER_SLOT = 4;
 
     public static final int WATER_CAPACITY = 4000;
+
+    /** Hoppers on top feed the food and can slots, hoppers underneath pull the canned result. */
+    private static final int[] INPUT_SLOTS = new int[]{FOOD_SLOT, CAN_SLOT};
+    private static final int[] OUTPUT_SLOTS = new int[]{RESULT_SLOT};
+    private static final int[] NO_SLOTS = new int[0];
 
     private int litTime;
     private int litDuration;
@@ -139,17 +145,38 @@ public class VacuumatorBlockEntity extends BaseEnergyContainerBlockEntity implem
 
     @Override
     public int @NotNull [] getSlotsForFace(Direction direction) {
-        return new int[0];
+        if (direction == Direction.UP) {
+            return INPUT_SLOTS;
+        }
+
+        if (direction == Direction.DOWN) {
+            return OUTPUT_SLOTS;
+        }
+
+        return NO_SLOTS;
+    }
+
+    @Override
+    public boolean canPlaceItem(int i, ItemStack itemStack) {
+        return canInsertIntoSlot(i, itemStack);
     }
 
     @Override
     public boolean canPlaceItemThroughFace(int i, ItemStack itemStack, @Nullable Direction direction) {
-        return false;
+        return direction == Direction.UP && canInsertIntoSlot(i, itemStack);
     }
 
     @Override
     public boolean canTakeItemThroughFace(int i, ItemStack itemStack, Direction direction) {
-        return false;
+        return direction == Direction.DOWN && i == RESULT_SLOT;
+    }
+
+    private static boolean canInsertIntoSlot(int slot, ItemStack stack) {
+        return switch (slot) {
+            case FOOD_SLOT -> isFood(stack) && !stack.is(TagsRegistry.ItemTags.CAN);
+            case CAN_SLOT -> stack.is(TagsRegistry.ItemTags.CAN);
+            default -> false;
+        };
     }
 
     @Override
