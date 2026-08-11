@@ -2,7 +2,6 @@ package org.exodusstudio.stellaris.common.blocks;
 
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.component.DataComponents;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -123,9 +122,7 @@ public class SpaceFarmBlock extends BaseTickingEntityBlock {
             } else if (stack.is(Items.BONE_MEAL)) {
                  blockEntity.performBoneMeal();
                  stack.shrink(1);
-
                  return InteractionResult.CONSUME;
-
              }
         }
 
