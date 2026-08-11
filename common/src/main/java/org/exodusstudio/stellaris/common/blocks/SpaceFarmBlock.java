@@ -4,6 +4,8 @@ import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.InteractionHand;
@@ -16,7 +18,9 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BaseEntityBlock;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.CropBlock;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
@@ -24,9 +28,11 @@ import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.phys.BlockHitResult;
+import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.common.blocks.base.BaseTickingEntityBlock;
 import org.exodusstudio.stellaris.common.blocks.entities.machines.SpaceFarmBlockEntity;
 import org.exodusstudio.stellaris.common.registries.BlockEntitiesRegistry;
+import org.jspecify.annotations.Nullable;
 
 import java.util.List;
 
@@ -68,12 +74,16 @@ public class SpaceFarmBlock extends BaseTickingEntityBlock {
         if(blockEntity.cropState == null) {
             if(stack.is(Items.DIRT)) {
                 setFarmState(state, pos, level, SpaceFarmType.DIRT);
+                level.playSound(null, pos, Blocks.DIRT.defaultBlockState().getSoundType().getPlaceSound(), SoundSource.BLOCKS);
                 stack.shrink(1);
                 return InteractionResult.SUCCESS;
 
             } else if (stack.is(Items.WATER_BUCKET)) {
                 setFarmState(state, pos, level, SpaceFarmType.WATER);
                 this.updateNearSpaceFarm(state, pos, level);
+
+                level.playSound(null, pos, SoundEvents.BUCKET_FILL, SoundSource.BLOCKS);
+
                 player.setItemInHand(hand, new ItemStack(Items.BUCKET));
                 return InteractionResult.CONSUME;
 
@@ -106,6 +116,8 @@ public class SpaceFarmBlock extends BaseTickingEntityBlock {
                     //We replant the crop
                     blockEntity.setCrop(block);
                     stack.setDamageValue(stack.getDamageValue() + 1);
+                    level.playSound(null, pos, SoundEvents.HOE_TILL, SoundSource.BLOCKS, 1.0F, 1.0F);
+
 
                 }
             } else if (stack.is(Items.BONE_MEAL)) {
@@ -149,6 +161,31 @@ public class SpaceFarmBlock extends BaseTickingEntityBlock {
     protected void onPlace(BlockState state, Level level, BlockPos pos, BlockState oldState, boolean movedByPiston) {
         super.onPlace(state, level, pos, oldState, movedByPiston);
         updateNearSpaceFarm(state, pos, level);
+    }
+
+    @Override
+    public void playerDestroy(Level level, Player player, BlockPos pos, BlockState state, @Nullable BlockEntity blockEntity, ItemStack destroyedWith) {
+        super.playerDestroy(level, player, pos, state, blockEntity, destroyedWith);
+
+        switch (state.getValue(FARM_TYPE)) {
+            case DIRT -> {
+                ItemEntity itemEntity = new ItemEntity(level, pos.getX(), pos.getY() + 1, pos.getZ(), new ItemStack(Items.DIRT));
+                level.addFreshEntity(itemEntity);
+            }
+            case WATER -> {
+                Stellaris.LOG.error("ee");
+                level.setBlock(pos, Blocks.WATER.defaultBlockState(), 3);
+                //ItemEntity itemEntity = new ItemEntity(level, pos.getX(), pos.getY() + 1, pos.getZ(), new ItemStack(Items.WATER_BUCKET));
+                //level.addFreshEntity(itemEntity);
+            }
+            case FARMLAND -> {
+                if(blockEntity instanceof SpaceFarmBlockEntity spaceFarmBlockEntity && spaceFarmBlockEntity.cropState != null) {
+                    Block cropBlock = spaceFarmBlockEntity.cropState.getBlock();
+                    ItemEntity itemEntity = new ItemEntity(level, pos.getX(), pos.getY() + 1, pos.getZ(), new ItemStack(cropBlock.asItem()));
+                    level.addFreshEntity(itemEntity);
+                }
+            }
+        }
     }
 
     @Override
