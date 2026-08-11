@@ -14,6 +14,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BaseEntityBlock;
 import net.minecraft.world.level.block.Block;
@@ -27,6 +28,9 @@ import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.Shapes;
+import net.minecraft.world.phys.shapes.VoxelShape;
 import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.common.blocks.base.BaseTickingEntityBlock;
 import org.exodusstudio.stellaris.common.blocks.entities.machines.SpaceFarmBlockEntity;
@@ -39,6 +43,14 @@ public class SpaceFarmBlock extends BaseTickingEntityBlock {
 
     public static final EnumProperty<SpaceFarmType> FARM_TYPE = EnumProperty.create("farm_type", SpaceFarmType.class);
     public static final MapCodec<SpaceFarmBlock> CODEC = simpleCodec(SpaceFarmBlock::new);
+
+    private static final VoxelShape SPACE_FARM_SHAPE = Shapes.box(
+            2 / 16.0, 0.0D, 2 / 16.0,
+            12 / 16.0, 16 / 16.0, 12 / 16.0
+    );
+
+
+
 
     public SpaceFarmBlock(Properties properties) {
         super(properties);
@@ -71,7 +83,7 @@ public class SpaceFarmBlock extends BaseTickingEntityBlock {
 
 
         if(blockEntity.cropState == null) {
-            if(stack.is(Items.DIRT)) {
+            if(stack.is(ItemTags.DIRT) || stack.is(ItemTags.GRASS_BLOCKS)) {
                 setFarmState(state, pos, level, SpaceFarmType.DIRT);
                 level.playSound(null, pos, Blocks.DIRT.defaultBlockState().getSoundType().getPlaceSound(), SoundSource.BLOCKS);
                 stack.shrink(1);
@@ -126,7 +138,7 @@ public class SpaceFarmBlock extends BaseTickingEntityBlock {
              }
         }
 
-        return super.useItemOn(stack, state, level, pos, player, hand, hitResult);
+        return InteractionResult.FAIL;
     }
 
     public void updateNearSpaceFarm(BlockState ourState, BlockPos pos, Level level) {
@@ -183,6 +195,22 @@ public class SpaceFarmBlock extends BaseTickingEntityBlock {
                 }
             }
         }
+    }
+
+    @Override
+    public VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
+        return Shapes.box(
+                2 / 16.0, 0.0D, 2 / 16.0,
+                14 / 16.0, 16 / 16.0, 14 / 16.0
+        );
+    }
+
+    @Override
+    public VoxelShape getCollisionShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
+        return Shapes.box(
+                2 / 16.0, 0.0D, 2 / 16.0,
+                14 / 16.0, 16 / 16.0, 14 / 16.0
+        );
     }
 
     @Override
