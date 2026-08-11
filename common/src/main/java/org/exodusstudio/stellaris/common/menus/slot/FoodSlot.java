@@ -4,6 +4,7 @@ import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.Container;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
+import org.exodusstudio.stellaris.common.registries.TagsRegistry;
 
 public class FoodSlot extends Slot {
 
@@ -13,6 +14,6 @@ public class FoodSlot extends Slot {
 
     @Override
     public boolean mayPlace(ItemStack stack) {
-        return stack.has(DataComponents.FOOD);
+        return stack.has(DataComponents.FOOD) && !stack.is(TagsRegistry.ItemTags.CAN);
     }
 }

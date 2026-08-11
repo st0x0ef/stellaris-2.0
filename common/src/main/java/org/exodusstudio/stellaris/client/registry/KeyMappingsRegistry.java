@@ -33,9 +33,7 @@ public class KeyMappingsRegistry {
             }
         }
         while (JET_SWITCH_MODE.consumeClick()) {
-
             NetworkManager.sendToServer(new KeyHandlerPacket("switch_jet_mode", true));
-
         }
         while (ENABLE_NIGHT_VISION.consumeClick()) {
             NetworkManager.sendToServer(new KeyHandlerPacket("night_vision", true));

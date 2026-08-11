@@ -20,6 +20,7 @@ public class VacuumatorScreen extends AbstractContainerScreen<VacuumatorMenu> {
 
     private final VacuumatorBlockEntity blockEntity = getMenu().getBlockEntity();
     private GaugeWidget energyGauge;
+    private GaugeWidget waterGauge;
 
     public VacuumatorScreen(VacuumatorMenu abstractContainerMenu, Inventory inventory, Component component) {
         super(abstractContainerMenu, inventory, component, 180, 188);
@@ -41,6 +42,10 @@ public class VacuumatorScreen extends AbstractContainerScreen<VacuumatorMenu> {
         energyGauge = new GaugeWidget(leftPos + 68, topPos + 20, 44, 6, Component.translatable("stellaris.screen.energyContainer"),
                 GUISprites.SIDEWAYS_ENERGY_FULL, null, blockEntity.getEnergy(null).getMaxEnergy(), GaugeWidget.Direction4.LEFT_RIGHT);
         addRenderableWidget(energyGauge);
+
+        waterGauge = new GaugeWidget(leftPos + 124, topPos + 44, 12, 46, Component.translatable("stellaris.screen.water"),
+                GUISprites.WATER_OVERLAY, GUISprites.FLUID_TANK_OVERLAY, blockEntity.getWaterTank().getTankCapacity(0), GaugeWidget.Direction4.DOWN_UP);
+        addRenderableWidget(waterGauge);
     }
 
     @Override
@@ -54,10 +59,11 @@ public class VacuumatorScreen extends AbstractContainerScreen<VacuumatorMenu> {
         }
 
         energyGauge.updateAmount(blockEntity.getEnergy(null).getEnergy());
+        waterGauge.updateAmount(blockEntity.getWaterTank().getFluidValueInTank());
 
         if (menu.isLit()) {
-            int i = 45 - Mth.ceil(menu.getLitProgress() * 44);
-            graphics.blitSprite(RenderPipelines.GUI_TEXTURED, GUISprites.VACUUMATOR_PROGRESS_SPRITE, 110, 44, 0, 0, leftPos + 35, topPos + 42, 110, i);
+            int i = 43 - Mth.ceil(menu.getLitProgress() * 43);
+            graphics.blitSprite(RenderPipelines.GUI_TEXTURED, GUISprites.VACUUMATOR_PROGRESS_SPRITE, 10, 43, 0, 0, leftPos + 18, topPos + 43, 10, i);
         }
     }
 
@@ -71,6 +77,7 @@ public class VacuumatorScreen extends AbstractContainerScreen<VacuumatorMenu> {
     protected void extractTooltip(GuiGraphicsExtractor guiGraphics, int x, int y) {
         super.extractTooltip(guiGraphics, x, y);
         energyGauge.renderTooltips(guiGraphics, x, y, font);
+        waterGauge.renderTooltips(guiGraphics, x, y, font);
     }
 
     @Override

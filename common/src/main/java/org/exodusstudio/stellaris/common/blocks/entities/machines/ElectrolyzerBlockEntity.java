@@ -109,8 +109,6 @@ public class ElectrolyzerBlockEntity extends BaseEnergyContainerBlockEntity impl
                     FluidStack resultStack0 = recipe.resultStacks().getFirst().create();
                     FluidStack resultStack1 = recipe.resultStacks().get(1).create();
 
-                    Stellaris.LOG.error("ElectrolyzerBlockEntity: tick: recipe resultStack1: " + resultStack1.getFluid().arch$registryName() + ", amount: " + resultStack1.getAmount());
-
                     FluidStack ingredientStack = recipe.ingredientStack().create();
 
                     if (resultTanks.getFluidValueInTank(0) < resultTanks.getTankCapacity(0)) {

@@ -73,9 +73,11 @@ public class ScrollableContainer extends AbstractScrollArea implements Container
 
 
         guiGraphics.pose().pushMatrix();
-        guiGraphics.enableScissor(this.getX() + this.padding.left,
-                this.getY() + this.padding.left, this.getRight() - this.padding.right, this.getBottom() - this.padding.bottom);
-
+        guiGraphics.enableScissor(
+                this.getX() + this.padding.left,
+                this.getY() + this.padding.top,
+                this.getRight() - this.padding.right,
+                this.getBottom() - this.padding.bottom);
 
         renderContent(guiGraphics, mouseX, mouseY, partialTick);
         extractScrollbar(guiGraphics, mouseX, mouseY);

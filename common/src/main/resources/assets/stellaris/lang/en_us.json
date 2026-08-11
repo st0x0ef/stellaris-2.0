@@ -337,6 +337,7 @@
   "stellaris.screen.oil": "Oil",
   "stellaris.screen.diesel": "Diesel",
   "stellaris.screen.fuel": "Fuel",
+  "stellaris.screen.water": "Water",
   "stellaris.screen.fluid_tank": "Fluid Tank",
   "stellaris.screen.gravityManipulator.gravity": "Gravity: %sm/s²",
   "stellaris.screen.gravityManipulator.planet.moon": "Moon Gravity (1.62m/s²)",
@@ -460,11 +461,13 @@
   "config.stellaris.assistantConfig.enableAssistant.desc": "Enable or disable the assistant messages sent in chat.",
 
   "config.stellaris.machineConfig": "Machine Settings",
-  "config.stellaris.vacuumatorEnergyPerTick": "Vacuumator Energy Per Tick",
+  "config.stellaris.vacuumatorEnergyPerCraft": "Vacuumator Energy Per Craft",
   "config.stellaris.vacuumatorDurationMultiplier": "Vacuumator Duration Multiplier",
+  "config.stellaris.vacuumatorWaterPerCraft": "Vacuumator Water Per Craft",
   "config.stellaris.machineConfig.desc": "Settings related to machine processing and energy use.",
-  "config.stellaris.machineConfig.vacuumatorEnergyPerTick.desc": "Energy consumed per tick by the Vacuumator while processing.",
+  "config.stellaris.machineConfig.vacuumatorEnergyPerCraft.desc": "Energy consumed by the Vacuumator each time it fills a can, taken up front when the craft starts.",
   "config.stellaris.machineConfig.vacuumatorDurationMultiplier.desc": "Multiplier applied to a food's nutrition to determine vacuumation duration (in ticks).",
+  "config.stellaris.machineConfig.vacuumatorWaterPerCraft.desc": "Amount of water (in mB) condensed into the Vacuumator's tank each time a can is filled.",
 
   "config.stellaris.showOxygenDebug": "Show Oxygen Debug",
   "config.stellaris.showOxygenDebug.desc": "Show oxygen debug information on the HUD.",

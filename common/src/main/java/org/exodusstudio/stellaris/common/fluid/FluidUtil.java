@@ -39,6 +39,10 @@ public class FluidUtil {
     }
 
     public static void moveFluidToItem(int tank, UniversalFluidStorage from, int slot, int resultSlot, Container container, long amount) {
+        moveFluidToItem(tank, from, slot, resultSlot, container, amount, false);
+    }
+
+    public static void moveFluidToItem(int tank, UniversalFluidStorage from, int slot, int resultSlot, Container container, long amount, boolean ignoreDrainLimit) {
         if (container.getItem(slot).isEmpty()) {
             return;
         }
@@ -59,7 +63,8 @@ public class FluidUtil {
             return;
         }
 
-        FluidStack moved = moveFluid(from, to, from.getFluidInTank(tank).copyWithAmount(amount));
+        FluidStack stack = from.getFluidInTank(tank).copyWithAmount(amount);
+        FluidStack moved = ignoreDrainLimit ? moveFluidIgnoringDrainLimit(from, to, stack) : moveFluid(from, to, stack);
 
         if (moved.isEmpty()) {
             return;
@@ -156,7 +161,23 @@ public class FluidUtil {
         return inserted;
     }
 
-    /// ignores max fill/drain limits
+    private static FluidStack moveFluidIgnoringDrainLimit(UniversalFluidStorage from, UniversalFluidStorage to, FluidStack stack) {
+        if (stack.isEmpty() || !(from instanceof SingleFluidStorage single)) {
+            return moveFluid(from, to, stack);
+        }
+
+        FluidStack inserted = FluidStack.create(stack, to.fill(single.drainWithoutLimits(stack, true), true));
+
+        if (inserted.isEmpty()) {
+            return FluidStack.empty();
+        }
+
+        single.drainWithoutLimits(inserted.copy(), false);
+        to.fill(inserted.copy(), false);
+
+        return inserted;
+    }
+
     public static FluidStack moveFluidWithSet(BaseFluidStorage from, BaseFluidStorage to, FluidStack stack) {
         FluidStack inserted = FluidStack.create(stack, to.fill(from.drain(stack, true), true));
 

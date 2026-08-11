@@ -19,8 +19,8 @@ import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
-import org.exodusstudio.stellaris.common.data.wiki.EntryInfo;
-import org.exodusstudio.stellaris.common.data.wiki.WikiPacks;
+import org.exodusstudio.stellaris.common.data.wiki.MarkdownPage;
+import org.exodusstudio.stellaris.common.data.wiki.WikiMarkdownData;
 import org.exodusstudio.stellaris.common.menus.WikiApplicationMenu;
 import org.exodusstudio.stellaris.common.network.packets.OpenMenuPacket;
 import org.exodusstudio.stellaris.common.network.packets.OpenWikiEntry;
@@ -67,13 +67,13 @@ public class TabletItem extends Item {
 
             //First we check if we have the block
             ResourceKey<Block> blockResourceKey = ResourceKey.create(Registries.BLOCK, blockId);
-            if(WikiPacks.EntryInfoPack.BLOCK_ENTRY_RESOLVER.containsKey(blockResourceKey)) {
-                MenuRegistry.openExtendedMenu(serverPlayer, WikiApplicationMenu.createProvider(WikiPacks.EntryInfoPack.BLOCK_ENTRY_RESOLVER.get(blockResourceKey)));
+            if(WikiMarkdownData.BLOCK_ENTRY_RESOLVER.containsKey(blockResourceKey)) {
+                MenuRegistry.openExtendedMenu(serverPlayer, WikiApplicationMenu.createProvider(WikiMarkdownData.BLOCK_ENTRY_RESOLVER.get(blockResourceKey)));
                 return InteractionResult.SUCCESS;
             }
 
             //Then we check if we have a tag associated
-            for(Map.Entry<TagKey<Block>, Identifier> entry : WikiPacks.EntryInfoPack.TAG_ENTRY_RESOLVER.entrySet()) {
+            for(Map.Entry<TagKey<Block>, Identifier> entry : WikiMarkdownData.TAG_ENTRY_RESOLVER.entrySet()) {
                 if(blockUsedOn.is(entry.getKey())) {
                     MenuRegistry.openExtendedMenu(serverPlayer, WikiApplicationMenu.createProvider(entry.getValue()));
                     return InteractionResult.SUCCESS;
@@ -81,7 +81,7 @@ public class TabletItem extends Item {
             }
 
             //Then we do some weird things
-            WikiPacks.ENTRY_COMPONENTS.forEach((entryId, entry) -> {
+            WikiMarkdownData.ENTRY_PAGES.forEach((entryId, page) -> {
 
                 String entryName = entryId.getPath().split("/")[1];
 
@@ -103,7 +103,7 @@ public class TabletItem extends Item {
 
         Identifier otherId = other.getItem().arch$registryName();
 
-        for(Map.Entry<Identifier, EntryInfo> entry :  WikiPacks.ENTRY_COMPONENTS.entrySet()) {
+        for(Map.Entry<Identifier, MarkdownPage> entry :  WikiMarkdownData.ENTRY_PAGES.entrySet()) {
             if(entry.getKey().toString().contains(otherId.getPath())) {
                 NetworkManager.sendToServer(new OpenWikiEntry(entry.getKey()));
                 return true;

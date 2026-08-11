@@ -124,11 +124,14 @@ public class CommonConfig {
     public MachineConfig machineConfig = new MachineConfig();
 
     public static class MachineConfig {
-        @ScreenInfos.Description(value = "config.stellaris.machineConfig.vacuumatorEnergyPerTick.desc")
-        public int vacuumatorEnergyPerTick = 5;
+        @ScreenInfos.Description(value = "config.stellaris.machineConfig.vacuumatorEnergyPerCraft.desc")
+        public int vacuumatorEnergyPerCraft = 100;
 
         @ScreenInfos.Description(value = "config.stellaris.machineConfig.vacuumatorDurationMultiplier.desc")
         public int vacuumatorDurationMultiplier = 20;
+
+        @ScreenInfos.Description(value = "config.stellaris.machineConfig.vacuumatorWaterPerCraft.desc")
+        public int vacuumatorWaterPerCraft = 100;
     }
 
     @ScreenInfos.InnerConfig

@@ -4,41 +4,53 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.renderer.RenderPipelines;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.ItemStack;
+import org.exodusstudio.stellaris.common.data.wiki.MarkdownPage;
+import org.exodusstudio.stellaris.client.utils.stellardown.StellardownStyle;
 import org.exodusstudio.stellaris.client.screens.components.TexturedButton;
 import org.exodusstudio.stellaris.client.utils.ClientUtils;
-import org.exodusstudio.stellaris.common.data.wiki.EntryInfo;
-import org.joml.Vector3f;
 
 public class WikiInfoButton extends TexturedButton {
 
-    private final EntryInfo info;
+    private final MarkdownPage page;
 
 
-    public WikiInfoButton(int x, int y, int widthIn, int heightIn, OnPress onPressIn, EntryInfo info) {
+    public WikiInfoButton(int x, int y, int widthIn, int heightIn, OnPress onPressIn, MarkdownPage page) {
         super(x, y, widthIn, heightIn, onPressIn);
-        this.info = info;
+        this.page = page;
         setTooltip();
     }
 
 
     public void setTooltip() {
-        Component title = Component.literal(info.title());
-        switch (info.iconType()) {
-            case "item":
-                info.components().stream().filter((c) -> c.type().equals("item")).findFirst().ifPresentOrElse(c -> this.tooltip(Tooltip.create(c.item().get().stack().create().getHoverName())), () -> this.tooltip(Tooltip.create(title)));
+        Component title = Component.literal(page.title);
+        switch (page.iconType) {
+            case MarkdownPage.IconType.ITEM:
+                StellardownStyle.ItemStyle itemStyle = page.getItemIcon();
+                if(itemStyle != null) {
+                    BuiltInRegistries.ITEM.get(itemStyle.identifier).ifPresent((item) -> {
+                        this.tooltip(Tooltip.create(new ItemStack(item).getHoverName()));
+                    });
+                    return;
+                }
                 break;
-            case "entity":
-                info.components().stream().filter((c) -> c.type().equals("entity")).findFirst().ifPresent((entity) -> {
-                    Entity entity1 = ClientUtils.createEntity(Minecraft.getInstance().level, entity.entity().get().location());
-                    this.tooltip(Tooltip.create(entity1.getDisplayName()));
-                });
-            default:
-                this.tooltip(Tooltip.create(title));
+            case MarkdownPage.IconType.ENTITY:
+
+                StellardownStyle.EntityStyle entityStyle = page.getEntityIcon();
+                if(entityStyle != null) {
+
+                    Entity entity = ClientUtils.createEntity(Minecraft.getInstance().level, entityStyle.identifier);
+                    this.tooltip(Tooltip.create(entity.getDisplayName()));
+                    return;
+                }
         }
+        this.tooltip(Tooltip.create(title));
+
     }
 
     @Override
@@ -57,18 +69,26 @@ public class WikiInfoButton extends TexturedButton {
                 this.width, this.height, this.textureWidth, this.textureHeight);
 
         /** FONT RENDERER */
-        switch (info.iconType()) {
-            case "item":
-                info.components().stream().filter((c) -> c.type().equals("item")).findFirst().ifPresent((item) -> graphics.item(item.item().get().stack().create(), this.getX() + 2, this.getY() + 2));
+
+        switch (page.iconType) {
+            case MarkdownPage.IconType.ITEM:
+
+                StellardownStyle.ItemStyle itemStyle = page.getItemIcon();
+                if(itemStyle != null) {
+                    BuiltInRegistries.ITEM.get(itemStyle.identifier).ifPresent((item) -> {
+                        graphics.item(new ItemStack(item), this.getX() + 2, this.getY() + 2);
+                    });
+                }
                 break;
-            case "entity":
-                info.components().stream().filter((c) -> c.type().equals("entity")).findFirst().ifPresent((info) -> {
-                    EntryInfo.EntityComponent entityComponent = info.entity().get();
-                    Entity entity1 = ClientUtils.createEntity(Minecraft.getInstance().level, entityComponent.location());
-                    if(entity1 instanceof LivingEntity livingEntity) {
-                        ClientUtils.renderEntityInGui(graphics, this.getX() + 2, this.getY(), this.getX() + 18, this.getY() + 16, 8, 0.25F, mouseX, mouseY, livingEntity, entityComponent.defaultRotation().orElse(new Vector3f()));
+            case MarkdownPage.IconType.ENTITY:
+
+                StellardownStyle.EntityStyle entityStyle = page.getEntityIcon();
+                if(entityStyle != null) {
+                    Entity entity = ClientUtils.createEntity(Minecraft.getInstance().level, entityStyle.identifier);
+                    if(entity instanceof LivingEntity livingEntity) {
+                        ClientUtils.renderEntityInGui(graphics, this.getX() + 2, this.getY(), this.getX() + 18, this.getY() + 16, 8, 0.25F, mouseX, mouseY, livingEntity, entityStyle.rotation);
                     }
-                });
+                }
         }
     }
 }
