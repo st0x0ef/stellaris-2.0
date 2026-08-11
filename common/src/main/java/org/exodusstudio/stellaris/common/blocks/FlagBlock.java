@@ -150,7 +150,6 @@ public class FlagBlock extends BaseEntityBlock implements SimpleWaterloggedBlock
             }
 
             if (stack.has(DataComponents.PROFILE)) {
-                Stellaris.LOG.error("Setting profile from itemstack");
                 ResolvableProfile resolvableprofile = stack.get(DataComponents.PROFILE);
                 flagBlockEntity.setProfile(resolvableprofile);
                 BlockState mainState = level.getBlockState(mainPos);

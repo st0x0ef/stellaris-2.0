@@ -182,10 +182,7 @@ public class SpaceFarmBlock extends BaseTickingEntityBlock {
                 level.addFreshEntity(itemEntity);
             }
             case WATER -> {
-                Stellaris.LOG.error("ee");
                 level.setBlock(pos, Blocks.WATER.defaultBlockState(), 3);
-                //ItemEntity itemEntity = new ItemEntity(level, pos.getX(), pos.getY() + 1, pos.getZ(), new ItemStack(Items.WATER_BUCKET));
-                //level.addFreshEntity(itemEntity);
             }
             case FARMLAND -> {
                 if(blockEntity instanceof SpaceFarmBlockEntity spaceFarmBlockEntity && spaceFarmBlockEntity.cropState != null) {
