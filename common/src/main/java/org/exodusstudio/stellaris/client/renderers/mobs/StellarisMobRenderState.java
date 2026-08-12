@@ -1,6 +1,7 @@
 package org.exodusstudio.stellaris.client.renderers.mobs;
 
 import net.minecraft.client.renderer.entity.state.EntityRenderState;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.AnimationState;
 
 public class StellarisMobRenderState extends EntityRenderState {
@@ -53,4 +54,6 @@ public class StellarisMobRenderState extends EntityRenderState {
 
     public float modelYOffsetCorrection;
     public float customDeathGroundYOffset;
+
+    public Identifier emissiveTextures = null;
 }

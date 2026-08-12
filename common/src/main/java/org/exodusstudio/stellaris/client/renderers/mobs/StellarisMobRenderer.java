@@ -6,6 +6,7 @@ import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
+import net.minecraft.client.renderer.feature.ModelFeatureRenderer;
 import net.minecraft.client.renderer.rendertype.RenderType;
 import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.client.renderer.state.level.CameraRenderState;
@@ -15,6 +16,7 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.phys.AABB;
 import org.exodusstudio.stellaris.common.entities.mobs.*;
+import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
 import org.jetbrains.annotations.NotNull;
 
 public class StellarisMobRenderer<T extends Mob> extends EntityRenderer<T, StellarisMobRenderState> {
@@ -28,6 +30,9 @@ public class StellarisMobRenderer<T extends Mob> extends EntityRenderer<T, Stell
 
     private static final float PARASITE_VILLAGER_DEATH_ANIMATION_TICKS = 10.0F;
     private static final float EVOLVED_PARASITE_VILLAGER_DEATH_ANIMATION_TICKS = 14.0F;
+
+    private static final RenderType LUNA_SHADOW_EYES = RenderTypes.eyes(IdentifierUtils.texture("entity/mob_luna_shadow_eyes"));
+
 
     private final EntityModel<StellarisMobRenderState> model;
     private final RenderType renderType;
@@ -164,6 +169,7 @@ public class StellarisMobRenderer<T extends Mob> extends EntityRenderer<T, Stell
             reusedState.lunaShadowAttackAnimationState.copyFrom(lunaShadow.attackAnimationState);
             reusedState.lunaShadowAttackBiteAnimationState.copyFrom(lunaShadow.attackBiteAnimationState);
             reusedState.lunaShadowDeathAnimationState.copyFrom(lunaShadow.deathAnimationState);
+            reusedState.emissiveTextures = IdentifierUtils.texture("entity/mob_luna_shadow_emissive");
 
             if (reusedState.dying) {
                 reusedState.hasCustomDeathAnimation = true;
@@ -236,6 +242,10 @@ public class StellarisMobRenderer<T extends Mob> extends EntityRenderer<T, Stell
                 overlayCoords,
                 null
         );
+
+        if(renderState.emissiveTextures != null) {
+            nodeCollector.order(1).submitModel(this.model, renderState, poseStack, RenderTypes.eyes(renderState.emissiveTextures), renderState.lightCoords, OverlayTexture.NO_OVERLAY, renderState.outlineColor, (ModelFeatureRenderer.CrumblingOverlay)null);
+        }
 
         poseStack.popPose();
     }
