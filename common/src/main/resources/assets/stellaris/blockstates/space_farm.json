@@ -1,0 +1,16 @@
+{
+  "variants": {
+    "farm_type=empty": {
+      "model": "stellaris:block/space_farm/space_farm_empty"
+    },
+    "farm_type=water": {
+      "model": "stellaris:block/space_farm/space_farm_water"
+    },
+    "farm_type=dirt": {
+      "model": "stellaris:block/space_farm/space_farm_dirt"
+    },
+    "farm_type=farmland": {
+      "model": "stellaris:block/space_farm/space_farm_farmland"
+    }
+  }
+}

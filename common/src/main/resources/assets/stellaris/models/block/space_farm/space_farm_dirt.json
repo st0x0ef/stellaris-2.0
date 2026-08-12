@@ -1,0 +1,6 @@
+{
+  "parent": "stellaris:custom/space_farm",
+  "textures": {
+    "main": "stellaris:block/space_farm_dirt"
+  }
+}

@@ -24,7 +24,7 @@ public class LaboratoryBlock extends BaseMachineBlock {
 
     @Override
     protected MapCodec<? extends BaseEntityBlock> codec() {
-        return simpleCodec(LaboratoryBlock::new);
+        return CODEC;
     }
 
     @Override

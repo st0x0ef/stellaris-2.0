@@ -41,7 +41,9 @@ public class TagsRegistry {
         public static final TagKey<Block> LUNAR_LOGS = addTag("lunar_logs");
         public static final TagKey<Block> MOON_STONE_ORE_REPLACEABLES = addTag("moon_stone_ore_replaceables");
         public static final TagKey<Block> FLUID_TANKS = addTag("fluid_tanks");
-        public static final TagKey<Block> ANTENNA_REPLACEABLES = TagKey.create(Registries.BLOCK, IdentifierUtils.id("antenna_replaceable"));
+        public static final TagKey<Block> ANTENNA_REPLACEABLES = addTag("antenna_replaceable");
+        public static final TagKey<Block> ALIEN_CROPS = addTag("alien_crops");
+        public static final TagKey<Block> NO_OXYGEN_CROP_BASE = addTag("no_oxygen_crop_base");
 
         public static TagKey<Block> addTag(String path) {
             return TagKey.create(Registries.BLOCK, IdentifierUtils.id(path));

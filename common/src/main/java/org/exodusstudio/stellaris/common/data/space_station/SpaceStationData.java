@@ -36,8 +36,6 @@ public class SpaceStationData extends SimpleJsonResourceReloadListener<SpaceStat
                 , IdentifierUtils.id("space_station_small"), new Vec3i(0, 1, 0));
         JsonElement element = SpaceStationRecipe.CODEC.encodeStart(JsonOps.INSTANCE, recipe).getOrThrow();
 
-        Stellaris.LOG.info(element.toString());
-
         SPACE_STATION_RECIPES.clear();
         SPACE_STATION_RECIPES.addAll(object.values());
     }

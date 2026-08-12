@@ -150,7 +150,6 @@ public class FlagBlock extends BaseEntityBlock implements SimpleWaterloggedBlock
             }
 
             if (stack.has(DataComponents.PROFILE)) {
-                Stellaris.LOG.error("Setting profile from itemstack");
                 ResolvableProfile resolvableprofile = stack.get(DataComponents.PROFILE);
                 flagBlockEntity.setProfile(resolvableprofile);
                 BlockState mainState = level.getBlockState(mainPos);
@@ -162,14 +161,6 @@ public class FlagBlock extends BaseEntityBlock implements SimpleWaterloggedBlock
         return InteractionResult.PASS;
     }
 
-    @Override
-    protected InteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) {
-        InteractionResult result = handleInteraction(stack, level, pos, player, hand, hitResult);
-        if (result != InteractionResult.PASS) {
-            return result;
-        }
-        return super.useItemOn(stack, state, level, pos, player, hand, hitResult);
-    }
 
     @Override
     protected boolean isPathfindable(BlockState blockState, PathComputationType pathComputationType) {

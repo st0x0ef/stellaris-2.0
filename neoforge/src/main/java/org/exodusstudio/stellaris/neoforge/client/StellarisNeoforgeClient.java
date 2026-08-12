@@ -39,6 +39,7 @@ import org.exodusstudio.stellaris.client.renderers.rockets.RocketRenderer;
 import org.exodusstudio.stellaris.client.renderers.rockets.models.BigRocketModel;
 import org.exodusstudio.stellaris.client.renderers.rockets.models.SmallRocketModel;
 import org.exodusstudio.stellaris.client.renderers.rockets.models.TinyRocketModel;
+import org.exodusstudio.stellaris.client.renderers.space_farm.SpaceFarmRenderer;
 import org.exodusstudio.stellaris.client.renderers.space_suit.SpaceSuitModel;
 import org.exodusstudio.stellaris.client.screens.*;
 import org.exodusstudio.stellaris.client.screens.engineering_station.EngineUpgraderScreen;
@@ -105,6 +106,7 @@ public class StellarisNeoforgeClient {
         event.registerBlockEntityRenderer(BlockEntitiesRegistry.FLAG.get(), FlagBlockRenderer::new);
         event.registerBlockEntityRenderer(BlockEntitiesRegistry.GLOBE.get(), GlobeBlockRenderer::new);
         event.registerBlockEntityRenderer((BlockEntityType<RocketLaunchPadBlockEntity>)BlockEntitiesRegistry.ROCKET_LAUNCH_PAD.get(), RocketLaunchPadBlockRenderer::new);
+        event.registerBlockEntityRenderer(BlockEntitiesRegistry.SPACE_FARM.get(), SpaceFarmRenderer::new);
 
 
         event.registerEntityRenderer(EntityTypesRegistry.LANDER.get(), LanderRenderer::new);
