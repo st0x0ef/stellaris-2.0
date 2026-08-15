@@ -128,6 +128,7 @@
   "item.stellaris.rusted_iron": "Rusted Iron",
 
   "item.stellaris.solar_panel": "Solar Panel",
+  "item.stellaris.star_light_panel": "Star Light Panel",
   "item.stellaris.coal_generator": "Coal Generator",
   "item.stellaris.diesel_generator": "Diesel Generator",
 
@@ -666,6 +667,7 @@
   "block.stellaris.casus_astrum_dirt": "Casus Astrum Dirt",
   "block.stellaris.casus_astrum_grass": "Casus Astrum Grass",
   "block.stellaris.solar_panel": "Solar Panel",
+  "block.stellaris.star_light_panel": "Star Light Panel",
   "block.stellaris.coal_generator": "Coal Generator",
   "block.stellaris.diesel_generator": "Diesel Generator",
   "block.stellaris.vacuumator": "Vacuumator",

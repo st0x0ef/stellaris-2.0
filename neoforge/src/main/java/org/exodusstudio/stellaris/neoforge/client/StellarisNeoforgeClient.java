@@ -72,7 +72,7 @@ public class StellarisNeoforgeClient {
         event.register(MenuTypesRegistry.SD_CARD_READER.get(), SDCardReaderApplicationScreen::new);
         event.register(MenuTypesRegistry.WIKI.get(), WikiApplicationScreen::new);
 
-        event.register(MenuTypesRegistry.SOLAR_PANEL.get(), SolarPanelScreen::new);
+        event.register(MenuTypesRegistry.SKY_PANEL.get(), SkyPanelScreen::new);
         event.register(MenuTypesRegistry.COAL_GENERATOR.get(), CoalGeneratorScreen::new);
         event.register(MenuTypesRegistry.DIESEL_GENERATOR.get(), DieselGeneratorScreen::new);
         event.register(MenuTypesRegistry.POWER_BANK_MENU.get(), PowerBankScreen::new);

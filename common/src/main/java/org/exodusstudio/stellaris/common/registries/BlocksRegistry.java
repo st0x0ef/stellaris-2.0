@@ -170,7 +170,8 @@ public final class BlocksRegistry {
      */
 
     // ENERGY GENERATORS
-    public static final BlockItemRegistrySupplier SOLAR_PANEL = blockWithItem("solar_panel", BlockBehaviour.Properties.of().strength(3.0F).noOcclusion(), SolarPanelBlock::new);
+    public static final BlockItemRegistrySupplier SOLAR_PANEL = blockWithItem("solar_panel", BlockBehaviour.Properties.of().strength(3.0F).noOcclusion(), p -> new SkyPanelBlock(p, SkyPanelType.SOLAR));
+    public static final BlockItemRegistrySupplier STAR_LIGHT_PANEL = blockWithItem("star_light_panel", BlockBehaviour.Properties.of().strength(3.0F).noOcclusion(), p -> new SkyPanelBlock(p, SkyPanelType.STAR_LIGHT));
     public static final BlockItemRegistrySupplier COAL_GENERATOR = blockWithItem("coal_generator", BlockBehaviour.Properties.of().strength(3.0F), CoalGeneratorBlock::new);
     public static final BlockItemRegistrySupplier DIESEL_GENERATOR = blockWithItem("diesel_generator", BlockBehaviour.Properties.of().strength(3.0F), DieselGeneratorBlock::new);
 

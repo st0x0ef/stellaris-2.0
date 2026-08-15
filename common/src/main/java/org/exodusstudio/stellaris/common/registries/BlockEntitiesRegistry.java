@@ -14,8 +14,10 @@ public class BlockEntitiesRegistry {
     public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITY_TYPE = DeferredRegister.create(Stellaris.MOD_ID, Registries.BLOCK_ENTITY_TYPE);
 
     /** MACHINES */
-    public static final Supplier<BlockEntityType<SolarPanelBlockEntity>> SOLAR_PANEL = BLOCK_ENTITY_TYPE.register("solar_panel",
-            () -> new BlockEntityType<>(SolarPanelBlockEntity::new, Set.of(BlocksRegistry.SOLAR_PANEL.block().get())));
+    public static final Supplier<BlockEntityType<SkyPanelBlockEntity>> SOLAR_PANEL = BLOCK_ENTITY_TYPE.register("solar_panel",
+            () -> new BlockEntityType<>(SkyPanelBlockEntity::new, Set.of(BlocksRegistry.SOLAR_PANEL.block().get())));
+    public static final Supplier<BlockEntityType<SkyPanelBlockEntity>> STAR_LIGHT_PANEL = BLOCK_ENTITY_TYPE.register("star_light_panel",
+            () -> new BlockEntityType<>(SkyPanelBlockEntity::new, Set.of(BlocksRegistry.STAR_LIGHT_PANEL.block().get())));
     public static final Supplier<BlockEntityType<CoalGeneratorBlockEntity>> COAL_GENERATOR = BLOCK_ENTITY_TYPE.register("coal_generator",
             () -> new BlockEntityType<>(CoalGeneratorBlockEntity::new, Set.of(BlocksRegistry.COAL_GENERATOR.block().get())));
     public static final Supplier<BlockEntityType<DieselGeneratorBlockEntity>> DIESEL_GENERATOR = BLOCK_ENTITY_TYPE.register("diesel_generator",

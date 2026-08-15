@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "stellaris:block/star_light_panel",
+      "y": 90
+    },
+    "facing=north": {
+      "model": "stellaris:block/star_light_panel"
+    },
+    "facing=south": {
+      "model": "stellaris:block/star_light_panel",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "stellaris:block/star_light_panel",
+      "y": 270
+    }
+  }
+}

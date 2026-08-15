@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "PPP",
+    "DDD",
+    "III"
+  ],
+  "key": {
+    "P": "stellaris:blue_plasma",
+    "D": "stellaris:desh_ingot",
+    "I": "minecraft:iron_ingot"
+  },
+  "result": {
+    "id": "stellaris:star_light_panel",
+    "count": 1
+  }
+}

@@ -14,6 +14,7 @@ public class CapabilitiesRegistry {
 
     private static void registerEnergyBlockEntities() {
         Capabilities.Energy.BLOCK.registerForBlockEntity(BlockEntitiesRegistry.SOLAR_PANEL);
+        Capabilities.Energy.BLOCK.registerForBlockEntity(BlockEntitiesRegistry.STAR_LIGHT_PANEL);
         Capabilities.Energy.BLOCK.registerForBlockEntity(BlockEntitiesRegistry.COAL_GENERATOR);
         Capabilities.Energy.BLOCK.registerForBlockEntity(BlockEntitiesRegistry.DIESEL_GENERATOR);
         Capabilities.Energy.BLOCK.registerForBlockEntity(BlockEntitiesRegistry.POWER_BANKS);

@@ -10,19 +10,19 @@ import net.minecraft.world.entity.player.Inventory;
 import org.exodusstudio.stellaris.client.screens.components.GaugeWidget;
 import org.exodusstudio.stellaris.client.screens.utils.GUISprites;
 import org.exodusstudio.stellaris.client.screens.utils.GUIUtils;
-import org.exodusstudio.stellaris.common.blocks.entities.machines.SolarPanelBlockEntity;
-import org.exodusstudio.stellaris.common.menus.SolarPanelMenu;
+import org.exodusstudio.stellaris.common.blocks.entities.machines.SkyPanelBlockEntity;
+import org.exodusstudio.stellaris.common.menus.SkyPanelMenu;
 import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
 
 
-public class SolarPanelScreen extends AbstractContainerScreen<SolarPanelMenu> {
+public class SkyPanelScreen extends AbstractContainerScreen<SkyPanelMenu> {
 
-    public static final Identifier TEXTURE = IdentifierUtils.guiTexture("solar_panel");
+    public static final Identifier TEXTURE = IdentifierUtils.guiTexture("sky_panel");
 
-    private final SolarPanelBlockEntity blockEntity = getMenu().getBlockEntity();
+    private final SkyPanelBlockEntity blockEntity = getMenu().getBlockEntity();
     private GaugeWidget energyGauge;
 
-    public SolarPanelScreen(SolarPanelMenu abstractContainerMenu, Inventory inventory, Component component) {
+    public SkyPanelScreen(SkyPanelMenu abstractContainerMenu, Inventory inventory, Component component) {
         super(abstractContainerMenu, inventory, component, 180, 188);
 
         titleLabelX = (180 - Minecraft.getInstance().font.width(title.getString())) / 2;

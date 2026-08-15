@@ -6,20 +6,24 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
+import org.exodusstudio.stellaris.common.blocks.SkyPanelBlock;
 import org.exodusstudio.stellaris.common.blocks.entities.machines.base.BaseGeneratorBlockEntity;
-import org.exodusstudio.stellaris.common.menus.SolarPanelMenu;
-import org.exodusstudio.stellaris.common.registries.BlockEntitiesRegistry;
+import org.exodusstudio.stellaris.common.menus.SkyPanelMenu;
 import org.exodusstudio.stellaris.common.utils.capabilities.energy.EnergyUtil;
 
-public class SolarPanelBlockEntity extends BaseGeneratorBlockEntity {
+public class SkyPanelBlockEntity extends BaseGeneratorBlockEntity {
 
-    public SolarPanelBlockEntity(BlockPos blockPos, BlockState blockState) {
-        super(BlockEntitiesRegistry.SOLAR_PANEL.get(), blockPos, blockState, 1, 12800);
+    public SkyPanelBlockEntity(BlockPos blockPos, BlockState blockState) {
+        super(panelBlock(blockState).getBlockEntityType(), blockPos, blockState, 1, 12800);
+    }
+
+    private static SkyPanelBlock panelBlock(BlockState blockState) {
+        return (SkyPanelBlock) blockState.getBlock();
     }
 
     @Override
     protected AbstractContainerMenu createMenu(int containerId, Inventory inventory) {
-        return new SolarPanelMenu(containerId, inventory, this, this);
+        return new SkyPanelMenu(containerId, inventory, this, this);
     }
 
     @Override
@@ -29,7 +33,7 @@ public class SolarPanelBlockEntity extends BaseGeneratorBlockEntity {
         }
 
         BlockPos blockPos = this.getBlockPos().offset(0, 1, 0);
-        return level.isBrightOutside() && level.canSeeSky(blockPos);
+        return panelBlock(getBlockState()).type.canGenerate(level) && level.canSeeSky(blockPos);
     }
 
     @Override
@@ -39,7 +43,7 @@ public class SolarPanelBlockEntity extends BaseGeneratorBlockEntity {
     }
 
     protected Component getDefaultName() {
-        return Component.translatable("item.stellaris.solar_panel");
+        return getBlockState().getBlock().getName();
     }
 
     @Override

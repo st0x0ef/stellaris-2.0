@@ -5,23 +5,23 @@ import net.minecraft.world.Container;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
-import org.exodusstudio.stellaris.common.blocks.entities.machines.SolarPanelBlockEntity;
+import org.exodusstudio.stellaris.common.blocks.entities.machines.SkyPanelBlockEntity;
 import org.exodusstudio.stellaris.common.menus.base.BaseContainer;
 import org.exodusstudio.stellaris.common.menus.slot.EnergySlot;
 import org.exodusstudio.stellaris.common.registries.MenuTypesRegistry;
 
-public class SolarPanelMenu extends BaseContainer {
+public class SkyPanelMenu extends BaseContainer {
 
     private final Container inventory;
-    private final SolarPanelBlockEntity blockEntity;
+    private final SkyPanelBlockEntity blockEntity;
 
-    public static SolarPanelMenu create(int syncId, Inventory inventory, FriendlyByteBuf data) {
-        SolarPanelBlockEntity entity = (SolarPanelBlockEntity) inventory.player.level().getBlockEntity(data.readBlockPos());
-        return new SolarPanelMenu(syncId, inventory, new SimpleContainer(1), entity);
+    public static SkyPanelMenu create(int syncId, Inventory inventory, FriendlyByteBuf data) {
+        SkyPanelBlockEntity entity = (SkyPanelBlockEntity) inventory.player.level().getBlockEntity(data.readBlockPos());
+        return new SkyPanelMenu(syncId, inventory, new SimpleContainer(1), entity);
     }
 
-    public SolarPanelMenu(int syncId, Inventory playerInventory, Container container, SolarPanelBlockEntity entity) {
-        super(MenuTypesRegistry.SOLAR_PANEL.get(), syncId, 1, playerInventory, 10, 106);
+    public SkyPanelMenu(int syncId, Inventory playerInventory, Container container, SkyPanelBlockEntity entity) {
+        super(MenuTypesRegistry.SKY_PANEL.get(), syncId, 1, playerInventory, 10, 106);
 
         checkContainerSize(container, 1);
         this.inventory = container;
@@ -30,7 +30,7 @@ public class SolarPanelMenu extends BaseContainer {
         addSlot(new EnergySlot(inventory, 0, 82, 56));
     }
 
-    public SolarPanelBlockEntity getBlockEntity() {
+    public SkyPanelBlockEntity getBlockEntity() {
         return blockEntity;
     }
 
