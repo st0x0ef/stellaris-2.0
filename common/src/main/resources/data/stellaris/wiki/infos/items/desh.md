@@ -12,3 +12,7 @@ You mine Moon Desh Ore to obtain Raw Desh, then smelt it into a Desh Ingot.
 Unlike [ref=stellaris:items/titanium]Titanium[ref], desh is only found off Earth, so you will need to travel before you can gather it. 
 
 It is used to craft some of the mod's most advanced components.
+
+[item=stellaris:moon_desh_ore]
+
+Desh ore can only be found on the Moon under y = 32.
