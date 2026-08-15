@@ -1,21 +1,29 @@
-﻿---
+---
 title: Lunar Parasite
 entryId: stellaris:mobs
 iconType: entity
 ---
 
-This is a Parasite. This creature lives on the moon.
+This is a Parasite. This creature lives on the Moon.
 
 [entity=stellaris:lunar_parasite scale=50 width=150 rotation=(0,180,0)]
 
-This alien is aggressive and will attach to you and give you the parasite effect. 
-This parasite can stick to villagers and transform them into [ref=stellaris:mobs/parasite_villager]Parasite Villagers[ref]. 
+This alien is aggressive and will attach itself to you to inflict the infection. 
+It also hunts villagers, and a villager it latches onto is transformed into a [ref=stellaris:mobs/parasite_villager]Parasite Villager[ref]. 
 
-It can be found on the Moon. 
+Parasites spawn all over the Moon, but they are far more common underground than on the surface. 
+
+
+
+**Drops** 
+
+- A Parasite, only when you kill it yourself. Store those in a Pathogen Storage Cell to research the [ref=stellaris:items/vaccine]Vaccine[ref]. 
+- A Lunar Parasite Tooth, 20% of the time. 
 
 
 
 Stats : 
 - Health : 8.0 
 - Speed : 0.24 
-- Damage : 1.5
+- Damage : 1.5 
+- Knockback Resistance : 0.25

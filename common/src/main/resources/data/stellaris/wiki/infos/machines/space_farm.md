@@ -1,23 +1,26 @@
-﻿---
+---
 title: Space Farm
 entryId: stellaris:machines
 iconType: item
 associatedBlocks: [stellaris:space_farm]
 ---
 
-Space Farms are block that allow you to grow crops in space.
+Space Farms are blocks that let you grow crops where nothing should grow. Normal farmland is useless off Earth : without oxygen a crop will not grow and cannot even be planted.
 
 [image=stellaris:textures/wiki/rendered_blocks/space_farm width=96 height=96]
 
-You can put in the space farm all differents crops that you can grow on the planet.
-
 **How to use :**
-- Place a space farm and put dirt in it (right click with dirt in hand).
 
-- Put another space farm next to it and put water in it. The watered space farm will water the dirt in space farm all around.
+- Place a space farm and right-click it with dirt or grass in hand. It becomes a dirt farm.
 
-- Place growable crops in the dirt space farm and wait for them to grow. You can harvest them by right clicking on the crop with a hoe.
+- Place another space farm within one block of it and right-click that one with a water bucket. It becomes a water farm, and every dirt farm in the 3 x 3 around it turns into farmland.
 
-*Fun fact*: Space Farms can be used to grow crops in the vacuum of space, making them ideal for colonization efforts! It also automatically replant the crops after harvesting, so you don't have to worry about replanting them.
+- Right-click the farmland with any crop seed to plant it, then wait. Bone meal works here too.
+
+- Harvest by right-clicking the grown crop with a hoe. The drops pop out on top, the crop is replanted for you, and the hoe takes one point of damage.
+
+Break a space farm and it gives back the dirt or the water you put in it.
+
+*Fun fact*: a Space Farm grows its crop with its own internal clock, so it keeps working in complete vacuum. No [ref=stellaris:machines/oxygen]Oxygen Distributor[ref] needed, and it replants by itself, so a row of them is a fully automatic farm on the Moon.
 
 [item=stellaris:space_farm onlyIcon]

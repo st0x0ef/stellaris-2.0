@@ -1,26 +1,27 @@
-﻿---
+---
 title: Antenna
 entryId: stellaris:machines
 iconType: item
+associatedBlocks: [stellaris:antenna]
 ---
 
-The Antenna is a powerful machine that acts like a waypoint in space.
+The Antenna is a powerful machine that acts like a waypoint in space. A rocket can pick a registered antenna as its landing spot instead of dropping you somewhere random.
 
-[image=stellaris:textures/wiki/rendered_blocks/antenna width=96 height=96]
+[item=stellaris:antenna scale=5]
 
+**How to install** 
 
-
-How to use: 
-Place a full rocket launchpad. Then right-click the middle of the launchpad with the antenna. You can now configure your antenna.
-
-
-
-How to configure: 
-You need to write the name of the antenna and configure whether the antenna is public or private. A public antenna can be used by everyone, while a private antenna can only be used by the player who placed it and by whitelisted players.
+Build a full [ref=stellaris:rocket/rocket_launch_pad]Rocket Launch Pad[ref], then right-click the **centre** block of the pad with the antenna in hand. The antenna is buried in the block directly under the centre of the pad, so that block has to be something soft : dirt, sand, air, water, moon sand or moon stone. If it is stone or a building block, the game tells you the spot is obstructed and nothing happens. 
 
 
 
-Whitelist players: 
-To whitelist players, you need to use a [ref=stellaris:items/friends_list]Friends List[ref]. Add your friends to your list and then right-click the antenna with your [ref=stellaris:items/friends_list]Friends List[ref].
+**How to configure** 
 
-[item=stellaris:antenna onlyIcon]
+Right-click the centre of the pad with an empty hand to open the antenna. Give it a name, and choose whether it is public or private. 
+A public antenna can be used by everyone. A private antenna can only be used by the player who placed it and by whitelisted players. 
+
+
+
+**Whitelist players** 
+
+To whitelist players you need a [ref=stellaris:items/friends_list]Friends List[ref]. Add your friends to your list, then right-click the antenna with the [ref=stellaris:items/friends_list]Friends List[ref] in hand.
