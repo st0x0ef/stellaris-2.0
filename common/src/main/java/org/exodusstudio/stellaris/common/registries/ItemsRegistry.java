@@ -208,6 +208,13 @@ public final class ItemsRegistry {
     public static final RegistrySupplier<SpawnEggItem> STAR_CRAWLER_SPAWN_EGG = item("star_crawler_spawn_egg", p -> new SpawnEggItem(p.spawnEgg(EntityTypesRegistry.STAR_CRAWLER.get())));
     public static final RegistrySupplier<SpawnEggItem> ALIEN_SPAWN_EGG = item("alien_spawn_egg", p -> new SpawnEggItem(p.spawnEgg(EntityTypesRegistry.ALIEN.get())));
 
+    // Mob drops
+    public static final RegistrySupplier<Item> BLUE_PLASMA = item("blue_plasma");
+    public static final RegistrySupplier<Item> LUNAR_PARASITE_TOOTH = item("lunar_parasite_tooth");
+    public static final RegistrySupplier<Item> LUNAR_CRAWLER_SPIKE_CLUSTER = item("lunar_crawler_spike_cluster");
+    public static final RegistrySupplier<Item> NEURAL_FIBER = item("neural_fiber");
+    public static final RegistrySupplier<Item> NEURAL_TISSUE = item("neural_tissue");
+
     /** Lunar Forest Items */
     public static final RegistrySupplier<Item> LUNAR_BOAT = item("lunar_boat", p -> new BoatItem((EntityType<? extends AbstractBoat>) EntityTypesRegistry.LUNAR_BOAT.get(), p));
     public static final RegistrySupplier<Item> LUNAR_CHEST_BOAT = item("lunar_chest_boat", p -> new BoatItem((EntityType<? extends AbstractBoat>) EntityTypesRegistry.LUNAR_CHEST_BOAT.get(), p));

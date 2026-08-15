@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:entity",
+  "pools": [
+    {
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "stellaris:lunar_crawler_spike_cluster"
+        }
+      ]
+    }
+  ]
+}

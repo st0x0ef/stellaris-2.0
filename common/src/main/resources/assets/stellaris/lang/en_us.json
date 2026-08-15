@@ -262,6 +262,13 @@
   "item.stellaris.parasite": "Parasite",
   "item.stellaris.pathogen_storage_cell": "Pathogen Storage Cell",
   "item.stellaris.vaccine": "Vaccine",
+
+  "item.stellaris.blue_plasma": "Blue Plasma",
+  "item.stellaris.lunar_parasite_tooth": "Lunar Parasite Tooth",
+  "item.stellaris.lunar_crawler_spike_cluster": "Lunar Crawler Spike Cluster",
+  "item.stellaris.neural_fiber": "Neural Fiber",
+  "item.stellaris.neural_tissue": "Neural Tissue",
+
   "item.stellaris.blue_fish_spawn_egg": "Blue Fish Spawn Egg",
   "item.stellaris.lunar_parasite_spawn_egg": "Lunar Parasite Spawn Egg",
   "item.stellaris.parasite_affected_villager_spawn_egg": "Parasite-Affected Villager Spawn Egg",
