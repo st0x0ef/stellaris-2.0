@@ -25,7 +25,7 @@ import java.util.regex.Pattern;
 
 public class StellardownRenderer {
 
-    private static final Pattern WORD_PATTERN = Pattern.compile("\\S+\\h*");
+    private static final Pattern WORD_PATTERN = Pattern.compile("\\h*\\S+\\h*|\\h+");
 
     private final Font font;
     private final StellardownParser parser;
