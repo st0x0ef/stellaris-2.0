@@ -4,7 +4,6 @@ package org.exodusstudio.stellaris.client.utils;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.HashMap;
-import java.util.function.Consumer;
 
 /**
  * A utility class mainly used for the wiki. Allow tooltip and page navigation.

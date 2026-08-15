@@ -11,7 +11,6 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.packs.resources.SimpleJsonResourceReloadListener;
 import net.minecraft.util.profiling.ProfilerFiller;
-import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
 
 import java.util.ArrayList;

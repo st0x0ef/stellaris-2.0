@@ -1,10 +1,6 @@
 package org.exodusstudio.stellaris.common.registries;
 
 import com.fej1fun.potentials.capabilities.Capabilities;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityType;
-
-import java.util.function.Supplier;
 
 public class CapabilitiesRegistry {
 

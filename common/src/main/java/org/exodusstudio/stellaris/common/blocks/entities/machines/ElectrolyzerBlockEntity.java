@@ -19,7 +19,6 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
-import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.common.blocks.ElectrolyzerBlock;
 import org.exodusstudio.stellaris.common.blocks.base.BaseMachineBlock;
 import org.exodusstudio.stellaris.common.blocks.entities.machines.base.BaseEnergyContainerBlockEntity;

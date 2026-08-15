@@ -31,7 +31,6 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.common.blocks.base.BaseTickingEntityBlock;
 import org.exodusstudio.stellaris.common.blocks.entities.machines.SpaceFarmBlockEntity;
 import org.exodusstudio.stellaris.common.registries.BlockEntitiesRegistry;

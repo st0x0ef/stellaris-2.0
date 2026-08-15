@@ -1,6 +1,5 @@
 package org.exodusstudio.stellaris.client.utils.stellardown;
 
-import org.exodusstudio.stellaris.Stellaris;
 import org.jetbrains.annotations.NotNull;
 import oshi.util.tuples.Pair;
 

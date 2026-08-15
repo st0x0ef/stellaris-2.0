@@ -33,9 +33,7 @@ public class WikiInfoButton extends TexturedButton {
             case MarkdownPage.IconType.ITEM:
                 StellardownStyle.ItemStyle itemStyle = page.getItemIcon();
                 if(itemStyle != null) {
-                    BuiltInRegistries.ITEM.get(itemStyle.identifier).ifPresent((item) -> {
-                        this.tooltip(Tooltip.create(new ItemStack(item).getHoverName()));
-                    });
+                    BuiltInRegistries.ITEM.get(itemStyle.identifier).ifPresent((item) -> this.tooltip(Tooltip.create(new ItemStack(item).getHoverName())));
                     return;
                 }
                 break;
@@ -75,9 +73,7 @@ public class WikiInfoButton extends TexturedButton {
 
                 StellardownStyle.ItemStyle itemStyle = page.getItemIcon();
                 if(itemStyle != null) {
-                    BuiltInRegistries.ITEM.get(itemStyle.identifier).ifPresent((item) -> {
-                        graphics.item(new ItemStack(item), this.getX() + 2, this.getY() + 2);
-                    });
+                    BuiltInRegistries.ITEM.get(itemStyle.identifier).ifPresent((item) -> graphics.item(new ItemStack(item), this.getX() + 2, this.getY() + 2));
                 }
                 break;
             case MarkdownPage.IconType.ENTITY:
