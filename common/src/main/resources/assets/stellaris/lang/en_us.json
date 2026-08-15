@@ -216,6 +216,8 @@
   "item.stellaris.space_suit_damage_protection_module_tier_2": "Damage Protection Module T2",
   "item.stellaris.space_suit_damage_protection_module_tier_3": "Damage Protection Module T3",
 
+  "item.stellaris.space_suit_night_vision_module": "Night Vision Module",
+
   "item.stellaris.fluid_cell": "Fluid Cell",
 
   "item.stellaris.black_can": "Black Can",
@@ -313,6 +315,10 @@
   "text.stellaris.oil_finder.oil_found": "Oil detected",
   "text.stellaris.oil_finder.energy": "Oil found at Y=%s",
 
+  "text.stellaris.night_vision.mode": "Night Vision",
+  "text.stellaris.night_vision.mode.on": "ON",
+  "text.stellaris.night_vision.mode.off": "OFF",
+
   "text.stellaris.jet.mode": "Jet Mode",
   "text.stellaris.jet.mode.disabled": "Disabled",
   "text.stellaris.jet.mode.normal": "Normal",
@@ -376,6 +382,8 @@
   "tooltip.item.stellaris.pathogen_storage_cell_info": "A sealed containment cell used to store parasites and support research toward an infection cure.",
   "tooltip.item.stellaris.energy": "⚡ Energy: §e%s§r§f/§r§e%s§r FE",
   "tooltip.item.stellaris.oil_finder": "Right click on a block to check if there is oil.",
+  "tooltip.item.stellaris.night_vision_module": "Toggle night vision with the Night Vision key.",
+
   "tooltip.item.stellaris.can_be_applied_to_space_suit_boots_module": "This module can be applied to the space suit boots.",
   "tooltip.item.stellaris.can_be_applied_to_space_suit_leggings_module": "This module can be applied to the space suit leggings.",
   "tooltip.item.stellaris.can_be_applied_to_space_suit_chestplate_module": "This module can be applied to the space suit chestplate.",

@@ -131,7 +131,7 @@ public final class ItemsRegistry {
     public static final RegistrySupplier<DamageProtectionModuleItem> SPACE_SUIT_DAMAGE_PROTECTION_MODULE_T2 = item("space_suit_damage_protection_module_tier_2", p -> new DamageProtectionModuleItem(p, ArmorMaterials.DIAMOND, "diamond"));
     public static final RegistrySupplier<DamageProtectionModuleItem> SPACE_SUIT_DAMAGE_PROTECTION_MODULE_T3 = item("space_suit_damage_protection_module_tier_3", p -> new DamageProtectionModuleItem(p, ArmorMaterials.NETHERITE, "netherite"));
 
-    public static final RegistrySupplier<NightVisionModuleItem> SPACE_SUIT_NIGHT_VISION_MODULE = item("space_suit_night_vision_module", p -> new NightVisionModuleItem(p));
+    public static final RegistrySupplier<NightVisionModuleItem> SPACE_SUIT_NIGHT_VISION_MODULE = item("space_suit_night_vision_module", NightVisionModuleItem::new);
 
 
     public static final RegistrySupplier<FriendsList> FRIENDS_LIST = item("friends_list", FriendsList::new);

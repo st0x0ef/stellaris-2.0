@@ -1,5 +1,6 @@
 package org.exodusstudio.stellaris.common.items.modules.space_suit;
 
+import net.minecraft.ChatFormatting;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
@@ -9,6 +10,8 @@ import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.component.TooltipDisplay;
 import org.exodusstudio.stellaris.client.overlays.SpaceSuitOverlay;
 import org.exodusstudio.stellaris.common.items.space_suit.SpaceSuitHelmet;
 import org.exodusstudio.stellaris.common.modules.Modules;
@@ -20,6 +23,8 @@ import org.exodusstudio.stellaris.common.utils.ModuleUtils;
 import org.exodusstudio.stellaris.common.utils.Utils;
 import org.joml.Vector2i;
 
+import java.util.function.Consumer;
+
 public class NightVisionModuleItem extends Item implements SpaceSuitModule {
 
     public NightVisionModuleItem(Properties properties) {
@@ -29,6 +34,12 @@ public class NightVisionModuleItem extends Item implements SpaceSuitModule {
     @Override
     public boolean canBeAppliedToSpaceSuitPart(ItemStack part) {
         return part.is(ItemsRegistry.SPACE_SUIT_HELMET.get());
+    }
+
+    @Override
+    public void appendHoverText(ItemStack stack, TooltipContext context, TooltipDisplay tooltipDisplay, Consumer<Component> tooltipAdder, TooltipFlag flag) {
+        tooltipAdder.accept(Component.translatable("tooltip.item.stellaris.night_vision_module").withColor(Utils.getMinecraftColor("gray")));
+        tooltipAdder.accept(Component.translatable("tooltip.item.stellaris.can_be_applied_to_space_suit_helmet_module").withColor(Utils.getMinecraftColor("gray")));
     }
 
     public static void switchNightVision(Player player) {
@@ -50,7 +61,10 @@ public class NightVisionModuleItem extends Item implements SpaceSuitModule {
 
         Font font = Minecraft.getInstance().font;
 
-        Component component = Component.literal(nightVisionActive ? "Night Vision: ON" : "Night Vision: OFF").withStyle(nightVisionActive ? net.minecraft.ChatFormatting.GREEN : net.minecraft.ChatFormatting.RED);
+        Component component = Component.translatable("text.stellaris.night_vision.mode")
+                .append(": ")
+                .append(Component.translatable(nightVisionActive ? "text.stellaris.night_vision.mode.on" : "text.stellaris.night_vision.mode.off"))
+                .withStyle(nightVisionActive ? ChatFormatting.GREEN : ChatFormatting.RED);
 
         x = SpaceSuitOverlay.PADDING;
         graphics.text(font, component, x, y, Utils.getMinecraftColor("white"));
