@@ -151,23 +151,37 @@ public class EngineUpgradeMenu extends BaseItemCombinerMenu {
         Modules<SpaceSuitModule> spaceSuitModules = itemToUpgrade.getOrDefault(DataComponentsRegistry.SPACE_SUIT_MODULES.get(), SpaceSuitModules.empty());
 
         if (module.getItem() instanceof SpaceSuitModule validModule) {
+            Modules<SpaceSuitModule>.Mutable mutable = spaceSuitModules.toMutable();
+            mutable.removeIf(installed -> installed.getSpaceSuitFeature() == validModule.getSpaceSuitFeature());
+
             if (!itemToUpgrade.isEmpty() && !module.isEmpty()
-                    && !spaceSuitModules.contains(validModule)
                     && canUpgradeFuel(module, itemToUpgrade).equals(Error.NONE)
                     && validModule.canBeAppliedToSpaceSuitPart(itemToUpgrade)
+                    && isCompatibleWithAll(validModule, mutable.getModules())
             ) {
-                Modules<SpaceSuitModule>.Mutable mutable = spaceSuitModules.toMutable();
                 mutable.insert(validModule);
                 itemToUpgrade.set(DataComponentsRegistry.SPACE_SUIT_MODULES.get(), mutable.toImmutable());
 
                 if (itemToUpgrade.getItem() instanceof SpaceSuitItem spaceSuitItem) {
-                    spaceSuitItem.onAddModule(itemToUpgrade, validModule);
+                    spaceSuitItem.refreshAttributes(itemToUpgrade);
                 }
 
                 this.resultSlots.setItem(0, itemToUpgrade);
                 this.broadcastChanges();
             }
+            else {
+                this.resultSlots.setItem(0, ItemStack.EMPTY);
+            }
         }
+    }
+
+    private static boolean isCompatibleWithAll(SpaceSuitModule incoming, List<SpaceSuitModule> installed) {
+        for (SpaceSuitModule other : installed) {
+            if (!incoming.isCompatibleWith(other) || !other.isCompatibleWith(incoming)) {
+                return false;
+            }
+        }
+        return true;
     }
 
     /**

@@ -7,7 +7,7 @@
   ],
   "key": {
     "A": "stellaris:desh_ingot",
-    "B": "stellaris:titanium_ingot",
+    "B": "stellaris:silicon",
     "M": "stellaris:space_suit_oxygen_module_tier_2"
   },
   "result": {"id": "stellaris:space_suit_oxygen_module_tier_3"}

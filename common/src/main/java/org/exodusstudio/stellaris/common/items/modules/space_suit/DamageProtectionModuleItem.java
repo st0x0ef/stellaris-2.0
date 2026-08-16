@@ -23,6 +23,11 @@ public class DamageProtectionModuleItem extends Item implements SpaceSuitModule.
     }
 
     @Override
+    public SpaceSuitFeature getSpaceSuitFeature() {
+        return SpaceSuitFeature.PROTECTION;
+    }
+
+    @Override
     public boolean canBeAppliedToSpaceSuitPart(ItemStack part) {
         return part.getItem() instanceof SpaceSuitItem;
     }

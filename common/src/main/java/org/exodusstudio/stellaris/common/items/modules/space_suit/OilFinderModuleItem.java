@@ -30,6 +30,11 @@ public class OilFinderModuleItem extends Item implements SpaceSuitModule.OilFind
     }
 
     @Override
+    public SpaceSuitFeature getSpaceSuitFeature() {
+        return SpaceSuitFeature.OIL_FINDER;
+    }
+
+    @Override
     public int getRange() {
         return range;
     }

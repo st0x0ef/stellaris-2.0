@@ -103,7 +103,7 @@ public final class ItemsRegistry {
     // Oxygen Modules
     public static final RegistrySupplier<OxygenModuleItem> SPACE_SUIT_OXYGEN_MODULE_T1 = item("space_suit_oxygen_module_tier_1", p -> new OxygenModuleItem(p, 1200));
     public static final RegistrySupplier<OxygenModuleItem> SPACE_SUIT_OXYGEN_MODULE_T2 = item("space_suit_oxygen_module_tier_2", p -> new OxygenModuleItem(p, 3600));
-    public static final RegistrySupplier<OxygenModuleItem> SPACE_SUIT_OXYGEN_MODULE_T3 = item("space_suit_oxygen_module_tier_3", p -> new OxygenModuleItem(p, 14400));
+    public static final RegistrySupplier<OxygenModuleItem> SPACE_SUIT_OXYGEN_MODULE_T3 = item("space_suit_oxygen_module_tier_3", p -> new OxygenModuleItem(p, 6000));
 
     // Oil Finder Modules
     public static final RegistrySupplier<OilFinderModuleItem> SPACE_SUIT_OIL_FINDER_MODULE_T1 = item("space_suit_oil_finder_module_tier_1", p -> new OilFinderModuleItem(p, 5));
@@ -122,9 +122,9 @@ public final class ItemsRegistry {
     public static final RegistrySupplier<TankModuleItem> SPACE_SUIT_HYDROGEN_TANK_MODULE_T3 = item("space_suit_hydrogen_tank_module_tier_3", p -> new HydrogenTankModuleItem(p, 3000));
 
     // Jet Modules
-    public static final RegistrySupplier<JetModuleItem> SPACE_SUIT_JET_MODULE_T1 = item("space_suit_jet_module_tier_1", p -> new JetModuleItem(p, 10));
-    public static final RegistrySupplier<JetModuleItem> SPACE_SUIT_JET_MODULE_T2 = item("space_suit_jet_module_tier_2", p -> new JetModuleItem(p, 6));
-    public static final RegistrySupplier<JetModuleItem> SPACE_SUIT_JET_MODULE_T3 = item("space_suit_jet_module_tier_3", p -> new JetModuleItem(p, 2));
+    public static final RegistrySupplier<JetModuleItem> SPACE_SUIT_JET_MODULE_T1 = item("space_suit_jet_module_tier_1", p -> new JetModuleItem(p, 8, 0.35));
+    public static final RegistrySupplier<JetModuleItem> SPACE_SUIT_JET_MODULE_T2 = item("space_suit_jet_module_tier_2", p -> new JetModuleItem(p, 5, 0.5));
+    public static final RegistrySupplier<JetModuleItem> SPACE_SUIT_JET_MODULE_T3 = item("space_suit_jet_module_tier_3", p -> new JetModuleItem(p, 3, 0.7));
 
     // Damage Protection Modules
     public static final RegistrySupplier<DamageProtectionModuleItem> SPACE_SUIT_DAMAGE_PROTECTION_MODULE_T1 = item("space_suit_damage_protection_module_tier_1", p -> new DamageProtectionModuleItem(p, ArmorMaterials.IRON, "iron"));

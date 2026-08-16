@@ -40,6 +40,11 @@ public class OxygenModuleItem extends Item implements SpaceSuitModule.OxygenModu
     }
 
     @Override
+    public SpaceSuitFeature getSpaceSuitFeature() {
+        return SpaceSuitFeature.OXYGEN;
+    }
+
+    @Override
     public int getCapacity() {
         return oxygenCapacity;
     }

@@ -437,13 +437,9 @@
   "config.stellaris.oxygenConfig.oxygenUpdateInterval.desc": "How often (in ticks) oxygen levels are recalculated.",
   "config.stellaris.oxygenConfig.oxygenDamageInterval.desc": "How often (in ticks) damage is applied when oxygen is depleted.",
   "config.stellaris.oxygenConfig.noOxygenDamage.desc": "Amount of damage dealt per interval when the player has no oxygen.",
-
-  "config.stellaris.spaceSuitConfig": "Space Suit Settings",
-  "config.stellaris.jetFuelConsumptionInterval": "Jet Fuel Consumption Interval",
-  "config.stellaris.spaceSuitConfig.desc": "Settings related to the space suit.",
-  "config.stellaris.spaceSuitConfig.jetFuelConsumptionInterval.desc": "How often (in ticks) the jet module consumes fuel.",
-  "config.stellaris.maxJetUpwardSpeed": "Max Jet Upward Speed",
-  "config.stellaris.spaceSuitConfig.maxJetUpwardSpeed.desc": "Maximum upward speed (blocks/tick) when using the jet in normal fly mode.",
+  "config.stellaris.oxygenConfig.baseOxygenDrain.desc": "Oxygen (in mB) drained from the space suit per interval while standing or walking in vacuum.",
+  "config.stellaris.oxygenConfig.sprintOxygenDrainMultiplier.desc": "Multiplies the base oxygen drain while sprinting.",
+  "config.stellaris.oxygenConfig.jetOxygenDrainMultiplier.desc": "Multiplies the base oxygen drain while the jetpack is firing.",
 
   "config.stellaris.parasiteConfig.desc": "Settings related to the parasite infection system.",
   "config.stellaris.researchDelay": "Research Delay",

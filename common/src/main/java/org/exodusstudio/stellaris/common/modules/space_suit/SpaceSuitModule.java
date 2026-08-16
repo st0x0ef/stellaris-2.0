@@ -15,6 +15,14 @@ import org.joml.Vector2i;
 public interface SpaceSuitModule extends Module<SpaceSuitModule> {
 
     /**
+     * The slot of functionality this module occupies on a space suit part.
+     * Installing a module replaces any already installed module sharing the same feature,
+     * so that tier upgrades actually take effect.
+     * @return the feature this module provides
+     */
+    SpaceSuitFeature getSpaceSuitFeature();
+
+    /**
      * Checks if this module is compatible with other modules that are currently in the space suit.
      * @param module the module to check with
      * @return if this module can be fit with the other module
@@ -71,6 +79,16 @@ public interface SpaceSuitModule extends Module<SpaceSuitModule> {
         return 0;
     }
 
+    enum SpaceSuitFeature {
+        OXYGEN,
+        TANK,
+        JET,
+        OIL_FINDER,
+        PROTECTION,
+        VISION,
+        OTHER
+    }
+
     interface CustomFuelModule extends SpaceSuitModule {
 
         /**
@@ -103,10 +121,19 @@ public interface SpaceSuitModule extends Module<SpaceSuitModule> {
 
         /**
          * Change the jetpack fuel consumption of the space suit with this module.
+         * This much fuel is drained once per second, not once per tick.
          *
-         * @return The consumption of the jetpack.
+         * @return The consumption of the jetpack, per second.
          */
-        long getConsumptionPerTick();
+        long getConsumptionPerSecond();
+
+        /**
+         * Change how fast the jetpack can climb in normal fly mode.
+         * @return the upward speed cap in blocks per tick.
+         */
+        default double getMaxUpwardSpeed() {
+            return 0.5;
+        }
     }
 
     interface DamageProtectionModule extends SpaceSuitModule {

@@ -28,6 +28,9 @@ import org.exodusstudio.stellaris.common.utils.ModuleUtils;
 import org.exodusstudio.stellaris.common.utils.Utils;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 import java.util.function.Consumer;
 
 public class SpaceSuitBoots extends SpaceSuitItem {
@@ -35,9 +38,45 @@ public class SpaceSuitBoots extends SpaceSuitItem {
         super(properties, ArmorType.BOOTS);
     }
 
-    public float spacePressTime = 0.0f;
+    /** Ticks between jet fuel drains. Fixed at one second so the module tooltips stay true. */
+    private static final int FUEL_CONSUMPTION_INTERVAL = 20;
 
-    private int nextFuelCheckTick = 0;
+    /**
+     * How long each player has been holding jump, keyed by UUID. This item is a singleton, so
+     * a plain field here would be shared between every player on the server.
+     */
+    private static final Map<UUID, Float> SPACE_PRESS_TIME = new HashMap<>();
+
+    public static float getSpacePressTime(Player player) {
+        return SPACE_PRESS_TIME.getOrDefault(player.getUUID(), 0.0f);
+    }
+
+    private static void setSpacePressTime(Player player, float value) {
+        SPACE_PRESS_TIME.put(player.getUUID(), value);
+    }
+
+    private static boolean consumeFuel(ItemStack bootsStack, Player player, UniversalFluidItemStorage storage, SpaceSuitModule.JetModule jetModule) {
+        if (storage.getFluidInTank(0).isEmpty()) {
+            return false;
+        }
+
+        if (player.isCreative() || player.isSpectator()) {
+            return true;
+        }
+
+        JetComponent component = bootsStack.getOrDefault(DataComponentsRegistry.JET_COMPONENT.get(), new JetComponent(ModeType.DISABLED));
+        int cooldown = component.fuelCooldown();
+
+        if (cooldown <= 0) {
+            storage.drain(storage.getFluidInTank(0).copyWithAmount(jetModule.getConsumptionPerSecond()), false);
+            cooldown = FUEL_CONSUMPTION_INTERVAL;
+        } else {
+            cooldown--;
+        }
+
+        bootsStack.set(DataComponentsRegistry.JET_COMPONENT.get(), component.withFuelCooldown(cooldown));
+        return true;
+    }
 
     public static int getMode(ItemStack itemStack) {
         if (!itemStack.has(DataComponentsRegistry.JET_COMPONENT.get())) {
@@ -60,7 +99,13 @@ public class SpaceSuitBoots extends SpaceSuitItem {
     @Override
     public void inventoryTick(ItemStack itemStack, ServerLevel serverLevel, Entity entity, @Nullable EquipmentSlot equipmentSlot) {
         super.inventoryTick(itemStack, serverLevel, entity, equipmentSlot);
-        
+
+        /* Only the worn pair flies. Without this, spare boots carried in the inventory would
+         * each run the flight logic and drain the chestplate's fuel alongside the worn pair. */
+        if (equipmentSlot != EquipmentSlot.FEET) {
+            return;
+        }
+
         if (entity instanceof Player player && Utils.isLivingInSpaceSuit(player)) {
             if (player.getItemBySlot(EquipmentSlot.CHEST).getItem() instanceof SpaceSuitChestplate chestplate) {
                 UniversalFluidItemStorage storage = chestplate.getFluidTank(player.getItemBySlot(EquipmentSlot.CHEST));
@@ -81,8 +126,8 @@ public class SpaceSuitBoots extends SpaceSuitItem {
                 }
 
                 switch (SpaceSuitBoots.getMode(itemStack)) {
-                    case 1 -> this.normalFlyModeMovement(player, storage, jetModule);
-                    case 2 -> this.hoverModeMovement(player, storage, jetModule);
+                    case 1 -> this.normalFlyModeMovement(player, itemStack, storage, jetModule);
+                    case 2 -> this.hoverModeMovement(player, itemStack, storage, jetModule);
                     case 3 -> this.elytraModeMovement(player);
                 }
 
@@ -92,20 +137,13 @@ public class SpaceSuitBoots extends SpaceSuitItem {
         }
     }
 
-    private void normalFlyModeMovement(Player player, UniversalFluidItemStorage storage, SpaceSuitModule.JetModule jetModule) {
+    private void normalFlyModeMovement(Player player, ItemStack bootsStack, UniversalFluidItemStorage storage, SpaceSuitModule.JetModule jetModule) {
         if (KeyVariables.isHoldingJump(player)) {
-            if (storage.getFluidInTank(0).isEmpty()) return;
-
-            if (nextFuelCheckTick <= 0 && !player.isCreative() && !player.isSpectator()) {
-                storage.drain(storage.getFluidInTank(0).copyWithAmount(jetModule.getConsumptionPerTick()), false);
-                nextFuelCheckTick = Stellaris.CONFIG.spaceSuitConfig.jetFuelConsumptionInterval;
-            } else {
-                nextFuelCheckTick--;
-            }
+            if (!consumeFuel(bootsStack, player, storage, jetModule)) return;
 
             player.addDeltaMovement(new Vec3(0, 0.1, 0));
             Vec3 deltaMovement = player.getDeltaMovement();
-            double maxJetUpwardSpeed = Stellaris.CONFIG.spaceSuitConfig.maxJetUpwardSpeed;
+            double maxJetUpwardSpeed = jetModule.getMaxUpwardSpeed();
             if (deltaMovement.y() > maxJetUpwardSpeed) { // Limit upward speed
                 player.setDeltaMovement(new Vec3(deltaMovement.x(), maxJetUpwardSpeed, deltaMovement.z()));
             }
@@ -139,20 +177,12 @@ public class SpaceSuitBoots extends SpaceSuitItem {
             }
         }
     }
-    private void hoverModeMovement(Player player, UniversalFluidItemStorage storage, SpaceSuitModule.JetModule jetModule) {
+    private void hoverModeMovement(Player player, ItemStack bootsStack, UniversalFluidItemStorage storage, SpaceSuitModule.JetModule jetModule) {
         Vec3 vec3 = player.getDeltaMovement();
 
         // Main movement logic
         if (!player.onGround() && !player.isInWater() && !player.isInLava() && KeyVariables.isHoldingJump(player)) {
-            if (storage.getFluidInTank(0).isEmpty()) return;
-
-            if (nextFuelCheckTick <= 0 && !player.isCreative() && !player.isSpectator()) {
-                storage.drain(storage.getFluidInTank(0).copyWithAmount(jetModule.getConsumptionPerTick()), false);
-                nextFuelCheckTick = Stellaris.CONFIG.spaceSuitConfig.jetFuelConsumptionInterval;
-            } else {
-                nextFuelCheckTick--;
-            }
-
+            if (!consumeFuel(bootsStack, player, storage, jetModule)) return;
 
             player.setDeltaMovement(vec3.x, vec3.y + 0.04, vec3.z);
             player.hurtMarked = true;
@@ -222,31 +252,32 @@ public class SpaceSuitBoots extends SpaceSuitItem {
 
     public void calculateSpacePressTime(Player player, ItemStack itemStack, UniversalFluidItemStorage storage, SpaceSuitModule.JetModule jetModule) {
         int mode = getMode(itemStack);
+        float pressTime = getSpacePressTime(player);
 
         /** NORMAL MODE */
         if (mode == ModeType.NORMAL.getMode()) {
             if (KeyVariables.isHoldingJump(player)) {
-                if (this.spacePressTime < 2.2F) {this.spacePressTime = this.spacePressTime + 0.2F;
+                if (pressTime < 2.2F) {pressTime = pressTime + 0.2F;
                 }
             }
-            else if (this.spacePressTime > 0.0F) {
-                this.spacePressTime = this.spacePressTime - 0.2F;
+            else if (pressTime > 0.0F) {
+                pressTime = pressTime - 0.2F;
             }
         }
 
         /** HOVER MODE */
         if (mode == ModeType.HOVER.getMode()) {
-            if (!player.onGround() && this.spacePressTime < 0.6F) {
-                this.spacePressTime = this.spacePressTime + 0.2F;
+            if (!player.onGround() && pressTime < 0.6F) {
+                pressTime = pressTime + 0.2F;
             }
             else if (KeyVariables.isHoldingJump(player)) {
-                if (this.spacePressTime < 1.4F) {
-                    this.spacePressTime = this.spacePressTime + 0.2F;
-                    hoverModeMovement(player, storage, jetModule);
+                if (pressTime < 1.4F) {
+                    pressTime = pressTime + 0.2F;
+                    hoverModeMovement(player, itemStack, storage, jetModule);
                 }
             }
-            else if (this.spacePressTime >= 0.6F) {
-                this.spacePressTime = this.spacePressTime - 0.2F;
+            else if (pressTime >= 0.6F) {
+                pressTime = pressTime - 0.2F;
             }
 
         }
@@ -255,19 +286,21 @@ public class SpaceSuitBoots extends SpaceSuitItem {
         if (mode == ModeType.ELYTRA.getMode()) {
             if (KeyVariables.isHoldingUp(player) && player.isFallFlying()) {
                 if (player.isSprinting()) {
-                    if (this.spacePressTime < 2.8F) {
-                        this.spacePressTime = this.spacePressTime + 0.2F;
+                    if (pressTime < 2.8F) {
+                        pressTime = pressTime + 0.2F;
                     }
                 } else {
-                    if (this.spacePressTime < 2.2F) {
-                        this.spacePressTime = this.spacePressTime + 0.2F;
+                    if (pressTime < 2.2F) {
+                        pressTime = pressTime + 0.2F;
                     }
                 }
             }
-            else if (this.spacePressTime > 0.0F) {
-                this.spacePressTime = this.spacePressTime - 0.2F;
+            else if (pressTime > 0.0F) {
+                pressTime = pressTime - 0.2F;
             }
         }
+
+        setSpacePressTime(player, pressTime);
     }
 
     public void boost(Player player, double boost, boolean sonicBoom) {
@@ -293,9 +326,11 @@ public class SpaceSuitBoots extends SpaceSuitItem {
 
         SpaceSuitModule.JetModule jetModule = ModuleUtils.getSpaceSuitModule(stack, SpaceSuitModule.JetModule.class);
         if (jetModule != null) {
-            double consumption = jetModule.getConsumptionPerTick();
+            double consumption = jetModule.getConsumptionPerSecond();
+            double climbSpeed = jetModule.getMaxUpwardSpeed();
             tooltipAdder.accept(Component.literal("-- Jet Module --").withColor(Utils.getMinecraftColor("darkred")));
-            tooltipAdder.accept(Component.literal("Consumption: " + consumption + " mb/tick").withColor(Utils.getMinecraftColor("darkred")));
+            tooltipAdder.accept(Component.literal("Consumption: " + consumption + " mb/s").withColor(Utils.getMinecraftColor("darkred")));
+            tooltipAdder.accept(Component.literal("Climb speed: " + climbSpeed + " blocks/tick").withColor(Utils.getMinecraftColor("darkred")));
         }
     }
 

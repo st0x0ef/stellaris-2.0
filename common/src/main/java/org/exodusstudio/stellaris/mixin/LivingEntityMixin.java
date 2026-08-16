@@ -62,7 +62,8 @@ public class LivingEntityMixin {
                         UniversalFluidItemStorage oxygenTank = helmet.getFluidTank(headSlot);
 
                         if (oxygenTank != null && !oxygenTank.getFluidInTank(0).isEmpty()) {
-                            oxygenTank.drain(oxygenTank.getFluidInTank(0).copyWithAmount(1), false);
+                            oxygenTank.drain(oxygenTank.getFluidInTank(0)
+                                    .copyWithAmount(OxygenUtils.getOxygenDrain(stellaris$entity)), false);
                             return;
                         }
                     }

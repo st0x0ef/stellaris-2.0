@@ -35,6 +35,11 @@ public class TankModuleItem extends Item implements SpaceSuitModule.CustomFuelMo
     }
 
     @Override
+    public SpaceSuitFeature getSpaceSuitFeature() {
+        return SpaceSuitFeature.TANK;
+    }
+
+    @Override
     public Fluid getFuel() {
         return null;
     }

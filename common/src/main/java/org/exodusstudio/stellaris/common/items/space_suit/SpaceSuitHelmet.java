@@ -6,6 +6,9 @@ import com.fej1fun.potentials.fluid.UniversalFluidItemStorage;
 import com.fej1fun.potentials.providers.EnergyProvider;
 import com.fej1fun.potentials.providers.FluidProvider;
 import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.component.TooltipDisplay;
@@ -68,9 +71,28 @@ public class SpaceSuitHelmet extends SpaceSuitItem implements FluidProvider.ITEM
         }
     }
 
+    public static final int ENERGY_CAPACITY = 4000;
+    public static final int NIGHT_VISION_ENERGY_PER_SECOND = 2;
+
     @Override
     public @Nullable UniversalEnergyStorage getEnergy(@NotNull ItemStack stack) {
-        return new ItemEnergyStorage(stack, DataComponentsRegistry.ENERGY.get(), 1000, 20, 1);
+        return new ItemEnergyStorage(stack, DataComponentsRegistry.ENERGY.get(), ENERGY_CAPACITY, 20, 25);
+    }
+
+    @Override
+    public void inventoryTick(ItemStack itemStack, ServerLevel serverLevel, Entity entity, @Nullable EquipmentSlot equipmentSlot) {
+        super.inventoryTick(itemStack, serverLevel, entity, equipmentSlot);
+
+        if (equipmentSlot != EquipmentSlot.HEAD || serverLevel.getGameTime() % 20 != 0) {
+            return;
+        }
+
+        if (itemStack.getOrDefault(DataComponentsRegistry.NIGHT_VISION.get(), false)) {
+            UniversalEnergyStorage energy = getEnergy(itemStack);
+            if (energy == null || energy.extract(NIGHT_VISION_ENERGY_PER_SECOND, false) < NIGHT_VISION_ENERGY_PER_SECOND) {
+                itemStack.set(DataComponentsRegistry.NIGHT_VISION.get(), false);
+            }
+        }
     }
 
     public static void tickOilFinderEnergy(ItemStack stack) {

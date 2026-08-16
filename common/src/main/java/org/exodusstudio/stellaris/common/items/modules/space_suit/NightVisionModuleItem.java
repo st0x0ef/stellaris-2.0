@@ -32,6 +32,11 @@ public class NightVisionModuleItem extends Item implements SpaceSuitModule {
     }
 
     @Override
+    public SpaceSuitFeature getSpaceSuitFeature() {
+        return SpaceSuitFeature.VISION;
+    }
+
+    @Override
     public boolean canBeAppliedToSpaceSuitPart(ItemStack part) {
         return part.is(ItemsRegistry.SPACE_SUIT_HELMET.get());
     }

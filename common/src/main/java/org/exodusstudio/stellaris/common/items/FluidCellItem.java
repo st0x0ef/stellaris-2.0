@@ -15,10 +15,8 @@ import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.component.TooltipDisplay;
 import net.minecraft.world.level.Level;
 import org.exodusstudio.stellaris.common.fluid.FluidUtil;
-import org.exodusstudio.stellaris.common.modules.space_suit.SpaceSuitModule;
 import org.exodusstudio.stellaris.common.registries.DataComponentsRegistry;
-import org.exodusstudio.stellaris.common.registries.ItemsRegistry;
-import org.exodusstudio.stellaris.common.utils.ModuleUtils;
+import org.exodusstudio.stellaris.common.registries.FluidsRegistry;
 import org.jetbrains.annotations.NotNull;
 import org.jspecify.annotations.Nullable;
 
@@ -38,14 +36,16 @@ public class FluidCellItem extends Item implements FluidProvider.ITEM {
             ItemStack stack = player.getItemInHand(hand);
             UniversalFluidItemStorage cellFluidStorage = getFluidTank(stack);
             if (cellFluidStorage != null) {
-                ItemStack chestplate = player.getItemBySlot(EquipmentSlot.CHEST);
-                SpaceSuitModule.CustomFuelModule fuelModule = ModuleUtils.getSpaceSuitModule(chestplate, SpaceSuitModule.CustomFuelModule.class);
-                if (chestplate.is(ItemsRegistry.SPACE_SUIT_CHESTPLATE.get()) && fuelModule != null && chestplate.getItem() instanceof FluidProvider.ITEM) {
-                    UniversalFluidItemStorage suitFluidStorage = ((FluidProvider.ITEM) chestplate.getItem()).getFluidTank(chestplate);
-                    if (suitFluidStorage != null) {
-                        FluidStack fluidInCell = cellFluidStorage.getFluidInTank(0);
-                        if (!fluidInCell.isEmpty()) {
-                            FluidUtil.moveFluid(cellFluidStorage, suitFluidStorage, FluidStack.create(fuelModule.getFuel(), fluidInCell.getAmount()));
+                FluidStack fluidInCell = cellFluidStorage.getFluidInTank(0);
+                if (!fluidInCell.isEmpty()) {
+                    ItemStack target = isOxygen(fluidInCell)
+                            ? player.getItemBySlot(EquipmentSlot.HEAD)
+                            : player.getItemBySlot(EquipmentSlot.CHEST);
+
+                    if (target.getItem() instanceof FluidProvider.ITEM fluidItem) {
+                        UniversalFluidItemStorage suitFluidStorage = fluidItem.getFluidTank(target);
+                        if (suitFluidStorage != null && suitFluidStorage.isFluidValid(0, fluidInCell)) {
+                            FluidUtil.moveFluid(cellFluidStorage, suitFluidStorage, fluidInCell.copy());
                             return InteractionResult.SUCCESS;
                         }
                     }
@@ -54,6 +54,11 @@ public class FluidCellItem extends Item implements FluidProvider.ITEM {
         }
 
         return super.use(level, player, hand);
+    }
+
+    private static boolean isOxygen(FluidStack fluidStack) {
+        return fluidStack.getFluid().isSame(FluidsRegistry.OXYGEN_STILL.get())
+                || fluidStack.getFluid().isSame(FluidsRegistry.OXYGEN_FLOWING.get());
     }
 
     @Override

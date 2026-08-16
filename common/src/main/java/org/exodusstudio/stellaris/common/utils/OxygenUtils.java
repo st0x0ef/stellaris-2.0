@@ -13,11 +13,15 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.chunk.LevelChunk;
 import net.minecraft.world.phys.AABB;
+import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.common.blocks.entities.machines.OxygenDistributorBlockEntity;
 import org.exodusstudio.stellaris.common.blocks.entities.machines.OxygenPropagatorBlockEntity;
+import org.exodusstudio.stellaris.common.config.CommonConfig;
 import org.exodusstudio.stellaris.common.data.Planet;
 import org.exodusstudio.stellaris.common.data.PlanetsData;
+import org.exodusstudio.stellaris.common.items.space_suit.SpaceSuitBoots;
 import org.exodusstudio.stellaris.common.items.space_suit.SpaceSuitHelmet;
+import org.exodusstudio.stellaris.common.keybinds.KeyVariables;
 import org.exodusstudio.stellaris.common.registries.TagsRegistry;
 
 import java.util.*;
@@ -25,6 +29,30 @@ import java.util.*;
 public class OxygenUtils {
 
     private static final int MAX_BLOCKS = 50_000;
+
+    public static int getOxygenDrain(LivingEntity entity) {
+        CommonConfig.OxygenConfig config = Stellaris.CONFIG.oxygenConfig;
+        int drain = config.baseOxygenDrain;
+
+        if (entity instanceof Player player && isFiringJet(player)) {
+            drain *= config.jetOxygenDrainMultiplier;
+        } else if (entity.isSprinting()) {
+            drain *= config.sprintOxygenDrainMultiplier;
+        }
+
+        return Math.max(1, drain);
+    }
+
+    private static boolean isFiringJet(Player player) {
+        ItemStack boots = player.getItemBySlot(EquipmentSlot.FEET);
+        if (!(boots.getItem() instanceof SpaceSuitBoots)) {
+            return false;
+        }
+
+        return SpaceSuitBoots.getModeType(boots) != SpaceSuitBoots.ModeType.DISABLED
+                && KeyVariables.isHoldingJump(player)
+                && !player.onGround();
+    }
 
     public static Set<BlockPos> propagateOxygen(Level level, BlockPos distributorPos, Set<ChunkPos> allowedChunks) {
         Set<BlockPos> oxygenablePositions = new HashSet<>();

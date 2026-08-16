@@ -23,16 +23,28 @@ import org.joml.Vector2i;
 import java.util.function.Consumer;
 
 public class JetModuleItem extends Item implements SpaceSuitModule.JetModule {
-    private final long consumptionPerTick;
+    private final long consumptionPerSecond;
+    private final double maxUpwardSpeed;
 
-    public JetModuleItem(Properties properties, long consumptionPerTick) {
+    public JetModuleItem(Properties properties, long consumptionPerSecond, double maxUpwardSpeed) {
         super(properties);
-        this.consumptionPerTick = consumptionPerTick;
+        this.consumptionPerSecond = consumptionPerSecond;
+        this.maxUpwardSpeed = maxUpwardSpeed;
     }
 
     @Override
-    public long getConsumptionPerTick() {
-        return consumptionPerTick;
+    public SpaceSuitFeature getSpaceSuitFeature() {
+        return SpaceSuitFeature.JET;
+    }
+
+    @Override
+    public long getConsumptionPerSecond() {
+        return consumptionPerSecond;
+    }
+
+    @Override
+    public double getMaxUpwardSpeed() {
+        return maxUpwardSpeed;
     }
 
     @Override
@@ -42,7 +54,8 @@ public class JetModuleItem extends Item implements SpaceSuitModule.JetModule {
 
     @Override
     public void appendHoverText(ItemStack stack, TooltipContext context, TooltipDisplay tooltipDisplay, Consumer<Component> tooltipAdder, TooltipFlag flag) {
-        tooltipAdder.accept(Component.literal("Consumes " + consumptionPerTick + "mb of fuel per tick to allow you to fly.").withColor(Utils.getMinecraftColor("gray")));
+        tooltipAdder.accept(Component.literal("Consumes " + consumptionPerSecond + "mb of fuel per second to allow you to fly.").withColor(Utils.getMinecraftColor("gray")));
+        tooltipAdder.accept(Component.literal("Climbs at up to " + maxUpwardSpeed + " blocks per tick.").withColor(Utils.getMinecraftColor("gray")));
         tooltipAdder.accept(Component.translatable("tooltip.item.stellaris.can_be_applied_to_space_suit_boots_module").withColor(Utils.getMinecraftColor("gray")));
     }
 

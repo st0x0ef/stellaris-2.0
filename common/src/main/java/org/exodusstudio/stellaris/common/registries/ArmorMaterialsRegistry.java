@@ -15,7 +15,7 @@ import java.util.EnumMap;
 public class ArmorMaterialsRegistry {
     private static final ResourceKey<Registry<EquipmentAsset>> key = ResourceKey.createRegistryKey(Identifier.withDefaultNamespace("equipment_asset"));
     public static final ArmorMaterial SPACE_SUIT = new ArmorMaterial(
-            10,
+            25,
             Util.make(new EnumMap<>(ArmorType.class), map -> {
                 map.put(ArmorType.BOOTS, 0);
                 map.put(ArmorType.LEGGINGS, 0);

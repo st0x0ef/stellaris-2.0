@@ -54,18 +54,15 @@ public class CommonConfig {
 
         @ScreenInfos.Description(value = "config.stellaris.oxygenConfig.noOxygenDamage.desc")
         public float noOxygenDamage = 0.5f;
-    }
 
-    @ScreenInfos.InnerConfig
-    @ScreenInfos.Description("config.stellaris.spaceSuitConfig.desc")
-    public SpaceSuitConfig spaceSuitConfig = new SpaceSuitConfig();
+        @ScreenInfos.Description(value = "config.stellaris.oxygenConfig.baseOxygenDrain.desc")
+        public int baseOxygenDrain = 1;
 
-    public static class SpaceSuitConfig {
-        @ScreenInfos.Description(value = "config.stellaris.spaceSuitConfig.jetFuelConsumptionInterval.desc")
-        public int jetFuelConsumptionInterval = 20;
+        @ScreenInfos.Description(value = "config.stellaris.oxygenConfig.sprintOxygenDrainMultiplier.desc")
+        public int sprintOxygenDrainMultiplier = 2;
 
-        @ScreenInfos.Description(value = "config.stellaris.spaceSuitConfig.maxJetUpwardSpeed.desc")
-        public double maxJetUpwardSpeed = 0.5;
+        @ScreenInfos.Description(value = "config.stellaris.oxygenConfig.jetOxygenDrainMultiplier.desc")
+        public int jetOxygenDrainMultiplier = 4;
     }
 
     @ScreenInfos.InnerConfig

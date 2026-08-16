@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.function.Function;
+import java.util.function.Predicate;
 
 @SuppressWarnings("unused")
 public class Modules<M extends Module<M>> implements Serializable, Iterable<M> {
@@ -81,6 +82,20 @@ public class Modules<M extends Module<M>> implements Serializable, Iterable<M> {
         public Mutable insert(ModuleLike<M> module) {
             this.modules.add((module.asModule()));
             return this;
+        }
+
+        public Mutable remove(M module) {
+            this.modules.remove(module);
+            return this;
+        }
+
+        public Mutable removeIf(Predicate<? super M> filter) {
+            this.modules.removeIf(filter);
+            return this;
+        }
+
+        public List<M> getModules() {
+            return this.modules;
         }
 
         public Modules<M> toImmutable() {
