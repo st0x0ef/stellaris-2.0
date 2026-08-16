@@ -1,12 +1,14 @@
 package org.exodusstudio.stellaris.mixin;
 
 import dev.architectury.networking.NetworkManager;
+import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.material.FluidState;
 import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.common.network.packets.SyncPlanetMenuState;
 import org.exodusstudio.stellaris.common.registries.ItemsRegistry;
@@ -52,12 +54,25 @@ public abstract class PlayerMixin extends LivingEntity implements CustomPlayerDa
         return stellaris$isPlanetMenuOpened;
     }
 
+
+    @Unique
+    private boolean stellaris$isEyeInBlueLiquid() {
+        double eyeY = this.getEyeY();
+        BlockPos eyePos = BlockPos.containing(this.getX(), eyeY, this.getZ());
+        FluidState fluidState = this.level().getFluidState(eyePos);
+        if (!fluidState.is(TagsRegistry.FluidTags.BLUE_LIQUID)) {
+            return false;
+        }
+
+        return eyeY < eyePos.getY() + fluidState.getHeight(this.level(), eyePos);
+    }
+
     @Inject(method = "tick", at = @At("HEAD"))
     private void stellaris$onTick(CallbackInfo ci) {
 
         if (!this.level().isClientSide()) {
             if (Stellaris.CONFIG.parasiteConfig.enableParasiteDrop && stellaris$nextFluidCheck <= 0) {
-                if (this.isEyeInFluid(TagsRegistry.FluidTags.BLUE_LIQUID)) {
+                if (stellaris$isEyeInBlueLiquid()) {
                     if (stellaris$parasiteTimer == -100) {
                         int minTicks = Stellaris.CONFIG.parasiteConfig.minDropIntervalTicks;
                         int maxRandomTicks = Stellaris.CONFIG.parasiteConfig.randomDropIntervalMaxTicks;
