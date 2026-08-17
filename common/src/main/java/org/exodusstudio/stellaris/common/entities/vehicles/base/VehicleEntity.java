@@ -113,13 +113,20 @@ public abstract class VehicleEntity extends Entity implements HasCustomInventory
 
     @Override
     public InteractionResult interact(Player player, InteractionHand hand, Vec3 vec) {
-
-        if(this.canAddPassenger(player)) {
-            player.startRiding(this);
-
+        if (this.level().isClientSide()) {
+            return InteractionResult.SUCCESS;
         }
 
-        return super.interact(player, hand, vec);
+        if (player.isCrouching()) {
+            this.openCustomInventoryScreen(player);
+            return InteractionResult.CONSUME;
+        }
+
+        if (this.canAddPassenger(player)) {
+            player.startRiding(this);
+        }
+
+        return InteractionResult.CONSUME;
     }
 
     public void rotAnim() {

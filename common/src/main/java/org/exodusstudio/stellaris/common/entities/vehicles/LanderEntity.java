@@ -10,8 +10,6 @@ import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -31,7 +29,6 @@ import org.exodusstudio.stellaris.common.keybinds.KeyVariables;
 import org.exodusstudio.stellaris.common.menus.LanderMenu;
 import org.exodusstudio.stellaris.common.registries.EntityTypesRegistry;
 import org.exodusstudio.stellaris.common.utils.GravityUtils;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
@@ -103,23 +100,6 @@ public class LanderEntity extends VehicleEntity {
         }
 
         return false;
-    }
-
-    @Override
-    public @NotNull InteractionResult interact(Player player, InteractionHand hand, Vec3 location) {
-        if (this.level().isClientSide()) {
-            return InteractionResult.SUCCESS;
-        }
-
-        if (player.isCrouching()) {
-            this.openCustomInventoryScreen(player);
-            return InteractionResult.CONSUME;
-        }
-
-        if (this.canAddPassenger(player)) {
-            player.startRiding(this);
-        }
-        return InteractionResult.CONSUME;
     }
 
     @Override
