@@ -7,9 +7,11 @@ import mezz.jei.api.registration.IRecipeCatalystRegistration;
 import mezz.jei.api.registration.IRecipeCategoryRegistration;
 import mezz.jei.api.runtime.IJeiRuntime;
 import net.minecraft.resources.Identifier;
+import org.exodusstudio.stellaris.common.compats.jei.categories.BlenderCategory;
 import org.exodusstudio.stellaris.common.compats.jei.categories.ElectrolyzerCategory;
 import org.exodusstudio.stellaris.common.compats.jei.categories.FuelRefineryCategory;
 import org.exodusstudio.stellaris.common.compats.jei.categories.RocketStationCategory;
+import org.exodusstudio.stellaris.common.compats.jei.recipe_cache.BlenderRecipeCache;
 import org.exodusstudio.stellaris.common.compats.jei.recipe_cache.ElectrolyzerRecipeCache;
 import org.exodusstudio.stellaris.common.compats.jei.recipe_cache.FuelRefineryRecipeCache;
 import org.exodusstudio.stellaris.common.compats.jei.recipe_cache.RocketStationRecipeCache;
@@ -38,7 +40,8 @@ public class JEIPlugin implements IModPlugin {
         registry.addRecipeCategories(
                 RocketStationCategory.create(guiHelper),
                 FuelRefineryCategory.create(guiHelper),
-                ElectrolyzerCategory.create(guiHelper)
+                ElectrolyzerCategory.create(guiHelper),
+                BlenderCategory.create(guiHelper)
         );
     }
 
@@ -57,6 +60,7 @@ public class JEIPlugin implements IModPlugin {
             runtime.getRecipeManager().addRecipes(RocketStationCategory.RECIPE, RocketStationRecipeCache.get());
             runtime.getRecipeManager().addRecipes(FuelRefineryCategory.RECIPE, FuelRefineryRecipeCache.get());
             runtime.getRecipeManager().addRecipes(ElectrolyzerCategory.RECIPE, ElectrolyzerRecipeCache.get());
+            runtime.getRecipeManager().addRecipes(BlenderCategory.RECIPE, BlenderRecipeCache.get());
         }
     }
 
@@ -65,5 +69,6 @@ public class JEIPlugin implements IModPlugin {
         registry.addCraftingStation(RocketStationCategory.RECIPE, BlocksRegistry.ENGINEERING_STATION.item().get().getDefaultInstance());
         registry.addCraftingStation(FuelRefineryCategory.RECIPE, BlocksRegistry.FUEL_REFINERY.item().get().getDefaultInstance());
         registry.addCraftingStation(ElectrolyzerCategory.RECIPE, BlocksRegistry.ELECTROLYZER.item().get().getDefaultInstance());
+        registry.addCraftingStation(BlenderCategory.RECIPE, BlocksRegistry.BLENDER.item().get().getDefaultInstance());
     }
 }

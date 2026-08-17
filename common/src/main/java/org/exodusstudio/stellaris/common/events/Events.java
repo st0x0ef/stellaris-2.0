@@ -16,6 +16,10 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ItemStackTemplate;
+import net.minecraft.world.item.crafting.CraftingInput;
+import net.minecraft.world.item.crafting.RecipeHolder;
+import net.minecraft.world.item.crafting.ShapelessRecipe;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.*;
 import org.apache.commons.io.FileUtils;
@@ -27,11 +31,13 @@ import org.exodusstudio.stellaris.common.blocks.CoalLanternBlock;
 import org.exodusstudio.stellaris.common.blocks.WallCoalTorchBlock;
 import org.exodusstudio.stellaris.common.blocks.entities.AntennaBlockEntity;
 import org.exodusstudio.stellaris.common.blocks.entities.FlagBlockEntity;
+import org.exodusstudio.stellaris.common.data.recipes.BlendingRecipe;
 import org.exodusstudio.stellaris.common.data.recipes.ElectrolyzeRecipe;
 import org.exodusstudio.stellaris.common.data.recipes.FuelRefineryRecipe;
 import org.exodusstudio.stellaris.common.data.recipes.RocketStationRecipe;
 import org.exodusstudio.stellaris.common.items.space_suit.SpaceSuitHelmet;
 import org.exodusstudio.stellaris.common.network.packets.AntennasOperations;
+import org.exodusstudio.stellaris.common.network.packets.BlenderSyncerPacket;
 import org.exodusstudio.stellaris.common.network.packets.ElectrolyzerSyncerPacket;
 import org.exodusstudio.stellaris.common.network.packets.FuelRefinerySyncerPacket;
 import org.exodusstudio.stellaris.common.network.packets.RecipeSyncerPacket;
@@ -94,6 +100,25 @@ public class Events {
                     .map(holder -> (ElectrolyzeRecipe) holder.value())
                     .toList();
             NetworkManager.sendToPlayer(player, new ElectrolyzerSyncerPacket(electroRecipes));
+
+            List<BlendingRecipe> blendingRecipes = new ArrayList<>();
+            for (RecipeHolder<?> holder : player.level().recipeAccess().getRecipes()) {
+                if (holder.value() instanceof BlendingRecipe blending) {
+                    blendingRecipes.add(blending);
+                    continue;
+                }
+
+                // The blender runs shapeless recipes too, so list them under its category as well.
+                if (holder.value() instanceof ShapelessRecipe shapeless && !shapeless.placementInfo().isImpossibleToPlace()) {
+                    ItemStack result = shapeless.assemble(CraftingInput.EMPTY);
+
+                    if (!result.isEmpty()) {
+                        blendingRecipes.add(BlendingRecipe.display(shapeless.placementInfo().ingredients(),
+                                ItemStackTemplate.fromNonEmptyStack(result)));
+                    }
+                }
+            }
+            NetworkManager.sendToPlayer(player, new BlenderSyncerPacket(blendingRecipes));
         });
 
         blockEvents();

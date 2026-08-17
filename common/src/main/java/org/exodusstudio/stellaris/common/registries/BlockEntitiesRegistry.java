@@ -26,6 +26,9 @@ public class BlockEntitiesRegistry {
     public static final Supplier<BlockEntityType<VacuumatorBlockEntity>> VACUUMATOR = BLOCK_ENTITY_TYPE.register("vacuumator",
             () -> new BlockEntityType<>(VacuumatorBlockEntity::new, Set.of(BlocksRegistry.VACUUMATOR.block().get())));
 
+    public static final Supplier<BlockEntityType<BlenderBlockEntity>> BLENDER = BLOCK_ENTITY_TYPE.register("blender",
+            () -> new BlockEntityType<>(BlenderBlockEntity::new, Set.of(BlocksRegistry.BLENDER.block().get())));
+
     public static final Supplier<BlockEntityType<PumpjackBlockEntity>> PUMPJACK = BLOCK_ENTITY_TYPE.register("pumpjack",
             () -> new BlockEntityType<>(PumpjackBlockEntity::new, Set.of(BlocksRegistry.PUMPJACK.block().get())));
     public static final Supplier<BlockEntityType<FuelRefineryBlockEntity>> FUEL_REFINERY = BLOCK_ENTITY_TYPE.register("fuel_refinery",

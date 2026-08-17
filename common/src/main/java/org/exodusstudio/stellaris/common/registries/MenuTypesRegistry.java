@@ -33,6 +33,7 @@ public class MenuTypesRegistry {
 
     public static final RegistrySupplier<MenuType<ElectrolyzerMenu>> ELECTROLYZER = MENU_TYPE.register("electrolyzer", () -> MenuRegistry.ofExtended(ElectrolyzerMenu::create));
     public static final RegistrySupplier<MenuType<VacuumatorMenu>> VACUUMATOR = MENU_TYPE.register("vacuumator", () -> MenuRegistry.ofExtended(VacuumatorMenu::create));
+    public static final RegistrySupplier<MenuType<BlenderMenu>> BLENDER = MENU_TYPE.register("blender", () -> MenuRegistry.ofExtended(BlenderMenu::create));
 
     public static final RegistrySupplier<MenuType<RoverMenu>> ROVER_MENU = MENU_TYPE.register("rover_menu", () -> MenuRegistry.ofExtended(RoverMenu::create));
 

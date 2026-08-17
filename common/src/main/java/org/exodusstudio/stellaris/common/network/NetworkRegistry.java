@@ -56,6 +56,7 @@ public interface NetworkRegistry {
         registerS2C(RecipeSyncerPacket.TYPE, RecipeSyncerPacket.STREAM_CODEC, RecipeSyncerPacket::handle);
         registerS2C(FuelRefinerySyncerPacket.TYPE, FuelRefinerySyncerPacket.STREAM_CODEC, FuelRefinerySyncerPacket::handle);
         registerS2C(ElectrolyzerSyncerPacket.TYPE, ElectrolyzerSyncerPacket.STREAM_CODEC, ElectrolyzerSyncerPacket::handle);
+        registerS2C(BlenderSyncerPacket.TYPE, BlenderSyncerPacket.STREAM_CODEC, BlenderSyncerPacket::handle);
 
         registerC2S(OxygenDebugRequestPacket.TYPE, OxygenDebugRequestPacket.STREAM_CODEC, OxygenDebugRequestPacket::handle);
         registerS2C(OxygenDebugResponsePacket.TYPE, OxygenDebugResponsePacket.STREAM_CODEC, OxygenDebugResponsePacket::handle);

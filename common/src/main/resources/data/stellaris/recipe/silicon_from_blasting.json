@@ -1,9 +1,0 @@
-{
-  "type": "minecraft:blasting",
-  "ingredient": "minecraft:quartz",
-  "result": {
-    "id": "stellaris:silicon"
-  },
-  "experience": 0.5,
-  "cookingtime": 100
-}

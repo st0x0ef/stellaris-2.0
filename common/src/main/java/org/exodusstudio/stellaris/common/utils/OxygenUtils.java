@@ -131,12 +131,11 @@ public class OxygenUtils {
     }
 
     public static AllowedArea getAllowedArea(Level level, BlockPos distributorPos) {
-        Set<ChunkPos> allowedChunks = new HashSet<>();
         Set<ChunkPos> propagatorChunks = new HashSet<>();
 
         Set<ChunkPos> toProcess = new HashSet<>(
                 chunksAround(ChunkPos.containing(distributorPos), EXPLORATION_CHUNK_RADIUS));
-        allowedChunks.addAll(toProcess);
+        Set<ChunkPos> allowedChunks = new HashSet<>(toProcess);
 
         while (!toProcess.isEmpty() && allowedChunks.size() < MAX_ALLOWED_CHUNKS) {
             Set<ChunkPos> newChunks = new HashSet<>();

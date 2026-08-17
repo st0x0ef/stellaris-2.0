@@ -1,0 +1,16 @@
+{
+  "type": "stellaris:blending",
+  "ingredients": [
+    {
+      "ingredient": "minecraft:quartz",
+      "count": 2
+    },
+    "#minecraft:coals"
+  ],
+  "result": {
+    "id": "stellaris:silicon",
+    "count": 3
+  },
+  "energy": 200,
+  "duration": 80
+}

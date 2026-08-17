@@ -17,6 +17,8 @@ public class JadePlugin implements IWailaPlugin {
         registration.registerBlockComponent(ProxyBlockProvider.INSTANCE, FlagProxyBlock.class);
         registration.registerBlockIcon(ProxyBlockProvider.INSTANCE, RocketLaunchPadProxyBlock.class);
         registration.registerBlockComponent(ProxyBlockProvider.INSTANCE, RocketLaunchPadProxyBlock.class);
+        registration.registerBlockIcon(ProxyBlockProvider.INSTANCE, BlenderProxyBlock.class);
+        registration.registerBlockComponent(ProxyBlockProvider.INSTANCE, BlenderProxyBlock.class);
 
         // Show the flag's owner on both the flag and its proxies.
         registration.registerBlockComponent(FlagOwnerProvider.INSTANCE, FlagBlock.class);

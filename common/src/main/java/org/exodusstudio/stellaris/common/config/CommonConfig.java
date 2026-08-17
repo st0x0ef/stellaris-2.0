@@ -129,6 +129,12 @@ public class CommonConfig {
 
         @ScreenInfos.Description(value = "config.stellaris.machineConfig.vacuumatorWaterPerCraft.desc")
         public int vacuumatorWaterPerCraft = 100;
+
+        @ScreenInfos.Description(value = "config.stellaris.machineConfig.blenderEnergyPerCraft.desc")
+        public int blenderEnergyPerCraft = 150;
+
+        @ScreenInfos.Description(value = "config.stellaris.machineConfig.blenderTicksPerCraft.desc")
+        public int blenderTicksPerCraft = 60;
     }
 
     @ScreenInfos.InnerConfig

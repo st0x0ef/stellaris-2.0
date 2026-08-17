@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "TGT",
+    "ICI",
+    "TFT"
+  ],
+  "key": {
+    "T": "stellaris:titanium_ingot",
+    "G": "minecraft:glass",
+    "I": "minecraft:iron_ingot",
+    "C": "stellaris:cable_t1",
+    "F": "stellaris:engine_fan"
+  },
+  "result": {
+    "id": "stellaris:blender",
+    "count": 1
+  }
+}

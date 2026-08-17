@@ -1,0 +1,8 @@
+{
+  "variants": {
+    "facing=north": { "model": "stellaris:block/blender_proxy_break" },
+    "facing=east": { "model": "stellaris:block/blender_proxy_break" },
+    "facing=south": { "model": "stellaris:block/blender_proxy_break" },
+    "facing=west": { "model": "stellaris:block/blender_proxy_break" }
+  }
+}

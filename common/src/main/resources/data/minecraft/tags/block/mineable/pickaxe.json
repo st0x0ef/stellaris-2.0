@@ -81,6 +81,8 @@
     "stellaris:rocket_launch_pad_proxy",
     "stellaris:antenna",
     "stellaris:cargo_unloader",
-    "stellaris:laboratory"
+    "stellaris:laboratory",
+    "stellaris:blender",
+    "stellaris:blender_proxy"
   ]
 }

@@ -178,6 +178,14 @@ public final class BlocksRegistry {
     // FOOD PROCESSING
     public static final BlockItemRegistrySupplier VACUUMATOR = blockWithItem("vacuumator", BlockBehaviour.Properties.of().strength(3.0F), VacuumatorBlock::new);
 
+    public static final BlockItemRegistrySupplier BLENDER = blockWithItem("blender", BlockBehaviour.Properties.of().strength(3.0F).noOcclusion(), BlenderBlock::new);
+    public static final RegistrySupplier<Block> BLENDER_PROXY = block(
+            "blender_proxy",
+            BlockBehaviour.Properties.of().strength(3.0F).noOcclusion().noLootTable()
+                    .isSuffocating(BlocksRegistry::never).isViewBlocking(BlocksRegistry::never),
+            BlenderProxyBlock::new
+    );
+
     // STORAGE
     public static final BlockItemRegistrySupplier POWER_BANK_T1 = blockWithCustomItem("power_bank_t1", BlockBehaviour.Properties.of().strength(3.0F), (p) -> new PowerBankBlock(p, (short) 1), new Item.Properties(), PowerBankItem::new);
     public static final BlockItemRegistrySupplier FLUID_TANK_T1 = blockWithItem("fluid_tank_t1", BlockBehaviour.Properties.of().strength(3.0F), (p) -> new FluidTankBlock(p, 5000), new Item.Properties()); // TODO : item should keep it fluid inside

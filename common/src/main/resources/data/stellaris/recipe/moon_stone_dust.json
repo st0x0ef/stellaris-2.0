@@ -1,0 +1,10 @@
+{
+  "type": "stellaris:blending",
+  "ingredients": [
+    "stellaris:moon_stone"
+  ],
+  "result": {
+    "id": "stellaris:moon_stone_dust",
+    "count": 1
+  }
+}
