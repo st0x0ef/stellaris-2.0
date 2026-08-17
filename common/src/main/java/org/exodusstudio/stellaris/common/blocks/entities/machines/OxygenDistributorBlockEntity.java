@@ -41,6 +41,8 @@ public class OxygenDistributorBlockEntity extends BaseEnergyContainerBlockEntity
 
     public static final long OXYGEN_CAPACITY = 10000;
 
+    private static final String STATUS_TAG = "oxygen_status";
+
     private final Set<BlockPos> oxygenatedPosition;
     private final Set<ChunkPos> coveredChunks;
 
@@ -49,6 +51,9 @@ public class OxygenDistributorBlockEntity extends BaseEnergyContainerBlockEntity
 
     private int oxygenDistributedTickCounter = 0;
     private boolean isActive = false;
+    private OxygenUtils.OxygenStatus status = OxygenUtils.OxygenStatus.NO_ENERGY;
+
+    private boolean computed = false;
 
     public OxygenDistributorBlockEntity(BlockPos blockPos, BlockState blockState) {
         super(BlockEntitiesRegistry.OXYGEN_DISTRIBUTOR.get(), blockPos, blockState);
@@ -91,50 +96,109 @@ public class OxygenDistributorBlockEntity extends BaseEnergyContainerBlockEntity
         if (oxygenDistributedTickCounter > 0) {
             oxygenDistributedTickCounter--;
             return;
-        } else {
-            oxygenDistributedTickCounter = Stellaris.CONFIG.oxygenConfig.oxygenUpdateInterval;
         }
 
+        distributeOxygen(level);
+    }
+
+    private void distributeOxygen(Level level) {
+        // Reset here rather than in tick, so a fill triggered by the first query does not get
+        // charged for a second time when this block entity ticks later in the same tick.
+        oxygenDistributedTickCounter = Stellaris.CONFIG.oxygenConfig.oxygenUpdateInterval;
+        computed = true;
         oxygenatedPosition.clear();
         coveredChunks.clear();
 
-        if (energyContainer.getEnergy() > 0 && !oxygenTank.isEmpty()) {
-            Set<ChunkPos> allowedChunks = OxygenUtils.getAllowedChunks(level, worldPosition);
-            coveredChunks.addAll(allowedChunks);
+        OxygenUtils.OxygenStatus newStatus;
 
-            Set<BlockPos> newOxygenatedPosition = OxygenUtils.propagateOxygen(level, worldPosition, coveredChunks);
-            if (!newOxygenatedPosition.isEmpty()) {
-                int livingEntitiesCount = OxygenUtils.getEntityWhoNeedsOxygen(level, coveredChunks, newOxygenatedPosition);
+        if (energyContainer.getEnergy() <= 0) {
+            newStatus = OxygenUtils.OxygenStatus.NO_ENERGY;
+        } else if (oxygenTank.isEmpty()) {
+            newStatus = OxygenUtils.OxygenStatus.NO_OXYGEN;
+        } else {
+            OxygenUtils.AllowedArea area = OxygenUtils.getAllowedArea(level, worldPosition);
+            coveredChunks.addAll(area.allowedChunks());
+
+            OxygenUtils.OxygenResult result = OxygenUtils.propagateOxygen(level, worldPosition, area);
+            newStatus = result.status();
+
+            if (newStatus == OxygenUtils.OxygenStatus.OK && !result.positions().isEmpty()) {
+                int livingEntitiesCount = OxygenUtils.getEntityWhoNeedsOxygen(level, result.positions());
 
                 if (livingEntitiesCount == 0) {
-                    oxygenatedPosition.addAll(newOxygenatedPosition);
+                    oxygenatedPosition.addAll(result.positions());
                     energyContainer.extract(1, false);
                 } else if (oxygenTank.getFluidValueInTank() >= livingEntitiesCount) {
                     oxygenTank.drainWithoutLimits(livingEntitiesCount, false);
                     energyContainer.extract(1, false);
-                    oxygenatedPosition.addAll(newOxygenatedPosition);
+                    oxygenatedPosition.addAll(result.positions());
+                } else {
+                    newStatus = OxygenUtils.OxygenStatus.NOT_ENOUGH_OXYGEN;
                 }
             }
         }
 
         boolean newIsActive = !oxygenatedPosition.isEmpty();
-        if (newIsActive != isActive) {
+        if (newIsActive != isActive || newStatus != status) {
             isActive = newIsActive;
+            status = newStatus;
+            setChanged();
             level.sendBlockUpdated(worldPosition, getBlockState(), getBlockState(), Block.UPDATE_CLIENTS);
         }
+    }
+
+    // Registered from both hooks because vanilla gives no single "added to the level" callback and
+    // the two are called in either order depending on how the block entity got here. Registration
+    // is a set insert, so doing it twice is free.
+    @Override
+    public void setLevel(Level level) {
+        super.setLevel(level);
+        OxygenUtils.registerDistributor(this);
+    }
+
+    @Override
+    public void clearRemoved() {
+        super.clearRemoved();
+        OxygenUtils.registerDistributor(this);
+    }
+
+    private void ensureComputed() {
+        if (computed || level == null || level.isClientSide() || !Stellaris.CONFIG.oxygenConfig.enableOxygenSystem) {
+            return;
+        }
+
+        distributeOxygen(level);
+    }
+
+    @Override
+    public void setRemoved() {
+        OxygenUtils.unregisterDistributor(this);
+        super.setRemoved();
     }
 
     @Override
     protected void saveAdditional(ValueOutput output) {
         super.saveAdditional(output);
         oxygenTank.save(output, "oxygen_tank");
+        output.putString(STATUS_TAG, status.name());
     }
 
     @Override
     protected void loadAdditional(ValueInput input) {
         super.loadAdditional(input);
         oxygenTank.load(input, "oxygen_tank");
+        status = input.getString(STATUS_TAG)
+                .map(OxygenDistributorBlockEntity::readStatus)
+                .orElse(OxygenUtils.OxygenStatus.NO_ENERGY);
         setChanged();
+    }
+
+    private static OxygenUtils.OxygenStatus readStatus(String name) {
+        try {
+            return OxygenUtils.OxygenStatus.valueOf(name);
+        } catch (IllegalArgumentException exception) {
+            return OxygenUtils.OxygenStatus.NO_ENERGY;
+        }
     }
 
     @Override
@@ -167,7 +231,12 @@ public class OxygenDistributorBlockEntity extends BaseEnergyContainerBlockEntity
     }
 
     public boolean isOxygenated(BlockPos pos) {
+        ensureComputed();
         return coversChunk(pos) && oxygenatedPosition.contains(pos);
+    }
+
+    public OxygenUtils.OxygenStatus getStatus() {
+        return status;
     }
 
     public boolean coversChunk(BlockPos pos) {

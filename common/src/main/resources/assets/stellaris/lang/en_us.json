@@ -343,6 +343,13 @@
   "gui.stellaris.launchpad_creator.name": "Antenna Name",
   "gui.stellaris.launchpad_creator.public_checkbox": "Make this antenna public (allows anyone to use this launch pad)",
 
+  "gui.stellaris.oxygen_distributor.status.no_energy": "No energy",
+  "gui.stellaris.oxygen_distributor.status.no_oxygen": "No oxygen",
+  "gui.stellaris.oxygen_distributor.status.not_enough_oxygen": "Not enough oxygen",
+  "gui.stellaris.oxygen_distributor.status.sky_leak": "Room open to the sky",
+  "gui.stellaris.oxygen_distributor.status.room_too_large": "Room too large",
+  "gui.stellaris.oxygen_distributor.status.too_many_blocks": "Too many blocks",
+
   "menu.duplicate_module": "A module of this type is already installed.",
   "menu.fuel_not_empty": "Cannot remove this module while the fuel tank is not empty.",
 
