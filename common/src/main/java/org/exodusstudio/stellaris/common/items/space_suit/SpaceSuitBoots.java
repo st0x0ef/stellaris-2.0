@@ -138,6 +138,8 @@ public class SpaceSuitBoots extends SpaceSuitItem {
     }
 
     private void normalFlyModeMovement(Player player, ItemStack bootsStack, UniversalFluidItemStorage storage, SpaceSuitModule.JetModule jetModule) {
+        boolean inFluid = player.isInWater() || player.isInLava();
+
         if (KeyVariables.isHoldingJump(player)) {
             if (!consumeFuel(bootsStack, player, storage, jetModule)) return;
 
@@ -151,7 +153,7 @@ public class SpaceSuitBoots extends SpaceSuitItem {
             player.hurtMarked = true;
             player.resetFallDistance();
             Utils.disableFlyAntiCheat(player);
-        } else if (!player.isCrouching() && !player.onGround()) {
+        } else if (!inFluid && !player.isCrouching() && !player.onGround()) {
             Vec3 vec3 = player.getDeltaMovement();
             if (vec3.y() > 0) {
                 player.setDeltaMovement(new Vec3(vec3.x, vec3.y - 0.03, vec3.z));
@@ -159,7 +161,7 @@ public class SpaceSuitBoots extends SpaceSuitItem {
             }
         }
 
-        if (!player.onGround()) {
+        if (!inFluid && !player.onGround()) {
             if (KeyVariables.isHoldingUp(player)) {
                 player.moveRelative(1.0F, new Vec3(0, 0, 0.03));
                 player.hurtMarked = true;
