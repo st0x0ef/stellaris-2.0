@@ -1,7 +1,35 @@
 {
   "items": [
     {
-      "item": "stellaris:rocket",
+      "item": "stellaris:titanium_plating_block",
+      "count": 32
+    },
+    {
+      "item": "stellaris:titanium_block",
+      "count": 16
+    },
+    {
+      "item": "minecraft:glass",
+      "count": 32
+    },
+    {
+      "item": "stellaris:silicon",
+      "count": 24
+    },
+    {
+      "item": "stellaris:desh_ingot",
+      "count": 16
+    },
+    {
+      "item": "stellaris:engine_fan",
+      "count": 4
+    },
+    {
+      "item": "stellaris:solar_panel",
+      "count": 2
+    },
+    {
+      "item": "stellaris:antenna",
       "count": 1
     }
   ],

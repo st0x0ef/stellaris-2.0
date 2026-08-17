@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "T T",
+    "TPT",
+    "TST"
+  ],
+  "key": {
+    "T": "stellaris:titanium_ingot",
+    "S": "stellaris:silicon",
+    "P": "minecraft:flower_pot"
+  },
+  "result": {
+    "id": "stellaris:space_farm",
+    "count": 1
+  }
+}
