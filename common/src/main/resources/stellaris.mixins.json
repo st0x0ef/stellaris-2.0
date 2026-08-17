@@ -17,6 +17,7 @@
     "CropGrowsMixin",
     "EntityMixin",
     "FireMixin",
+    "LevelWeatherMixin",
     "LivingEntityMixin",
     "NetherPortalMixin",
     "PlayerMixin",
