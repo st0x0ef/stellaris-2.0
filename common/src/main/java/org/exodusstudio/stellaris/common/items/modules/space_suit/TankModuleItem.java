@@ -15,6 +15,7 @@ import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.component.TooltipDisplay;
 import net.minecraft.world.level.material.Fluid;
 import org.exodusstudio.stellaris.client.overlays.SpaceSuitOverlay;
+import org.exodusstudio.stellaris.client.registry.FluidInfosRegistry;
 import org.exodusstudio.stellaris.common.fluid.FluidUtil;
 import org.exodusstudio.stellaris.common.items.space_suit.SpaceSuitChestplate;
 import org.exodusstudio.stellaris.common.modules.space_suit.SpaceSuitModule;
@@ -76,7 +77,10 @@ public class TankModuleItem extends Item implements SpaceSuitModule.CustomFuelMo
 
 
             /** FUEL AMOUNT TEXT */
-            String fuelName = fuelFluid.getName().getString();
+            Fluid displayedFluid = fuelFluid.isEmpty() ? tankModule.getFuel() : fuelFluid.getFluid();
+            String fuelName = displayedFluid == null
+                    ? fuelFluid.getName().getString()
+                    : FluidInfosRegistry.getFluidComponent(displayedFluid).getString();
             Component text = Component.literal(fuelName).append(": ").withStyle(ChatFormatting.RED).append("§7" + Math.round(((float) fuel / maxFuel) * 100) + "%");
             graphics.text(font, text, SpaceSuitOverlay.PADDING, y, 0xFFFFFFFF);
 

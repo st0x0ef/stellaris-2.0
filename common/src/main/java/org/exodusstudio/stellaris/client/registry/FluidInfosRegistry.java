@@ -68,22 +68,27 @@ public class FluidInfosRegistry {
         return FluidStack.create(fluid, FluidStack.bucketAmount()).getName();
     }
 
+    private static void registerBoth(Fluid still, Fluid flowing, FluidInfos fluidInfos) {
+        register(still, fluidInfos);
+        register(flowing, fluidInfos);
+    }
+
     public static void init() {
-        register(FluidsRegistry.HYDROGEN_STILL.get(),
+        registerBoth(FluidsRegistry.HYDROGEN_STILL.get(), FluidsRegistry.HYDROGEN_FLOWING.get(),
                 new FluidInfos(GUISprites.HYDROGEN_OVERLAY, Component.translatable("fluid.stellaris.hydrogen")));
-        register(FluidsRegistry.FUEL_STILL.get(),
+        registerBoth(FluidsRegistry.FUEL_STILL.get(), FluidsRegistry.FUEL_FLOWING.get(),
                 new FluidInfos(GUISprites.FUEL_OVERLAY, Component.translatable("fluid.stellaris.fuel")));
-        register(FluidsRegistry.OXYGEN_STILL.get(),
+        registerBoth(FluidsRegistry.OXYGEN_STILL.get(), FluidsRegistry.OXYGEN_FLOWING.get(),
                 new FluidInfos(GUISprites.OXYGEN_OVERLAY, Component.translatable("fluid.stellaris.oxygen")));
-        register(FluidsRegistry.OIL_STILL.get(),
+        registerBoth(FluidsRegistry.OIL_STILL.get(), FluidsRegistry.FLOWING_OIL.get(),
                 new FluidInfos(GUISprites.OIL_OVERLAY, Component.translatable("fluid.stellaris.oil")));
-        register(FluidsRegistry.DIESEL_STILL.get(),
+        registerBoth(FluidsRegistry.DIESEL_STILL.get(), FluidsRegistry.FLOWING_DIESEL.get(),
                 new FluidInfos(GUISprites.DIESEL_OVERLAY, Component.translatable("fluid.stellaris.diesel")));
-        register(FluidsRegistry.BLUE_LIQUID_STILL.get(),
+        registerBoth(FluidsRegistry.BLUE_LIQUID_STILL.get(), FluidsRegistry.BLUE_LIQUID_FLOWING.get(),
                 new FluidInfos(GUISprites.WATER_OVERLAY, Component.translatable("fluid.stellaris.blue_liquid")));
-        register(FluidsRegistry.ASTRUM_LIQUIDUS_STILL.get(),
+        registerBoth(FluidsRegistry.ASTRUM_LIQUIDUS_STILL.get(), FluidsRegistry.ASTRUM_LIQUIDUS_FLOWING.get(),
                 new FluidInfos(GUISprites.WATER_OVERLAY, Component.translatable("fluid.stellaris.astrum_liquidus")));
-        register(Fluids.WATER,
+        registerBoth(Fluids.WATER, Fluids.FLOWING_WATER,
                 new FluidInfos(GUISprites.WATER_OVERLAY,  Component.translatable("fluid.stellaris.water" )));
         register(Fluids.EMPTY,
                 new FluidInfos(GUISprites.WATER_OVERLAY,  Component.literal("Empty")));
