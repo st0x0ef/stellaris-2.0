@@ -11,7 +11,6 @@ import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Inventory;
-import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.client.screens.components.GaugeWidget;
 import org.exodusstudio.stellaris.client.screens.components.TextureComponentButton;
 import org.exodusstudio.stellaris.client.screens.utils.GUISprites;
@@ -34,7 +33,9 @@ public class GravityManipulatorScreen extends AbstractContainerScreen<GravityMan
     TextureComponentButton marsButton;
     TextureComponentButton earthButton;
 
+    private double minGravityValue;
     private double maxGravityValue;
+    private double gravityRange;
 
     public GravityManipulatorScreen(GravityManipulatorMenu abstractContainerMenu, Inventory inventory, Component component) {
         super(abstractContainerMenu, inventory, component, 180, 120);
@@ -51,7 +52,9 @@ public class GravityManipulatorScreen extends AbstractContainerScreen<GravityMan
             return;
         }
 
-        maxGravityValue = Stellaris.CONFIG.gravityConfig.maxGravityManipulatorValue;
+        minGravityValue = GravityManipulatorBlockEntity.getMinGravity();
+        maxGravityValue = GravityManipulatorBlockEntity.getMaxGravity();
+        gravityRange = Math.max(maxGravityValue - minGravityValue, 0.01);
 
         energyGauge = new GaugeWidget(leftPos + 68, topPos + 20, 44, 6, Component.translatable("stellaris.screen.energyContainer"), GUISprites.SIDEWAYS_ENERGY_FULL, null, blockEntity.getEnergy(null).getMaxEnergy(), GaugeWidget.Direction4.LEFT_RIGHT);
         addRenderableWidget(energyGauge);
@@ -59,13 +62,12 @@ public class GravityManipulatorScreen extends AbstractContainerScreen<GravityMan
         gravitySlider = new AbstractSliderButton(leftPos + 30, topPos + 45, 120, 20, Component.translatable("stellaris.screen.gravityManipulator.gravity"), blockEntity.getNormalizedGravity()) {
             @Override
             protected void updateMessage() {
-                this.setMessage(Component.translatable("stellaris.screen.gravityManipulator.gravity", String.format("%.2f", this.value * maxGravityValue)));
+                this.setMessage(Component.translatable("stellaris.screen.gravityManipulator.gravity", String.format("%.2f", toGravity(this.value))));
             }
 
             @Override
             protected void applyValue() {
-                double gravityValue = this.value * maxGravityValue; // Scale from 0.0-1.0 to 0.0-maxGravityValue
-                blockEntity.setGravity(gravityValue, true);
+                blockEntity.setGravity(toGravity(this.value), true); // Scale from 0.0-1.0 to minGravityValue-maxGravityValue
             }
 
             @Override
@@ -73,7 +75,7 @@ public class GravityManipulatorScreen extends AbstractContainerScreen<GravityMan
                 boolean bl = event.key() == 263;
                 if (bl || event.key() == 262) {
                     float f = bl ? -1.0F : 1.0F;
-                    this.setValue(this.value + 0.1 / maxGravityValue * f); // adjust by 0.1 gravity
+                    this.setValue(this.value + 0.1 / gravityRange * f); // adjust by 0.1 gravity
                     return true;
                 }
 
@@ -128,23 +130,31 @@ public class GravityManipulatorScreen extends AbstractContainerScreen<GravityMan
         guiGraphics.text(this.font, this.title, this.titleLabelX, this.titleLabelY, -11050641, false);
     }
 
+    private double toGravity(double sliderValue) {
+        return minGravityValue + sliderValue * gravityRange;
+    }
+
+    private double toSliderValue(double gravity) {
+        return (gravity - minGravityValue) / gravityRange;
+    }
+
     private void  initPlanetButtons() {
         moonButton = new TextureComponentButton(leftPos + 50, topPos + 75, 20, 20, 14, 14,
                 GUISprites.MOON,
                 Component.translatable("stellaris.screen.gravityManipulator.planet.moon").getString(),
-                button -> gravitySlider.setValue(1.62 / maxGravityValue),
+                button -> gravitySlider.setValue(toSliderValue(1.62)),
                 DEFAULT_NARRATION);
 
         marsButton = new TextureComponentButton(leftPos + 80, topPos + 75, 20, 20, 14, 14,
                 GUISprites.MARS,
                 Component.translatable("stellaris.screen.gravityManipulator.planet.mars").getString(),
-                button -> gravitySlider.setValue(3.73 / maxGravityValue),
+                button -> gravitySlider.setValue(toSliderValue(3.73)),
                 DEFAULT_NARRATION);
 
         earthButton = new TextureComponentButton(leftPos + 110, topPos + 75, 20, 20, 14, 14,
                 GUISprites.EARTH,
                 Component.translatable("stellaris.screen.gravityManipulator.planet.earth").getString(),
-                button -> gravitySlider.setValue(9.81 / maxGravityValue),
+                button -> gravitySlider.setValue(toSliderValue(9.81)),
                 DEFAULT_NARRATION);
 
         addRenderableWidget(earthButton);

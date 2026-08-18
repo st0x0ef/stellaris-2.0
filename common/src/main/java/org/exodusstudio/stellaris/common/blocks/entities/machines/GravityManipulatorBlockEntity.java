@@ -61,15 +61,28 @@ public class GravityManipulatorBlockEntity extends BaseEnergyContainerBlockEntit
     }
 
     public double getDifferenceGravity(double targetGravity) {
-        return this.gravity - targetGravity;
+        return getGravity() - targetGravity;
+    }
+
+    public static double getMinGravity() {
+        return Math.max(Stellaris.CONFIG.gravityConfig.minGravityManipulatorValue, 0.0);
+    }
+
+    public static double getMaxGravity() {
+        return Math.max(Stellaris.CONFIG.gravityConfig.maxGravityManipulatorValue, getMinGravity());
     }
 
     public double getGravity() {
-        return Mth.clamp(this.gravity, 0.0, Stellaris.CONFIG.gravityConfig.maxGravityManipulatorValue);
+        return Mth.clamp(this.gravity, getMinGravity(), getMaxGravity());
     }
 
     public double getNormalizedGravity() {
-        return Mth.clamp(this.gravity / Stellaris.CONFIG.gravityConfig.maxGravityManipulatorValue, 0.0, 1.0);
+        double range = getMaxGravity() - getMinGravity();
+        if (range <= 0.0) {
+            return 0.0;
+        }
+
+        return Mth.clamp((this.gravity - getMinGravity()) / range, 0.0, 1.0);
     }
 
     public void setGravity(double gravity, boolean shouldSyncC2S) {
@@ -77,7 +90,7 @@ public class GravityManipulatorBlockEntity extends BaseEnergyContainerBlockEntit
             return;
         }
 
-        this.gravity = Mth.clamp(gravity, 0.0, Stellaris.CONFIG.gravityConfig.maxGravityManipulatorValue);
+        this.gravity = Mth.clamp(gravity, getMinGravity(), getMaxGravity());
 
         if  (shouldSyncC2S) {
             syncDataAccess();

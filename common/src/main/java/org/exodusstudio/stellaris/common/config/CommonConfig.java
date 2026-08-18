@@ -31,6 +31,9 @@ public class CommonConfig {
         @ScreenInfos.Description(value = "config.stellaris.gravityConfig.gravityUpdateInterval.desc")
         public int gravityUpdateInterval = 20;
 
+        @ScreenInfos.Description(value = "config.stellaris.gravityConfig.minGravityManipulatorValue.desc")
+        public double minGravityManipulatorValue = 0.5;
+
         @ScreenInfos.Description(value = "config.stellaris.gravityConfig.maxGravityManipulatorValue.desc")
         public double maxGravityManipulatorValue = 20.0;
 
