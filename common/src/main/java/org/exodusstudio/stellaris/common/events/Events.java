@@ -35,6 +35,7 @@ import org.exodusstudio.stellaris.common.data.recipes.BlendingRecipe;
 import org.exodusstudio.stellaris.common.data.recipes.ElectrolyzeRecipe;
 import org.exodusstudio.stellaris.common.data.recipes.FuelRefineryRecipe;
 import org.exodusstudio.stellaris.common.data.recipes.RocketStationRecipe;
+import org.exodusstudio.stellaris.common.items.space_suit.SpaceSuitBoots;
 import org.exodusstudio.stellaris.common.items.space_suit.SpaceSuitHelmet;
 import org.exodusstudio.stellaris.common.network.packets.AntennasOperations;
 import org.exodusstudio.stellaris.common.network.packets.BlenderSyncerPacket;
@@ -65,6 +66,9 @@ public class Events {
 
         TickEvent.SERVER_POST.register(AssistantManager::tick);
         LifecycleEvent.SERVER_STOPPING.register(server -> AssistantManager.clear());
+
+        TickEvent.PLAYER_POST.register(SpaceSuitBoots::tickJetFlight);
+        PlayerEvent.PLAYER_QUIT.register(SpaceSuitBoots::clearJetFlight);
 
         EntityEvent.ENTER_SECTION.register((entity, sectionX, sectionY, sectionZ, prevX, prevY, prevZ) -> {
             if (entity instanceof Player player && (sectionX != prevX || sectionZ != prevZ)) {

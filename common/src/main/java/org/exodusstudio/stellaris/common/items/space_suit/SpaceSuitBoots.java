@@ -8,11 +8,14 @@ import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.util.Mth;
 import net.minecraft.util.StringRepresentable;
 import net.minecraft.util.Unit;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.MoverType;
+import net.minecraft.world.entity.player.Abilities;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
@@ -30,7 +33,9 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Consumer;
 
 public class SpaceSuitBoots extends SpaceSuitItem {
@@ -40,6 +45,12 @@ public class SpaceSuitBoots extends SpaceSuitItem {
 
     /** Ticks between jet fuel drains. Fixed at one second so the module tooltips stay true. */
     private static final int FUEL_CONSUMPTION_INTERVAL = 20;
+
+    private static final float DEFAULT_FLYING_SPEED = 0.05F;
+
+    private static final float FLYING_SPEED_PER_BLOCK_PER_TICK = 1.0F / 7.5F;
+
+    private static final Set<UUID> JET_FLIGHT_GRANTED = ConcurrentHashMap.newKeySet();
 
     /**
      * How long each player has been holding jump, keyed by UUID. This item is a singleton, so
@@ -126,7 +137,6 @@ public class SpaceSuitBoots extends SpaceSuitItem {
                 }
 
                 switch (SpaceSuitBoots.getMode(itemStack)) {
-                    case 1 -> this.normalFlyModeMovement(player, itemStack, storage, jetModule);
                     case 2 -> this.hoverModeMovement(player, itemStack, storage, jetModule);
                     case 3 -> this.elytraModeMovement(player);
                 }
@@ -137,48 +147,80 @@ public class SpaceSuitBoots extends SpaceSuitItem {
         }
     }
 
-    private void normalFlyModeMovement(Player player, ItemStack bootsStack, UniversalFluidItemStorage storage, SpaceSuitModule.JetModule jetModule) {
-        boolean inFluid = player.isInWater() || player.isInLava();
-
-        if (KeyVariables.isHoldingJump(player)) {
-            if (!consumeFuel(bootsStack, player, storage, jetModule)) return;
-
-            player.addDeltaMovement(new Vec3(0, 0.1, 0));
-            Vec3 deltaMovement = player.getDeltaMovement();
-            double maxJetUpwardSpeed = jetModule.getMaxUpwardSpeed();
-            if (deltaMovement.y() > maxJetUpwardSpeed) { // Limit upward speed
-                player.setDeltaMovement(new Vec3(deltaMovement.x(), maxJetUpwardSpeed, deltaMovement.z()));
-            }
-
-            player.hurtMarked = true;
-            player.resetFallDistance();
-            Utils.disableFlyAntiCheat(player);
-        } else if (!inFluid && !player.isCrouching() && !player.onGround()) {
-            Vec3 vec3 = player.getDeltaMovement();
-            if (vec3.y() > 0) {
-                player.setDeltaMovement(new Vec3(vec3.x, vec3.y - 0.03, vec3.z));
-                player.hurtMarked = true;
-            }
+    public static void tickJetFlight(Player player) {
+        if (player.level().isClientSide()) {
+            return;
         }
 
-        if (!inFluid && !player.onGround()) {
-            if (KeyVariables.isHoldingUp(player)) {
-                player.moveRelative(1.0F, new Vec3(0, 0, 0.03));
-                player.hurtMarked = true;
-            } else if (KeyVariables.isHoldingDown(player)) {
-                player.moveRelative(1.0F, new Vec3(0, 0, -0.03));
-                player.hurtMarked = true;
+        Abilities abilities = player.getAbilities();
+
+        if (player.isCreative() || player.isSpectator()) {
+            JET_FLIGHT_GRANTED.remove(player.getUUID());
+            return;
+        }
+
+        ItemStack bootsStack = player.getItemBySlot(EquipmentSlot.FEET);
+        SpaceSuitModule.JetModule jetModule = Utils.isLivingInSpaceSuit(player)
+                && getMode(bootsStack) == ModeType.NORMAL.getMode()
+                ? ModuleUtils.getSpaceSuitModule(bootsStack, SpaceSuitModule.JetModule.class)
+                : null;
+
+        UniversalFluidItemStorage storage = null;
+        ItemStack chestStack = player.getItemBySlot(EquipmentSlot.CHEST);
+        if (jetModule != null && chestStack.getItem() instanceof SpaceSuitChestplate chestplate) {
+            storage = chestplate.getFluidTank(chestStack);
+        }
+
+        boolean canFly = storage != null && !storage.getFluidInTank(0).isEmpty()
+                && (!abilities.flying || consumeFuel(bootsStack, player, storage, jetModule));
+
+        if (canFly) {
+            JET_FLIGHT_GRANTED.add(player.getUUID());
+            float flyingSpeed = (float) (jetModule.getMaxUpwardSpeed() * FLYING_SPEED_PER_BLOCK_PER_TICK);
+
+            if (!abilities.mayfly || abilities.getFlyingSpeed() != flyingSpeed) {
+                abilities.mayfly = true;
+                abilities.setFlyingSpeed(flyingSpeed);
+                player.onUpdateAbilities();
             }
 
-            if (KeyVariables.isHoldingRight(player)) {
-                player.moveRelative(1.0F, new Vec3(-0.03, 0, 0));
-                player.hurtMarked = true;
-            } else if (KeyVariables.isHoldingLeft(player)) {
-                player.moveRelative(1.0F, new Vec3(0.03, 0, 0));
-                player.hurtMarked = true;
+            if (abilities.flying && player.level() instanceof ServerLevel serverLevel) {
+                spawnJetFlames(serverLevel, player);
             }
+        } else if (JET_FLIGHT_GRANTED.remove(player.getUUID()) && abilities.mayfly) {
+            abilities.mayfly = false;
+            abilities.flying = false;
+            abilities.setFlyingSpeed(DEFAULT_FLYING_SPEED);
+            player.onUpdateAbilities();
         }
     }
+
+    /** Exhaust under each boot for as long as the jets are holding the player up. */
+    private static void spawnJetFlames(ServerLevel serverLevel, Player player) {
+        float bodyRot = player.yBodyRot * Mth.DEG_TO_RAD;
+        double sideX = Mth.cos(bodyRot) * 0.15;
+        double sideZ = Mth.sin(bodyRot) * 0.15;
+
+        for (int side = -1; side <= 1; side += 2) {
+            serverLevel.sendParticles(ParticleTypes.SMALL_FLAME, true, false,
+                    player.getX() + sideX * side, player.getY() + 0.1, player.getZ() + sideZ * side,
+                    0, 0.0, -0.25, 0.0, 1.0);
+        }
+    }
+
+    /**
+     * Abilities are saved with the player, so a grant left behind at logout would come back as
+     * permanent survival flight on the next join.
+     */
+    public static void clearJetFlight(ServerPlayer player) {
+        if (JET_FLIGHT_GRANTED.remove(player.getUUID()) && !player.isCreative() && !player.isSpectator()) {
+            Abilities abilities = player.getAbilities();
+            abilities.mayfly = false;
+            abilities.flying = false;
+            abilities.setFlyingSpeed(DEFAULT_FLYING_SPEED);
+        }
+    }
+
     private void hoverModeMovement(Player player, ItemStack bootsStack, UniversalFluidItemStorage storage, SpaceSuitModule.JetModule jetModule) {
         Vec3 vec3 = player.getDeltaMovement();
 
@@ -258,7 +300,7 @@ public class SpaceSuitBoots extends SpaceSuitItem {
 
         /** NORMAL MODE */
         if (mode == ModeType.NORMAL.getMode()) {
-            if (KeyVariables.isHoldingJump(player)) {
+            if (player.getAbilities().flying && KeyVariables.isHoldingJump(player)) {
                 if (pressTime < 2.2F) {pressTime = pressTime + 0.2F;
                 }
             }
@@ -332,7 +374,7 @@ public class SpaceSuitBoots extends SpaceSuitItem {
             double climbSpeed = jetModule.getMaxUpwardSpeed();
             tooltipAdder.accept(Component.literal("-- Jet Module --").withColor(Utils.getMinecraftColor("darkred")));
             tooltipAdder.accept(Component.literal("Consumption: " + consumption + " mb/s").withColor(Utils.getMinecraftColor("darkred")));
-            tooltipAdder.accept(Component.literal("Climb speed: " + climbSpeed + " blocks/tick").withColor(Utils.getMinecraftColor("darkred")));
+            tooltipAdder.accept(Component.literal("Flight climb speed: " + climbSpeed + " blocks/tick").withColor(Utils.getMinecraftColor("darkred")));
         }
     }
 
