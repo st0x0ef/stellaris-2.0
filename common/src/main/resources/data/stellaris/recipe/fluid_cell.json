@@ -1,13 +1,12 @@
 {
   "type": "minecraft:crafting_shaped",
   "pattern": [
-    "STS",
     "SBS",
-    "STS"
+    "SBS",
+    "SBS"
   ],
   "key": {
     "S": "stellaris:titanium_ingot",
-    "T": "stellaris:titanium_nugget",
     "B": "minecraft:bucket"
   },
   "result": {
