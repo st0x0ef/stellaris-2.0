@@ -62,6 +62,7 @@ public final class StellarisFabricClient implements ClientModInitializer {
         MenuScreenRegistry.registerScreenFactory(MenuTypesRegistry.VACUUMATOR.get(), VacuumatorScreen::new);
         MenuScreenRegistry.registerScreenFactory(MenuTypesRegistry.BLENDER.get(), BlenderScreen::new);
         MenuScreenRegistry.registerScreenFactory(MenuTypesRegistry.GRAVITY_MANIPULATOR.get(), GravityManipulatorScreen::new);
+        MenuScreenRegistry.registerScreenFactory(MenuTypesRegistry.ELECTRIC_LIGHT.get(), ElectricLightScreen::new);
         MenuScreenRegistry.registerScreenFactory(MenuTypesRegistry.ELECTROLYZER.get(), ElectrolyzerScreen::new);
         MenuScreenRegistry.registerScreenFactory(MenuTypesRegistry.ROCKET_STATION.get(), RocketStationScreen::new);
         MenuScreenRegistry.registerScreenFactory(MenuTypesRegistry.ENGINE_UPGRADE.get(), EngineUpgraderScreen::new);

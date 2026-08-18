@@ -79,6 +79,7 @@ public class StellarisNeoforgeClient {
         event.register(MenuTypesRegistry.VACUUMATOR.get(), VacuumatorScreen::new);
         event.register(MenuTypesRegistry.BLENDER.get(), BlenderScreen::new);
         event.register(MenuTypesRegistry.GRAVITY_MANIPULATOR.get(), GravityManipulatorScreen::new);
+        event.register(MenuTypesRegistry.ELECTRIC_LIGHT.get(), ElectricLightScreen::new);
         event.register(MenuTypesRegistry.ELECTROLYZER.get(), ElectrolyzerScreen::new);
         event.register(MenuTypesRegistry.OXYGEN_DISTRIBUTOR.get(), OxygenDistributorScreen::new);
         event.register(MenuTypesRegistry.PUMPJACK.get(), PumpjackScreen::new);

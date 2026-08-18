@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "TGT",
+    "GRG",
+    "TGT"
+  ],
+  "key": {
+    "T": "stellaris:titanium_ingot",
+    "G": "minecraft:glowstone",
+    "R": "minecraft:redstone"
+  },
+  "result": {
+    "id": "stellaris:electric_light",
+    "count": 2
+  }
+}

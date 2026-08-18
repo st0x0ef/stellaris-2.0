@@ -22,6 +22,7 @@ public class CapabilitiesRegistry {
         Capabilities.Energy.BLOCK.registerForBlockEntity(BlockEntitiesRegistry.BLENDER);
         Capabilities.Energy.BLOCK.registerForBlockEntity(BlockEntitiesRegistry.ELECTROLYZER);
         Capabilities.Energy.BLOCK.registerForBlockEntity(BlockEntitiesRegistry.GRAVITY_MANIPULATOR);
+        Capabilities.Energy.BLOCK.registerForBlockEntity(BlockEntitiesRegistry.ELECTRIC_LIGHT);
         Capabilities.Energy.BLOCK.registerForBlockEntity(BlockEntitiesRegistry.OXYGEN_DISTRIBUTOR);
         Capabilities.Energy.BLOCK.registerForBlockEntity(BlockEntitiesRegistry.OXYGEN_PROPAGATOR);
         Capabilities.Energy.BLOCK.registerForBlockEntity(BlockEntitiesRegistry.FUEL_REFINERY);

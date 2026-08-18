@@ -1,0 +1,52 @@
+{
+  "variants": {
+    "brightness=0": {
+      "model": "stellaris:block/electric_light_off"
+    },
+    "brightness=1": {
+      "model": "stellaris:block/electric_light_half"
+    },
+    "brightness=2": {
+      "model": "stellaris:block/electric_light_half"
+    },
+    "brightness=3": {
+      "model": "stellaris:block/electric_light_half"
+    },
+    "brightness=4": {
+      "model": "stellaris:block/electric_light_half"
+    },
+    "brightness=5": {
+      "model": "stellaris:block/electric_light_half"
+    },
+    "brightness=6": {
+      "model": "stellaris:block/electric_light_half"
+    },
+    "brightness=7": {
+      "model": "stellaris:block/electric_light_half"
+    },
+    "brightness=8": {
+      "model": "stellaris:block/electric_light_full"
+    },
+    "brightness=9": {
+      "model": "stellaris:block/electric_light_full"
+    },
+    "brightness=10": {
+      "model": "stellaris:block/electric_light_full"
+    },
+    "brightness=11": {
+      "model": "stellaris:block/electric_light_full"
+    },
+    "brightness=12": {
+      "model": "stellaris:block/electric_light_full"
+    },
+    "brightness=13": {
+      "model": "stellaris:block/electric_light_full"
+    },
+    "brightness=14": {
+      "model": "stellaris:block/electric_light_full"
+    },
+    "brightness=15": {
+      "model": "stellaris:block/electric_light_full"
+    }
+  }
+}

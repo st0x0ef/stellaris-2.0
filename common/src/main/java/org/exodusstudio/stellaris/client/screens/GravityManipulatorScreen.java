@@ -22,7 +22,7 @@ import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
 
 public class GravityManipulatorScreen extends AbstractContainerScreen<GravityManipulatorMenu> {
 
-    private static final Identifier TEXTURE = IdentifierUtils.guiTexture("gravity_manipulator");
+    private static final Identifier TEXTURE = IdentifierUtils.guiTexture("basic_machine");
     private static final Button.CreateNarration DEFAULT_NARRATION = supplier -> supplier.get().append("Gravity Manipulator Button");
 
     private final GravityManipulatorBlockEntity blockEntity = getMenu().getBlockEntity();
