@@ -152,6 +152,8 @@ public class SpaceSuitBoots extends SpaceSuitItem {
             return;
         }
 
+        syncGliderComponent(player);
+
         Abilities abilities = player.getAbilities();
 
         if (player.isCreative() || player.isSpectator()) {
@@ -276,22 +278,50 @@ public class SpaceSuitBoots extends SpaceSuitItem {
 
 
     public static void switchJetSuitMode(Player player, ItemStack itemStack) {
-        if (itemStack.getItem() instanceof SpaceSuitBoots) {
-            JetComponent jetComponent;
-            if (getMode(itemStack) < 3) {
-                jetComponent = new JetComponent(ModeType.fromInt(getMode(itemStack) + 1));
-            } else {
-                jetComponent = new JetComponent(ModeType.fromInt(0));
-            }
-
-            if(jetComponent.type() == ModeType.ELYTRA) {
-                player.getItemBySlot(EquipmentSlot.CHEST).set(DataComponents.GLIDER, Unit.INSTANCE);
-            } else {
-                player.getItemBySlot(EquipmentSlot.CHEST).remove(DataComponents.GLIDER);
-            }
-
-            itemStack.set(DataComponentsRegistry.JET_COMPONENT.get(), jetComponent);
+        if (!(itemStack.getItem() instanceof SpaceSuitBoots)) {
+            return;
         }
+
+        if (ModuleUtils.getSpaceSuitModule(itemStack, SpaceSuitModule.JetModule.class) == null) {
+            if (getMode(itemStack) != ModeType.DISABLED.getMode()) {
+                itemStack.set(DataComponentsRegistry.JET_COMPONENT.get(), new JetComponent(ModeType.DISABLED));
+            }
+            syncGliderComponent(player);
+            return;
+        }
+
+        int mode = getMode(itemStack);
+        ModeType nextType = ModeType.fromInt(mode < ModeType.ELYTRA.getMode() ? mode + 1 : 0);
+        JetComponent component = itemStack.getOrDefault(DataComponentsRegistry.JET_COMPONENT.get(), new JetComponent(ModeType.DISABLED));
+
+        itemStack.set(DataComponentsRegistry.JET_COMPONENT.get(), new JetComponent(nextType, component.fuelCooldown()));
+        syncGliderComponent(player);
+    }
+
+    public static void syncGliderComponent(Player player) {
+        ItemStack chestStack = player.getItemBySlot(EquipmentSlot.CHEST);
+
+        if (!(chestStack.getItem() instanceof SpaceSuitChestplate)) {
+            return;
+        }
+
+        boolean shouldGlide = isElytraJet(player.getItemBySlot(EquipmentSlot.FEET));
+
+        if (shouldGlide == chestStack.has(DataComponents.GLIDER)) {
+            return;
+        }
+
+        if (shouldGlide) {
+            chestStack.set(DataComponents.GLIDER, Unit.INSTANCE);
+        } else {
+            chestStack.remove(DataComponents.GLIDER);
+        }
+    }
+
+    private static boolean isElytraJet(ItemStack bootsStack) {
+        return bootsStack.getItem() instanceof SpaceSuitBoots
+                && ModuleUtils.getSpaceSuitModule(bootsStack, SpaceSuitModule.JetModule.class) != null
+                && getMode(bootsStack) == ModeType.ELYTRA.getMode();
     }
 
     public void calculateSpacePressTime(Player player, ItemStack itemStack, UniversalFluidItemStorage storage, SpaceSuitModule.JetModule jetModule) {
