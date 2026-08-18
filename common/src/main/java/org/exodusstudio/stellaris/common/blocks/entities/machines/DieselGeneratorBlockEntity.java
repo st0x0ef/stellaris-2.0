@@ -42,7 +42,7 @@ public class DieselGeneratorBlockEntity extends BaseGeneratorBlockEntity impleme
     public DieselGeneratorBlockEntity(BlockEntityType<?> entityType, BlockPos blockPos, BlockState blockState, int energyGeneratedPT, int maxCapacity) {
         super(entityType, blockPos, blockState, energyGeneratedPT, maxCapacity);
 
-        this.dieselTank = new SingleFluidStorage(3000) {
+        this.dieselTank = new SingleFluidStorage(10000) {
             @Override
             protected void onChange() {
                 setChanged();

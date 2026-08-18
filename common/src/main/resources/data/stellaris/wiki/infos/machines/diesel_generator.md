@@ -18,5 +18,5 @@ Stats :
 - Fuel : Diesel only 
 - Power Output : 5 FE/t 
 - Fuel Consumption : 1 mB every 5 ticks, so 25 FE per mB 
-- Tank Capacity : 3 000 mB 
+- Tank Capacity : 10 000 mB 
 - Internal Buffer : 60 000 FE
