@@ -53,7 +53,7 @@ public class WikiApplicationScreen extends AbstractContainerScreen<WikiApplicati
 
 
     //The list of the infos for the currentEntry
-    public List<MarkdownPage> INFOS;
+    public List<MarkdownPage> INFOS = new ArrayList<>();
     public int currentInfosPage = 0;
 
     public ArrayList<ArrayList<WikiInfoButton>> ENTRY_BUTTONS = new ArrayList<>();
@@ -122,6 +122,11 @@ public class WikiApplicationScreen extends AbstractContainerScreen<WikiApplicati
 
     }
 
+    @Override
+    public boolean mouseScrolled(double x, double y, double scrollX, double scrollY) {
+        this.scrollableContainer.mouseScrolled(x, y, scrollX, scrollY);
+        return super.mouseScrolled(x, y, scrollX, scrollY);
+    }
 
     private void setupScrollableContainer() {
         this.scrollableContainer = new ScrollableContainer(this.leftPos + 30, this.topPos + 40, 100, imageHeight - 70, Component.empty())
@@ -172,6 +177,7 @@ public class WikiApplicationScreen extends AbstractContainerScreen<WikiApplicati
 
         WikiMarkdownData.ENTRY_PAGES.forEach((key, page) -> {
             if(page.entryId.equals(entry.id())) {
+
                 infos.add(page);
             }
         });
@@ -222,10 +228,15 @@ public class WikiApplicationScreen extends AbstractContainerScreen<WikiApplicati
         this.currentEntry = entry;
 
         if(entry != null) {
+            this.INFOS.clear();
             this.INFOS = getInfosForEntry(entry);
             this.currentInfosPage = currentInfosPage;
             showInfosButton(false);
-            ENTRY_BUTTONS.clear();
+            ENTRY_BUTTONS.forEach(page -> page.forEach(button -> {
+                this.renderables.remove(button);
+                this.children().remove(button);
+            }));
+            ENTRY_BUTTONS = new ArrayList<>();
             setupInfosButton();
         }
     }
@@ -247,6 +258,7 @@ public class WikiApplicationScreen extends AbstractContainerScreen<WikiApplicati
 
         var PAGES_BUTTONS = new ArrayList<WikiInfoButton>();
         INFOS.forEach((infos) -> {
+
             WikiInfoButton entryButton = new WikiInfoButton(this.scrollableContainer.getRight() + 30 + (column.get() * 30), this.topPos + 60 + (row.get() * 30), 20, 20, (b) -> setEntryInfo(infos), infos)
                     .tex(BUTTON_TEXTURE, BUTTON_HOVERED_TEXTURE);
 

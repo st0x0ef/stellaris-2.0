@@ -48,9 +48,8 @@ public class WikiMarkdownData extends SimplePreparableReloadListener<Map<Identif
         for(Identifier id : preparations.keySet()) {
 
 
-            //TODO
-            //Note for my self : the id already has the folder in it.
             MarkdownPage page = new MarkdownPage(id, preparations.get(id));
+
             ENTRY_PAGES.put(id, page);
 
             for (Either<TagKey<Block>, ResourceKey<Block>> associatedBlock : page.associatedBlocks) {
