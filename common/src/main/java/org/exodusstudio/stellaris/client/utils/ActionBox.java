@@ -20,6 +20,11 @@ public record ActionBox(int x, int y, int width, int height, String id, HashMap<
         return mouseX >= x && mouseX <= x + width && mouseY >= y && mouseY <= y + height;
     }
 
+    public boolean hasData(String key) {
+        String value = data.get(key);
+        return value != null;
+    }
+
     public @Nullable String getData(String key) {
         return data.get(key);
     }

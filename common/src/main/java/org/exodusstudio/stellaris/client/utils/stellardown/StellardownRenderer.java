@@ -232,6 +232,12 @@ public class StellardownRenderer {
                             clickBoxConsumer.accept(new ActionBox(textX, textY, textSeg.width, textSeg.height, textSeg.style.ref, data));
                         }
 
+                        if(textSeg.style.tooltip != null) {
+                            HashMap<String, String> data = new HashMap<>();
+                            data.put("tooltip", textSeg.style.tooltip);
+                            clickBoxConsumer.accept(new ActionBox(textX, textY, textSeg.width, textSeg.height, textSeg.style.tooltip, data));
+                        }
+
                         guiGraphics.text(
                                 font,
                                 component,

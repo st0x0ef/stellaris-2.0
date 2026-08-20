@@ -166,6 +166,25 @@ public class StellardownParser {
 
                 i = end + 1;
                 textStart = i;
+            } else if (input.startsWith("[tl=", i) && input.indexOf(']', i) != -1) {
+                if (i > textStart)
+                    tokens.add(new Token(TokenType.TEXT, input.substring(textStart, i)));
+
+                int end = input.indexOf(']', i);
+
+                String value = input.substring(i + "[tl=".length(), end); // extract the color
+                tokens.add(new Token(TokenType.TOOLTIP_OPEN, value));
+                i = end + 1;
+                textStart = i;
+
+            } else if (input.startsWith("[tl]", i)) {
+                if (i > textStart)
+                    tokens.add(new Token(TokenType.TEXT, input.substring(textStart, i)));
+
+                tokens.add(new Token(TokenType.TOOLTIP_CLOSE, null));
+                i += "[tl]".length();
+                textStart = i;
+
             }
             else {
                 i++;
@@ -258,10 +277,17 @@ public class StellardownParser {
                 case TRANSLATABLE_CLOSE:
                     if (styleStack.size() > 1) styleStack.pop();
                     break;
+
+                case TOOLTIP_OPEN:
+                    styleStack.push(styleStack.peek().withTooltip(token.content()));
+                    break;
+                case TOOLTIP_CLOSE:
+                    if (styleStack.size() > 1) styleStack.pop();
+                    break;
+
                 case REF_OPEN:
                     styleStack.push(styleStack.peek().withRef(token.content()));
                     break;
-
                 case REF_CLOSE:
                     if (styleStack.size() > 1) styleStack.pop();
                     break;
@@ -304,10 +330,11 @@ public class StellardownParser {
         public StellardownStyle.ImageStyle image;
         public StellardownStyle.EntityStyle entityStyle;
         public StellardownStyle.ItemStyle itemStyle;
+        public String tooltip;
         public static final Style DEFAULT = new Style();
 
 
-        private Style(boolean bold, boolean italic, boolean underline, String color, String ref, boolean strikethrough, boolean obfuscated, boolean translatable, StellardownStyle.ImageStyle image, StellardownStyle.EntityStyle entityStyle,  StellardownStyle.ItemStyle itemStyle) {
+        private Style(boolean bold, boolean italic, boolean underline, String color, String ref, boolean strikethrough, boolean obfuscated, boolean translatable, StellardownStyle.ImageStyle image, StellardownStyle.EntityStyle entityStyle,  StellardownStyle.ItemStyle itemStyle, String tooltip) {
             this.bold = bold;
             this.italic = italic;
             this.underline = underline;
@@ -319,59 +346,64 @@ public class StellardownParser {
             this.image = image;
             this.entityStyle = entityStyle;
             this.itemStyle = itemStyle;
+            this.tooltip = tooltip;
         }
 
         public Style() {
-            this(false, false, false, "white", null, false, false, false, null, null, null);
+            this(false, false, false, "white", null, false, false, false, null, null, null, null);
         }
 
         public Style withBold(boolean bold) {
-            return new Style(bold, this.italic, this.underline, this.color, this.ref, this.strikethrough, this.obfuscated, this.translatable, this.image, this.entityStyle, this.itemStyle);
+            return new Style(bold, this.italic, this.underline, this.color, this.ref, this.strikethrough, this.obfuscated, this.translatable, this.image, this.entityStyle, this.itemStyle, this.tooltip);
         }
 
         public Style withStrikethrough(boolean strikethrough) {
-            return new Style(this.bold, this.italic, this.underline, this.color, this.ref, strikethrough, this.obfuscated, this.translatable, this.image, this.entityStyle, this.itemStyle);
+            return new Style(this.bold, this.italic, this.underline, this.color, this.ref, strikethrough, this.obfuscated, this.translatable, this.image, this.entityStyle, this.itemStyle, this.tooltip);
         }
 
         public Style withItalic(boolean italic) {
-            return new Style(this.bold, italic, this.underline, this.color, this.ref, this.strikethrough, this.obfuscated, this.translatable, this.image, this.entityStyle, this.itemStyle);
+            return new Style(this.bold, italic, this.underline, this.color, this.ref, this.strikethrough, this.obfuscated, this.translatable, this.image, this.entityStyle, this.itemStyle, this.tooltip);
         }
 
         public Style withObfuscated(boolean obfuscated) {
-            return new Style(this.bold, this.italic, this.underline, this.color, this.ref, this.strikethrough, obfuscated, this.translatable, this.image, this.entityStyle, this.itemStyle);
+            return new Style(this.bold, this.italic, this.underline, this.color, this.ref, this.strikethrough, obfuscated, this.translatable, this.image, this.entityStyle, this.itemStyle, this.tooltip);
         }
 
         public Style withUnderline(boolean underline) {
-            return new Style(this.bold, this.italic, underline, this.color, this.ref, this.strikethrough, this.obfuscated, this.translatable, this.image, this.entityStyle, this.itemStyle);
+            return new Style(this.bold, this.italic, underline, this.color, this.ref, this.strikethrough, this.obfuscated, this.translatable, this.image, this.entityStyle, this.itemStyle, this.tooltip);
         }
 
         public Style withColor(String color) {
-            return new Style(this.bold, this.italic, this.underline, color, this.ref, this.strikethrough, this.obfuscated, this.translatable, this.image, this.entityStyle, this.itemStyle);
+            return new Style(this.bold, this.italic, this.underline, color, this.ref, this.strikethrough, this.obfuscated, this.translatable, this.image, this.entityStyle, this.itemStyle, this.tooltip);
         }
 
         public Style withRef(String ref) {
-            return new Style(this.bold, this.italic, this.underline, this.color, ref, this.strikethrough, this.obfuscated, this.translatable, this.image, this.entityStyle, this.itemStyle);
+            return new Style(this.bold, this.italic, this.underline, this.color, ref, this.strikethrough, this.obfuscated, this.translatable, this.image, this.entityStyle, this.itemStyle, this.tooltip);
         }
 
         public Style withTranslatable(boolean translatable) {
-            return new Style(this.bold, this.italic, this.underline, this.color, this.ref, this.strikethrough, this.obfuscated, translatable, this.image, this.entityStyle, this.itemStyle);
+            return new Style(this.bold, this.italic, this.underline, this.color, this.ref, this.strikethrough, this.obfuscated, translatable, this.image, this.entityStyle, this.itemStyle, this.tooltip);
         }
 
         public Style withImage(StellardownStyle.ImageStyle image) {
-            return new Style(this.bold, this.italic, this.underline, this.color, this.ref, this.strikethrough, this.obfuscated, this.translatable, image, this.entityStyle, this.itemStyle);
+            return new Style(this.bold, this.italic, this.underline, this.color, this.ref, this.strikethrough, this.obfuscated, this.translatable, image, this.entityStyle, this.itemStyle, this.tooltip);
         }
 
         public Style withEntity(StellardownStyle.EntityStyle entityStyle) {
-            return new Style(this.bold, this.italic, this.underline, this.color, this.ref, this.strikethrough, this.obfuscated, this.translatable, this.image, entityStyle, this.itemStyle);
+            return new Style(this.bold, this.italic, this.underline, this.color, this.ref, this.strikethrough, this.obfuscated, this.translatable, this.image, entityStyle, this.itemStyle, this.tooltip);
         }
 
         public Style withItem(StellardownStyle.ItemStyle itemStyle) {
-            return new Style(this.bold, this.italic, this.underline, this.color, this.ref, this.strikethrough, this.obfuscated, this.translatable, this.image, this.entityStyle, itemStyle);
+            return new Style(this.bold, this.italic, this.underline, this.color, this.ref, this.strikethrough, this.obfuscated, this.translatable, this.image, this.entityStyle, itemStyle, this.tooltip);
+        }
+
+        public Style withTooltip(String tooltip) {
+            return new Style(this.bold, this.italic, this.underline, this.color, this.ref, this.strikethrough, this.obfuscated, this.translatable, this.image, this.entityStyle, this.itemStyle, tooltip);
         }
     }
 
     public enum TokenType {
-        BOLD, ITALIC, STRIKETHROUGH, UNDERLINE, OBFUSCATED, COLOR_OPEN, COLOR_CLOSE, REF_OPEN, REF_CLOSE, NEWLINE, TEXT, TRANSLATABLE_OPEN, TRANSLATABLE_CLOSE, IMAGE, ENTITY, ITEM
+        BOLD, ITALIC, STRIKETHROUGH, UNDERLINE, OBFUSCATED, COLOR_OPEN, COLOR_CLOSE, REF_OPEN, REF_CLOSE, NEWLINE, TEXT, TRANSLATABLE_OPEN, TRANSLATABLE_CLOSE, IMAGE, ENTITY, ITEM, TOOLTIP_OPEN, TOOLTIP_CLOSE
 
     }
 
