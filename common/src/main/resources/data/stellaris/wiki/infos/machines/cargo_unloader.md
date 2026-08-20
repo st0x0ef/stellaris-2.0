@@ -11,14 +11,14 @@ The Cargo Unloader empties a lander for you, so you never have to climb into the
 
 
 
-How to use : 
+**How to use :** 
 Charge the cargo unloader with energy and place it where you expect a lander to touch down, for instance next to a launchpad. As soon as a lander lands within 5 blocks, the unloader starts pulling everything out of it : first the rocket itself and its fuel slots, then the rest of the cargo. 
 
 It moves one stack per second and only looks for a new lander once its own inventory has been emptied, so remember to clear it out. 
 
 
 
-Stats : 
+**Stats :** 
 - Power Consumption : 100 FE per stack moved 
 - Speed : 1 stack per second 
 - Inventory : 30 slots 

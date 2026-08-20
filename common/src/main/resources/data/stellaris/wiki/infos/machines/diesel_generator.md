@@ -14,7 +14,7 @@ Diesel is refined from [ref=stellaris:items/oil]Oil[ref] in the [ref=stellaris:m
 
 
 
-Stats : 
+**Stats :** 
 - Fuel : Diesel only 
 - Power Output : 5 FE/t 
 - Fuel Consumption : 1 mB every 5 ticks, so 25 FE per mB 

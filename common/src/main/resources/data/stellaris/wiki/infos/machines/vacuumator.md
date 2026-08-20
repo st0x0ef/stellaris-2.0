@@ -11,7 +11,7 @@ The Vacuumator is the machine that seals food into [ref=stellaris:items/cans]Can
 
 
 
-How to use: 
+**How to use:** 
 Place the vacuumator and power it. Put any food in the food slot and an empty can in the can slot, and the canned food appears in the result slot. 
 Hoppers work too : one on top feeds the food and the can, one underneath pulls the finished can out. 
 
@@ -23,7 +23,7 @@ A can is not one meal : keep adding food to the same can until it reaches its nu
 
 
 
-Stats : 
+**Stats :** 
 - Power Consumption : 100 FE per can 
 - Canning Time : 20 ticks per point of nutrition of the food 
 - Water Produced : 100 mB per can 

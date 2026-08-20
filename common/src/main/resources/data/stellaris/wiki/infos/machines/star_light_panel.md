@@ -9,14 +9,14 @@ The Star Light Panel is the night-time counterpart of the [ref=stellaris:machine
 
 
 
-How to use : 
-Place the star light panel where the block directly above it can see the sky, and connect it to your power grid. It produces energy during the night and stops at day. 
+**How to use : **
+Place the Star Light panel where the block directly above it can see the sky, and connect it to your power grid. It produces energy during the night and stops at day. 
 
 It also has an item slot : put a chargeable item in it, such as an [ref=stellaris:items/oil_finder]Oil Finder[ref] or a [ref=stellaris:items/space_suit]Space Suit[ref] helmet, and the panel will refill it. 
 
 
 
-Stats : 
+**Stats : **
 - Power Output : 1 FE/t 
 - Item Charging Rate : 10 FE/t 
 - Internal Buffer : 12 800 FE

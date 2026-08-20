@@ -15,6 +15,6 @@ Pipes carry fluids, never energy. For energy use [ref=stellaris:machines/cables]
 
 
 
-Stats : 
+**Stats :** 
 - Transfer Rate : 250 mB/t in and out 
 - Internal Capacity : 1 000 mB

@@ -18,4 +18,4 @@ Stations come with an [ref=stellaris:machines/antenna]Antenna[ref] already built
 
 
 
-Orbit has no air and almost no gravity, so before you move in bring an [ref=stellaris:machines/oxygen]Oxygen Distributor[ref] to make it breathable and a [ref=stellaris:machines/gravity_manipulator]Gravity Manipulator[ref] to make it walkable.
+Orbit has no air and almost no gravity, so before you move in, bring an [ref=stellaris:machines/oxygen]Oxygen Distributor[ref] to make it breathable and a [ref=stellaris:machines/gravity_manipulator]Gravity Manipulator[ref] to make it walkable.

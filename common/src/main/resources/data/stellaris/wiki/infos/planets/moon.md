@@ -8,6 +8,8 @@ The Moon, the Eye of the Night, is the only natural satellite of the Earth. For 
 
 [item=stellaris:moon_globe]
 
+The gravity of the Moon is 1.62 m/s², which is about 6 times less than on Earth. The Moon has no atmosphere, and its surface temperature varies from +123 degrees Celsius during the day to -233 degrees Celsius at night.
+
 Former space companies describes the Moon as lifeless and barren, but our astronauts have discovered that the Moon is full of resources and life... But not the nice kind of life.
 
 Here is a non-exhaustive list of the Moon's creatures:
@@ -17,6 +19,13 @@ Here is a non-exhaustive list of the Moon's creatures:
 - [ref=stellaris:mobs/alien]Alien[ref]
 - [ref=stellaris:mobs/star_crawler]Star Crawler[ref]
 - [ref=stellaris:mobs/blue_fish]Blue Fish[ref]
+
+
+But, if humanity went to the Moon, it is because of its resources.
+- [ref=stellaris:items/titanium]Titanium[ref]
+- [ref=stellaris:items/desh]Desh[ref] (The only place in the whole galaxy where it can be found)
+- [ref=stellaris:items/blue_liquid]Blue Liquid[ref]
+
 
 **Attention!**
 The Moon atmosphere is not breathable for players! To be able to breathe, you need to wear a full [ref=stellaris:items/space_suit]Space Suit[ref].

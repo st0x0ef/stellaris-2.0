@@ -7,7 +7,7 @@ associatedBlocks: [stellaris:blender]
 
 The Blender grinds up to nine different items into one. It is the machine that turns quartz into [ref=stellaris:items/silicon]Silicon[ref] in bulk, and it doubles as a powered stand-in for shapeless hand-crafting.
 
-How to use: 
+**How to use:** 
 Place the blender and connect it to a power source. Drop the ingredients anywhere in the 3x3 grid, press Blend, and the result collects in the slot on the right. The blender never starts on its own, so nothing you leave sitting in the grid gets eaten until you say so. 
 Hoppers can still load the grid from any side but the bottom, and pull the result out from underneath. 
 
@@ -21,7 +21,7 @@ Every crafting recipe that is not a shaped pattern can be made here, plus the bl
 
 
 
-Stats :
+**Stats :**
 - Internal Buffer : 6 000 FE
 
 [item=stellaris:blender onlyIcon]

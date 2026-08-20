@@ -48,6 +48,13 @@ public class ScrollStellarDownWidget extends ScrollableContainer {
                 (int) this.getOffsetHeight() + this.padding.top,
                 guiGraphics, mouseX, mouseY, this::addClickBox
         );
+
+        for(ActionBox clickBox : actionBoxes) {
+            if(clickBox.hasData("tooltip") && clickBox.isHovered(mouseX, mouseY, this.scrollAmount())) {
+                guiGraphics.setTooltipForNextFrame(Component.translatable(clickBox.getData("tooltip")), mouseX, mouseY);
+            }
+        }
+
         firstRender = false;
     }
 

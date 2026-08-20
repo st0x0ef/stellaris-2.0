@@ -22,7 +22,7 @@ Oxygen is only spent on breathing : 1 mB per living creature standing in the roo
 
 
 
-Stats : 
+**Stats :** 
 - Energy Consumption : 1 FE per update, by default one update per second 
 - Oxygen Consumption : 1 mB per breathing creature per update 
 - Tank Capacity : 10 000 mB 

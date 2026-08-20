@@ -392,9 +392,13 @@
   "application.stellaris.planet_selection.select_button": "Select!",
 
   "wiki.stellaris.mobs.title": "Mobs",
+  "wiki.stellaris.planets.title": "Planets",
+
   "wiki.stellaris.rocket.title": "Rocket",
   "wiki.stellaris.machines.title": "Machine",
   "wiki.stellaris.items.title": "Blocks and Items",
+
+  "tooltip.wiki.stellaris.home": "Home, a place where I go...",
 
   "tooltip.item.stellaris.can.empty": "Empty",
   "tooltip.item.stellaris.can.nutrition": "Nutrition: %s/%s",

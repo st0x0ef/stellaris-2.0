@@ -4,7 +4,7 @@ entryId: stellaris:items
 iconType: item
 ---
 
-Moon Berries are a food that grows on the surface of the Moon.
+Moon Berries are food that grows on the surface of the Moon.
 
 [item=stellaris:moon_berries]
 

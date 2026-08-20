@@ -4,7 +4,7 @@ entryId: stellaris:items
 iconType: item
 ---
 
-The Tablet is the companion The Stellar Company hands to every astronaut. You are reading this page on one right now.
+The Tablet is the companion The Stellar Company hands to every astronaut. You are reading this page on one right now!
 
 [item=stellaris:tablet]
 
@@ -22,3 +22,6 @@ The Tablet is the companion The Stellar Company hands to every astronaut. You ar
 - **SD Card reader** : reads the [ref=stellaris:items/sd_card]SD Cards[ref] you find in the structures of the Moon and of Earth. 
 - **Planets** : the list of the worlds you can reach, with their gravity, their atmosphere and their temperatures. 
 - **Stats** : what you have built, launched and explored so far.
+
+**Fun Facts**
+The tablet contains a lot of information. But we don't really know where it comes from... Like, is it a supercomputer? A magic book? A little alien inside? We don't know. But it is very useful!

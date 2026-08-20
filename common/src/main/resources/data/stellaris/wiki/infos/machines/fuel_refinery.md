@@ -11,13 +11,13 @@ The Fuel Refinery is the machine that turns [ref=stellaris:items/oil]Oil[ref] in
 
 
 
-How to use : 
+**How to use :** 
 Place the fuel refinery, power it, then feed oil into its input tank with a [ref=stellaris:machines/pipes]Pipe[ref], a bucket or a [ref=stellaris:items/fluid_cell]Fluid Cell[ref]. 
 It refines oil into Fuel and Diesel at the same time, and both come out on their own side : Fuel leaves through the face on the machine's right, Diesel through the face on its left. You can also pull them out with a container in the matching slots. 
 
 
 
-Stats : 
+**Stats :** 
 - Power Consumption : 50 FE/t while refining 
 - Oil Consumption : 10 mB/t 
 - Fuel Production : 5 mB/t 

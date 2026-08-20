@@ -21,7 +21,7 @@ Install modules at the [ref=stellaris:machines/engineering_station]Engineering S
 - **Speed module** : multiplies the top speed by 1.5. 
 - **Hydrogen Motor** : switches the engine over to hydrogen instead of diesel. 
 
-Note that the tank only accepts one kind of fuel at a time. Empty it before switching motors. 
+Note that the tank only accepts one kind of fuel at a time. **Empty it** before switching motors. 
 
 
 

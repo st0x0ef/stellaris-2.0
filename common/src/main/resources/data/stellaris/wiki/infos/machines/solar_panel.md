@@ -18,7 +18,7 @@ It also has an item slot : put a chargeable item in it, such as an [ref=stellari
 
 
 
-Stats : 
+**Stats :** 
 - Power Output : 1 FE/t 
 - Item Charging Rate : 10 FE/t 
 - Internal Buffer : 12 800 FE
