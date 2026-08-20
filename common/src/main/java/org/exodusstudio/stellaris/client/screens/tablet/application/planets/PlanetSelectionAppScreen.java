@@ -20,7 +20,7 @@ import org.exodusstudio.stellaris.client.screens.components.StellarDownWidget;
 import org.exodusstudio.stellaris.client.screens.components.TexturedButton;
 import org.exodusstudio.stellaris.client.screens.components.containers.ScrollableContainer;
 import org.exodusstudio.stellaris.client.screens.tablet.application.ApplicationRegistry;
-import org.exodusstudio.stellaris.client.screens.tablet.application.ApplicationScreen;
+import org.exodusstudio.stellaris.client.screens.tablet.application.TabletAbstractContainer;
 import org.exodusstudio.stellaris.client.utils.ClientUtils;
 import org.exodusstudio.stellaris.common.antennas.Antenna;
 import org.exodusstudio.stellaris.common.antennas.AntennaSavedData;
@@ -43,7 +43,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class PlanetSelectionAppScreen extends AbstractContainerScreen<PlanetSelectionMenu> {
+public class PlanetSelectionAppScreen extends TabletAbstractContainer<PlanetSelectionMenu> {
 
     private ScrollableContainer container;
   
@@ -104,7 +104,7 @@ public class PlanetSelectionAppScreen extends AbstractContainerScreen<PlanetSele
     @Override
     public void extractBackground(GuiGraphicsExtractor guiGraphics, int mouseX, int mouseY, float partialTick) {
         super.extractBackground(guiGraphics, mouseX, mouseY, partialTick);
-        guiGraphics.blit(RenderPipelines.GUI_TEXTURED, ApplicationScreen.BLANCK_BACKGROUND, this.getLeftPos(), this.getTopPos(), 0, 0, imageWidth, imageHeight, imageWidth, imageHeight);
+        guiGraphics.blit(RenderPipelines.GUI_TEXTURED, TabletAbstractContainer.BLANCK_BACKGROUND, this.getLeftPos(), this.getTopPos(), 0, 0, imageWidth, imageHeight, imageWidth, imageHeight);
     }
 
     /**
@@ -161,6 +161,11 @@ public class PlanetSelectionAppScreen extends AbstractContainerScreen<PlanetSele
     public boolean canTeleportToPlanet(){
         //TODO: create the real check for teleportation, this is just a placeholder that always returns true.
         return true;
+    }
+
+    @Override
+    public boolean canGoBack() {
+        return !this.selectionMenu.player.stellaris$isPlanetMenuOpen();
     }
 
     @Override

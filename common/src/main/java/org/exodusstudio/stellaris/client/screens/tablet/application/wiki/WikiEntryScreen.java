@@ -5,10 +5,10 @@ import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.input.KeyEvent;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
+import org.exodusstudio.stellaris.client.screens.tablet.application.TabletAbstractContainer;
 import org.exodusstudio.stellaris.common.data.wiki.MarkdownPage;
 import org.exodusstudio.stellaris.client.screens.components.wiki.ScrollStellarDownWidget;
 import org.exodusstudio.stellaris.client.screens.components.TexturedButton;
-import org.exodusstudio.stellaris.client.screens.tablet.application.ApplicationScreen;
 import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
 import org.exodusstudio.stellaris.common.utils.Utils;
 import org.lwjgl.glfw.GLFW;
@@ -68,7 +68,7 @@ public class WikiEntryScreen extends Screen {
     @Override
     public void extractBackground(GuiGraphicsExtractor guiGraphics, int mouseX, int mouseY, float partialTick) {
         super.extractBackground(guiGraphics, mouseX, mouseY, partialTick);
-        guiGraphics.blit(RenderPipelines.GUI_TEXTURED, ApplicationScreen.BLANCK_BACKGROUND, this.getLeftPos(), this.getTopPos(), 0, 0, wikiApplicationScreen.getImageWidth(), this.wikiApplicationScreen.getImageHeight(), this.wikiApplicationScreen.getImageWidth(),this.wikiApplicationScreen.getImageHeight());
+        guiGraphics.blit(RenderPipelines.GUI_TEXTURED, TabletAbstractContainer.BLANCK_BACKGROUND, this.getLeftPos(), this.getTopPos(), 0, 0, wikiApplicationScreen.getImageWidth(), this.wikiApplicationScreen.getImageHeight(), this.wikiApplicationScreen.getImageWidth(),this.wikiApplicationScreen.getImageHeight());
 
     }
 

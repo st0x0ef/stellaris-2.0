@@ -2,11 +2,11 @@ package org.exodusstudio.stellaris.client.screens.tablet.application.wiki;
 
 import dev.architectury.networking.NetworkManager;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
-import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Inventory;
+import org.exodusstudio.stellaris.client.screens.tablet.application.TabletAbstractContainer;
 import org.exodusstudio.stellaris.common.data.wiki.MarkdownPage;
 import org.exodusstudio.stellaris.common.data.wiki.WikiEntryPack;
 import org.exodusstudio.stellaris.common.data.wiki.WikiMarkdownData;
@@ -16,7 +16,6 @@ import org.exodusstudio.stellaris.client.screens.components.wiki.WikiEntryButton
 import org.exodusstudio.stellaris.client.screens.components.containers.ScrollableContainer;
 import org.exodusstudio.stellaris.client.screens.components.wiki.WikiInfoButton;
 import org.exodusstudio.stellaris.client.screens.tablet.application.ApplicationRegistry;
-import org.exodusstudio.stellaris.client.screens.tablet.application.ApplicationScreen;
 import org.exodusstudio.stellaris.client.utils.ClientUtils;
 import org.exodusstudio.stellaris.common.menus.MainTabletMenu;
 import org.exodusstudio.stellaris.common.menus.WikiApplicationMenu;
@@ -33,7 +32,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  * Wiki Application Screen
  * This screen displays a list of wiki entries and allows navigation between them.
  */
-public class WikiApplicationScreen extends AbstractContainerScreen<WikiApplicationMenu> {
+public class WikiApplicationScreen extends TabletAbstractContainer<WikiApplicationMenu> {
 
     /** Textures */
     public static final Identifier BACK_ARROW = IdentifierUtils.guiTexture("tablet/back_page");
@@ -111,7 +110,7 @@ public class WikiApplicationScreen extends AbstractContainerScreen<WikiApplicati
     @Override
     public void extractBackground(GuiGraphicsExtractor guiGraphics, int mouseX, int mouseY, float partialTick) {
         super.extractBackground(guiGraphics, mouseX, mouseY, partialTick);
-        guiGraphics.blit(RenderPipelines.GUI_TEXTURED, ApplicationScreen.BLANCK_BACKGROUND, this.leftPos, this.topPos, 0, 0, imageWidth, imageHeight, imageWidth, imageHeight);
+        guiGraphics.blit(RenderPipelines.GUI_TEXTURED, TabletAbstractContainer.BLANCK_BACKGROUND, this.leftPos, this.topPos, 0, 0, imageWidth, imageHeight, imageWidth, imageHeight);
         updateNavigationButtons();
 
         if(currentEntry == null) {
@@ -127,6 +126,7 @@ public class WikiApplicationScreen extends AbstractContainerScreen<WikiApplicati
         this.scrollableContainer.mouseScrolled(x, y, scrollX, scrollY);
         return super.mouseScrolled(x, y, scrollX, scrollY);
     }
+
 
     private void setupScrollableContainer() {
         this.scrollableContainer = new ScrollableContainer(this.leftPos + 30, this.topPos + 40, 100, imageHeight - 70, Component.empty())

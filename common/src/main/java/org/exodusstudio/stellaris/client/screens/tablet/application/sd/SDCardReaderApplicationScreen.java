@@ -13,6 +13,7 @@ import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.client.screens.components.sd.SDCardDecodeButton;
 import org.exodusstudio.stellaris.client.screens.components.sd.SDCardInfoWidget;
 import org.exodusstudio.stellaris.client.screens.tablet.application.ApplicationRegistry;
+import org.exodusstudio.stellaris.client.screens.tablet.application.TabletAbstractContainer;
 import org.exodusstudio.stellaris.common.data.SdCard;
 import org.exodusstudio.stellaris.common.data.SdCardData;
 import org.exodusstudio.stellaris.common.menus.MainTabletMenu;
@@ -25,7 +26,7 @@ import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
 import org.jetbrains.annotations.NotNull;
 
 
-public class SDCardReaderApplicationScreen extends AbstractContainerScreen<@NotNull SDCardReaderApplicationMenu> {
+public class SDCardReaderApplicationScreen extends TabletAbstractContainer<@NotNull SDCardReaderApplicationMenu> {
 
     public static final Identifier TEXTURE = IdentifierUtils.guiTexture("tablet/sd/sd_card_decoder");
 
