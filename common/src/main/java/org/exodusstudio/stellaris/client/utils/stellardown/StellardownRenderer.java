@@ -229,7 +229,7 @@ public class StellardownRenderer {
                         if(textSeg.style.ref != null) {
                             HashMap<String, String> data = new HashMap<>();
                             data.put("ref", textSeg.style.ref);
-                            clickBoxConsumer.accept(new ActionBox(textX, textY, textX + textSeg.width, textY + textSeg.height, textSeg.style.ref, data));
+                            clickBoxConsumer.accept(new ActionBox(textX, textY, textSeg.width, textSeg.height, textSeg.style.ref, data));
                         }
 
                         guiGraphics.text(
