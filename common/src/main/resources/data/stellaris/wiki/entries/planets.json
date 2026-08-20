@@ -1,0 +1,6 @@
+{
+  "description": "Discover the planets of the galaxy!",
+  "hoverIcon": "stellaris:textures/gui/sprites/icon/planet_selection_app_hover.png",
+  "icon": "stellaris:textures/gui/sprites/icon/planet_selection_app.png",
+  "id": "stellaris:planets"
+}
