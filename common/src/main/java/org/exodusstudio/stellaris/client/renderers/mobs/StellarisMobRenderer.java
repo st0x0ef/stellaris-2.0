@@ -234,6 +234,11 @@ public class StellarisMobRenderer<T extends Mob> extends EntityRenderer<T, Stell
                 ? OverlayTexture.pack(OverlayTexture.u(0.0F), OverlayTexture.v(true))
                 : OverlayTexture.NO_OVERLAY;
 
+
+        if(renderState.emissiveTextures != null) {
+            nodeCollector.order(1).submitModel(this.model, renderState, poseStack, RenderTypes.eyes(renderState.emissiveTextures), renderState.lightCoords, overlayCoords, renderState.outlineColor, (ModelFeatureRenderer.CrumblingOverlay)null);
+        }
+
         nodeCollector.submitModelPart(
                 this.model.root(),
                 poseStack,
@@ -243,9 +248,9 @@ public class StellarisMobRenderer<T extends Mob> extends EntityRenderer<T, Stell
                 null
         );
 
-        if(renderState.emissiveTextures != null) {
-            nodeCollector.order(1).submitModel(this.model, renderState, poseStack, RenderTypes.eyes(renderState.emissiveTextures), renderState.lightCoords, OverlayTexture.NO_OVERLAY, renderState.outlineColor, (ModelFeatureRenderer.CrumblingOverlay)null);
-        }
+
+
+
 
         poseStack.popPose();
     }
