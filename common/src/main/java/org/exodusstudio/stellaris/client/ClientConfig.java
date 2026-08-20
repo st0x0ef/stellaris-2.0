@@ -10,14 +10,7 @@ public class ClientConfig {
     @ScreenInfos.Description(value = "config.stellaris.showOxygenDebug.desc")
     public boolean showOxygenDebug = false;
 
-    @ScreenInfos.InnerConfig
-    @ScreenInfos.Description(value = "config.stellaris.fluidOutputConfig.desc")
-    public FluidOutputConfig fluidOutputConfig = new FluidOutputConfig();
-    public static class FluidOutputConfig {
-        @ScreenInfos.Description(value = "config.stellaris.fluidOutputConfig.showNeighborsBlock.desc")
-        public boolean showNeighborsBlock = false;
+    @ScreenInfos.Description(value = "config.stellaris.emissiveTextures.desc")
+    public boolean emissiveTextures = true;
 
-        @ScreenInfos.Description(value = "config.stellaris.fluidOutputConfig.fluidsColors.desc")
-        public String[] fluidsColors = new String[]{"red", "lime", "blue", "yellow", "cyan", "magenta"};
-    }
 }

@@ -502,6 +502,7 @@
   "config.stellaris.showOxygenDebug": "Show Oxygen Debug",
   "config.stellaris.showOxygenDebug.desc": "Show oxygen debug information on the HUD.",
 
+
   "config.stellaris.fluidOutputConfig": "Fluid Output Settings",
   "config.stellaris.showNeighborsBlock": "Show Neighbour Blocks",
   "config.stellaris.fluidsColors": "Fluid Colors",
@@ -515,6 +516,9 @@
   "config.stellaris_client.fluidOutputConfig": "Fluid Output Settings.",
   "config.stellaris_client.showNeighborsBlock": "Show Neighbour Blocks",
   "config.stellaris_client.fluidsColors": "Fluid Colors",
+
+  "config.stellaris_client.emissiveTextures": "Show Emissive Textures",
+  "config.stellaris_client.emissiveTextures.desc": "Show emissive textures on entities.",
 
 
   "effect.stellaris.infected": "Infected",

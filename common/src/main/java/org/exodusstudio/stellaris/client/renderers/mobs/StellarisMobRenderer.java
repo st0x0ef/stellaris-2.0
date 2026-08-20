@@ -6,7 +6,6 @@ import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
-import net.minecraft.client.renderer.feature.ModelFeatureRenderer;
 import net.minecraft.client.renderer.rendertype.RenderType;
 import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.client.renderer.state.level.CameraRenderState;
@@ -15,6 +14,7 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.phys.AABB;
+import org.exodusstudio.stellaris.client.StellarisClient;
 import org.exodusstudio.stellaris.common.entities.mobs.*;
 import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
 import org.jetbrains.annotations.NotNull;
@@ -98,6 +98,7 @@ public class StellarisMobRenderer<T extends Mob> extends EntityRenderer<T, Stell
             reusedState.blueFishIdleAnimationState.copyFrom(blueFish.idleAnimationState);
             reusedState.blueFishMoveAnimationState.copyFrom(blueFish.moveAnimationState);
             reusedState.blueFishMoveFastAnimationState.copyFrom(blueFish.moveFastAnimationState);
+            reusedState.emissiveTextures = IdentifierUtils.texture("entity/mob_blue_fish_emissive");
 
             if (reusedState.dying) {
                 reusedState.customDeathGroundYOffset = BLUE_FISH_DEATH_GROUND_Y_OFFSET;
@@ -235,8 +236,14 @@ public class StellarisMobRenderer<T extends Mob> extends EntityRenderer<T, Stell
                 : OverlayTexture.NO_OVERLAY;
 
 
-        if(renderState.emissiveTextures != null) {
-            nodeCollector.order(1).submitModel(this.model, renderState, poseStack, RenderTypes.eyes(renderState.emissiveTextures), renderState.lightCoords, overlayCoords, renderState.outlineColor, (ModelFeatureRenderer.CrumblingOverlay)null);
+        if(renderState.emissiveTextures != null && StellarisClient.CLIENT_CONFIG.emissiveTextures) {
+            nodeCollector.order(1).submitModelPart(
+                    this.model.root(),
+                    poseStack,
+                    RenderTypes.eyes(renderState.emissiveTextures),
+                    renderState.lightCoords,
+                    overlayCoords,
+                    null);
         }
 
         nodeCollector.submitModelPart(
