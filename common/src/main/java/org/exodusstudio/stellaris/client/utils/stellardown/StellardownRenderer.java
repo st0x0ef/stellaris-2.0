@@ -263,7 +263,6 @@ public class StellardownRenderer {
                                 imageSeg.getHeight(),
                                 imageSeg.getWidth(),
                                 imageSeg.getHeight());
-
                     }
                     case EntitySegment entitySeg -> {
                         StellardownStyle.EntityStyle entityStyle = entitySeg.entity;
@@ -308,7 +307,6 @@ public class StellardownRenderer {
                         matrixStack.scale(scale, scale);
 
                         guiGraphics.item(new ItemStack(itemStyle.getItem()), 0, 0);
-
 
                         matrixStack.popMatrix();
                     }

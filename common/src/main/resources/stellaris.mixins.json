@@ -21,6 +21,7 @@
     "LivingEntityMixin",
     "NetherPortalMixin",
     "PlayerMixin",
+    "WeatheringCopperMixin",
     "gravity_modifier.AbstractArrowEntityMixin",
     "gravity_modifier.AbstractBoatEntityMixin",
     "gravity_modifier.AbstractMinecartEntityMixin",
