@@ -15,6 +15,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.jspecify.annotations.NonNull;
 
+import java.util.Stack;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 public class ScrollStellarDownWidget extends ScrollableContainer {
@@ -25,6 +26,9 @@ public class ScrollStellarDownWidget extends ScrollableContainer {
     public int finalHeight;
     private final CopyOnWriteArrayList<ActionBox> actionBoxes = new CopyOnWriteArrayList<>();
     private boolean firstRender;
+
+    public Stack<MarkdownPage> pageStack = new Stack<>();
+
 
     public ScrollStellarDownWidget(int x, int y, int width, int height, MarkdownPage page) {
         super(x, y, width, height, Component.empty());
@@ -100,11 +104,14 @@ public class ScrollStellarDownWidget extends ScrollableContainer {
             return;
         }
 
-        refresh(newPage);
+        refresh(newPage, true);
 
     }
 
-    public void refresh(@NotNull MarkdownPage newPage) {
+    public void refresh(@NotNull MarkdownPage newPage, boolean addToStack) {
+        if(addToStack) {
+            this.pageStack.push(this.page);
+        }
         this.page = newPage;
         this.setScrollAmount(0);
         actionBoxes.clear();
@@ -112,5 +119,7 @@ public class ScrollStellarDownWidget extends ScrollableContainer {
         this.renderer = new StellardownRenderer(renderWidth, Minecraft.getInstance().font, newPage.getSegments());
         this.finalHeight = this.renderer.getLayoutHeight();
         this.firstRender = true;
+
+
     }
 }
