@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cross_emissive",
+  "textures": {
+    "cross": "stellaris:block/flowers/eclipse_tulip",
+    "cross_emissive": "stellaris:block/flowers/eclipse_tulip_emissive"
+  }
+}

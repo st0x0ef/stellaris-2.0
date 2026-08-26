@@ -4,9 +4,12 @@ import dev.architectury.core.block.ArchitecturyLiquidBlock;
 import dev.architectury.registry.registries.DeferredRegister;
 import dev.architectury.registry.registries.RegistrySupplier;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
@@ -100,6 +103,10 @@ public final class BlocksRegistry {
 
     public static final RegistrySupplier<Block> MOON_VINES = block("moon_vines", BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).randomTicks().noCollision().lightLevel(CaveVines.emission(14)).instabreak().sound(SoundType.CAVE_VINES).pushReaction(PushReaction.DESTROY), MoonVine::new);
     public static final RegistrySupplier<Block> MOON_VINES_PLANT = block("moon_vines_plant", BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).noCollision().lightLevel(CaveVines.emission(14)).instabreak().sound(SoundType.CAVE_VINES).pushReaction(PushReaction.DESTROY), MoonVinesPlant::new);
+
+    public static final BlockItemRegistrySupplier DUSTBLOOM = flower("dustbloom", BlockBehaviour.Properties.of(), MobEffects.JUMP_BOOST, 11f);
+    public static final BlockItemRegistrySupplier ECLIPSE_TULIP = flower("eclipse_tulip", BlockBehaviour.Properties.of(), MobEffects.NIGHT_VISION, 11f);
+    public static final BlockItemRegistrySupplier STARLIGHT_BUSH = blockWithItem("starlight_bush", BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).noCollision().instabreak().sound(SoundType.GRASS).offsetType(BlockBehaviour.OffsetType.XZ).ignitedByLava().pushReaction(PushReaction.DESTROY), TallFlowerBlock::new);
 
 
     // LUNAR FOREST
@@ -279,6 +286,14 @@ public final class BlocksRegistry {
     public static final BlockItemRegistrySupplier MOON_GLOBE = blockWithItem("moon_globe",
             BlockBehaviour.Properties.of().mapColor(MapColor.STONE).strength(2.5F).sound(SoundType.STONE).noOcclusion(),
             GlobeBlock::new);
+
+
+    public static <T extends FlowerBlock> BlockItemRegistrySupplier flower(String name, BlockBehaviour.Properties properties, Holder<MobEffect> mobEffect, float duration) {
+        Identifier id = IdentifierUtils.id(name);
+        ResourceKey<Block> key = ResourceKey.create(Registries.BLOCK, id);
+
+        return blockWithItem(name, properties, (p) -> new FlowerBlock(mobEffect, duration, p.setId(key).mapColor(MapColor.PLANT).noCollision().instabreak().sound(SoundType.GRASS).offsetType(BlockBehaviour.OffsetType.XZ).pushReaction(PushReaction.DESTROY)));
+    }
 
 
     public static <B extends Block> @NotNull RegistrySupplier<B> block(String name,

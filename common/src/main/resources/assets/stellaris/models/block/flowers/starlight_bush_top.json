@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cross_emissive",
+  "textures": {
+    "cross": "stellaris:block/flowers/starlight_bush_top",
+    "cross_emissive": "stellaris:block/flowers/starlight_bush_top_emissive"
+  }
+}
