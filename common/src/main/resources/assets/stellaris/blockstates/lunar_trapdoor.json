@@ -10,8 +10,7 @@
       "model": "stellaris:block/lunar_trapdoor_top"
     },
     "facing=north,half=top,open=true": {
-      "model": "stellaris:block/lunar_trapdoor_open",
-      "x": 180
+      "model": "stellaris:block/lunar_trapdoor_open"
     },
     "facing=south,half=bottom,open=false": {
       "model": "stellaris:block/lunar_trapdoor_bottom",
@@ -27,8 +26,7 @@
     },
     "facing=south,half=top,open=true": {
       "model": "stellaris:block/lunar_trapdoor_open",
-      "y": 180,
-      "x": 180
+      "y": 180
     },
     "facing=east,half=bottom,open=false": {
       "model": "stellaris:block/lunar_trapdoor_bottom",
@@ -44,8 +42,7 @@
     },
     "facing=east,half=top,open=true": {
       "model": "stellaris:block/lunar_trapdoor_open",
-      "y": 90,
-      "x": 180
+      "y": 90
     },
     "facing=west,half=bottom,open=false": {
       "model": "stellaris:block/lunar_trapdoor_bottom",
@@ -61,8 +58,7 @@
     },
     "facing=west,half=top,open=true": {
       "model": "stellaris:block/lunar_trapdoor_open",
-      "y": 270,
-      "x": 180
+      "y": 270
     }
   }
 }
