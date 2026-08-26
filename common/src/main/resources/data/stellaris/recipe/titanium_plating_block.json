@@ -8,6 +8,7 @@
     "#": "stellaris:titanium_ingot"
   },
   "result": {
-    "id": "stellaris:titanium_plating_block"
+    "id": "stellaris:titanium_plating_block",
+    "count": 4
   }
 }
