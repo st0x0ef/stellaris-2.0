@@ -46,7 +46,13 @@ public class WikiEntryScreen extends Screen {
         int wikiEntryY = this.getTopPos() + 45;
 
         this.addRenderableWidget(new TexturedButton(wikiEntryX - 18,  wikiEntryY - 18, 16, 16,
-                (b) -> this.minecraft.setScreen(this.wikiState.toScreen(wikiApplicationScreen)))
+                (b) -> {
+                    if(this.widget.pageStack.isEmpty()) {
+                        this.minecraft.setScreen(this.wikiState.toScreen(wikiApplicationScreen));
+                    } else {
+                        this.widget.refresh(this.widget.pageStack.pop(), false);
+                    }
+                })
                 .tex(IdentifierUtils.texture("gui/tablet/back_page"), IdentifierUtils.texture("gui/tablet/back_page_hover")));
 
         this.widget = new ScrollStellarDownWidget(wikiEntryX,  wikiEntryY, 230, 128, this.page);
@@ -88,6 +94,7 @@ public class WikiEntryScreen extends Screen {
 
         return super.keyPressed(event);
     }
+
 
     public int getLeftPos() {
         return this.wikiApplicationScreen.getLeftPos();

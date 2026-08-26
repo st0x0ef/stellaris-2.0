@@ -8,6 +8,8 @@ Moon Berries are food that grows on the surface of the Moon.
 
 [item=stellaris:moon_berries]
 
-They make a handy snack for explorers far from home, restoring a little hunger to keep you going on long expeditions. 
+They make a handy snack for explorers far from home, restoring a little hunger to keep you going on long expeditions.
+
+You can make them fall by shooting an arrow on the vine!
 
 Remember that food can only be eaten where there is air to breathe. Out in the vacuum you will have to seal them into a [ref=stellaris:items/cans]Can[ref] first.

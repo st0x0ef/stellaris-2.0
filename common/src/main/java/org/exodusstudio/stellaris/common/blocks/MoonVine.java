@@ -6,12 +6,15 @@ import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.tags.EntityTypeTags;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.InsideBlockEffectApplier;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
@@ -22,6 +25,8 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.shapes.VoxelShape;
+import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.common.registries.BlocksRegistry;
 import org.exodusstudio.stellaris.common.registries.ItemsRegistry;
 import org.jetbrains.annotations.Nullable;
@@ -89,6 +94,13 @@ public class MoonVine extends GrowingPlantHeadBlock implements BonemealableBlock
         level.setBlock(pos, state.setValue(BERRIES, true), 2);
     }
 
+    @Override
+    protected void entityInside(BlockState state, Level level, BlockPos pos, Entity entity, InsideBlockEffectApplier effectApplier, boolean isPrecise) {
+        if(entity.is(EntityTypeTags.ARROWS)) {
+            level.removeBlock(pos, false);
+            level.updateNeighborsAt(pos, this);
+        }
+    }
 
     public static InteractionResult use(@Nullable Entity entity, BlockState state, Level level, BlockPos pos) {
         if (state.getValue(BERRIES)) {

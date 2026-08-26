@@ -15,6 +15,7 @@ import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.protocol.game.ClientboundStopSoundPacket;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -247,7 +248,7 @@ public class RocketEntity extends VehicleEntity implements FluidProvider.ENTITY 
             if (this.getDeltaMovement().y < this.getRocketSpeed() - 0.1) {
                 this.addDeltaMovement(new Vec3(0, 0.1, 0));
             } else if (this.getDeltaMovement().y > this.getRocketSpeed() + 0.1) {
-                this.level().playSeededSound(null, this, SoundRegistry.BOOST_SOUND, SoundSource.NEUTRAL, 1, 1, 1);
+                this.level().playSound(null, this.getOnPos(), SoundRegistry.BOOST_SOUND.get(), SoundSource.NEUTRAL, 1f, 1f);
                 this.setDeltaMovement(new Vec3(0, this.getRocketSpeed(), 0));
             } else {
                 this.setDeltaMovement(new Vec3(0, this.getRocketSpeed(), 0));
@@ -284,7 +285,7 @@ public class RocketEntity extends VehicleEntity implements FluidProvider.ENTITY 
                             .getValue(Stats.CUSTOM.get(StatsRegistry.ROCKET_LAUNCHED.get()))
                     );
                     
-                    this.level().playSeededSound(player,this, SoundRegistry.ROCKET_SOUND, SoundSource.NEUTRAL, 1, 1, 1);
+                    this.level().playSeededSound(null,this, SoundRegistry.ROCKET_SOUND, SoundSource.NEUTRAL, 1, 1, 1);
                 }
             } else {
                 player.sendOverlayMessage(Component.translatable("text.stellaris.rocket.fuel", getFuelType().getFluid().arch$registryName().toString()));
@@ -453,6 +454,11 @@ public class RocketEntity extends VehicleEntity implements FluidProvider.ENTITY 
 
                 Utils.executeWithFade(player, () -> {
                     MenuRegistry.openExtendedMenu(serverPlayer, PlanetSelectionMenu.createProvider(serverPlayer.level().getServer()));
+
+                    ClientboundStopSoundPacket packet = new ClientboundStopSoundPacket(SoundRegistry.ROCKET_SOUND.getId(), SoundSource.NEUTRAL);
+                    serverPlayer.connection.send(packet);
+
+
                     this.setNoGravity(true);
                 }, true);
             }

@@ -116,7 +116,7 @@ public class PlanetSelectionAppScreen extends TabletAbstractContainer<PlanetSele
 
         int i = 0;
         for(Planet planet : PlanetsData.PLANETS) {
-            TexturedButton button = new TexturedButton(container.getX() + 5, this.container.getY() + 5 + i * 25, 95, 20, btn -> {
+            TexturedButton button = new TexturedButton(container.getX() + 5, this.container.getY() + 5 + i * 25, 110, 20, btn -> {
                 this.selectedPlanet = planet;
                 this.planetInfoComponent.onPlanetChange();
             }).tex(IdentifierUtils.guiTexture("tablet/tablet_entry_button"), IdentifierUtils.guiTexture("tablet/tablet_entry_button")).setText(Component.translatable(planet.translationKey()));
