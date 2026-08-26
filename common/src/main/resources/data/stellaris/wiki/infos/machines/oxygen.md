@@ -14,7 +14,7 @@ The Oxygen System is the most important system in the universe. Off Earth, an ar
 The oxygen distributor fills a sealed room with breathable air. Give it power and oxygen, either through a [ref=stellaris:machines/pipes]Pipe[ref] coming from an [ref=stellaris:machines/electrolyzer]Electrolyzer[ref] or directly with a [ref=stellaris:items/fluid_cell]Fluid Cell[ref] in its input slot. 
 
 The room is filled by air spreading from the distributor through every block that is not a full solid block, and it must respect three rules : 
-- The room must be **completely sealed from the sky**. If the air reaches a single spot that can see the sky, the whole room loses its oxygen. 
+- The room must be **completely sealed from the sky**. If the air reaches a single spot with nothing but open air above it, the whole room loses its oxygen. A glass roof still counts as sealed — only a real opening leaks. 
 - The room must fit inside **3 x 3 chunks**, over the full height of the world. That area is measured around the room itself, not around the machine, so the distributor can sit anywhere inside it — a corner is fine. A room that does not fit loses its oxygen entirely. 
 - A room can hold at most 50 000 blocks of air. 
 

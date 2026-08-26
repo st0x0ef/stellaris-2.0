@@ -14,6 +14,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.chunk.LevelChunk;
+import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.phys.AABB;
 import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.common.blocks.entities.machines.OxygenDistributorBlockEntity;
@@ -209,7 +210,7 @@ public class OxygenUtils {
         while (!queue.isEmpty()) {
             BlockPos current = queue.poll().immutable();
 
-            if (level.canSeeSky(current)) {
+            if (isOpenToSky(level, current)) {
                 return OxygenResult.failure(OxygenStatus.SKY_LEAK);
             }
 
@@ -253,6 +254,13 @@ public class OxygenUtils {
 
         BlockState state = level.getBlockState(pos);
         return state.isAir() || !state.isCollisionShapeFullBlock(level, pos);
+    }
+
+    private static boolean isOpenToSky(Level level, BlockPos pos) {
+        LevelChunk chunk = level.getChunk(SectionPos.blockToSectionCoord(pos.getX()),
+                SectionPos.blockToSectionCoord(pos.getZ()));
+
+        return pos.getY() > chunk.getHeight(Heightmap.Types.MOTION_BLOCKING, pos.getX(), pos.getZ());
     }
 
     public static boolean isOxygenated(Level level, BlockPos entityPos) {
