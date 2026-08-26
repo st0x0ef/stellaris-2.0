@@ -1,31 +1,27 @@
 package org.exodusstudio.stellaris.client.screens.engineering_station;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
-import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Inventory;
+import org.exodusstudio.stellaris.client.screens.TabbedMachineScreen;
 import org.exodusstudio.stellaris.common.menus.engineering_station.RocketStationMenu;
 import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
 
-public class RocketStationScreen extends AbstractContainerScreen<RocketStationMenu> {
+public class RocketStationScreen extends TabbedMachineScreen<RocketStationMenu> {
     private static final Identifier GUI_LOCATION = IdentifierUtils.guiTexture("rocket_station"); //temporary
     public static final Component TAB_NAME = Component.literal("Rocket Station");
 
     public RocketStationScreen(RocketStationMenu menu, Inventory playerInventory, Component title) {
         super(menu, playerInventory, TAB_NAME, 180, 224);
-
-        this.titleLabelX = (180 - Minecraft.getInstance().font.width(TAB_NAME)) / 2;
-        this.titleLabelY = 2;
     }
 
     @Override
     protected void init() {
         super.init();
 
-        EngineUpgraderScreen.addTabsButton(this.leftPos + this.imageWidth, this.topPos + 40, this, menu.engineeringStationPos, "crafting");
+        EngineUpgraderScreen.addTabsButton(getTabsX(), this.topPos + 40, this, menu.engineeringStationPos, "crafting");
 
     }
 
@@ -39,7 +35,7 @@ public class RocketStationScreen extends AbstractContainerScreen<RocketStationMe
     @Override
     public void extractBackground(GuiGraphicsExtractor guiGraphics, int mouseX, int mouseY, float partialTick) {
         super.extractBackground(guiGraphics, mouseX, mouseY, partialTick);
-        guiGraphics.blit(RenderPipelines.GUI_TEXTURED, GUI_LOCATION, this.leftPos, this.topPos, 0, 0, this.imageWidth, this.imageHeight, this.imageWidth, this.imageHeight);
+        guiGraphics.blit(RenderPipelines.GUI_TEXTURED, GUI_LOCATION, this.leftPos, this.topPos, 0, 0, this.backgroundWidth, this.imageHeight, this.backgroundWidth, this.imageHeight);
     }
 
     @Override

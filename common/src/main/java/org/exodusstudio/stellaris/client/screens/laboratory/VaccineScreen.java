@@ -1,40 +1,36 @@
 package org.exodusstudio.stellaris.client.screens.laboratory;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.Tooltip;
-import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Inventory;
+import org.exodusstudio.stellaris.client.screens.TabbedMachineScreen;
 import org.exodusstudio.stellaris.client.screens.components.TexturedButton;
 import org.exodusstudio.stellaris.client.screens.utils.GUISprites;
 import org.exodusstudio.stellaris.common.menus.laboratory.VaccineMenu;
 import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
 
-public class VaccineScreen extends AbstractContainerScreen<VaccineMenu> {
+public class VaccineScreen extends TabbedMachineScreen<VaccineMenu> {
     private static final Identifier GUI_LOCATION = IdentifierUtils.guiTexture("laboratory_vaccine");
     public static final Component TAB_NAME = Component.literal("Vaccine");
 
     public VaccineScreen(VaccineMenu menu, Inventory playerInventory, Component title) {
         super(menu, playerInventory, TAB_NAME, 180, 188);
-
-        this.titleLabelX = (180 - Minecraft.getInstance().font.width(TAB_NAME)) / 2;
-        this.titleLabelY = 2;
     }
 
     @Override
     protected void init() {
         super.init();
 
-        TexturedButton researchButton = new TexturedButton(this.leftPos + this.imageWidth, this.topPos + 50, 16,16,
+        TexturedButton researchButton = new TexturedButton(getTabsX(), this.topPos + 50, 16,16,
                 button -> menu.openResearchMenu())
                 .tex(GUISprites.RESEARCH_TAB, GUISprites.RESEARCH_TAB_HOVER)
                 .tooltip(Tooltip.create(ResearchScreen.TAB_NAME))
                 .useSprite(true);
 
-        TexturedButton vaccineButton = new TexturedButton(this.leftPos + this.imageWidth, this.topPos + 66, 16,16,null)
+        TexturedButton vaccineButton = new TexturedButton(getTabsX(), this.topPos + 66, 16,16,null)
                 .tex(GUISprites.VACCINE_TAB, GUISprites.VACCINE_TAB_HOVER)
                 .tooltip(Tooltip.create(VaccineScreen.TAB_NAME))
                 .useSprite(true)
@@ -55,7 +51,7 @@ public class VaccineScreen extends AbstractContainerScreen<VaccineMenu> {
     @Override
     public void extractBackground(GuiGraphicsExtractor guiGraphics, int mouseX, int mouseY, float partialTick) {
         super.extractBackground(guiGraphics, mouseX, mouseY, partialTick);
-        guiGraphics.blit(RenderPipelines.GUI_TEXTURED, GUI_LOCATION, this.leftPos, this.topPos, 0, 0, this.imageWidth, this.imageHeight, this.imageWidth, this.imageHeight);
+        guiGraphics.blit(RenderPipelines.GUI_TEXTURED, GUI_LOCATION, this.leftPos, this.topPos, 0, 0, this.backgroundWidth, this.imageHeight, this.backgroundWidth, this.imageHeight);
 
         int unknownItem = getMenu().getUnknownVaccineItem();
         if (unknownItem > 0) {

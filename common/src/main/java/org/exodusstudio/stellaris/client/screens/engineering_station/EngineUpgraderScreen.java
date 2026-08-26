@@ -4,12 +4,12 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Inventory;
+import org.exodusstudio.stellaris.client.screens.TabbedMachineScreen;
 import org.exodusstudio.stellaris.client.screens.components.TexturedButton;
 import org.exodusstudio.stellaris.client.screens.utils.GUISprites;
 import org.exodusstudio.stellaris.common.menus.engineering_station.EngineUpgradeMenu;
@@ -18,7 +18,7 @@ import org.exodusstudio.stellaris.common.registries.MenuProviderRegistry;
 import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
 import org.exodusstudio.stellaris.common.utils.Utils;
 
-public class EngineUpgraderScreen extends AbstractContainerScreen<EngineUpgradeMenu> {
+public class EngineUpgraderScreen extends TabbedMachineScreen<EngineUpgradeMenu> {
     private static final Identifier GUI_LOCATION = IdentifierUtils.guiTexture("upgrade_station");
     public static final Component TAB_NAME = Component.literal("Engine Upgrader");
 
@@ -30,9 +30,6 @@ public class EngineUpgraderScreen extends AbstractContainerScreen<EngineUpgradeM
 
     public EngineUpgraderScreen(EngineUpgradeMenu menu, Inventory playerInventory, Component title) {
         super(menu, playerInventory, TAB_NAME, 180, 188);
-
-        this.titleLabelX = (180 - Minecraft.getInstance().font.width(TAB_NAME)) / 2;
-        this.titleLabelY = 2;
     }
 
     public static void addTabsButton(int x, int y, Screen screen, BlockPos pos, String currentScreen) {
@@ -61,7 +58,7 @@ public class EngineUpgraderScreen extends AbstractContainerScreen<EngineUpgradeM
     protected void init() {
         super.init();
 
-        addTabsButton(this.leftPos + this.imageWidth, this.topPos + 40, this, menu.engineeringStationPos, "upgrade");
+        addTabsButton(getTabsX(), this.topPos + 40, this, menu.engineeringStationPos, "upgrade");
 
     }
 
@@ -73,14 +70,14 @@ public class EngineUpgraderScreen extends AbstractContainerScreen<EngineUpgradeM
 
         EngineUpgradeMenu.Error error = this.menu.getErrorMessage(menu.getInputModule(), menu.getInputStack());
         if(error != EngineUpgradeMenu.Error.NONE) {
-            graphics.centeredText(Minecraft.getInstance().font, error.errorMessage, width / 2, topPos + 26, Utils.getMinecraftColor("red"));
+            graphics.centeredText(Minecraft.getInstance().font, error.errorMessage, leftPos + backgroundWidth / 2, topPos + 26, Utils.getMinecraftColor("red"));
         }
     }
 
     @Override
     public void extractBackground(GuiGraphicsExtractor guiGraphics, int mouseX, int mouseY, float partialTick) {
         super.extractBackground(guiGraphics, mouseX, mouseY, partialTick);
-        guiGraphics.blit(RenderPipelines.GUI_TEXTURED, GUI_LOCATION, this.leftPos, this.topPos, 0, 0, this.imageWidth, this.imageHeight, this.imageWidth, this.imageHeight);
+        guiGraphics.blit(RenderPipelines.GUI_TEXTURED, GUI_LOCATION, this.leftPos, this.topPos, 0, 0, this.backgroundWidth, this.imageHeight, this.backgroundWidth, this.imageHeight);
     }
 
     @Override

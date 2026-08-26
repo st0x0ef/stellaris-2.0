@@ -1,21 +1,20 @@
 package org.exodusstudio.stellaris.client.screens.laboratory;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.Tooltip;
-import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Inventory;
 import org.exodusstudio.stellaris.Stellaris;
+import org.exodusstudio.stellaris.client.screens.TabbedMachineScreen;
 import org.exodusstudio.stellaris.client.screens.components.TexturedButton;
 import org.exodusstudio.stellaris.client.screens.utils.GUISprites;
 import org.exodusstudio.stellaris.common.menus.laboratory.ResearchMenu;
 import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
 import org.exodusstudio.stellaris.common.utils.Utils;
 
-public class ResearchScreen extends AbstractContainerScreen<ResearchMenu> {
+public class ResearchScreen extends TabbedMachineScreen<ResearchMenu> {
     private static final Identifier GUI_LOCATION = IdentifierUtils.guiTexture("laboratory_research"); //temporary
     public static final Component TAB_NAME = Component.literal("Research");
 
@@ -29,28 +28,25 @@ public class ResearchScreen extends AbstractContainerScreen<ResearchMenu> {
 
     public ResearchScreen(ResearchMenu menu, Inventory playerInventory, Component title) {
         super(menu, playerInventory, TAB_NAME, 180, 188);
-
-        this.titleLabelX = (180 - Minecraft.getInstance().font.width(TAB_NAME)) / 2;
-        this.titleLabelY = 2;
     }
 
     @Override
     protected void init() {
         super.init();
 
-        TexturedButton researchButton = new TexturedButton(this.leftPos + this.imageWidth, this.topPos + 40, 16,16, null)
+        TexturedButton researchButton = new TexturedButton(getTabsX(), this.topPos + 40, 16,16, null)
                 .tex(GUISprites.RESEARCH_TAB, GUISprites.RESEARCH_TAB_HOVER)
                 .tooltip(Tooltip.create(ResearchScreen.TAB_NAME))
                 .useSprite(true)
                 .setUVs(2, 0);
 
-        TexturedButton vaccineButton = new TexturedButton(this.leftPos + this.imageWidth, this.topPos + 56, 16,16,
+        TexturedButton vaccineButton = new TexturedButton(getTabsX(), this.topPos + 56, 16,16,
                 button -> menu.openVaccineTab())
                 .tex(GUISprites.VACCINE_TAB, GUISprites.VACCINE_TAB_HOVER)
                 .tooltip(Tooltip.create(VaccineScreen.TAB_NAME))
                 .useSprite(true);
 
-        startResearchButton = new TexturedButton(this.leftPos + (this.imageWidth - 96) / 2, this.topPos + 69, 96, 16,
+        startResearchButton = new TexturedButton(this.leftPos + (this.backgroundWidth - 96) / 2, this.topPos + 69, 96, 16,
                 Component.literal("Start Research"), button -> menu.researchButton())
                 .tex(GUISprites.RESEARCH_BUTTON, GUISprites.RESEARCH_BUTTON_HOVER)
                 .tooltip(Tooltip.create(Component.literal("Start the research, the more parasite you have, the more chance you have to progress toward the vaccine recipe.")))
@@ -71,7 +67,7 @@ public class ResearchScreen extends AbstractContainerScreen<ResearchMenu> {
     @Override
     public void extractBackground(GuiGraphicsExtractor guiGraphics, int mouseX, int mouseY, float partialTick) {
         super.extractBackground(guiGraphics, mouseX, mouseY, partialTick);
-        guiGraphics.blit(RenderPipelines.GUI_TEXTURED, GUI_LOCATION, this.leftPos, this.topPos, 0, 0, this.imageWidth, this.imageHeight, this.imageWidth, this.imageHeight);
+        guiGraphics.blit(RenderPipelines.GUI_TEXTURED, GUI_LOCATION, this.leftPos, this.topPos, 0, 0, this.backgroundWidth, this.imageHeight, this.backgroundWidth, this.imageHeight);
 
         if (this.menu.getSlot(0).getItem().isEmpty()) {
             this.startResearchButton.active = false;
@@ -97,7 +93,7 @@ public class ResearchScreen extends AbstractContainerScreen<ResearchMenu> {
         if (this.should_display_success_message) {
             int color  = this.research_success ? Utils.getMinecraftColor("green") : Utils.getMinecraftColor("red");
             Component message = this.research_success ? SUCCESS_MESSAGE : FAILURE_MESSAGE;
-            guiGraphics.text(this.font, message, (this.imageWidth - this.font.width(message)) / 2, 90, color);
+            guiGraphics.text(this.font, message, (this.backgroundWidth - this.font.width(message)) / 2, 90, color);
         }
     }
 }
