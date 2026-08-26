@@ -1,6 +1,7 @@
 {
   "type": "minecraft:crafting_shaped",
   "pattern": [
+    "#",
     "#"
   ],
   "key": {
@@ -8,6 +9,6 @@
   },
   "result": {
     "id": "stellaris:titanium_pillar",
-    "count": 1
+    "count": 2
   }
 }
