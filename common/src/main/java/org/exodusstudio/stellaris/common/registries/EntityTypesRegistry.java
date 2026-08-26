@@ -70,6 +70,6 @@ public class EntityTypesRegistry {
                                                                                Function<EntityType.Builder<T>, EntityType.Builder<T>> builder) {
         return ENTITY_TYPE.register(id,
                 () -> builder.apply(EntityType.Builder.of(factory, category))
-                        .build(IdentifierUtils.resourceKey(Registries.ENTITY_TYPE, "lander")));
+                        .build(IdentifierUtils.resourceKey(Registries.ENTITY_TYPE, id)));
     }
 }
