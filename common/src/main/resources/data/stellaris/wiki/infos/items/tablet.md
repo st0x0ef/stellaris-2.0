@@ -24,4 +24,4 @@ The Tablet is the companion The Stellar Company hands to every astronaut. You ar
 - **Stats** : what you have built, launched and explored so far.
 
 **Fun Facts**
-The tablet contains a lot of information. But we don't really know where it comes from... Like, is it a supercomputer? A magic book? A little alien inside? We don't know. But it is very useful!
+The tablet contains a lot of information. But we don't really know where it comes from... Like, is it a supercomputer? A magic book? A little alien inside? We don't know. But it is very useful! But sadly, there are no games on it.

@@ -4,7 +4,7 @@ entryId: stellaris:planets
 iconType: item
 ---
 
-The Moon, the Eye of the Night, is the only natural satellite of the Earth. For thousands of years, people have dreamed of setting foot there. And we did!
+The Moon, the Lady of the Night, is the only natural satellite of the Earth. For thousands of years, people have dreamed of setting foot there. And we did!
 
 [item=stellaris:moon_globe]
 

@@ -399,7 +399,8 @@
   "wiki.stellaris.items.title": "Blocks and Items",
 
   "tooltip.wiki.stellaris.home": "Home, a place where I can go...",
-
+  "tooltip.wiki.stellaris.strikes_back": "Like The Empire",
+  "tooltip.wiki.stellaris.want_back_home": "I want to go Back Home.",
   "tooltip.item.stellaris.can.empty": "Empty",
   "tooltip.item.stellaris.can.nutrition": "Nutrition: %s/%s",
   "tooltip.item.stellaris.can.saturation": "Saturation: %s",

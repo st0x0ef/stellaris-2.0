@@ -17,7 +17,7 @@ Build a full [ref=stellaris:rocket/rocket_launch_pad]Rocket Launch Pad[ref], the
 
 **How to configure** 
 
-Right-click the centre of the pad with an empty hand to open the antenna. Give it a name, and choose whether it is public or private. 
+Right-click the center of the pad with an empty hand to open the antenna. Give it a name, and choose whether it is public or private. 
 A public antenna can be used by everyone. A private antenna can only be used by the player who placed it and by whitelisted players. 
 
 

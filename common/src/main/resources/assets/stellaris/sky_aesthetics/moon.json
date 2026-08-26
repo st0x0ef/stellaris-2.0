@@ -33,7 +33,7 @@
 
   "stars": {
     "vanilla": false,
-    "moving_stars": false,
+    "moving_stars": true,
     "count": 10000,
     "all_days_visible": true,
     "scale": 0.12,
