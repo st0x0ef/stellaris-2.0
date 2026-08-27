@@ -40,23 +40,37 @@ import java.util.EnumSet;
 // Holy crap this sucker took FOREVER
 
 public class LunarParasiteEntity extends Monster {
-    private static final EntityDataAccessor<Boolean> ATTACHED = SynchedEntityData.defineId(LunarParasiteEntity.class, EntityDataSerializers.BOOLEAN);
-    private static final EntityDataAccessor<Integer> HOST_ID = SynchedEntityData.defineId(LunarParasiteEntity.class, EntityDataSerializers.INT);
-    private static final EntityDataAccessor<Boolean> INFECTING = SynchedEntityData.defineId(LunarParasiteEntity.class, EntityDataSerializers.BOOLEAN);
-    private static final EntityDataAccessor<Boolean> MOVING = SynchedEntityData.defineId(LunarParasiteEntity.class, EntityDataSerializers.BOOLEAN);
+    private static final EntityDataAccessor<Boolean> ATTACHED =
+            SynchedEntityData.defineId(LunarParasiteEntity.class, EntityDataSerializers.BOOLEAN);
+
+    private static final EntityDataAccessor<Integer> HOST_ID =
+            SynchedEntityData.defineId(LunarParasiteEntity.class, EntityDataSerializers.INT);
+
+    private static final EntityDataAccessor<Boolean> INFECTING =
+            SynchedEntityData.defineId(LunarParasiteEntity.class, EntityDataSerializers.BOOLEAN);
+
+    private static final EntityDataAccessor<Boolean> MOVING =
+            SynchedEntityData.defineId(LunarParasiteEntity.class, EntityDataSerializers.BOOLEAN);
 
     private static final int MAX_ATTACH_TICKS = 20 * 38;
     private static final int VILLAGER_CONVERSION_TICKS = 20 * 12;
+
     private static final int INFECT_WINDUP_TICKS = 12;
     private static final int FAILED_ATTACH_COOLDOWN_TICKS = 16;
     private static final int POST_CONVERSION_COOLDOWN_TICKS = 40;
     private static final int DROP_REATTACH_COOLDOWN_TICKS = 36;
+
     private static final int CHARGE_WINDUP_TICKS = 14;
     private static final int CHARGE_TICKS = 16;
     private static final int CHARGE_COOLDOWN_TICKS = 22;
 
     private static final int INFECT_ANIMATION_TICKS = 10;
     private static final int MOVE_ANIMATION_LINGER_TICKS = 2;
+    private static final int CHARGE_ANIMATION_LINGER_TICKS = 4;
+
+
+    private static final int ATTACH_BLEND_TICKS = 5;
+    private static final double ATTACH_INITIAL_BLEND = 0.30D;
 
     private static final double ATTACHED_PLAYER_FORWARD_OFFSET = 0.56D;
     private static final double ATTACHED_MOB_FORWARD_OFFSET = 0.52D;
@@ -70,9 +84,43 @@ public class LunarParasiteEntity extends Monster {
     private static final double CHARGE_START_DISTANCE_SQR = 7.5D * 7.5D;
     private static final double CHARGE_ABORT_DISTANCE_SQR = 11.0D * 11.0D;
     private static final double CHARGE_ATTACH_DISTANCE_SQR = 0.82D * 0.82D;
+
+
     private static final double CHARGE_SPEED = 0.78D;
+    private static final double CHARGE_INITIAL_SPEED = 0.34D;
+
+
+    private static final double CHARGE_LAUNCH_LIFT = 0.025D;
+
+
+    private static final double CHARGE_STEERING = 0.24D;
+    private static final double CHARGE_CLOSE_STEERING = 0.36D;
+
+
+    private static final double CHARGE_SLOWDOWN_DISTANCE = 2.25D;
+    private static final double CHARGE_MIN_SPEED = 0.38D;
+
+
+    private static final double CHARGE_TARGET_LEAD_TICKS = 2.0D;
+    private static final double CHARGE_MAX_TARGET_LEAD = 0.70D;
+    private static final double CHARGE_MAX_VERTICAL_LEAD = 0.18D;
+
+    private static final double CHARGE_START_HORIZONTAL_DAMPING = 0.85D;
+    private static final double CHARGE_START_UPWARD_DAMPING = 0.45D;
+
+    private static final double CHARGE_WINDUP_HORIZONTAL_DAMPING = 0.78D;
+    private static final double CHARGE_WINDUP_UPWARD_DAMPING = 0.35D;
+    private static final double CHARGE_WINDUP_MAX_UPWARD_SPEED = 0.06D;
+
+
+    private static final double CHARGE_FAIL_HORIZONTAL_MOMENTUM = 0.72D;
+    private static final double CHARGE_FAIL_VERTICAL_SPEED = -0.08D;
+
+    private static final float CHARGE_ROTATION_LERP = 0.30F;
+
     private static final double CHARGE_TARGET_HEIGHT_FRACTION = 0.58D;
     private static final double CHARGE_CONTACT_INFLATE = 0.03D;
+
     private static final double DROP_HORIZONTAL_SPEED = 0.18D;
     private static final double DROP_VERTICAL_SPEED = -0.12D;
 
@@ -106,8 +154,10 @@ public class LunarParasiteEntity extends Monster {
 
     private int infectWindupTicks = 0;
     private int pendingInfectHostId = -1;
+
     private int failedAttachCooldown = 0;
     private int postConversionCooldown = 0;
+
     private int chargeWindupTicks = 0;
     private int chargeTicks = 0;
     private int chargeCooldownTicks = 0;
@@ -118,7 +168,10 @@ public class LunarParasiteEntity extends Monster {
 
     private boolean deathPhysicsReleased = false;
 
-    public LunarParasiteEntity(EntityType<? extends LunarParasiteEntity> entityType, Level level) {
+    public LunarParasiteEntity(
+            EntityType<? extends LunarParasiteEntity> entityType,
+            Level level
+    ) {
         super(entityType, level);
         this.xpReward = 3;
     }
@@ -147,7 +200,13 @@ public class LunarParasiteEntity extends Monster {
             BlockPos pos,
             RandomSource random
     ) {
-        if (!Monster.checkAnyLightMonsterSpawnRules(entityType, level, spawnReason, pos, random)) {
+        if (!Monster.checkAnyLightMonsterSpawnRules(
+                entityType,
+                level,
+                spawnReason,
+                pos,
+                random
+        )) {
             return false;
         }
 
@@ -167,13 +226,20 @@ public class LunarParasiteEntity extends Monster {
         this.goalSelector.addGoal(8, new RandomLookAroundGoal(this));
 
         this.targetSelector.addGoal(1, new HurtByTargetGoal(this));
-        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Player.class, true));
-        this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, AbstractVillager.class, false));
+        this.targetSelector.addGoal(
+                2,
+                new NearestAttackableTargetGoal<>(this, Player.class, true)
+        );
+        this.targetSelector.addGoal(
+                3,
+                new NearestAttackableTargetGoal<>(this, AbstractVillager.class, false)
+        );
     }
 
     @Override
     protected void defineSynchedData(SynchedEntityData.Builder builder) {
         super.defineSynchedData(builder);
+
         builder.define(ATTACHED, false);
         builder.define(HOST_ID, -1);
         builder.define(INFECTING, false);
@@ -182,6 +248,7 @@ public class LunarParasiteEntity extends Monster {
 
     @Override
     public void tick() {
+
         if (this.isAlive() && this.deathTime <= 0 && this.isAttached()) {
             Entity entity = this.level().getEntity(this.entityData.get(HOST_ID));
 
@@ -228,13 +295,13 @@ public class LunarParasiteEntity extends Monster {
                     serverLevel.sendParticles(
                             ParticleTypes.SCULK_CHARGE_POP,
                             this.getX(),
-                            this.getY() + 0.15,
+                            this.getY() + 0.15D,
                             this.getZ(),
                             1,
-                            0.1,
-                            0.05,
-                            0.1,
-                            0.01
+                            0.1D,
+                            0.05D,
+                            0.1D,
+                            0.01D
                     );
                 }
             }
@@ -252,7 +319,11 @@ public class LunarParasiteEntity extends Monster {
             return;
         }
 
-        boolean wasControlled = this.isAttached() || this.isInfecting() || this.noPhysics || this.isNoGravity();
+        boolean wasControlled =
+                this.isAttached()
+                        || this.isInfecting()
+                        || this.noPhysics
+                        || this.isNoGravity();
 
         if (!wasControlled) {
             return;
@@ -261,24 +332,34 @@ public class LunarParasiteEntity extends Monster {
         this.deathPhysicsReleased = true;
 
         Entity host = this.level().getEntity(this.entityData.get(HOST_ID));
-        Vec3 hostVelocity = host != null ? host.getDeltaMovement() : Vec3.ZERO;
+
+        Vec3 hostVelocity =
+                host != null
+                        ? host.getDeltaMovement()
+                        : Vec3.ZERO;
 
         this.entityData.set(ATTACHED, false);
         this.entityData.set(HOST_ID, -1);
         this.entityData.set(INFECTING, false);
 
         this.attachedTicks = 0;
+
         this.infectWindupTicks = 0;
         this.pendingInfectHostId = -1;
+
         this.failedAttachCooldown = 0;
+
         this.clearCharge();
         this.chargeCooldownTicks = 0;
+
         this.entityData.set(MOVING, false);
 
         this.noPhysics = false;
         this.setNoGravity(false);
+
         this.setTarget(null);
         this.getNavigation().stop();
+
         this.refreshDimensions();
 
         this.setDeltaMovement(
@@ -297,6 +378,7 @@ public class LunarParasiteEntity extends Monster {
 
             this.infectAnimationTicks = 0;
             this.moveAnimationLingerTicks = 0;
+
             return;
         }
 
@@ -314,6 +396,16 @@ public class LunarParasiteEntity extends Monster {
             this.startInfectAnimation();
         }
 
+        if (!infectingNow
+                && this.wasInfectingClient
+                && !attachedNow) {
+
+            this.infectAnimationTicks = Math.max(
+                    this.infectAnimationTicks,
+                    CHARGE_ANIMATION_LINGER_TICKS
+            );
+        }
+
         this.wasInfectingClient = infectingNow;
 
         if (this.infectAnimationTicks > 0) {
@@ -324,9 +416,11 @@ public class LunarParasiteEntity extends Monster {
             this.idleAnimationState.stop();
             this.moveAnimationState.stop();
             this.attachedAnimationState.stop();
+
             this.infectAnimationState.startIfStopped(this.tickCount);
 
             this.moveAnimationLingerTicks = 0;
+
             return;
         }
 
@@ -335,9 +429,11 @@ public class LunarParasiteEntity extends Monster {
         if (this.isAttached()) {
             this.idleAnimationState.stop();
             this.moveAnimationState.stop();
+
             this.attachedAnimationState.startIfStopped(this.tickCount);
 
             this.moveAnimationLingerTicks = 0;
+
             return;
         }
 
@@ -358,6 +454,7 @@ public class LunarParasiteEntity extends Monster {
         this.idleAnimationState.stop();
         this.moveAnimationState.stop();
         this.attachedAnimationState.stop();
+
         this.infectAnimationState.start(this.tickCount);
 
         this.moveAnimationLingerTicks = 0;
@@ -366,16 +463,23 @@ public class LunarParasiteEntity extends Monster {
     private boolean isMoveAnimationWanted() {
         double velocityX = this.getDeltaMovement().x;
         double velocityZ = this.getDeltaMovement().z;
-        double velocitySqr = velocityX * velocityX + velocityZ * velocityZ;
+
+        double velocitySqr =
+                velocityX * velocityX
+                        + velocityZ * velocityZ;
 
         double positionDeltaX = this.getX() - this.xo;
         double positionDeltaZ = this.getZ() - this.zo;
-        double positionDeltaSqr = positionDeltaX * positionDeltaX + positionDeltaZ * positionDeltaZ;
 
-        boolean physicallyMoving = this.entityData.get(MOVING)
-                || positionDeltaSqr > MOVE_POSITION_DELTA_THRESHOLD_SQR
-                || velocitySqr > MOVE_VELOCITY_THRESHOLD_SQR
-                || this.walkAnimation.speed() > WALK_ANIMATION_SPEED_THRESHOLD;
+        double positionDeltaSqr =
+                positionDeltaX * positionDeltaX
+                        + positionDeltaZ * positionDeltaZ;
+
+        boolean physicallyMoving =
+                this.entityData.get(MOVING)
+                        || positionDeltaSqr > MOVE_POSITION_DELTA_THRESHOLD_SQR
+                        || velocitySqr > MOVE_VELOCITY_THRESHOLD_SQR
+                        || this.walkAnimation.speed() > WALK_ANIMATION_SPEED_THRESHOLD;
 
         if (physicallyMoving) {
             this.moveAnimationLingerTicks = MOVE_ANIMATION_LINGER_TICKS;
@@ -383,12 +487,15 @@ public class LunarParasiteEntity extends Monster {
             this.moveAnimationLingerTicks--;
         }
 
-        return physicallyMoving || this.moveAnimationLingerTicks > 0;
+        return physicallyMoving
+                || this.moveAnimationLingerTicks > 0;
     }
 
     @Override
     public boolean doHurtTarget(ServerLevel level, Entity target) {
-        if (target instanceof LivingEntity livingEntity && this.canInfectHost(livingEntity)) {
+        if (target instanceof LivingEntity livingEntity
+                && this.canInfectHost(livingEntity)) {
+
             if (this.canStartCharge(livingEntity)) {
                 this.startCharge(livingEntity);
             }
@@ -420,36 +527,61 @@ public class LunarParasiteEntity extends Monster {
         this.chargeTargetId = host.getId();
         this.chargeWindupTicks = CHARGE_WINDUP_TICKS;
         this.chargeTicks = 0;
+
         this.entityData.set(INFECTING, true);
 
         this.noPhysics = false;
         this.setNoGravity(false);
+
         this.getNavigation().stop();
-        this.stopHorizontalAttachMovement();
+
+        this.dampenChargeWindupMovement(
+                CHARGE_START_HORIZONTAL_DAMPING,
+                CHARGE_START_UPWARD_DAMPING
+        );
+
         this.fallDistance = 0.0F;
+
         this.swing(InteractionHand.MAIN_HAND, true);
     }
 
     private void tickChargeWindup() {
         Entity entity = this.level().getEntity(this.chargeTargetId);
 
-        if (!(entity instanceof LivingEntity host) || !host.isAlive() || !this.canInfectHost(host)) {
+        if (!(entity instanceof LivingEntity host)
+                || !host.isAlive()
+                || !this.canInfectHost(host)) {
+
             this.failCharge();
             return;
         }
 
-        if (this.distanceToSqr(host) > CHARGE_ABORT_DISTANCE_SQR || !this.hasLineOfSight(host)) {
+        if (this.distanceToSqr(host) > CHARGE_ABORT_DISTANCE_SQR
+                || !this.hasLineOfSight(host)) {
+
             this.failCharge();
             return;
         }
 
         this.noPhysics = false;
         this.setNoGravity(false);
-        this.getNavigation().stop();
-        this.stopHorizontalAttachMovement();
-        this.getLookControl().setLookAt(host, 45.0F, 45.0F);
 
-        Vec3 direction = this.getChargeTargetPoint(host).subtract(this.getChargeOriginPoint());
+        this.getNavigation().stop();
+
+        this.dampenChargeWindupMovement(
+                CHARGE_WINDUP_HORIZONTAL_DAMPING,
+                CHARGE_WINDUP_UPWARD_DAMPING
+        );
+
+        this.getLookControl().setLookAt(
+                host,
+                45.0F,
+                45.0F
+        );
+
+        Vec3 direction =
+                this.getChargeTargetPoint(host)
+                        .subtract(this.getChargeOriginPoint());
 
         if (direction.horizontalDistanceSqr() > 0.0001D) {
             this.faceChargeVelocity(direction);
@@ -469,17 +601,45 @@ public class LunarParasiteEntity extends Monster {
         }
 
         this.entityData.set(INFECTING, false);
+
         this.chargeTicks = CHARGE_TICKS;
+
         this.noPhysics = false;
+
         this.setNoGravity(true);
+
         this.getNavigation().stop();
+
         this.fallDistance = 0.0F;
+
+        Vec3 direction =
+                this.getPredictedChargeTargetPoint(host)
+                        .subtract(this.getChargeOriginPoint());
+
+        if (direction.lengthSqr() > 0.0001D) {
+            Vec3 launchVelocity =
+                    direction.normalize()
+                            .scale(CHARGE_INITIAL_SPEED)
+                            .add(
+                                    0.0D,
+                                    CHARGE_LAUNCH_LIFT,
+                                    0.0D
+                            );
+
+            this.setDeltaMovement(launchVelocity);
+            this.hurtMarked = true;
+
+            this.faceChargeVelocity(launchVelocity);
+        }
     }
 
     private void tickCharge() {
         Entity entity = this.level().getEntity(this.chargeTargetId);
 
-        if (!(entity instanceof LivingEntity host) || !host.isAlive() || !this.canInfectHost(host)) {
+        if (!(entity instanceof LivingEntity host)
+                || !host.isAlive()
+                || !this.canInfectHost(host)) {
+
             this.failCharge();
             return;
         }
@@ -490,7 +650,9 @@ public class LunarParasiteEntity extends Monster {
         }
 
         this.getNavigation().stop();
+
         this.setNoGravity(true);
+
         this.noPhysics = false;
         this.fallDistance = 0.0F;
 
@@ -500,17 +662,65 @@ public class LunarParasiteEntity extends Monster {
             return;
         }
 
-        Vec3 direction = this.getChargeTargetPoint(host).subtract(this.getChargeOriginPoint());
+        Vec3 direction =
+                this.getPredictedChargeTargetPoint(host)
+                        .subtract(this.getChargeOriginPoint());
 
-        if (direction.lengthSqr() < 0.0001D) {
+        double distanceSqr = direction.lengthSqr();
+
+        if (distanceSqr < 0.0001D) {
             this.clearCharge();
             this.attachTo(host);
             return;
         }
 
-        Vec3 velocity = direction.normalize().scale(CHARGE_SPEED);
+        double distance = Math.sqrt(distanceSqr);
+
+        double desiredSpeed = CHARGE_SPEED;
+
+        if (distance < CHARGE_SLOWDOWN_DISTANCE) {
+            double progress = Mth.clamp(
+                    distance / CHARGE_SLOWDOWN_DISTANCE,
+                    0.0D,
+                    1.0D
+            );
+
+            desiredSpeed = Mth.lerp(
+                    progress,
+                    CHARGE_MIN_SPEED,
+                    CHARGE_SPEED
+            );
+        }
+
+        Vec3 desiredVelocity =
+                direction.normalize()
+                        .scale(desiredSpeed);
+
+        Vec3 currentVelocity = this.getDeltaMovement();
+
+        double steering =
+                distance < 1.5D
+                        ? CHARGE_CLOSE_STEERING
+                        : CHARGE_STEERING;
+
+        Vec3 velocity =
+                currentVelocity.lerp(
+                        desiredVelocity,
+                        steering
+                );
+
+        double maxSpeed = CHARGE_SPEED * 1.08D;
+        double speedSqr = velocity.lengthSqr();
+
+        if (speedSqr > maxSpeed * maxSpeed) {
+            velocity =
+                    velocity.normalize()
+                            .scale(maxSpeed);
+        }
+
         this.setDeltaMovement(velocity);
         this.hurtMarked = true;
+
         this.faceChargeVelocity(velocity);
 
         this.chargeTicks--;
@@ -526,11 +736,24 @@ public class LunarParasiteEntity extends Monster {
     }
 
     private void failCharge() {
+        Vec3 carriedVelocity = this.getDeltaMovement();
+
         this.clearCharge();
-        this.stopHorizontalAttachMovement();
+
+        this.setDeltaMovement(
+                carriedVelocity.x * CHARGE_FAIL_HORIZONTAL_MOMENTUM,
+                CHARGE_FAIL_VERTICAL_SPEED,
+                carriedVelocity.z * CHARGE_FAIL_HORIZONTAL_MOMENTUM
+        );
+
         this.hurtMarked = true;
+
         this.chargeCooldownTicks = CHARGE_COOLDOWN_TICKS;
-        this.failedAttachCooldown = Math.max(this.failedAttachCooldown, FAILED_ATTACH_COOLDOWN_TICKS);
+
+        this.failedAttachCooldown = Math.max(
+                this.failedAttachCooldown,
+                FAILED_ATTACH_COOLDOWN_TICKS
+        );
     }
 
     private void clearCharge() {
@@ -543,6 +766,7 @@ public class LunarParasiteEntity extends Monster {
         }
 
         if (!this.isAttached() && !this.isInfecting()) {
+
             this.setNoGravity(false);
         }
     }
@@ -556,37 +780,141 @@ public class LunarParasiteEntity extends Monster {
     }
 
     private boolean isCloseEnoughToAttach(LivingEntity host) {
-        return this.getChargeOriginPoint().distanceToSqr(this.getChargeTargetPoint(host)) <= CHARGE_ATTACH_DISTANCE_SQR
-                || this.getBoundingBox().inflate(CHARGE_CONTACT_INFLATE).intersects(host.getBoundingBox().inflate(CHARGE_CONTACT_INFLATE));
+
+        return this.getChargeOriginPoint()
+                        .distanceToSqr(this.getChargeTargetPoint(host))
+                <= CHARGE_ATTACH_DISTANCE_SQR
+
+                || this.getBoundingBox()
+                        .inflate(CHARGE_CONTACT_INFLATE)
+                        .intersects(
+                                host.getBoundingBox()
+                                        .inflate(CHARGE_CONTACT_INFLATE)
+                        );
     }
 
     private Vec3 getChargeOriginPoint() {
-        return this.position().add(0.0D, this.getBbHeight() * 0.45D, 0.0D);
+        return this.position().add(
+                0.0D,
+                this.getBbHeight() * 0.45D,
+                0.0D
+        );
     }
 
     private Vec3 getChargeTargetPoint(LivingEntity host) {
-        return host.position().add(0.0D, host.getBbHeight() * CHARGE_TARGET_HEIGHT_FRACTION, 0.0D);
+        return host.position().add(
+                0.0D,
+                host.getBbHeight() * CHARGE_TARGET_HEIGHT_FRACTION,
+                0.0D
+        );
+    }
+
+    private Vec3 getPredictedChargeTargetPoint(LivingEntity host) {
+        Vec3 targetPoint = this.getChargeTargetPoint(host);
+        Vec3 hostVelocity = host.getDeltaMovement();
+
+        double leadX =
+                hostVelocity.x
+                        * CHARGE_TARGET_LEAD_TICKS;
+
+        double leadZ =
+                hostVelocity.z
+                        * CHARGE_TARGET_LEAD_TICKS;
+
+        double horizontalLeadSqr =
+                leadX * leadX
+                        + leadZ * leadZ;
+
+        double maxLeadSqr =
+                CHARGE_MAX_TARGET_LEAD
+                        * CHARGE_MAX_TARGET_LEAD;
+
+        if (horizontalLeadSqr > maxLeadSqr) {
+            double scale =
+                    Math.sqrt(
+                            maxLeadSqr / horizontalLeadSqr
+                    );
+
+            leadX *= scale;
+            leadZ *= scale;
+        }
+
+        double leadY = Mth.clamp(
+                hostVelocity.y * 0.65D,
+                -CHARGE_MAX_VERTICAL_LEAD,
+                CHARGE_MAX_VERTICAL_LEAD
+        );
+
+        return targetPoint.add(
+                leadX,
+                leadY,
+                leadZ
+        );
     }
 
     private void faceChargeVelocity(Vec3 velocity) {
-        float yaw = (float)(Mth.atan2(velocity.z, velocity.x) * Mth.RAD_TO_DEG) - 90.0F;
+        if (velocity.horizontalDistanceSqr() < 0.000001D) {
+            return;
+        }
+
+        float targetYaw =
+                (float) (
+                        Mth.atan2(
+                                velocity.z,
+                                velocity.x
+                        ) * Mth.RAD_TO_DEG
+                ) - 90.0F;
+
+        float yaw = lerpRotation(
+                this.getYRot(),
+                targetYaw,
+                CHARGE_ROTATION_LERP
+        );
 
         this.setYRot(yaw);
-        this.yBodyRot = yaw;
-        this.yHeadRot = yaw;
+
+        this.yBodyRot = lerpRotation(
+                this.yBodyRot,
+                yaw,
+                0.55F
+        );
+
+        this.yHeadRot = lerpRotation(
+                this.yHeadRot,
+                yaw,
+                0.65F
+        );
+    }
+
+    private static float lerpRotation(
+            float from,
+            float to,
+            float amount
+    ) {
+        return from
+                + Mth.wrapDegrees(to - from) * amount;
     }
 
     private void updateMovingData() {
         double positionDeltaX = this.getX() - this.xo;
         double positionDeltaZ = this.getZ() - this.zo;
-        double positionDeltaSqr = positionDeltaX * positionDeltaX + positionDeltaZ * positionDeltaZ;
-        double velocitySqr = this.getDeltaMovement().horizontalDistanceSqr();
 
-        boolean moving = !this.isAttached()
-                && !this.isInfecting()
-                && (this.isCharging()
-                || positionDeltaSqr > MOVE_POSITION_DELTA_THRESHOLD_SQR
-                || velocitySqr > MOVE_VELOCITY_THRESHOLD_SQR);
+        double positionDeltaSqr =
+                positionDeltaX * positionDeltaX
+                        + positionDeltaZ * positionDeltaZ;
+
+        double velocitySqr =
+                this.getDeltaMovement()
+                        .horizontalDistanceSqr();
+
+        boolean moving =
+                !this.isAttached()
+                        && !this.isInfecting()
+                        && (
+                        this.isCharging()
+                                || positionDeltaSqr > MOVE_POSITION_DELTA_THRESHOLD_SQR
+                                || velocitySqr > MOVE_VELOCITY_THRESHOLD_SQR
+                );
 
         if (this.entityData.get(MOVING) != moving) {
             this.entityData.set(MOVING, moving);
@@ -594,7 +922,11 @@ public class LunarParasiteEntity extends Monster {
     }
 
     private boolean beginInfectWindup(LivingEntity host) {
-        if (this.isAttached() || this.isInfecting() || this.failedAttachCooldown > 0 || this.postConversionCooldown > 0) {
+        if (this.isAttached()
+                || this.isInfecting()
+                || this.failedAttachCooldown > 0
+                || this.postConversionCooldown > 0) {
+
             return false;
         }
 
@@ -604,35 +936,63 @@ public class LunarParasiteEntity extends Monster {
 
         this.infectWindupTicks = INFECT_WINDUP_TICKS;
         this.pendingInfectHostId = host.getId();
+
         this.entityData.set(INFECTING, true);
 
         this.getNavigation().stop();
-        this.stopHorizontalAttachMovement();
 
-        this.swing(InteractionHand.MAIN_HAND, true);
+        this.dampenChargeWindupMovement(
+                CHARGE_START_HORIZONTAL_DAMPING,
+                CHARGE_START_UPWARD_DAMPING
+        );
+
+        this.swing(
+                InteractionHand.MAIN_HAND,
+                true
+        );
+
         return true;
     }
 
     private void tickInfectWindup() {
-        Entity entity = this.level().getEntity(this.pendingInfectHostId);
+        Entity entity =
+                this.level()
+                        .getEntity(this.pendingInfectHostId);
 
-        if (!(entity instanceof LivingEntity host) || !host.isAlive() || !this.canInfectHost(host)) {
-            this.clearInfectWindup(FAILED_ATTACH_COOLDOWN_TICKS);
+        if (!(entity instanceof LivingEntity host)
+                || !host.isAlive()
+                || !this.canInfectHost(host)) {
+
+            this.clearInfectWindup(
+                    FAILED_ATTACH_COOLDOWN_TICKS
+            );
+
             return;
         }
 
         this.getNavigation().stop();
-        this.stopHorizontalAttachMovement();
+
+        this.dampenChargeWindupMovement(
+                CHARGE_WINDUP_HORIZONTAL_DAMPING,
+                CHARGE_WINDUP_UPWARD_DAMPING
+        );
 
         double dx = host.getX() - this.getX();
         double dz = host.getZ() - this.getZ();
 
         if (dx * dx + dz * dz > INFECT_CANCEL_DISTANCE_SQR) {
-            this.clearInfectWindup(FAILED_ATTACH_COOLDOWN_TICKS);
+            this.clearInfectWindup(
+                    FAILED_ATTACH_COOLDOWN_TICKS
+            );
+
             return;
         }
 
-        this.getLookControl().setLookAt(host, 45.0F, 45.0F);
+        this.getLookControl().setLookAt(
+                host,
+                45.0F,
+                45.0F
+        );
 
         this.infectWindupTicks--;
 
@@ -649,19 +1009,52 @@ public class LunarParasiteEntity extends Monster {
     private void clearInfectWindup(int cooldownTicks) {
         this.infectWindupTicks = 0;
         this.pendingInfectHostId = -1;
+
         this.entityData.set(INFECTING, false);
-        this.failedAttachCooldown = Math.max(this.failedAttachCooldown, cooldownTicks);
+
+        this.failedAttachCooldown = Math.max(
+                this.failedAttachCooldown,
+                cooldownTicks
+        );
 
         if (!this.isAttached()) {
-        this.noPhysics = false;
-        this.setNoGravity(false);
-        this.refreshDimensions();
-    }
+            this.noPhysics = false;
+            this.setNoGravity(false);
+            this.refreshDimensions();
+        }
     }
 
     private void stopHorizontalAttachMovement() {
         Vec3 movement = this.getDeltaMovement();
-        this.setDeltaMovement(0.0D, Math.min(movement.y, 0.0D), 0.0D);
+
+        this.setDeltaMovement(
+                0.0D,
+                Math.min(movement.y, 0.0D),
+                0.0D
+        );
+    }
+
+    // Used specifically for windups.
+    private void dampenChargeWindupMovement(
+            double horizontalFactor,
+            double upwardFactor
+    ) {
+        Vec3 movement = this.getDeltaMovement();
+
+        double y = movement.y;
+
+        if (y > 0.0D) {
+            y = Math.min(
+                    y * upwardFactor,
+                    CHARGE_WINDUP_MAX_UPWARD_SPEED
+            );
+        }
+
+        this.setDeltaMovement(
+                movement.x * horizontalFactor,
+                y,
+                movement.z * horizontalFactor
+        );
     }
 
     private boolean canInfectHost(LivingEntity host) {
@@ -669,16 +1062,28 @@ public class LunarParasiteEntity extends Monster {
             return false;
         }
 
-        return !(host instanceof Player player) || !MoonLoreUtils.isPlayerImmunisedToInfection(player);
+        return !(host instanceof Player player)
+                || !MoonLoreUtils.isPlayerImmunisedToInfection(player);
     }
 
     @Override
-    protected void actuallyHurt(ServerLevel level, DamageSource source, float amount) {
+    protected void actuallyHurt(
+            ServerLevel level,
+            DamageSource source,
+            float amount
+    ) {
         boolean wasAttached = this.isAttached();
 
-        super.actuallyHurt(level, source, amount);
+        super.actuallyHurt(
+                level,
+                source,
+                amount
+        );
 
-        if (amount > 0.0F && wasAttached && this.isAlive()) {
+        if (amount > 0.0F
+                && wasAttached
+                && this.isAlive()) {
+
             this.dropFromHostAfterHit(source);
         }
     }
@@ -694,27 +1099,49 @@ public class LunarParasiteEntity extends Monster {
 
         this.clearInfectWindup();
         this.clearCharge();
-        this.chargeCooldownTicks = CHARGE_COOLDOWN_TICKS;
+
+        this.chargeCooldownTicks =
+                CHARGE_COOLDOWN_TICKS;
 
         this.entityData.set(ATTACHED, true);
         this.entityData.set(HOST_ID, host.getId());
+
         this.attachedTicks = 0;
 
         this.noPhysics = true;
         this.setNoGravity(true);
+
         this.setTarget(null);
         this.getNavigation().stop();
+
         this.setDeltaMovement(Vec3.ZERO);
+
         this.entityData.set(MOVING, false);
-        this.swing(InteractionHand.MAIN_HAND, true);
+
+        this.swing(
+                InteractionHand.MAIN_HAND,
+                true
+        );
 
         this.updateAttachedTransform(host);
 
-        InfectionUtils.infect(host, 20 * 18);
+        InfectionUtils.infect(
+                host,
+                20 * 18
+        );
 
         if (host instanceof ServerPlayer serverPlayer) {
-            NetworkManager.sendToPlayer(serverPlayer, new ParasiteCameraShakePacket(26, 1.4F));
-            AdvancementTriggerRegistry.PARASITE_ATTACHED.get().trigger(serverPlayer);
+            NetworkManager.sendToPlayer(
+                    serverPlayer,
+                    new ParasiteCameraShakePacket(
+                            26,
+                            1.4F
+                    )
+            );
+
+            AdvancementTriggerRegistry.PARASITE_ATTACHED
+                    .get()
+                    .trigger(serverPlayer);
         }
 
         this.level().playSound(
@@ -728,9 +1155,13 @@ public class LunarParasiteEntity extends Monster {
     }
 
     private void tickAttached() {
-        Entity entity = this.level().getEntity(this.entityData.get(HOST_ID));
+        Entity entity =
+                this.level()
+                        .getEntity(this.entityData.get(HOST_ID));
 
-        if (!(entity instanceof LivingEntity host) || !host.isAlive()) {
+        if (!(entity instanceof LivingEntity host)
+                || !host.isAlive()) {
+
             this.detachFromMissingHost();
             return;
         }
@@ -739,34 +1170,62 @@ public class LunarParasiteEntity extends Monster {
 
         this.updateAttachedTransform(host);
 
-        if (!this.level().isClientSide() && this.level() instanceof ServerLevel serverLevel) {
+        if (!this.level().isClientSide()
+                && this.level() instanceof ServerLevel serverLevel) {
+
             if (this.attachedTicks % 32 == 0) {
-                Vec3 hostVelocityBeforeDamage = host.getDeltaMovement();
+                Vec3 hostVelocityBeforeDamage =
+                        host.getDeltaMovement();
 
-                host.hurtServer(serverLevel, this.damageSources().mobAttack(this), 1.0F);
-                host.setDeltaMovement(this.sanitizeHostVelocity(hostVelocityBeforeDamage));
+                host.hurtServer(
+                        serverLevel,
+                        this.damageSources().mobAttack(this),
+                        1.0F
+                );
 
-                InfectionUtils.infect(host, 20 * 20);
+                host.setDeltaMovement(
+                        this.sanitizeHostVelocity(
+                                hostVelocityBeforeDamage
+                        )
+                );
+
+                InfectionUtils.infect(
+                        host,
+                        20 * 20
+                );
 
                 serverLevel.sendParticles(
                         ParticleTypes.SCULK_SOUL,
                         host.getX(),
-                        host.getY() + host.getBbHeight() * 0.7,
+                        host.getY()
+                                + host.getBbHeight() * 0.7D,
                         host.getZ(),
                         8,
-                        0.25,
-                        0.25,
-                        0.25,
-                        0.02
+                        0.25D,
+                        0.25D,
+                        0.25D,
+                        0.02D
                 );
 
                 if (host instanceof ServerPlayer serverPlayer) {
-                    NetworkManager.sendToPlayer(serverPlayer, new ParasiteCameraShakePacket(10, 0.55F));
+                    NetworkManager.sendToPlayer(
+                            serverPlayer,
+                            new ParasiteCameraShakePacket(
+                                    10,
+                                    0.55F
+                            )
+                    );
                 }
             }
 
-            if (host instanceof AbstractVillager villager && this.attachedTicks >= VILLAGER_CONVERSION_TICKS) {
-                this.finishVillagerConversion(serverLevel, villager);
+            if (host instanceof AbstractVillager villager
+                    && this.attachedTicks >= VILLAGER_CONVERSION_TICKS) {
+
+                this.finishVillagerConversion(
+                        serverLevel,
+                        villager
+                );
+
                 return;
             }
         }
@@ -780,96 +1239,232 @@ public class LunarParasiteEntity extends Monster {
         this.setDeltaMovement(Vec3.ZERO);
 
         float hostBodyYaw = host.yBodyRot;
-        float attachedYaw = Mth.wrapDegrees(hostBodyYaw + 180.0F);
+
+        float targetYaw =
+                Mth.wrapDegrees(
+                        hostBodyYaw + 180.0F
+                );
+
+        float yawRadians =
+                (float) Math.toRadians(hostBodyYaw);
+
+        double forwardX = -Math.sin(yawRadians);
+        double forwardZ = Math.cos(yawRadians);
+
+        double sideX = Math.cos(yawRadians);
+        double sideZ = Math.sin(yawRadians);
+
+        double forwardOffset =
+                this.getAttachedForwardOffset(host);
+
+        double heightOffset =
+                this.getAttachedHeightOffset(host);
+
+        double side =
+                this.getAttachedBaseSideOffset()
+                        + Math.sin(
+                        this.attachedTicks * 0.23F
+                ) * ATTACHED_SIDE_WOBBLE_AMOUNT;
+
+        double verticalBob =
+                Math.sin(
+                        this.attachedTicks * 0.19F
+                ) * ATTACHED_VERTICAL_BOB_AMOUNT;
+
+        double targetX =
+                host.getX()
+                        + forwardX * forwardOffset
+                        + sideX * side;
+
+        double targetY =
+                host.getY()
+                        + heightOffset
+                        + verticalBob;
+
+        double targetZ =
+                host.getZ()
+                        + forwardZ * forwardOffset
+                        + sideZ * side;
+
+        double blend;
+
+        if (this.attachedTicks < ATTACH_BLEND_TICKS) {
+            double progress = Mth.clamp(
+                    this.attachedTicks
+                            / (double) ATTACH_BLEND_TICKS,
+                    0.0D,
+                    1.0D
+            );
+
+            progress =
+                    progress
+                            * progress
+                            * (3.0D - 2.0D * progress);
+
+            blend = Mth.lerp(
+                    progress,
+                    ATTACH_INITIAL_BLEND,
+                    1.0D
+            );
+        } else {
+            blend = 1.0D;
+        }
+
+        double attachedX = Mth.lerp(
+                blend,
+                this.getX(),
+                targetX
+        );
+
+        double attachedY = Mth.lerp(
+                blend,
+                this.getY(),
+                targetY
+        );
+
+        double attachedZ = Mth.lerp(
+                blend,
+                this.getZ(),
+                targetZ
+        );
+
+        float rotationBlend =
+                this.attachedTicks < ATTACH_BLEND_TICKS
+                        ? (float) blend
+                        : 0.65F;
+
+        float attachedYaw = lerpRotation(
+                this.getYRot(),
+                targetYaw,
+                rotationBlend
+        );
+
         this.setYRot(attachedYaw);
-        this.yRotO = attachedYaw;
+
         this.yBodyRot = attachedYaw;
-        this.yBodyRotO = attachedYaw;
         this.yHeadRot = attachedYaw;
-        this.yHeadRotO = attachedYaw;
 
-        float yaw = (float) Math.toRadians(hostBodyYaw);
-
-        double forwardX = -Math.sin(yaw);
-        double forwardZ = Math.cos(yaw);
-        double sideX = Math.cos(yaw);
-        double sideZ = Math.sin(yaw);
-
-        double forwardOffset = this.getAttachedForwardOffset(host);
-        double heightOffset = this.getAttachedHeightOffset(host);
-
-        double side = this.getAttachedBaseSideOffset()
-                + Math.sin(this.attachedTicks * 0.23F) * ATTACHED_SIDE_WOBBLE_AMOUNT;
-
-        double verticalBob = Math.sin(this.attachedTicks * 0.19F) * ATTACHED_VERTICAL_BOB_AMOUNT;
-
-        double attachedX = host.getX() + forwardX * forwardOffset + sideX * side;
-        double attachedY = host.getY() + heightOffset + verticalBob;
-        double attachedZ = host.getZ() + forwardZ * forwardOffset + sideZ * side;
-
-        this.setPos(attachedX, attachedY, attachedZ);
-        this.setOldPosAndRot();
+        this.setPos(
+                attachedX,
+                attachedY,
+                attachedZ
+        );
 
         this.noPhysics = true;
         this.setNoGravity(true);
+
         this.setDeltaMovement(Vec3.ZERO);
+
         this.updateAttachedHitbox();
     }
 
-    private double getAttachedForwardOffset(LivingEntity host) {
-        return host instanceof Player ? ATTACHED_PLAYER_FORWARD_OFFSET : ATTACHED_MOB_FORWARD_OFFSET;
+    private double getAttachedForwardOffset(
+            LivingEntity host
+    ) {
+        return host instanceof Player
+                ? ATTACHED_PLAYER_FORWARD_OFFSET
+                : ATTACHED_MOB_FORWARD_OFFSET;
     }
 
-    private double getAttachedHeightOffset(LivingEntity host) {
+    private double getAttachedHeightOffset(
+            LivingEntity host
+    ) {
         double hostHeight = host.getBbHeight();
 
-        double wantedHeight = hostHeight * (host instanceof Player
-                ? ATTACHED_PLAYER_HEIGHT_FRACTION
-                : ATTACHED_MOB_HEIGHT_FRACTION);
+        double wantedHeight =
+                hostHeight
+                        * (
+                        host instanceof Player
+                                ? ATTACHED_PLAYER_HEIGHT_FRACTION
+                                : ATTACHED_MOB_HEIGHT_FRACTION
+                );
 
         if (host instanceof Player) {
-            wantedHeight = Math.min(wantedHeight, host.getEyeHeight() - ATTACHED_PLAYER_CAMERA_CLEARANCE);
+            wantedHeight = Math.min(
+                    wantedHeight,
+                    host.getEyeHeight()
+                            - ATTACHED_PLAYER_CAMERA_CLEARANCE
+            );
         }
 
-        double minHeight = hostHeight * 0.48D;
-        double maxHeight = hostHeight * 0.74D;
+        double minHeight =
+                hostHeight * 0.48D;
 
-        return Mth.clamp(wantedHeight, minHeight, maxHeight);
+        double maxHeight =
+                hostHeight * 0.74D;
+
+        return Mth.clamp(
+                wantedHeight,
+                minHeight,
+                maxHeight
+        );
     }
 
     private double getAttachedBaseSideOffset() {
-        return (this.getId() & 1) == 0 ? ATTACHED_SIDE_BASE_OFFSET : -ATTACHED_SIDE_BASE_OFFSET;
+        return (this.getId() & 1) == 0
+                ? ATTACHED_SIDE_BASE_OFFSET
+                : -ATTACHED_SIDE_BASE_OFFSET;
     }
 
-    private void finishVillagerConversion(ServerLevel serverLevel, AbstractVillager villager) {
+    private void finishVillagerConversion(
+            ServerLevel serverLevel,
+            AbstractVillager villager
+    ) {
         float yaw = villager.getYRot();
         double radians = Math.toRadians(yaw);
 
-        double detachX = villager.getX() - Math.sin(radians) * 0.75D;
-        double detachY = villager.getY() + 0.05D;
-        double detachZ = villager.getZ() + Math.cos(radians) * 0.75D;
+        double detachX =
+                villager.getX()
+                        - Math.sin(radians) * 0.75D;
 
-        ParasiteAffectedVillagerEntity.convertFrom(serverLevel, villager, EntitySpawnReason.CONVERSION);
+        double detachY =
+                villager.getY() + 0.05D;
+
+        double detachZ =
+                villager.getZ()
+                        + Math.cos(radians) * 0.75D;
+
+        ParasiteAffectedVillagerEntity.convertFrom(
+                serverLevel,
+                villager,
+                EntitySpawnReason.CONVERSION
+        );
 
         this.entityData.set(ATTACHED, false);
         this.entityData.set(HOST_ID, -1);
         this.entityData.set(INFECTING, false);
 
         this.attachedTicks = 0;
+
         this.infectWindupTicks = 0;
         this.pendingInfectHostId = -1;
+
         this.failedAttachCooldown = 0;
+
         this.clearCharge();
-        this.chargeCooldownTicks = CHARGE_COOLDOWN_TICKS;
-        this.postConversionCooldown = POST_CONVERSION_COOLDOWN_TICKS;
+
+        this.chargeCooldownTicks =
+                CHARGE_COOLDOWN_TICKS;
+
+        this.postConversionCooldown =
+                POST_CONVERSION_COOLDOWN_TICKS;
 
         this.noPhysics = false;
         this.setNoGravity(false);
+
         this.setTarget(null);
         this.getNavigation().stop();
+
         this.setDeltaMovement(Vec3.ZERO);
+
         this.entityData.set(MOVING, false);
-        this.setPos(detachX, detachY, detachZ);
+
+        this.setPos(
+                detachX,
+                detachY,
+                detachZ
+        );
+
         this.refreshDimensions();
     }
 
@@ -879,19 +1474,31 @@ public class LunarParasiteEntity extends Monster {
         this.entityData.set(INFECTING, false);
 
         this.attachedTicks = 0;
+
         this.infectWindupTicks = 0;
         this.pendingInfectHostId = -1;
+
         this.failedAttachCooldown = 0;
+
         this.clearCharge();
-        this.chargeCooldownTicks = CHARGE_COOLDOWN_TICKS;
+
+        this.chargeCooldownTicks =
+                CHARGE_COOLDOWN_TICKS;
+
         this.postConversionCooldown = 20;
 
         this.noPhysics = false;
+
+        // Return moon gravity
         this.setNoGravity(false);
+
         this.setTarget(null);
         this.getNavigation().stop();
+
         this.setDeltaMovement(Vec3.ZERO);
+
         this.entityData.set(MOVING, false);
+
         this.refreshDimensions();
     }
 
@@ -899,34 +1506,57 @@ public class LunarParasiteEntity extends Monster {
         this.detachFromHost();
     }
 
-    private void dropFromHostAfterHit(DamageSource source) {
-        Entity host = this.level().getEntity(this.entityData.get(HOST_ID));
+    private void dropFromHostAfterHit(
+            DamageSource source
+    ) {
+        Entity host =
+                this.level()
+                        .getEntity(this.entityData.get(HOST_ID));
 
-        if (host instanceof LivingEntity livingHost && livingHost.isAlive()) {
+        if (host instanceof LivingEntity livingHost
+                && livingHost.isAlive()) {
+
             this.updateAttachedTransform(livingHost);
         }
 
-        Entity attacker = source.getEntity() != null ? source.getEntity() : source.getDirectEntity();
-        LivingEntity nextTarget = attacker instanceof LivingEntity livingAttacker && this.canInfectHost(livingAttacker)
-                ? livingAttacker
-                : null;
+        Entity attacker =
+                source.getEntity() != null
+                        ? source.getEntity()
+                        : source.getDirectEntity();
+
+        LivingEntity nextTarget =
+                attacker instanceof LivingEntity livingAttacker
+                        && this.canInfectHost(livingAttacker)
+                        ? livingAttacker
+                        : null;
 
         this.entityData.set(ATTACHED, false);
         this.entityData.set(HOST_ID, -1);
         this.entityData.set(INFECTING, false);
 
         this.attachedTicks = 0;
+
         this.infectWindupTicks = 0;
         this.pendingInfectHostId = -1;
+
         this.clearCharge();
-        this.failedAttachCooldown = DROP_REATTACH_COOLDOWN_TICKS;
-        this.chargeCooldownTicks = DROP_REATTACH_COOLDOWN_TICKS;
-        this.postConversionCooldown = DROP_REATTACH_COOLDOWN_TICKS;
+
+        this.failedAttachCooldown =
+                DROP_REATTACH_COOLDOWN_TICKS;
+
+        this.chargeCooldownTicks =
+                DROP_REATTACH_COOLDOWN_TICKS;
+
+        this.postConversionCooldown =
+                DROP_REATTACH_COOLDOWN_TICKS;
 
         this.noPhysics = false;
         this.setNoGravity(false);
+
         this.getNavigation().stop();
+
         this.entityData.set(MOVING, false);
+
         this.refreshDimensions();
         this.setOldPosAndRot();
 
@@ -935,18 +1565,51 @@ public class LunarParasiteEntity extends Monster {
         Vec3 dropDirection = Vec3.ZERO;
 
         if (attacker != null) {
-            dropDirection = this.position().subtract(attacker.position()).multiply(1.0D, 0.0D, 1.0D);
+            dropDirection =
+                    this.position()
+                            .subtract(attacker.position())
+                            .multiply(
+                                    1.0D,
+                                    0.0D,
+                                    1.0D
+                            );
         }
 
-        if (dropDirection.lengthSqr() < 0.0001D && host != null) {
-            dropDirection = this.position().subtract(host.position()).multiply(1.0D, 0.0D, 1.0D);
+        if (dropDirection.lengthSqr() < 0.0001D
+                && host != null) {
+
+            dropDirection =
+                    this.position()
+                            .subtract(host.position())
+                            .multiply(
+                                    1.0D,
+                                    0.0D,
+                                    1.0D
+                            );
         }
 
         if (dropDirection.lengthSqr() < 0.0001D) {
-            dropDirection = Vec3.directionFromRotation(0.0F, this.getYRot()).multiply(1.0D, 0.0D, 1.0D);
+            dropDirection =
+                    Vec3.directionFromRotation(
+                                    0.0F,
+                                    this.getYRot()
+                            )
+                            .multiply(
+                                    1.0D,
+                                    0.0D,
+                                    1.0D
+                            );
         }
 
-        Vec3 dropVelocity = dropDirection.normalize().scale(DROP_HORIZONTAL_SPEED).add(0.0D, DROP_VERTICAL_SPEED, 0.0D);
+        Vec3 dropVelocity =
+                dropDirection.normalize()
+                        .scale(DROP_HORIZONTAL_SPEED)
+                        .add(
+                                0.0D,
+                                DROP_VERTICAL_SPEED,
+                                0.0D
+                        );
+
         this.setDeltaMovement(dropVelocity);
         this.hurtMarked = true;
 
@@ -965,54 +1628,99 @@ public class LunarParasiteEntity extends Monster {
         double y = this.getY();
         double z = this.getZ();
 
-        this.setBoundingBox(new AABB(
-                x - ATTACHED_HITBOX_HALF_WIDTH,
-                y - ATTACHED_HITBOX_DOWN,
-                z - ATTACHED_HITBOX_HALF_WIDTH,
-                x + ATTACHED_HITBOX_HALF_WIDTH,
-                y + ATTACHED_HITBOX_UP,
-                z + ATTACHED_HITBOX_HALF_WIDTH
-        ));
+        this.setBoundingBox(
+                new AABB(
+                        x - ATTACHED_HITBOX_HALF_WIDTH,
+                        y - ATTACHED_HITBOX_DOWN,
+                        z - ATTACHED_HITBOX_HALF_WIDTH,
+
+                        x + ATTACHED_HITBOX_HALF_WIDTH,
+                        y + ATTACHED_HITBOX_UP,
+                        z + ATTACHED_HITBOX_HALF_WIDTH
+                )
+        );
     }
 
-    private Vec3 sanitizeHostVelocity(Vec3 velocity) {
+    private Vec3 sanitizeHostVelocity(
+            Vec3 velocity
+    ) {
         double x = velocity.x;
-        double y = Mth.clamp(velocity.y, -MAX_SAFE_HOST_VERTICAL_SPEED, MAX_SAFE_HOST_VERTICAL_SPEED);
+
+        double y = Mth.clamp(
+                velocity.y,
+                -MAX_SAFE_HOST_VERTICAL_SPEED,
+                MAX_SAFE_HOST_VERTICAL_SPEED
+        );
+
         double z = velocity.z;
 
-        double horizontalSpeedSqr = x * x + z * z;
+        double horizontalSpeedSqr =
+                x * x
+                        + z * z;
 
-        if (horizontalSpeedSqr > MAX_SAFE_HOST_HORIZONTAL_SPEED_SQR) {
-            double scale = Math.sqrt(MAX_SAFE_HOST_HORIZONTAL_SPEED_SQR / horizontalSpeedSqr);
+        if (horizontalSpeedSqr
+                > MAX_SAFE_HOST_HORIZONTAL_SPEED_SQR) {
+
+            double scale =
+                    Math.sqrt(
+                            MAX_SAFE_HOST_HORIZONTAL_SPEED_SQR
+                                    / horizontalSpeedSqr
+                    );
+
             x *= scale;
             z *= scale;
         }
 
-        return new Vec3(x, y, z);
+        return new Vec3(
+                x,
+                y,
+                z
+        );
     }
 
+    @Override
     public void push(Entity entity) {
-        if (this.isAttached() || this.isInfecting() || this.isCharging()) {
+        if (this.isAttached()
+                || this.isInfecting()
+                || this.isCharging()) {
+
             return;
         }
 
-        if (entity instanceof LivingEntity livingEntity && this.canInfectHost(livingEntity)) {
+        if (entity instanceof LivingEntity livingEntity
+                && this.canInfectHost(livingEntity)) {
+
             return;
         }
 
         super.push(entity);
     }
 
-    public void push(double x, double y, double z) {
-        if (this.isAttached() || this.isInfecting() || this.isCharging()) {
+    @Override
+    public void push(
+            double x,
+            double y,
+            double z
+    ) {
+        if (this.isAttached()
+                || this.isInfecting()
+                || this.isCharging()) {
+
             return;
         }
 
-        super.push(x * 0.25D, y * 0.25D, z * 0.25D);
+        super.push(
+                x * 0.25D,
+                y * 0.25D,
+                z * 0.25D
+        );
     }
 
+    @Override
     public boolean canCollideWith(Entity entity) {
-        return !this.isAttached() && !this.isInfecting() && !this.isCharging();
+        return !this.isAttached()
+                && !this.isInfecting()
+                && !this.isCharging();
     }
 
     @Override
@@ -1020,65 +1728,111 @@ public class LunarParasiteEntity extends Monster {
         return this.isAlive();
     }
 
+    @Override
     public float getPickRadius() {
-        return this.isAttached() ? 0.45F : super.getPickRadius();
+        return this.isAttached()
+                ? 0.45F
+                : super.getPickRadius();
     }
 
     @Override
-    protected void addAdditionalSaveData(ValueOutput output) {
+    protected void addAdditionalSaveData(
+            ValueOutput output
+    ) {
         super.addAdditionalSaveData(output);
-        output.putInt("attached_ticks", this.attachedTicks);
+
+        output.putInt(
+                "attached_ticks",
+                this.attachedTicks
+        );
     }
 
     @Override
-    protected void readAdditionalSaveData(ValueInput input) {
+    protected void readAdditionalSaveData(
+            ValueInput input
+    ) {
         super.readAdditionalSaveData(input);
-        this.attachedTicks = input.getIntOr("attached_ticks", 0);
+
+        this.attachedTicks =
+                input.getIntOr(
+                        "attached_ticks",
+                        0
+                );
+
         this.infectWindupTicks = 0;
         this.pendingInfectHostId = -1;
+
         this.failedAttachCooldown = 0;
         this.postConversionCooldown = 0;
+
         this.clearCharge();
+
         this.entityData.set(MOVING, false);
+
         this.deathPhysicsReleased = false;
     }
 
     @Override
     public boolean isPushable() {
-        return !this.isAttached() && !this.isInfecting() && !this.isCharging();
+        return !this.isAttached()
+                && !this.isInfecting()
+                && !this.isCharging();
     }
 
     @Override
     public boolean canBeCollidedWith(Entity entity) {
-        return !this.isAttached() && !this.isInfecting() && !this.isCharging() && super.canBeCollidedWith(entity);
+        return !this.isAttached()
+                && !this.isInfecting()
+                && !this.isCharging()
+                && super.canBeCollidedWith(entity);
     }
 
     @Override
     public boolean shouldDropExperience() {
-        return !this.isAttached() && super.shouldDropExperience();
+        return !this.isAttached()
+                && super.shouldDropExperience();
     }
 
     private static final class ParasiteChargeAttachGoal extends Goal {
         private final LunarParasiteEntity parasite;
         private final double speedModifier;
+
         private int pathUpdateTicks;
 
-        private ParasiteChargeAttachGoal(LunarParasiteEntity parasite, double speedModifier) {
+        private ParasiteChargeAttachGoal(
+                LunarParasiteEntity parasite,
+                double speedModifier
+        ) {
             this.parasite = parasite;
             this.speedModifier = speedModifier;
-            this.setFlags(EnumSet.of(Goal.Flag.MOVE, Goal.Flag.LOOK));
+
+            this.setFlags(
+                    EnumSet.of(
+                            Goal.Flag.MOVE,
+                            Goal.Flag.LOOK
+                    )
+            );
         }
 
         @Override
         public boolean canUse() {
-            LivingEntity target = this.parasite.getTarget();
-            return target != null && target.isAlive() && this.parasite.canInfectHost(target);
+            LivingEntity target =
+                    this.parasite.getTarget();
+
+            return target != null
+                    && target.isAlive()
+                    && this.parasite.canInfectHost(target);
         }
 
         @Override
         public boolean canContinueToUse() {
-            LivingEntity target = this.parasite.getTarget();
-            return target != null && target.isAlive() && !this.parasite.isAttached() && this.parasite.canInfectHost(target);
+            LivingEntity target =
+                    this.parasite.getTarget();
+
+            return target != null
+                    && target.isAlive()
+                    && !this.parasite.isAttached()
+                    && this.parasite.canInfectHost(target);
         }
 
         @Override
@@ -1089,39 +1843,73 @@ public class LunarParasiteEntity extends Monster {
         @Override
         public void stop() {
             this.pathUpdateTicks = 0;
-            this.parasite.getNavigation().stop();
+
+            this.parasite
+                    .getNavigation()
+                    .stop();
         }
 
         @Override
         public void tick() {
-            LivingEntity target = this.parasite.getTarget();
+            LivingEntity target =
+                    this.parasite.getTarget();
 
-            if (target == null || !target.isAlive()) {
+            if (target == null
+                    || !target.isAlive()) {
+
                 return;
             }
 
-            this.parasite.getLookControl().setLookAt(target, 45.0F, 45.0F);
+            this.parasite
+                    .getLookControl()
+                    .setLookAt(
+                            target,
+                            45.0F,
+                            45.0F
+                    );
 
-            if (this.parasite.isCharging() || this.parasite.isChargingUp() || this.parasite.isInfecting()) {
-                this.parasite.getNavigation().stop();
+            if (this.parasite.isCharging()
+                    || this.parasite.isChargingUp()
+                    || this.parasite.isInfecting()) {
+
+                this.parasite
+                        .getNavigation()
+                        .stop();
+
                 return;
             }
 
-            if (this.parasite.isCloseEnoughToAttach(target) && this.parasite.canStartCharge(target)) {
+            if (this.parasite.isCloseEnoughToAttach(target)
+                    && this.parasite.canStartCharge(target)) {
+
                 this.parasite.startCharge(target);
                 return;
             }
 
-            double distanceSqr = this.parasite.distanceToSqr(target);
+            double distanceSqr =
+                    this.parasite.distanceToSqr(target);
 
-            if (distanceSqr <= CHARGE_START_DISTANCE_SQR && this.parasite.hasLineOfSight(target) && this.parasite.canStartCharge(target)) {
+            if (distanceSqr <= CHARGE_START_DISTANCE_SQR
+                    && this.parasite.hasLineOfSight(target)
+                    && this.parasite.canStartCharge(target)) {
+
                 this.parasite.startCharge(target);
                 return;
             }
 
             if (--this.pathUpdateTicks <= 0) {
-                this.pathUpdateTicks = 4 + this.parasite.getRandom().nextInt(4);
-                this.parasite.getNavigation().moveTo(target, this.speedModifier);
+                this.pathUpdateTicks =
+                        4
+                                + this.parasite
+                                .getRandom()
+                                .nextInt(4);
+
+                this.parasite
+                        .getNavigation()
+                        .moveTo(
+                                target,
+                                this.speedModifier
+                        );
             }
         }
     }

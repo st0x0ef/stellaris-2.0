@@ -12,6 +12,7 @@ import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.common.entities.alien.AlienEntity;
 import org.exodusstudio.stellaris.common.entities.mobs.*;
 import org.exodusstudio.stellaris.common.entities.mobs.starcrawler.StarCrawlerEntity;
+import org.exodusstudio.stellaris.common.entities.mobs.starcrawlerboss.StarCrawlerBossEntity;
 import org.exodusstudio.stellaris.common.entities.vehicles.LanderEntity;
 import org.exodusstudio.stellaris.common.entities.vehicles.RocketEntity;
 import org.exodusstudio.stellaris.common.entities.vehicles.RoverEntity;
@@ -61,6 +62,10 @@ public class EntityTypesRegistry {
         StarCrawlerEntity::new, MobCategory.MONSTER,
             builder -> builder.sized(1.45F, 1.25F).clientTrackingRange(8));
 
+    public static final RegistrySupplier<EntityType<StarCrawlerBossEntity>> STAR_CRAWLER_BOSS = register("star_crawler_boss",
+        StarCrawlerBossEntity::new, MobCategory.MONSTER,
+            builder -> builder.sized(3.5F, 2.75F).clientTrackingRange(12));
+
     public static final RegistrySupplier<EntityType<AlienEntity>> ALIEN = register("alien",
         AlienEntity::new, MobCategory.CREATURE,
             builder -> builder.sized(0.75F, 2.5F));
@@ -70,6 +75,6 @@ public class EntityTypesRegistry {
                                                                                Function<EntityType.Builder<T>, EntityType.Builder<T>> builder) {
         return ENTITY_TYPE.register(id,
                 () -> builder.apply(EntityType.Builder.of(factory, category))
-                        .build(IdentifierUtils.resourceKey(Registries.ENTITY_TYPE, "lander")));
+                        .build(IdentifierUtils.resourceKey(Registries.ENTITY_TYPE, id)));
     }
 }

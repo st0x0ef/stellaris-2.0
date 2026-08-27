@@ -13,6 +13,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -31,6 +32,8 @@ import org.exodusstudio.stellaris.common.data.recipes.ElectrolyzeRecipe;
 import org.exodusstudio.stellaris.common.data.recipes.FuelRefineryRecipe;
 import org.exodusstudio.stellaris.common.data.recipes.RocketStationRecipe;
 import org.exodusstudio.stellaris.common.items.space_suit.SpaceSuitHelmet;
+import org.exodusstudio.stellaris.common.entities.mobs.starcrawlerboss.StarCrawlerBossDeathManager;
+import org.exodusstudio.stellaris.common.entities.mobs.starcrawlerboss.StarCrawlerBossIntroManager;
 import org.exodusstudio.stellaris.common.network.packets.AntennasOperations;
 import org.exodusstudio.stellaris.common.network.packets.ElectrolyzerSyncerPacket;
 import org.exodusstudio.stellaris.common.network.packets.FuelRefinerySyncerPacket;
@@ -58,7 +61,89 @@ public class Events {
         });
 
         TickEvent.SERVER_POST.register(AssistantManager::tick);
-        LifecycleEvent.SERVER_STOPPING.register(server -> AssistantManager.clear());
+        LifecycleEvent.SERVER_STOPPING.register(server -> {
+            AssistantManager.clear();
+            StarCrawlerBossIntroManager.clear(server);
+            StarCrawlerBossDeathManager.clear(server);
+        });
+
+        TickEvent.PLAYER_POST.register(player -> {
+            if (player instanceof ServerPlayer serverPlayer) {
+                StarCrawlerBossIntroManager.tickPlayer(serverPlayer);
+                StarCrawlerBossDeathManager.tickPlayer(serverPlayer);
+            }
+        });
+
+        EntityEvent.LIVING_HURT.register((entity, source, amount) ->
+                (StarCrawlerBossIntroManager.shouldProtect(entity, source)
+                        || StarCrawlerBossDeathManager.shouldProtect(
+                        entity,
+                        source
+                ))
+                        ? EventResult.interruptFalse()
+                        : EventResult.pass()
+        );
+
+        EntityEvent.LIVING_DEATH.register((entity, source) -> {
+            if (entity instanceof ServerPlayer serverPlayer) {
+                StarCrawlerBossIntroManager.releasePlayer(
+                        serverPlayer,
+                        true
+                );
+
+                StarCrawlerBossDeathManager.releasePlayer(
+                        serverPlayer,
+                        true
+                );
+            }
+
+            return EventResult.pass();
+        });
+
+        PlayerEvent.ATTACK_ENTITY.register((player, level, target, hand, hitResult) ->
+                (StarCrawlerBossIntroManager.shouldBlockAttack(player)
+                        || StarCrawlerBossDeathManager.shouldBlockAttack(
+                        player
+                ))
+                        ? EventResult.interruptFalse()
+                        : EventResult.pass()
+        );
+
+        PlayerEvent.PLAYER_QUIT.register(player -> {
+                StarCrawlerBossIntroManager.releasePlayer(
+                        player,
+                        false
+                );
+
+                StarCrawlerBossDeathManager.releasePlayer(
+                        player,
+                        false
+                );
+        });
+
+        PlayerEvent.PLAYER_RESPAWN.register((player, conqueredEnd, removalReason) -> {
+                StarCrawlerBossIntroManager.releasePlayer(
+                        player,
+                        true
+                );
+
+                StarCrawlerBossDeathManager.releasePlayer(
+                        player,
+                        true
+                );
+        });
+
+        PlayerEvent.CHANGE_DIMENSION.register((player, oldLevel, newLevel) -> {
+                StarCrawlerBossIntroManager.releasePlayer(
+                        player,
+                        true
+                );
+
+                StarCrawlerBossDeathManager.releasePlayer(
+                        player,
+                        true
+                );
+        });
 
         EntityEvent.ENTER_SECTION.register((entity, sectionX, sectionY, sectionZ, prevX, prevY, prevZ) -> {
             if (entity instanceof Player player && (sectionX != prevX || sectionZ != prevZ)) {

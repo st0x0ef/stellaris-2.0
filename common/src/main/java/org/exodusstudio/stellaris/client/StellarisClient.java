@@ -7,6 +7,10 @@ import fr.tathan.exoconfig.common.loader.ConfigsRegistry;
 import fr.tathan.exoconfig.platform.PlatformClientHelper;
 import net.minecraft.client.model.object.boat.BoatModel;
 import org.exodusstudio.stellaris.Stellaris;
+import org.exodusstudio.stellaris.client.cinematic.StarCrawlerBossIntroController;
+import org.exodusstudio.stellaris.client.cinematic.StarCrawlerBossIntroRenderer;
+import org.exodusstudio.stellaris.client.cinematic.StarCrawlerBossDeathController;
+import org.exodusstudio.stellaris.client.cinematic.StarCrawlerBossDeathRenderer;
 import org.exodusstudio.stellaris.client.debug.OxygenDebugRenderer;
 import org.exodusstudio.stellaris.client.effects.ParasiteCameraShake;
 import org.exodusstudio.stellaris.client.events.ClientEvents;
@@ -23,6 +27,8 @@ import org.exodusstudio.stellaris.client.renderers.lander.LanderModel;
 import org.exodusstudio.stellaris.client.renderers.launchpad.RocketLaunchPadModel;
 import org.exodusstudio.stellaris.client.renderers.mobs.*;
 import org.exodusstudio.stellaris.client.renderers.mobs.starcrawler.StarCrawlerModel;
+import org.exodusstudio.stellaris.client.renderers.mobs.starcrawlerboss.StarCrawlerBossHud;
+import org.exodusstudio.stellaris.client.renderers.mobs.starcrawlerboss.StarCrawlerBossModel;
 import org.exodusstudio.stellaris.client.renderers.rockets.models.BigRocketModel;
 import org.exodusstudio.stellaris.client.renderers.rockets.models.SmallRocketModel;
 import org.exodusstudio.stellaris.client.renderers.rockets.models.TinyRocketModel;
@@ -32,12 +38,18 @@ import org.exodusstudio.stellaris.common.registries.ItemsRegistry;
 import org.exodusstudio.stellaris.common.registries.WoodTypesRegister;
 import org.exodusstudio.stellaris.platform.ArmorPlatform;
 
+
+// Made this prettier
 public class StellarisClient {
 
     public static ClientConfig CLIENT_CONFIG;
 
     public static void initClient() {
-        CLIENT_CONFIG = ConfigsRegistry.getInstance().registerConfig(new ClientConfig(), CLIENT_CONFIG);
+        CLIENT_CONFIG = ConfigsRegistry.getInstance().registerConfig(
+                new ClientConfig(),
+                CLIENT_CONFIG
+        );
+
         ApplicationRegistry.init();
 
         FluidInfosRegistry.init();
@@ -48,21 +60,59 @@ public class StellarisClient {
         registerArmors();
 
         KeyMappingsRegistry.init();
-        ClientTickEvent.CLIENT_POST.register(KeyMappingsRegistry::clientTick);
-        ClientTickEvent.CLIENT_POST.register(ParasiteCameraShake::clientTick);
-        ClientTickEvent.CLIENT_POST.register(OxygenDebugRenderer::clientTick);
+
+        StarCrawlerBossIntroController.init();
+        StarCrawlerBossDeathController.init();
+
+        ClientTickEvent.CLIENT_POST.register(
+                KeyMappingsRegistry::clientTick
+        );
+
+        ClientTickEvent.CLIENT_POST.register(
+                ParasiteCameraShake::clientTick
+        );
+
+        ClientTickEvent.CLIENT_POST.register(
+                OxygenDebugRenderer::clientTick
+        );
 
         ClientEvents.init();
-        PlatformClientHelper.registerConfigScreens(Stellaris.MOD_ID, Stellaris.CONFIG, CLIENT_CONFIG);
+
+        PlatformClientHelper.registerConfigScreens(
+                Stellaris.MOD_ID,
+                Stellaris.CONFIG,
+                CLIENT_CONFIG
+        );
     }
 
     public static void registerOverlays() {
-        ClientGuiEvent.RENDER_HUD.register(RocketTimerOverlay::render);
-        ClientGuiEvent.RENDER_HUD.register(RocketBarOverlay::render);
-        ClientGuiEvent.RENDER_HUD.register(FadeOverlay::render);
-        ClientGuiEvent.RENDER_HUD.register(LanderOverlay::render);
-        ClientGuiEvent.RENDER_HUD.register(TemperatureOverlay::render);
-        ClientGuiEvent.RENDER_HUD.register(SpaceSuitOverlay::render);
+        ClientGuiEvent.RENDER_HUD.register(
+                RocketTimerOverlay::render
+        );
+
+        ClientGuiEvent.RENDER_HUD.register(
+                RocketBarOverlay::render
+        );
+
+        ClientGuiEvent.RENDER_HUD.register(
+                FadeOverlay::render
+        );
+
+        ClientGuiEvent.RENDER_HUD.register(
+                LanderOverlay::render
+        );
+
+        ClientGuiEvent.RENDER_HUD.register(
+                TemperatureOverlay::render
+        );
+
+        ClientGuiEvent.RENDER_HUD.register(
+                SpaceSuitOverlay::render
+        );
+
+        StarCrawlerBossHud.init();
+        StarCrawlerBossIntroRenderer.init();
+        StarCrawlerBossDeathRenderer.init();
     }
 
     public static void registerArmors() {
@@ -78,28 +128,114 @@ public class StellarisClient {
     }
 
     public static void registerEntityModelLayer() {
-        EntityModelLayerRegistry.register(GravityManipulatorModel.LAYER_LOCATION, GravityManipulatorModel::createBodyLayer);
-        EntityModelLayerRegistry.register(GlobeModel.LAYER_LOCATION, GlobeModel::createBodyLayer);
-        EntityModelLayerRegistry.register(FlagHeadModel.HUMANOID_LAYER_LOCATION, FlagHeadModel::createHumanoidHeadLayer);
-        EntityModelLayerRegistry.register(FlagHeadModel.MOB_LAYER_LOCATION, FlagHeadModel::createMobHeadLayer);
-        EntityModelLayerRegistry.register(FlagBlockModel.LAYER_LOCATION, FlagBlockModel::createBodyLayer);
-        EntityModelLayerRegistry.register(LanderModel.LAYER_LOCATION, LanderModel::createBodyLayer);
-        EntityModelLayerRegistry.register(BlueFishModel.LAYER_LOCATION, BlueFishModel::createBodyLayer);
-        EntityModelLayerRegistry.register(LunarParasiteModel.LAYER_LOCATION, LunarParasiteModel::createBodyLayer);
-        EntityModelLayerRegistry.register(ParasiteAffectedVillagerModel.LAYER_LOCATION, ParasiteAffectedVillagerModel::createBodyLayer);
-        EntityModelLayerRegistry.register(EvolvedParasiteAffectedVillagerModel.LAYER_LOCATION, EvolvedParasiteAffectedVillagerModel::createBodyLayer);
-        EntityModelLayerRegistry.register(LunaShadowModel.LAYER_LOCATION, LunaShadowModel::createBodyLayer);
-        EntityModelLayerRegistry.register(StarCrawlerModel.LAYER_LOCATION, StarCrawlerModel::createBodyLayer);
-        EntityModelLayerRegistry.register(AlienModel.LAYER_LOCATION, AlienModel::createBodyLayer);
-        EntityModelLayerRegistry.register(RocketLaunchPadModel.LAYER_LOCATION, RocketLaunchPadModel::createBodyLayer);
+        EntityModelLayerRegistry.register(
+                GravityManipulatorModel.LAYER_LOCATION,
+                GravityManipulatorModel::createBodyLayer
+        );
 
-        EntityModelLayerRegistry.register(SpaceSuitModel.LAYER_LOCATION, SpaceSuitModel::createBodyLayer);
-        EntityModelLayerRegistry.register(BoatModelLayerRegistry.LUNAR_BOAT, BoatModel::createBoatModel);
-        EntityModelLayerRegistry.register(BoatModelLayerRegistry.LUNAR_CHEST_BOAT, BoatModel::createChestBoatModel);
+        EntityModelLayerRegistry.register(
+                GlobeModel.LAYER_LOCATION,
+                GlobeModel::createBodyLayer
+        );
 
-        EntityModelLayerRegistry.register(TinyRocketModel.LAYER_LOCATION, TinyRocketModel::createBodyLayer);
-        EntityModelLayerRegistry.register(SmallRocketModel.LAYER_LOCATION, SmallRocketModel::createBodyLayer);
-        EntityModelLayerRegistry.register(BigRocketModel.LAYER_LOCATION, BigRocketModel::createBodyLayer);
-        EntityModelLayerRegistry.register(RoverModel.LAYER_LOCATION, RoverModel::createBodyLayer);
+        EntityModelLayerRegistry.register(
+                FlagHeadModel.HUMANOID_LAYER_LOCATION,
+                FlagHeadModel::createHumanoidHeadLayer
+        );
+
+        EntityModelLayerRegistry.register(
+                FlagHeadModel.MOB_LAYER_LOCATION,
+                FlagHeadModel::createMobHeadLayer
+        );
+
+        EntityModelLayerRegistry.register(
+                FlagBlockModel.LAYER_LOCATION,
+                FlagBlockModel::createBodyLayer
+        );
+
+        EntityModelLayerRegistry.register(
+                LanderModel.LAYER_LOCATION,
+                LanderModel::createBodyLayer
+        );
+
+        EntityModelLayerRegistry.register(
+                BlueFishModel.LAYER_LOCATION,
+                BlueFishModel::createBodyLayer
+        );
+
+        EntityModelLayerRegistry.register(
+                LunarParasiteModel.LAYER_LOCATION,
+                LunarParasiteModel::createBodyLayer
+        );
+
+        EntityModelLayerRegistry.register(
+                ParasiteAffectedVillagerModel.LAYER_LOCATION,
+                ParasiteAffectedVillagerModel::createBodyLayer
+        );
+
+        EntityModelLayerRegistry.register(
+                EvolvedParasiteAffectedVillagerModel.LAYER_LOCATION,
+                EvolvedParasiteAffectedVillagerModel::createBodyLayer
+        );
+
+        EntityModelLayerRegistry.register(
+                LunaShadowModel.LAYER_LOCATION,
+                LunaShadowModel::createBodyLayer
+        );
+
+        EntityModelLayerRegistry.register(
+                StarCrawlerModel.LAYER_LOCATION,
+                StarCrawlerModel::createBodyLayer
+        );
+
+        EntityModelLayerRegistry.register(
+                StarCrawlerBossModel.LAYER_LOCATION,
+                StarCrawlerBossModel::createBodyLayer
+        );
+
+        EntityModelLayerRegistry.register(
+                AlienModel.LAYER_LOCATION,
+                AlienModel::createBodyLayer
+        );
+
+        EntityModelLayerRegistry.register(
+                RocketLaunchPadModel.LAYER_LOCATION,
+                RocketLaunchPadModel::createBodyLayer
+        );
+
+        EntityModelLayerRegistry.register(
+                SpaceSuitModel.LAYER_LOCATION,
+                SpaceSuitModel::createBodyLayer
+        );
+
+        EntityModelLayerRegistry.register(
+                BoatModelLayerRegistry.LUNAR_BOAT,
+                BoatModel::createBoatModel
+        );
+
+        EntityModelLayerRegistry.register(
+                BoatModelLayerRegistry.LUNAR_CHEST_BOAT,
+                BoatModel::createChestBoatModel
+        );
+
+        EntityModelLayerRegistry.register(
+                TinyRocketModel.LAYER_LOCATION,
+                TinyRocketModel::createBodyLayer
+        );
+
+        EntityModelLayerRegistry.register(
+                SmallRocketModel.LAYER_LOCATION,
+                SmallRocketModel::createBodyLayer
+        );
+
+        EntityModelLayerRegistry.register(
+                BigRocketModel.LAYER_LOCATION,
+                BigRocketModel::createBodyLayer
+        );
+
+        EntityModelLayerRegistry.register(
+                RoverModel.LAYER_LOCATION,
+                RoverModel::createBodyLayer
+        );
     }
 }

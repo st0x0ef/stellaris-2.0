@@ -206,6 +206,7 @@ public final class ItemsRegistry {
     public static final RegistrySupplier<SpawnEggItem> PARASITE_AFFECTED_VILLAGER_EVOLVED_SPAWN_EGG = item("parasite_affected_villager_evolved_spawn_egg", p -> new SpawnEggItem(p.spawnEgg(EntityTypesRegistry.PARASITE_AFFECTED_VILLAGER_EVOLVED.get())));
     public static final RegistrySupplier<SpawnEggItem> LUNA_SHADOW_SPAWN_EGG = item("luna_shadow_spawn_egg", p -> new SpawnEggItem(p.spawnEgg(EntityTypesRegistry.LUNA_SHADOW.get())));
     public static final RegistrySupplier<SpawnEggItem> STAR_CRAWLER_SPAWN_EGG = item("star_crawler_spawn_egg", p -> new SpawnEggItem(p.spawnEgg(EntityTypesRegistry.STAR_CRAWLER.get())));
+    public static final RegistrySupplier<SpawnEggItem> STAR_CRAWLER_BOSS_SPAWN_EGG = item("star_crawler_boss_spawn_egg", p -> new SpawnEggItem(p.spawnEgg(EntityTypesRegistry.STAR_CRAWLER_BOSS.get())));
     public static final RegistrySupplier<SpawnEggItem> ALIEN_SPAWN_EGG = item("alien_spawn_egg", p -> new SpawnEggItem(p.spawnEgg(EntityTypesRegistry.ALIEN.get())));
 
     /** Lunar Forest Items */

@@ -19,7 +19,7 @@ public record ParasiteCameraShakePacket(int ticks, float intensity) implements C
     );
 
     public static void handle(ParasiteCameraShakePacket packet, NetworkManager.PacketContext context) {
-        ParasiteCameraShake.start(packet.ticks(), packet.intensity());
+        context.queue(() -> ParasiteCameraShake.start(packet.ticks(), packet.intensity()));
     }
 
     @Override
