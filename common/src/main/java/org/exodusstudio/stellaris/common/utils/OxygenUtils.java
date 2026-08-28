@@ -252,8 +252,13 @@ public class OxygenUtils {
             return false;
         }
 
+        // A block seals if it blocks motion, which is the same test the MOTION_BLOCKING heightmap
+        // uses below - so a wall the fill cannot cross also raises the height it is compared to.
+        // Fullness of the collision box is the wrong question: a slab is not a full cube, so the
+        // fill used to walk into a slab floor, run sideways underneath the walls and surface
+        // outside the room, where the first block of open air reported a sky leak.
         BlockState state = level.getBlockState(pos);
-        return state.isAir() || !state.isCollisionShapeFullBlock(level, pos);
+        return !state.blocksMotion();
     }
 
     private static boolean isOpenToSky(Level level, BlockPos pos) {
