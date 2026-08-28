@@ -21,6 +21,7 @@ import org.exodusstudio.stellaris.client.renderers.lander.LanderRenderer;
 import org.exodusstudio.stellaris.client.renderers.launchpad.RocketLaunchPadBlockRenderer;
 import org.exodusstudio.stellaris.client.renderers.mobs.*;
 import org.exodusstudio.stellaris.client.renderers.mobs.starcrawler.StarCrawlerRenderer;
+import org.exodusstudio.stellaris.client.renderers.mobs.starcrawlerboss.StarCrawlerBossRenderer;
 import org.exodusstudio.stellaris.client.renderers.rockets.RocketRenderer;
 import org.exodusstudio.stellaris.client.renderers.space_farm.SpaceFarmRenderer;
 import org.exodusstudio.stellaris.client.screens.*;
@@ -115,6 +116,7 @@ public final class StellarisFabricClient implements ClientModInitializer {
                 )
         );
         EntityRenderers.register(EntityTypesRegistry.STAR_CRAWLER.get(), StarCrawlerRenderer::new);
+        EntityRenderers.register(EntityTypesRegistry.STAR_CRAWLER_BOSS.get(), StarCrawlerBossRenderer::new);
         EntityRenderers.register(EntityTypesRegistry.ALIEN.get(), AlienRenderer::new);
     }
 

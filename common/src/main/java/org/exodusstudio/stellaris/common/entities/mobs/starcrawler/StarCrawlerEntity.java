@@ -66,6 +66,7 @@ public class StarCrawlerEntity extends Monster {
     private static final int LEAP_DESTINATION_LOCK_TICK = 9;
     private static final int LEAP_MIN_AIRBORNE_TICKS = 3;
     private static final int LEAP_STEERING_TICKS = 4;
+    private static final int LEAP_FORCE_DESCENT_TICK = 19;
     private static final int LEAP_STUCK_TIMEOUT_TICKS = 5;
     private static final int LEAP_TIMEOUT_TICKS = 32;
 
@@ -270,7 +271,6 @@ public class StarCrawlerEntity extends Monster {
         boolean retaliation = this.isRetaliationTarget(target);
         if (this.getAttackState() != AttackState.NORMAL
                 || (!retaliation && this.attackCooldown > 0)
-                || !this.onGround()
                 || !this.isValidAttackTarget(target)
                 || !this.hasLineOfSight(target)) {
             return false;
@@ -333,7 +333,7 @@ public class StarCrawlerEntity extends Monster {
     }
 
     private void launchLeap(ServerLevel serverLevel, LivingEntity target) {
-        if (!this.isValidTransientAttackTarget(target) || !this.onGround() || !this.hasLineOfSight(target)) {
+        if (!this.isValidTransientAttackTarget(target) || !this.hasLineOfSight(target)) {
             this.resetAttackToNormal();
             return;
         }
@@ -405,6 +405,16 @@ public class StarCrawlerEntity extends Monster {
             return;
         }
 
+        if (stateTicks >= LEAP_FORCE_DESCENT_TICK && !this.onGround()) {
+            Vec3 velocity = this.getDeltaMovement();
+            this.setDeltaMovement(
+                    velocity.x * 0.75D,
+                    Math.min(velocity.y, -0.75D),
+                    velocity.z * 0.75D
+            );
+            this.hurtMarked = true;
+        }
+
         double movementSqr = this.position().distanceToSqr(this.lastLeapPosition);
         if (stateTicks >= 2 && movementSqr < 0.0025D) {
             this.leapStuckTicks++;
@@ -413,8 +423,13 @@ public class StarCrawlerEntity extends Monster {
         }
         this.lastLeapPosition = this.position();
 
-        if (this.leapStuckTicks >= LEAP_STUCK_TIMEOUT_TICKS || stateTicks >= LEAP_TIMEOUT_TICKS) {
+        if (this.leapStuckTicks >= LEAP_STUCK_TIMEOUT_TICKS) {
             this.triggerImpact(serverLevel);
+            return;
+        }
+
+        if (stateTicks >= LEAP_TIMEOUT_TICKS) {
+            this.resetAttackToNormal();
         }
     }
 

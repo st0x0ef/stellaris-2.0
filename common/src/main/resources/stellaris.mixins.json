@@ -5,9 +5,12 @@
   "minVersion": "0.8",
   "client": [
     "client.ArmRendererMixin",
+    "client.CameraMixin",
     "client.CustomItemModelRenderer",
     "client.GuiMixin",
     "client.ItemInHandRendererMixin",
+    "client.KeyboardInputMixin",
+    "client.MouseHandlerMixin",
     "client.PlayerNightVision",
     "client.PlayerRendererMixin"
   ],
