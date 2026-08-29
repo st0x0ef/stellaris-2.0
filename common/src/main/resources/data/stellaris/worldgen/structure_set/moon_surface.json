@@ -1,0 +1,39 @@
+{
+  "structures": [
+    {
+      "structure": "stellaris:moon_launchpad",
+      "weight": 6
+    },
+    {
+      "structure": "stellaris:moon_space_base",
+      "weight": 5
+    },
+    {
+      "structure": "stellaris:moon_first_landing",
+      "weight": 4
+    },
+    {
+      "structure": "stellaris:moon_destroyed_spaceship",
+      "weight": 4
+    },
+    {
+      "structure": "stellaris:moon_destroyed_village",
+      "weight": 3
+    },
+    {
+      "structure": "stellaris:moon_sphere",
+      "weight": 1
+    },
+    {
+      "structure": "stellaris:moon_village",
+      "weight": 3
+    }
+  ],
+  "placement": {
+    "type": "minecraft:random_spread",
+    "spread_type": "triangular",
+    "salt": 1204773851,
+    "spacing": 24,
+    "separation": 14
+  }
+}
