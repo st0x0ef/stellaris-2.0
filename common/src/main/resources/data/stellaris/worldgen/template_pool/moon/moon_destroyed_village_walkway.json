@@ -6,7 +6,7 @@
       "element": {
         "location": "stellaris:moon_destroyed_village_walkway",
         "processors": "minecraft:empty",
-        "projection": "terrain_matching",
+        "projection": "rigid",
         "element_type": "minecraft:single_pool_element"
       }
     }

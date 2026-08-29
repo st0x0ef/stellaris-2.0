@@ -6,7 +6,7 @@
       "element": {
         "location": "stellaris:moon_village_house1",
         "processors": "minecraft:empty",
-        "projection": "terrain_matching",
+        "projection": "rigid",
         "element_type": "minecraft:single_pool_element"
       }
     },
@@ -15,7 +15,7 @@
       "element": {
         "location": "stellaris:moon_village_house2",
         "processors": "minecraft:empty",
-        "projection": "terrain_matching",
+        "projection": "rigid",
         "element_type": "minecraft:single_pool_element"
       }
     }
