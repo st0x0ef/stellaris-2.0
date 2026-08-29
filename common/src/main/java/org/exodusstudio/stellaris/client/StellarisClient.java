@@ -59,8 +59,6 @@ public class StellarisClient {
         registerOverlays();
         registerArmors();
 
-        KeyMappingsRegistry.init();
-
         StarCrawlerBossIntroController.init();
         StarCrawlerBossDeathController.init();
 
