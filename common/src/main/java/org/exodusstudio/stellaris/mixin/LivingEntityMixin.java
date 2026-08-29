@@ -49,8 +49,10 @@ public class LivingEntityMixin {
             stellaris$oxygenCounter = 0;
 
             if (stellaris$entity.level() instanceof ServerLevel serverLevel) {
-                if (!OxygenUtils.isOxygenated(stellaris$entity.level(), stellaris$entity.blockPosition()) ||
-                        (stellaris$entity instanceof Player player && player.isUnderWater())) {
+                boolean noAtmosphere = !OxygenUtils.isOxygenated(stellaris$entity.level(), stellaris$entity.blockPosition());
+                boolean underwater = stellaris$entity instanceof Player player && player.isUnderWater();
+
+                if (noAtmosphere || underwater) {
                     ItemStack headSlot = stellaris$entity.getItemBySlot(EquipmentSlot.HEAD);
                     if (Utils.isLivingInSpaceSuit(stellaris$entity) && headSlot.getItem() instanceof SpaceSuitHelmet helmet) {
                         if (stellaris$entity instanceof Player player) {
@@ -68,7 +70,9 @@ public class LivingEntityMixin {
                         }
                     }
 
-                    stellaris$entity.hurtServer(serverLevel, stellaris$entity.damageSources().generic(), Stellaris.CONFIG.oxygenConfig.noOxygenDamage);
+                    if (noAtmosphere) {
+                        stellaris$entity.hurtServer(serverLevel, stellaris$entity.damageSources().generic(), Stellaris.CONFIG.oxygenConfig.noOxygenDamage);
+                    }
                 }
             }
         }
