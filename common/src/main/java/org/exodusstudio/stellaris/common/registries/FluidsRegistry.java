@@ -14,6 +14,7 @@ import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 public class FluidsRegistry {
 
@@ -130,6 +131,9 @@ public class FluidsRegistry {
 
     public static final RegistrySupplier<FlowingFluid> ASTRUM_LIQUIDUS_FLOWING = FLUIDS.register("flowing_astrum_liquidus", () -> new ArchitecturyFlowingFluid.Flowing(ASTRUM_LIQUIDUS_ATTRIBUTES));
     public static final RegistrySupplier<FlowingFluid> ASTRUM_LIQUIDUS_STILL = FLUIDS.register("astrum_liquidus", () -> new ArchitecturyFlowingFluid.Source(ASTRUM_LIQUIDUS_ATTRIBUTES));
+
+
+    public static final Set<ArchitecturyFluidAttributes> WATER_LIKE_ATTRIBUTES = Set.of(BLUE_LIQUID_ATTRIBUTES);
 
     public static void init() {
         FLUIDS.register();
