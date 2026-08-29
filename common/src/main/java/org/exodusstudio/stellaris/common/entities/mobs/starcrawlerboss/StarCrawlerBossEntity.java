@@ -47,6 +47,8 @@ import net.minecraft.world.level.GameType;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.Heightmap;
+import net.minecraft.world.level.levelgen.structure.Structure;
+import net.minecraft.world.level.levelgen.structure.StructureStart;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
@@ -57,6 +59,7 @@ import org.exodusstudio.stellaris.common.network.packets.ParasiteCameraShakePack
 import org.exodusstudio.stellaris.common.network.packets.StarCrawlerBossDeathStartPacket;
 import org.exodusstudio.stellaris.common.network.packets.StarCrawlerBossIntroStartPacket;
 import org.exodusstudio.stellaris.common.registries.EntityTypesRegistry;
+import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -130,6 +133,19 @@ public class StarCrawlerBossEntity extends Monster {
             );
 
     public static final int INTRO_DURATION_TICKS = 150;
+
+    private static final ResourceKey<Structure> MOON_SPHERE_STRUCTURE =
+            IdentifierUtils.resourceKey(
+                    Registries.STRUCTURE,
+                    "moon_sphere"
+            );
+
+    private static final double PATROL_MIN_RADIUS = 12.0D;
+    private static final double PATROL_SPEED = 0.7D;
+    private static final double PATROL_STEP_RADIANS = 0.30D;
+    private static final int PATROL_MAX_WAYPOINT_TICKS = 200;
+    private static final int PATROL_ANCHOR_RETRY_INTERVAL = 10;
+    private static final int PATROL_ANCHOR_MAX_ATTEMPTS = 40;
 
     private static final double INTRO_TRIGGER_RADIUS = 48.0D;
     private static final double INTRO_TRIGGER_RADIUS_SQR =
@@ -322,6 +338,12 @@ public class StarCrawlerBossEntity extends Monster {
     private boolean finalizeDeathAfterLoad;
     private boolean discardFinalizedDeathAfterLoad;
 
+    private BlockPos patrolCenter;
+    private double patrolRadius;
+    private boolean patrolAnchorResolved;
+    private int patrolAnchorAttempts;
+    private int patrolDirection = 1;
+
     private int clientWalkHoldTicks;
 
     public StarCrawlerBossEntity(
@@ -446,6 +468,11 @@ public class StarCrawlerBossEntity extends Monster {
         );
 
         this.goalSelector.addGoal(
+                5,
+                new RingPatrolGoal()
+        );
+
+        this.goalSelector.addGoal(
                 6,
                 new WaterAvoidingRandomStrollGoal(
                         this,
@@ -538,6 +565,8 @@ public class StarCrawlerBossEntity extends Monster {
                 || !this.isAlive()) {
             return;
         }
+
+        this.resolvePatrolAnchor(serverLevel);
 
         if (this.isDeathCinematicPlaying()) {
             this.tickDeathCinematic(serverLevel);
@@ -4608,6 +4637,108 @@ public class StarCrawlerBossEntity extends Monster {
         }
     }
 
+    /**
+     * Anchors the ring patrol the first time the boss ticks inside a moon
+     * sphere. The centre comes from the structure's bounding box, so it stays
+     * correct whichever rotation the jigsaw picked, and the radius is simply
+     * wherever on the ring the boss happens to be standing.
+     */
+    private void resolvePatrolAnchor(
+            ServerLevel serverLevel
+    ) {
+        if (this.patrolAnchorResolved
+                || !this.onGround()
+                || this.tickCount % PATROL_ANCHOR_RETRY_INTERVAL != 0) {
+
+            return;
+        }
+
+        if (++this.patrolAnchorAttempts
+                >= PATROL_ANCHOR_MAX_ATTEMPTS) {
+
+            this.patrolAnchorResolved = true;
+        }
+
+        StructureStart start =
+                serverLevel.structureManager()
+                        .getStructureWithPieceAt(
+                                this.blockPosition(),
+                                holder -> holder.is(
+                                        MOON_SPHERE_STRUCTURE
+                                )
+                        );
+
+        if (!start.isValid()) {
+            return;
+        }
+
+        this.patrolAnchorResolved = true;
+
+        BlockPos center =
+                start.getBoundingBox()
+                        .getCenter();
+
+        double radius =
+                Math.sqrt(
+                        this.distanceToSqrHorizontal(
+                                center.getX() + 0.5D,
+                                center.getZ() + 0.5D
+                        )
+                );
+
+        if (radius < PATROL_MIN_RADIUS) {
+            return;
+        }
+
+        this.patrolCenter =
+                new BlockPos(
+                        center.getX(),
+                        this.blockPosition().getY(),
+                        center.getZ()
+                );
+
+        this.patrolRadius = radius;
+
+        this.patrolDirection =
+                this.random.nextBoolean()
+                        ? 1
+                        : -1;
+    }
+
+    private double distanceToSqrHorizontal(
+            double x,
+            double z
+    ) {
+        double dx = this.getX() - x;
+        double dz = this.getZ() - z;
+
+        return dx * dx + dz * dz;
+    }
+
+    /**
+     * Picks the next point along the ring, one step further round from
+     * wherever the boss currently stands. Deriving the angle from the live
+     * position means a boss dragged off the path by a fight walks back onto
+     * it rather than resuming from a stale waypoint.
+     */
+    private Vec3 nextPatrolWaypoint() {
+        double centerX = this.patrolCenter.getX() + 0.5D;
+        double centerZ = this.patrolCenter.getZ() + 0.5D;
+
+        double angle =
+                Math.atan2(
+                        this.getZ() - centerZ,
+                        this.getX() - centerX
+                )
+                        + PATROL_STEP_RADIANS * this.patrolDirection;
+
+        return new Vec3(
+                centerX + Math.cos(angle) * this.patrolRadius,
+                this.patrolCenter.getY(),
+                centerZ + Math.sin(angle) * this.patrolRadius
+        );
+    }
+
     @Override
     public boolean removeWhenFarAway(
             double distanceToClosestPlayer
@@ -4955,6 +5086,38 @@ public class StarCrawlerBossEntity extends Monster {
                 "healing_damage_sustained",
                 this.healingDamageSustained
         );
+
+        output.putBoolean(
+                "patrol_anchor_resolved",
+                this.patrolAnchorResolved
+        );
+
+        if (this.patrolCenter != null) {
+            output.putInt(
+                    "patrol_center_x",
+                    this.patrolCenter.getX()
+            );
+
+            output.putInt(
+                    "patrol_center_y",
+                    this.patrolCenter.getY()
+            );
+
+            output.putInt(
+                    "patrol_center_z",
+                    this.patrolCenter.getZ()
+            );
+
+            output.putDouble(
+                    "patrol_radius",
+                    this.patrolRadius
+            );
+
+            output.putInt(
+                    "patrol_direction",
+                    this.patrolDirection
+            );
+        }
     }
 
     @Override
@@ -5416,6 +5579,49 @@ public class StarCrawlerBossEntity extends Monster {
             this.finalizeDeathAfterLoad = true;
         }
 
+        this.patrolAnchorResolved =
+                input.getBooleanOr(
+                        "patrol_anchor_resolved",
+                        false
+                );
+
+        this.patrolCenter = null;
+        this.patrolRadius = 0.0D;
+
+        double savedRadius =
+                input.getDoubleOr(
+                        "patrol_radius",
+                        0.0D
+                );
+
+        if (savedRadius >= PATROL_MIN_RADIUS) {
+            this.patrolCenter =
+                    new BlockPos(
+                            input.getIntOr(
+                                    "patrol_center_x",
+                                    0
+                            ),
+                            input.getIntOr(
+                                    "patrol_center_y",
+                                    0
+                            ),
+                            input.getIntOr(
+                                    "patrol_center_z",
+                                    0
+                            )
+                    );
+
+            this.patrolRadius = savedRadius;
+
+            this.patrolDirection =
+                    input.getIntOr(
+                            "patrol_direction",
+                            1
+                    ) < 0
+                            ? -1
+                            : 1;
+        }
+
         this.bossEvent.setName(
                 Component.empty()
         );
@@ -5423,6 +5629,93 @@ public class StarCrawlerBossEntity extends Monster {
         this.updateCrystalEnergy();
 
         this.updateBossPresentation();
+    }
+
+    private final class RingPatrolGoal
+            extends Goal {
+
+        private int waypointTicks;
+
+        private RingPatrolGoal() {
+            this.setFlags(
+                    EnumSet.of(
+                            Flag.MOVE
+                    )
+            );
+        }
+
+        @Override
+        public boolean canUse() {
+            return StarCrawlerBossEntity.this
+                    .patrolCenter != null
+
+                    && StarCrawlerBossEntity.this
+                    .getTarget() == null
+
+                    && !StarCrawlerBossEntity.this
+                    .isIntroPlaying()
+
+                    && !StarCrawlerBossEntity.this
+                    .isDeathCinematicPlaying();
+        }
+
+        @Override
+        public boolean canContinueToUse() {
+            return this.canUse();
+        }
+
+        @Override
+        public void start() {
+            this.moveToNextWaypoint();
+        }
+
+        @Override
+        public void stop() {
+            this.waypointTicks = 0;
+
+            StarCrawlerBossEntity.this
+                    .getNavigation()
+                    .stop();
+        }
+
+        @Override
+        public void tick() {
+            this.waypointTicks++;
+
+            boolean stuck =
+                    this.waypointTicks
+                            > PATROL_MAX_WAYPOINT_TICKS;
+
+            if (stuck
+                    || StarCrawlerBossEntity.this
+                    .getNavigation()
+                    .isDone()) {
+
+                if (stuck) {
+                    StarCrawlerBossEntity.this
+                            .patrolDirection *= -1;
+                }
+
+                this.moveToNextWaypoint();
+            }
+        }
+
+        private void moveToNextWaypoint() {
+            this.waypointTicks = 0;
+
+            Vec3 waypoint =
+                    StarCrawlerBossEntity.this
+                            .nextPatrolWaypoint();
+
+            StarCrawlerBossEntity.this
+                    .getNavigation()
+                    .moveTo(
+                            waypoint.x,
+                            waypoint.y,
+                            waypoint.z,
+                            PATROL_SPEED
+                    );
+        }
     }
 
     private final class IntroFreezeGoal
