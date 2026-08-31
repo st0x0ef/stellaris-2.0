@@ -37,7 +37,7 @@
         {
           "type": "minecraft:item",
           "name": "minecraft:obsidian",
-          "weight": 40,
+          "weight": 20,
           "functions": [
             {
               "function": "minecraft:set_count",
@@ -68,8 +68,39 @@
         },
         {
           "type": "minecraft:item",
-          "name": "minecraft:iron_nugget",
+          "name": "stellaris:titanium_ingot",
           "weight": 40,
+          "functions": [
+            {
+              "function": "minecraft:set_count",
+              "count": {
+                "type": "minecraft:uniform",
+                "min": 2,
+                "max": 8
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "stellaris:titanium_nugget",
+          "weight": 20,
+          "functions": [
+            {
+              "function": "minecraft:set_count",
+              "count": {
+                "type": "minecraft:uniform",
+                "min": 9,
+                "max": 18
+              },
+              "add": false
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:iron_nugget",
+          "weight": 20,
           "functions": [
             {
               "function": "minecraft:set_count",
@@ -95,7 +126,7 @@
         {
           "type": "minecraft:item",
           "name": "minecraft:gold_nugget",
-          "weight": 15,
+          "weight": 20,
           "functions": [
             {
               "function": "minecraft:set_count",

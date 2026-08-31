@@ -289,7 +289,7 @@
         {
           "type": "minecraft:item",
           "name": "stellaris:titanium_ingot",
-          "weight": 3,
+          "weight": 12,
           "functions": [
             {
               "function": "minecraft:set_count",
@@ -347,6 +347,31 @@
               "components": {
                 "stellaris:sd_card_name": "stellaris:operation_base_log_3"
               }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "rolls": {
+        "type": "minecraft:uniform",
+        "min": 1,
+        "max": 2
+      },
+      "bonus_rolls": 0,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "stellaris:titanium_ingot",
+          "functions": [
+            {
+              "function": "minecraft:set_count",
+              "count": {
+                "type": "minecraft:uniform",
+                "min": 3,
+                "max": 8
+              },
+              "add": false
             }
           ]
         }

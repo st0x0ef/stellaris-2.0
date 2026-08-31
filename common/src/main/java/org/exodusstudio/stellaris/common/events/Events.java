@@ -211,6 +211,7 @@ public class Events {
         });
 
         blockEvents();
+        LootEvents.init();
     }
 
     /**
