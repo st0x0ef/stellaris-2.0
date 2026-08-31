@@ -12,6 +12,7 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.Level;
+import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.common.data.Planet;
 import org.exodusstudio.stellaris.common.data.PlanetsData;
 import org.exodusstudio.stellaris.common.data.space_station.SpaceStationRecipe;
@@ -61,8 +62,12 @@ public record TeleportToPlanetPacket(Planet destination, Optional<BlockPos> pos,
             TeleportUtil.teleportRocketToPlanet(player, level, rocket, destPos, false);
             player.stellaris$setPlanetMenuOpen(false, player, true);
 
-            if (data.recipe().isPresent() && planet.allowSpaceStation()) {
-                Utils.placeSpaceStation(player, level, data.recipe().get());
+            if (data.recipe().isPresent()) {
+                if (planet.allowSpaceStation()) {
+                    Utils.placeSpaceStation(player, level, data.recipe().get());
+                } else {
+                    Stellaris.LOG.warn("{} asked for a space station on {}, which does not allow them", player.getGameProfile().name(), planet.dimension());
+                }
             }
 
             Utils.stopFade(player);

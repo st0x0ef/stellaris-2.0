@@ -3,6 +3,7 @@ package org.exodusstudio.stellaris.common.utils;
 import dev.architectury.networking.NetworkManager;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.ARGB;
@@ -13,12 +14,15 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructurePlaceSettings;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
+import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.client.overlays.FadingHolder;
 import org.exodusstudio.stellaris.common.antennas.Antenna;
+import org.exodusstudio.stellaris.common.antennas.AntennaSavedData;
 import org.exodusstudio.stellaris.common.blocks.entities.AntennaBlockEntity;
 import org.exodusstudio.stellaris.common.data.space_station.SpaceStationRecipe;
 import org.exodusstudio.stellaris.common.network.packets.StartFadePacket;
@@ -26,10 +30,14 @@ import org.exodusstudio.stellaris.common.registries.BlocksRegistry;
 import org.exodusstudio.stellaris.common.registries.EntityTypesRegistry;
 import org.exodusstudio.stellaris.common.registries.ItemsRegistry;
 import org.exodusstudio.stellaris.common.registries.TagsRegistry;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import java.util.Random;
 import java.util.Set;
+import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 
 public class Utils {
@@ -226,11 +234,25 @@ public class Utils {
         return !level.getEntities(EntityTypesRegistry.ROCKET.get(), new AABB(pos).inflate(distance, distance + 2, distance), entity -> true).isEmpty();
     }
 
+    @Nullable
     public static BlockPos placeSpaceStation(Player player, ServerLevel serverLevel, SpaceStationRecipe recipe) {
-        StructureTemplate structureTemplate = serverLevel.getStructureManager().getOrCreate(recipe.structureId());
+        // getOrCreate() silently hands back an empty template when the structure is missing, and caches it
+        // for the rest of the session, so the build would fail forever without a word. Fail loudly instead.
+        Optional<StructureTemplate> template = serverLevel.getStructureManager().get(recipe.structureId());
+        if (template.isEmpty()) {
+            Stellaris.LOG.error("Cannot build space station: structure {} was not found", recipe.structureId());
+            return null;
+        }
+
+        StructureTemplate structureTemplate = template.get();
         BlockPos pos = new BlockPos((int) player.getX() - (structureTemplate.getSize().getX() / 2), 100, (int) player.getZ() - (structureTemplate.getSize().getZ() / 2));
 
-        structureTemplate.placeInWorld(serverLevel, pos, pos, new StructurePlaceSettings(), serverLevel.getRandom(), 2);
+        if (!structureTemplate.placeInWorld(serverLevel, pos, pos, new StructurePlaceSettings(), serverLevel.getRandom(), 2)) {
+            Stellaris.LOG.error("Cannot build space station: placing {} at {} in {} failed", recipe.structureId(), pos, serverLevel.dimension().identifier());
+            return null;
+        }
+
+        Stellaris.LOG.info("Built space station {} at {} in {} for {}", recipe.structureId(), pos, serverLevel.dimension().identifier(), player.getGameProfile().name());
 
         Antenna antenna = new Antenna(
                 null, //Will change after
@@ -246,15 +268,25 @@ public class Utils {
 
     public static BlockPos placeAntennaBlock(BlockPos initialPos, ServerLevel serverLevel, SpaceStationRecipe recipe, Antenna antenna) {
         BlockPos pos = initialPos.offset(recipe.antenna_position());
-        AntennaBlockEntity antennaBlockEntity = new AntennaBlockEntity(pos, BlocksRegistry.ANTENNA.block().get().defaultBlockState());
+        BlockState antennaState = BlocksRegistry.ANTENNA.block().get().defaultBlockState();
+        AntennaBlockEntity antennaBlockEntity = new AntennaBlockEntity(pos, antennaState);
 
         antenna.blockPos = pos;
-        antennaBlockEntity.setAntenna(antenna, null, false);
 
-        serverLevel.setBlock(pos, BlocksRegistry.ANTENNA.block().get().defaultBlockState(), 1);
+        serverLevel.setBlock(pos, antennaState, 3);
         serverLevel.setBlockEntity(antennaBlockEntity);
 
+        registerAntenna(serverLevel.getServer(), antennaBlockEntity, antenna);
+
         return pos;
+    }
+
+    private static void registerAntenna(MinecraftServer server, AntennaBlockEntity blockEntity, Antenna antenna) {
+        AntennaSavedData savedData = AntennaSavedData.getSavedAntennas(server);
+        Map.Entry<UUID, Antenna> existing = savedData.getAntenna(antenna);
+
+        blockEntity.launchPadId = existing != null ? existing.getKey() : savedData.addAntenna(antenna);
+        blockEntity.setChanged();
     }
 
 }

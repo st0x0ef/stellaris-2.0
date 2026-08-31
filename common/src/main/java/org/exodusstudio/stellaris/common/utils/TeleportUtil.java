@@ -15,13 +15,15 @@ public class TeleportUtil {
 
 
     public static void teleportRocketToPlanet(@Nullable Entity entity, ServerLevel planet, RocketEntity rocket, BlockPos destPos, boolean autopilot) {
-        LanderEntity landerEntity = createLander(rocket, planet, destPos.getCenter(), autopilot);
+        Vec3 arrivalPos = new Vec3(destPos.getX() + 0.5, Stellaris.CONFIG.vehicleConfig.rocketTpHeight, destPos.getZ() + 0.5);
+
+        LanderEntity landerEntity = createLander(rocket, planet, arrivalPos, autopilot);
         rocket.discard();
 
         landerEntity.setNoGravity(true);
         if (entity != null) {
-            TeleportUtil.teleportToLevel(entity, planet, new Vec3(destPos.getX(), Stellaris.CONFIG.vehicleConfig.rocketTpHeight, destPos.getZ()));
-            entity.startRiding(landerEntity);
+            TeleportUtil.teleportToLevel(entity, planet, arrivalPos);
+            entity.startRiding(landerEntity, true, false);
         }
         landerEntity.setNoGravity(false);
     }
