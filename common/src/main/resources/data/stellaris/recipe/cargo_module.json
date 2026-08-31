@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "DTD",
+    "TCT",
+    "DTD"
+  ],
+  "key": {
+    "D": "stellaris:desh_ingot",
+    "T": "stellaris:titanium_ingot",
+    "C": "minecraft:chest"
+  },
+  "result": {"id": "stellaris:cargo_module"}
+}
