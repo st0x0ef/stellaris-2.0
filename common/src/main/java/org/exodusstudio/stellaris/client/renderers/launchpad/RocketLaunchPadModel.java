@@ -6,7 +6,6 @@ import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
-import net.minecraft.client.renderer.blockentity.state.BlockEntityRenderState;
 import net.minecraft.client.renderer.rendertype.RenderType;
 import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.resources.Identifier;
@@ -16,7 +15,7 @@ import org.joml.Vector3fc;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
-public class RocketLaunchPadModel extends Model<BlockEntityRenderState> {
+public class RocketLaunchPadModel extends Model<RocketLaunchPadRenderState> {
     public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(IdentifierUtils.id("rocket_launch_pad"), "main");
 
 
@@ -56,6 +55,14 @@ public class RocketLaunchPadModel extends Model<BlockEntityRenderState> {
         this.EdgePlatform = this.Platform.getChild("EdgePlatform");
         this.CenterPlatform = this.Platform.getChild("CenterPlatform");
         this.antenna = root.getChild("antenna");
+    }
+
+    @Override
+    public void setupAnim(RocketLaunchPadRenderState state) {
+        setBaseVisible(true);
+        setTowersVisible(state.towers);
+        setAntennaVisible(state.antenna);
+        setBarsAngle(state.barAngle);
     }
 
     public void setTowersVisible(boolean visible) {

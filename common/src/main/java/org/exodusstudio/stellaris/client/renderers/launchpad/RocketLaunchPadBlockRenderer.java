@@ -2,12 +2,11 @@ package org.exodusstudio.stellaris.client.renderers.launchpad;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
-import net.minecraft.client.renderer.blockentity.state.BlockEntityRenderState;
+import net.minecraft.client.renderer.feature.ModelFeatureRenderer;
 import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.client.renderer.state.level.CameraRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
@@ -15,17 +14,17 @@ import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.client.resources.model.sprite.SpriteGetter;
 import net.minecraft.client.resources.model.sprite.SpriteId;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
-import org.exodusstudio.stellaris.common.blocks.GravityManipulatorBlock;
 import org.exodusstudio.stellaris.common.blocks.RocketLaunchPadBlock;
 import org.exodusstudio.stellaris.common.blocks.entities.RocketLaunchPadBlockEntity;
 import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
+import org.jspecify.annotations.Nullable;
 
-public class RocketLaunchPadBlockRenderer<T extends RocketLaunchPadBlockEntity> implements BlockEntityRenderer<T, BlockEntityRenderState> {
+public class RocketLaunchPadBlockRenderer<T extends RocketLaunchPadBlockEntity> implements BlockEntityRenderer<T, RocketLaunchPadRenderState> {
     public static final Identifier TEXTURE = IdentifierUtils.texture("block/rocket_launch_pad");
 
     private final RocketLaunchPadModel model;
@@ -42,33 +41,35 @@ public class RocketLaunchPadBlockRenderer<T extends RocketLaunchPadBlockEntity> 
     }
 
     @Override
-    public void submit(BlockEntityRenderState renderState, PoseStack poseStack, SubmitNodeCollector nodeCollector, CameraRenderState cameraRenderState) {
-        if (Minecraft.getInstance().level != null && Minecraft.getInstance().level.getBlockEntity(renderState.blockPos) instanceof  RocketLaunchPadBlockEntity rocketLaunchPadBlockEntity) {
-            Direction direction = rocketLaunchPadBlockEntity.getBlockState().getValue(GravityManipulatorBlock.FACING);
+    public void extractRenderState(T blockEntity, RocketLaunchPadRenderState renderState, float partialTicks, Vec3 cameraPosition, ModelFeatureRenderer.@Nullable CrumblingOverlay breakProgress) {
+        BlockEntityRenderer.super.extractRenderState(blockEntity, renderState, partialTicks, cameraPosition, breakProgress);
 
-            boolean towers = rocketLaunchPadBlockEntity.getBlockState().getValue(RocketLaunchPadBlock.TOWERS);
-            boolean antenna = rocketLaunchPadBlockEntity.getBlockState().getValue(RocketLaunchPadBlock.ANTENNA);
+        BlockState state = blockEntity.getBlockState();
 
-
-            model.setTowersVisible(towers);
-            model.setBaseVisible(true);
-            model.setAntennaVisible(antenna);
-            model.setBarsAngle(rocketLaunchPadBlockEntity.getBarAngle());
-
-            poseStack.pushPose();
-
-            poseStack.translate(0.5D, 1.625D, 0.5D);
-            poseStack.scale(-1.0F, -1.0F, 1.0F);
-            poseStack.mulPose(Axis.YP.rotationDegrees(direction.toYRot()));
-
-            nodeCollector.submitModelPart(this.model.root(), poseStack, material.renderType(RenderTypes::entityCutout), renderState.lightCoords, OverlayTexture.NO_OVERLAY, sprites.get(material));
-            poseStack.popPose();
-        }
+        renderState.facing = state.getValue(RocketLaunchPadBlock.FACING);
+        renderState.towers = state.getValue(RocketLaunchPadBlock.TOWERS);
+        renderState.antenna = state.getValue(RocketLaunchPadBlock.ANTENNA);
+        renderState.barAngle = blockEntity.getBarAngle();
     }
 
     @Override
-    public BlockEntityRenderState createRenderState() {
-        return new BlockEntityRenderState();
+    public void submit(RocketLaunchPadRenderState renderState, PoseStack poseStack, SubmitNodeCollector nodeCollector, CameraRenderState cameraRenderState) {
+        poseStack.pushPose();
+
+        poseStack.translate(0.5D, 1.625D, 0.5D);
+        poseStack.scale(-1.0F, -1.0F, 1.0F);
+        poseStack.mulPose(Axis.YP.rotationDegrees(renderState.facing.toYRot()));
+
+        nodeCollector.submitModel(this.model, renderState, poseStack,
+                material.renderType(RenderTypes::entityCutout), renderState.lightCoords,
+                OverlayTexture.NO_OVERLAY, -1, sprites.get(material), 0, null);
+
+        poseStack.popPose();
+    }
+
+    @Override
+    public RocketLaunchPadRenderState createRenderState() {
+        return new RocketLaunchPadRenderState();
     }
 
     @Override

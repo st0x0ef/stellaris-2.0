@@ -15,6 +15,13 @@ import java.util.function.Consumer;
 
 public record RocketLaunchPadItemRenderer(Identifier texture, RocketLaunchPadModel model, boolean towers) implements NoDataSpecialModelRenderer {
 
+    public RocketLaunchPadItemRenderer {
+        // Fixed for the lifetime of this renderer, so set it up here rather than in submit(): the
+        // node collector draws the model later and would otherwise see whatever was written last.
+        model.setTowersVisible(towers);
+        model.setBaseVisible(!towers);
+    }
+
     @Override
     public void submit(PoseStack poseStack, SubmitNodeCollector nodeCollector, int packedLight, int packedOverlay, boolean hasFoil, int outlineColor) {
         poseStack.pushPose();
@@ -26,9 +33,6 @@ public record RocketLaunchPadItemRenderer(Identifier texture, RocketLaunchPadMod
             poseStack.translate(0.5D, 1D, 0.5D);
             poseStack.scale(-0.45F, -0.45F, 0.45F);
         }
-
-        this.model.setTowersVisible(this.towers);
-        this.model.setBaseVisible(!this.towers);
 
         nodeCollector.submitModelPart(this.model.root(), poseStack, RenderTypes.entityCutoutCull(RocketLaunchPadBlockRenderer.TEXTURE), packedLight, packedOverlay, null);
         poseStack.popPose();
