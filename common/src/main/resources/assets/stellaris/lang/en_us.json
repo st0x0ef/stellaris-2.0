@@ -346,6 +346,7 @@
   "gui.stellaris.launchpad_creator.name": "Antenna Name",
   "gui.stellaris.launchpad_creator.public_checkbox": "Make this antenna public (allows anyone to use this launch pad)",
 
+  "gui.stellaris.oxygen_distributor.status.breathable_atmosphere": "Atmosphere already breathable",
   "gui.stellaris.oxygen_distributor.status.no_energy": "No energy",
   "gui.stellaris.oxygen_distributor.status.no_oxygen": "No oxygen",
   "gui.stellaris.oxygen_distributor.status.not_enough_oxygen": "Not enough oxygen",

@@ -44,6 +44,7 @@ public class TagsRegistry {
         public static final TagKey<Block> ANTENNA_REPLACEABLES = addTag("antenna_replaceable");
         public static final TagKey<Block> ALIEN_CROPS = addTag("alien_crops");
         public static final TagKey<Block> NO_OXYGEN_CROP_BASE = addTag("no_oxygen_crop_base");
+        public static final TagKey<Block> OXYGEN_PERMEABLE = addTag("oxygen_permeable");
 
         public static TagKey<Block> addTag(String path) {
             return TagKey.create(Registries.BLOCK, IdentifierUtils.id(path));

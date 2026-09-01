@@ -13,6 +13,7 @@ import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.chunk.LevelChunk;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.phys.AABB;
@@ -45,6 +46,9 @@ public class OxygenUtils {
     /// Bounds the propagator chain so a long line of them cannot grow the allowed area forever.
     private static final int MAX_ALLOWED_CHUNKS = 1024;
 
+    /// Marks a column with nothing above it to hold oxygen in.
+    private static final int NO_SEAL = Integer.MIN_VALUE;
+
     /// Distributors that are currently loaded, per dimension. `isOxygenated` runs on every entity
     /// tick as well as on fire ticks, crop ticks and block placement, so it must not scan chunks.
     private static final Map<ResourceKey<Level>, Set<OxygenDistributorBlockEntity>> ACTIVE_DISTRIBUTORS =
@@ -54,6 +58,7 @@ public class OxygenUtils {
     /// every failure otherwise looks the same from the outside: the block simply goes dark.
     public enum OxygenStatus {
         OK,
+        BREATHABLE_ATMOSPHERE,
         NO_ENERGY,
         NO_OXYGEN,
         NOT_ENOUGH_OXYGEN,
@@ -189,6 +194,7 @@ public class OxygenUtils {
         Set<BlockPos> oxygenablePositions = new HashSet<>();
         Set<BlockPos> visited = new HashSet<>();
         Queue<BlockPos> queue = new ArrayDeque<>();
+        Map<Long, Integer> lowestSealAbove = new HashMap<>();
 
         int minChunkX = Integer.MAX_VALUE;
         int maxChunkX = Integer.MIN_VALUE;
@@ -196,49 +202,60 @@ public class OxygenUtils {
         int maxChunkZ = Integer.MIN_VALUE;
 
         visited.add(distributorPos);
-        for (Direction direction : Direction.values()) {
-            BlockPos adjacent = distributorPos.relative(direction);
-            if (!visited.add(adjacent) || !isBreathable(level, adjacent)) {
-                continue;
-            }
-            if (!area.allowedChunks().contains(ChunkPos.containing(adjacent))) {
-                return OxygenResult.failure(OxygenStatus.ROOM_TOO_LARGE);
-            }
-            queue.add(adjacent);
-        }
+        queue.add(distributorPos);
 
         while (!queue.isEmpty()) {
-            BlockPos current = queue.poll().immutable();
+            BlockPos current = queue.poll();
 
-            if (isOpenToSky(level, current)) {
-                return OxygenResult.failure(OxygenStatus.SKY_LEAK);
-            }
+            if (!current.equals(distributorPos)) {
+                if (isOpenToSky(level, current, lowestSealAbove)) {
+                    return OxygenResult.failure(OxygenStatus.SKY_LEAK);
+                }
 
-            oxygenablePositions.add(current);
-            if (oxygenablePositions.size() > MAX_BLOCKS) {
-                return OxygenResult.failure(OxygenStatus.TOO_MANY_BLOCKS);
-            }
+                oxygenablePositions.add(current);
+                if (oxygenablePositions.size() > MAX_BLOCKS) {
+                    return OxygenResult.failure(OxygenStatus.TOO_MANY_BLOCKS);
+                }
 
-            ChunkPos currentChunk = ChunkPos.containing(current);
-            if (!area.propagatorChunks().contains(currentChunk)) {
-                minChunkX = Math.min(minChunkX, currentChunk.x());
-                maxChunkX = Math.max(maxChunkX, currentChunk.x());
-                minChunkZ = Math.min(minChunkZ, currentChunk.z());
-                maxChunkZ = Math.max(maxChunkZ, currentChunk.z());
+                ChunkPos currentChunk = ChunkPos.containing(current);
+                if (!area.propagatorChunks().contains(currentChunk)) {
+                    minChunkX = Math.min(minChunkX, currentChunk.x());
+                    maxChunkX = Math.max(maxChunkX, currentChunk.x());
+                    minChunkZ = Math.min(minChunkZ, currentChunk.z());
+                    maxChunkZ = Math.max(maxChunkZ, currentChunk.z());
 
-                if (maxChunkX - minChunkX > MAX_ROOM_CHUNK_SPAN || maxChunkZ - minChunkZ > MAX_ROOM_CHUNK_SPAN) {
-                    return OxygenResult.failure(OxygenStatus.ROOM_TOO_LARGE);
+                    if (maxChunkX - minChunkX > MAX_ROOM_CHUNK_SPAN || maxChunkZ - minChunkZ > MAX_ROOM_CHUNK_SPAN) {
+                        return OxygenResult.failure(OxygenStatus.ROOM_TOO_LARGE);
+                    }
                 }
             }
 
             for (Direction direction : Direction.values()) {
                 BlockPos neighbor = current.relative(direction);
-                if (!visited.add(neighbor) || !isBreathable(level, neighbor)) {
+                if (!visited.add(neighbor)) {
                     continue;
                 }
-                if (!area.allowedChunks().contains(ChunkPos.containing(neighbor))) {
+
+                Cell cell = classify(level, neighbor);
+                if (cell == Cell.WALL) {
+                    continue;
+                }
+
+                boolean allowed = area.allowedChunks().contains(ChunkPos.containing(neighbor));
+                if (cell == Cell.OCCUPIABLE_SEAL) {
+                    if (allowed) {
+                        oxygenablePositions.add(neighbor);
+                        if (oxygenablePositions.size() > MAX_BLOCKS) {
+                            return OxygenResult.failure(OxygenStatus.TOO_MANY_BLOCKS);
+                        }
+                    }
+                    continue;
+                }
+
+                if (!allowed) {
                     return OxygenResult.failure(OxygenStatus.ROOM_TOO_LARGE);
                 }
+
                 queue.add(neighbor);
             }
         }
@@ -246,31 +263,80 @@ public class OxygenUtils {
         return new OxygenResult(oxygenablePositions, OxygenStatus.OK);
     }
 
-    private static boolean isBreathable(Level level, BlockPos pos) {
+    private enum Cell {
+        OPEN,
+        OCCUPIABLE_SEAL,
+        WALL
+    }
+
+    private static Cell classify(Level level, BlockPos pos) {
         if (level.isOutsideBuildHeight(pos)
                 || !level.hasChunk(SectionPos.blockToSectionCoord(pos.getX()), SectionPos.blockToSectionCoord(pos.getZ()))) {
+            return Cell.WALL;
+        }
+
+        BlockState state = level.getBlockState(pos);
+        if (!sealsRoom(state)) {
+            return Cell.OPEN;
+        }
+
+        return state.blocksMotion() ? Cell.WALL : Cell.OCCUPIABLE_SEAL;
+    }
+
+    private static boolean sealsRoom(BlockState state) {
+        if (state.isAir()) {
             return false;
         }
 
-        // A block seals if it blocks motion, which is the same test the MOTION_BLOCKING heightmap
-        // uses below - so a wall the fill cannot cross also raises the height it is compared to.
-        // Fullness of the collision box is the wrong question: a slab is not a full cube, so the
-        // fill used to walk into a slab floor, run sideways underneath the walls and surface
-        // outside the room, where the first block of open air reported a sky leak.
-        BlockState state = level.getBlockState(pos);
-        return !state.blocksMotion();
+        if (state.is(TagsRegistry.BlockTags.OXYGEN_PERMEABLE)) {
+            return !state.getOptionalValue(BlockStateProperties.OPEN).orElse(true);
+        }
+
+        return true;
     }
 
-    private static boolean isOpenToSky(Level level, BlockPos pos) {
+    private static boolean isOpenToSky(Level level, BlockPos pos, Map<Long, Integer> lowestSealAbove) {
         LevelChunk chunk = level.getChunk(SectionPos.blockToSectionCoord(pos.getX()),
                 SectionPos.blockToSectionCoord(pos.getZ()));
 
-        return pos.getY() > chunk.getHeight(Heightmap.Types.MOTION_BLOCKING, pos.getX(), pos.getZ());
+        int height = chunk.getHeight(Heightmap.Types.MOTION_BLOCKING, pos.getX(), pos.getZ());
+        if (pos.getY() <= height) {
+            return false;
+        }
+
+        int seal = lowestSealAbove.computeIfAbsent(BlockPos.asLong(pos.getX(), 0, pos.getZ()),
+                key -> findSealAbove(level, chunk, pos.getX(), height, pos.getZ()));
+        if (seal == NO_SEAL) {
+            return true;
+        }
+        if (pos.getY() < seal) {
+            return false;
+        }
+
+        return findSealAbove(level, chunk, pos.getX(), pos.getY(), pos.getZ()) == NO_SEAL;
+    }
+
+    private static int findSealAbove(Level level, LevelChunk chunk, int x, int fromY, int z) {
+        BlockPos.MutableBlockPos cursor = new BlockPos.MutableBlockPos();
+
+        for (int y = fromY + 1; y <= level.getMaxY(); y++) {
+            if (sealsRoom(chunk.getBlockState(cursor.set(x, y, z)))) {
+                return y;
+            }
+        }
+
+        return NO_SEAL;
+    }
+
+    /// True when the dimension's own air is breathable, so a distributor has nothing to do there.
+    /// An unknown dimension counts as breathable: nothing tracks its oxygen either way.
+    public static boolean hasBreathableAtmosphere(Level level) {
+        Planet planet = PlanetsData.getPlanet(level.dimension());
+        return planet == null || planet.hasOxygen();
     }
 
     public static boolean isOxygenated(Level level, BlockPos entityPos) {
-        Planet planet = PlanetsData.getPlanet(level.dimension());
-        if (planet == null || planet.hasOxygen()) {
+        if (hasBreathableAtmosphere(level)) {
             return true;
         }
 

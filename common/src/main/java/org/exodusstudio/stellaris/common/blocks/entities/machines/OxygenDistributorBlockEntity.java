@@ -111,7 +111,9 @@ public class OxygenDistributorBlockEntity extends BaseEnergyContainerBlockEntity
 
         OxygenUtils.OxygenStatus newStatus;
 
-        if (energyContainer.getEnergy() <= 0) {
+        if (OxygenUtils.hasBreathableAtmosphere(level)) {
+            newStatus = OxygenUtils.OxygenStatus.BREATHABLE_ATMOSPHERE;
+        } else if (energyContainer.getEnergy() <= 0) {
             newStatus = OxygenUtils.OxygenStatus.NO_ENERGY;
         } else if (oxygenTank.isEmpty()) {
             newStatus = OxygenUtils.OxygenStatus.NO_OXYGEN;
