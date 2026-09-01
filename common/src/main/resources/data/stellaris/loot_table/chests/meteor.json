@@ -37,7 +37,7 @@
         {
           "type": "minecraft:item",
           "name": "minecraft:obsidian",
-          "weight": 20,
+          "weight": 5,
           "functions": [
             {
               "function": "minecraft:set_count",
@@ -53,14 +53,14 @@
         {
           "type": "minecraft:item",
           "name": "minecraft:iron_ingot",
-          "weight": 40,
+          "weight": 5,
           "functions": [
             {
               "function": "minecraft:set_count",
               "count": {
                 "type": "minecraft:uniform",
-                "min": 1,
-                "max": 4
+                "min": 4,
+                "max": 12
               },
               "add": false
             }
@@ -69,14 +69,14 @@
         {
           "type": "minecraft:item",
           "name": "stellaris:titanium_ingot",
-          "weight": 40,
+          "weight": 5,
           "functions": [
             {
               "function": "minecraft:set_count",
               "count": {
                 "type": "minecraft:uniform",
-                "min": 2,
-                "max": 8
+                "min": 4,
+                "max": 12
               }
             }
           ]
@@ -84,7 +84,7 @@
         {
           "type": "minecraft:item",
           "name": "stellaris:titanium_nugget",
-          "weight": 20,
+          "weight": 4,
           "functions": [
             {
               "function": "minecraft:set_count",
@@ -100,7 +100,7 @@
         {
           "type": "minecraft:item",
           "name": "minecraft:iron_nugget",
-          "weight": 20,
+          "weight": 4,
           "functions": [
             {
               "function": "minecraft:set_count",
@@ -115,25 +115,25 @@
         },
         {
           "type": "minecraft:item",
-          "name": "minecraft:raw_gold",
-          "weight": 40
+          "name": "minecraft:gold_ingot",
+          "weight": 5
         },
         {
           "type": "minecraft:item",
           "name": "minecraft:fire_charge",
-          "weight": 40
+          "weight": 4
         },
         {
           "type": "minecraft:item",
           "name": "minecraft:gold_nugget",
-          "weight": 20,
+          "weight": 5,
           "functions": [
             {
               "function": "minecraft:set_count",
               "count": {
                 "type": "minecraft:uniform",
-                "min": 4,
-                "max": 24
+                "min": 9,
+                "max": 18
               },
               "add": false
             }
@@ -142,7 +142,7 @@
         {
           "type": "minecraft:item",
           "name": "stellaris:titanium_sword",
-          "weight": 15,
+          "weight": 3,
           "functions": [
             {
               "function": "minecraft:enchant_randomly",
@@ -158,7 +158,7 @@
         {
           "type": "minecraft:item",
           "name": "stellaris:titanium_axe",
-          "weight": 15,
+          "weight": 3,
           "functions": [
             {
               "function": "minecraft:enchant_randomly",
@@ -174,7 +174,7 @@
         {
           "type": "minecraft:item",
           "name": "stellaris:titanium_hoe",
-          "weight": 15,
+          "weight": 3,
           "functions": [
             {
               "function": "minecraft:enchant_randomly",
@@ -190,7 +190,7 @@
         {
           "type": "minecraft:item",
           "name": "stellaris:titanium_shovel",
-          "weight": 15,
+          "weight": 3,
           "functions": [
             {
               "function": "minecraft:enchant_randomly",
@@ -206,71 +206,7 @@
         {
           "type": "minecraft:item",
           "name": "stellaris:titanium_pickaxe",
-          "weight": 15,
-          "functions": [
-            {
-              "function": "minecraft:enchant_randomly",
-              "conditions": [
-                {
-                  "condition": "minecraft:random_chance",
-                  "chance": 0.1
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "type": "minecraft:item",
-          "name": "minecraft:iron_boots",
-          "weight": 15,
-          "functions": [
-            {
-              "function": "minecraft:enchant_randomly",
-              "conditions": [
-                {
-                  "condition": "minecraft:random_chance",
-                  "chance": 0.1
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "type": "minecraft:item",
-          "name": "minecraft:iron_chestplate",
-          "weight": 15,
-          "functions": [
-            {
-              "function": "minecraft:enchant_randomly",
-              "conditions": [
-                {
-                  "condition": "minecraft:random_chance",
-                  "chance": 0.1
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "type": "minecraft:item",
-          "name": "minecraft:iron_helmet",
-          "weight": 15,
-          "functions": [
-            {
-              "function": "minecraft:enchant_randomly",
-              "conditions": [
-                {
-                  "condition": "minecraft:random_chance",
-                  "chance": 0.1
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "type": "minecraft:item",
-          "name": "minecraft:golden_leggings",
-          "weight": 15,
+          "weight": 3,
           "functions": [
             {
               "function": "minecraft:enchant_randomly",
@@ -286,14 +222,14 @@
         {
           "type": "minecraft:item",
           "name": "minecraft:glistering_melon_slice",
-          "weight": 5,
+          "weight": 2,
           "functions": [
             {
               "function": "minecraft:set_count",
               "count": {
                 "type": "minecraft:uniform",
                 "min": 4,
-                "max": 12
+                "max": 8
               },
               "add": false
             }
@@ -302,12 +238,7 @@
         {
           "type": "minecraft:item",
           "name": "minecraft:golden_horse_armor",
-          "weight": 5
-        },
-        {
-          "type": "minecraft:item",
-          "name": "minecraft:light_weighted_pressure_plate",
-          "weight": 5
+          "weight": 2
         },
         {
           "type": "minecraft:item",
@@ -319,22 +250,6 @@
               "count": {
                 "type": "minecraft:uniform",
                 "min": 4,
-                "max": 12
-              },
-              "add": false
-            }
-          ]
-        },
-        {
-          "type": "minecraft:item",
-          "name": "minecraft:flint",
-          "weight": 5,
-          "functions": [
-            {
-              "function": "minecraft:set_count",
-              "count": {
-                "type": "minecraft:uniform",
-                "min": 2,
                 "max": 8
               },
               "add": false
@@ -343,25 +258,30 @@
         },
         {
           "type": "minecraft:item",
-          "name": "minecraft:bell",
+          "name": "minecraft:flint_and_steel",
           "weight": 5
+        },
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:bell",
+          "weight": 2
         },
         {
           "type": "minecraft:item",
           "name": "minecraft:enchanted_golden_apple",
-          "weight": 5
+          "weight": 4
         },
         {
           "type": "minecraft:item",
           "name": "stellaris:titanium_block",
-          "weight": 5,
+          "weight": 3,
           "functions": [
             {
               "function": "minecraft:set_count",
               "count": {
                 "type": "minecraft:uniform",
                 "min": 1,
-                "max": 2
+                "max": 4
               },
               "add": false
             }
@@ -384,18 +304,8 @@
         },
         {
           "type": "minecraft:item",
-          "name": "stellaris:skin_military",
-          "weight": 3
-        },
-        {
-          "type": "minecraft:item",
-          "name": "stellaris:skin_frost",
-          "weight": 3
-        },
-        {
-          "type": "minecraft:item",
           "name": "stellaris:sd_card",
-          "weight": 4,
+          "weight": 1,
           "functions": [
             {
               "function": "minecraft:set_components",
@@ -408,7 +318,7 @@
         {
           "type": "minecraft:item",
           "name": "stellaris:sd_card",
-          "weight": 4,
+          "weight": 1,
           "functions": [
             {
               "function": "minecraft:set_components",
@@ -421,7 +331,7 @@
         {
           "type": "minecraft:item",
           "name": "stellaris:sd_card",
-          "weight": 4,
+          "weight": 1,
           "functions": [
             {
               "function": "minecraft:set_components",
