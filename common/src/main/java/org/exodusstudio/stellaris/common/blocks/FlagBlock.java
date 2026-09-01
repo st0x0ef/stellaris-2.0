@@ -179,28 +179,35 @@ public class FlagBlock extends BaseEntityBlock implements SimpleWaterloggedBlock
 
     @Override
     protected void affectNeighborsAfterRemoval(BlockState state, ServerLevel level, BlockPos pos, boolean movedByPiston) {
-        BlockPos immutable = pos.immutable();
+        removeProxyBlocks(level, pos, state.getValue(FACING));
+        super.affectNeighborsAfterRemoval(state, level, pos, movedByPiston);
+    }
+
+    /**
+     * Removes every proxy that still points back at {@code mainPos}. Guarded by {@link #CLEANING_UP} so
+     * the proxies removed here don't try to tear the flag down again.
+     */
+    static void removeProxyBlocks(Level level, BlockPos mainPos, Direction facing) {
+        BlockPos immutable = mainPos.immutable();
         CLEANING_UP.add(immutable);
         try {
             for (int offset = 1; offset <= 2; offset++) {
-                BlockPos proxyPos = pos.above(offset);
+                BlockPos proxyPos = immutable.above(offset);
                 BlockState proxyState = level.getBlockState(proxyPos);
                 if (proxyState.getBlock() instanceof FlagProxyBlock
-                        && FlagProxyBlock.getMainPos(proxyPos, proxyState).equals(pos)) {
+                        && FlagProxyBlock.getMainPos(proxyPos, proxyState).equals(immutable)) {
                     level.removeBlock(proxyPos, false);
                 }
             }
-            Direction facing = state.getValue(FACING);
-            BlockPos lateralProxyPos = pos.above(2).relative(facing.getClockWise());
+            BlockPos lateralProxyPos = immutable.above(2).relative(facing.getClockWise());
             BlockState lateralState = level.getBlockState(lateralProxyPos);
             if (lateralState.getBlock() instanceof FlagProxyBlock
-                    && FlagProxyBlock.getMainPos(lateralProxyPos, lateralState).equals(pos)) {
+                    && FlagProxyBlock.getMainPos(lateralProxyPos, lateralState).equals(immutable)) {
                 level.removeBlock(lateralProxyPos, false);
             }
         } finally {
             CLEANING_UP.remove(immutable);
         }
-        super.affectNeighborsAfterRemoval(state, level, pos, movedByPiston);
     }
 
     @Override

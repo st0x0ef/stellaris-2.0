@@ -3,6 +3,7 @@ package org.exodusstudio.stellaris.common.blocks;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.BlockGetter;
@@ -72,6 +73,22 @@ public class BlenderProxyBlock extends Block implements MultiblockProxyBlock {
         }
 
         return super.playerWillDestroy(level, pos, state, player);
+    }
+
+    /**
+     * Runs for every removal of the proxy, not just player breaks: explosions, {@code /setblock}, other
+     * mods. {@link #playerWillDestroy} only covers the player case, so without this the proxy could
+     * disappear and leave the blender standing.
+     */
+    @Override
+    protected void affectNeighborsAfterRemoval(BlockState state, ServerLevel level, BlockPos pos, boolean movedByPiston) {
+        BlockPos mainPos = getMainPos(pos);
+
+        if (!BlenderBlock.isCleaningUpMain(mainPos) && level.getBlockState(mainPos).getBlock() instanceof BlenderBlock) {
+            level.destroyBlock(mainPos, true);
+        }
+
+        super.affectNeighborsAfterRemoval(state, level, pos, movedByPiston);
     }
 
     @Override

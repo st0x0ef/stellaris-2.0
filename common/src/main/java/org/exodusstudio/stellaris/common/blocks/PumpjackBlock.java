@@ -183,7 +183,11 @@ public class PumpjackBlock extends BaseLitMachineBlock {
         }
     }
 
-    private static void removeProxyBlocks(Level level, BlockPos origin, Direction facing) {
+    /**
+     * Removes every proxy that still points back at {@code origin}. Guarded by
+     * {@link #CLEANING_UP_MAINS} so the proxies removed here don't try to tear the pumpjack down again.
+     */
+    static void removeProxyBlocks(Level level, BlockPos origin, Direction facing) {
         BlockPos immutableOrigin = origin.immutable();
         CLEANING_UP_MAINS.add(immutableOrigin);
 

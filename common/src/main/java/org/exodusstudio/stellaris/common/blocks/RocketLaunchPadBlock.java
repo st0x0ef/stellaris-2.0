@@ -132,7 +132,7 @@ public class RocketLaunchPadBlock extends BaseEntityBlock  {
         }
     }
 
-    private static void removeProxyBlocks(Level level, BlockPos origin, Direction facing) {
+    static void removeProxyBlocks(Level level, BlockPos origin, Direction facing) {
         BlockPos immutableOrigin = origin.immutable();
         CLEANING_UP_MAINS.add(immutableOrigin);
 

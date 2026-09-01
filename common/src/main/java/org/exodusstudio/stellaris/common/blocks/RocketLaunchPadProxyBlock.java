@@ -3,6 +3,7 @@ package org.exodusstudio.stellaris.common.blocks;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -109,6 +110,21 @@ public class RocketLaunchPadProxyBlock extends Block implements MultiblockProxyB
         }
 
         return super.playerWillDestroy(level, pos, state, player);
+    }
+
+    @Override
+    protected void affectNeighborsAfterRemoval(BlockState state, ServerLevel level, BlockPos pos, boolean movedByPiston) {
+        BlockPos mainPos = getMainPos(pos, state);
+
+        if (!RocketLaunchPadBlock.isCleaningUpMain(mainPos)) {
+            if (level.getBlockState(mainPos).getBlock() instanceof RocketLaunchPadBlock) {
+                level.destroyBlock(mainPos, true);
+            } else {
+                RocketLaunchPadBlock.removeProxyBlocks(level, mainPos, state.getValue(FACING));
+            }
+        }
+
+        super.affectNeighborsAfterRemoval(state, level, pos, movedByPiston);
     }
 
     @Override

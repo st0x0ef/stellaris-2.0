@@ -128,7 +128,11 @@ public class BlenderBlock extends BaseMachineBlock {
         return CLEANING_UP_MAINS.contains(mainPos);
     }
 
-    private static void removeProxyBlock(Level level, BlockPos mainPos) {
+    /**
+     * Removes the proxy if it still points back at {@code mainPos}. Guarded by
+     * {@link #CLEANING_UP_MAINS} so the proxy removed here doesn't try to tear the blender down again.
+     */
+    static void removeProxyBlock(Level level, BlockPos mainPos) {
         BlockPos immutableMain = mainPos.immutable();
         CLEANING_UP_MAINS.add(immutableMain);
 

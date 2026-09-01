@@ -3,6 +3,7 @@ package org.exodusstudio.stellaris.common.blocks;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
@@ -79,6 +80,27 @@ public class PumpjackProxyBlock extends Block implements MultiblockProxyBlock {
         return super.playerWillDestroy(level, pos, state, player);
     }
 
+
+    /**
+     * Runs for every removal of a proxy, not just player breaks: explosions, {@code /setblock}, other
+     * mods. {@link #playerWillDestroy} only covers the player case, so without this a proxy could
+     * disappear and leave the pumpjack and its remaining proxies standing.
+     */
+    @Override
+    protected void affectNeighborsAfterRemoval(BlockState state, ServerLevel level, BlockPos pos, boolean movedByPiston) {
+        BlockPos mainPos = getMainPos(pos, state);
+
+        if (!PumpjackBlock.isCleaningUpMain(mainPos)) {
+            if (level.getBlockState(mainPos).getBlock() instanceof PumpjackBlock) {
+                level.destroyBlock(mainPos, true);
+            } else {
+                // The pumpjack is already gone, so nothing else will ever clean these up: sweep the leftovers.
+                PumpjackBlock.removeProxyBlocks(level, mainPos, state.getValue(FACING));
+            }
+        }
+
+        super.affectNeighborsAfterRemoval(state, level, pos, movedByPiston);
+    }
 
     @Override
     protected @NotNull VoxelShape getCollisionShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {

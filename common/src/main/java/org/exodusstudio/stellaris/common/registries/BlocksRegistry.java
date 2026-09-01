@@ -178,10 +178,10 @@ public final class BlocksRegistry {
     // FOOD PROCESSING
     public static final BlockItemRegistrySupplier VACUUMATOR = blockWithItem("vacuumator", BlockBehaviour.Properties.of().strength(3.0F), VacuumatorBlock::new);
 
-    public static final BlockItemRegistrySupplier BLENDER = blockWithItem("blender", BlockBehaviour.Properties.of().strength(3.0F).noOcclusion(), BlenderBlock::new);
+    public static final BlockItemRegistrySupplier BLENDER = blockWithItem("blender", BlockBehaviour.Properties.of().strength(3.0F).noOcclusion().pushReaction(PushReaction.BLOCK), BlenderBlock::new);
     public static final RegistrySupplier<Block> BLENDER_PROXY = block(
             "blender_proxy",
-            BlockBehaviour.Properties.of().strength(3.0F).noOcclusion().noLootTable()
+            BlockBehaviour.Properties.of().strength(3.0F).noOcclusion().noLootTable().pushReaction(PushReaction.BLOCK)
                     .isSuffocating(BlocksRegistry::never).isViewBlocking(BlocksRegistry::never),
             BlenderProxyBlock::new
     );
@@ -200,13 +200,13 @@ public final class BlocksRegistry {
     public static final BlockItemRegistrySupplier ELECTRIC_LIGHT = blockWithItem("electric_light", BlockBehaviour.Properties.of().strength(3.0F).lightLevel(ElectricLightBlock::lightEmission), ElectricLightBlock::new);
     public static final BlockItemRegistrySupplier PUMPJACK = blockWithItem(
             "pumpjack",
-            BlockBehaviour.Properties.of().strength(3.0F).noOcclusion().isSuffocating(BlocksRegistry::never).isViewBlocking(BlocksRegistry::never),
+            BlockBehaviour.Properties.of().strength(3.0F).noOcclusion().pushReaction(PushReaction.BLOCK).isSuffocating(BlocksRegistry::never).isViewBlocking(BlocksRegistry::never),
             PumpjackBlock::new,
             new Item.Properties()
     );
     public static final RegistrySupplier<Block> PUMPJACK_PROXY = block(
             "pumpjack_proxy",
-            BlockBehaviour.Properties.of().strength(3.0F).noOcclusion().isSuffocating(BlocksRegistry::never).isViewBlocking(BlocksRegistry::never),
+            BlockBehaviour.Properties.of().strength(3.0F).noOcclusion().noLootTable().pushReaction(PushReaction.BLOCK).isSuffocating(BlocksRegistry::never).isViewBlocking(BlocksRegistry::never),
             PumpjackProxyBlock::new
     );
     public static final BlockItemRegistrySupplier FUEL_REFINERY = blockWithItem("fuel_refinery", BlockBehaviour.Properties.of().strength(3.0F), FuelRefineryBlock::new, new Item.Properties());
@@ -218,11 +218,13 @@ public final class BlocksRegistry {
 
     // ROCKET
     public static final BlockItemRegistrySupplier ENGINEERING_STATION = blockWithCustomItem("engineering_station", BlockBehaviour.Properties.of().strength(3.0F).noOcclusion(), EngineeringStationBlock::new, new Item.Properties(), BlockItem::new);
-    public static final BlockItemRegistrySupplier ROCKET_LAUNCH_PAD = blockWithCustomItem("rocket_launch_pad", BlockBehaviour.Properties.of().strength(3.0F).noOcclusion(), RocketLaunchPadBlock::new, new Item.Properties(), BlockItem::new);
+    public static final BlockItemRegistrySupplier ROCKET_LAUNCH_PAD = blockWithCustomItem("rocket_launch_pad", BlockBehaviour.Properties.of().strength(3.0F).noOcclusion().pushReaction(PushReaction.BLOCK), RocketLaunchPadBlock::new, new Item.Properties(), BlockItem::new);
     public static final RegistrySupplier<Block> ROCKET_LAUNCH_PAD_PROXY = block(
             "rocket_launch_pad_proxy",
             BlockBehaviour.Properties.of().strength(3.0F)
                     .noOcclusion()
+                    .noLootTable()
+                    .pushReaction(PushReaction.BLOCK)
                     .isSuffocating(BlocksRegistry::never)
                     .isViewBlocking(BlocksRegistry::never),
             RocketLaunchPadProxyBlock::new
@@ -257,6 +259,7 @@ public final class BlocksRegistry {
             "flag",
             BlockBehaviour.Properties.of()
                     .noOcclusion()
+                    .pushReaction(PushReaction.BLOCK)
                     .isSuffocating(BlocksRegistry::never)
                     .isViewBlocking(BlocksRegistry::never)
                     .strength(2.5F),
@@ -267,6 +270,8 @@ public final class BlocksRegistry {
             "flag_proxy",
             BlockBehaviour.Properties.of()
                     .noOcclusion()
+                    .noLootTable()
+                    .pushReaction(PushReaction.BLOCK)
                     .isSuffocating(BlocksRegistry::never)
                     .isViewBlocking(BlocksRegistry::never)
                     .strength(2.5F),

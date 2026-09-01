@@ -3,6 +3,7 @@ package org.exodusstudio.stellaris.common.blocks;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
@@ -129,6 +130,27 @@ public class FlagProxyBlock extends Block implements MultiblockProxyBlock {
             }
         }
         return super.playerWillDestroy(level, pos, state, player);
+    }
+
+    /**
+     * Runs for every removal of a proxy, not just player breaks: explosions, {@code /setblock}, other
+     * mods. {@link #playerWillDestroy} only covers the player case, so without this a proxy could
+     * disappear and leave the flag and its remaining proxies standing.
+     */
+    @Override
+    protected void affectNeighborsAfterRemoval(BlockState state, ServerLevel level, BlockPos pos, boolean movedByPiston) {
+        BlockPos mainPos = getMainPos(pos, state);
+
+        if (!FlagBlock.isCleaningUp(mainPos)) {
+            if (level.getBlockState(mainPos).getBlock() instanceof FlagBlock) {
+                level.destroyBlock(mainPos, true);
+            } else {
+                // The flag is already gone, so nothing else will ever clean these up: sweep the leftovers.
+                FlagBlock.removeProxyBlocks(level, mainPos, state.getValue(FACING));
+            }
+        }
+
+        super.affectNeighborsAfterRemoval(state, level, pos, movedByPiston);
     }
 
     @Override
