@@ -1,45 +1,72 @@
 {
   "pools": [
     {
-      "rolls": {
-        "min": 2,
-        "max": 6
-      },
+      "rolls": 1,
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "stellaris:desh_ingot",
-          "weight": 4,
-          "functions": [
-            {
-              "function": "minecraft:set_count",
-              "count": {
-                "type": "minecraft:uniform",
-                "min": 1,
-                "max": 3
-              }
-            }
-          ]
+          "name": "stellaris:hydrogen_motor",
+          "weight": 10
         },
         {
           "type": "minecraft:item",
-          "name": "stellaris:space_suit_oxygen_module_tier_2",
-          "weight": 2
+          "name": "stellaris:autopilot_module",
+          "weight": 8
         },
         {
           "type": "minecraft:item",
-          "name": "stellaris:space_suit_oil_finder_module_tier_2",
-          "weight": 2
+          "name": "stellaris:shield_module",
+          "weight": 8
         },
         {
           "type": "minecraft:item",
-          "name": "stellaris:space_suit_damage_protection_module_tier_2",
-          "weight": 2
+          "name": "stellaris:cargo_module",
+          "weight": 7
         },
         {
           "type": "minecraft:item",
-          "name": "minecraft:emerald",
-          "weight": 4,
+          "name": "stellaris:rover_hydrogen_motor",
+          "weight": 6
+        },
+        {
+          "type": "minecraft:item",
+          "name": "stellaris:space_suit_damage_protection_module_tier_3",
+          "weight": 6
+        },
+        {
+          "type": "minecraft:item",
+          "name": "stellaris:space_suit_oxygen_module_tier_3",
+          "weight": 6
+        },
+        {
+          "type": "minecraft:item",
+          "name": "stellaris:space_suit_jet_module_tier_3",
+          "weight": 5
+        },
+        {
+          "type": "minecraft:item",
+          "name": "stellaris:space_suit_hydrogen_tank_module_tier_3",
+          "weight": 5
+        },
+        {
+          "type": "minecraft:item",
+          "name": "stellaris:space_suit_diesel_tank_module_tier_3",
+          "weight": 5
+        },
+        {
+          "type": "minecraft:item",
+          "name": "stellaris:space_suit_oil_finder_module_tier_3",
+          "weight": 5
+        },
+        {
+          "type": "minecraft:item",
+          "name": "stellaris:space_suit_night_vision_module",
+          "weight": 6
+        },
+        {
+          "type": "minecraft:item",
+          "name": "stellaris:blue_plasma",
+          "weight": 8,
           "functions": [
             {
               "function": "minecraft:set_count",
@@ -53,24 +80,340 @@
         },
         {
           "type": "minecraft:item",
-          "name": "minecraft:netherite_scrap",
-          "weight": 2
+          "name": "minecraft:totem_of_undying",
+          "weight": 6
+        },
+        {
+          "type": "minecraft:item",
+          "name": "stellaris:small_rocket_model",
+          "weight": 4
+        },
+        {
+          "type": "minecraft:item",
+          "name": "stellaris:skin_galaxy",
+          "weight": 3
+        },
+        {
+          "type": "minecraft:item",
+          "name": "stellaris:skin_frost",
+          "weight": 3
+        },
+        {
+          "type": "minecraft:item",
+          "name": "stellaris:skin_military",
+          "weight": 3
+        }
+      ]
+    },
+    {
+      "rolls": {
+        "min": 3,
+        "max": 5
+      },
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "stellaris:titanium_ingot",
+          "weight": 20,
+          "functions": [
+            {
+              "function": "minecraft:set_count",
+              "count": {
+                "type": "minecraft:uniform",
+                "min": 8,
+                "max": 20
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "stellaris:desh_ingot",
+          "weight": 18,
+          "functions": [
+            {
+              "function": "minecraft:set_count",
+              "count": {
+                "type": "minecraft:uniform",
+                "min": 6,
+                "max": 16
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "stellaris:silicon",
+          "weight": 16,
+          "functions": [
+            {
+              "function": "minecraft:set_count",
+              "count": {
+                "type": "minecraft:uniform",
+                "min": 6,
+                "max": 16
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:copper_ingot",
+          "weight": 14,
+          "functions": [
+            {
+              "function": "minecraft:set_count",
+              "count": {
+                "type": "minecraft:uniform",
+                "min": 12,
+                "max": 32
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:iron_block",
+          "weight": 12,
+          "functions": [
+            {
+              "function": "minecraft:set_count",
+              "count": {
+                "type": "minecraft:uniform",
+                "min": 2,
+                "max": 6
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:redstone_block",
+          "weight": 12,
+          "functions": [
+            {
+              "function": "minecraft:set_count",
+              "count": {
+                "type": "minecraft:uniform",
+                "min": 2,
+                "max": 6
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:coal_block",
+          "weight": 12,
+          "functions": [
+            {
+              "function": "minecraft:set_count",
+              "count": {
+                "type": "minecraft:uniform",
+                "min": 2,
+                "max": 6
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:diamond",
+          "weight": 12,
+          "functions": [
+            {
+              "function": "minecraft:set_count",
+              "count": {
+                "type": "minecraft:uniform",
+                "min": 4,
+                "max": 12
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:emerald",
+          "weight": 12,
+          "functions": [
+            {
+              "function": "minecraft:set_count",
+              "count": {
+                "type": "minecraft:uniform",
+                "min": 8,
+                "max": 24
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:glass",
+          "weight": 10,
+          "functions": [
+            {
+              "function": "minecraft:set_count",
+              "count": {
+                "type": "minecraft:uniform",
+                "min": 16,
+                "max": 32
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "stellaris:moon_desh_ore",
+          "weight": 10,
+          "functions": [
+            {
+              "function": "minecraft:set_count",
+              "count": {
+                "type": "minecraft:uniform",
+                "min": 4,
+                "max": 10
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "stellaris:titanium_block",
+          "weight": 8,
+          "functions": [
+            {
+              "function": "minecraft:set_count",
+              "count": {
+                "type": "minecraft:uniform",
+                "min": 1,
+                "max": 4
+              }
+            }
+          ]
         },
         {
           "type": "minecraft:item",
           "name": "minecraft:diamond_block",
-          "weight": 2
-        },
-        {
-          "type": "minecraft:item",
-          "name": "stellaris:moon_sand",
-          "weight": 10,
+          "weight": 6,
           "functions": [
             {
               "function": "minecraft:set_count",
               "count": {
                 "type": "minecraft:uniform",
                 "min": 1,
+                "max": 3
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "stellaris:desh_block",
+          "weight": 6,
+          "functions": [
+            {
+              "function": "minecraft:set_count",
+              "count": {
+                "type": "minecraft:uniform",
+                "min": 1,
+                "max": 3
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:netherite_scrap",
+          "weight": 6,
+          "functions": [
+            {
+              "function": "minecraft:set_count",
+              "count": {
+                "type": "minecraft:uniform",
+                "min": 1,
+                "max": 3
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:netherite_ingot",
+          "weight": 3,
+          "functions": [
+            {
+              "function": "minecraft:set_count",
+              "count": {
+                "type": "minecraft:uniform",
+                "min": 1,
+                "max": 2
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "rolls": {
+        "min": 1,
+        "max": 2
+      },
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "stellaris:space_suit_helmet",
+          "weight": 10
+        },
+        {
+          "type": "minecraft:item",
+          "name": "stellaris:space_suit_chestplate",
+          "weight": 10
+        },
+        {
+          "type": "minecraft:item",
+          "name": "stellaris:space_suit_leggings",
+          "weight": 10
+        },
+        {
+          "type": "minecraft:item",
+          "name": "stellaris:space_suit_boots",
+          "weight": 10
+        },
+        {
+          "type": "minecraft:item",
+          "name": "stellaris:space_suit_oxygen_module_tier_2",
+          "weight": 8
+        },
+        {
+          "type": "minecraft:item",
+          "name": "stellaris:space_suit_oil_finder_module_tier_2",
+          "weight": 8
+        },
+        {
+          "type": "minecraft:item",
+          "name": "stellaris:space_suit_damage_protection_module_tier_2",
+          "weight": 8
+        },
+        {
+          "type": "minecraft:item",
+          "name": "stellaris:space_suit_jet_module_tier_2",
+          "weight": 8
+        },
+        {
+          "type": "minecraft:item",
+          "name": "stellaris:rocket_engine",
+          "weight": 8
+        },
+        {
+          "type": "minecraft:item",
+          "name": "stellaris:rocket_fin",
+          "weight": 8,
+          "functions": [
+            {
+              "function": "minecraft:set_count",
+              "count": {
+                "type": "minecraft:uniform",
+                "min": 2,
                 "max": 4
               }
             }
@@ -78,24 +421,188 @@
         },
         {
           "type": "minecraft:item",
-          "name": "stellaris:moon_stone",
-          "weight": 10,
+          "name": "stellaris:rocket_nose_cone",
+          "weight": 8
+        },
+        {
+          "type": "minecraft:item",
+          "name": "stellaris:engine_fan",
+          "weight": 8,
           "functions": [
             {
               "function": "minecraft:set_count",
               "count": {
                 "type": "minecraft:uniform",
                 "min": 1,
-                "max": 4
+                "max": 3
               }
             }
           ]
         },
         {
           "type": "minecraft:item",
-          "name": "stellaris:flag",
-          "weight": 15
+          "name": "stellaris:launch_pad_towers",
+          "weight": 6,
+          "functions": [
+            {
+              "function": "minecraft:set_count",
+              "count": {
+                "type": "minecraft:uniform",
+                "min": 1,
+                "max": 2
+              }
+            }
+          ]
         },
+        {
+          "type": "minecraft:item",
+          "name": "stellaris:oil_finder",
+          "weight": 8
+        },
+        {
+          "type": "minecraft:item",
+          "name": "stellaris:fluid_cell",
+          "weight": 8,
+          "functions": [
+            {
+              "function": "minecraft:set_count",
+              "count": {
+                "type": "minecraft:uniform",
+                "min": 1,
+                "max": 3
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "stellaris:rover_cargo_module",
+          "weight": 5
+        },
+        {
+          "type": "minecraft:item",
+          "name": "stellaris:rover_tank_module",
+          "weight": 5
+        },
+        {
+          "type": "minecraft:item",
+          "name": "stellaris:rover_speed_module",
+          "weight": 5
+        },
+        {
+          "type": "minecraft:item",
+          "name": "stellaris:tablet",
+          "weight": 5
+        },
+        {
+          "type": "minecraft:item",
+          "name": "stellaris:space_station_blueprint",
+          "weight": 4
+        },
+        {
+          "type": "minecraft:item",
+          "name": "stellaris:titanium_pickaxe",
+          "weight": 8,
+          "functions": [
+            {
+              "function": "minecraft:enchant_with_levels",
+              "levels": {
+                "type": "minecraft:uniform",
+                "min": 20,
+                "max": 39
+              },
+              "options": "#minecraft:on_random_loot"
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "stellaris:titanium_sword",
+          "weight": 8,
+          "functions": [
+            {
+              "function": "minecraft:enchant_with_levels",
+              "levels": {
+                "type": "minecraft:uniform",
+                "min": 20,
+                "max": 39
+              },
+              "options": "#minecraft:on_random_loot"
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "stellaris:titanium_axe",
+          "weight": 6,
+          "functions": [
+            {
+              "function": "minecraft:enchant_with_levels",
+              "levels": {
+                "type": "minecraft:uniform",
+                "min": 20,
+                "max": 39
+              },
+              "options": "#minecraft:on_random_loot"
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "stellaris:titanium_shovel",
+          "weight": 6,
+          "functions": [
+            {
+              "function": "minecraft:enchant_with_levels",
+              "levels": {
+                "type": "minecraft:uniform",
+                "min": 20,
+                "max": 39
+              },
+              "options": "#minecraft:on_random_loot"
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:diamond_pickaxe",
+          "weight": 6,
+          "functions": [
+            {
+              "function": "minecraft:enchant_with_levels",
+              "levels": {
+                "type": "minecraft:uniform",
+                "min": 20,
+                "max": 39
+              },
+              "options": "#minecraft:on_random_loot"
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:diamond_sword",
+          "weight": 6,
+          "functions": [
+            {
+              "function": "minecraft:enchant_with_levels",
+              "levels": {
+                "type": "minecraft:uniform",
+                "min": 20,
+                "max": 39
+              },
+              "options": "#minecraft:on_random_loot"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "rolls": {
+        "min": 2,
+        "max": 4
+      },
+      "entries": [
         {
           "type": "minecraft:item",
           "name": "stellaris:blue_can",
@@ -268,44 +775,14 @@
         },
         {
           "type": "minecraft:item",
-          "name": "minecraft:iron_ingot",
-          "weight": 20,
+          "name": "stellaris:moon_berries",
+          "weight": 12,
           "functions": [
             {
               "function": "minecraft:set_count",
               "count": {
                 "type": "minecraft:uniform",
-                "min": 2,
-                "max": 4
-              }
-            }
-          ]
-        },
-        {
-          "type": "minecraft:item",
-          "name": "stellaris:titanium_ingot",
-          "weight": 20,
-          "functions": [
-            {
-              "function": "minecraft:set_count",
-              "count": {
-                "type": "minecraft:uniform",
-                "min": 2,
-                "max": 4
-              }
-            }
-          ]
-        },
-        {
-          "type": "minecraft:item",
-          "name": "minecraft:coal",
-          "weight": 20,
-          "functions": [
-            {
-              "function": "minecraft:set_count",
-              "count": {
-                "type": "minecraft:uniform",
-                "min": 4,
+                "min": 8,
                 "max": 16
               }
             }
@@ -313,72 +790,58 @@
         },
         {
           "type": "minecraft:item",
-          "name": "minecraft:iron_sword",
+          "name": "stellaris:fuel_bucket",
+          "weight": 8
+        },
+        {
+          "type": "minecraft:item",
+          "name": "stellaris:diesel_bucket",
+          "weight": 8
+        },
+        {
+          "type": "minecraft:item",
+          "name": "stellaris:hydrogen_bucket",
+          "weight": 6
+        },
+        {
+          "type": "minecraft:item",
+          "name": "stellaris:oil_bucket",
+          "weight": 6
+        },
+        {
+          "type": "minecraft:item",
+          "name": "stellaris:lunar_crawler_spike_cluster",
           "weight": 10,
           "functions": [
             {
-              "function": "minecraft:enchant_randomly",
-              "conditions": [
-                {
-                  "condition": "minecraft:random_chance",
-                  "chance": 0.25
-                }
-              ]
+              "function": "minecraft:set_count",
+              "count": {
+                "type": "minecraft:uniform",
+                "min": 2,
+                "max": 6
+              }
             }
           ]
         },
         {
           "type": "minecraft:item",
-          "name": "minecraft:iron_axe",
+          "name": "stellaris:lunar_parasite_tooth",
           "weight": 10,
           "functions": [
             {
-              "function": "minecraft:enchant_randomly",
-              "conditions": [
-                {
-                  "condition": "minecraft:random_chance",
-                  "chance": 0.25
-                }
-              ]
+              "function": "minecraft:set_count",
+              "count": {
+                "type": "minecraft:uniform",
+                "min": 2,
+                "max": 6
+              }
             }
           ]
         },
         {
           "type": "minecraft:item",
-          "name": "minecraft:iron_hoe",
-          "weight": 10,
-          "functions": [
-            {
-              "function": "minecraft:enchant_randomly",
-              "conditions": [
-                {
-                  "condition": "minecraft:random_chance",
-                  "chance": 0.25
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "type": "minecraft:item",
-          "name": "minecraft:iron_shovel",
-          "weight": 10,
-          "functions": [
-            {
-              "function": "minecraft:enchant_randomly",
-              "conditions": [
-                {
-                  "condition": "minecraft:random_chance",
-                  "chance": 0.25
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "type": "minecraft:item",
-          "name": "minecraft:diamond",
-          "weight": 5,
+          "name": "stellaris:neural_fiber",
+          "weight": 8,
           "functions": [
             {
               "function": "minecraft:set_count",
@@ -392,60 +855,74 @@
         },
         {
           "type": "minecraft:item",
-          "name": "stellaris:space_suit_boots",
+          "name": "stellaris:neural_tissue",
+          "weight": 8,
+          "functions": [
+            {
+              "function": "minecraft:set_count",
+              "count": {
+                "type": "minecraft:uniform",
+                "min": 1,
+                "max": 4
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "stellaris:vaccine",
+          "weight": 6,
+          "functions": [
+            {
+              "function": "minecraft:set_count",
+              "count": {
+                "type": "minecraft:uniform",
+                "min": 1,
+                "max": 2
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "stellaris:moon_sand",
+          "weight": 10,
+          "functions": [
+            {
+              "function": "minecraft:set_count",
+              "count": {
+                "type": "minecraft:uniform",
+                "min": 8,
+                "max": 16
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "stellaris:moon_stone",
+          "weight": 10,
+          "functions": [
+            {
+              "function": "minecraft:set_count",
+              "count": {
+                "type": "minecraft:uniform",
+                "min": 8,
+                "max": 16
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "stellaris:flag",
           "weight": 10
-        },
-        {
-          "type": "minecraft:item",
-          "name": "stellaris:space_suit_leggings",
-          "weight": 10
-        },
-        {
-          "type": "minecraft:item",
-          "name": "stellaris:moon_desh_ore",
-          "weight": 10,
-          "functions": [
-            {
-              "function": "minecraft:set_count",
-              "count": {
-                "type": "minecraft:uniform",
-                "min": 1,
-                "max": 4
-              }
-            }
-          ]
-        },
-        {
-          "type": "minecraft:item",
-          "name": "stellaris:moon_berries",
-          "weight": 10,
-          "functions": [
-            {
-              "function": "minecraft:set_count",
-              "count": {
-                "type": "minecraft:uniform",
-                "min": 1,
-                "max": 4
-              }
-            }
-          ]
-        },
-        {
-          "type": "minecraft:item",
-          "name": "minecraft:glass",
-          "weight": 5,
-          "functions": [
-            {
-              "function": "minecraft:set_count",
-              "count": {
-                "type": "minecraft:uniform",
-                "min": 4,
-                "max": 8
-              },
-              "add": false
-            }
-          ]
-        },
+        }
+      ]
+    },
+    {
+      "rolls": 1,
+      "entries": [
         {
           "type": "minecraft:item",
           "name": "stellaris:sd_card",
@@ -471,6 +948,10 @@
               }
             }
           ]
+        },
+        {
+          "type": "minecraft:empty",
+          "weight": 6
         }
       ]
     }

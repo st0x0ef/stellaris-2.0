@@ -1,0 +1,16 @@
+{
+  "type": "stellaris:blending",
+  "ingredients": [
+    {
+      "ingredient": "stellaris:moon_stone_dust",
+      "count": 2
+    },
+    "#minecraft:coals"
+  ],
+  "result": {
+    "id": "stellaris:silicon",
+    "count": 2
+  },
+  "energy": 240,
+  "duration": 100
+}

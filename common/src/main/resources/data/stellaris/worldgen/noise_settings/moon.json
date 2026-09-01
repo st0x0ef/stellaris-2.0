@@ -247,6 +247,25 @@
             }
           }
         }
+      },
+      {
+        "type": "minecraft:condition",
+        "if_true": {
+          "type": "minecraft:vertical_gradient",
+          "false_at_and_above": {
+            "absolute": 0
+          },
+          "random_name": "stellaris:moon_deepslate",
+          "true_at_and_below": {
+            "absolute": -8
+          }
+        },
+        "then_run": {
+          "type": "minecraft:block",
+          "result_state": {
+            "Name": "stellaris:moon_deepslate"
+          }
+        }
       }
     ]
   }

@@ -1,7 +1,8 @@
 {
   "replace": false,
   "values": [
-    "stellaris:moon_stone"
+    "stellaris:moon_stone",
+    "stellaris:moon_deepslate"
   ]
 }
 
