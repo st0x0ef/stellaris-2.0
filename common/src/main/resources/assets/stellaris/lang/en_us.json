@@ -308,15 +308,12 @@
   "block.stellaris.blue_liquid": "Blue Liquid",
   "block.stellaris.astrum_liquidus": "Astrum Liquidus",
 
-  "biome.stellaris.red_desert": "Red Desert",
-  "biome.stellaris.ice_caps": "Ice Caps",
-  "biome.stellaris.mars_valleys": "Mars Valleys",
-  "biome.stellaris.velvet_forest": "Velvet Forest",
-  "biome.stellaris.mars_mountains": "Mars Mountains",
-  "biome.stellaris.green_sludge_lakes": "Green Sludge Lakes",
-  "biome.stellaris.green_cauldron_cave": "Green Cauldron Cave",
-  "biome.stellaris.tangled_ravine": "Tangled Ravine",
-  "biome.stellaris.green_forest": "Green Forest",
+  "biome.stellaris.burnt_forest": "Burnt Forest",
+  "biome.stellaris.lunar_blue_lake": "Lunar Blue Lake",
+  "biome.stellaris.lunar_desert": "Lunar Desert",
+  "biome.stellaris.lunar_forest": "Lunar Forest",
+  "biome.stellaris.moon_craters": "Moon Craters",
+  "biome.stellaris.space": "Space",
 
   "gauge_text.stellaris.max_generation": "Max Generation : %s Fe/tick",
 
