@@ -129,7 +129,6 @@ public class OxygenDistributorBlockEntity extends BaseEnergyContainerBlockEntity
 
                 if (livingEntitiesCount == 0) {
                     oxygenatedPosition.addAll(result.positions());
-                    energyContainer.extract(1, false);
                 } else if (oxygenTank.getFluidValueInTank() >= livingEntitiesCount) {
                     oxygenTank.drainWithoutLimits(livingEntitiesCount, false);
                     energyContainer.extract(1, false);
