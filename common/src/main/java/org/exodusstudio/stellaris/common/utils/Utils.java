@@ -3,6 +3,7 @@ package org.exodusstudio.stellaris.common.utils;
 import dev.architectury.networking.NetworkManager;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.Holder;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -19,11 +20,14 @@ import net.minecraft.world.level.levelgen.structure.templatesystem.StructurePlac
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
+import net.minecraft.world.timeline.Timeline;
 import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.client.overlays.FadingHolder;
 import org.exodusstudio.stellaris.common.antennas.Antenna;
 import org.exodusstudio.stellaris.common.antennas.AntennaSavedData;
 import org.exodusstudio.stellaris.common.blocks.entities.AntennaBlockEntity;
+import org.exodusstudio.stellaris.common.data.Planet;
+import org.exodusstudio.stellaris.common.data.Temperature;
 import org.exodusstudio.stellaris.common.data.space_station.SpaceStationRecipe;
 import org.exodusstudio.stellaris.common.network.packets.StartFadePacket;
 import org.exodusstudio.stellaris.common.registries.BlocksRegistry;
@@ -287,6 +291,24 @@ public class Utils {
 
         blockEntity.launchPadId = existing != null ? existing.getKey() : savedData.addAntenna(antenna);
         blockEntity.setChanged();
+    }
+
+    public static float getCurrentTemperature(Planet planet, Holder.Reference<Timeline> timelineReference, Level level)  {
+        Temperature temperature = planet.temperature().get();
+        Timeline timeline = timelineReference.value();
+        int minTemp = temperature.nightTimeTemperature();
+        int maxTemp = temperature.dayTimeTemperature();
+        int tempDiff = maxTemp - minTemp;
+        float time = timeline.getCurrentTicks(level.clockManager());
+        float halfDayDuration = timeline.periodTicks().get() / 2f;
+
+        if (time < halfDayDuration) {
+            return minTemp + (time / halfDayDuration) * tempDiff;
+        }
+
+        return maxTemp - (time / halfDayDuration - 1) * tempDiff;
+
+
     }
 
 }

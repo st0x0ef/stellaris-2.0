@@ -27,21 +27,7 @@ public class TemperatureOverlay {
             Planet planet = PlanetsData.getPlanet(level.dimension());
 
             if (planet != null && planet.temperature().isPresent() && timelineReference.isPresent()) {
-                Temperature temperature = planet.temperature().get();
-                Timeline timeline = timelineReference.get().value();
-                int minTemp = temperature.nightTimeTemperature();
-                int maxTemp = temperature.dayTimeTemperature();
-                int tempDiff = maxTemp - minTemp;
-                float time = timeline.getCurrentTicks(level.clockManager());
-                float halfDayDuration = timeline.periodTicks().get() / 2f;
-                float temp;
-
-                if (time < halfDayDuration) {
-                    temp = minTemp + (time / halfDayDuration) * tempDiff;
-                } else {
-                    temp = maxTemp - (time / halfDayDuration - 1) * tempDiff;
-                }
-
+                float temp = Utils.getCurrentTemperature(planet, timelineReference.get(), level);
                 String text = Math.round(temp) + " °C";
                 graphics.text(mc.font, text, graphics.guiWidth() - mc.font.width(text) - 4, graphics.guiHeight() - mc.font.lineHeight - 4, Utils.getMinecraftColor("white"));
             }
