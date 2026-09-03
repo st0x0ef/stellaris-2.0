@@ -13,4 +13,7 @@ public class ClientConfig {
     @ScreenInfos.Description(value = "config.stellaris.emissiveTextures.desc")
     public boolean emissiveTextures = true;
 
+    @ScreenInfos.Description(value = "config.stellaris.temperatureOverlay.desc")
+    public boolean temperatureOverlay = false;
+
 }

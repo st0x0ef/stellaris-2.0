@@ -8,6 +8,7 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.timeline.Timeline;
+import org.exodusstudio.stellaris.client.StellarisClient;
 import org.exodusstudio.stellaris.common.data.Planet;
 import org.exodusstudio.stellaris.common.data.PlanetsData;
 import org.exodusstudio.stellaris.common.data.Temperature;
@@ -21,7 +22,7 @@ public class TemperatureOverlay {
         Minecraft mc = Minecraft.getInstance();
         Level level = mc.level;
 
-        if (level != null && level.dimensionType().defaultClock().isPresent()) {
+        if (level != null && level.dimensionType().defaultClock().isPresent() && StellarisClient.CLIENT_CONFIG.temperatureOverlay) {
             Optional<Holder.Reference<Timeline>> timelineReference = level.registryAccess().get(ResourceKey.create(Registries.TIMELINE, level.dimension().identifier()));
             Planet planet = PlanetsData.getPlanet(level.dimension());
 

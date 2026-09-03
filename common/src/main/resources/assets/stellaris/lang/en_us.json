@@ -522,7 +522,8 @@
 
   "config.stellaris_client.emissiveTextures": "Show Emissive Textures",
   "config.stellaris_client.emissiveTextures.desc": "Show emissive textures on entities.",
-
+  "config.stellaris.temperatureOverlay.desc": "Show the current temperature",
+  "config.stellaris.temperatureOverlay": "Show Temperature Overlay",
 
   "effect.stellaris.infected": "Infected",
   "effect.stellaris.corrosion": "Corrosion",
