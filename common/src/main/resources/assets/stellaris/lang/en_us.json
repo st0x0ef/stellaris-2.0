@@ -118,14 +118,8 @@
 
   "item.stellaris.moon_berries": "Moon Berries",
 
-  "item.stellaris.mars_rock": "Mars Rock",
-  "item.stellaris.mars_regolith": "Mars Regolith",
-  "item.stellaris.mars_sand": "Mars Sand",
-  "item.stellaris.mars_ice": "Mars Ice",
-
   "item.stellaris.desh_block": "Desh Block",
   "item.stellaris.desh_slab": "Desh Slab",
-  "item.stellaris.rusted_iron": "Rusted Iron",
 
   "item.stellaris.solar_panel": "Solar Panel",
   "item.stellaris.star_light_panel": "Star Light Panel",
@@ -299,6 +293,20 @@
   "fluid.stellaris.water": "Water",
   "fluid.stellaris.blue_liquid": "Blue Liquid",
   "fluid.stellaris.astrum_liquidus": "Astrum Liquidus",
+
+  "block.stellaris.blender_proxy": "Blender",
+  "block.stellaris.flag_proxy": "Flag",
+  "block.stellaris.lunar_sign": "Lunar Sign",
+  "block.stellaris.lunar_wall_sign": "Lunar Wall Sign",
+  "block.stellaris.lunar_hanging_sign": "Lunar Hanging Sign",
+  "block.stellaris.lunar_wall_hanging_sign": "Lunar Wall Hanging Sign",
+  "block.stellaris.lunar_vines_plant": "Lunar Vines Plant",
+  "block.stellaris.moon_vines": "Moon Vines",
+  "block.stellaris.moon_vines_plant": "Moon Vines Plant",
+  "block.stellaris.pumpjack_proxy": "Pumpjack Proxy",
+  "block.stellaris.rocket_launch_pad_proxy": "Rocket Launch Pad",
+  "block.stellaris.space_farm": "Space Farm",
+  "block.stellaris.wall_coal_torch": "Wall Coal Torch",
 
   "block.stellaris.hydrogen_block": "Hydrogen",
   "block.stellaris.oxygen_block": "Oxygen",
