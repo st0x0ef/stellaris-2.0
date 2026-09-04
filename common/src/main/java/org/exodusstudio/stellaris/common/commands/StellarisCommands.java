@@ -25,11 +25,13 @@ import org.exodusstudio.stellaris.common.antennas.AntennaSavedData;
 import org.exodusstudio.stellaris.common.commands.arguments.PlanetArgument;
 import org.exodusstudio.stellaris.common.commands.helpers.ArgumentBuilder;
 import org.exodusstudio.stellaris.common.commands.helpers.CommandBuilder;
+import org.exodusstudio.stellaris.common.commands.helpers.CommandSourceWrapper;
 import org.exodusstudio.stellaris.common.data.Planet;
 import org.exodusstudio.stellaris.common.data.PlanetsData;
 import org.exodusstudio.stellaris.common.entities.vehicles.LanderEntity;
 import org.exodusstudio.stellaris.common.entities.vehicles.RocketEntity;
 import org.exodusstudio.stellaris.common.menus.MainTabletMenu;
+import org.exodusstudio.stellaris.common.network.packets.CountdownOverlayPacket;
 import org.exodusstudio.stellaris.common.network.packets.StartFadePacket;
 import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
 import org.exodusstudio.stellaris.common.utils.MoonLoreUtils;
@@ -49,6 +51,7 @@ public class StellarisCommands {
         testCommand(builder);
         adminCommand(builder);
         antennaCommands(builder);
+        countdownCommand(builder);
 
         infectionCommand(builder);
         builder.register();
@@ -290,6 +293,30 @@ public class StellarisCommands {
         builder.addSubCommand(baseAdmin);
     }
 
+
+    private void countdownCommand(CommandBuilder builder) {
+        CommandBuilder countdown = builder.createSubCommand("countdown");
+
+        countdown.addArgument(
+                ArgumentBuilder.of("number", IntegerArgumentType.integer(1, 10))
+                        .execute(wrapper -> setCountdown(wrapper, IntegerArgumentType.getInteger(wrapper.context(), "number")))
+        );
+
+        countdown.addSubCommand(
+                builder.createSubCommand("off").execute(wrapper -> setCountdown(wrapper, 0))
+        );
+
+        builder.addSubCommand(countdown);
+    }
+
+    private int setCountdown(CommandSourceWrapper wrapper, int number) {
+        if (!wrapper.runByPlayer()) {
+            return wrapper.failure();
+        }
+
+        NetworkManager.sendToPlayer(wrapper.getPlayer(), new CountdownOverlayPacket(number));
+        return wrapper.success();
+    }
 
     private void infectionCommand(CommandBuilder builder) {
         CommandBuilder infection = builder.createSubCommand("infection");

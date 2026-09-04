@@ -30,10 +30,30 @@ public class RocketTimerOverlay {
             TIMER_6, TIMER_7, TIMER_8, TIMER_9, TIMER_10
     };
 
+    /** Number shown by /stellaris countdown, 0 when the overlay is off. */
+    private static int countdownNumber = 0;
+
+    /**
+     * Shows the countdown overlay without a rocket, until it is hidden again.
+     *
+     * @param number the number to display, between 1 and 10, or 0 to hide the overlay
+     */
+    public static void showCountdown(int number) {
+        countdownNumber = (number >= 1 && number <= TIMER_TEXTURES.length) ? number : 0;
+    }
 
     public static void render(GuiGraphicsExtractor graphics, DeltaTracker deltaTracker) {
         Minecraft mc = Minecraft.getInstance();
         Player player = mc.player;
+
+        if (player == null) {
+            return;
+        }
+
+        if (countdownNumber > 0) {
+            blitTimer(graphics, TIMER_TEXTURES[countdownNumber - 1]);
+            return;
+        }
 
         if (player.getVehicle() instanceof RocketEntity) {
             Entity vehicle = Minecraft.getInstance().player.getVehicle();
@@ -48,43 +68,46 @@ public class RocketTimerOverlay {
                     return;
                 }
 
-                int timerWidth = graphics.guiWidth() / 2 - 31;
-                int timerHeight = graphics.guiHeight() / 2 / 2;
-
-
                 /** TIMER */
                 if (timer > -1 && timer < 20) {
-                    graphics.blit(RenderPipelines.GUI_TEXTURED, TIMER_10, timerWidth, timerHeight, 0, 0, 60, 38, 60, 38);
+                    blitTimer(graphics, TIMER_10);
                 }
                 else if (timer > 20 && timer < 40) {
-                    graphics.blit(RenderPipelines.GUI_TEXTURED, TIMER_9, timerWidth, timerHeight, 0, 0, 60, 38, 60, 38);
+                    blitTimer(graphics, TIMER_9);
                 }
                 else if (timer > 40 && timer < 60) {
-                    graphics.blit(RenderPipelines.GUI_TEXTURED, TIMER_8, timerWidth, timerHeight, 0, 0, 60, 38, 60, 38);
+                    blitTimer(graphics, TIMER_8);
                 }
                 else if (timer > 60 && timer < 80) {
-                    graphics.blit(RenderPipelines.GUI_TEXTURED, TIMER_7, timerWidth, timerHeight, 0, 0, 60, 38, 60, 38);
+                    blitTimer(graphics, TIMER_7);
                 }
                 else if (timer > 80 && timer < 100) {
-                    graphics.blit(RenderPipelines.GUI_TEXTURED, TIMER_6, timerWidth, timerHeight, 0, 0, 60, 38, 60, 38);
+                    blitTimer(graphics, TIMER_6);
                 }
                 else if (timer > 100 && timer < 120) {
-                    graphics.blit(RenderPipelines.GUI_TEXTURED, TIMER_5, timerWidth, timerHeight, 0, 0, 60, 38, 60, 38);
+                    blitTimer(graphics, TIMER_5);
                 }
                 else if (timer > 120 && timer < 140) {
-                    graphics.blit(RenderPipelines.GUI_TEXTURED, TIMER_4, timerWidth, timerHeight, 0, 0, 60, 38, 60, 38);
+                    blitTimer(graphics, TIMER_4);
                 }
                 else if (timer > 140 && timer < 160) {
-                    graphics.blit(RenderPipelines.GUI_TEXTURED, TIMER_3, timerWidth, timerHeight, 0, 0, 60, 38, 60, 38);
+                    blitTimer(graphics, TIMER_3);
                 }
                 else if (timer > 160 && timer < 180) {
-                    graphics.blit(RenderPipelines.GUI_TEXTURED, TIMER_2, timerWidth, timerHeight, 0, 0, 60, 38, 60, 38);
+                    blitTimer(graphics, TIMER_2);
                 }
                 else if (timer > 180 && timer < 200) {
-                    graphics.blit(RenderPipelines.GUI_TEXTURED,  TIMER_1, timerWidth, timerHeight, 0, 0, 60, 38, 60, 38);
+                    blitTimer(graphics, TIMER_1);
                 }
             }
 
         }
+    }
+
+    private static void blitTimer(GuiGraphicsExtractor graphics, Identifier texture) {
+        int timerWidth = graphics.guiWidth() / 2 - 31;
+        int timerHeight = graphics.guiHeight() / 2 / 2;
+
+        graphics.blit(RenderPipelines.GUI_TEXTURED, texture, timerWidth, timerHeight, 0, 0, 60, 38, 60, 38);
     }
 }
