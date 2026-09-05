@@ -13,7 +13,7 @@ Hoppers can still load the grid from any side but the bottom, and pull the resul
 
 The blender does not care where an item sits, or whether a stack is split up.
 
-One press blends everything the grid can manage at once : 6 quartz and 3 coal come out as 9 silicon in a single batch, for three times the energy and three times the time. A batch is only ever as big as the result slot has room for. The Blend button greys out when there is nothing to make, no power for it, or no room for the result. 
+One press blends everything the grid can manage at once : 6 quartz and 3 coal come out as 9 silicon in a single batch, for three times the energy and three times the time. A batch is only ever as big as the result slot has room for. The Blend button grays out when there is nothing to make, no power for it, or no room for the result. 
 
 Every crafting recipe that is not a shaped pattern can be made here, plus the blender's own recipes.
 
