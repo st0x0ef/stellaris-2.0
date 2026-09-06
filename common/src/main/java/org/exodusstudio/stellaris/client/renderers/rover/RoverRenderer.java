@@ -1,4 +1,4 @@
-package org.exodusstudio.stellaris.client.renderers.entity.vehicle.rover;
+package org.exodusstudio.stellaris.client.renderers.rover;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.renderer.SubmitNodeCollector;
@@ -17,7 +17,7 @@ import org.jetbrains.annotations.NotNull;
 
 public class RoverRenderer extends EntityRenderer<RoverEntity, RoverRenderState> {
 
-    public static final Identifier TEXTURE = IdentifierUtils.texture("entity/vehicle/rover");
+    public static final Identifier TEXTURE = IdentifierUtils.texture("entity/rover");
     public static final RenderType RENDER_TYPE = RenderTypes.entityCutout(TEXTURE);
     private final RoverModel model;
 
@@ -41,6 +41,8 @@ public class RoverRenderer extends EntityRenderer<RoverEntity, RoverRenderState>
         state.deltaMovement = entity.getDeltaMovement();
         state.direction = entity.getDirection();
         state.ageInTicks = entity.tickCount + partialTick;
+        state.hasCargoModule = entity.hasCargoModule();
+        state.roverModules = entity.getRoverModules();
     }
 
     @Override
@@ -52,6 +54,7 @@ public class RoverRenderer extends EntityRenderer<RoverEntity, RoverRenderState>
         poseStack.mulPose(com.mojang.math.Axis.YP.rotationDegrees(180.0F - renderState.yRot));
         poseStack.scale(-1.0F, -1.0F, 1.0F);
 
+        this.model.setupDefaultModules(renderState);
         this.model.setupAnim(renderState);
 
         nodeCollector.submitModelPart(this.model.root(), poseStack, RENDER_TYPE, renderState.lightCoords,

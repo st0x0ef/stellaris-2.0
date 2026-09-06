@@ -5,7 +5,7 @@ import net.minecraft.client.renderer.special.SpecialModelRenderer;
 import net.minecraft.client.renderer.special.SpecialModelRenderers;
 import net.minecraft.resources.Identifier;
 import net.minecraft.util.ExtraCodecs;
-import org.exodusstudio.stellaris.client.renderers.entity.vehicle.rover.RoverItemRenderer;
+import org.exodusstudio.stellaris.client.renderers.rover.RoverItemRenderer;
 import org.exodusstudio.stellaris.client.renderers.flag.FlagItemRenderer;
 import org.exodusstudio.stellaris.client.renderers.globe.GlobeItemRenderer;
 import org.exodusstudio.stellaris.client.renderers.gravity_manipulator.GravityManipulatorItemRenderer;

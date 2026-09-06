@@ -1,4 +1,4 @@
-package org.exodusstudio.stellaris.client.renderers.entity.vehicle.rover;
+package org.exodusstudio.stellaris.client.renderers.rover;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.serialization.MapCodec;
@@ -16,7 +16,7 @@ import java.util.function.Consumer;
 
 public record RoverItemRenderer(RoverModel model) implements SpecialModelRenderer<Void> {
 
-    private static final Identifier TEXTURE = IdentifierUtils.texture("entity/vehicle/rover");
+    private static final Identifier TEXTURE = IdentifierUtils.texture("entity/rover");
 
     @Override
     public void submit(@Nullable Void state, PoseStack poseStack, SubmitNodeCollector nodeCollector, int packedLight, int packedOverlay, boolean hasFoil, int outlineColor) {
@@ -31,6 +31,7 @@ public record RoverItemRenderer(RoverModel model) implements SpecialModelRendere
     public void getExtents(Consumer<Vector3fc> output) {
         PoseStack poseStack = new PoseStack();
         poseStack.translate(0.0D, 1.5D, 0.0D);
+
         model.root().getExtentsForGui(poseStack, output);
     }
 
