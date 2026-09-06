@@ -461,7 +461,7 @@ public class RocketEntity extends VehicleEntity implements FluidProvider.ENTITY 
 
 
                     this.setNoGravity(true);
-                    this.level().playSound(null, this.getOnPos(), SoundRegistry.WELCOME_TO_SPACE.get(), SoundSource.MUSIC);
+                    this.level().playSound(null, this.getOnPos(), SoundRegistry.WELCOME_TO_SPACE.get(), SoundSource.MUSIC, 0.5f, 1);
 
                 }, true);
             }
