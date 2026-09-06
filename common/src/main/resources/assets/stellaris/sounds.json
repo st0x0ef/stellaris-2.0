@@ -7,12 +7,21 @@
       }
     ]
   },
-    "boost": {
+  "boost": {
     "sounds": [
       {
         "name": "stellaris:boost",
         "stream": false
       }
     ]
+  },
+  "welcome_to_space": {
+    "sounds": [
+      {
+        "name": "stellaris:welcome_to_space",
+        "stream": true
+      }
+    ]
   }
+
 }
