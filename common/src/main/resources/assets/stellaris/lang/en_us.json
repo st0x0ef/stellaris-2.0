@@ -425,9 +425,6 @@
   "tooltip.item.stellaris.antenna": "Place this block under a rocket launch pad.",
   "tooltip.item.stellaris.space_station_blueprint": "Blueprint : ",
 
-  "config.stellaris.regenDimension.desc": "When selected, all the dimensions in the dimensionsToRegen will be regenerated.",
-  "config.stellaris.regenDimension": "Regenerate dimensions",
-  "config.stellaris.dimensionsToRegen": "Dimensions to Regenerate",
   "config.stellaris.parasiteConfig": "Parasite Settings",
   "config.stellaris.enableParasiteDrop": "Enable Parasite Drops in Blue Liquid",
   "config.stellaris.minDropIntervalTicks": "Minimum Ticks Before Dropping",
@@ -521,7 +518,6 @@
   "config.stellaris.fluidOutputConfig.showNeighborsBlock.desc": "Highlight neighbour blocks when configuring fluid output.",
   "config.stellaris.fluidOutputConfig.fluidsColors.desc": "Colors used to identify each fluid output side.",
 
-  "config.stellaris.admin": "Admin Settings",
 
   "config.stellaris_client.showOxygenDebug": "Show Oxygen Debug.",
   "config.stellaris_client.fluidOutputConfig": "Fluid Output Settings.",

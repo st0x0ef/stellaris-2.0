@@ -39,6 +39,8 @@
     "minecraft": ">=26.1",
     "java": ">=25",
     "architectury": ">=20.0.1",
-    "fabric-api": "*"
+    "fabric-api": "*",
+    "exoconfig": ">=0.3.5",
+    "potentials": "*"
   }
 }

@@ -2,8 +2,6 @@ package org.exodusstudio.stellaris.common.config;
 
 import fr.tathan.exoconfig.common.infos.ConfigInfos;
 import fr.tathan.exoconfig.common.infos.ScreenInfos;
-import net.minecraft.resources.Identifier;
-import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
 
 @ConfigInfos(modDisplayName = "Stellaris", name = "stellaris")
 public class CommonConfig {
@@ -147,17 +145,6 @@ public class CommonConfig {
     public static class AssistantConfig {
         @ScreenInfos.Description(value = "config.stellaris.assistantConfig.enableAssistant.desc")
         public boolean enableAssistant = true;
-    }
-
-    @ScreenInfos.InnerConfig
-    @ScreenInfos.Description(value = "The admin part of the config. Beware...", translate = false)
-    public Admin admin = new Admin();
-
-    public static class Admin {
-        @ScreenInfos.Description(value = "config.stellaris.regenDimension.desc")
-        public boolean regenDimension = false;
-        public Identifier[] dimensionsToRegen = new Identifier[]{IdentifierUtils.id("moon")};
-
     }
 
 }

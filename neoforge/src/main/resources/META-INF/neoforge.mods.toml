@@ -35,6 +35,20 @@ ordering = "AFTER"
 side = "BOTH"
 
 [[dependencies.stellaris]]
+modId = "exoconfig"
+type = "required"
+versionRange = "[0.3.5,)"
+ordering = "AFTER"
+side = "BOTH"
+
+[[dependencies.stellaris]]
+modId = "potentials"
+type = "required"
+versionRange = "[0.9.3,)"
+ordering = "AFTER"
+side = "BOTH"
+
+[[dependencies.stellaris]]
 modId = "jei"
 type = "optional"
 versionRange = "[29,)"
