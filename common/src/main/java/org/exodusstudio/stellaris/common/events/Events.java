@@ -34,6 +34,7 @@ import org.exodusstudio.stellaris.common.data.recipes.FuelRefineryRecipe;
 import org.exodusstudio.stellaris.common.data.recipes.RocketStationRecipe;
 import org.exodusstudio.stellaris.common.items.space_suit.SpaceSuitBoots;
 import org.exodusstudio.stellaris.common.items.space_suit.SpaceSuitHelmet;
+import org.exodusstudio.stellaris.common.keybinds.KeyVariables;
 import org.exodusstudio.stellaris.common.entities.mobs.starcrawlerboss.StarCrawlerBossDeathManager;
 import org.exodusstudio.stellaris.common.entities.mobs.starcrawlerboss.StarCrawlerBossIntroManager;
 import org.exodusstudio.stellaris.common.network.packets.BlenderSyncerPacket;
@@ -138,6 +139,7 @@ public class Events {
 
         TickEvent.PLAYER_POST.register(SpaceSuitBoots::tickJetFlight);
         PlayerEvent.PLAYER_QUIT.register(SpaceSuitBoots::clearJetFlight);
+        PlayerEvent.PLAYER_QUIT.register(KeyVariables::clearPlayer);
 
         EntityEvent.ENTER_SECTION.register((entity, sectionX, sectionY, sectionZ, prevX, prevY, prevZ) -> {
             if (entity instanceof Player player && (sectionX != prevX || sectionZ != prevZ)) {

@@ -60,4 +60,10 @@ public class KeyVariables {
             states.put(uuid, bool);
         }
     }
+
+    public static void clearPlayer(Player player) {
+        for (Map<UUID, Boolean> states : KEY_STATES.values()) {
+            states.remove(player.getUUID());
+        }
+    }
 }

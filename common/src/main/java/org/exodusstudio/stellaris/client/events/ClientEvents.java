@@ -1,6 +1,7 @@
 package org.exodusstudio.stellaris.client.events;
 
 import dev.architectury.event.EventResult;
+import dev.architectury.event.events.client.ClientPlayerEvent;
 import dev.architectury.event.events.client.ClientRawInputEvent;
 import dev.architectury.event.events.client.ClientTickEvent;
 import dev.architectury.networking.NetworkManager;
@@ -31,6 +32,12 @@ public class ClientEvents {
             });
             return EventResult.pass();
         }));
+
+        ClientPlayerEvent.CLIENT_PLAYER_QUIT.register(player -> {
+            if (player != null) {
+                KeyVariables.clearPlayer(player);
+            }
+        });
 
         ClientTickEvent.CLIENT_POST.register(minecraft -> {
             if (minecraft.player != null && minecraft.player.getVehicle() instanceof AbstractRoverBase rover && rover.getDriver() == minecraft.player) {
