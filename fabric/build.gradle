@@ -24,7 +24,7 @@ dependencies {
     implementation "com.fej1fun.potentials:potentials-fabric-$rootProject.minecraft_version:$rootProject.potentials_version"
     implementation "dev.architectury:architectury-fabric:$rootProject.architectury_api_version"
 
-    api "com.terraformersmc:modmenu:$rootProject.modmenu_version"
+    runtimeOnly "com.terraformersmc:modmenu:$rootProject.modmenu_version"
 
     compileOnly "mezz.jei:jei-$rootProject.minecraft_version-fabric-api:$rootProject.jei_version"
     runtimeOnly "mezz.jei:jei-$rootProject.minecraft_version-fabric:$rootProject.jei_version"

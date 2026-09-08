@@ -11,7 +11,7 @@ authors = "Exodus Studio"
 description = '''
 Stellaris introduces an expansive and immersive space exploration experience within the familiar Minecraft universe. Players can discover new planets, moon and galaxies !
 '''
-#logoFile = ""
+logoFile = "logo.png"
 
 [[dependencies.stellaris]]
 modId = "neoforge"
@@ -45,6 +45,13 @@ side = "BOTH"
 modId = "potentials"
 type = "required"
 versionRange = "[0.9.3,)"
+ordering = "AFTER"
+side = "BOTH"
+
+[[dependencies.stellaris]]
+modId = "sky_aesthetics"
+type = "required"
+versionRange = "[2.1.4,)"
 ordering = "AFTER"
 side = "BOTH"
 

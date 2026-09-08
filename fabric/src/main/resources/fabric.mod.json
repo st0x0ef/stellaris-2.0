@@ -12,6 +12,7 @@
     "sources": "https://github.com/FabricMC/fabric-example-mod"
   },
   "license": "MIT",
+  "icon": "logo.png",
   "environment": "*",
   "entrypoints": {
     "main": [
@@ -28,7 +29,9 @@
     ]
   },
   "suggests": {
-    "jade": "*"
+    "jade": "*",
+    "jei": "*",
+    "modmenu": "*"
   },
   "mixins": [
     "stellaris.mixins.json",
@@ -41,6 +44,7 @@
     "architectury": ">=20.0.1",
     "fabric-api": "*",
     "exoconfig": ">=0.3.5",
-    "potentials": "*"
+    "potentials": "*",
+    "sky_aesthetics": ">=2.1.4"
   }
 }
