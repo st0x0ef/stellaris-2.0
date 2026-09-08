@@ -286,13 +286,19 @@
 
 
   "fluid.stellaris.hydrogen": "Hydrogen",
+  "fluid.stellaris.flowing_hydrogen": "Hydrogen",
   "fluid.stellaris.oxygen": "Oxygen",
+  "fluid.stellaris.flowing_oxygen": "Oxygen",
   "fluid.stellaris.fuel": "Fuel",
+  "fluid.stellaris.flowing_fuel": "Fuel",
   "fluid.stellaris.oil": "Oil",
+  "fluid.stellaris.flowing_oil": "Oil",
   "fluid.stellaris.diesel": "Diesel",
-  "fluid.stellaris.water": "Water",
+  "fluid.stellaris.flowing_diesel": "Diesel",
   "fluid.stellaris.blue_liquid": "Blue Liquid",
+  "fluid.stellaris.flowing_blue_liquid": "Blue Liquid",
   "fluid.stellaris.astrum_liquidus": "Astrum Liquidus",
+  "fluid.stellaris.flowing_astrum_liquidus": "Astrum Liquidus",
 
   "block.stellaris.blender_proxy": "Blender",
   "block.stellaris.flag_proxy": "Flag",
