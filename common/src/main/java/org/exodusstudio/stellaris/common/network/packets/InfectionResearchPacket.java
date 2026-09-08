@@ -3,51 +3,80 @@ package org.exodusstudio.stellaris.common.network.packets;
 import dev.architectury.networking.NetworkManager;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.RegistryFriendlyByteBuf;
-import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.common.assistant.AssistantManager;
 import org.exodusstudio.stellaris.common.blocks.entities.machines.LaboratoryBlockEntity;
-import org.exodusstudio.stellaris.common.data.assistant.AssistantTrigger;
 import org.exodusstudio.stellaris.common.components.PathogenStorageComponent;
+import org.exodusstudio.stellaris.common.data.assistant.AssistantTrigger;
+import org.exodusstudio.stellaris.common.menus.laboratory.ResearchMenu;
 import org.exodusstudio.stellaris.common.registries.DataComponentsRegistry;
+import org.exodusstudio.stellaris.common.registries.ItemsRegistry;
 import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
 import org.exodusstudio.stellaris.common.utils.MoonLoreUtils;
 
-public record InfectionResearchPacket(BlockPos laboratoryPos, boolean success) implements CustomPacketPayload {
+public record InfectionResearchPacket(BlockPos laboratoryPos) implements CustomPacketPayload {
     public static final CustomPacketPayload.Type<InfectionResearchPacket> TYPE = new CustomPacketPayload.Type<>(IdentifierUtils.id("infection_research"));
 
     public static final StreamCodec<RegistryFriendlyByteBuf, InfectionResearchPacket> STREAM_CODEC = StreamCodec.composite(
             BlockPos.STREAM_CODEC, InfectionResearchPacket::laboratoryPos,
-            ByteBufCodecs.BOOL, InfectionResearchPacket::success,
             InfectionResearchPacket::new
     );
 
     public static void handle(InfectionResearchPacket data, NetworkManager.PacketContext context) {
-        Player player = context.getPlayer();
-        LaboratoryBlockEntity laboratory = (LaboratoryBlockEntity) player.level().getBlockEntity(data.laboratoryPos());
+        context.queue(() -> {
+            if (!(context.getPlayer() instanceof ServerPlayer player)) {
+                return;
+            }
 
-        if (laboratory != null) {
+            if (!(player.containerMenu instanceof ResearchMenu menu)
+                    || !menu.blockEntity.getBlockPos().equals(data.laboratoryPos())) {
+                return;
+            }
+
+            LaboratoryBlockEntity laboratory = menu.blockEntity;
+
+            if (laboratory.isRemoved()
+                    || laboratory.getLevel() != player.level()
+                    || !player.isWithinBlockInteractionRange(laboratory.getBlockPos(), 4.0F)) {
+                return;
+            }
+
+            if (laboratory.progressTickLeft > 0) {
+                return;
+            }
+
+            ItemStack storageCell = laboratory.getItem(0);
+            if (!storageCell.is(ItemsRegistry.PATHOGEN_STORAGE_CELL.get())) {
+                return;
+            }
+
+            int parasiteStored = storageCell
+                    .getOrDefault(DataComponentsRegistry.PATHOGEN_STORED.get(), PathogenStorageComponent.DEFAULT)
+                    .stored();
+
             int currentStage = MoonLoreUtils.getResearchProgressionStage(player);
+            boolean success = MoonLoreUtils.tryIncrementResearchProgressionStageIfLucky(player, parasiteStored);
 
-            if (data.success()) {
-                int nextStage = currentStage + 1;
-                ItemStack sdCard = MoonLoreUtils.getSdCardForStage(nextStage);
-                laboratory.setItem(1, sdCard);
+            if (success) {
+                int nextStage = Math.min(currentStage + 1, MoonLoreUtils.MAX_STAGE);
+                laboratory.setItem(1, MoonLoreUtils.getSdCardForStage(nextStage));
                 player.stellaris$saveDataAttachments(MoonLoreUtils.MOON_LORE_PROGRESSION, nextStage);
             }
 
-            if (player instanceof ServerPlayer serverPlayer) {
-                announceResearch(serverPlayer, currentStage, data.success());
-            }
+            announceResearch(player, currentStage, success);
 
-            ItemStack slot0ItemToReturn = laboratory.getItem(0).copy();
-            slot0ItemToReturn.set(DataComponentsRegistry.PATHOGEN_STORED.get(), PathogenStorageComponent.DEFAULT);
-            laboratory.setItem(0, slot0ItemToReturn);
-        }
+            ItemStack spentCell = storageCell.copy();
+            spentCell.set(DataComponentsRegistry.PATHOGEN_STORED.get(), PathogenStorageComponent.DEFAULT);
+            laboratory.setItem(0, spentCell);
+
+            laboratory.progressTickLeft = Stellaris.CONFIG.parasiteConfig.researchDelay;
+
+            NetworkManager.sendToPlayer(player, new InfectionResearchResultPacket(success));
+        });
     }
 
 

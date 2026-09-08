@@ -11,17 +11,15 @@ import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.common.blocks.entities.machines.LaboratoryBlockEntity;
-import org.exodusstudio.stellaris.common.components.PathogenStorageComponent;
 import org.exodusstudio.stellaris.common.menus.MenuQuickMoveHelper;
 import org.exodusstudio.stellaris.common.menus.slot.ResultSlot;
 import org.exodusstudio.stellaris.common.menus.slot.SpecificItemsSlot;
 import org.exodusstudio.stellaris.common.network.packets.InfectionResearchPacket;
 import org.exodusstudio.stellaris.common.network.packets.OpenBlockEntityMenusPacket;
-import org.exodusstudio.stellaris.common.registries.DataComponentsRegistry;
 import org.exodusstudio.stellaris.common.registries.ItemsRegistry;
 import org.exodusstudio.stellaris.common.registries.MenuProviderRegistry;
 import org.exodusstudio.stellaris.common.registries.MenuTypesRegistry;
-import org.exodusstudio.stellaris.common.utils.MoonLoreUtils;
+import org.jetbrains.annotations.Nullable;
 
 
 public class ResearchMenu extends AbstractContainerMenu {
@@ -29,6 +27,8 @@ public class ResearchMenu extends AbstractContainerMenu {
     private final Container inventory;
     private final Player player;
     public final LaboratoryBlockEntity blockEntity;
+
+    private @Nullable Boolean researchResult;
 
     public static ResearchMenu create(int syncId, Inventory inventory, FriendlyByteBuf buffer) {
         return create(syncId, inventory, buffer.readBlockPos());
@@ -93,20 +93,21 @@ public class ResearchMenu extends AbstractContainerMenu {
 
     public void researchButton() {
         if (blockEntity.progressTickLeft == -1) {
+            this.researchResult = null;
             blockEntity.progressTickLeft = Stellaris.CONFIG.parasiteConfig.researchDelay;
         }
     }
 
-    public boolean tryResearch() {
-        ItemStack storageCell = getItems().getFirst();
-        int parasiteStored = storageCell.getOrDefault(DataComponentsRegistry.PATHOGEN_STORED.get(), new PathogenStorageComponent(0, 500)).stored();
-        boolean success = MoonLoreUtils.tryIncrementResearchProgressionStageIfLucky(player, parasiteStored);
-
-        InfectionResearchPacket packet = new InfectionResearchPacket(blockEntity.getBlockPos(), success);
-        NetworkManager.sendToServer(packet);
-
+    public void requestResearch() {
         blockEntity.progressTickLeft = -1;
+        NetworkManager.sendToServer(new InfectionResearchPacket(blockEntity.getBlockPos()));
+    }
 
-        return success;
+    public void setResearchResult(boolean success) {
+        this.researchResult = success;
+    }
+
+    public @Nullable Boolean getResearchResult() {
+        return this.researchResult;
     }
 }

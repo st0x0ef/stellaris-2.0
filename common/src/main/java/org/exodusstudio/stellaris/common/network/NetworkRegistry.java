@@ -59,6 +59,7 @@ public interface NetworkRegistry {
         registerC2S(SelectPlanetPacket.TYPE, SelectPlanetPacket.STREAM_CODEC, SelectPlanetPacket::handle);
 
         registerC2S(InfectionResearchPacket.TYPE, InfectionResearchPacket.STREAM_CODEC, InfectionResearchPacket::handle);
+        registerS2C(InfectionResearchResultPacket.TYPE, InfectionResearchResultPacket.STREAM_CODEC, InfectionResearchResultPacket::handle);
         registerC2S(PlanSpaceStationPacket.TYPE, PlanSpaceStationPacket.STREAM_CODEC, PlanSpaceStationPacket::handle);
 
         registerS2C(RecipeSyncerPacket.TYPE, RecipeSyncerPacket.STREAM_CODEC, RecipeSyncerPacket::handle);

@@ -18,9 +18,6 @@ public class ResearchScreen extends TabbedMachineScreen<ResearchMenu> {
     private static final Identifier GUI_LOCATION = IdentifierUtils.guiTexture("laboratory_research"); //temporary
     public static final Component TAB_NAME = Component.literal("Research");
 
-    private boolean should_display_success_message;
-    private boolean research_success;
-
     private static final Component SUCCESS_MESSAGE = Component.translatable("message.stellaris.success");
     private static final Component FAILURE_MESSAGE = Component.translatable("message.stellaris.failure");
 
@@ -76,10 +73,8 @@ public class ResearchScreen extends TabbedMachineScreen<ResearchMenu> {
             int u = (Stellaris.CONFIG.parasiteConfig.researchDelay - this.menu.blockEntity.progressTickLeft) * 54 / Stellaris.CONFIG.parasiteConfig.researchDelay;
             guiGraphics.blit(RenderPipelines.GUI_TEXTURED, GUISprites.RESEARCH_PROGRESS, this.leftPos + 63, this.topPos + 47, u,  0, u, 2, 54, 2);
             this.startResearchButton.active = false;
-            this.should_display_success_message = false;
         } else if(this.menu.blockEntity.progressTickLeft == 0) {
-            this.research_success = menu.tryResearch();
-            this.should_display_success_message = true;
+            this.menu.requestResearch();
             this.startResearchButton.active = true;
         } else {
             this.startResearchButton.active = true;
@@ -90,9 +85,10 @@ public class ResearchScreen extends TabbedMachineScreen<ResearchMenu> {
     protected void extractLabels(GuiGraphicsExtractor guiGraphics, int mouseX, int mouseY) {
         guiGraphics.text(this.font, TAB_NAME, this.titleLabelX, this.titleLabelY, -11050641, false);
 
-        if (this.should_display_success_message) {
-            int color  = this.research_success ? Utils.getMinecraftColor("green") : Utils.getMinecraftColor("red");
-            Component message = this.research_success ? SUCCESS_MESSAGE : FAILURE_MESSAGE;
+        Boolean researchResult = this.menu.getResearchResult();
+        if (researchResult != null) {
+            int color  = researchResult ? Utils.getMinecraftColor("green") : Utils.getMinecraftColor("red");
+            Component message = researchResult ? SUCCESS_MESSAGE : FAILURE_MESSAGE;
             guiGraphics.text(this.font, message, (this.backgroundWidth - this.font.width(message)) / 2, 90, color);
         }
     }
