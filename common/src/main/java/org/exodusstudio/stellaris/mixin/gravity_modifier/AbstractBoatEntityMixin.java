@@ -27,9 +27,9 @@ public class AbstractBoatEntityMixin {
     }
 
     @Redirect(
-            method = { "getStatus", "getWaterLevelAbove", "checkFallDamage", "isUnderwater", "checkInWater", "getGroundFriction" },
+            method = { "getWaterLevelAbove", "checkFallDamage", "isUnderwater", "checkInWater" },
             at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/material/FluidState;is(Lnet/minecraft/tags/TagKey;)Z"),
-            require = 0
+            require = 1
     )
     private boolean stellaris$replaceWaterFlotation(FluidState instance, TagKey<Fluid> tag) {
         if (stellaris$entity.is(TagsRegistry.EntityTags.LUNAR_BOATS)) {
