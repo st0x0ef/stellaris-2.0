@@ -54,23 +54,25 @@ public class GravityUtils {
             setLivingEntityGravity(entity, planet);
         }
     }
-    public static double getEntityGravity(Entity entity) {
+
+    private static Planet gravitySource(Entity entity) {
         Planet planet = PlanetsData.getPlanet(entity.level().dimension());
 
-        if (planet == null || !Stellaris.CONFIG.gravityConfig.enableGravityEffects) {
-            planet = PlanetsData.getPlanet(Level.OVERWORLD);
+        if (planet != null && Stellaris.CONFIG.gravityConfig.enableGravityEffects) {
+            return planet;
         }
 
-        return planet.gravity();
+        Planet overworld = PlanetsData.getPlanet(Level.OVERWORLD);
+        return overworld != null ? overworld : Planet.FALLBACK;
+    }
+
+    public static double getEntityGravity(Entity entity) {
+        return gravitySource(entity).gravity();
     }
 
 
     public static double getEntityGravity(BigDecimal conversionRate, Entity entity) {
-        Planet planet = PlanetsData.getPlanet(entity.level().dimension());
-
-        if (planet == null || !Stellaris.CONFIG.gravityConfig.enableGravityEffects) {
-            planet = PlanetsData.getPlanet(Level.OVERWORLD);
-        }
+        Planet planet = gravitySource(entity);
         return getGravity(conversionRate, planet) + normalizeGravity(planet, entity.level(), conversionRate, entity.blockPosition());
     }
 

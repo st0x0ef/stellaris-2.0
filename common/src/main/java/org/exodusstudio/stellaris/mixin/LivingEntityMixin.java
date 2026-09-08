@@ -30,13 +30,14 @@ public class LivingEntityMixin {
     @Unique
     private int stellaris$oxygenCounter = 0;
 
-    @Inject(method = "getDefaultGravity", at = @At("RETURN"))
-    private void getDefaultGravity(CallbackInfoReturnable<Double> cir) {
-        if (stellaris$gravityCounter >= Stellaris.CONFIG.gravityConfig.gravityUpdateInterval) {
-            stellaris$gravityCounter = 0;
-            GravityUtils.setLivingEntityGravity(stellaris$entity);
+    @Inject(method = "tick", at = @At("HEAD"))
+    private void stellaris$updateGravity(CallbackInfo ci) {
+        if (++stellaris$gravityCounter < Stellaris.CONFIG.gravityConfig.gravityUpdateInterval) {
+            return;
         }
-        stellaris$gravityCounter++;
+
+        stellaris$gravityCounter = 0;
+        GravityUtils.setLivingEntityGravity(stellaris$entity);
     }
 
     @Inject(method = "tick", at = @At("HEAD"))
