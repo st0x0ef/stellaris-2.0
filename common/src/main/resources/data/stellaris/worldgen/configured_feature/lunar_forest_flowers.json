@@ -1,0 +1,31 @@
+{
+  "type": "minecraft:simple_block",
+  "config": {
+    "to_place": {
+      "type": "minecraft:weighted_state_provider",
+      "entries": [
+        {
+          "data": {
+            "Name": "stellaris:starlight_bush",
+            "Properties": {
+              "half": "lower"
+            }
+          },
+          "weight": 1
+        },
+        {
+          "data": {
+            "Name": "stellaris:dustbloom"
+          },
+          "weight": 2
+        },
+        {
+          "data": {
+            "Name": "stellaris:eclipse_tulip"
+          },
+          "weight": 2
+        }
+      ]
+    }
+  }
+}

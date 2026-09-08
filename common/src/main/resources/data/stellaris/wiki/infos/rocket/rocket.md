@@ -16,7 +16,7 @@ Assemble it in the Rocket Station tab of the [ref=stellaris:machines/engineering
 
 **Launching** 
 
-Put down a [ref=stellaris:rocket/rocket_launch_pad]Rocket Launch Pad[ref] and right-click its centre with the rocket to place it. Climb in, then feed it [ref=stellaris:items/diesel]Fuel[ref] through the fuel slot : a bucket or a [ref=stellaris:items/fluid_cell]Fluid Cell[ref] adds 1 000 mB at a time, up to a tank of 3 000 mB. 
+Put down a [ref=stellaris:rocket/rocket_launch_pad]Rocket Launch Pad[ref] and right-click its center with the rocket to place it. Climb in, then feed it [ref=stellaris:items/diesel]Fuel[ref] through the fuel slot : a bucket or a [ref=stellaris:items/fluid_cell]Fluid Cell[ref] adds 1 000 mB at a time, up to a tank of 3 000 mB. 
 
 Start the engine and a countdown of 10 seconds begins before the rocket lifts off. Each launch burns 1 000 mB, so a full tank is worth three trips. 
 Make sure the sky above the pad is clear, the rocket refuses to start if anything blocks its path. 

@@ -47,6 +47,7 @@ public final class StellarisFabricClient implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
         KeyMappingsRegistry.init();
+
         StellarisClient.initClient();
         registerScreens();
         registerEntityRenderer();

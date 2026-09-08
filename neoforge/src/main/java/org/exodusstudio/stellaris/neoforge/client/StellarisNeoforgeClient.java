@@ -11,12 +11,9 @@ import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
-import net.neoforged.neoforge.client.event.EntityRenderersEvent;
-import net.neoforged.neoforge.client.event.RegisterDebugRenderersEvent;
-import net.neoforged.neoforge.client.event.RegisterFluidModelsEvent;
-import net.neoforged.neoforge.client.event.RegisterKeyMappingsEvent;
-import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
+import net.neoforged.neoforge.client.event.*;
 import org.exodusstudio.stellaris.Stellaris;
+import net.neoforged.neoforge.client.event.RegisterKeyMappingsEvent;
 import org.exodusstudio.stellaris.client.StellarisClient;
 import org.exodusstudio.stellaris.client.debug.OxygenDebugRenderer;
 import org.exodusstudio.stellaris.client.registry.BoatModelLayerRegistry;
@@ -37,6 +34,8 @@ import org.exodusstudio.stellaris.client.renderers.launchpad.RocketLaunchPadMode
 import org.exodusstudio.stellaris.client.renderers.mobs.*;
 import org.exodusstudio.stellaris.client.renderers.mobs.starcrawler.StarCrawlerModel;
 import org.exodusstudio.stellaris.client.renderers.mobs.starcrawler.StarCrawlerRenderer;
+import org.exodusstudio.stellaris.client.renderers.mobs.starcrawlerboss.StarCrawlerBossModel;
+import org.exodusstudio.stellaris.client.renderers.mobs.starcrawlerboss.StarCrawlerBossRenderer;
 import org.exodusstudio.stellaris.client.renderers.mobs.starcrawlerboss.StarCrawlerBossModel;
 import org.exodusstudio.stellaris.client.renderers.mobs.starcrawlerboss.StarCrawlerBossRenderer;
 import org.exodusstudio.stellaris.client.renderers.rockets.RocketRenderer;
@@ -160,6 +159,7 @@ public class StellarisNeoforgeClient {
         event.registerLayerDefinition(LunaShadowModel.LAYER_LOCATION, LunaShadowModel::createBodyLayer);
         event.registerLayerDefinition(StarCrawlerModel.LAYER_LOCATION, StarCrawlerModel::createBodyLayer);
         event.registerLayerDefinition(StarCrawlerBossModel.LAYER_LOCATION, StarCrawlerBossModel::createBodyLayer);
+
         event.registerLayerDefinition(AlienModel.LAYER_LOCATION, AlienModel::createBodyLayer);
         event.registerLayerDefinition(RocketLaunchPadModel.LAYER_LOCATION, RocketLaunchPadModel::createBodyLayer);
 

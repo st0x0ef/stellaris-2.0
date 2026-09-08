@@ -4,7 +4,7 @@ entryId: stellaris:planets
 iconType: item
 ---
 
-The Moon, the Eye of the Night, is the only natural satellite of the Earth. For thousands of years, people have dreamed of setting foot there. And we did!
+The Moon, the Lady of the Night, is the only natural satellite of the Earth. For thousands of years, people have dreamed of setting foot there. And we did!
 
 [item=stellaris:moon_globe]
 
@@ -26,6 +26,7 @@ But, if humanity went to the Moon, it is because of its resources.
 - [ref=stellaris:items/desh]Desh[ref] (The only place in the whole galaxy where it can be found)
 - [ref=stellaris:items/blue_liquid]Blue Liquid[ref]
 
+The Moon may look like just a simple and big rock, but if you dig deep, you may find some surprises...
 
 **Attention!**
 The Moon atmosphere is not breathable for players! To be able to breathe, you need to wear a full [ref=stellaris:items/space_suit]Space Suit[ref].

@@ -109,6 +109,9 @@
   "item.stellaris.lunar_dirt": "Lunar Dirt",
   "item.stellaris.lunar_rock": "Lunar Rock",
   "item.stellaris.lunar_grass": "Lunar Grass",
+  "item.stellaris.starlight_bush": "Starlight Bush",
+  "item.stellaris.dustbloom": "Dustbloom",
+  "item.stellaris.eclipse_tulip": "Eclipse Tulip",
 
   "item.stellaris.titanium_pickaxe": "Titanium Pickaxe",
   "item.stellaris.titanium_axe": "Titanium Axe",
@@ -412,7 +415,8 @@
   "wiki.stellaris.items.title": "Blocks and Items",
 
   "tooltip.wiki.stellaris.home": "Home, a place where I can go...",
-
+  "tooltip.wiki.stellaris.strikes_back": "Like The Empire",
+  "tooltip.wiki.stellaris.want_back_home": "I want to go Back Home.",
   "tooltip.item.stellaris.can.empty": "Empty",
   "tooltip.item.stellaris.can.nutrition": "Nutrition: %s/%s",
   "tooltip.item.stellaris.can.saturation": "Saturation: %s",

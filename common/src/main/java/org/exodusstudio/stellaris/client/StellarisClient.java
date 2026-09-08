@@ -18,7 +18,7 @@ import org.exodusstudio.stellaris.client.overlays.*;
 import org.exodusstudio.stellaris.client.registry.BoatModelLayerRegistry;
 import org.exodusstudio.stellaris.client.registry.FluidInfosRegistry;
 import org.exodusstudio.stellaris.client.registry.KeyMappingsRegistry;
-import org.exodusstudio.stellaris.client.renderers.entity.vehicle.rover.RoverModel;
+import org.exodusstudio.stellaris.client.renderers.rover.RoverModel;
 import org.exodusstudio.stellaris.client.renderers.flag.FlagBlockModel;
 import org.exodusstudio.stellaris.client.renderers.flag.FlagHeadModel;
 import org.exodusstudio.stellaris.client.renderers.globe.GlobeModel;

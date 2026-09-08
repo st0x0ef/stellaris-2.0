@@ -8,7 +8,7 @@ This is a Parasite Villager. Scientists have discovered that the [ref=stellaris:
 
 [entity=stellaris:parasite_affected_villager scale=25 width=150 rotation=(0,180,0)]
 
-It never hunts on its own : it only strikes back at whoever hurts it first. 
+It never hunts on its own : it only [tl=tooltip.wiki.stellaris.strikes_back]strikes back[tl] at whoever hurts it first. 
 Every hit it lands infects you for 16 seconds and slows you down for 4 seconds. 
 
 Kill one and there is a 35% chance a [ref=stellaris:mobs/parasite]Lunar Parasite[ref] crawls out of the corpse. 

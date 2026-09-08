@@ -1,8 +1,10 @@
-package org.exodusstudio.stellaris.client.renderers.entity.vehicle.rover;
+package org.exodusstudio.stellaris.client.renderers.rover;
 
 import net.minecraft.client.renderer.entity.state.EntityRenderState;
 import net.minecraft.core.Direction;
 import net.minecraft.world.phys.Vec3;
+import org.exodusstudio.stellaris.common.modules.Modules;
+import org.exodusstudio.stellaris.common.modules.rover.RoverModule;
 
 public class RoverRenderState extends EntityRenderState {
     public boolean isForward;
@@ -12,4 +14,6 @@ public class RoverRenderState extends EntityRenderState {
     public Vec3 deltaMovement;
     public Direction direction;
     public float ageInTicks;
+    public Modules<RoverModule> roverModules;
+    public boolean hasCargoModule;
 }
