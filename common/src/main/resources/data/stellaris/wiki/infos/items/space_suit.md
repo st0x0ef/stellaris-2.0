@@ -4,7 +4,7 @@ entryId: stellaris:items
 iconType: item
 ---
 
-The Space Suit is what keeps you alive beyond Earth. Anywhere without breathable air, you take damage every second until you find some - or until you put this on.
+The Space Suit is what keeps you alive **beyond Earth**. Anywhere without breathable air, you take damage every second until you find some - or until you put this on.
 
 [item=stellaris:space_suit_chestplate]
 

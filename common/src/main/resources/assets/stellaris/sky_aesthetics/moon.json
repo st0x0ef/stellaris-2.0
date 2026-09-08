@@ -48,7 +48,7 @@
       "rotation": [20.0, 0.0, 0.0],
       "object_rotation": [0.0, 0.0, 0.0],
       "height": 100,
-      "rotation_type": "STATIC"
+      "rotation_type": "NIGHT"
     }
   ]
 }
