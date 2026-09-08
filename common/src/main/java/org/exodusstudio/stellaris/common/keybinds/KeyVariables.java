@@ -3,7 +3,6 @@ package org.exodusstudio.stellaris.common.keybinds;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.entity.player.Player;
-import org.exodusstudio.stellaris.Stellaris;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -16,6 +15,14 @@ public class KeyVariables {
     public static final Map<UUID, Boolean> KEY_RIGHT = new HashMap<>();
     public static final Map<UUID, Boolean> KEY_LEFT = new HashMap<>();
     public static final Map<UUID, Boolean> KEY_JUMP = new HashMap<>();
+
+    private static final Map<String, Map<UUID, Boolean>> KEY_STATES = Map.of(
+            "key_up", KEY_UP,
+            "key_down", KEY_DOWN,
+            "key_right", KEY_RIGHT,
+            "key_left", KEY_LEFT,
+            "key_jump", KEY_JUMP
+    );
 
     public static boolean isHoldingUp(Player player) {
         return player != null && KEY_UP.getOrDefault(player.getUUID(), false);
@@ -48,24 +55,9 @@ public class KeyVariables {
     }
 
     public static void setKeyVariable(String key, UUID uuid, Boolean bool) {
-        switch (key) {
-            case "key_up":
-                KEY_UP.put(uuid, bool);
-                break;
-            case "key_down":
-                KEY_DOWN.put(uuid, bool);
-                break;
-            case "key_right":
-                KEY_RIGHT.put(uuid, bool);
-                break;
-            case "key_left":
-                KEY_LEFT.put(uuid, bool);
-                break;
-            case "key_jump":
-                KEY_JUMP.put(uuid, bool);
-                break;
-            default:
-                Stellaris.LOG.error("Unknown key variable: {}", key);
+        Map<UUID, Boolean> states = KEY_STATES.get(key);
+        if (states != null) {
+            states.put(uuid, bool);
         }
     }
 }
