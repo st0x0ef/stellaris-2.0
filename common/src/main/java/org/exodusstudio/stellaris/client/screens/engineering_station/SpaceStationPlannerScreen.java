@@ -79,7 +79,7 @@ public class SpaceStationPlannerScreen extends TabbedMachineScreen<SpaceStationP
            if(!menu.checked) {
                this.menu.checkItems(selectedRecipe);
            } else {
-               NetworkManager.sendToServer(new PlanSpaceStationPacket(selectedRecipe));
+               NetworkManager.sendToServer(new PlanSpaceStationPacket(selectedRecipe.structureId()));
            }
         })
                 .useSprite(true)

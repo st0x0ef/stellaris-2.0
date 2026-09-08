@@ -22,7 +22,7 @@ public record SyncPlanetsPacket(List<Planet> planets) implements CustomPacketPay
     );
 
     public static void handle(SyncPlanetsPacket packet, NetworkManager.PacketContext context) {
-        PlanetsData.setPlanets(packet.planets());
+        context.queue(() -> PlanetsData.setPlanets(packet.planets()));
     }
 
     @Override

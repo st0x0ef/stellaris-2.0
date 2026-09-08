@@ -27,11 +27,13 @@ public record SyncWiki(Map<Identifier, MarkdownPage> entryComponent, List<WikiEn
 
 
     public static void handle(SyncWiki packet, NetworkManager.PacketContext context) {
-        WikiEntryPack.ENTRIES.clear();
-        WikiEntryPack.ENTRIES.addAll(packet.wikiEntries);
+        context.queue(() -> {
+            WikiEntryPack.ENTRIES.clear();
+            WikiEntryPack.ENTRIES.addAll(packet.wikiEntries);
 
-        WikiMarkdownData.ENTRY_PAGES.clear();
-        WikiMarkdownData.ENTRY_PAGES.putAll(packet.entryComponent);
+            WikiMarkdownData.ENTRY_PAGES.clear();
+            WikiMarkdownData.ENTRY_PAGES.putAll(packet.entryComponent);
+        });
     }
 
 

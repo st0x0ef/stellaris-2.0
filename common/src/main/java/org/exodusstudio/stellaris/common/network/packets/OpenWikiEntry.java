@@ -20,13 +20,11 @@ public record OpenWikiEntry(Identifier entryId) implements CustomPacketPayload {
     );
 
     public static void handle(OpenWikiEntry packet, NetworkManager.PacketContext context) {
-
-        if(context.getPlayer() instanceof ServerPlayer serverPlayer) {
-            MenuRegistry.openExtendedMenu(serverPlayer, WikiApplicationMenu.createProvider(packet.entryId()));
-        }
-
-
-
+        context.queue(() -> {
+            if (context.getPlayer() instanceof ServerPlayer serverPlayer) {
+                MenuRegistry.openExtendedMenu(serverPlayer, WikiApplicationMenu.createProvider(packet.entryId()));
+            }
+        });
     }
 
 

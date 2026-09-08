@@ -28,7 +28,6 @@ public interface NetworkRegistry {
         registerS2C(CountdownOverlayPacket.TYPE, CountdownOverlayPacket.STREAM_CODEC, CountdownOverlayPacket::handle);
         registerC2S(OpenWikiEntry.TYPE, OpenWikiEntry.STREAM_CODEC, OpenWikiEntry::handle);
 
-        registerC2S(OpenRocketMenuPacket.TYPE, OpenRocketMenuPacket.STREAM_CODEC, OpenRocketMenuPacket::handle);
         registerC2S(AntennasOperations.TYPE, AntennasOperations.STREAM_CODEC, AntennasOperations::handle);
 
         registerS2C(SyncFluidPacket.TYPE, SyncFluidPacket.STREAM_CODEC, SyncFluidPacket::handle);
@@ -47,7 +46,6 @@ public interface NetworkRegistry {
         registerS2C(SyncWiki.TYPE, SyncWiki.STREAM_CODEC, SyncWiki::handle);
         registerS2C(SyncSDCards.TYPE, SyncSDCards.STREAM_CODEC, SyncSDCards::handle);
         registerS2C(SyncPlanetsPacket.TYPE, SyncPlanetsPacket.STREAM_CODEC, SyncPlanetsPacket::handle);
-
 
         registerS2C(SyncGravityManipulatorDataPacketS2C.TYPE_S2C, SyncGravityManipulatorDataPacketS2C.STREAM_CODEC, SyncGravityManipulatorDataPacketS2C::handle);
         registerC2S(SyncGravityManipulatorDataPacketC2S.TYPE_C2S, SyncGravityManipulatorDataPacketC2S.STREAM_CODEC, SyncGravityManipulatorDataPacketC2S::handle);
@@ -73,7 +71,6 @@ public interface NetworkRegistry {
         registerS2C(SyncRoverDataPacket.TYPE, SyncRoverDataPacket.STREAM_CODEC, SyncRoverDataPacket::handle);
         registerC2S(SYNC_ROVER_CONTROLS, SyncRoverPacket.STREAM_CODEC, SyncRoverPacket::handle);
     }
-
 
     static <T extends CustomPacketPayload> void registerS2C(CustomPacketPayload.Type<T> packetType, StreamCodec<? super RegistryFriendlyByteBuf, T> codec, NetworkManager.NetworkReceiver<T> receiver) {
         if (Platform.getEnvironment().equals(Env.SERVER)) {

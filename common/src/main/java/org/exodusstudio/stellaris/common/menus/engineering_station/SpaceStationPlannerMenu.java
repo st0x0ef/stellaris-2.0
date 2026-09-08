@@ -139,7 +139,9 @@ public class SpaceStationPlannerMenu extends BaseContainer implements ContainerL
 
         if(this.getSlot(this.resultSlotId).hasItem()) {
 
-            recipe.removeMaterials(this.materialSlot);
+            if (!recipe.removeMaterials(this.materialSlot)) {
+                return;
+            }
 
             ItemStack stack = this.getSlot(this.resultSlotId).getItem().copy();
             stack.set(DataComponentsRegistry.SPACE_STATION_BLUEPRINT.get(), recipe);

@@ -14,6 +14,8 @@ import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
 import org.exodusstudio.stellaris.common.utils.OxygenUtils;
 
 import java.util.ArrayList;
+import java.util.Map;
+import java.util.WeakHashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -30,9 +32,21 @@ public record OxygenDebugRequestPacket() implements CustomPacketPayload {
         return TYPE;
     }
 
+        private static final int MIN_REQUEST_INTERVAL_TICKS = 40;
+    private static final Map<ServerPlayer, Integer> LAST_REQUEST_TICK = new WeakHashMap<>();
+
     public static void handle(OxygenDebugRequestPacket packet, NetworkManager.PacketContext context) {
         context.queue(() -> {
-            ServerPlayer player = (ServerPlayer) context.getPlayer();
+            if (!(context.getPlayer() instanceof ServerPlayer player)) {
+                return;
+            }
+
+            Integer lastTick = LAST_REQUEST_TICK.get(player);
+            if (lastTick != null && player.tickCount - lastTick < MIN_REQUEST_INTERVAL_TICKS) {
+                return;
+            }
+            LAST_REQUEST_TICK.put(player, player.tickCount);
+
             Level level = player.level();
             BlockPos playerPos = player.blockPosition();
 

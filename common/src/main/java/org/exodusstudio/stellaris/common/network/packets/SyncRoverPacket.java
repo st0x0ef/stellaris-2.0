@@ -71,12 +71,12 @@ public class SyncRoverPacket implements CustomPacketPayload {
     }
 
     public void handle(NetworkManager.PacketContext packetContext) {
-        Player player = packetContext.getPlayer();
-        if (player instanceof ServerPlayer serverPlayer) {
-            if (serverPlayer.getVehicle() instanceof AbstractRoverBase rover && rover.getUUID().equals(this.uuid)) {
+        packetContext.queue(() -> {
+            if (packetContext.getPlayer() instanceof ServerPlayer serverPlayer
+                    && serverPlayer.getVehicle() instanceof AbstractRoverBase rover
+                    && rover.getUUID().equals(this.uuid)) {
                 rover.updateControls(forward, backward, left, right, serverPlayer);
-
             }
-        }
+        });
     }
 }

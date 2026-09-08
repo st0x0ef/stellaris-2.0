@@ -13,6 +13,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.Level;
 import org.exodusstudio.stellaris.Stellaris;
+import org.exodusstudio.stellaris.common.antennas.AntennaSavedData;
 import org.exodusstudio.stellaris.common.data.Planet;
 import org.exodusstudio.stellaris.common.data.PlanetsData;
 import org.exodusstudio.stellaris.common.data.space_station.SpaceStationRecipe;
@@ -57,7 +58,20 @@ public record TeleportToPlanetPacket(Planet destination, Optional<BlockPos> pos,
                 return;
             }
 
-            BlockPos destPos = data.pos().orElse(player.getOnPos());
+            BlockPos destPos = player.getOnPos();
+            if (data.pos().isPresent()) {
+                BlockPos requested = data.pos().get();
+                boolean allowed = AntennaSavedData.getSavedAntennas(server)
+                        .getAvailableAntennaPerLevel(player.getGameProfile().id(), dimensionKey)
+                        .stream()
+                        .anyMatch(antenna -> antenna.blockPos.equals(requested));
+
+                if (!allowed) {
+                    return;
+                }
+
+                destPos = requested;
+            }
 
             TeleportUtil.teleportRocketToPlanet(player, level, rocket, destPos, false);
             player.stellaris$setPlanetMenuOpen(false, player, true);

@@ -22,8 +22,12 @@ public record SyncPlanetMenuState(boolean open) implements CustomPacketPayload {
 
 
     public static void handle(SyncPlanetMenuState packet, NetworkManager.PacketContext context) {
-        Player player = context.getPlayer();
-        player.stellaris$setPlanetMenuOpen(packet.open, player, false);
+        context.queue(() -> {
+            Player player = context.getPlayer();
+            if (player != null) {
+                player.stellaris$setPlanetMenuOpen(packet.open, player, false);
+            }
+        });
     }
 
     @Override

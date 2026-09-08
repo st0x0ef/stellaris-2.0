@@ -21,7 +21,6 @@ import net.minecraft.world.item.crafting.CraftingInput;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.ShapelessRecipe;
 import net.minecraft.world.level.block.*;
-import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.common.antennas.Antenna;
 import org.exodusstudio.stellaris.common.assistant.AssistantManager;
 import org.exodusstudio.stellaris.common.antennas.AntennaSavedData;
@@ -37,7 +36,6 @@ import org.exodusstudio.stellaris.common.items.space_suit.SpaceSuitBoots;
 import org.exodusstudio.stellaris.common.items.space_suit.SpaceSuitHelmet;
 import org.exodusstudio.stellaris.common.entities.mobs.starcrawlerboss.StarCrawlerBossDeathManager;
 import org.exodusstudio.stellaris.common.entities.mobs.starcrawlerboss.StarCrawlerBossIntroManager;
-import org.exodusstudio.stellaris.common.network.packets.AntennasOperations;
 import org.exodusstudio.stellaris.common.network.packets.BlenderSyncerPacket;
 import org.exodusstudio.stellaris.common.network.packets.ElectrolyzerSyncerPacket;
 import org.exodusstudio.stellaris.common.network.packets.FuelRefinerySyncerPacket;
@@ -240,9 +238,7 @@ public class Events {
                             return EventResult.interruptFalse();
                         }
 
-                        if(antenna != null) {
-                            NetworkManager.sendToServer(new AntennasOperations(antenna, "remove"));
-                        }
+                        antennaSavedData.removeAntenna(antennaBlockEntity.launchPadId);
                     }
 
                 }

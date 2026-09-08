@@ -5,8 +5,8 @@ import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.Identifier;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraft.world.entity.player.Player;
 import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.common.entities.vehicles.RocketEntity;
 import org.exodusstudio.stellaris.common.items.modules.space_suit.NightVisionModuleItem;
@@ -52,8 +52,11 @@ public class KeyHandlerPacket implements CustomPacketPayload {
     }
 
     public static void handle(KeyHandlerPacket packet, NetworkManager.PacketContext context) {
-        Player player = context.getPlayer();
         context.queue(() -> {
+            if (!(context.getPlayer() instanceof ServerPlayer player)) {
+                return;
+            }
+
             switch (packet.key) {
                 case "start_rocket":
                     if (player.getVehicle() != null && player.getVehicle() instanceof RocketEntity rocketEntity) {
