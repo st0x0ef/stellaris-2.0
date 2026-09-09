@@ -30,7 +30,7 @@ side = "BOTH"
 [[dependencies.stellaris]]
 modId = "architectury"
 type = "required"
-versionRange = "[20.0.1,)"
+versionRange = "[20.1.13,)"
 ordering = "AFTER"
 side = "BOTH"
 

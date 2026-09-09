@@ -41,7 +41,7 @@
     "fabricloader": ">=0.18.5",
     "minecraft": ">=26.1",
     "java": ">=25",
-    "architectury": ">=20.0.1",
+    "architectury": ">=20.1.13",
     "fabric-api": "*",
     "exoconfig": ">=0.3.5",
     "potentials": "*",
