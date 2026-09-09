@@ -65,6 +65,7 @@ public final class StarCrawlerBossDeathManager {
         }
 
         if (PARTICIPANTS.containsKey(playerUuid)
+                || org.exodusstudio.stellaris.common.entities.mobs.heartofluna.HeartOfLunaCinematicManager.isClaimed(playerUuid)
                 || StarCrawlerBossIntroManager.isClaimed(playerUuid)) {
 
             return false;

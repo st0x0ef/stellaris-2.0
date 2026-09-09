@@ -53,6 +53,8 @@ import java.util.List;
 public class Events {
 
     public static void init() {
+        org.exodusstudio.stellaris.common.entities.mobs.heartofluna.HeartOfLunaMovementLock.init();
+        org.exodusstudio.stellaris.common.entities.mobs.heartofluna.HeartOfLunaCinematicManager.init();
         LifecycleEvent.DATAPACK_SYNC.register(Stellaris::onDatapackSyncEvent);
 
         TickEvent.SERVER_POST.register(AssistantManager::tick);

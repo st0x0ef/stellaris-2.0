@@ -38,6 +38,7 @@ public interface NetworkRegistry {
 
         registerS2C(SyncPlanetMenuState.TYPE, SyncPlanetMenuState.STREAM_CODEC, SyncPlanetMenuState::handle);
         registerS2C(ParasiteCameraShakePacket.TYPE, ParasiteCameraShakePacket.STREAM_CODEC, ParasiteCameraShakePacket::handle);
+        registerS2C(HeartOfLunaCinematicPacket.TYPE, HeartOfLunaCinematicPacket.STREAM_CODEC, HeartOfLunaCinematicPacket::handle);
         registerS2C(StarCrawlerBossIntroStartPacket.TYPE, StarCrawlerBossIntroStartPacket.STREAM_CODEC, StarCrawlerBossIntroStartPacket::handle);
         registerS2C(StarCrawlerBossIntroEndPacket.TYPE, StarCrawlerBossIntroEndPacket.STREAM_CODEC, StarCrawlerBossIntroEndPacket::handle);
         registerS2C(StarCrawlerBossDeathStartPacket.TYPE, StarCrawlerBossDeathStartPacket.STREAM_CODEC, StarCrawlerBossDeathStartPacket::handle);

@@ -13,7 +13,8 @@ public abstract class MouseHandlerMixin {
     @Inject(method = "turnPlayer", at = @At("HEAD"), cancellable = true)
     private void stellaris$lockLookDuringBossIntro(double elapsedTime, CallbackInfo ci) {
         if (StarCrawlerBossIntroController.isVisualActive()
-                || StarCrawlerBossDeathController.isVisualActive()) {
+                || StarCrawlerBossDeathController.isVisualActive()
+                || org.exodusstudio.stellaris.client.cinematic.HeartOfLunaCinematic.isVisualActive()) {
             ci.cancel();
         }
     }

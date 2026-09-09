@@ -72,6 +72,13 @@ import java.util.UUID;
 
 public class StarCrawlerBossEntity extends Monster {
 
+    private static final EntityDataAccessor<String> HUD_EVENT_ID = SynchedEntityData.defineId(StarCrawlerBossEntity.class, EntityDataSerializers.STRING);
+
+    public UUID bossEventId() {
+        String value = this.entityData.get(HUD_EVENT_ID);
+        return value.isEmpty() ? null : UUID.fromString(value);
+    }
+
     private static final EntityDataAccessor<Integer> COMBAT_STATE =
             SynchedEntityData.defineId(
                     StarCrawlerBossEntity.class,
@@ -352,6 +359,7 @@ public class StarCrawlerBossEntity extends Monster {
     ) {
         super(entityType, level);
 
+        this.entityData.set(HUD_EVENT_ID, this.bossEvent.getId().toString());
         this.xpReward = 75;
 
         this.setHealth(this.getMaxHealth());
@@ -398,6 +406,7 @@ public class StarCrawlerBossEntity extends Monster {
             SynchedEntityData.Builder builder
     ) {
         super.defineSynchedData(builder);
+        builder.define(HUD_EVENT_ID, "");
 
         builder.define(
                 COMBAT_STATE,

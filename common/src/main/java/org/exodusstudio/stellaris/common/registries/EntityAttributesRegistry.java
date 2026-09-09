@@ -14,6 +14,7 @@ public class EntityAttributesRegistry {
         EntityAttributeRegistry.register(EntityTypesRegistry.PARASITE_AFFECTED_VILLAGER_EVOLVED, EvolvedParasiteAffectedVillagerEntity::createAttributes);
         EntityAttributeRegistry.register(EntityTypesRegistry.LUNA_SHADOW, LunaShadowEntity::createAttributes);
         EntityAttributeRegistry.register(EntityTypesRegistry.STAR_CRAWLER, StarCrawlerEntity::createAttributes);
+        EntityAttributeRegistry.register(EntityTypesRegistry.HEART_OF_LUNA, org.exodusstudio.stellaris.common.entities.mobs.heartofluna.HeartOfLunaBossEntity::createAttributes);
         EntityAttributeRegistry.register(EntityTypesRegistry.STAR_CRAWLER_BOSS, StarCrawlerBossEntity::createAttributes);
         EntityAttributeRegistry.register(EntityTypesRegistry.ALIEN, AlienEntity::createAttributes);
     }

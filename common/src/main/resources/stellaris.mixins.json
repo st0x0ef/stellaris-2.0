@@ -6,6 +6,8 @@
   "client": [
     "client.ArmRendererMixin",
     "client.CameraMixin",
+    "client.HeartOfLunaCameraEffectsMixin",
+    "client.BossHealthOverlayAccessor",
     "client.CustomItemModelRenderer",
     "client.GuiMixin",
     "client.ItemInHandRendererMixin",

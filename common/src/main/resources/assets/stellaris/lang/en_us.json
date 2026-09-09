@@ -1,4 +1,8 @@
 {
+  "entity.stellaris.heart_of_luna": "Heart of Luna",
+  "item.stellaris.heart_of_luna_spawn_egg": "Heart of Luna Spawn Egg",
+  "death.attack.lunar_pulse": "%1$s was consumed by the Heart of Luna",
+  "death.attack.lunar_pulse.player": "%1$s was consumed by the Heart of Luna while fighting %2$s",
   "jade.stellaris.flag_owner": "Placed by %s",
   "config.jade.plugin_stellaris.proxy_as_main": "Multiblock Proxy as Main Block",
   "config.jade.plugin_stellaris.flag_owner": "Flag Owner",

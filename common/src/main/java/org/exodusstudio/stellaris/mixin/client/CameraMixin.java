@@ -12,9 +12,17 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(Camera.class)
 public abstract class CameraMixin {
+    @Inject(method = "calculateFov", at = @At("RETURN"), cancellable = true)
+    private void stellaris$lunarPressure(float partialTick, CallbackInfoReturnable<Float> result) {
+        if (org.exodusstudio.stellaris.client.cinematic.HeartOfLunaCinematic.isVisualActive()) return;
+        float pressure = org.exodusstudio.stellaris.client.renderers.mobs.heartofluna.HeartOfLunaScreenEffects.pressure(partialTick);
+        result.setReturnValue(result.getReturnValue() * (1 - pressure * 0.025F));
+    }
+
     @Shadow
     public abstract float xRot();
 
@@ -43,6 +51,12 @@ public abstract class CameraMixin {
     )
     private void stellaris$applyCameraEffects(DeltaTracker deltaTracker, CallbackInfo ci) {
         float partialTick = this.getCameraEntityPartialTicks(deltaTracker);
+        org.exodusstudio.stellaris.client.cinematic.HeartOfLunaCinematic.CameraPose lunaPose =
+                org.exodusstudio.stellaris.client.cinematic.HeartOfLunaCinematic.sampleCamera(this.position(), this.yRot(), this.xRot(), partialTick);
+        if (lunaPose != null) {
+            this.setPosition(lunaPose.position());
+            this.setRotation(lunaPose.yaw(), lunaPose.pitch());
+        }
         StarCrawlerBossDeathController.CameraPose deathPose =
                 StarCrawlerBossDeathController.sampleCamera(
                         this.position(),
@@ -68,6 +82,7 @@ public abstract class CameraMixin {
         }
 
         if (!ParasiteCameraShake.hasCameraOffset()
+                || lunaPose != null
                 || StarCrawlerBossIntroController.shouldSuppressCameraShake()
                 || StarCrawlerBossDeathController.shouldSuppressCameraShake()) {
             return;
