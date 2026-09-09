@@ -1,23 +1,20 @@
 package org.exodusstudio.stellaris.common.commands.helpers;
 
 import com.mojang.brigadier.CommandDispatcher;
-import com.mojang.brigadier.arguments.ArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
+import net.minecraft.server.permissions.Permission;
 import net.minecraft.server.permissions.Permissions;
 
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.function.Function;
 
 public class CommandBuilder {
 
     public String commandName;
-    public int permissionLevel = 0;
+    public Permission permission = Permissions.COMMANDS_ADMIN;
     public Function<CommandSourceWrapper, Integer> commandFunction = (c) -> 1;
-
-    public HashMap<String, ArgumentType<?>> arguments = new HashMap<>();
 
     public ArgumentBuilder<?> argumentBuilder;
 
@@ -30,8 +27,8 @@ public class CommandBuilder {
         this.commandName = commandName;
     }
 
-    public CommandBuilder permission(int level) {
-        this.permissionLevel = level;
+    public CommandBuilder permission(Permission permission) {
+        this.permission = permission;
         return this;
     }
 
@@ -40,12 +37,11 @@ public class CommandBuilder {
         return this;
     }
 
-    public <T> ArgumentBuilder<T> createArgument(String argName, ArgumentType<T> argumentType) {
-        ArgumentBuilder<T> argBuilder = ArgumentBuilder.of(argName, argumentType);
-        return argBuilder;
-    }
-
     public <T> CommandBuilder addArgument(ArgumentBuilder<T> argBuilder) {
+        if (this.argumentBuilder != null) {
+            throw new IllegalStateException("Command '" + commandName + "' already has an argument; the second would be dropped silently.");
+        }
+
         this.argumentBuilder = argBuilder;
         return this;
     }
@@ -73,7 +69,7 @@ public class CommandBuilder {
         }
 
         LiteralArgumentBuilder<CommandSourceStack> commandBuilder = Commands.literal(commandName)
-                .requires(source -> source.permissions().hasPermission(Permissions.COMMANDS_ADMIN));
+                .requires(source -> source.permissions().hasPermission(this.permission));
 
         commandBuilder.executes((c) -> this.commandFunction.apply(new CommandSourceWrapper(c)));
 

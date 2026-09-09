@@ -15,6 +15,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.server.permissions.Permissions;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.chunk.ChunkAccess;
@@ -45,7 +46,7 @@ import java.util.UUID;
 public class StellarisCommands {
 
     public StellarisCommands(CommandDispatcher<CommandSourceStack> dispatcher, CommandBuildContext registry, Commands.CommandSelection selection) {
-        CommandBuilder builder = CommandBuilder.of(dispatcher, "stellaris").permission(2);
+        CommandBuilder builder = CommandBuilder.of(dispatcher, "stellaris").permission(Permissions.COMMANDS_ADMIN);
         screenCommand(builder);
         planetsCommand(builder);
         testCommand(builder);
@@ -62,6 +63,10 @@ public class StellarisCommands {
                 builder.createSubCommand("screen")
                         .addSubCommand(builder.createSubCommand("tablet")
                                 .execute((context) -> {
+                                    if (!context.runByPlayer()) {
+                                        return context.failure();
+                                    }
+
                                     MenuRegistry.openExtendedMenu(context.getPlayer(), MainTabletMenu.createProvider());
                                     return context.success();
                                 })
@@ -74,31 +79,33 @@ public class StellarisCommands {
                             ChunkAccess access = context.getPlayer().level().getChunk(context.getPlayer().getOnPos());
                             context.sendSuccess(Component.literal("Oil Level : " + access.stellaris$getChunkOilLevel()), true);
 
-                            return 0;
+                            return context.success();
                         })))
                         .addSubCommand(builder.createSubCommand("set")
                                 .addArgument(ArgumentBuilder.of("quantity", IntegerArgumentType.integer(0, Stellaris.CONFIG.oilConfig.maxOil)))
                                 .execute((context -> {
 
-                                    ServerPlayer player = context.getPlayer();
                                     if(!context.runByPlayer()) {
                                         return context.failure();
                                     }
 
+                                    ServerPlayer player = context.getPlayer();
                                     int quantity = IntegerArgumentType.getInteger(context.context(), "quantity");
                                     ChunkAccess access = player.level().getChunk(context.getPlayer().getOnPos());
                                     access.stellaris$setChunkOilLevel(quantity);
                                     context.sendSuccess(Component.literal("Oil Level : " + access.stellaris$getChunkOilLevel()), true);
 
-                                    return 0;
+                                    return context.success();
                                 })))
-                )
-                .register();
-
+                );
     }
 
     private void planetsCommand(CommandBuilder builder) {
         CommandBuilder planetsCommandBuilder = builder.createSubCommand("planets").execute(wrapper -> {
+            if (!wrapper.runByPlayer()) {
+                return wrapper.failure();
+            }
+
             StringBuilder stringBuilder = new StringBuilder("Planets registered:\n");
             for (Planet planet : PlanetsData.PLANETS) {
                 stringBuilder.append("- ").append(planet.translationKey()).append(" (").append(planet.dimension()).append(")\n");
@@ -115,6 +122,10 @@ public class StellarisCommands {
 
     private void teleportToPlanetCommand(CommandBuilder builder) {
         builder.addSubCommand(builder.createSubCommand("teleport").addArgument(ArgumentBuilder.of("planet", PlanetArgument.planet())).execute(wrapper -> {
+            if (!wrapper.runByPlayer()) {
+                return wrapper.failure();
+            }
+
             Planet planet = PlanetsData.PLANETS.stream().filter(p -> {
                 try {
                     return p.is(PlanetArgument.getPlanet(wrapper.context(), "planet"));
@@ -134,6 +145,10 @@ public class StellarisCommands {
 
     private void planetInfoCommand(CommandBuilder builder) {
         CommandBuilder infoNoArg = builder.createSubCommand("info").execute(wrapper -> {
+            if (!wrapper.runByPlayer()) {
+                return wrapper.failure();
+            }
+
             Planet planet = PlanetsData.getPlanet(wrapper.getPlayer().level().dimension());
             if (planet != null) {
                 wrapper.getPlayer().sendSystemMessage(planet.getDisplayInfo());
@@ -147,6 +162,10 @@ public class StellarisCommands {
         infoNoArg.addArgument(
                 ArgumentBuilder.of("planet", PlanetArgument.planet())
                         .execute(wrapper -> {
+                            if (!wrapper.runByPlayer()) {
+                                return wrapper.failure();
+                            }
+
                             PlanetsData.PLANETS.stream().filter(p -> {
                                 try {
                                     return p.is(PlanetArgument.getPlanet(wrapper.context(), "planet"));
@@ -167,6 +186,9 @@ public class StellarisCommands {
                 builder.createSubCommand("test")
                         .addSubCommand(builder.createSubCommand("fade")
                                 .execute((context) -> {
+                                    if (!context.runByPlayer()) {
+                                        return context.failure();
+                                    }
 
                                     NetworkManager.sendToPlayer(context.getPlayer(), new StartFadePacket(new FadingHolder(true, 0f)));
                                     return context.success();
@@ -174,12 +196,19 @@ public class StellarisCommands {
                         )
                         .addSubCommand(builder.createSubCommand("unfade")
                                 .execute((context) -> {
+                                    if (!context.runByPlayer()) {
+                                        return context.failure();
+                                    }
+
                                     NetworkManager.sendToPlayer(context.getPlayer(), new StartFadePacket(new FadingHolder(false, 1f)));
                                     return context.success();
                                 })
                         )
                         .addSubCommand(builder.createSubCommand("afterfade")
                                 .execute(context -> {
+                                    if (!context.runByPlayer()) {
+                                        return context.failure();
+                                    }
 
                                     Utils.executeWithFade(context.getPlayer(), () -> MenuRegistry.openExtendedMenu(context.getPlayer(), MainTabletMenu.createProvider(IdentifierUtils.id("applications/planet_selection"))), true);
 
@@ -188,8 +217,11 @@ public class StellarisCommands {
                         )
                         .addSubCommand(builder.createSubCommand("testLander")
                                 .execute((context) -> {
-                                    ServerPlayer player = context.getPlayer();
+                                    if (!context.runByPlayer()) {
+                                        return context.failure();
+                                    }
 
+                                    ServerPlayer player = context.getPlayer();
                                     Entity vehicle = player.getVehicle();
                                     if( vehicle instanceof RocketEntity rocketEntity) {
                                         LanderEntity landerEntity = new LanderEntity(player.level(), true);
@@ -213,6 +245,10 @@ public class StellarisCommands {
                 builder.createSubCommand("menuState")
                         .addArgument(ArgumentBuilder.of("state", BoolArgumentType.bool())
                                 .execute(commandSourceWrapper -> {
+                                    if (!commandSourceWrapper.runByPlayer()) {
+                                        return commandSourceWrapper.failure();
+                                    }
+
                                     boolean open = BoolArgumentType.getBool(commandSourceWrapper.context(), "state");
                                     commandSourceWrapper.getPlayer().stellaris$setPlanetMenuOpen(open, commandSourceWrapper.getPlayer(), true);
                                     commandSourceWrapper.sendSuccess(Component.literal("Menu state is now " + open), false);
@@ -252,6 +288,9 @@ public class StellarisCommands {
                         .addArgument(ArgumentBuilder.of("name", StringArgumentType.string())
                                 .addArgument(ArgumentBuilder.of("public", BoolArgumentType.bool())
                                         .execute(c -> {
+                                            if (!c.runByPlayer()) {
+                                                return c.failure();
+                                            }
 
                                             Player player = c.getPlayer();
                                             BlockPos pos = player.getOnPos();
@@ -274,15 +313,20 @@ public class StellarisCommands {
                             String name = StringArgumentType.getString(c.context(), "uuid-or-name");
                             AntennaSavedData antennaSavedData = AntennaSavedData.getSavedAntennas(c.getServer());
 
+                            UUID uuid;
                             try {
-                                UUID uuid = UUID.fromString(name);
-                                antennaSavedData.removeAntenna(uuid);
-
+                                uuid = UUID.fromString(name);
                             } catch(IllegalArgumentException e) {
                                 Map.Entry<UUID, Antenna> antenna = antennaSavedData.getAntenna(name);
-                                antennaSavedData.removeAntenna(antenna.getKey());
+                                uuid = antenna == null ? null : antenna.getKey();
                             }
 
+                            if (uuid == null || antennaSavedData.getAntenna(uuid) == null) {
+                                c.sendFailure(Component.literal("No antenna named " + name));
+                                return c.failure();
+                            }
+
+                            antennaSavedData.removeAntenna(uuid);
                             c.sendSuccess(Component.literal("Antenna " + name + " removed "), false);
 
                             return c.success();
@@ -323,6 +367,10 @@ public class StellarisCommands {
 
         // get stage
         CommandBuilder getStageNoArgs = builder.createSubCommand("getStage").execute(commandSourceWrapper -> {
+            if (!commandSourceWrapper.runByPlayer()) {
+                return commandSourceWrapper.failure();
+            }
+
             ServerPlayer player = commandSourceWrapper.getPlayer();
             int stage = MoonLoreUtils.getResearchProgressionStage(player);
             player.sendSystemMessage(Component.literal("Current stage : " + stage));
@@ -344,6 +392,10 @@ public class StellarisCommands {
 
         // set stage
         CommandBuilder setStageCurrentPlayer = builder.createSubCommand("setStage").addArgument(ArgumentBuilder.of("stage", IntegerArgumentType.integer(-1, MoonLoreUtils.MAX_STAGE)).execute(commandSourceWrapper -> {
+            if (!commandSourceWrapper.runByPlayer()) {
+                return commandSourceWrapper.failure();
+            }
+
             ServerPlayer player = commandSourceWrapper.getPlayer();
             int stage = IntegerArgumentType.getInteger(commandSourceWrapper.context(), "stage");
             player.stellaris$saveDataAttachments(MoonLoreUtils.MOON_LORE_PROGRESSION, stage);
@@ -351,7 +403,7 @@ public class StellarisCommands {
             return commandSourceWrapper.success();
         }));
 
-        setStageCurrentPlayer.addSubCommand(builder.createSubCommand("for").addArgument(ArgumentBuilder.of("player", EntityArgument.player()).addArgument(ArgumentBuilder.of("stage", IntegerArgumentType.integer()).execute(commandSourceWrapper -> {
+        setStageCurrentPlayer.addSubCommand(builder.createSubCommand("for").addArgument(ArgumentBuilder.of("player", EntityArgument.player()).addArgument(ArgumentBuilder.of("stage", IntegerArgumentType.integer(-1, MoonLoreUtils.MAX_STAGE)).execute(commandSourceWrapper -> {
             ServerPlayer player;
             try {
                 player = EntityArgument.getPlayer(commandSourceWrapper.context(), "player");
@@ -367,6 +419,10 @@ public class StellarisCommands {
 
         // is immunised
         CommandBuilder isImmunisedNoArgs = builder.createSubCommand("isImmunised").execute(commandSourceWrapper -> {
+            if (!commandSourceWrapper.runByPlayer()) {
+                return commandSourceWrapper.failure();
+            }
+
             ServerPlayer player = commandSourceWrapper.getPlayer();
             boolean immunised = MoonLoreUtils.isPlayerImmunisedToInfection(player);
             player.sendSystemMessage(immunised ? Component.literal("You are immunised to the parasite.") : Component.literal("You are vulnerable to the parasite."));
@@ -388,6 +444,10 @@ public class StellarisCommands {
 
         // set immunised
         CommandBuilder setImmunisedCurrentPlayer = builder.createSubCommand("setImmunised").addArgument(ArgumentBuilder.of("immunised", BoolArgumentType.bool()).execute(commandSourceWrapper -> {
+            if (!commandSourceWrapper.runByPlayer()) {
+                return commandSourceWrapper.failure();
+            }
+
             ServerPlayer player = commandSourceWrapper.getPlayer();
             boolean immunised = BoolArgumentType.getBool(commandSourceWrapper.context(), "immunised");
             player.stellaris$saveDataAttachments(MoonLoreUtils.PLAYER_IMMUNISED_TO_INFECTION, immunised);
