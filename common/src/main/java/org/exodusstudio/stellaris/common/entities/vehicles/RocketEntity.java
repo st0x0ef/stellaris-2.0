@@ -70,6 +70,7 @@ public class RocketEntity extends VehicleEntity implements FluidProvider.ENTITY 
     public static final EntityDataAccessor<Boolean> ROCKET_START = SynchedEntityData.defineId(RocketEntity.class, EntityDataSerializers.BOOLEAN);
     public static final EntityDataAccessor<Integer> ROCKET_START_TIMER = SynchedEntityData.defineId(RocketEntity.class, EntityDataSerializers.INT);
     public static final EntityDataAccessor<Planet> AUTOPILOT_DESTINATION = SynchedEntityData.defineId(RocketEntity.class, EntityDataSerializersRegistry.PLANET);
+    public static final EntityDataAccessor<Boolean> HAS_AUTOPILOT_DESTINATION = SynchedEntityData.defineId(RocketEntity.class, EntityDataSerializers.BOOLEAN);
 
     private boolean inventoryDirty = false;
 
@@ -301,6 +302,7 @@ public class RocketEntity extends VehicleEntity implements FluidProvider.ENTITY 
         builder.define(ROCKET_START, false);
         builder.define(ROCKET_START_TIMER, 0);
         builder.define(AUTOPILOT_DESTINATION, Planet.FALLBACK);
+        builder.define(HAS_AUTOPILOT_DESTINATION, false);
     }
 
     @Override
@@ -323,13 +325,23 @@ public class RocketEntity extends VehicleEntity implements FluidProvider.ENTITY 
                     }
                 }
 
-                if (this.getRocketModules().contains(ModulesRegistry.AUTOPILOT.get()) && this.getY() >= Stellaris.CONFIG.vehicleConfig.rocketTpHeight) {
-                    Entity passenger = null;
-                    if (!this.getPassengers().isEmpty()) {
-                        passenger = this.getPassengers().getFirst();
+                if (this.getRocketModules().contains(ModulesRegistry.AUTOPILOT.get())
+                        && this.entityData.get(HAS_AUTOPILOT_DESTINATION)
+                        && this.getY() >= Stellaris.CONFIG.vehicleConfig.rocketTpHeight) {
+                    Planet destination = this.entityData.get(AUTOPILOT_DESTINATION);
+                    ServerLevel destinationLevel = server.getLevel(ResourceKey.create(Registries.DIMENSION, destination.dimension()));
+
+                    if (destinationLevel == null) {
+                        this.entityData.set(HAS_AUTOPILOT_DESTINATION, false);
+                        Stellaris.LOG.warn("Rocket autopilot destination {} no longer exists, clearing it", destination.dimension());
+                    } else {
+                        Entity passenger = null;
+                        if (!this.getPassengers().isEmpty()) {
+                            passenger = this.getPassengers().getFirst();
+                        }
+                        TeleportUtil.teleportRocketToPlanet(passenger, destinationLevel, this, this.blockPosition(), true); // TODO : allow to tp to space station and antenna
+                        shouldOpenPlanetMenu = false;
                     }
-                    TeleportUtil.teleportRocketToPlanet(passenger, server.getLevel(ResourceKey.create(Registries.DIMENSION, this.entityData.get(AUTOPILOT_DESTINATION).dimension())), this, this.blockPosition(), true); // TODO : allow to tp to space station and antenna
-                    shouldOpenPlanetMenu = false;
                 }
             }
         }
@@ -396,7 +408,9 @@ public class RocketEntity extends VehicleEntity implements FluidProvider.ENTITY 
 
         output.store("rocket_start", Codec.BOOL, this.entityData.get(ROCKET_START));
         output.store("rocket_start_timer", Codec.INT, this.entityData.get(ROCKET_START_TIMER));
-        output.store("autopilot_destination", Planet.CODEC, this.entityData.get(AUTOPILOT_DESTINATION));
+        if (this.entityData.get(HAS_AUTOPILOT_DESTINATION)) {
+            output.store("autopilot_destination", Planet.CODEC, this.entityData.get(AUTOPILOT_DESTINATION));
+        }
 
     }
 
@@ -413,7 +427,10 @@ public class RocketEntity extends VehicleEntity implements FluidProvider.ENTITY 
         rocketStartTimer.ifPresent(timer -> this.entityData.set(ROCKET_START_TIMER, timer));
 
         Optional<Planet> autopilotDestination = input.read("autopilot_destination", Planet.CODEC);
-        autopilotDestination.ifPresent(planet -> this.entityData.set(AUTOPILOT_DESTINATION, planet));
+        autopilotDestination.ifPresent(planet -> {
+            this.entityData.set(AUTOPILOT_DESTINATION, planet);
+            this.entityData.set(HAS_AUTOPILOT_DESTINATION, true);
+        });
 
         
 
@@ -521,6 +538,7 @@ public class RocketEntity extends VehicleEntity implements FluidProvider.ENTITY 
 
         if (stack.has(DataComponentsRegistry.AUTOPILOT.get())) {
             rocketEntity.entityData.set(AUTOPILOT_DESTINATION, Objects.requireNonNull(stack.get(DataComponentsRegistry.AUTOPILOT.get())));
+            rocketEntity.entityData.set(HAS_AUTOPILOT_DESTINATION, true);
         }
 
         //Only allow to change the fuel type when the rocket is not empty
@@ -535,7 +553,9 @@ public class RocketEntity extends VehicleEntity implements FluidProvider.ENTITY 
     public ItemStack toItemStack() {
         ItemStack rocketStack = new ItemStack(ItemsRegistry.ROCKET.get(), 1);
         rocketStack.set(DataComponentsRegistry.ROCKET_MODULES.get(), this.entityData.get(ROCKET_MODULES));
-        rocketStack.set(DataComponentsRegistry.AUTOPILOT.get(), this.entityData.get(AUTOPILOT_DESTINATION));
+        if (this.entityData.get(HAS_AUTOPILOT_DESTINATION)) {
+            rocketStack.set(DataComponentsRegistry.AUTOPILOT.get(), this.entityData.get(AUTOPILOT_DESTINATION));
+        }
 
         FluidStack fuel = this.getFuelType();
         rocketStack.set(DataComponentsRegistry.FLUID_LIST.get(),

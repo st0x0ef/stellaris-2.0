@@ -11,6 +11,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import org.exodusstudio.stellaris.common.data.Planet;
 import org.exodusstudio.stellaris.common.data.PlanetsData;
+import org.exodusstudio.stellaris.common.items.modules.rocket.AutopilotModuleItem;
 import org.exodusstudio.stellaris.common.registries.DataComponentsRegistry;
 import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
 import org.exodusstudio.stellaris.common.utils.Utils;
@@ -38,10 +39,10 @@ public record SelectPlanetPacket(Planet destination) implements CustomPacketPayl
             }
 
 
-            ItemStack active = player.getActiveItem();
+            ItemStack module = AutopilotModuleItem.findHeldModule(player);
 
-            if (!active.isEmpty()) {
-                active.set(DataComponentsRegistry.AUTOPILOT.get(), data.destination());
+            if (!module.isEmpty()) {
+                module.set(DataComponentsRegistry.AUTOPILOT.get(), data.destination());
             } else{
                 Utils.stopFade(player);
             }

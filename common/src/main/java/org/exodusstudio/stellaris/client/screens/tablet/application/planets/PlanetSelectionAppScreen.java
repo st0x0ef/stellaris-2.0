@@ -25,6 +25,7 @@ import org.exodusstudio.stellaris.common.antennas.Antenna;
 import org.exodusstudio.stellaris.common.antennas.AntennaSavedData;
 import org.exodusstudio.stellaris.common.data.Planet;
 import org.exodusstudio.stellaris.common.data.PlanetsData;
+import org.exodusstudio.stellaris.common.items.modules.rocket.AutopilotModuleItem;
 import org.exodusstudio.stellaris.common.data.space_station.SpaceStationRecipe;
 import org.exodusstudio.stellaris.common.entities.vehicles.RocketEntity;
 import org.exodusstudio.stellaris.common.menus.MainTabletMenu;
@@ -33,7 +34,6 @@ import org.exodusstudio.stellaris.common.network.packets.OpenMenuPacket;
 import org.exodusstudio.stellaris.common.network.packets.SelectPlanetPacket;
 import org.exodusstudio.stellaris.common.network.packets.TeleportToPlanetPacket;
 import org.exodusstudio.stellaris.common.registries.DataComponentsRegistry;
-import org.exodusstudio.stellaris.common.registries.ItemsRegistry;
 import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
 import org.exodusstudio.stellaris.common.utils.Utils;
 import org.jetbrains.annotations.Nullable;
@@ -59,7 +59,7 @@ public class PlanetSelectionAppScreen extends TabletAbstractContainer<PlanetSele
         this.antennaSavedData = selectionMenu.antennaSavedData;
         this.selectionMenu = selectionMenu;
         this.inventoryLabelY = -this.imageHeight;
-        this.isSelectingAutoPilot = selectionMenu.player.getActiveItem().is(ItemsRegistry.AUTOPILOT_MODULE.get());
+        this.isSelectingAutoPilot = !AutopilotModuleItem.findHeldModule(selectionMenu.player).isEmpty();
         this.titleLabelY = -this.imageHeight;
     }
 

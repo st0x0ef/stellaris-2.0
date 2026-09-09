@@ -34,6 +34,17 @@ public class AutopilotModuleItem extends Item implements RocketModule {
         return super.use(level, player, hand);
     }
 
+    public static ItemStack findHeldModule(Player player) {
+        for (InteractionHand hand : InteractionHand.values()) {
+            ItemStack stack = player.getItemInHand(hand);
+            if (stack.getItem() instanceof AutopilotModuleItem) {
+                return stack;
+            }
+        }
+
+        return ItemStack.EMPTY;
+    }
+
     @Override
     public RocketFeature getRocketFeature() {
         return RocketFeature.OTHER;
