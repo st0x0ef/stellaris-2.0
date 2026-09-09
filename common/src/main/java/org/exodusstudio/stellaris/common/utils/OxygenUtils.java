@@ -194,7 +194,7 @@ public class OxygenUtils {
         Set<BlockPos> oxygenablePositions = new HashSet<>();
         Set<BlockPos> visited = new HashSet<>();
         Queue<BlockPos> queue = new ArrayDeque<>();
-        Map<Long, Integer> lowestSealAbove = new HashMap<>();
+        Map<Long, SealColumn> sealsAbove = new HashMap<>();
 
         int minChunkX = Integer.MAX_VALUE;
         int maxChunkX = Integer.MIN_VALUE;
@@ -208,7 +208,7 @@ public class OxygenUtils {
             BlockPos current = queue.poll();
 
             if (!current.equals(distributorPos)) {
-                if (isOpenToSky(level, current, lowestSealAbove)) {
+                if (isOpenToSky(level, current, sealsAbove)) {
                     return OxygenResult.failure(OxygenStatus.SKY_LEAK);
                 }
 
@@ -295,7 +295,7 @@ public class OxygenUtils {
         return true;
     }
 
-    private static boolean isOpenToSky(Level level, BlockPos pos, Map<Long, Integer> lowestSealAbove) {
+    private static boolean isOpenToSky(Level level, BlockPos pos, Map<Long, SealColumn> sealsAbove) {
         LevelChunk chunk = level.getChunk(SectionPos.blockToSectionCoord(pos.getX()),
                 SectionPos.blockToSectionCoord(pos.getZ()));
 
@@ -304,28 +304,37 @@ public class OxygenUtils {
             return false;
         }
 
-        int seal = lowestSealAbove.computeIfAbsent(BlockPos.asLong(pos.getX(), 0, pos.getZ()),
-                key -> findSealAbove(level, chunk, pos.getX(), height, pos.getZ()));
-        if (seal == NO_SEAL) {
+        SealColumn seals = sealsAbove.computeIfAbsent(BlockPos.asLong(pos.getX(), 0, pos.getZ()),
+                key -> scanSeals(level, chunk, pos.getX(), height, pos.getZ()));
+
+        if (seals.lowest() == NO_SEAL) {
             return true;
         }
-        if (pos.getY() < seal) {
+        if (pos.getY() < seals.lowest()) {
             return false;
         }
 
-        return findSealAbove(level, chunk, pos.getX(), pos.getY(), pos.getZ()) == NO_SEAL;
+        return pos.getY() >= seals.highest();
     }
 
-    private static int findSealAbove(Level level, LevelChunk chunk, int x, int fromY, int z) {
-        BlockPos.MutableBlockPos cursor = new BlockPos.MutableBlockPos();
+    private record SealColumn(int lowest, int highest) {}
 
-        for (int y = fromY + 1; y <= level.getMaxY(); y++) {
+    private static SealColumn scanSeals(Level level, LevelChunk chunk, int x, int fromY, int z) {
+        BlockPos.MutableBlockPos cursor = new BlockPos.MutableBlockPos();
+        int maxY = level.getMaxY();
+        int lowest = NO_SEAL;
+        int highest = NO_SEAL;
+
+        for (int y = fromY + 1; y <= maxY; y++) {
             if (sealsRoom(chunk.getBlockState(cursor.set(x, y, z)))) {
-                return y;
+                if (lowest == NO_SEAL) {
+                    lowest = y;
+                }
+                highest = y;
             }
         }
 
-        return NO_SEAL;
+        return new SealColumn(lowest, highest);
     }
 
     /// True when the dimension's own air is breathable, so a distributor has nothing to do there.
