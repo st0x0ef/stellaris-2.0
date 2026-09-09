@@ -11,7 +11,6 @@ import net.minecraft.world.timeline.Timeline;
 import org.exodusstudio.stellaris.client.StellarisClient;
 import org.exodusstudio.stellaris.common.data.Planet;
 import org.exodusstudio.stellaris.common.data.PlanetsData;
-import org.exodusstudio.stellaris.common.data.Temperature;
 import org.exodusstudio.stellaris.common.utils.Utils;
 
 import java.util.Optional;

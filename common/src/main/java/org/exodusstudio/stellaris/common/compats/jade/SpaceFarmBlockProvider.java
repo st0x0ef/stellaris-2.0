@@ -53,7 +53,7 @@ public class SpaceFarmBlockProvider implements IBlockComponentProvider {
             component = IThemeHelper.get().success(Component.translatable("tooltip.jade.crop_mature"));
         }
 
-        tooltip.add(Component.translatable("tooltip.jade.crop_growth", new Object[]{component}));
+        tooltip.add(Component.translatable("tooltip.jade.crop_growth", component));
     }
 
     public Identifier getUid() {

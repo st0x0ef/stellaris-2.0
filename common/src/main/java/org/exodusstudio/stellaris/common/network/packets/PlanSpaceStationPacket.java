@@ -28,14 +28,10 @@ public record PlanSpaceStationPacket(Identifier structureId) implements CustomPa
                 return;
             }
 
-            SpaceStationRecipe recipe = SpaceStationData.SPACE_STATION_RECIPES.stream()
+            SpaceStationData.SPACE_STATION_RECIPES.stream()
                     .filter(candidate -> candidate.structureId().equals(data.structureId()))
-                    .findFirst()
-                    .orElse(null);
+                    .findFirst().ifPresent(menu::planStation);
 
-            if (recipe != null) {
-                menu.planStation(recipe);
-            }
         });
     }
 

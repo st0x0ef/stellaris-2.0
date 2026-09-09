@@ -140,7 +140,7 @@ public final class StarCrawlerBossDeathRenderer {
 
         float settle = 1.0F + 0.18F * (1.0F - smootherStep(range(elapsed, 113.0F, 126.0F)));
         int titleWidth = Math.max(1, font.width(VICTORY_TITLE_TEXT));
-        float scale = Math.min(1.62F * settle, Math.max(0.8F, (width - 40.0F) / titleWidth));
+        float scale = Math.clamp((width - 40.0F) / titleWidth, 0.8F, 1.62F * settle);
         float y = Math.max(maximumBarHeight + 22.0F, height * 0.41F);
 
         Matrix3x2fStack pose = graphics.pose();

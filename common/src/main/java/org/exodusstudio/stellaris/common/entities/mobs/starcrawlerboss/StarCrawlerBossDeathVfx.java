@@ -978,9 +978,7 @@ public final class StarCrawlerBossDeathVfx {
     private static double clamp01(
             double value
     ) {
-        return Math.max(
-                0.0D,
-                Math.min(1.0D, value)
-        );
+        return Math.clamp(value,
+                0.0D, 1.0D);
     }
 }

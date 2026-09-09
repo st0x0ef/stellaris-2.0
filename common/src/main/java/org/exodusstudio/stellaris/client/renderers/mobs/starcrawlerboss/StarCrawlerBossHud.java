@@ -1286,9 +1286,7 @@ public final class StarCrawlerBossHud {
                 0.0F;
 
         if (state.isDamageShakeActive(now)) {
-            strength +=
-                    state.damageShakeRemaining(now)
-                            * 1.0F;
+            strength += state.damageShakeRemaining(now);
         }
 
         if (state.isPhaseTransitionActive(now)) {
@@ -2155,14 +2153,12 @@ public final class StarCrawlerBossHud {
             // HEALTH
 
             long elapsed =
-                    Math.max(
+                    Math.clamp(
+                            now
+                                    - this.lastRenderTime
+                            ,
                             0L,
-                            Math.min(
-                                    100L,
-                                    now
-                                            - this.lastRenderTime
-                            )
-                    );
+                            100L);
 
             float response =
                     currentCombatState.isHealing()

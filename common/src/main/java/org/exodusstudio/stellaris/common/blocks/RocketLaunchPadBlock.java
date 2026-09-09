@@ -272,7 +272,7 @@ public class RocketLaunchPadBlock extends BaseEntityBlock  {
         }
 
         return createTickerHelper(blockEntityType, BlockEntitiesRegistry.ROCKET_LAUNCH_PAD.get(),
-                (_, _, _, be) -> ((RocketLaunchPadBlockEntity) be).clientTick());
+                (_, _, _, be) -> be.clientTick());
     }
 
     @Override

@@ -96,13 +96,11 @@ public final class StarCrawlerBossDeathController {
 
         Timeline previous = TIMELINES.get(packet.bossUuid());
         if (previous != null) {
-            elapsedAtReceipt = Math.min(
-                    packet.durationTicks(),
-                    Math.max(
-                            elapsedAtReceipt,
-                            previous.elapsedTicks(packet.bossUuid(), now, 0.0F)
-                    )
-            );
+            elapsedAtReceipt = Math.clamp(
+                    elapsedAtReceipt,
+                    previous.elapsedTicks(packet.bossUuid(), now, 0.0F)
+                    ,
+                    packet.durationTicks());
         }
 
         Timeline timeline = new Timeline(
@@ -838,7 +836,7 @@ public final class StarCrawlerBossDeathController {
         }
 
         private float returnStartTick() {
-            return Math.min(RELEASE_END_TICK, Math.max(0.0F, this.durationTicks - 18.0F));
+            return Math.clamp(this.durationTicks - 18.0F, 0.0F, RELEASE_END_TICK);
         }
 
         private void initializePath(

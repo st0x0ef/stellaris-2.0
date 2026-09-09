@@ -13,7 +13,7 @@ import org.exodusstudio.stellaris.common.registries.BlocksRegistry;
 
 public class LunarVinesBlock extends GrowingPlantHeadBlock {
     public static final MapCodec<LunarVinesBlock> CODEC = simpleCodec(LunarVinesBlock::new);
-    private static final VoxelShape SHAPE = Block.column((double)8.0F, (double)0.0F, (double)15.0F);
+    private static final VoxelShape SHAPE = Block.column(8.0F, 0.0F, 15.0F);
 
     public MapCodec<LunarVinesBlock> codec() {
         return CODEC;

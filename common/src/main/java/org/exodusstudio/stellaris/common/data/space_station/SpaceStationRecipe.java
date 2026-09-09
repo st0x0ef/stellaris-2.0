@@ -92,7 +92,7 @@ public record SpaceStationRecipe(List<IngredientWithCount> items, Identifier str
                 removalAmounts[slotIndex] += consumed;
 
                 int remainingRequired = required.count() - consumed;
-                if (remainingRequired <= 0) {
+                if (remainingRequired == 0) {
                     itemsLeftToCheck.remove(i);
                     i--;
                 } else {

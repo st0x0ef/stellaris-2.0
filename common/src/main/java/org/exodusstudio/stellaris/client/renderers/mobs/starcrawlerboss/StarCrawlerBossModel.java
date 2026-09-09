@@ -470,7 +470,7 @@ public class StarCrawlerBossModel extends EntityModel<StarCrawlerBossRenderState
 	}
 
 	private static float clampRange(float value, float start, float end) {
-		return Math.max(0.0F, Math.min(1.0F, (value - start) / (end - start)));
+		return Math.clamp((value - start) / (end - start), 0.0F, 1.0F);
 	}
 
 	private static float smoothstep(float value) {

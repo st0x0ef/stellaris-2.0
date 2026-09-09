@@ -427,8 +427,7 @@ public final class StarCrawlerBossIntroManager {
     private static Vec3 findSafeGroundBelow(
             ServerPlayer player
     ) {
-        ServerLevel level =
-                (ServerLevel) player.level();
+        ServerLevel level = player.level();
 
         int x = BlockPos.containing(player.position()).getX();
         int z = BlockPos.containing(player.position()).getZ();
@@ -475,7 +474,7 @@ public final class StarCrawlerBossIntroManager {
                 BlockPos.containing(position);
 
         return isSafeStandPosition(
-                (ServerLevel) player.level(),
+                player.level(),
                 new BlockPos.MutableBlockPos(),
                 blockPosition.getX(),
                 blockPosition.getY(),
