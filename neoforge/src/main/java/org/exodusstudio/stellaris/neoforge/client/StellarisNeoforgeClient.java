@@ -33,6 +33,8 @@ import org.exodusstudio.stellaris.client.renderers.mobs.starcrawler.StarCrawlerM
 import org.exodusstudio.stellaris.client.renderers.mobs.starcrawler.StarCrawlerRenderer;
 import org.exodusstudio.stellaris.client.renderers.mobs.starcrawlerboss.StarCrawlerBossModel;
 import org.exodusstudio.stellaris.client.renderers.mobs.starcrawlerboss.StarCrawlerBossRenderer;
+import org.exodusstudio.stellaris.client.renderers.mobs.heartofluna.HeartOfLunaRenderer;
+import org.exodusstudio.stellaris.client.renderers.mobs.heartofluna.LunaBoss;
 import org.exodusstudio.stellaris.client.renderers.rockets.RocketRenderer;
 import org.exodusstudio.stellaris.client.renderers.rockets.models.BigRocketModel;
 import org.exodusstudio.stellaris.client.renderers.rockets.models.SmallRocketModel;
@@ -137,6 +139,7 @@ public class StellarisNeoforgeClient {
                 )
         );
         event.registerEntityRenderer(EntityTypesRegistry.STAR_CRAWLER.get(), StarCrawlerRenderer::new);
+        event.registerEntityRenderer(EntityTypesRegistry.HEART_OF_LUNA.get(), HeartOfLunaRenderer::new);
         event.registerEntityRenderer(EntityTypesRegistry.STAR_CRAWLER_BOSS.get(), StarCrawlerBossRenderer::new);
         event.registerEntityRenderer(EntityTypesRegistry.ALIEN.get(), AlienRenderer::new);
     }
@@ -155,6 +158,7 @@ public class StellarisNeoforgeClient {
         event.registerLayerDefinition(EvolvedParasiteAffectedVillagerModel.LAYER_LOCATION, EvolvedParasiteAffectedVillagerModel::createBodyLayer);
         event.registerLayerDefinition(LunaShadowModel.LAYER_LOCATION, LunaShadowModel::createBodyLayer);
         event.registerLayerDefinition(StarCrawlerModel.LAYER_LOCATION, StarCrawlerModel::createBodyLayer);
+        event.registerLayerDefinition(LunaBoss.LAYER_LOCATION, LunaBoss::createBodyLayer);
         event.registerLayerDefinition(StarCrawlerBossModel.LAYER_LOCATION, StarCrawlerBossModel::createBodyLayer);
 
         event.registerLayerDefinition(AlienModel.LAYER_LOCATION, AlienModel::createBodyLayer);

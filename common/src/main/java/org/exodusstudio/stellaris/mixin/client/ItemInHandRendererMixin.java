@@ -28,7 +28,8 @@ public abstract class ItemInHandRendererMixin {
             CallbackInfo ci
     ) {
         if (StarCrawlerBossIntroController.isVisualActive()
-                || StarCrawlerBossDeathController.isVisualActive()) {
+                || StarCrawlerBossDeathController.isVisualActive()
+                || org.exodusstudio.stellaris.client.cinematic.HeartOfLunaCinematic.isVisualActive()) {
             ci.cancel();
         }
     }

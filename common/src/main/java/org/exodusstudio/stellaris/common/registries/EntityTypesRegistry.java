@@ -11,6 +11,7 @@ import net.minecraft.world.entity.vehicle.boat.ChestBoat;
 import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.common.entities.alien.AlienEntity;
 import org.exodusstudio.stellaris.common.entities.mobs.*;
+import org.exodusstudio.stellaris.common.entities.mobs.heartofluna.HeartOfLunaBossEntity;
 import org.exodusstudio.stellaris.common.entities.mobs.starcrawler.StarCrawlerEntity;
 import org.exodusstudio.stellaris.common.entities.mobs.starcrawlerboss.StarCrawlerBossEntity;
 import org.exodusstudio.stellaris.common.entities.vehicles.LanderEntity;
@@ -65,6 +66,10 @@ public class EntityTypesRegistry {
     public static final RegistrySupplier<EntityType<StarCrawlerBossEntity>> STAR_CRAWLER_BOSS = register("star_crawler_boss",
         StarCrawlerBossEntity::new, MobCategory.MONSTER,
             builder -> builder.sized(3.5F, 2.75F).clientTrackingRange(12));
+
+    public static final RegistrySupplier<EntityType<HeartOfLunaBossEntity>> HEART_OF_LUNA = register("heart_of_luna",
+            HeartOfLunaBossEntity::new, MobCategory.MONSTER,
+            builder -> builder.sized(2.6F, 5.65F).eyeHeight(5.1F).clientTrackingRange(12).updateInterval(1).fireImmune());
 
     public static final RegistrySupplier<EntityType<AlienEntity>> ALIEN = register("alien",
         AlienEntity::new, MobCategory.CREATURE,

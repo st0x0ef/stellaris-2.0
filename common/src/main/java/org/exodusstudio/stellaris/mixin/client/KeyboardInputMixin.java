@@ -16,7 +16,8 @@ public abstract class KeyboardInputMixin extends ClientInput {
     @Inject(method = "tick", at = @At("TAIL"))
     private void stellaris$suppressBossIntroMovement(CallbackInfo ci) {
         if (StarCrawlerBossIntroController.isAuthoritativelyLocked()
-                || StarCrawlerBossDeathController.isAuthoritativelyLocked()) {
+                || StarCrawlerBossDeathController.isAuthoritativelyLocked()
+                || org.exodusstudio.stellaris.client.cinematic.HeartOfLunaCinematic.isAuthoritativelyLocked()) {
             this.keyPresses = Input.EMPTY;
             this.moveVector = Vec2.ZERO;
         }

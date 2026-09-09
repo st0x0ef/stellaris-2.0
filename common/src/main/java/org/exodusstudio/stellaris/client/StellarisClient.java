@@ -109,6 +109,10 @@ public class StellarisClient {
         );
 
         StarCrawlerBossHud.init();
+        org.exodusstudio.stellaris.client.renderers.mobs.heartofluna.HeartOfLunaHud.init();
+        org.exodusstudio.stellaris.client.cinematic.HeartOfLunaCinematic.init();
+        org.exodusstudio.stellaris.client.renderers.mobs.heartofluna.HeartOfLunaParticles.init();
+        org.exodusstudio.stellaris.client.renderers.mobs.heartofluna.HeartOfLunaScreenEffects.init();
         StarCrawlerBossIntroRenderer.init();
         StarCrawlerBossDeathRenderer.init();
     }
@@ -186,6 +190,10 @@ public class StellarisClient {
                 StarCrawlerModel::createBodyLayer
         );
 
+        EntityModelLayerRegistry.register(
+                org.exodusstudio.stellaris.client.renderers.mobs.heartofluna.LunaBoss.LAYER_LOCATION,
+                org.exodusstudio.stellaris.client.renderers.mobs.heartofluna.LunaBoss::createBodyLayer
+        );
         EntityModelLayerRegistry.register(
                 StarCrawlerBossModel.LAYER_LOCATION,
                 StarCrawlerBossModel::createBodyLayer

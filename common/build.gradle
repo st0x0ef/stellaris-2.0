@@ -6,6 +6,33 @@ loom {
     accessWidenerPath = file('src/main/resources/stellaris.accesswidener')
 }
 
+sourceSets {
+    lunaVerification {
+        compileClasspath += sourceSets.main.output + sourceSets.main.compileClasspath
+        runtimeClasspath += sourceSets.main.output + sourceSets.main.runtimeClasspath
+    }
+}
+
+tasks.register('verifyHeartOfLunaModel', JavaExec) {
+    dependsOn lunaVerificationClasses
+    classpath = sourceSets.lunaVerification.runtimeClasspath
+    mainClass = 'org.exodusstudio.stellaris.client.renderers.mobs.heartofluna.HeartOfLunaModelVerification'
+    workingDir = layout.buildDirectory.dir('luna-verification').get().asFile
+    doFirst { workingDir.mkdirs() }
+}
+
+check.dependsOn tasks.named('verifyHeartOfLunaModel')
+
+tasks.register('verifyHeartOfLunaCombat', JavaExec) {
+    dependsOn lunaVerificationClasses
+    classpath = sourceSets.lunaVerification.runtimeClasspath
+    mainClass = 'org.exodusstudio.stellaris.client.renderers.mobs.heartofluna.HeartOfLunaCombatVerification'
+    workingDir = layout.buildDirectory.dir('luna-verification').get().asFile
+    doFirst { workingDir.mkdirs() }
+}
+
+check.dependsOn tasks.named('verifyHeartOfLunaCombat')
+
 dependencies {
     implementation "net.fabricmc:fabric-loader:$rootProject.fabric_loader_version"
     implementation "com.fej1fun.potentials:potentials-common-$rootProject.minecraft_version:$rootProject.potentials_version"

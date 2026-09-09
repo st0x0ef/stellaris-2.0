@@ -11,3 +11,6 @@ gradle-app.setting
 /.idea/
 /.profileconfig.json
 .cache/
+/common/bin/
+/fabric/bin/
+/neoforge/bin/

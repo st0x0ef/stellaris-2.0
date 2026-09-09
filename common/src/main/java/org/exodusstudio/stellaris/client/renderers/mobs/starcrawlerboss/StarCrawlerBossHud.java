@@ -5,8 +5,6 @@ import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
-import net.minecraft.client.gui.components.BossHealthOverlay;
-import net.minecraft.client.gui.components.LerpingBossEvent;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
@@ -18,7 +16,6 @@ import org.exodusstudio.stellaris.common.entities.mobs.starcrawlerboss.StarCrawl
 import org.exodusstudio.stellaris.common.entities.mobs.starcrawlerboss.StarCrawlerBossEntity.IntroState;
 import org.exodusstudio.stellaris.common.entities.mobs.starcrawlerboss.StarCrawlerBossEntity.DeathCinematicState;
 
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -63,9 +60,6 @@ public final class StarCrawlerBossHud {
 
     private static boolean initialized;
 
-    private static boolean bossEventsFieldResolved;
-
-    private static Field bossEventsField;
 
     private StarCrawlerBossHud() {
     }
@@ -148,32 +142,15 @@ public final class StarCrawlerBossHud {
                                         > 1500L
                 );
 
-        List<Integer> starCrawlerSlots =
-                findVanillaStarCrawlerSlots(
-                        minecraft,
-                        graphics.guiHeight()
-                );
-
-        if (starCrawlerSlots != null
-                && !starCrawlerSlots.isEmpty()) {
-
-            renderIntoVanillaSlots(
-                    graphics,
-                    minecraft.font,
-                    bosses,
-                    starCrawlerSlots,
-                    now
-            );
-
-            return;
+        for (StarCrawlerBossEntity boss : bosses) {
+            int slot = org.exodusstudio.stellaris.client.renderers.StellarisBossHudSlots.slot(boss.bossEventId(), graphics.guiHeight());
+            if (slot < 0) continue;
+            drawVanillaReservationCover(graphics, slot);
+            BossHudState state = BOSS_STATES.get(boss.getUUID());
+            if (state != null && !StarCrawlerBossIntroController.shouldHideBossHud(boss)) {
+                renderBoss(graphics, minecraft.font, boss, state, slot, now);
+            }
         }
-
-        renderFallbackStack(
-                graphics,
-                minecraft.font,
-                bosses,
-                now
-        );
     }
 
     private static List<StarCrawlerBossEntity> findLoadedBosses(
@@ -203,244 +180,6 @@ public final class StarCrawlerBossHud {
         }
 
         return result;
-    }
-
-    private static List<Integer> findVanillaStarCrawlerSlots(
-            Minecraft minecraft,
-            int guiHeight
-    ) {
-        Map<UUID, LerpingBossEvent> events =
-                getVanillaBossEvents(
-                        minecraft
-                );
-
-        if (events == null) {
-            return null;
-        }
-
-        List<Integer> slots =
-                new ArrayList<>();
-
-        int y =
-                FIRST_BAR_Y;
-
-        for (LerpingBossEvent event :
-                events.values()) {
-
-            if (y >= guiHeight / 3) {
-                break;
-            }
-
-            if (event.getName()
-                    .getString()
-                    .isEmpty()) {
-
-                slots.add(
-                        y
-                );
-            }
-
-            y +=
-                    SLOT_SPACING;
-        }
-
-        return slots;
-    }
-
-    @SuppressWarnings("unchecked")
-    private static Map<UUID, LerpingBossEvent> getVanillaBossEvents(
-            Minecraft minecraft
-    ) {
-        if (!bossEventsFieldResolved) {
-            resolveBossEventsField();
-        }
-
-        if (bossEventsField == null) {
-            return null;
-        }
-
-        try {
-            BossHealthOverlay overlay =
-                    minecraft.gui
-                            .getBossOverlay();
-
-            Object value =
-                    bossEventsField.get(
-                            overlay
-                    );
-
-            if (value instanceof Map<?, ?> map) {
-                return (Map<UUID, LerpingBossEvent>) map;
-            }
-        } catch (Throwable ignored) {
-
-        }
-
-        return null;
-    }
-
-    private static void resolveBossEventsField() {
-        bossEventsFieldResolved =
-                true;
-
-        for (Field field :
-                BossHealthOverlay.class
-                        .getDeclaredFields()) {
-
-            if (!Map.class
-                    .isAssignableFrom(
-                            field.getType()
-                    )) {
-
-                continue;
-            }
-
-            try {
-                if (!field.trySetAccessible()) {
-                    continue;
-                }
-
-                bossEventsField =
-                        field;
-
-                return;
-            } catch (Throwable ignored) {
-            }
-        }
-    }
-
-    private static void renderIntoVanillaSlots(
-            GuiGraphicsExtractor graphics,
-            Font font,
-            List<StarCrawlerBossEntity> bosses,
-            List<Integer> slots,
-            long now
-    ) {
-        int bossIndex =
-                0;
-
-        for (int slotY :
-                slots) {
-
-            drawVanillaReservationCover(
-                    graphics,
-                    slotY
-            );
-
-            if (bossIndex
-                    >= bosses.size()) {
-
-                continue;
-            }
-
-            StarCrawlerBossEntity boss =
-                    bosses.get(
-                            bossIndex++
-                    );
-
-            BossHudState state =
-                    BOSS_STATES.get(
-                            boss.getUUID()
-                    );
-
-            if (state == null) {
-                continue;
-            }
-
-            if (StarCrawlerBossIntroController.shouldHideBossHud(boss)) {
-                continue;
-            }
-
-            renderBoss(
-                    graphics,
-                    font,
-                    boss,
-                    state,
-                    slotY,
-                    now
-            );
-        }
-
-        int y =
-                slots.isEmpty()
-                        ? FIRST_BAR_Y
-                        : slots.get(
-                        slots.size() - 1
-                )
-                        + SLOT_SPACING;
-
-        while (bossIndex
-                < bosses.size()
-                && y < graphics.guiHeight() / 3) {
-
-            StarCrawlerBossEntity boss =
-                    bosses.get(
-                            bossIndex++
-                    );
-
-            BossHudState state =
-                    BOSS_STATES.get(
-                            boss.getUUID()
-                    );
-
-            if (state != null
-                    && !StarCrawlerBossIntroController.shouldHideBossHud(boss)) {
-                renderBoss(
-                        graphics,
-                        font,
-                        boss,
-                        state,
-                        y,
-                        now
-                );
-            }
-
-            y +=
-                    SLOT_SPACING;
-        }
-    }
-
-    private static void renderFallbackStack(
-            GuiGraphicsExtractor graphics,
-            Font font,
-            List<StarCrawlerBossEntity> bosses,
-            long now
-    ) {
-        int y =
-                FIRST_BAR_Y;
-
-        for (StarCrawlerBossEntity boss :
-                bosses) {
-
-            if (y >= graphics.guiHeight() / 3) {
-                break;
-            }
-
-            drawVanillaReservationCover(
-                    graphics,
-                    y
-            );
-
-            BossHudState state =
-                    BOSS_STATES.get(
-                            boss.getUUID()
-                    );
-
-            if (state != null
-                    && !StarCrawlerBossIntroController.shouldHideBossHud(boss)) {
-                renderBoss(
-                        graphics,
-                        font,
-                        boss,
-                        state,
-                        y,
-                        now
-                );
-            }
-
-            y +=
-                    SLOT_SPACING;
-        }
     }
 
     private static void renderBoss(
