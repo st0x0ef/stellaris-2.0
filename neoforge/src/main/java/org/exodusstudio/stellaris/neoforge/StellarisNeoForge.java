@@ -2,8 +2,6 @@ package org.exodusstudio.stellaris.neoforge;
 
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.common.Mod;
-import net.neoforged.neoforge.common.NeoForge;
-import net.neoforged.neoforge.event.OnDatapackSyncEvent;
 import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.neoforge.common.registries.DataAttachmentRegistry;
 import org.exodusstudio.stellaris.platform.neoforge.RegistryPlatformImpl;
@@ -14,16 +12,5 @@ public final class StellarisNeoForge {
         Stellaris.init();
         DataAttachmentRegistry.register(bus);
         RegistryPlatformImpl.ENTITY_DATA_SERIALIZERS.register(bus);
-        NeoForge.EVENT_BUS.addListener(StellarisNeoForge::onDatapackSync);
     }
-
-    public static void onDatapackSync(OnDatapackSyncEvent event) {
-        if (event.getPlayer() != null) {
-            Stellaris.onDatapackSyncEvent(event.getPlayer(), true);
-        }
-        else {
-            event.getPlayerList().getPlayers().forEach((player) -> Stellaris.onDatapackSyncEvent(player, true));
-        }
-    }
-
 }

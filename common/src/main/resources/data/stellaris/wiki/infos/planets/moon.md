@@ -24,10 +24,11 @@ Here is a non-exhaustive list of the Moon's creatures:
 But, if humanity went to the Moon, it is because of its resources.
 - [ref=stellaris:items/titanium]Titanium[ref]
 - [ref=stellaris:items/desh]Desh[ref] (The only place in the whole galaxy where it can be found)
+- Iron
 - [ref=stellaris:items/blue_liquid]Blue Liquid[ref]
 
 The Moon may look like just a simple and big rock, but if you dig deep, you may find some surprises...
 
 **Attention!**
-The Moon atmosphere is not breathable for players! To be able to breathe, you need to wear a full [ref=stellaris:items/space_suit]Space Suit[ref].
+The Moon atmosphere is not breathable for players! To be able to breathe, you need to wear a full [ref=stellaris:items/space_suit]Space Suit[ref] with an oxygen module.
 

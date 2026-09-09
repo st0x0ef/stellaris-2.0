@@ -21,6 +21,7 @@ import net.minecraft.world.item.crafting.CraftingInput;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.ShapelessRecipe;
 import net.minecraft.world.level.block.*;
+import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.common.antennas.Antenna;
 import org.exodusstudio.stellaris.common.assistant.AssistantManager;
 import org.exodusstudio.stellaris.common.antennas.AntennaSavedData;
@@ -52,6 +53,8 @@ import java.util.List;
 public class Events {
 
     public static void init() {
+        LifecycleEvent.DATAPACK_SYNC.register(Stellaris::onDatapackSyncEvent);
+
         TickEvent.SERVER_POST.register(AssistantManager::tick);
         LifecycleEvent.SERVER_STOPPING.register(server -> {
             AssistantManager.clear();

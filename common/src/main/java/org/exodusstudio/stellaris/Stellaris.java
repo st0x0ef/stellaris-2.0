@@ -86,10 +86,8 @@ public final class Stellaris {
     }
 
     public static void onDatapackSyncEvent(ServerPlayer player, boolean joined) {
-        if (joined) {
-            NetworkManager.sendToPlayer(player, new SyncWiki(WikiMarkdownData.ENTRY_PAGES, WikiEntryPack.ENTRIES));
-            NetworkManager.sendToPlayer(player, new SyncSDCards(SdCardData.SD_CARDS));
-            NetworkManager.sendToPlayer(player, new SyncPlanetsPacket(new ArrayList<>(PlanetsData.PLANETS)));
-        }
+        NetworkManager.sendToPlayer(player, new SyncWiki(WikiMarkdownData.ENTRY_PAGES, WikiEntryPack.ENTRIES));
+        NetworkManager.sendToPlayer(player, new SyncSDCards(SdCardData.SD_CARDS));
+        NetworkManager.sendToPlayer(player, new SyncPlanetsPacket(new ArrayList<>(PlanetsData.PLANETS)));
     }
 }
