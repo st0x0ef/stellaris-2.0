@@ -30,6 +30,8 @@ public class RocketTimerOverlay {
             TIMER_6, TIMER_7, TIMER_8, TIMER_9, TIMER_10
     };
 
+    private static final int TICKS_PER_NUMBER = 20;
+
     /** Number shown by /stellaris countdown, 0 when the overlay is off. */
     private static int countdownNumber = 0;
 
@@ -55,52 +57,17 @@ public class RocketTimerOverlay {
             return;
         }
 
-        if (player.getVehicle() instanceof RocketEntity) {
-            Entity vehicle = Minecraft.getInstance().player.getVehicle();
-            int timer = 0;
+        if (!(player.getVehicle() instanceof RocketEntity rocket)) {
+            return;
+        }
 
-            /** GET TIMER */
-            if (vehicle instanceof RocketEntity rocket) {
-                timer = rocket.getTimer();
+        if (!rocket.getEntityData().get(RocketEntity.ROCKET_START)) {
+            return;
+        }
 
-                /** CHECK IF ROCKET IS STARTED */
-                if (!rocket.getEntityData().get(RocketEntity.ROCKET_START)) {
-                    return;
-                }
-
-                /** TIMER */
-                if (timer > -1 && timer < 20) {
-                    blitTimer(graphics, TIMER_10);
-                }
-                else if (timer > 20 && timer < 40) {
-                    blitTimer(graphics, TIMER_9);
-                }
-                else if (timer > 40 && timer < 60) {
-                    blitTimer(graphics, TIMER_8);
-                }
-                else if (timer > 60 && timer < 80) {
-                    blitTimer(graphics, TIMER_7);
-                }
-                else if (timer > 80 && timer < 100) {
-                    blitTimer(graphics, TIMER_6);
-                }
-                else if (timer > 100 && timer < 120) {
-                    blitTimer(graphics, TIMER_5);
-                }
-                else if (timer > 120 && timer < 140) {
-                    blitTimer(graphics, TIMER_4);
-                }
-                else if (timer > 140 && timer < 160) {
-                    blitTimer(graphics, TIMER_3);
-                }
-                else if (timer > 160 && timer < 180) {
-                    blitTimer(graphics, TIMER_2);
-                }
-                else if (timer > 180 && timer < 200) {
-                    blitTimer(graphics, TIMER_1);
-                }
-            }
-
+        int timer = rocket.getTimer();
+        if (timer >= 0 && timer < TIMER_TEXTURES.length * TICKS_PER_NUMBER) {
+            blitTimer(graphics, TIMER_TEXTURES[TIMER_TEXTURES.length - 1 - (timer / TICKS_PER_NUMBER)]);
         }
     }
 
