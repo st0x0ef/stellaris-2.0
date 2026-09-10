@@ -64,6 +64,9 @@ public final class BlocksRegistry {
     public static final BlockItemRegistrySupplier IRON_PILLAR = blockWithItem("iron_pillar", ofFullCopy(Blocks.IRON_BLOCK), RotatedPillarBlock::new);
     public static final BlockItemRegistrySupplier VERTICAL_IRON_PLATING_SLAB = blockWithItem("vertical_iron_plating_slab", ofFullCopy(Blocks.IRON_BLOCK), p -> new VerticalSlab(p));
 
+    public static final BlockItemRegistrySupplier NOVITE_BLOCK = blockWithItem("novite_block", ofFullCopy(Blocks.IRON_BLOCK));
+    public static final BlockItemRegistrySupplier RAW_NOVITE_BLOCK = blockWithItem("raw_novite_block", ofFullCopy(Blocks.RAW_IRON_BLOCK));
+
     /**
      * MOON WORLDGEN BLOCKS
      */
@@ -170,6 +173,13 @@ public final class BlocksRegistry {
     public static final BlockItemRegistrySupplier ASTRUM_VITREUS_CLUSTER = blockWithItem("astrum_vitreus_cluster", ofFullCopy(Blocks.AMETHYST_CLUSTER), p -> new AmethystClusterBlock(7.0F, 10.0F, p));
     public static final BlockItemRegistrySupplier CASUS_ASTRUM_DIRT = blockWithItem("casus_astrum_dirt", ofFullCopy(Blocks.DIRT));
     public static final BlockItemRegistrySupplier CASUS_ASTRUM_GRASS = blockWithItem("casus_astrum_grass", ofFullCopy(Blocks.GRASS_BLOCK));
+
+
+    // DARK BLOCKS
+    public static final BlockItemRegistrySupplier DARK_COBBLESTONE = blockWithItem("dark_cobblestone", ofFullCopy(Blocks.COBBLESTONE));
+    public static final BlockItemRegistrySupplier DARK_INFECTED_DIRT = blockWithItem("dark_infected_dirt", ofFullCopy(Blocks.DIRT));
+    public static final BlockItemRegistrySupplier DARK_CRYSTAL_BLOCK = blockWithItem("dark_crystal_block", ofFullCopy(Blocks.AMETHYST_BLOCK));
+    public static final BlockItemRegistrySupplier DARK_CRYSTAL_CLUSTER = blockWithItem("dark_crystal_cluster", ofFullCopy(Blocks.AMETHYST_CLUSTER), p -> new AmethystClusterBlock(7.0F, 10.0F, p));
 
 
     /**

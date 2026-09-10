@@ -24,6 +24,8 @@
     "stellaris:desh_plating_stairs",
     "stellaris:desh_pillar",
     "stellaris:vertical_desh_slab",
-    "stellaris:vertical_desh_plating_slab"
+    "stellaris:vertical_desh_plating_slab",
+    "stellaris:novite_block",
+    "stellaris:raw_novite_block"
   ]
 }

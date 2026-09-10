@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "###",
+    "###",
+    "###"
+  ],
+  "key": {
+    "#": "stellaris:novite_ingot"
+  },
+  "result": {
+    "id": "stellaris:novite_block",
+    "count": 1
+  }
+}

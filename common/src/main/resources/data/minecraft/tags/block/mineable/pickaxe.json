@@ -84,6 +84,11 @@
     "stellaris:cargo_unloader",
     "stellaris:laboratory",
     "stellaris:blender",
-    "stellaris:blender_proxy"
+    "stellaris:blender_proxy",
+    "stellaris:dark_cobblestone",
+    "stellaris:dark_crystal_block",
+    "stellaris:dark_crystal_cluster",
+    "stellaris:novite_block",
+    "stellaris:raw_novite_block"
   ]
 }

@@ -1,6 +1,7 @@
 {
   "replace": false,
   "values": [
-    "stellaris:moon_cobblestone"
+    "stellaris:moon_cobblestone",
+    "stellaris:dark_cobblestone"
   ]
 }

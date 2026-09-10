@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "##",
+    "##"
+  ],
+  "key": {
+    "#": "stellaris:dark_crystal_cluster"
+  },
+  "result": {
+    "id": "stellaris:dark_crystal_block",
+    "count": 1
+  }
+}

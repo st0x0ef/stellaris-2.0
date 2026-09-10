@@ -51,6 +51,9 @@ public final class ItemsRegistry {
     public static final RegistrySupplier<Item> DESH_INGOT = item("desh_ingot");
     public static final RegistrySupplier<Item> RAW_DESH = item("raw_desh");
 
+    public static final RegistrySupplier<Item> NOVITE_INGOT = item("novite_ingot");
+    public static final RegistrySupplier<Item> RAW_NOVITE = item("raw_novite");
+
     /** Tools */
     public static final RegistrySupplier<CustomPickaxeItem> TITANIUM_PICKAXE = item("titanium_pickaxe", p -> new CustomPickaxeItem(p, ToolMaterialsRegistry.TITANIUM, 1.0F, -2.8F));
     public static final RegistrySupplier<CustomAxeItem> TITANIUM_AXE = item("titanium_axe", p -> new CustomAxeItem(p, ToolMaterialsRegistry.TITANIUM, 6.0F, -3.1F));

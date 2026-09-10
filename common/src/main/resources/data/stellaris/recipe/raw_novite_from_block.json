@@ -1,0 +1,10 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    "stellaris:raw_novite_block"
+  ],
+  "result": {
+    "id": "stellaris:raw_novite",
+    "count": 9
+  }
+}

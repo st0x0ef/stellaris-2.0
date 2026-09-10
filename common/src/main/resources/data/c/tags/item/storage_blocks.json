@@ -4,6 +4,8 @@
     "#c:storage_blocks/titanium",
     "#c:storage_blocks/raw_titanium",
     "#c:storage_blocks/desh",
-    "#c:storage_blocks/raw_desh"
+    "#c:storage_blocks/raw_desh",
+    "#c:storage_blocks/novite",
+    "#c:storage_blocks/raw_novite"
   ]
 }

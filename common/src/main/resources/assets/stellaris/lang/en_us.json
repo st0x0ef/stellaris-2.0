@@ -52,6 +52,11 @@
   "item.stellaris.vertical_desh_slab": "Vertical Desh Slab",
   "item.stellaris.desh_pillar": "Desh Pillar",
 
+  "item.stellaris.novite_ingot": "Novite Ingot",
+  "item.stellaris.raw_novite": "Raw Novite",
+  "item.stellaris.novite_block": "Novite Block",
+  "item.stellaris.raw_novite_block": "Raw Novite Block",
+
   "item.stellaris.silicon": "Silicon",
 
   "item.stellaris.titanium_ingot": "Titanium Ingot",
@@ -85,6 +90,11 @@
   "item.stellaris.casus_astrum_grass": "Casus Astrum Grass",
   "item.stellaris.casus_astrum_dirt": "Casus Astrum Dirt",
   "item.stellaris.astrum_liquidus_bucket": "Astrum Liquidus Bucket",
+
+  "item.stellaris.dark_cobblestone": "Dark Cobblestone",
+  "item.stellaris.dark_infected_dirt": "Dark Infected Dirt",
+  "item.stellaris.dark_crystal_block": "Dark Crystal Block",
+  "item.stellaris.dark_crystal_cluster": "Dark Crystal Cluster",
 
   "item.stellaris.lunar_log": "Lunar Log",
   "item.stellaris.lunar_wood": "Lunar Wood",
@@ -670,6 +680,8 @@
   "block.stellaris.desh_pillar": "Desh Pillar",
   "block.stellaris.vertical_desh_slab": "Vertical Desh Slab",
   "block.stellaris.vertical_desh_plating_slab": "Vertical Desh Plating Slab",
+  "block.stellaris.novite_block": "Novite Block",
+  "block.stellaris.raw_novite_block": "Raw Novite Block",
   "block.stellaris.lunar_stoned_wood_log": "Lunar Stoned Wood Log",
   "block.stellaris.lunar_dirt": "Lunar Dirt",
   "block.stellaris.lunar_rock": "Lunar Rock",
@@ -705,6 +717,10 @@
   "block.stellaris.astrum_vitreus_cluster": "Astrum Vitreus Cluster",
   "block.stellaris.casus_astrum_dirt": "Casus Astrum Dirt",
   "block.stellaris.casus_astrum_grass": "Casus Astrum Grass",
+  "block.stellaris.dark_cobblestone": "Dark Cobblestone",
+  "block.stellaris.dark_infected_dirt": "Dark Infected Dirt",
+  "block.stellaris.dark_crystal_block": "Dark Crystal Block",
+  "block.stellaris.dark_crystal_cluster": "Dark Crystal Cluster",
   "block.stellaris.solar_panel": "Solar Panel",
   "block.stellaris.star_light_panel": "Star Light Panel",
   "block.stellaris.coal_generator": "Coal Generator",
