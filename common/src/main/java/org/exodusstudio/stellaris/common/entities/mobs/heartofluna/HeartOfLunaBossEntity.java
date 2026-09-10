@@ -59,6 +59,7 @@ public final class HeartOfLunaBossEntity extends Monster {
     public static final int CLOUD_LIFETIME = 100;
     public static final double CLOUD_RADIUS = 7.0;
     public static final int INFECTION_DURATION = 600;
+    public static final double BOSS_BAR_RANGE = 48.0;
     private static final EntityDataAccessor<String> HUD_ID = SynchedEntityData.defineId(HeartOfLunaBossEntity.class, EntityDataSerializers.STRING);
     private static final EntityDataAccessor<Vector3fc> CLOUD_CENTER = SynchedEntityData.defineId(HeartOfLunaBossEntity.class, EntityDataSerializers.VECTOR3);
     private static final EntityDataAccessor<Integer> STATE = SynchedEntityData.defineId(HeartOfLunaBossEntity.class, EntityDataSerializers.INT);
@@ -199,6 +200,7 @@ public final class HeartOfLunaBossEntity extends Monster {
         if (blockFlash() > 0) entityData.set(BLOCK_FLASH, blockFlash() - 1);
         bossEvent.setProgress(state() == State.DEATH ? 0 : getHealth() / MAX_HEALTH);
         bossEvent.setVisible(state() != State.INTRO);
+        updateBossBarAudience(server);
         tickCloud(server);
         if (!introPlayed && state().duration == 0) {
             ServerPlayer witness = null;
@@ -597,8 +599,14 @@ public final class HeartOfLunaBossEntity extends Monster {
     protected net.minecraft.sounds.SoundEvent getHurtSound(DamageSource source) { return SoundEvents.DEEPSLATE_BREAK; }
     @Override
     protected net.minecraft.sounds.SoundEvent getDeathSound() { return null; }
-    @Override
-    public void startSeenByPlayer(ServerPlayer player) { super.startSeenByPlayer(player); bossEvent.addPlayer(player); }
+
+    private void updateBossBarAudience(ServerLevel server) {
+        double range = BOSS_BAR_RANGE * BOSS_BAR_RANGE;
+        for (ServerPlayer player : server.players()) {
+            if (distanceToSqr(player) <= range) bossEvent.addPlayer(player);
+            else bossEvent.removePlayer(player);
+        }
+    }
     @Override
     public void stopSeenByPlayer(ServerPlayer player) { super.stopSeenByPlayer(player); bossEvent.removePlayer(player); }
     @Override

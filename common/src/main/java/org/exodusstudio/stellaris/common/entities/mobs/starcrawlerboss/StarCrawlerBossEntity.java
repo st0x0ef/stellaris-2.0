@@ -182,6 +182,10 @@ public class StarCrawlerBossEntity extends Monster {
             DEATH_CINEMATIC_PARTICIPANT_MAX_DISTANCE
                     * DEATH_CINEMATIC_PARTICIPANT_MAX_DISTANCE;
 
+    public static final double BOSS_BAR_RANGE = 82.0D;
+    private static final double BOSS_BAR_RANGE_SQR =
+            BOSS_BAR_RANGE * BOSS_BAR_RANGE;
+
     private static final int DEATH_KILL_CREDIT_MEMORY_TICKS =
             DEATH_CINEMATIC_DURATION_TICKS + 80;
 
@@ -683,6 +687,10 @@ public class StarCrawlerBossEntity extends Monster {
                         0.0F,
                         1.0F
                 )
+        );
+
+        this.updateBossBarAudience(
+                serverLevel
         );
 
         this.updateBossPresentation();
@@ -4884,10 +4892,6 @@ public class StarCrawlerBossEntity extends Monster {
                 player
         );
 
-        this.bossEvent.addPlayer(
-                player
-        );
-
         if (this.isIntroPlaying()
                 && StarCrawlerBossIntroManager.isClaimedBy(
                 player.getUUID(),
@@ -4910,6 +4914,16 @@ public class StarCrawlerBossEntity extends Monster {
                     player,
                     this.level().getGameTime()
             );
+        }
+    }
+
+    private void updateBossBarAudience(ServerLevel serverLevel) {
+        for (ServerPlayer player : serverLevel.players()) {
+            if (this.distanceToSqr(player) <= BOSS_BAR_RANGE_SQR) {
+                this.bossEvent.addPlayer(player);
+            } else {
+                this.bossEvent.removePlayer(player);
+            }
         }
     }
 
