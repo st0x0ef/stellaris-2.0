@@ -91,7 +91,7 @@ public class BiomeModificationsRegistry {
                 EntityTypesRegistry.PARASITE_AFFECTED_VILLAGER_EVOLVED,
                 SpawnPlacementTypes.ON_GROUND,
                 Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
-                Monster::checkMonsterSpawnRules
+                BiomeModificationsRegistry::checkMoonMonsterSpawnRules
         );
 
         SpawnPlacementsRegistry.register(

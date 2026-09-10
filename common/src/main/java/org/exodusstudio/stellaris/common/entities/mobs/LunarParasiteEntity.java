@@ -214,7 +214,7 @@ public class LunarParasiteEntity extends Monster {
             return true;
         }
 
-        return random.nextFloat() < 0.25F;
+        return random.nextFloat() < 0.15F;
     }
 
     @Override
