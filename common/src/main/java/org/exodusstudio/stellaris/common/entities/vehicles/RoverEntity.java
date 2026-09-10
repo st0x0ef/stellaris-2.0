@@ -1,5 +1,6 @@
 package org.exodusstudio.stellaris.common.entities.vehicles;
 
+import com.fej1fun.potentials.components.FluidAmountMapDataComponent;
 import com.fej1fun.potentials.fluid.UniversalFluidStorage;
 import com.fej1fun.potentials.providers.FluidProvider;
 import dev.architectury.fluid.FluidStack;
@@ -49,6 +50,7 @@ import org.exodusstudio.stellaris.common.vehicle_upgrade.FuelType;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3d;
 
+import java.util.List;
 import java.util.Optional;
 
 public class RoverEntity extends AbstractRoverBase implements HasCustomInventoryScreen, ContainerListener, FluidProvider.ENTITY, FuelledVehicle {
@@ -149,7 +151,12 @@ public class RoverEntity extends AbstractRoverBase implements HasCustomInventory
      * The tank capacity, driven by an installed TANK module (defaults to {@link #BASE_TANK_CAPACITY}).
      */
     public int getTankCapacity() {
-        for (RoverModule module : this.getRoverModules()) {
+        return getTankCapacity(this.getRoverModules());
+    }
+
+    /** Shared with {@link org.exodusstudio.stellaris.common.items.RoverItem} so the item form holds the same amount. */
+    public static int getTankCapacity(Modules<RoverModule> modules) {
+        for (RoverModule module : modules) {
             if (module.getRoverFeature() == RoverModule.RoverFeature.TANK && module.getTankCapacity() > 0) {
                 return module.getTankCapacity();
             }
@@ -338,6 +345,13 @@ public class RoverEntity extends AbstractRoverBase implements HasCustomInventory
     public ItemStack toItemStack() {
         ItemStack roverStack = new ItemStack(ItemsRegistry.ROVER.get(), 1);
         roverStack.set(DataComponentsRegistry.ROVER_MODULES.get(), this.getRoverModules());
+
+        FluidStack fuel = fuelTank.getFluidInTank(0);
+        if (!fuel.isEmpty()) {
+            roverStack.set(DataComponentsRegistry.FLUID_LIST.get(),
+                    new FluidAmountMapDataComponent(List.of(fuel.getFluid()), List.of(fuel.getAmount())));
+        }
+
         return roverStack;
     }
 
@@ -345,6 +359,14 @@ public class RoverEntity extends AbstractRoverBase implements HasCustomInventory
         RoverEntity rover = new RoverEntity(org.exodusstudio.stellaris.common.registries.EntityTypesRegistry.ROVER.get(), level);
         Modules<RoverModule> modules = stack.getOrDefault(DataComponentsRegistry.ROVER_MODULES.get(), RoverModules.empty());
         rover.setRoverModules(modules);
+
+        FluidStack stored = FluidUtil.readStoredFluid(stack, DataComponentsRegistry.FLUID_LIST.get(), 0);
+        FuelType.Type type = FuelType.Type.getTypeBasedOnFluid(stored.getFluid());
+        if (!stored.isEmpty() && type != null) {
+            rover.FUEL_TYPE = type;
+            rover.FUEL = (int) Math.min(stored.getAmount(), rover.getTankCapacity());
+        }
+
         return rover;
     }
 
