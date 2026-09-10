@@ -1,14 +1,15 @@
 {
   "type": "minecraft:jigsaw",
-  "biomes": "#stellaris:moon_biomes",
+  "biomes": "#stellaris:is_moon",
   "step": "underground_structures",
   "spawn_overrides": {},
   "terrain_adaptation": "encapsulate",
-  "start_pool": "stellaris:moon/moon_dungeon_entry",
+  "start_pool": "stellaris:moon/moon_dungeon_boss_entry",
   "size": 12,
   "start_height": {
     "absolute": -16
   },
   "max_distance_from_center": 116,
-  "use_expansion_hack": true
+  "use_expansion_hack": true,
+  "liquid_settings": "ignore_waterlogging"
 }

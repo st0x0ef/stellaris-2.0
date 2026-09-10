@@ -104,7 +104,7 @@
             ],
             "humidity": [
               -1,
-              0
+              -0.3
             ],
             "continentalness": [
               -1,
@@ -133,8 +133,38 @@
               1
             ],
             "humidity": [
-              0,
+              0.3,
               1
+            ],
+            "continentalness": [
+              -1,
+              1
+            ],
+            "erosion": [
+              -1,
+              1
+            ],
+            "weirdness": [
+              -1,
+              1
+            ],
+            "depth": [
+              0.6,
+              1
+            ],
+            "offset": 0
+          }
+        },
+        {
+          "biome": "stellaris:moon_craters",
+          "parameters": {
+            "temperature": [
+              -1,
+              1
+            ],
+            "humidity": [
+              -0.3,
+              0.3
             ],
             "continentalness": [
               -1,

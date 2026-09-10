@@ -2,9 +2,9 @@
   "fallback": "minecraft:empty",
   "elements": [
     {
-      "weight": 10,
+      "weight": 50,
       "element": {
-        "location": "stellaris:moon_dungeon_boss",
+        "location": "stellaris:moon_dungeon_bridge",
         "processors": "minecraft:empty",
         "projection": "rigid",
         "element_type": "minecraft:single_pool_element"
@@ -13,23 +13,12 @@
     {
       "weight": 50,
       "element": {
-        "location": "stellaris:moon_dungeon_bridge",
-        "processors": "minecraft:empty",
-        "projection": "rigid",
-        "element_type": "minecraft:single_pool_element"
-      }
-    }
-  ,
-    {
-      "weight": 50,
-      "element": {
         "location": "stellaris:moon_dungeon_corner",
         "processors": "minecraft:empty",
         "projection": "rigid",
         "element_type": "minecraft:single_pool_element"
       }
-    }
-  ,
+    },
     {
       "weight": 50,
       "element": {
@@ -38,8 +27,7 @@
         "projection": "rigid",
         "element_type": "minecraft:single_pool_element"
       }
-    }
-  ,
+    },
     {
       "weight": 50,
       "element": {
@@ -48,8 +36,7 @@
         "projection": "rigid",
         "element_type": "minecraft:single_pool_element"
       }
-    }
-  ,
+    },
     {
       "weight": 50,
       "element": {
@@ -58,8 +45,7 @@
         "projection": "rigid",
         "element_type": "minecraft:single_pool_element"
       }
-    }
-  ,
+    },
     {
       "weight": 50,
       "element": {
@@ -68,8 +54,7 @@
         "projection": "rigid",
         "element_type": "minecraft:single_pool_element"
       }
-    }
-  ,
+    },
     {
       "weight": 50,
       "element": {
@@ -78,8 +63,7 @@
         "projection": "rigid",
         "element_type": "minecraft:single_pool_element"
       }
-    }
-  ,
+    },
     {
       "weight": 50,
       "element": {
@@ -88,8 +72,7 @@
         "projection": "rigid",
         "element_type": "minecraft:single_pool_element"
       }
-    }
-  ,
+    },
     {
       "weight": 50,
       "element": {
@@ -98,8 +81,7 @@
         "projection": "rigid",
         "element_type": "minecraft:single_pool_element"
       }
-    }
-  ,
+    },
     {
       "weight": 25,
       "element": {
@@ -126,8 +108,7 @@
         "projection": "rigid",
         "element_type": "minecraft:single_pool_element"
       }
-    }
-  ,
+    },
     {
       "weight": 50,
       "element": {

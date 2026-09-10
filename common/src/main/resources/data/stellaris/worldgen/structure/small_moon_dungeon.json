@@ -1,6 +1,6 @@
 {
   "type": "minecraft:jigsaw",
-  "biomes": "#stellaris:moon_biomes",
+  "biomes": "#stellaris:is_moon",
   "step": "underground_structures",
   "spawn_overrides": {},
   "terrain_adaptation": "encapsulate",
@@ -10,5 +10,6 @@
     "absolute": -16
   },
   "max_distance_from_center": 80,
-  "use_expansion_hack": true
+  "use_expansion_hack": true,
+  "liquid_settings": "ignore_waterlogging"
 }

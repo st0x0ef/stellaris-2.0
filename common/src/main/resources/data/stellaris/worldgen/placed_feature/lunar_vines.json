@@ -34,6 +34,16 @@
       }
     },
     {
+      "type": "minecraft:block_predicate_filter",
+      "predicate": {
+        "type": "minecraft:matching_blocks",
+        "blocks": [
+          "stellaris:moon_stone",
+          "stellaris:moon_deepslate"
+        ]
+      }
+    },
+    {
       "type": "minecraft:random_offset",
       "xz_spread": 0,
       "y_spread": -1
@@ -43,4 +53,3 @@
     }
   ]
 }
-
