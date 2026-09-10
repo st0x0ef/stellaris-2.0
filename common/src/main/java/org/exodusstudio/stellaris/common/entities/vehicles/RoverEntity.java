@@ -25,15 +25,14 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerListener;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.phys.Vec3;
 import org.exodusstudio.stellaris.common.entities.vehicles.base.AbstractRoverBase;
+import org.exodusstudio.stellaris.common.entities.vehicles.base.FuelledVehicle;
 import org.exodusstudio.stellaris.common.fluid.FluidUtil;
 import org.exodusstudio.stellaris.common.fluid.VehicleFuelStorage;
 import org.exodusstudio.stellaris.common.menus.RoverMenu;
@@ -52,7 +51,7 @@ import org.joml.Vector3d;
 
 import java.util.Optional;
 
-public class RoverEntity extends AbstractRoverBase implements HasCustomInventoryScreen, ContainerListener, FluidProvider.ENTITY {
+public class RoverEntity extends AbstractRoverBase implements HasCustomInventoryScreen, ContainerListener, FluidProvider.ENTITY, FuelledVehicle {
 
     public static final EntityDataAccessor<Modules<RoverModule>> ROVER_MODULES = SynchedEntityData.defineId(RoverEntity.class, EntityDataSerializersRegistry.ROVER_MODULES);
 
@@ -60,7 +59,6 @@ public class RoverEntity extends AbstractRoverBase implements HasCustomInventory
     public static final int MAX_INVENTORY_ROWS = 3;
 
     private static final int BASE_TANK_CAPACITY = 3000;
-    private static final int REFUEL_AMOUNT = 1000;
 
     /**
      * Fuel burned each time the {@code distanceBetweenFuelConsumption} interval (20 blocks) is crossed while driving.
@@ -73,7 +71,7 @@ public class RoverEntity extends AbstractRoverBase implements HasCustomInventory
     /**
      * Exposes the rover's integer fuel as a fluid tank so it can reuse the machine slot logic. The
      * accepted fuel is gated by the motor's fuel type, and the tank's {@link #FUEL_TYPE} is set from
-     * the inserted fluid when filling from empty (mirroring {@link #tryFillUpRover}).
+     * the inserted fluid when filling from empty.
      */
     private final VehicleFuelStorage fuelTank = new VehicleFuelStorage() {
         @Override
@@ -248,15 +246,10 @@ public class RoverEntity extends AbstractRoverBase implements HasCustomInventory
 
         if (!this.level().isClientSide()) {
             if (player.isCrouching()) {
-                Item heldItem = player.getItemInHand(hand).getItem();
-                if (tryFillUpRover(heldItem, false)) {
-                    player.getItemInHand(hand).shrink(1);
-                    player.getInventory().add(new ItemStack(Items.BUCKET));
-                    return InteractionResult.CONSUME;
-                } else {
+                if (!FluidUtil.drainHeldContainer(player, hand, fuelTank, 0)) {
                     this.openCustomInventoryScreen(player);
-                    return InteractionResult.CONSUME;
                 }
+                return InteractionResult.CONSUME;
             }
             if (player.getVehicle() != this) {
                 player.startRiding(this);
@@ -293,12 +286,6 @@ public class RoverEntity extends AbstractRoverBase implements HasCustomInventory
             return;
         }
 
-        ItemStack input = this.getInventory().getItem(0);
-        if (tryFillUpRover(input.getItem(), true)) {
-            return;
-        }
-
-        // Fluid cells (and other fluid containers) drain into the tank via the shared machine logic.
         FluidUtil.moveFluidFromItem(0, 0, 1, getInventory(), fuelTank, Long.MAX_VALUE);
     }
 
@@ -306,50 +293,9 @@ public class RoverEntity extends AbstractRoverBase implements HasCustomInventory
         return inventory;
     }
 
-    public boolean tryFillUpRover(Item item, boolean isFromInventory) {
-        if (this.level().isClientSide()) {
-            return false;
-        }
-        if (FUEL >= getTankCapacity() || item == null) {
-            return false;
-        }
-
-        FuelType.Type itemType = FuelType.Type.getTypeBasedOnItem(item);
-        if (itemType == null) {
-            return false;
-        }
-
-        FuelType.Type motorType = getMotorFuelType();
-
-        if (motorType == itemType.getMotorType()) {
-            if (FUEL == 0) {
-                FUEL_TYPE = itemType;
-            }
-
-            if (itemType == FUEL_TYPE) {
-                if (isFromInventory) {
-                    boolean leavesEmptyBucket = item == ItemsRegistry.FUEL_BUCKET.get()
-                            || item == ItemsRegistry.HYDROGEN_BUCKET.get()
-                            || item == ItemsRegistry.DIESEL_BUCKET.get();
-
-                    // If the fuel item leaves an empty bucket, only refuel when it can stack into the remaining slot.
-                    if (leavesEmptyBucket && !FluidUtil.addToSlot(getInventory(), 1, new ItemStack(Items.BUCKET))) {
-                        return false;
-                    }
-
-                    inventory.removeItem(0, 1);
-                }
-
-                FUEL += REFUEL_AMOUNT;
-                if (FUEL > getTankCapacity()) {
-                    FUEL = getTankCapacity();
-                }
-
-                return true;
-            }
-        }
-
-        return false;
+    @Override
+    public VehicleFuelStorage getFuelTank() {
+        return fuelTank;
     }
 
     @Override

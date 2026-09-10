@@ -91,22 +91,7 @@ public class FuelType {
             this.motorType = motorType;
         }
 
-        public static Type getTypeBasedOnItem(Item item) {
-            if (item == null) {
-                return null;
-            }
-            if (item == ItemsRegistry.HYDROGEN_BUCKET.get()) {
-                return HYDROGEN;
-            } else if (item == ItemsRegistry.OIL_BUCKET.get() || item == ItemsRegistry.DIESEL_BUCKET.get()) {
-                return DIESEL;
-            } else if (item == ItemsRegistry.FUEL_BUCKET.get()) {
-                return FUEL;
-            }
-
-            return null;
-        }
-
-        /** Maps a stored fluid to its fuel type, mirroring {@link #getTypeBasedOnItem} for cells/tanks. */
+        /** Maps a stored fluid to its fuel type. Fuel is identified by fluid, never by item. */
         public static Type getTypeBasedOnFluid(Fluid fluid) {
             if (fluid == null) {
                 return null;

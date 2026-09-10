@@ -10,6 +10,8 @@ import dev.architectury.fluid.FluidStack;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.component.DataComponentType;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -117,6 +119,51 @@ public class FluidUtil {
             to.drain(fluidMoved.copy(), false);
             container.setItem(slot, inputBackup);
         }
+    }
+
+    /**
+     * Drains one held fluid container into {@code to}, replacing it with whatever it becomes once
+     * emptied (a cell stays a cell, a bucket becomes an empty bucket). The destination decides what
+     * it accepts. Returns {@code true} if any fluid moved.
+     */
+    public static boolean drainHeldContainer(Player player, InteractionHand hand, UniversalFluidStorage to, int tank) {
+        ItemStack held = player.getItemInHand(hand);
+        if (held.isEmpty()) {
+            return false;
+        }
+
+        ItemStack single = held.copyWithCount(1);
+        UniversalFluidItemStorage from = getItemFluidStorage(single);
+        if (from == null) {
+            return false;
+        }
+
+        long space = to.getTankCapacity(tank) - to.getFluidInTank(tank).getAmount();
+        if (space <= 0) {
+            return false;
+        }
+
+        FluidStack available = from.getFluidInTank(0);
+        if (available.isEmpty()) {
+            return false;
+        }
+
+        if (moveFluid(from, to, available.copyWithAmount(Math.min(space, available.getAmount()))).isEmpty()) {
+            return false;
+        }
+
+        ItemStack emptied = from.getContainer().copy();
+        if (held.getCount() == 1) {
+            player.setItemInHand(hand, emptied);
+        }
+        else {
+            held.shrink(1);
+            if (!emptied.isEmpty() && !player.getInventory().add(emptied)) {
+                player.drop(emptied, false);
+            }
+        }
+
+        return true;
     }
 
     /**

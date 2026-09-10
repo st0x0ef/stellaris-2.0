@@ -9,6 +9,8 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import org.exodusstudio.stellaris.common.entities.vehicles.RocketEntity;
+import org.exodusstudio.stellaris.common.menus.slot.ResultSlot;
+import org.exodusstudio.stellaris.common.menus.slot.VehicleFuelSlot;
 import org.exodusstudio.stellaris.common.registries.MenuTypesRegistry;
 
 public class RocketMenu extends AbstractContainerMenu {
@@ -54,8 +56,8 @@ public class RocketMenu extends AbstractContainerMenu {
 
     private void addSlots(Container inventory, float inventoryRows) {
         // fuel slots
-        this.addSlot(new Slot(inventory, 0, 68, 18));
-        this.addSlot(new Slot(inventory, 1, 68, 52));
+        this.addSlot(new VehicleFuelSlot(inventory, rocket, 0, 68, 18));
+        this.addSlot(new ResultSlot(inventory, 1, 68, 52));
 
         // inventory slots
         for (int i = 0; i < inventoryRows; i++) {

@@ -26,15 +26,15 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.stats.Stats;
 import net.minecraft.world.SimpleContainer;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
-import net.minecraft.world.item.BucketItem;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.storage.ValueInput;
@@ -42,6 +42,7 @@ import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.phys.Vec3;
 import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.common.data.Planet;
+import org.exodusstudio.stellaris.common.entities.vehicles.base.FuelledVehicle;
 import org.exodusstudio.stellaris.common.entities.vehicles.base.VehicleEntity;
 import org.exodusstudio.stellaris.common.fluid.FluidUtil;
 import org.exodusstudio.stellaris.common.fluid.VehicleFuelStorage;
@@ -63,7 +64,7 @@ import java.util.Objects;
 import java.util.Optional;
 
 
-public class RocketEntity extends VehicleEntity implements FluidProvider.ENTITY {
+public class RocketEntity extends VehicleEntity implements FluidProvider.ENTITY, FuelledVehicle {
 
     public static final EntityDataAccessor<Modules<RocketModule>> ROCKET_MODULES = SynchedEntityData.defineId(RocketEntity.class, EntityDataSerializersRegistry.ROCKET_MODULES);
     public static final EntityDataAccessor<Boolean> ROCKET_START = SynchedEntityData.defineId(RocketEntity.class, EntityDataSerializers.BOOLEAN);
@@ -176,52 +177,29 @@ public class RocketEntity extends VehicleEntity implements FluidProvider.ENTITY 
         return FluidsRegistry.FUEL_STILL.get();
     }
 
-    /**
-     * Container logic to fill up the rocket's fuel tank using fuel items from its inventory.
-     * @return true if the rocket was successfully filled, false otherwise.
-     */
-    @SuppressWarnings(value = "all")
-    public boolean tryFillUpRocket() {
-        ItemStack item = this.getInventory().getItem(0);
-
-        int fuelLevel = getFuelLevel();
-        int tankCapacity = getTankCapacity();
-
+    /** Drains a fluid container in the fuel slot into the tank; the tank decides what it accepts. */
+    public void tryFillUpRocket() {
         if (this.level().isClientSide()) {
-            return false;
+            return;
         }
 
-        if (fuelLevel >= tankCapacity || item == null) {
-            return false;
-        }
-
-
-
-        if (item.getItem() instanceof BucketItem bucketItem) {
-
-            Fluid fluid = bucketItem.arch$getFluid();
-
-            if (fluid == null || !fluid.isSame(getExpectedFuelFluid())) {
-                return false;
-            }
-
-            // Only refuel if the emptied bucket can stack into the remaining slot.
-            if (!FluidUtil.addToSlot(getInventory(), 1, new ItemStack(Items.BUCKET))) {
-                return false;
-            }
-
-            this.entityData.set(FUEL, Math.min(tankCapacity, fuelLevel + 1000));
-            inventory.removeItem(0, 1);
-
-            return true;
-        }
-
-        // Fluid cells (and other fluid containers) drain into the tank via the shared machine logic.
         FluidUtil.moveFluidFromItem(0, 0, 1, getInventory(), fuelTank, Long.MAX_VALUE);
-
-        return false;
     }
 
+    @Override
+    public VehicleFuelStorage getFuelTank() {
+        return fuelTank;
+    }
+
+    @Override
+    public InteractionResult interact(Player player, InteractionHand hand, Vec3 location) {
+        if (!this.level().isClientSide() && player.isCrouching()
+                && FluidUtil.drainHeldContainer(player, hand, fuelTank, 0)) {
+            return InteractionResult.CONSUME;
+        }
+
+        return super.interact(player, hand, location);
+    }
 
     public void spawnParticle() {
         if (this.level() instanceof ServerLevel level) {

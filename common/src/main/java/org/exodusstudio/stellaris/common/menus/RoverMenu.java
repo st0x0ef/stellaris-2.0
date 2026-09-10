@@ -53,7 +53,7 @@ public class RoverMenu extends AbstractContainerMenu implements IVehicleMenu {
 
     private void addSlots(Container inventory, int inventoryRows) {
         // fuel slots
-        this.addSlot(new VehicleFuelSlot(inventory, 0, 68, 18));
+        this.addSlot(new VehicleFuelSlot(inventory, rover, 0, 68, 18));
         this.addSlot(new ResultSlot(inventory, 1, 68, 52));
 
         // cargo slots
