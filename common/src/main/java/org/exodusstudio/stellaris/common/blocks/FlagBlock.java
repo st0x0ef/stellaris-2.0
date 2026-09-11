@@ -216,8 +216,12 @@ public class FlagBlock extends BaseEntityBlock implements SimpleWaterloggedBlock
     }
 
     @Override
-    public BlockState mirror(BlockState state, Mirror mirrorIn) {
-        return state.rotate(mirrorIn.getRotation(state.getValue(FACING)));
+    public BlockState mirror(BlockState state, Mirror mirror) {
+        if (mirror == Mirror.NONE) {
+            return state;
+        }
+
+        return state.setValue(FACING, mirror.mirror(state.getValue(FACING)).getOpposite());
     }
 
     @Override

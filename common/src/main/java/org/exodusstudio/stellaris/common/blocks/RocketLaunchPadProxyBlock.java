@@ -12,7 +12,9 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Mirror;
 import net.minecraft.world.level.block.RenderShape;
+import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
@@ -63,6 +65,17 @@ public class RocketLaunchPadProxyBlock extends Block implements MultiblockProxyB
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
         builder.add(FACING, PART);
+    }
+
+    @Override
+    protected BlockState rotate(BlockState state, Rotation rotation) {
+        return state.setValue(FACING, rotation.rotate(state.getValue(FACING)));
+    }
+
+    @Override
+    protected BlockState mirror(BlockState state, Mirror mirror) {
+        return state.setValue(FACING, mirror.mirror(state.getValue(FACING)))
+                .setValue(PART, state.getValue(PART).mirrored());
     }
 
     @Override
@@ -286,6 +299,10 @@ public class RocketLaunchPadProxyBlock extends Block implements MultiblockProxyB
             this.serializedName = name().toLowerCase(Locale.ROOT);
         }
 
+        public RocketLaunchPadProxyPart mirrored() {
+            return MIRRORED.get(this);
+        }
+
         public boolean isArmPart() {
             return upOffset > 0;
         }
@@ -297,6 +314,25 @@ public class RocketLaunchPadProxyBlock extends Block implements MultiblockProxyB
         @Override
         public String getSerializedName() {
             return serializedName;
+        }
+
+        private static final Map<RocketLaunchPadProxyPart, RocketLaunchPadProxyPart> MIRRORED = buildMirrorMap();
+
+        private static Map<RocketLaunchPadProxyPart, RocketLaunchPadProxyPart> buildMirrorMap() {
+            Map<RocketLaunchPadProxyPart, RocketLaunchPadProxyPart> map = new EnumMap<>(RocketLaunchPadProxyPart.class);
+
+            for (RocketLaunchPadProxyPart part : values()) {
+                for (RocketLaunchPadProxyPart candidate : values()) {
+                    if (candidate.forwardOffset == part.forwardOffset
+                            && candidate.upOffset == part.upOffset
+                            && candidate.cwOffset == -part.cwOffset) {
+                        map.put(part, candidate);
+                        break;
+                    }
+                }
+            }
+
+            return map;
         }
     }
 }
