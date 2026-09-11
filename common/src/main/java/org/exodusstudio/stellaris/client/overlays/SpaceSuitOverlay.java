@@ -6,10 +6,13 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.util.Mth;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import org.exodusstudio.stellaris.client.screens.utils.GUISprites;
+import org.exodusstudio.stellaris.common.entities.vehicles.LanderEntity;
+import org.exodusstudio.stellaris.common.entities.vehicles.RocketEntity;
 import org.exodusstudio.stellaris.common.items.space_suit.SpaceSuitHelmet;
 import org.exodusstudio.stellaris.common.modules.space_suit.SpaceSuitModule;
 import org.exodusstudio.stellaris.common.utils.ModuleUtils;
@@ -29,7 +32,16 @@ public class SpaceSuitOverlay {
         Minecraft mc = Minecraft.getInstance();
         Player player = mc.player;
 
-        if (player != null && Utils.isLivingInSpaceSuit(player)) {
+        if (player == null) {
+            return;
+        }
+
+        Entity vehicle = player.getVehicle();
+        if (vehicle instanceof RocketEntity || vehicle instanceof LanderEntity) {
+            return;
+        }
+
+        if (Utils.isLivingInSpaceSuit(player)) {
             Vector2i position = new Vector2i(PADDING, PADDING); // Starting position for rendering modules
 
             HashMap<SpaceSuitModule, ItemStack> moduleCounts = new HashMap<>();
