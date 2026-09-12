@@ -78,10 +78,11 @@ public class TankModuleItem extends Item implements SpaceSuitModule.CustomFuelMo
 
             /** FUEL AMOUNT TEXT */
             Fluid displayedFluid = fuelFluid.isEmpty() ? tankModule.getFuel() : fuelFluid.getFluid();
-            String fuelName = displayedFluid == null
-                    ? fuelFluid.getName().getString()
-                    : FluidInfosRegistry.getFluidComponent(displayedFluid).getString();
-            Component text = Component.literal(fuelName).append(": ").withStyle(ChatFormatting.RED).append("§7" + Math.round(((float) fuel / maxFuel) * 100) + "%");
+            Component fuelName = displayedFluid == null
+                    ? fuelFluid.getName()
+                    : FluidInfosRegistry.getFluidComponent(displayedFluid);
+            Component text = Component.translatable("text.stellaris.suit.fuel", fuelName).withStyle(ChatFormatting.RED)
+                    .append(Component.translatable("text.stellaris.suit.fuel_percent", Math.round(((float) fuel / maxFuel) * 100)).withStyle(ChatFormatting.GRAY));
             graphics.text(font, text, SpaceSuitOverlay.PADDING, y, 0xFFFFFFFF);
 
             return new Vector2i(0, font.lineHeight);

@@ -5,6 +5,7 @@ import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
+import net.minecraft.resources.Identifier;
 import org.exodusstudio.stellaris.common.data.SdCard;
 import org.exodusstudio.stellaris.common.data.SdCardData;
 import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
@@ -27,7 +28,7 @@ public record SyncSDCards(Map<String, SdCard> sdCards) implements CustomPacketPa
     public static void handle(SyncSDCards packet, NetworkManager.PacketContext context) {
         context.queue(() -> {
             SdCardData.SD_CARDS.clear();
-            SdCardData.SD_CARDS.putAll(packet.sdCards);
+            packet.sdCards.forEach((id, card) -> SdCardData.SD_CARDS.put(id, card.withId(Identifier.tryParse(id))));
         });
     }
 

@@ -51,21 +51,16 @@ public class AutopilotModuleItem extends Item implements RocketModule {
     }
 
     @Override
-    public String getDisplayName() {
-        return "Autopilot Module";
-    }
-
-    @Override
     public void appendHoverText(ItemStack stack, TooltipContext context, TooltipDisplay tooltipDisplay, Consumer<Component> tooltipAdder, TooltipFlag flag) {
         tooltipAdder.accept(Component.translatable("tooltip.item.stellaris.can_be_applied_to_rocket_module").withColor(Utils.getMinecraftColor("gray")));
         tooltipAdder.accept(Component.empty()); // new line
 
         if (stack.has(DataComponentsRegistry.AUTOPILOT.get())) {
-            String destination = Component.translatable(Objects.requireNonNull(stack.get(DataComponentsRegistry.AUTOPILOT.get())).translationKey()).getString();
-            tooltipAdder.accept(Component.literal("Autopilot Destination: " + destination).withColor(Utils.getMinecraftColor("yellow")));
-            tooltipAdder.accept(Component.literal("Right-click to change destination").withColor(Utils.getMinecraftColor("gray")));
+            Component destination = Component.translatable(Objects.requireNonNull(stack.get(DataComponentsRegistry.AUTOPILOT.get())).translationKey());
+            tooltipAdder.accept(Component.translatable("tooltip.stellaris.autopilot_destination", destination).withColor(Utils.getMinecraftColor("yellow")));
+            tooltipAdder.accept(Component.translatable("tooltip.item.stellaris.autopilot.change_destination").withColor(Utils.getMinecraftColor("gray")));
         } else {
-            tooltipAdder.accept(Component.literal("Right-click to set destination").withColor(Utils.getMinecraftColor("gray")));
+            tooltipAdder.accept(Component.translatable("tooltip.item.stellaris.autopilot.set_destination").withColor(Utils.getMinecraftColor("gray")));
         }
     }
 }

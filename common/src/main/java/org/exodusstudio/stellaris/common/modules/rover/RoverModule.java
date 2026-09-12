@@ -1,5 +1,7 @@
 package org.exodusstudio.stellaris.common.modules.rover;
 
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.level.ItemLike;
 import org.exodusstudio.stellaris.common.modules.Module;
 import org.exodusstudio.stellaris.common.vehicle_upgrade.FuelType;
 
@@ -7,7 +9,13 @@ public interface RoverModule extends Module<RoverModule> {
 
     RoverFeature getRoverFeature();
 
-    String getDisplayName();
+    /**
+     * The translated name shown for this module. Modules that are items fall back to their item name,
+     * so the text always comes from the language file.
+     */
+    default Component getDisplayName() {
+        return this instanceof ItemLike itemLike ? Component.translatable(itemLike.asItem().getDescriptionId()) : Component.empty();
+    }
 
     /**
      * The fuel type this module makes the rover accept.

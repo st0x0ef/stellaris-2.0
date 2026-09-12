@@ -59,7 +59,7 @@ public class GravityManipulatorScreen extends AbstractContainerScreen<GravityMan
         energyGauge = new GaugeWidget(leftPos + 68, topPos + 20, 44, 6, Component.translatable("stellaris.screen.energyContainer"), GUISprites.SIDEWAYS_ENERGY_FULL, null, blockEntity.getEnergy(null).getMaxEnergy(), GaugeWidget.Direction4.LEFT_RIGHT);
         addRenderableWidget(energyGauge);
 
-        gravitySlider = new AbstractSliderButton(leftPos + 30, topPos + 45, 120, 20, Component.translatable("stellaris.screen.gravityManipulator.gravity"), blockEntity.getNormalizedGravity()) {
+        gravitySlider = new AbstractSliderButton(leftPos + 30, topPos + 45, 120, 20, Component.translatable("stellaris.screen.gravityManipulator.gravity", String.format("%.2f", blockEntity.getGravity())), blockEntity.getNormalizedGravity()) {
             @Override
             protected void updateMessage() {
                 this.setMessage(Component.translatable("stellaris.screen.gravityManipulator.gravity", String.format("%.2f", toGravity(this.value))));
@@ -141,19 +141,19 @@ public class GravityManipulatorScreen extends AbstractContainerScreen<GravityMan
     private void  initPlanetButtons() {
         moonButton = new TextureComponentButton(leftPos + 50, topPos + 75, 20, 20, 14, 14,
                 GUISprites.MOON,
-                Component.translatable("stellaris.screen.gravityManipulator.planet.moon").getString(),
+                Component.translatable("stellaris.screen.gravityManipulator.planet.moon"),
                 button -> gravitySlider.setValue(toSliderValue(1.62)),
                 DEFAULT_NARRATION);
 
         marsButton = new TextureComponentButton(leftPos + 80, topPos + 75, 20, 20, 14, 14,
                 GUISprites.MARS,
-                Component.translatable("stellaris.screen.gravityManipulator.planet.mars").getString(),
+                Component.translatable("stellaris.screen.gravityManipulator.planet.mars"),
                 button -> gravitySlider.setValue(toSliderValue(3.73)),
                 DEFAULT_NARRATION);
 
         earthButton = new TextureComponentButton(leftPos + 110, topPos + 75, 20, 20, 14, 14,
                 GUISprites.EARTH,
-                Component.translatable("stellaris.screen.gravityManipulator.planet.earth").getString(),
+                Component.translatable("stellaris.screen.gravityManipulator.planet.earth"),
                 button -> gravitySlider.setValue(toSliderValue(9.81)),
                 DEFAULT_NARRATION);
 

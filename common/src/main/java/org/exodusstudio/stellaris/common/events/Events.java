@@ -241,7 +241,7 @@ public class Events {
                         Antenna antenna = antennaSavedData.getAntenna(antennaBlockEntity.launchPadId);
 
                         if(!antennaSavedData.isPlayerOwner(antennaBlockEntity.launchPadId, player)) {
-                            player.sendSystemMessage(Component.literal("You don't have permission to break this antenna.").withStyle(ChatFormatting.GRAY));
+                            player.sendSystemMessage(Component.translatable("message.stellaris.antenna.no_break_permission").withStyle(ChatFormatting.GRAY));
                             return EventResult.interruptFalse();
                         }
 

@@ -5,6 +5,7 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.Vec3i;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
@@ -38,12 +39,18 @@ public record SpaceStationRecipe(List<IngredientWithCount> items, Identifier str
     );
 
     public Component getTooltip() {
-        MutableComponent component = Component.literal("Resources :");
+        MutableComponent component = Component.translatable("tooltip.stellaris.space_station.resources");
 
         for(IngredientWithCount ingredient : this.items) {
-            component.append( "\n").append(Component.literal( "- " + ingredient.count() + "x " ).withStyle(ChatFormatting.GRAY));
-            ingredient.itemRef().ifRight(tagKey -> component.append(Component.literal(tagKey.location().toString()).withStyle(ChatFormatting.GRAY)));
-            ingredient.itemRef().ifLeft(itemKey -> component.append(Component.literal(itemKey.identifier().toString()).withStyle(ChatFormatting.GRAY)));
+            // Ask the item for its own description id rather than assuming a prefix: block items keep
+            // item.* unless they opt into useBlockDescriptionPrefix(), and either way this stays correct.
+            Component name = ingredient.itemRef().map(
+                    itemKey -> BuiltInRegistries.ITEM.get(itemKey)
+                            .map(holder -> (Component) Component.translatable(holder.value().getDescriptionId()))
+                            .orElseGet(() -> Component.literal(itemKey.identifier().toString())),
+                    tagKey -> (Component) Component.literal("#" + tagKey.location()));
+            component.append("\n").append(Component.translatable("tooltip.stellaris.space_station.ingredient",
+                    ingredient.count(), name).withStyle(ChatFormatting.GRAY));
         }
 
         return component;
@@ -113,7 +120,7 @@ public record SpaceStationRecipe(List<IngredientWithCount> items, Identifier str
         if (itemStack.has(DataComponentsRegistry.SPACE_STATION_BLUEPRINT.get())) {
             return component.append(itemStack.get(DataComponentsRegistry.SPACE_STATION_BLUEPRINT.get()).getDisplayName());
         }
-        return component.append("None");
+        return component.append(Component.translatable("tooltip.stellaris.none"));
     }
 
     public MutableComponent getDisplayName() {

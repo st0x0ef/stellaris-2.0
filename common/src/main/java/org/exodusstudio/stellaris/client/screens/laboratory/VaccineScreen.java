@@ -14,7 +14,7 @@ import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
 
 public class VaccineScreen extends TabbedMachineScreen<VaccineMenu> {
     private static final Identifier GUI_LOCATION = IdentifierUtils.guiTexture("laboratory_vaccine");
-    public static final Component TAB_NAME = Component.literal("Vaccine");
+    public static final Component TAB_NAME = Component.translatable("stellaris.screen.vaccine");
 
     public VaccineScreen(VaccineMenu menu, Inventory playerInventory, Component title) {
         super(menu, playerInventory, TAB_NAME, 180, 188);

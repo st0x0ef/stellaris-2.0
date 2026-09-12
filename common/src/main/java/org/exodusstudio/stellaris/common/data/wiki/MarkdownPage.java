@@ -5,6 +5,8 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.Identifier;
@@ -135,6 +137,14 @@ public class MarkdownPage {
             }
         }
 
+    }
+
+    /**
+     * The page title, translated. The {@code title} metadata line is used as the fallback so data packs
+     * that ship no language file still show something readable.
+     */
+    public MutableComponent getTitle() {
+        return Component.translatableWithFallback("wiki." + id.getNamespace() + ".page." + id.getPath().replace('/', '.') + ".title", title);
     }
 
     public StellardownStyle.EntityStyle getEntityIcon() {

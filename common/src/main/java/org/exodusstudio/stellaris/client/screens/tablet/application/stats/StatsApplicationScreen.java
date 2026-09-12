@@ -25,7 +25,7 @@ public class StatsApplicationScreen extends Screen {
     private ScrollableContainer scrollableContainer;
 
     public StatsApplicationScreen(MainTabletScreen mainTabletScreen) {
-        super(Component.literal("Stats"));
+        super(Component.translatable("application.stellaris.stats.name"));
         this.mainTabletScreen = mainTabletScreen;
     }
 

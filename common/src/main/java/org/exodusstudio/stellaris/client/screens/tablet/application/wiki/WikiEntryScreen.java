@@ -4,7 +4,6 @@ import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.input.KeyEvent;
 import net.minecraft.client.renderer.RenderPipelines;
-import net.minecraft.network.chat.Component;
 import org.exodusstudio.stellaris.client.screens.tablet.application.TabletAbstractContainer;
 import org.exodusstudio.stellaris.common.data.wiki.MarkdownPage;
 import org.exodusstudio.stellaris.client.screens.components.wiki.ScrollStellarDownWidget;
@@ -25,7 +24,7 @@ public class WikiEntryScreen extends Screen {
     public WikiApplicationScreen.WikiState wikiState;
 
     protected WikiEntryScreen(WikiApplicationScreen wikiApplicationScreen, WikiApplicationScreen.WikiState wikiState, MarkdownPage page) {
-        super(Component.literal(page.title));
+        super(page.getTitle());
         this.wikiApplicationScreen = wikiApplicationScreen;
         this.page = page;
         this.wikiState = wikiState;
@@ -35,7 +34,7 @@ public class WikiEntryScreen extends Screen {
     public void extractRenderState(GuiGraphicsExtractor guiGraphics, int mouseX, int mouseY, float partialTick) {
         super.extractRenderState(guiGraphics, mouseX, mouseY, partialTick);
 
-        guiGraphics.centeredText(this.font, this.widget.page.title, this.width / 2 + 3, this.getTopPos() + 30, Utils.getMinecraftColor("white"));
+        guiGraphics.centeredText(this.font, this.widget.page.getTitle(), this.width / 2 + 3, this.getTopPos() + 30, Utils.getMinecraftColor("white"));
     }
 
     @Override

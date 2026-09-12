@@ -11,7 +11,7 @@ import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
 
 public class RocketStationScreen extends TabbedMachineScreen<RocketStationMenu> {
     private static final Identifier GUI_LOCATION = IdentifierUtils.guiTexture("rocket_station"); //temporary
-    public static final Component TAB_NAME = Component.literal("Rocket Station");
+    public static final Component TAB_NAME = Component.translatable("stellaris.screen.rocket_station");
 
     public RocketStationScreen(RocketStationMenu menu, Inventory playerInventory, Component title) {
         super(menu, playerInventory, TAB_NAME, 180, 224);

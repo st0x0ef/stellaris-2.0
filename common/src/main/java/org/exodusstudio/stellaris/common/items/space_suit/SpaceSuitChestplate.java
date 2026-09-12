@@ -46,10 +46,9 @@ public class SpaceSuitChestplate extends SpaceSuitItem implements FluidProvider.
         if (tankModule != null) {
             int oxygenCapacity = getFuelCapacity(tankModule);
             long fuel = FluidUtil.readStoredFluid(stack, DataComponentsRegistry.FLUID_LIST.get(), 0).getAmount();
-            FluidStack fluidStackToGetName = FluidStack.create(tankModule.getFuel(), 1);
-            String fluidName = fluidStackToGetName.getName().getString().replace("_", " ");
-            tooltipAdder.accept(Component.literal("-- " + fluidName + " Tank Module --").withColor(Utils.getMinecraftColor("cyan")));
-            tooltipAdder.accept(Component.literal(fluidName + " " + fuel + " / " + oxygenCapacity + " mb").withColor(Utils.getMinecraftColor("cyan")));
+            Component fluidName = FluidStack.create(tankModule.getFuel(), 1).getName();
+            tooltipAdder.accept(Component.translatable("tooltip.item.stellaris.space_suit.tank_module.header", fluidName).withColor(Utils.getMinecraftColor("cyan")));
+            tooltipAdder.accept(Component.translatable("tooltip.item.stellaris.space_suit.tank_module.amount", fluidName, fuel, oxygenCapacity).withColor(Utils.getMinecraftColor("cyan")));
         }
     }
 }

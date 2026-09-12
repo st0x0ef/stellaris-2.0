@@ -96,7 +96,7 @@ public class AssistantManager {
 
     private static Component format(Component speaker, Component text) {
         return Component.empty()
-                .append(Component.literal("[").append(speaker).append("] ").withStyle(ChatFormatting.AQUA))
+                .append(Component.translatable("chat.stellaris.assistant.speaker", speaker).withStyle(ChatFormatting.AQUA))
                 .append(text);
     }
 }

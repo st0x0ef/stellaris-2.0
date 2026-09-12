@@ -402,9 +402,9 @@ public class SpaceSuitBoots extends SpaceSuitItem {
         if (jetModule != null) {
             double consumption = jetModule.getConsumptionPerSecond();
             double climbSpeed = jetModule.getMaxUpwardSpeed();
-            tooltipAdder.accept(Component.literal("-- Jet Module --").withColor(Utils.getMinecraftColor("darkred")));
-            tooltipAdder.accept(Component.literal("Consumption: " + consumption + " mb/s").withColor(Utils.getMinecraftColor("darkred")));
-            tooltipAdder.accept(Component.literal("Flight climb speed: " + climbSpeed + " blocks/tick").withColor(Utils.getMinecraftColor("darkred")));
+            tooltipAdder.accept(Component.translatable("tooltip.item.stellaris.space_suit.jet_module.header").withColor(Utils.getMinecraftColor("darkred")));
+            tooltipAdder.accept(Component.translatable("tooltip.item.stellaris.space_suit.jet_module.consumption", consumption).withColor(Utils.getMinecraftColor("darkred")));
+            tooltipAdder.accept(Component.translatable("tooltip.item.stellaris.space_suit.jet_module.climb_speed", climbSpeed).withColor(Utils.getMinecraftColor("darkred")));
         }
     }
 

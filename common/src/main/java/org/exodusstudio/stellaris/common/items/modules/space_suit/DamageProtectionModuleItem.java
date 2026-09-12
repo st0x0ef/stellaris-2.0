@@ -38,13 +38,13 @@ public class DamageProtectionModuleItem extends Item implements SpaceSuitModule.
     }
 
     @Override
-    public String getMaterialName() {
-        return this.materialName;
+    public Component getMaterialNameComponent() {
+        return Component.translatable("tooltip.stellaris.material." + this.materialName);
     }
 
     @Override
     public void appendHoverText(ItemStack stack, TooltipContext context, TooltipDisplay tooltipDisplay, Consumer<Component> tooltipAdder, TooltipFlag flag) {
-        tooltipAdder.accept(Component.literal("Equivalent to " + materialName + " armor").withColor(Utils.getMinecraftColor("gray")));
+        tooltipAdder.accept(Component.translatable("tooltip.item.stellaris.damage_protection.equivalent", getMaterialNameComponent()).withColor(Utils.getMinecraftColor("gray")));
         tooltipAdder.accept(Component.translatable("tooltip.item.stellaris.can_be_applied_to_space_suit_module").withColor(Utils.getMinecraftColor("gray")));
     }
 }

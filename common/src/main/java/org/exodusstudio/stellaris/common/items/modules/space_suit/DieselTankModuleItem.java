@@ -22,7 +22,7 @@ public class DieselTankModuleItem extends TankModuleItem {
 
     @Override
     public void appendHoverText(ItemStack stack, TooltipContext context, TooltipDisplay tooltipDisplay, Consumer<Component> tooltipAdder, TooltipFlag flag) {
-        tooltipAdder.accept(Component.literal("Store up to " + this.capacity + "mb of diesel on your space suit.").withColor(Utils.getMinecraftColor("gray")));
+        tooltipAdder.accept(Component.translatable("tooltip.item.stellaris.diesel_tank_module", this.capacity).withColor(Utils.getMinecraftColor("gray")));
         super.appendHoverText(stack, context, tooltipDisplay, tooltipAdder, flag);
     }
 }

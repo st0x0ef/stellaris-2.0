@@ -11,7 +11,11 @@ import org.exodusstudio.stellaris.common.utils.Utils;
 
 public class GUIUtils {
     public static ClientTooltipComponent getMessageComponent(String text, String color) {
-        return ClientTooltipComponent.create(Component.literal(text).setStyle(Style.EMPTY.withColor(TextColor.fromRgb(getColorHexCode(color)))).getVisualOrderText());
+        return getMessageComponent(Component.literal(text), color);
+    }
+
+    public static ClientTooltipComponent getMessageComponent(Component text, String color) {
+        return ClientTooltipComponent.create(text.copy().setStyle(Style.EMPTY.withColor(TextColor.fromRgb(getColorHexCode(color)))).getVisualOrderText());
     }
 
     public static int getColorHexCode(String colorName) {

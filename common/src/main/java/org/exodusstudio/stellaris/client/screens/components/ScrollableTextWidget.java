@@ -20,10 +20,6 @@ public class ScrollableTextWidget extends AbstractWidget {
     private double scrollAmount = 0;
     private int scrollRate = 7;
 
-    public ScrollableTextWidget(int x, int y, int width, int height, String text) {
-        this(x, y, width, height, Component.literal(text));
-    }
-
     public ScrollableTextWidget(int x, int y, int width, int height, Component text) {
         super(x, y, width, height, Component.empty());
         this.text = Minecraft.getInstance().font.split(text, width - PADDING * 2);

@@ -5,6 +5,7 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.Identifier;
@@ -67,19 +68,23 @@ public record Planet(String translationKey, Identifier dimension, double gravity
     }
 
     public Component getDisplayInfo() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("----- Planet Info -----").append("\n");
-        sb.append("Planet: ").append(translationKey).append("\n");
-        sb.append("Dimension: ").append(dimension.toString()).append("\n");
-        sb.append("Gravity: ").append(gravity).append(" m/s²").append("\n");
-        sb.append("Has Oxygen: ").append(hasOxygen ? "Yes" : "No").append("\n");
-        sb.append("Allow Space Station: ").append(allowSpaceStation ? "Yes" : "No").append("\n");
+        MutableComponent component = Component.translatable("command.stellaris.planet_info.header")
+                .append("\n").append(Component.translatable("command.stellaris.planet_info.planet", Component.translatable(translationKey)))
+                .append("\n").append(Component.translatable("command.stellaris.planet_info.dimension", dimension.toString()))
+                .append("\n").append(Component.translatable("command.stellaris.planet_info.gravity", gravity))
+                .append("\n").append(Component.translatable("command.stellaris.planet_info.has_oxygen", yesNo(hasOxygen)))
+                .append("\n").append(Component.translatable("command.stellaris.planet_info.allow_space_station", yesNo(allowSpaceStation)));
+
         if (temperature.isPresent()) {
-            sb.append("Day Time Temperature: ").append(temperature.get().dayTimeTemperature()).append(" °C").append("\n");
-            sb.append("Night Time Temperature: ").append(temperature.get().nightTimeTemperature()).append(" °C").append("\n");
+            component.append("\n").append(Component.translatable("command.stellaris.planet_info.day_temperature", temperature.get().dayTimeTemperature()))
+                    .append("\n").append(Component.translatable("command.stellaris.planet_info.night_temperature", temperature.get().nightTimeTemperature()));
         }
-        sb.append("-----------------------");
-        return Component.literal(sb.toString());
+
+        return component.append("\n").append(Component.translatable("command.stellaris.planet_info.footer"));
+    }
+
+    private static Component yesNo(boolean value) {
+        return Component.translatable(value ? "command.stellaris.yes" : "command.stellaris.no");
     }
 
 

@@ -26,11 +26,10 @@ public class PathogenStorageCellItem extends Item {
         super.appendHoverText(stack, context, tooltipDisplay, tooltipAdder, flag);
 
         PathogenStorageComponent pathogenStorageComponents = stack.getOrDefault(DataComponentsRegistry.PATHOGEN_STORED.get(), PathogenStorageComponent.DEFAULT);
-        String stored = String.valueOf(pathogenStorageComponents.stored());
-        String capacity = String.valueOf(pathogenStorageComponents.capacity());
 
         tooltipAdder.accept(Component.translatable("tooltip.item.stellaris.pathogen_storage_cell_info"));
-        tooltipAdder.accept(Component.literal("Parasites ").append(Component.literal(stored).append(" / ").append(capacity).withStyle(ChatFormatting.GRAY)));
+        tooltipAdder.accept(Component.translatable("tooltip.item.stellaris.pathogen_storage_cell.stored",
+                pathogenStorageComponents.stored(), pathogenStorageComponents.capacity()).withStyle(ChatFormatting.GRAY));
     }
 
     @Override

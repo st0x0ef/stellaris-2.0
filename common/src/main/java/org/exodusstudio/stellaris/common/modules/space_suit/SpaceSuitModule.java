@@ -4,6 +4,7 @@ import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.renderer.rendertype.RenderType;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.equipment.ArmorMaterial;
 import net.minecraft.world.level.material.Fluid;
@@ -144,6 +145,9 @@ public interface SpaceSuitModule extends Module<SpaceSuitModule> {
          */
         ArmorMaterial getArmorMaterialEquivalent();
 
-        String getMaterialName();
+        /**
+         * The translated name of the armor material this module is equivalent to.
+         */
+        Component getMaterialNameComponent();
     }
 }

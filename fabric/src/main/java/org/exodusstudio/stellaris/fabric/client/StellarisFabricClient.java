@@ -23,7 +23,6 @@ import org.exodusstudio.stellaris.client.renderers.mobs.*;
 import org.exodusstudio.stellaris.client.renderers.mobs.starcrawler.StarCrawlerRenderer;
 import org.exodusstudio.stellaris.client.renderers.mobs.starcrawlerboss.StarCrawlerBossRenderer;
 import org.exodusstudio.stellaris.client.renderers.mobs.heartofluna.HeartOfLunaRenderer;
-import org.exodusstudio.stellaris.client.renderers.mobs.heartofluna.LunaBoss;
 import org.exodusstudio.stellaris.client.renderers.rockets.RocketRenderer;
 import org.exodusstudio.stellaris.client.renderers.rover.RoverRenderer;
 import org.exodusstudio.stellaris.client.renderers.space_farm.SpaceFarmRenderer;

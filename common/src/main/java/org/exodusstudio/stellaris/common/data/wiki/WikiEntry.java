@@ -4,6 +4,7 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.Identifier;
@@ -32,8 +33,16 @@ public record WikiEntry(
     );
 
 
-    public Component getTitle() {
+    public MutableComponent getTitle() {
         return Component.translatable("wiki." + id.getNamespace() + "." + id.getPath() + ".title");
+    }
+
+    /**
+     * The entry description, translated. The {@code description} field from the data file is used as the
+     * fallback so data packs that ship no language file still show something readable.
+     */
+    public MutableComponent getDescription() {
+        return Component.translatableWithFallback("wiki." + id.getNamespace() + "." + id.getPath() + ".description", description);
     }
 
 }

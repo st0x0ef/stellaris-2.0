@@ -25,7 +25,7 @@ public class SpaceStationPlannerScreen extends TabbedMachineScreen<SpaceStationP
     private SpaceStationRecipe selectedRecipe;
     private TexturedButton buildButton;
 
-    public static final Component TAB_NAME = Component.literal("Space Station Planner");
+    public static final Component TAB_NAME = Component.translatable("stellaris.screen.space_station_planner");
     public static final Identifier TEXTURE = IdentifierUtils.guiTexture("space_station_planner");
 
     public SpaceStationPlannerScreen(SpaceStationPlannerMenu menu, Inventory inventory, net.minecraft.network.chat.Component title) {
@@ -75,7 +75,7 @@ public class SpaceStationPlannerScreen extends TabbedMachineScreen<SpaceStationP
         this.addRenderableWidget(container);
 
 
-        this.buildButton = new TexturedButton(this.leftPos + 101, this.topPos + 86, 60, 16, menu.checked ? Component.literal("Build") : Component.literal("Check"), btn -> {
+        this.buildButton = new TexturedButton(this.leftPos + 101, this.topPos + 86, 60, 16, menu.checked ? Component.translatable("stellaris.screen.space_station_planner.build") : Component.translatable("stellaris.screen.space_station_planner.check"), btn -> {
            if(!menu.checked) {
                this.menu.checkItems(selectedRecipe);
            } else {
@@ -89,7 +89,7 @@ public class SpaceStationPlannerScreen extends TabbedMachineScreen<SpaceStationP
     }
 
     public void onCheckChange(boolean check) {
-        this.buildButton.setText(check ? Component.literal("Build") : Component.literal("Check"));
+        this.buildButton.setText(check ? Component.translatable("stellaris.screen.space_station_planner.build") : Component.translatable("stellaris.screen.space_station_planner.check"));
     }
 
     public void changeSelectRecipe(SpaceStationRecipe selectedRecipe, Button button) {

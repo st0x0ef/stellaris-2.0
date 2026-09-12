@@ -60,8 +60,8 @@ public class SpaceSuitItem extends Item {
 
         SpaceSuitModule.DamageProtectionModule damageProtectionModule = ModuleUtils.getSpaceSuitModule(stack, SpaceSuitModule.DamageProtectionModule.class);
         if (damageProtectionModule != null) {
-            tooltipAdder.accept(Component.literal("-- Damage Protection Module --").withColor(Utils.getMinecraftColor("red")));
-            tooltipAdder.accept(Component.literal("Equivalent to " + damageProtectionModule.getMaterialName() +  " armor").withColor(Utils.getMinecraftColor("red")));
+            tooltipAdder.accept(Component.translatable("tooltip.item.stellaris.space_suit.damage_protection_module.header").withColor(Utils.getMinecraftColor("red")));
+            tooltipAdder.accept(Component.translatable("tooltip.item.stellaris.damage_protection.equivalent", damageProtectionModule.getMaterialNameComponent()).withColor(Utils.getMinecraftColor("red")));
         }
     }
 }

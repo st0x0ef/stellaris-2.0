@@ -27,6 +27,11 @@ public class FriendsList extends Item {
         super(properties);
     }
 
+    private static Component unknownIfEmpty(ResolvableProfile profile) {
+        return profile.name().<Component>map(Component::literal)
+                .orElseGet(() -> Component.translatable("tooltip.stellaris.unknown"));
+    }
+
     @Override
     public InteractionResult useOn(UseOnContext context) {
 
@@ -65,7 +70,7 @@ public class FriendsList extends Item {
 
             }
         }
-        player.sendOverlayMessage(Component.literal("Right click it on our.").withStyle(ChatFormatting.GRAY));
+        player.sendOverlayMessage(Component.translatable("message.stellaris.friends_list.use_on_antenna").withStyle(ChatFormatting.GRAY));
 
 
         return super.useOn(context);
@@ -91,10 +96,10 @@ public class FriendsList extends Item {
 
             if (!alreadyFriend) {
                 friendsList.add(interactedPlayerProfile);
-                player.sendOverlayMessage(Component.translatable("message.stellaris.friends_list.added", interactedPlayerProfile.name().orElse("Unknown")).withStyle(ChatFormatting.GRAY));
+                player.sendOverlayMessage(Component.translatable("message.stellaris.friends_list.added", unknownIfEmpty(interactedPlayerProfile)).withStyle(ChatFormatting.GRAY));
             } else {
                 friendsList.remove(interactedPlayerProfile);
-                player.sendOverlayMessage(Component.translatable("message.stellaris.friends_list.removed", interactedPlayerProfile.name().orElse("Unknown")).withStyle(ChatFormatting.GRAY));
+                player.sendOverlayMessage(Component.translatable("message.stellaris.friends_list.removed", unknownIfEmpty(interactedPlayerProfile)).withStyle(ChatFormatting.GRAY));
 
             }
 
@@ -112,15 +117,15 @@ public class FriendsList extends Item {
     @Override
     public void appendHoverText(ItemStack stack, TooltipContext context, TooltipDisplay tooltipDisplay, Consumer<Component> tooltipAdder, TooltipFlag flag) {
         super.appendHoverText(stack, context, tooltipDisplay, tooltipAdder, flag);
-        MutableComponent component = Component.literal("Friends: ").withStyle(ChatFormatting.GRAY);
+        MutableComponent component = Component.translatable("tooltip.item.stellaris.friends_list.title").withStyle(ChatFormatting.GRAY);
         List<ResolvableProfile> friendsList = stack.getOrDefault(DataComponentsRegistry.GAMEPROFILE_LIST.get(), List.of());
         tooltipAdder.accept(component);
 
         if(friendsList.isEmpty()) {
-            tooltipAdder.accept(Component.literal("None"));
+            tooltipAdder.accept(Component.translatable("tooltip.stellaris.none"));
         } else {
             for(ResolvableProfile profile : friendsList) {
-                tooltipAdder.accept(Component.literal("- " + profile.name().orElse("Unknown")).withStyle(ChatFormatting.GRAY));
+                tooltipAdder.accept(Component.translatable("tooltip.stellaris.list_entry", unknownIfEmpty(profile)).withStyle(ChatFormatting.GRAY));
             }
 
         }

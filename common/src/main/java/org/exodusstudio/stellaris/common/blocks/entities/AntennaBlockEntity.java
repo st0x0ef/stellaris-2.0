@@ -37,7 +37,7 @@ public class AntennaBlockEntity extends BaseContainerBlockEntity implements Tick
 
     @Override
     protected @NotNull Component getDefaultName() {
-        return Component.literal("Launch Pad Creator");
+        return Component.translatable("container.stellaris.antenna");
     }
 
     @Override

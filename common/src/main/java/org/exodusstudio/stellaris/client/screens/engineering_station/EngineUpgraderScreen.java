@@ -20,7 +20,7 @@ import org.exodusstudio.stellaris.common.utils.Utils;
 
 public class EngineUpgraderScreen extends TabbedMachineScreen<EngineUpgradeMenu> {
     private static final Identifier GUI_LOCATION = IdentifierUtils.guiTexture("upgrade_station");
-    public static final Component TAB_NAME = Component.literal("Engine Upgrader");
+    public static final Component TAB_NAME = Component.translatable("stellaris.screen.engine_upgrader");
 
     public static final TabInfo[] TABS =  new TabInfo[]{
             new TabInfo(MenuProviderRegistry.ROCKET_CRAFTING, GUISprites.ROCKET_CRAFTING_TAB, GUISprites.ROCKET_CRAFTING_TAB_HOVER, RocketStationScreen.TAB_NAME),

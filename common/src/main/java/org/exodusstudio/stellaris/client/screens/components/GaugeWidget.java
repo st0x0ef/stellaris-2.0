@@ -62,7 +62,7 @@ public class GaugeWidget extends AbstractWidget {
     }
 
     public void renderTooltips(GuiGraphicsExtractor graphics, int mouseX, int mouseY, Font font) {
-        String GaugeComponent = getMessage().getString() + " : " + amount + " / " + this.capacity;
+        Component GaugeComponent = Component.translatable("gui.stellaris.gauge.amount", getMessage(), amount, this.capacity);
         ClientTooltipComponent capacity;
 
         if (amount >= this.capacity) {

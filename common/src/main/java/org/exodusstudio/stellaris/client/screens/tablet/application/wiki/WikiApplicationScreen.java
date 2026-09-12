@@ -72,7 +72,7 @@ public class WikiApplicationScreen extends TabletAbstractContainer<WikiApplicati
     }
 
     private WikiApplicationScreen(WikiApplicationMenu menu, Inventory inventory, @Nullable WikiEntry currentEntry, @Nullable Identifier entryInfo) {
-        super(menu, inventory, Component.literal("Wiki"), 310, 192);
+        super(menu, inventory, Component.translatable("application.stellaris.wiki.name"), 310, 192);
         this.currentEntry = currentEntry;
         this.menu = menu;
         this.inventory = inventory;

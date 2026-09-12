@@ -62,7 +62,7 @@ public class FluidInfosRegistry {
             return FLUIDS_INFO.get(fluid.arch$registryName()).component();
         }
         if (fluid == Fluids.EMPTY) {
-            return Component.literal("Empty");
+            return Component.translatable("fluid.stellaris.empty");
         }
         // Fall back to the fluid's own name so unregistered fluids (ours or another mod's) still show something.
         return FluidStack.create(fluid, FluidStack.bucketAmount()).getName();
@@ -91,7 +91,7 @@ public class FluidInfosRegistry {
         registerBoth(Fluids.WATER, Fluids.FLOWING_WATER,
                 new FluidInfos(GUISprites.WATER_OVERLAY,  Component.translatable("fluid.stellaris.water" )));
         register(Fluids.EMPTY,
-                new FluidInfos(GUISprites.WATER_OVERLAY,  Component.literal("Empty")));
+                new FluidInfos(GUISprites.WATER_OVERLAY,  Component.translatable("fluid.stellaris.empty")));
     }
 
     public record FluidInfos(Identifier textureLocation, Component component) {

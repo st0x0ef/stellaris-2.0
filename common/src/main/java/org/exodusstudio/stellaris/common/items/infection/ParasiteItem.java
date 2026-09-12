@@ -79,9 +79,10 @@ public class ParasiteItem extends Item {
         int minutes = timer.timeLeft() / 60;
         int seconds = timer.timeLeft() % 60;
         if (minutes > 0) {
-            tooltipAdder.accept(Component.literal("Propagation in " + minutes + "min " + seconds + "s").withStyle(ChatFormatting.GRAY));
+            tooltipAdder.accept(Component.translatable("tooltip.item.stellaris.parasite.propagation_min", minutes, seconds).withStyle(ChatFormatting.GRAY));
         } else {
-            tooltipAdder.accept(Component.literal("Propagation in ").withStyle(ChatFormatting.GRAY).append(Component.literal(seconds + "s").withStyle(ChatFormatting.RED)));
+            tooltipAdder.accept(Component.translatable("tooltip.item.stellaris.parasite.propagation_sec",
+                    Component.translatable("tooltip.stellaris.seconds", seconds).withStyle(ChatFormatting.RED)).withStyle(ChatFormatting.GRAY));
         }
     }
 }

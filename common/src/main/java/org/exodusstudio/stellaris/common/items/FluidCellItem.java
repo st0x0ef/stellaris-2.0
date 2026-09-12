@@ -70,11 +70,11 @@ public class FluidCellItem extends Item implements FluidProvider.ITEM {
     public void appendHoverText(ItemStack stack, TooltipContext context, TooltipDisplay tooltipDisplay, Consumer<Component> tooltipAdder, TooltipFlag flag) {
         FluidStack fluidStack = FluidUtil.readStoredFluid(stack, DataComponentsRegistry.FLUID_LIST.get(), 0);
         if (!fluidStack.isEmpty()) {
-            String fluidInfo = fluidStack.getName().getString() + " : " + fluidStack.getAmount() + " / " + capacity;
-            tooltipAdder.accept(Component.literal(fluidInfo));
+            tooltipAdder.accept(Component.translatable("tooltip.item.stellaris.fluid_cell.content",
+                    fluidStack.getName(), fluidStack.getAmount(), capacity));
         } else {
-            String fluidInfo = "Empty: 0 / " + capacity;
-            tooltipAdder.accept(Component.literal(fluidInfo));
+            tooltipAdder.accept(Component.translatable("tooltip.item.stellaris.fluid_cell.empty",
+                    Component.translatable("fluid.stellaris.empty"), capacity));
         }
     }
 }

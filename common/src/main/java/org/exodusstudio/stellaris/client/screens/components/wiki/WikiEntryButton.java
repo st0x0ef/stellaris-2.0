@@ -22,7 +22,7 @@ public class WikiEntryButton extends TexturedButton {
         setTooltip(Tooltip.create(
                 MutableComponent.create(entry.getTitle().getContents())
                         .append("\n")
-                        .append(Component.literal(entry.description()).withStyle(ChatFormatting.GRAY))
+                        .append(entry.getDescription().withStyle(ChatFormatting.GRAY))
         ));
     }
 
