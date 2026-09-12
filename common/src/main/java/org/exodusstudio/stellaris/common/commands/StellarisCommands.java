@@ -77,7 +77,7 @@ public class StellarisCommands {
                                 return context.failure();
                             }
                             ChunkAccess access = context.getPlayer().level().getChunk(context.getPlayer().getOnPos());
-                            context.sendSuccess(Component.literal("Oil Level : " + access.stellaris$getChunkOilLevel()), true);
+                            context.sendSuccess(Component.translatable("command.stellaris.oil.level", access.stellaris$getChunkOilLevel()), true);
 
                             return context.success();
                         })))
@@ -93,7 +93,7 @@ public class StellarisCommands {
                                     int quantity = IntegerArgumentType.getInteger(context.context(), "quantity");
                                     ChunkAccess access = player.level().getChunk(context.getPlayer().getOnPos());
                                     access.stellaris$setChunkOilLevel(quantity);
-                                    context.sendSuccess(Component.literal("Oil Level : " + access.stellaris$getChunkOilLevel()), true);
+                                    context.sendSuccess(Component.translatable("command.stellaris.oil.level", access.stellaris$getChunkOilLevel()), true);
 
                                     return context.success();
                                 })))
@@ -106,11 +106,12 @@ public class StellarisCommands {
                 return wrapper.failure();
             }
 
-            StringBuilder stringBuilder = new StringBuilder("Planets registered:\n");
+            MutableComponent planetList = Component.translatable("command.stellaris.planets.header");
             for (Planet planet : PlanetsData.PLANETS) {
-                stringBuilder.append("- ").append(planet.translationKey()).append(" (").append(planet.dimension()).append(")\n");
+                planetList.append("\n").append(Component.translatable("command.stellaris.planets.entry",
+                        Component.translatable(planet.translationKey()), planet.dimension().toString()));
             }
-            wrapper.getPlayer().sendSystemMessage(Component.literal(stringBuilder.toString()));
+            wrapper.getPlayer().sendSystemMessage(planetList);
             return wrapper.success();
         });
 
@@ -130,12 +131,12 @@ public class StellarisCommands {
                 try {
                     return p.is(PlanetArgument.getPlanet(wrapper.context(), "planet"));
                 } catch (CommandSyntaxException e) {
-                    wrapper.getPlayer().sendSystemMessage(Component.literal("Planet not found!"));
+                    wrapper.getPlayer().sendSystemMessage(Component.translatable("command.stellaris.planet_not_found"));
                     return false;
                 }
             }).findFirst().orElse(null);
             if (planet == null) {
-                wrapper.getPlayer().sendSystemMessage(Component.literal("Planet not found!"));
+                wrapper.getPlayer().sendSystemMessage(Component.translatable("command.stellaris.planet_not_found"));
                 return wrapper.failure();
             }
             PlanetUtil.teleportToPlanet(wrapper.getPlayer(), planet, 100);
@@ -154,7 +155,7 @@ public class StellarisCommands {
                 wrapper.getPlayer().sendSystemMessage(planet.getDisplayInfo());
                 return wrapper.success();
             } else {
-                wrapper.getPlayer().sendSystemMessage(Component.literal("You are not on a registered planet."));
+                wrapper.getPlayer().sendSystemMessage(Component.translatable("command.stellaris.not_on_planet"));
                 return wrapper.failure();
             }
         });
@@ -170,10 +171,10 @@ public class StellarisCommands {
                                 try {
                                     return p.is(PlanetArgument.getPlanet(wrapper.context(), "planet"));
                                 } catch (CommandSyntaxException e) {
-                                    wrapper.getPlayer().sendSystemMessage(Component.literal("Planet not found!"));
+                                    wrapper.getPlayer().sendSystemMessage(Component.translatable("command.stellaris.planet_not_found"));
                                     return false;
                                 }
-                            }).findFirst().ifPresentOrElse(planet -> wrapper.getPlayer().sendSystemMessage(planet.getDisplayInfo()), () -> wrapper.getPlayer().sendSystemMessage(Component.literal("Planet not found!")));
+                            }).findFirst().ifPresentOrElse(planet -> wrapper.getPlayer().sendSystemMessage(planet.getDisplayInfo()), () -> wrapper.getPlayer().sendSystemMessage(Component.translatable("command.stellaris.planet_not_found")));
                             return wrapper.success();
                         })
         );
@@ -251,7 +252,7 @@ public class StellarisCommands {
 
                                     boolean open = BoolArgumentType.getBool(commandSourceWrapper.context(), "state");
                                     commandSourceWrapper.getPlayer().stellaris$setPlanetMenuOpen(open, commandSourceWrapper.getPlayer(), true);
-                                    commandSourceWrapper.sendSuccess(Component.literal("Menu state is now " + open), false);
+                                    commandSourceWrapper.sendSuccess(Component.translatable("command.stellaris.menu_state", open), false);
                                     return commandSourceWrapper.success();
 
                                 }))
@@ -270,12 +271,12 @@ public class StellarisCommands {
 
                             Map<UUID, Antenna> antennas = antennaSavedData.getAntennas(null);
 
-                            MutableComponent component = Component.literal("Antenna List");
+                            MutableComponent component = Component.translatable("command.stellaris.antennas.header");
 
                             for(Map.Entry<UUID, Antenna> entry : antennas.entrySet()) {
                                 UUID uuid = entry.getKey();
                                 Antenna antenna = entry.getValue();
-                                component.append(Component.literal("\n- " + uuid + " : " + antenna.name + " at " + antenna.blockPos));
+                                component.append("\n").append(Component.translatable("command.stellaris.antennas.entry", uuid.toString(), antenna.name, antenna.blockPos.toShortString()));
                             }
 
                             c.sendSuccess(component, false);
@@ -301,7 +302,7 @@ public class StellarisCommands {
                                             AntennaSavedData antennaSavedData = AntennaSavedData.getSavedAntennas(c.getServer());
                                             antennaSavedData.addAntenna(antenna);
 
-                                            c.sendSuccess(Component.literal("Antenna added at " + pos), false);
+                                            c.sendSuccess(Component.translatable("command.stellaris.antennas.added", pos.toShortString()), false);
                                             return c.success();
 
                                         })))
@@ -322,12 +323,12 @@ public class StellarisCommands {
                             }
 
                             if (uuid == null || antennaSavedData.getAntenna(uuid) == null) {
-                                c.sendFailure(Component.literal("No antenna named " + name));
+                                c.sendFailure(Component.translatable("command.stellaris.antennas.not_found", name));
                                 return c.failure();
                             }
 
                             antennaSavedData.removeAntenna(uuid);
-                            c.sendSuccess(Component.literal("Antenna " + name + " removed "), false);
+                            c.sendSuccess(Component.translatable("command.stellaris.antennas.removed", name), false);
 
                             return c.success();
                         })));
@@ -373,7 +374,7 @@ public class StellarisCommands {
 
             ServerPlayer player = commandSourceWrapper.getPlayer();
             int stage = MoonLoreUtils.getResearchProgressionStage(player);
-            player.sendSystemMessage(Component.literal("Current stage : " + stage));
+            player.sendSystemMessage(Component.translatable("command.stellaris.infection.stage", stage));
             return commandSourceWrapper.success();
         });
 
@@ -382,11 +383,11 @@ public class StellarisCommands {
             try {
                 player = EntityArgument.getPlayer(commandSourceWrapper.context(), "player");
             } catch (CommandSyntaxException e) {
-                commandSourceWrapper.sendFailure(Component.literal("Player not found!"));
+                commandSourceWrapper.sendFailure(Component.translatable("command.stellaris.player_not_found"));
                 return commandSourceWrapper.failure();
             }
             int stage = MoonLoreUtils.getResearchProgressionStage(player);
-            commandSourceWrapper.sendSuccess(Component.literal("Current stage for " + player.getName().getString() + " : " + stage), false);
+            commandSourceWrapper.sendSuccess(Component.translatable("command.stellaris.infection.stage.other", player.getName(), stage), false);
             return commandSourceWrapper.success();
         }));
 
@@ -399,7 +400,7 @@ public class StellarisCommands {
             ServerPlayer player = commandSourceWrapper.getPlayer();
             int stage = IntegerArgumentType.getInteger(commandSourceWrapper.context(), "stage");
             player.stellaris$saveDataAttachments(MoonLoreUtils.MOON_LORE_PROGRESSION, stage);
-            player.sendSystemMessage(Component.literal("Stage set to " + stage));
+            player.sendSystemMessage(Component.translatable("command.stellaris.infection.stage.set", stage));
             return commandSourceWrapper.success();
         }));
 
@@ -408,12 +409,12 @@ public class StellarisCommands {
             try {
                 player = EntityArgument.getPlayer(commandSourceWrapper.context(), "player");
             } catch (CommandSyntaxException e) {
-                commandSourceWrapper.sendFailure(Component.literal("Player not found!"));
+                commandSourceWrapper.sendFailure(Component.translatable("command.stellaris.player_not_found"));
                 return commandSourceWrapper.failure();
             }
             int stage = IntegerArgumentType.getInteger(commandSourceWrapper.context(), "stage");
             player.stellaris$saveDataAttachments(MoonLoreUtils.MOON_LORE_PROGRESSION, stage);
-            commandSourceWrapper.sendSuccess(Component.literal("Stage set to " + stage + " for " + player.getName().getString()), false);
+            commandSourceWrapper.sendSuccess(Component.translatable("command.stellaris.infection.stage.set.other", stage, player.getName()), false);
             return commandSourceWrapper.success();
         }))));
 
@@ -425,7 +426,7 @@ public class StellarisCommands {
 
             ServerPlayer player = commandSourceWrapper.getPlayer();
             boolean immunised = MoonLoreUtils.isPlayerImmunisedToInfection(player);
-            player.sendSystemMessage(immunised ? Component.literal("You are immunised to the parasite.") : Component.literal("You are vulnerable to the parasite."));
+            player.sendSystemMessage(Component.translatable(immunised ? "command.stellaris.infection.immunised" : "command.stellaris.infection.vulnerable"));
             return commandSourceWrapper.success();
         });
 
@@ -434,11 +435,11 @@ public class StellarisCommands {
             try {
                 player = EntityArgument.getPlayer(commandSourceWrapper.context(), "player");
             } catch (CommandSyntaxException e) {
-                commandSourceWrapper.sendFailure(Component.literal("Player not found!"));
+                commandSourceWrapper.sendFailure(Component.translatable("command.stellaris.player_not_found"));
                 return commandSourceWrapper.failure();
             }
             boolean immunised = MoonLoreUtils.isPlayerImmunisedToInfection(player);
-            commandSourceWrapper.sendSuccess(immunised ? Component.literal(player.getName().getString() + " is immunised to the parasite.") : Component.literal(player.getName().getString() + " is vulnerable to the parasite."), false);
+            commandSourceWrapper.sendSuccess(Component.translatable(immunised ? "command.stellaris.infection.immunised.other" : "command.stellaris.infection.vulnerable.other", player.getName()), false);
             return commandSourceWrapper.success();
         }));
 
@@ -451,7 +452,7 @@ public class StellarisCommands {
             ServerPlayer player = commandSourceWrapper.getPlayer();
             boolean immunised = BoolArgumentType.getBool(commandSourceWrapper.context(), "immunised");
             player.stellaris$saveDataAttachments(MoonLoreUtils.PLAYER_IMMUNISED_TO_INFECTION, immunised);
-            player.sendSystemMessage(immunised ? Component.literal("You are now immunised to the infection.") : Component.literal("You are no longer immunised to the infection."));
+            player.sendSystemMessage(Component.translatable(immunised ? "command.stellaris.infection.now_immunised" : "command.stellaris.infection.no_longer_immunised"));
             return commandSourceWrapper.success();
         }));
 
@@ -460,12 +461,12 @@ public class StellarisCommands {
             try {
                 player = EntityArgument.getPlayer(commandSourceWrapper.context(), "player");
             } catch (CommandSyntaxException e) {
-                commandSourceWrapper.sendFailure(Component.literal("Player not found!"));
+                commandSourceWrapper.sendFailure(Component.translatable("command.stellaris.player_not_found"));
                 return commandSourceWrapper.failure();
             }
             boolean immunised = BoolArgumentType.getBool(commandSourceWrapper.context(), "immunised");
             player.stellaris$saveDataAttachments(MoonLoreUtils.PLAYER_IMMUNISED_TO_INFECTION, immunised);
-            commandSourceWrapper.sendSuccess(immunised ? Component.literal(player.getName().getString() + " is now immunised to the infection.") : Component.literal(player.getName().getString() + " is no longer immunised to the infection."), false);
+            commandSourceWrapper.sendSuccess(Component.translatable(immunised ? "command.stellaris.infection.now_immunised.other" : "command.stellaris.infection.no_longer_immunised.other", player.getName()), false);
             return commandSourceWrapper.success();
         }))));
 

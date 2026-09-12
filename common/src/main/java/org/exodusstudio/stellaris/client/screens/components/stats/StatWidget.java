@@ -19,7 +19,7 @@ public class StatWidget extends AbstractWidget {
     private final ScrollableContainer parent;
 
     public StatWidget(int x, int y, int width, int height, Component name, Component val, ScrollableContainer parent) {
-        super(x, y, width, height, Component.literal("Stat Widget"));
+        super(x, y, width, height, Component.empty());
         this.statName = name;
         this.statValue = val;
         this.parent = parent;

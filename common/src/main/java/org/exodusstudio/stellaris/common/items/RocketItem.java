@@ -119,25 +119,25 @@ public class RocketItem extends Item implements FluidProvider.ITEM {
         Modules<RocketModule> modules = stack.get(DataComponentsRegistry.ROCKET_MODULES.get());
 
         if (modules != null && !modules.items().isEmpty()) {
-            tooltipAdder.accept(Component.literal("Modules :"));
+            tooltipAdder.accept(Component.translatable("tooltip.stellaris.modules"));
             for (RocketModule module : modules.modules) {
-                tooltipAdder.accept(Component.literal("- ").append(module.getDisplayName()).withStyle(ChatFormatting.GRAY));
+                tooltipAdder.accept(Component.translatable("tooltip.stellaris.list_entry", module.getDisplayName()).withStyle(ChatFormatting.GRAY));
             }
         } else {
-            tooltipAdder.accept(Component.literal("No Modules"));
+            tooltipAdder.accept(Component.translatable("tooltip.stellaris.no_modules"));
         }
 
         UniversalFluidItemStorage storage = getFluidTank(stack);
         if (storage != null) {
             tooltipAdder.accept(Component.literal("---------------------"));
-            tooltipAdder.accept(Component.literal(storage.getFluidInTank(0).getAmount() + " / " + storage.getTankCapacity(0) + "mb").withStyle(ChatFormatting.GRAY));
-            tooltipAdder.accept(Component.literal("Fuel: " + storage.getFluidInTank(0).getFluid().arch$registryName()).withStyle(ChatFormatting.GRAY));
+            tooltipAdder.accept(Component.translatable("tooltip.stellaris.fluid_amount", storage.getFluidInTank(0).getAmount(), storage.getTankCapacity(0)).withStyle(ChatFormatting.GRAY));
+            tooltipAdder.accept(Component.translatable("tooltip.stellaris.fuel", storage.getFluidInTank(0).getName()).withStyle(ChatFormatting.GRAY));
         }
 
         if (stack.has(DataComponentsRegistry.AUTOPILOT.get())) {
             tooltipAdder.accept(Component.literal("---------------------"));
-            String destination = Component.translatable(stack.get(DataComponentsRegistry.AUTOPILOT.get()).translationKey()).getString();
-            tooltipAdder.accept(Component.literal("Autopilot Destination: " + destination).withStyle(ChatFormatting.YELLOW));
+            Component destination = Component.translatable(stack.get(DataComponentsRegistry.AUTOPILOT.get()).translationKey());
+            tooltipAdder.accept(Component.translatable("tooltip.stellaris.autopilot_destination", destination).withStyle(ChatFormatting.YELLOW));
         }
     }
 

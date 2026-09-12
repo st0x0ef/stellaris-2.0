@@ -73,9 +73,9 @@ public class RoverItem extends Item implements FluidProvider.ITEM {
         }
 
         FluidStack fuel = storage.getFluidInTank(0);
-        tooltipAdder.accept(Component.literal(fuel.getAmount() + " / " + storage.getTankCapacity(0) + "mb").withStyle(ChatFormatting.GRAY));
+        tooltipAdder.accept(Component.translatable("tooltip.stellaris.fluid_amount", fuel.getAmount(), storage.getTankCapacity(0)).withStyle(ChatFormatting.GRAY));
         if (!fuel.isEmpty()) {
-            tooltipAdder.accept(Component.literal("Fuel: ").append(fuel.getName()).withStyle(ChatFormatting.GRAY));
+            tooltipAdder.accept(Component.translatable("tooltip.stellaris.fuel", fuel.getName()).withStyle(ChatFormatting.GRAY));
         }
     }
 

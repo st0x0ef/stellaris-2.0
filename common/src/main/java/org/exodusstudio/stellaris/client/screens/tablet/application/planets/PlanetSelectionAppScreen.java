@@ -275,8 +275,8 @@ public class PlanetSelectionAppScreen extends TabletAbstractContainer<PlanetSele
 
         private int setupSpaceStation(int y, SpaceStationRecipe spaceStationRecipe) {
 
-            StringWidget title = new StringWidget(this.getX(), y, this.getWidth(), Minecraft.getInstance().font.lineHeight, Component.literal("Space Station"), Minecraft.getInstance().font);
-            StringWidget description = new StringWidget(this.getX(), y + Minecraft.getInstance().font.lineHeight, getWidth(), Minecraft.getInstance().font.lineHeight, Component.literal("Blueprint detected!").withStyle(ChatFormatting.GRAY), Minecraft.getInstance().font);
+            StringWidget title = new StringWidget(this.getX(), y, this.getWidth(), Minecraft.getInstance().font.lineHeight, Component.translatable("stellaris.screen.space_station"), Minecraft.getInstance().font);
+            StringWidget description = new StringWidget(this.getX(), y + Minecraft.getInstance().font.lineHeight, getWidth(), Minecraft.getInstance().font.lineHeight, Component.translatable("stellaris.screen.blueprint_detected").withStyle(ChatFormatting.GRAY), Minecraft.getInstance().font);
 
             addAntennaWidget(title);
             addAntennaWidget(description);
@@ -314,7 +314,7 @@ public class PlanetSelectionAppScreen extends TabletAbstractContainer<PlanetSele
                         NetworkManager.sendToServer(new TeleportToPlanetPacket(this.selectionAppScreen.selectedPlanet, Optional.of(antenna.blockPos), Optional.empty()));
                     }
                 }));
-                var ownerWidget = new StringWidget(this.getX(), stringWidget.getY() + 7 + i++ * font.lineHeight,200, font.lineHeight, Component.literal("Owned by : Searching...").withStyle(ChatFormatting.GRAY), Minecraft.getInstance().font);
+                var ownerWidget = new StringWidget(this.getX(), stringWidget.getY() + 7 + i++ * font.lineHeight,200, font.lineHeight, Component.translatable("stellaris.screen.owned_by_searching").withStyle(ChatFormatting.GRAY), Minecraft.getInstance().font);
                 addAntennaWidget(ownerWidget);
 
                 ClientUtils.resolveUUIDAsync(antenna.ownerUUID, (opt) -> {
@@ -323,14 +323,14 @@ public class PlanetSelectionAppScreen extends TabletAbstractContainer<PlanetSele
 
                     var ownerLine = Component.translatable("stellaris.screen.owned_by").withStyle(ChatFormatting.GRAY);
                     opt.ifPresentOrElse(profile -> ownerLine.append(Component.literal(profile.name()).withStyle(ChatFormatting.GRAY)),
-                            () -> ownerLine.append(Component.literal("Unknown").withStyle(ChatFormatting.GRAY)));
+                            () -> ownerLine.append(Component.translatable("tooltip.stellaris.unknown").withStyle(ChatFormatting.GRAY)));
 
                     ownerWidget.setMessage(ownerLine);
                 });
                 i++;
             }
 
-            if(i == 1) addAntennaWidget(new StringWidget(this.getX(), y + font.lineHeight, 200, font.lineHeight * i++, Component.literal("No Antenna Available").withStyle(ChatFormatting.GRAY), Minecraft.getInstance().font));
+            if(i == 1) addAntennaWidget(new StringWidget(this.getX(), y + font.lineHeight, 200, font.lineHeight * i++, Component.translatable("stellaris.screen.no_antenna_available").withStyle(ChatFormatting.GRAY), Minecraft.getInstance().font));
 
             return stringWidget.getHeight() + ((i - 1) * font.lineHeight + 7) + 5;
         }

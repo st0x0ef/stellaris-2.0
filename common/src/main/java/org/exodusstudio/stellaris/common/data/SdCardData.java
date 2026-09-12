@@ -22,7 +22,7 @@ public class SdCardData extends SimpleJsonResourceReloadListener<SdCard> {
     protected void apply(Map<Identifier, SdCard> sdCardMap, ResourceManager resourceManager, ProfilerFiller profiler) {
         SD_CARDS.clear();
         for (Map.Entry<Identifier, SdCard> entry : sdCardMap.entrySet()) {
-            SD_CARDS.put(entry.getKey().toString(), entry.getValue());
+            SD_CARDS.put(entry.getKey().toString(), entry.getValue().withId(entry.getKey()));
         }
     }
 

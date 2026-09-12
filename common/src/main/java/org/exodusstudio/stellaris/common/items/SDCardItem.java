@@ -17,6 +17,6 @@ public class SDCardItem extends Item {
 
     @Override
     public void appendHoverText(ItemStack stack, Item.TooltipContext context, TooltipDisplay tooltipDisplay, Consumer<Component> tooltipAdder, TooltipFlag flag) {
-        tooltipAdder.accept(Component.literal("ID: " + stack.get(DataComponentsRegistry.SD_CARD_NAME.get())).withStyle(ChatFormatting.GRAY));
+        tooltipAdder.accept(Component.translatable("tooltip.item.stellaris.sd_card.id", stack.get(DataComponentsRegistry.SD_CARD_NAME.get())).withStyle(ChatFormatting.GRAY));
     }
 }

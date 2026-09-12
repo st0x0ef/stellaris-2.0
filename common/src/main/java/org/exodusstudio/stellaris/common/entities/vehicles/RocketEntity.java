@@ -241,7 +241,7 @@ public class RocketEntity extends VehicleEntity implements FluidProvider.ENTITY,
     public void startRocket() {
         if (!canFly()) {
             if (!this.getPassengers().isEmpty() && this.getPassengers().getFirst() instanceof Player player) {
-                player.sendOverlayMessage(Component.literal("There's something blocking the rocket flying path..."));
+                player.sendOverlayMessage(Component.translatable("message.stellaris.rocket.path_blocked"));
             }
 
             return;

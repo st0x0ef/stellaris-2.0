@@ -27,7 +27,7 @@ public class PowerBankItem extends BlockItem implements EnergyProvider.ITEM {
     @Override
     public void appendHoverText(ItemStack stack, TooltipContext context, TooltipDisplay tooltipDisplay, Consumer<Component> tooltipAdder, TooltipFlag flag) {
         UniversalEnergyStorage energy = getEnergy(stack);
-        tooltipAdder.accept(Component.literal(energy.getEnergy() + " / " + energy.getMaxEnergy() + "FE").withStyle(ChatFormatting.GRAY));
+        tooltipAdder.accept(Component.translatable("tooltip.stellaris.energy_simple", energy.getEnergy(), energy.getMaxEnergy()).withStyle(ChatFormatting.GRAY));
     }
 
     @Override

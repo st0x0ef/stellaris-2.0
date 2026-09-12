@@ -7,7 +7,6 @@ import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.FormattedText;
 import org.exodusstudio.stellaris.client.screens.components.ScrollableTextWidget;
 import org.exodusstudio.stellaris.common.data.SdCard;
 
@@ -48,14 +47,14 @@ public class SDCardInfoWidget extends AbstractContainerWidget {
         Minecraft mc = Minecraft.getInstance();
 
         int textWidth = this.getWidth() - 8;
-        int lines = mc.font.split(FormattedText.of(card.name()), textWidth).size();
+        int lines = mc.font.split(card.getDisplayName(), textWidth).size();
         int cardNameHeight = (lines * mc.font.lineHeight) + 8;
 
-        this.nameContainer = new ScrollableTextWidget(this.getX(), this.getY(), this.getWidth(), cardNameHeight, card.name());
+        this.nameContainer = new ScrollableTextWidget(this.getX(), this.getY(), this.getWidth(), cardNameHeight, card.getDisplayName());
 
         int startDescY = this.getY() + cardNameHeight + 6;
         int descHeight = 136 - (cardNameHeight + 6);
-        this.descriptionContainer = new ScrollableTextWidget(this.getX(), startDescY, this.getWidth(), descHeight, card.content());
+        this.descriptionContainer = new ScrollableTextWidget(this.getX(), startDescY, this.getWidth(), descHeight, card.getDisplayContent());
     }
 
     @Override

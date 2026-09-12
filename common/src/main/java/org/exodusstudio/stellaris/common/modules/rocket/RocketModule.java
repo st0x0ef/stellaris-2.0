@@ -5,13 +5,21 @@ import dev.architectury.fluid.FluidStack;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.rendertype.RenderType;
 import org.exodusstudio.stellaris.client.renderers.rockets.RocketRenderer;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.level.ItemLike;
 import org.exodusstudio.stellaris.common.modules.Module;
 
 public interface RocketModule extends Module<RocketModule> {
 
     RocketFeature getRocketFeature();
 
-    String getDisplayName();
+    /**
+     * The translated name shown for this module. Modules that are items fall back to their item name,
+     * so the text always comes from the language file.
+     */
+    default Component getDisplayName() {
+        return this instanceof ItemLike itemLike ? Component.translatable(itemLike.asItem().getDescriptionId()) : Component.empty();
+    }
 
     /**
      * Checks if this module is compatible with other modules that are currently in the rocket.

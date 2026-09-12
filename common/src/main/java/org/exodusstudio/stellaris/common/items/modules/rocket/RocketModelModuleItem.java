@@ -10,7 +10,6 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.component.TooltipDisplay;
-import org.apache.commons.lang3.StringUtils;
 import org.exodusstudio.stellaris.client.renderers.rockets.RocketRenderer;
 import org.exodusstudio.stellaris.client.renderers.rockets.models.RocketModel;
 import org.exodusstudio.stellaris.client.renderers.rockets.models.RocketModelRegistry;
@@ -35,11 +34,6 @@ public class RocketModelModuleItem<T extends RocketModel> extends Item implement
     @Override
     public RocketFeature getRocketFeature() {
         return RocketFeature.MODEL;
-    }
-
-    @Override
-    public String getDisplayName() {
-        return StringUtils.capitalize(name) + " Rocket Model";
     }
 
     public T getRocketModel() {

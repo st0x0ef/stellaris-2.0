@@ -16,7 +16,7 @@ import org.exodusstudio.stellaris.common.utils.Utils;
 
 public class ResearchScreen extends TabbedMachineScreen<ResearchMenu> {
     private static final Identifier GUI_LOCATION = IdentifierUtils.guiTexture("laboratory_research"); //temporary
-    public static final Component TAB_NAME = Component.literal("Research");
+    public static final Component TAB_NAME = Component.translatable("stellaris.screen.research");
 
     private static final Component SUCCESS_MESSAGE = Component.translatable("message.stellaris.success");
     private static final Component FAILURE_MESSAGE = Component.translatable("message.stellaris.failure");
@@ -44,9 +44,9 @@ public class ResearchScreen extends TabbedMachineScreen<ResearchMenu> {
                 .useSprite(true);
 
         startResearchButton = new TexturedButton(this.leftPos + (this.backgroundWidth - 96) / 2, this.topPos + 69, 96, 16,
-                Component.literal("Start Research"), button -> menu.researchButton())
+                Component.translatable("stellaris.screen.research.start"), button -> menu.researchButton())
                 .tex(GUISprites.RESEARCH_BUTTON, GUISprites.RESEARCH_BUTTON_HOVER)
-                .tooltip(Tooltip.create(Component.literal("Start the research, the more parasite you have, the more chance you have to progress toward the vaccine recipe.")))
+                .tooltip(Tooltip.create(Component.translatable("stellaris.screen.research.start.tooltip")))
                 .useSprite(true);
 
         this.addRenderableWidget(researchButton);

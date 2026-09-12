@@ -50,7 +50,7 @@ public class AntennaScreen extends AbstractContainerScreen<AntennaMenu> {
     private final Set<UUID> resolvingWhitelist = ConcurrentHashMap.newKeySet();
 
     public AntennaScreen(AntennaMenu menu, Inventory playerInventory, Component title) {
-        super(menu, playerInventory, Component.literal("Antenna").withColor(-11050641), 180, 188);
+        super(menu, playerInventory, Component.translatable("container.stellaris.antenna").withColor(-11050641), 180, 188);
 
         inventoryLabelY = imageHeight * 3;
 
@@ -78,7 +78,7 @@ public class AntennaScreen extends AbstractContainerScreen<AntennaMenu> {
         extractTooltip(guiGraphics, mouseX, mouseY);
 
         guiGraphics.blit(RenderPipelines.GUI_TEXTURED, IdentifierUtils.guiTexture("tablet/tablet_entries_background"), this.leftPos + this.imageWidth, topPos, 0, 0, 100, 132, 100, 132);
-        guiGraphics.centeredText(Minecraft.getInstance().font, Component.literal("WhiteListed").withStyle(ChatFormatting.GRAY), this.leftPos + this.imageWidth + 100 / 2, topPos + 7, ARGB.white(1f));
+        guiGraphics.centeredText(Minecraft.getInstance().font, Component.translatable("gui.stellaris.antenna.whitelisted").withStyle(ChatFormatting.GRAY), this.leftPos + this.imageWidth + 100 / 2, topPos + 7, ARGB.white(1f));
 
         if(this.antenna == null) return;
         int i = 1;
@@ -86,7 +86,7 @@ public class AntennaScreen extends AbstractContainerScreen<AntennaMenu> {
             queueWhitelistResolve(whitelist);
             String playerName = this.whitelistNameCache.getOrDefault(whitelist, whitelist.toString());
 
-            guiGraphics.text(Minecraft.getInstance().font, Component.literal("- " +  playerName)
+            guiGraphics.text(Minecraft.getInstance().font, Component.translatable("gui.stellaris.antenna.whitelist_entry", playerName)
                     .withStyle(ChatFormatting.GRAY), this.leftPos + this.imageWidth + 7, topPos + 12 + i * 9, ARGB.white(1f));
 
             i++;
@@ -124,20 +124,20 @@ public class AntennaScreen extends AbstractContainerScreen<AntennaMenu> {
 
         nameBox.setBordered(false);
 
-        this.publicCheckbox = new CustomCheckBox(this.leftPos + 118, this.topPos + 38, 17, Component.literal(""), this.font, false)
+        this.publicCheckbox = new CustomCheckBox(this.leftPos + 118, this.topPos + 38, 17, Component.empty(), this.font, false)
                 .setTexture(GUISprites.INDUSTRIAL_CHECKBOX, GUISprites.INDUSTRIAL_CHECKBOX_SELECTED);
         this.publicCheckbox.setTooltip(Tooltip.create(Component.translatable("gui.stellaris.launchpad_creator.public_checkbox").withStyle(ChatFormatting.GRAY)));
 
-        this.saveButton = new TexturedButton(this.leftPos + (this.imageWidth / 2 - 96 / 2),  88, 96, 16, Component.literal("Create"), (b) -> onClose())
+        this.saveButton = new TexturedButton(this.leftPos + (this.imageWidth / 2 - 96 / 2),  88, 96, 16, Component.translatable("gui.stellaris.antenna.create"), (b) -> onClose())
                 .tex(GUISprites.RESEARCH_BUTTON, GUISprites.RESEARCH_BUTTON_HOVER)
                 .useSprite(true)
-                .setText(Component.literal("Create"));
+                .setText(Component.translatable("gui.stellaris.antenna.create"));
 
 
         if(pad != null) {
             this.nameBox.setValue(pad.name);
             this.publicCheckbox.setSelected(pad.isPublic);
-            this.saveButton.setMessage(Component.literal("Save"));
+            this.saveButton.setMessage(Component.translatable("gui.stellaris.antenna.save"));
         }
 
         this.addRenderableWidget(this.nameBox);

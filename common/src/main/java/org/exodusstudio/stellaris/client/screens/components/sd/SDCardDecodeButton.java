@@ -7,7 +7,7 @@ import net.minecraft.network.chat.Component;
 public class SDCardDecodeButton extends Button {
 
     public SDCardDecodeButton(int x, int y, int width, int height, OnPress onPress) {
-        super(x, y, width, height, Component.literal("DECODE"), onPress, Button.DEFAULT_NARRATION);
+        super(x, y, width, height, Component.translatable("gui.stellaris.sd_card.decode"), onPress, Button.DEFAULT_NARRATION);
     }
 
     @Override

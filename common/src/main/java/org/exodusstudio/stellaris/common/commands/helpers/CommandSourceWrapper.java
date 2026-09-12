@@ -26,7 +26,7 @@ public record CommandSourceWrapper(CommandContext<CommandSourceStack> context) {
 
     public boolean runByPlayer() {
         if(getPlayer() == null) {
-            this.sendFailure(Component.literal("This command need to be run by a player"));
+            this.sendFailure(Component.translatable("command.stellaris.player_only"));
             return false;
         }
         return true;

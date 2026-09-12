@@ -33,9 +33,9 @@ public class TextureComponentButton extends Button {
     public int textureWidth;
     public int textureHeight;
 
-    private String tooltipText;
+    private Component tooltipText;
 
-    public TextureComponentButton(int x, int y, int width, int height, int textureWidth, int textureHeight, Identifier contentTexture, String tooltipText, OnPress onPressIn, CreateNarration onTooltipIn) {
+    public TextureComponentButton(int x, int y, int width, int height, int textureWidth, int textureHeight, Identifier contentTexture, Component tooltipText, OnPress onPressIn, CreateNarration onTooltipIn) {
         super(x, y, width, height, Component.empty(), onPressIn, onTooltipIn);
         this.buttonWidth = width;
         this.buttonHeight = height;
@@ -48,7 +48,7 @@ public class TextureComponentButton extends Button {
     /** Override Methods */
     @Override
     public void setTooltip(@Nullable Tooltip tooltip) {
-        Tooltip buttonTooltip = Tooltip.create(Component.literal(this.tooltipText));
+        Tooltip buttonTooltip = Tooltip.create(this.tooltipText);
         super.setTooltip(buttonTooltip);
     }
 
