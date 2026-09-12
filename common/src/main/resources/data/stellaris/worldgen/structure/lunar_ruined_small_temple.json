@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:jigsaw",
+  "biomes": [
+    "stellaris:lunar_forest",
+    "stellaris:lunar_blue_lake"
+  ],
+  "start_height": {
+    "absolute": -1
+  },
+  "step": "underground_structures",
+  "terrain_adaptation": "none",
+  "spawn_overrides": {},
+  "start_pool": "stellaris:moon/lunar_ruined_small_temple",
+  "size": 4,
+  "max_distance_from_center": 80,
+  "use_expansion_hack": false
+}

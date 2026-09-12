@@ -1,0 +1,18 @@
+{
+  "structures": [
+    {
+      "structure": "stellaris:lunar_ruined_tower",
+      "weight": 1
+    },
+    {
+      "structure": "stellaris:lunar_ruined_small_temple",
+      "weight": 1
+    }
+  ],
+  "placement": {
+    "salt": 1419192934,
+    "spacing": 60,
+    "separation": 30,
+    "type": "minecraft:random_spread"
+  }
+}
