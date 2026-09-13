@@ -8,8 +8,9 @@
     "Exodus Studio"
   ],
   "contact": {
-    "homepage": "https://fabricmc.net/",
-    "sources": "https://github.com/FabricMC/fabric-example-mod"
+    "homepage": "https://github.com/st0x0ef/stellaris-2.0",
+    "sources": "https://github.com/st0x0ef/stellaris-2.0",
+    "issues": "https://github.com/st0x0ef/stellaris-2.0/issues"
   },
   "license": "MIT",
   "icon": "logo.png",

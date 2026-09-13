@@ -1,6 +1,6 @@
 modLoader = "javafml"
 loaderVersion = "[9,)"
-#issueTrackerURL = ""
+issueTrackerURL = "https://github.com/st0x0ef/stellaris-2.0/issues"
 license = "MIT"
 
 [[mods]]
@@ -12,6 +12,7 @@ description = '''
 Stellaris introduces an expansive and immersive space exploration experience within the familiar Minecraft universe. Players can discover new planets, moon and galaxies !
 '''
 logoFile = "logo.png"
+displayURL = "https://github.com/st0x0ef/stellaris-2.0"
 
 [[dependencies.stellaris]]
 modId = "neoforge"
