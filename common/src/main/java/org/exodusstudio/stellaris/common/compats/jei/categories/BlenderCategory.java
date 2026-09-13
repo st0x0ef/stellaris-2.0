@@ -12,7 +12,6 @@ import mezz.jei.api.recipe.types.IRecipeType;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
-import net.minecraft.world.item.ItemStack;
 import org.exodusstudio.stellaris.common.blocks.entities.machines.BlenderBlockEntity;
 import org.exodusstudio.stellaris.common.data.recipes.BlendingRecipe;
 import org.exodusstudio.stellaris.common.registries.BlocksRegistry;
@@ -78,8 +77,12 @@ public record BlenderCategory(IGuiHelper guiHelper, IDrawable background) implem
 
             if (index < recipe.ingredients().size()) {
                 BlendingRecipe.SizedIngredient sized = recipe.ingredients().get(index);
-                slot.addItemStacks(sized.ingredient().items()
-                        .map(item -> new ItemStack(item, sized.count()))
+                // Ingredient.items() is deprecated for display use; the slot display resolves to the
+                // same items and lets the recipe's count ride along.
+                slot.addItemStacks(sized.ingredient().display()
+                        .resolveForStacks(slot.getContextMap())
+                        .stream()
+                        .map(stack -> stack.copyWithCount(sized.count()))
                         .toList());
             }
         }

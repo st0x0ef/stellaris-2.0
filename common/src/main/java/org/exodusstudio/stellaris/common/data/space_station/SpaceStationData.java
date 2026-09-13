@@ -1,17 +1,10 @@
 package org.exodusstudio.stellaris.common.data.space_station;
 
-import com.google.gson.JsonElement;
-import com.mojang.datafixers.util.Either;
-import com.mojang.serialization.JsonOps;
-import net.minecraft.core.Vec3i;
-import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.FileToIdConverter;
 import net.minecraft.resources.Identifier;
-import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.packs.resources.SimpleJsonResourceReloadListener;
 import net.minecraft.util.profiling.ProfilerFiller;
-import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,13 +21,6 @@ public class SpaceStationData extends SimpleJsonResourceReloadListener<SpaceStat
 
     @Override
     protected void apply(Map<Identifier, SpaceStationRecipe> object, ResourceManager resourceManager, ProfilerFiller profiler) {
-
-        SpaceStationRecipe recipe = new SpaceStationRecipe(List.of(
-                new SpaceStationRecipe.IngredientWithCount(
-                        Either.left(ResourceKey.create(Registries.ITEM, IdentifierUtils.id("rocket"))), 10))
-                , IdentifierUtils.id("space_station_small"), new Vec3i(0, 1, 0));
-        JsonElement element = SpaceStationRecipe.CODEC.encodeStart(JsonOps.INSTANCE, recipe).getOrThrow();
-
         SPACE_STATION_RECIPES.clear();
         SPACE_STATION_RECIPES.addAll(object.values());
     }

@@ -2,19 +2,19 @@
   "items": [
     {
       "item": "stellaris:titanium_block",
-      "count": 16
+      "count": 32
     },
     {
       "item": "stellaris:desh_ingot",
-      "count": 24
+      "count": 32
     },
     {
       "item": "stellaris:silicon",
-      "count": 12
+      "count": 24
     },
     {
       "item": "minecraft:iron_block",
-      "count": 32
+      "count": 48
     },
     {
       "item": "stellaris:antenna",
@@ -22,21 +22,21 @@
     },
     {
       "item": "minecraft:smooth_quartz",
-      "count": 48
+      "count": 64
     },
     {
       "item": "stellaris:titanium_plating_block",
-      "count": 32
+      "count": 48
     },
     {
       "item": "minecraft:glass",
-      "count": 32
+      "count": 64
     }
   ],
-  "location": "stellaris:space_station_small",
+  "location": "stellaris:space_station_medium",
   "antenna_position": [
-    19,
-    28,
-    18
+    24,
+    33,
+    23
   ]
 }

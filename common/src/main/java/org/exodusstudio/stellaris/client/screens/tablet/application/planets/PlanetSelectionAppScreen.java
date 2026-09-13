@@ -243,7 +243,7 @@ public class PlanetSelectionAppScreen extends TabletAbstractContainer<PlanetSele
             this.teleportButton = new TexturedButton(this.getX(),this.getY() + antennasHeight + infoHeight, 100, 20, btn -> {
                 if (this.selectionAppScreen.isTeleportButtonVisible()
                         && this.selectionAppScreen.canTeleportToPlanet()) {
-                    NetworkManager.sendToServer(new TeleportToPlanetPacket(this.selectionAppScreen.selectedPlanet, Optional.empty(), Optional.empty()));
+                    NetworkManager.sendToServer(new TeleportToPlanetPacket(this.selectionAppScreen.selectedPlanet, Optional.empty(), false));
                 }
             }).tex(IdentifierUtils.guiTexture("tablet/tablet_entry_button"), IdentifierUtils.guiTexture("tablet/tablet_entry_button")).setText(Component.translatable("application.stellaris.planet_selection.teleport_button"));
 
@@ -284,7 +284,7 @@ public class PlanetSelectionAppScreen extends TabletAbstractContainer<PlanetSele
             TexturedButton stationButton = new TexturedButton(this.getX(), description.getY() + description.getHeight() + 2, 100, 20, btn -> {
                 if (this.selectionAppScreen.isTeleportButtonVisible()
                         && this.selectionAppScreen.canTeleportToPlanet()) {
-                    NetworkManager.sendToServer(new TeleportToPlanetPacket(this.selectionAppScreen.selectedPlanet, Optional.empty(), Optional.of(spaceStationRecipe)));
+                    NetworkManager.sendToServer(new TeleportToPlanetPacket(this.selectionAppScreen.selectedPlanet, Optional.empty(), true));
                 }
             }).tex(IdentifierUtils.guiTexture("tablet/tablet_entry_button"), IdentifierUtils.guiTexture("tablet/tablet_entry_button"))
                     .setText(Component.translatable("stellaris.screen.build_space_station"));
@@ -311,7 +311,7 @@ public class PlanetSelectionAppScreen extends TabletAbstractContainer<PlanetSele
                     if (this.selectionAppScreen.selectedPlanet != null
                             && this.selectionAppScreen.inSpace
                             && this.selectionAppScreen.canTeleportToPlanet()) {
-                        NetworkManager.sendToServer(new TeleportToPlanetPacket(this.selectionAppScreen.selectedPlanet, Optional.of(antenna.blockPos), Optional.empty()));
+                        NetworkManager.sendToServer(new TeleportToPlanetPacket(this.selectionAppScreen.selectedPlanet, Optional.of(antenna.blockPos), false));
                     }
                 }));
                 var ownerWidget = new StringWidget(this.getX(), stringWidget.getY() + 7 + i++ * font.lineHeight,200, font.lineHeight, Component.translatable("stellaris.screen.owned_by_searching").withStyle(ChatFormatting.GRAY), Minecraft.getInstance().font);

@@ -88,6 +88,18 @@ public class SpaceStationPlannerScreen extends TabbedMachineScreen<SpaceStationP
         this.addRenderableWidget(buildButton);
     }
 
+    @Override
+    protected void containerTick() {
+        super.containerTick();
+
+        // Slot listeners only ever fire on the server, so the screen watches the grid itself:
+        // anything added or taken out - by hand or by shift-click - invalidates the last check.
+        if (this.menu.pollMaterialsChanged() && this.menu.checked) {
+            this.menu.checked = false;
+            onCheckChange(false);
+        }
+    }
+
     public void onCheckChange(boolean check) {
         this.buildButton.setText(check ? Component.translatable("stellaris.screen.space_station_planner.build") : Component.translatable("stellaris.screen.space_station_planner.check"));
     }

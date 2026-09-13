@@ -10,9 +10,11 @@ A Space Station is a structure you raise in orbit rather than build block by blo
 
 **How to build one** 
 
-Open the Space Station Planner tab of the [ref=stellaris:machines/engineering_station]Engineering Station[ref] and pick the station you want. Put a Space Station Blueprint in its slot, then fill the grid with the materials the plan asks for. The blueprint tooltip always lists what is still missing. 
+Open the Space Station Planner tab of the [ref=stellaris:machines/engineering_station]Engineering Station[ref] and pick the station you want. Its tooltip always lists what the plan asks for. 
 
-Once every material is in place the blueprint is complete. Fly it up to Earth Orbit and the station is assembled there for you. 
+The grid holds nine things : the eight materials, and a Space Station Blueprint sitting among them. Press the button once to check the grid, and again to plan the station - the planned blueprint appears in the slot on the right, and the materials and the blank blueprint are spent. 
+
+Then carry the planned blueprint up with you. Put it **anywhere in your [ref=stellaris:rocket/rocket]Rocket[ref]'s inventory** before launching - any cargo slot will do - pick Earth Orbit on your [ref=stellaris:items/tablet]Tablet[ref], and press Build Space Station. The station is raised around you as you land, and the blueprint is spent doing it. 
 
 Stations come with an [ref=stellaris:machines/antenna]Antenna[ref] already built in, so once yours is up it becomes a landing waypoint you can fly back to. 
 

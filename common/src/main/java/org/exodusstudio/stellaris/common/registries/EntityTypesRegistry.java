@@ -31,8 +31,9 @@ public class EntityTypesRegistry {
     public static final RegistrySupplier<EntityType<RoverEntity>> ROVER = register("rover",
             RoverEntity::new, MobCategory.MISC, builder -> builder.sized(2.5f, 2.2f));
 
+    // Narrow enough to drop down the entry shaft of a space station, which pinches to a 3x3 core.
     public static final RegistrySupplier<EntityType<LanderEntity>> LANDER = register("lander",
-            LanderEntity::new, MobCategory.MISC, builder -> builder.sized(2.5f, 2.2f));
+            LanderEntity::new, MobCategory.MISC, builder -> builder.sized(1.5f, 2.2f));
 
     public static final RegistrySupplier<EntityType<Boat>> LUNAR_BOAT = register("lunar_boat",
             (e, l) -> new Boat(e, l, ItemsRegistry.LUNAR_BOAT), MobCategory.MISC,

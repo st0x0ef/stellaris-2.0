@@ -138,7 +138,7 @@ public final class ItemsRegistry {
 
 
     public static final RegistrySupplier<FriendsList> FRIENDS_LIST = item("friends_list", FriendsList::new);
-    public static final RegistrySupplier<TooltipItem> SPACE_STATION_BLUEPRINT = item("space_station_blueprint", (p) -> new TooltipItem(p).addTooltip(SpaceStationRecipe::getComponent));
+    public static final RegistrySupplier<TooltipItem> SPACE_STATION_BLUEPRINT = item("space_station_blueprint", (p) -> new TooltipItem(p).addTooltip(SpaceStationRecipe::getComponent).addTooltip(SpaceStationRecipe::getUsageComponent));
 
 
     /** Cans */

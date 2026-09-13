@@ -21,6 +21,7 @@ import net.minecraft.world.item.ItemStack;
 import org.exodusstudio.stellaris.common.registries.DataComponentsRegistry;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 public record SpaceStationRecipe(List<IngredientWithCount> items, Identifier structureId, Vec3i antenna_position) {
@@ -77,42 +78,55 @@ public record SpaceStationRecipe(List<IngredientWithCount> items, Identifier str
     }
 
     private int[] planConsumption(List<Slot> slotsToCheck) {
-        List<IngredientWithCount> itemsLeftToCheck = new ArrayList<>(items);
         int[] removalAmounts = new int[slotsToCheck.size()];
-
+        int[] stillAvailable = new int[slotsToCheck.size()];
         for (int slotIndex = 0; slotIndex < slotsToCheck.size(); slotIndex++) {
-            Slot slot = slotsToCheck.get(slotIndex);
-            ItemStack stack = slot.getItem();
-            if (stack.isEmpty()) {
-                continue;
-            }
+            stillAvailable[slotIndex] = slotsToCheck.get(slotIndex).getItem().getCount();
+        }
 
-            int remainingInStack = stack.getCount();
-            for (int i = 0; i < itemsLeftToCheck.size() && remainingInStack > 0; i++) {
-                IngredientWithCount required = itemsLeftToCheck.get(i);
-                if (!required.matches(stack)) {
+        // One stack can satisfy several requirements at once - an item requirement and a tag that
+        // contains that item - so satisfy the pickiest requirements first. Walking the grid slot by
+        // slot instead used to spend a stack on a broad tag that a narrower requirement still needed,
+        // failing grids that could in fact be paid for.
+        List<IngredientWithCount> ordered = new ArrayList<>(items);
+        ordered.sort(Comparator.comparingInt(required -> countAvailable(required, slotsToCheck)));
+
+        for (IngredientWithCount required : ordered) {
+            int stillNeeded = required.count();
+
+            for (int slotIndex = 0; slotIndex < slotsToCheck.size() && stillNeeded > 0; slotIndex++) {
+                if (stillAvailable[slotIndex] <= 0) {
                     continue;
                 }
 
-                int consumed = Math.min(remainingInStack, required.count());
-                remainingInStack -= consumed;
-                removalAmounts[slotIndex] += consumed;
-
-                int remainingRequired = required.count() - consumed;
-                if (remainingRequired == 0) {
-                    itemsLeftToCheck.remove(i);
-                    i--;
-                } else {
-                    itemsLeftToCheck.set(i, new IngredientWithCount(required.itemRef(), remainingRequired));
+                ItemStack stack = slotsToCheck.get(slotIndex).getItem();
+                if (stack.isEmpty() || !required.matches(stack)) {
+                    continue;
                 }
+
+                int consumed = Math.min(stillNeeded, stillAvailable[slotIndex]);
+                stillAvailable[slotIndex] -= consumed;
+                removalAmounts[slotIndex] += consumed;
+                stillNeeded -= consumed;
+            }
+
+            if (stillNeeded > 0) {
+                return null;
             }
         }
 
-        if (!itemsLeftToCheck.isEmpty()) {
-            return null;
-        }
-
         return removalAmounts;
+    }
+
+    private static int countAvailable(IngredientWithCount required, List<Slot> slotsToCheck) {
+        int total = 0;
+        for (Slot slot : slotsToCheck) {
+            ItemStack stack = slot.getItem();
+            if (!stack.isEmpty() && required.matches(stack)) {
+                total += stack.getCount();
+            }
+        }
+        return total;
     }
 
     public static Component getComponent(ItemStack itemStack) {
@@ -121,6 +135,17 @@ public record SpaceStationRecipe(List<IngredientWithCount> items, Identifier str
             return component.append(itemStack.get(DataComponentsRegistry.SPACE_STATION_BLUEPRINT.get()).getDisplayName());
         }
         return component.append(Component.translatable("tooltip.stellaris.none"));
+    }
+
+    /**
+     * Tells the player what to do with a planned blueprint. A blank one does nothing in a rocket,
+     * so it points at the engineering station instead.
+     */
+    public static Component getUsageComponent(ItemStack itemStack) {
+        String key = itemStack.has(DataComponentsRegistry.SPACE_STATION_BLUEPRINT.get())
+                ? "tooltip.item.stellaris.space_station_blueprint.in_rocket"
+                : "tooltip.item.stellaris.space_station_blueprint.plan_first";
+        return Component.translatable(key).withStyle(ChatFormatting.GRAY);
     }
 
     public MutableComponent getDisplayName() {

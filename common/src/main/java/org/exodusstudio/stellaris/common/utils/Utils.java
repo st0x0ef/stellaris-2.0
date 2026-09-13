@@ -4,6 +4,7 @@ import dev.architectury.networking.NetworkManager;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Holder;
+import net.minecraft.core.Vec3i;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -238,8 +239,15 @@ public class Utils {
         return !level.getEntities(EntityTypesRegistry.ROCKET.get(), new AABB(pos).inflate(distance, distance + 2, distance), entity -> true).isEmpty();
     }
 
+    /** Altitude every space station is built at. */
+    private static final int STATION_Y = 100;
+    /** How many rings of candidate plots to try around the arrival point before giving up. */
+    private static final int STATION_PLOT_RINGS = 6;
+    /** Gap left between two neighbouring stations, in blocks. */
+    private static final int STATION_PLOT_MARGIN = 16;
+
     @Nullable
-    public static BlockPos placeSpaceStation(Player player, ServerLevel serverLevel, SpaceStationRecipe recipe) {
+    public static BlockPos placeSpaceStation(Player player, ServerLevel serverLevel, SpaceStationRecipe recipe, BlockPos landingPos) {
         // getOrCreate() silently hands back an empty template when the structure is missing, and caches it
         // for the rest of the session, so the build would fail forever without a word. Fail loudly instead.
         Optional<StructureTemplate> template = serverLevel.getStructureManager().get(recipe.structureId());
@@ -249,7 +257,11 @@ public class Utils {
         }
 
         StructureTemplate structureTemplate = template.get();
-        BlockPos pos = new BlockPos((int) player.getX() - (structureTemplate.getSize().getX() / 2), 100, (int) player.getZ() - (structureTemplate.getSize().getZ() / 2));
+        BlockPos pos = findFreeStationPlot(serverLevel, landingPos, structureTemplate.getSize(), recipe.antenna_position());
+        if (pos == null) {
+            Stellaris.LOG.error("Cannot build space station: no free plot near {} in {}", landingPos, serverLevel.dimension().identifier());
+            return null;
+        }
 
         if (!structureTemplate.placeInWorld(serverLevel, pos, pos, new StructurePlaceSettings(), serverLevel.getRandom(), 2)) {
             Stellaris.LOG.error("Cannot build space station: placing {} at {} in {} failed", recipe.structureId(), pos, serverLevel.dimension().identifier());
@@ -260,7 +272,8 @@ public class Utils {
 
         Antenna antenna = new Antenna(
                 null, //Will change after
-                player.level().dimension(),
+                // The level the station went into, not wherever the player happens to be standing.
+                serverLevel.dimension(),
                 player.getGameProfile().name() + "'s Antenna",
                 false,
                 player.getGameProfile().id(),
@@ -268,6 +281,72 @@ public class Utils {
         );
 
         return placeAntennaBlock(pos, serverLevel, recipe, antenna);
+    }
+
+    /**
+     * Finds somewhere the station actually fits. Stations used to be dropped at a fixed altitude
+     * straight under the arriving player, so two players launching from nearby coordinates on Earth
+     * would land their stations on top of each other in orbit.
+     */
+    @Nullable
+    private static BlockPos findFreeStationPlot(ServerLevel serverLevel, BlockPos landingPos, Vec3i size, Vec3i antennaOffset) {
+        int step = Math.max(size.getX(), size.getZ()) + STATION_PLOT_MARGIN;
+        // Line the plot up so the launch pad - which sits directly over the antenna - ends up on the
+        // block the lander touches down on. Going by the rider's position instead puts the pad off by
+        // the passenger attachment offset, and centring the template misses it by a block as well.
+        int baseX = landingPos.getX() - antennaOffset.getX();
+        int baseZ = landingPos.getZ() - antennaOffset.getZ();
+
+        for (int ring = 0; ring <= STATION_PLOT_RINGS; ring++) {
+            for (int dx = -ring; dx <= ring; dx++) {
+                for (int dz = -ring; dz <= ring; dz++) {
+                    // Only the edge of each ring; the inside was covered by the previous ones.
+                    if (ring > 0 && Math.max(Math.abs(dx), Math.abs(dz)) != ring) {
+                        continue;
+                    }
+
+                    BlockPos candidate = new BlockPos(baseX + dx * step, STATION_Y, baseZ + dz * step);
+                    if (isStationPlotFree(serverLevel, candidate, size)) {
+                        return candidate;
+                    }
+                }
+            }
+        }
+
+        return null;
+    }
+
+    private static boolean isStationPlotFree(ServerLevel serverLevel, BlockPos origin, Vec3i size) {
+        if (origin.getY() < serverLevel.getMinY() || origin.getY() + size.getY() > serverLevel.getMaxY()) {
+            return false;
+        }
+
+        // Another station always carries an antenna, so the saved antennas are the cheap, reliable
+        // way to spot one without reading a hundred thousand block states.
+        for (Antenna antenna : AntennaSavedData.getSavedAntennas(serverLevel.getServer()).antennas.values()) {
+            if (antenna.blockPos == null || !antenna.dimension.equals(serverLevel.dimension())) {
+                continue;
+            }
+
+            if (antenna.blockPos.getX() >= origin.getX() && antenna.blockPos.getX() < origin.getX() + size.getX()
+                    && antenna.blockPos.getY() >= origin.getY() && antenna.blockPos.getY() < origin.getY() + size.getY()
+                    && antenna.blockPos.getZ() >= origin.getZ() && antenna.blockPos.getZ() < origin.getZ() + size.getZ()) {
+                return false;
+            }
+        }
+
+        // Then a coarse sweep for anything else already standing there - player builds, leftovers.
+        for (int x = 0; x < size.getX(); x += 4) {
+            for (int y = 0; y < size.getY(); y += 4) {
+                for (int z = 0; z < size.getZ(); z += 4) {
+                    if (!serverLevel.getBlockState(origin.offset(x, y, z)).isAir()) {
+                        return false;
+                    }
+                }
+            }
+        }
+
+        return true;
     }
 
     public static BlockPos placeAntennaBlock(BlockPos initialPos, ServerLevel serverLevel, SpaceStationRecipe recipe, Antenna antenna) {

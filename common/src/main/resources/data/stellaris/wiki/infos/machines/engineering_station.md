@@ -28,6 +28,6 @@ This is the only way to install modules.
 
 **Space Station Planner** 
 
-Select the space station you want to build, put a Space Station Blueprint in its slot, and fill the grid with the resources the plan asks for. Once the blueprint is complete you can fly it up and raise the station in orbit. 
+Select the space station you want to build, then fill the grid with the eight resources the plan asks for and a Space Station Blueprint alongside them. Check, then plan, and take the finished blueprint out of the slot on the right - fly it up and the station is raised in orbit. 
 
 [item=stellaris:engineering_station onlyIcon]

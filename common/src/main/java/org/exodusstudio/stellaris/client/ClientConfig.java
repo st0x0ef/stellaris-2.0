@@ -16,4 +16,7 @@ public class ClientConfig {
     @ScreenInfos.Description(value = "config.stellaris.temperatureOverlay.desc")
     public boolean temperatureOverlay = false;
 
+    @ScreenInfos.Description(value = "config.stellaris.landerThirdPerson.desc")
+    public boolean landerThirdPerson = true;
+
 }

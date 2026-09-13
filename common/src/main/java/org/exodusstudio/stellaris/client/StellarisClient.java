@@ -61,6 +61,7 @@ public class StellarisClient {
 
         StarCrawlerBossIntroController.init();
         StarCrawlerBossDeathController.init();
+        LanderCameraController.init();
 
         ClientTickEvent.CLIENT_POST.register(
                 KeyMappingsRegistry::clientTick
