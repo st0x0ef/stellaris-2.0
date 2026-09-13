@@ -1,7 +1,8 @@
 plugins {
     id 'dev.architectury.loom-no-remap' version '1.17-SNAPSHOT' apply false
     id 'architectury-plugin' version '3.5-SNAPSHOT'
-    id 'com.gradleup.shadow' version '9.4.2' apply false
+    id 'com.gradleup.shadow' version '9.6.1' apply false
+    id 'me.modmuss50.mod-publish-plugin' version '2.2.0' apply false
 }
 
 architectury {
@@ -93,6 +94,81 @@ subprojects {
             runtimeElements {
                 outgoing.artifacts.clear()
                 outgoing.artifact(project.tasks.shadowJar)
+            }
+        }
+
+        apply plugin: 'me.modmuss50.mod-publish-plugin'
+
+        def modLoader = project.name
+        def loaderName = modLoader == 'neoforge' ? 'NeoForge' : modLoader.capitalize()
+        def supportedMinecraftVersions = rootProject.supported_minecraft_versions.split(',')*.trim()
+
+        publishMods {
+            file = tasks.shadowJar.archiveFile
+            changelog = providers.fileContents(rootProject.layout.projectDirectory.file('changelog.md'))
+                    .asText.orElse('No changelog provided.')
+            version = rootProject.mod_version
+            modLoaders.add(modLoader)
+            displayName = "[${loaderName} ${rootProject.minecraft_version}] Stellaris ${rootProject.mod_version}"
+
+            switch (rootProject.release_type.toLowerCase()) {
+                case 'stable': type = STABLE; break
+                case 'beta': type = BETA; break
+                case 'alpha': type = ALPHA; break
+                default: throw new GradleException("release_type must be stable, beta or alpha, but was '${rootProject.release_type}'")
+            }
+
+            dryRun = providers.gradleProperty('publishDryRun').map { Boolean.parseBoolean(it) }.getOrElse(false)
+
+            curseforge {
+                projectId = '1036270'
+                projectSlug = 'stellaris'
+                accessToken = providers.environmentVariable('CURSEFORGE_API_KEY')
+                minecraftVersions.addAll(supportedMinecraftVersions)
+                javaVersions.add(JavaVersion.VERSION_25)
+                // Required since 2.0, and renamed from clientRequired/serverRequired.
+                client = true
+                server = true
+
+                requires('architectury-api', 'potentials', 'exoconfig', 'sky-aesthetics')
+                optional('jei', 'jade')
+                if (modLoader == 'fabric') {
+                    requires('fabric-api')
+                    optional('modmenu')
+                }
+            }
+
+            modrinth {
+                projectId = 'ItTQpuBn'
+                accessToken = providers.environmentVariable('MODRINTH_TOKEN')
+                minecraftVersions.addAll(supportedMinecraftVersions)
+
+                requires('architectury-api', 'potentials', 'exoconfig', 'sky-aesthetics')
+                optional('jei', 'jade')
+                if (modLoader == 'fabric') {
+                    requires('fabric-api')
+                    optional('modmenu')
+                }
+            }
+        }
+    }
+
+    publishing {
+        publications {
+            mavenJava(MavenPublication) {
+                artifactId = base.archivesName.get()
+                from components.java
+            }
+        }
+
+        repositories {
+            maven {
+                name = 'ExodusStudio'
+                url = 'https://maven.exodusstudio.org/releases/'
+                credentials {
+                    username = System.getenv('EXODUS_MAVEN_USERNAME')
+                    password = System.getenv('EXODUS_MAVEN_KEY')
+                }
             }
         }
     }
