@@ -47,7 +47,7 @@ public class FluidTankScreen extends AbstractContainerScreen<FluidTankMenu> {
         super.extractContents(guiGraphics, mouseX, mouseY, partialTick);
         extractTooltip(guiGraphics, mouseX, mouseY);
 
-        fluidGauge.updateAmount(this.blockEntity.getFluidTank().getFluidValueInTank());
+        fluidGauge.updateAmount(this.blockEntity.getFluidTank(), 0);
 
     }
 

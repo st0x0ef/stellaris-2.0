@@ -88,8 +88,8 @@ public class FluidTankBlock extends BaseMachineBlock {
         if (level instanceof ServerLevel) {
             if (blockEntity instanceof FluidProvider.BLOCK fluidStorage) {
                 ItemStack stack = new ItemStack(this);
-                FluidProvider.ITEM provider = (FluidProvider.ITEM) stack.getItem();
-                if (provider.getFluidTank(stack) instanceof ItemFluidStorage storage)
+                if (stack.getItem() instanceof FluidProvider.ITEM provider
+                        && provider.getFluidTank(stack) instanceof ItemFluidStorage storage)
                     storage.setFluidInTank(0, fluidStorage.getFluidTank(null).getFluidInTank(0));
                 popResource(level, pos, stack);
             }

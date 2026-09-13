@@ -769,6 +769,8 @@
 
   "tooltip.item.stellaris.fluid_cell.content": "%s : %s / %s",
   "tooltip.item.stellaris.fluid_cell.empty": "%s: 0 / %s",
+  "tooltip.item.stellaris.fluid_tank.content": "%s : %s / %s",
+  "tooltip.item.stellaris.fluid_tank.empty": "%s: 0 / %s",
   "tooltip.item.stellaris.friends_list.title": "Friends: ",
   "tooltip.item.stellaris.sd_card.id": "ID: %s",
   "tooltip.item.stellaris.parasite.propagation_min": "Propagation in %smin %ss",

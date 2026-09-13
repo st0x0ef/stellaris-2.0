@@ -22,6 +22,7 @@ import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.level.material.PushReaction;
 import org.exodusstudio.stellaris.common.blocks.*;
 import org.exodusstudio.stellaris.common.blocks.PipeBlock;
+import org.exodusstudio.stellaris.common.items.FluidTankItem;
 import org.exodusstudio.stellaris.common.items.PowerBankItem;
 import org.exodusstudio.stellaris.common.items.TooltipBlockItem;
 import org.exodusstudio.stellaris.common.registries.utils.BlockItemRegistrySupplier;
@@ -205,7 +206,7 @@ public final class BlocksRegistry {
 
     // STORAGE
     public static final BlockItemRegistrySupplier POWER_BANK_T1 = blockWithCustomItem("power_bank_t1", BlockBehaviour.Properties.of().strength(3.0F), (p) -> new PowerBankBlock(p, (short) 1), new Item.Properties(), PowerBankItem::new);
-    public static final BlockItemRegistrySupplier FLUID_TANK_T1 = blockWithItem("fluid_tank_t1", BlockBehaviour.Properties.of().strength(3.0F), (p) -> new FluidTankBlock(p, 5000), new Item.Properties()); // TODO : item should keep it fluid inside
+    public static final BlockItemRegistrySupplier FLUID_TANK_T1 = blockWithCustomItem("fluid_tank_t1", BlockBehaviour.Properties.of().strength(3.0F), (p) -> new FluidTankBlock(p, 5000), new Item.Properties(), FluidTankItem::new);
 
     // CABLES/PIPES
     public static final BlockItemRegistrySupplier CABLE_T1 = blockWithItem("cable_t1", BlockBehaviour.Properties.of().strength(1.0F).noOcclusion(), (p) -> new CableBlock(p, 20));
