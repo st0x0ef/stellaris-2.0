@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "TTT",
+    "TMT",
+    "TTT"
+  ],
+  "key": {
+    "T": "stellaris:titanium_ingot",
+    "M": "stellaris:tiny_rocket_model"
+  },
+  "result": {"id": "stellaris:small_rocket_model"}
+}

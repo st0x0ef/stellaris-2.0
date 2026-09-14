@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "DDD",
+    "DMD",
+    "DDD"
+  ],
+  "key": {
+    "D": "stellaris:desh_ingot",
+    "M": "stellaris:small_rocket_model"
+  },
+  "result": {"id": "stellaris:big_rocket_model"}
+}
