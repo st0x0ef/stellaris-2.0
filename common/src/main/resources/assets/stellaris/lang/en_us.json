@@ -484,6 +484,9 @@
   "config.stellaris.oxygenUpdateInterval": "Oxygen Update Interval",
   "config.stellaris.oxygenDamageInterval": "Oxygen Damage Interval",
   "config.stellaris.noOxygenDamage": "No-Oxygen Damage",
+  "config.stellaris.baseOxygenDrain": "Base Oxygen Drain",
+  "config.stellaris.sprintOxygenDrainMultiplier": "Sprint Oxygen Drain Multiplier",
+  "config.stellaris.jetOxygenDrainMultiplier": "Jetpack Oxygen Drain Multiplier",
   "config.stellaris.oxygenConfig.desc": "Settings related to the oxygen system.",
   "config.stellaris.oxygenConfig.enableOxygenSystem.desc": "Enable or disable the oxygen system.",
   "config.stellaris.oxygenConfig.oxygenUpdateInterval.desc": "How often (in ticks) oxygen levels are recalculated.",
@@ -555,6 +558,8 @@
   "config.stellaris_client.fluidsColors": "Fluid Colors",
 
   "config.stellaris_client.emissiveTextures": "Show Emissive Textures",
+  "config.stellaris_client.temperatureOverlay": "Show Temperature Overlay",
+  "config.stellaris_client.landerThirdPerson": "Automatic Third Person in Lander",
   "config.stellaris_client.emissiveTextures.desc": "Show emissive textures on entities.",
   "config.stellaris.temperatureOverlay.desc": "Show the current temperature",
   "config.stellaris.landerThirdPerson.desc": "Switch to third person automatically while riding a lander.",
