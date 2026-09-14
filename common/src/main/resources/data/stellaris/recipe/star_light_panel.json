@@ -1,13 +1,14 @@
 {
   "type": "minecraft:crafting_shaped",
   "pattern": [
-    "PPP",
+    "OPO",
     "DDD",
     "III"
   ],
   "key": {
     "P": "stellaris:blue_plasma",
     "D": "stellaris:desh_ingot",
+    "O": "stellaris:novite_ingot",
     "I": "minecraft:iron_ingot"
   },
   "result": {
