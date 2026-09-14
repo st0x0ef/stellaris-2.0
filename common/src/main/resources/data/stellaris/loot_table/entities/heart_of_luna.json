@@ -6,11 +6,24 @@
       "entries": [
         {
           "type": "minecraft:item",
+          "name": "stellaris:heart_of_luna_trophy"
+        }
+      ]
+    },
+    {
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
           "name": "stellaris:lunar_parasite_tooth",
           "functions": [
             {
               "function": "minecraft:set_count",
-              "count": {"type": "minecraft:uniform", "min": 4, "max": 8}
+              "count": {
+                "type": "minecraft:uniform",
+                "min": 4,
+                "max": 8
+              }
             }
           ]
         }
@@ -25,7 +38,11 @@
           "functions": [
             {
               "function": "minecraft:set_count",
-              "count": {"type": "minecraft:uniform", "min": 8, "max": 16}
+              "count": {
+                "type": "minecraft:uniform",
+                "min": 8,
+                "max": 16
+              }
             }
           ]
         }

@@ -1,0 +1,10 @@
+{
+  "model": {
+    "type": "minecraft:special",
+    "base": "stellaris:item/star_crawler_boss_trophy",
+    "model": {
+      "type": "stellaris:boss_trophy",
+      "boss": "star_crawler_boss"
+    }
+  }
+}

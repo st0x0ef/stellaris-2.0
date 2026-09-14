@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:entity",
+  "pools": [
+    {
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "stellaris:parasite",
+          "functions": [
+            {
+              "function": "minecraft:set_count",
+              "count": {"type": "minecraft:uniform", "min": 1, "max": 2}
+            }
+          ]
+        }
+      ],
+      "conditions": [
+        {
+          "condition": "minecraft:killed_by_player"
+        }
+      ]
+    }
+  ]
+}

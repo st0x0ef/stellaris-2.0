@@ -22,7 +22,7 @@ Kill Lunar Parasites yourself to get Parasites, and store them in a Pathogen Sto
 
 **Step 2 - Research** 
 
-Feed the filled cell to the [ref=stellaris:machines/laboratory]Laboratory[ref] and run the five research stages. 
+Feed the filled cell to the [ref=stellaris:machines/laboratory]Laboratory[ref] and run the research stages. The fourth one names the last ingredient, so the vaccine can be crafted from stage 4 onwards. 
 
 
 
@@ -30,9 +30,9 @@ Feed the filled cell to the [ref=stellaris:machines/laboratory]Laboratory[ref] a
 
 In the Laboratory's Vaccine tab, combine : 
 - A Honey Bottle 
-- A [ref=stellaris:items/blue_liquid]Blue Liquid[ref] Bucket 
-- An Astrum Vitreus Cluster 
-- A Parasite 
+- A Lunar Parasite Tooth 
+- A Lunar Crawler Spike Cluster 
+- A Blue Plasma 
 
 
 

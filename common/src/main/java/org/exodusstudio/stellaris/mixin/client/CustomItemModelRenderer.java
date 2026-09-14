@@ -7,6 +7,7 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.util.ExtraCodecs;
 import org.exodusstudio.stellaris.client.renderers.rover.RoverItemRenderer;
 import org.exodusstudio.stellaris.client.renderers.flag.FlagItemRenderer;
+import org.exodusstudio.stellaris.client.renderers.trophy.BossTrophyItemRenderer;
 import org.exodusstudio.stellaris.client.renderers.globe.GlobeItemRenderer;
 import org.exodusstudio.stellaris.client.renderers.gravity_manipulator.GravityManipulatorItemRenderer;
 import org.exodusstudio.stellaris.client.renderers.launchpad.RocketLaunchPadItemRenderer;
@@ -33,5 +34,6 @@ public class CustomItemModelRenderer {
         ID_MAPPER.put(IdentifierUtils.id("rocket"), RocketItemRenderer.Unbaked.MAP_CODEC);
         ID_MAPPER.put(IdentifierUtils.id("rover"), RoverItemRenderer.Unbaked.MAP_CODEC);
         ID_MAPPER.put(IdentifierUtils.id("rocket_launch_pad"), RocketLaunchPadItemRenderer.Unbaked.MAP_CODEC);
+        ID_MAPPER.put(IdentifierUtils.id("boss_trophy"), BossTrophyItemRenderer.Unbaked.MAP_CODEC);
     }
 }

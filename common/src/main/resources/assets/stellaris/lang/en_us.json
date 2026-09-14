@@ -272,6 +272,8 @@
 
   "item.stellaris.earth_globe": "Earth Globe",
   "item.stellaris.moon_globe": "Moon Globe",
+  "item.stellaris.heart_of_luna_trophy": "Heart of Luna Trophy",
+  "item.stellaris.star_crawler_boss_trophy": "Star Crawler Trophy",
 
   "item.stellaris.parasite": "Parasite",
   "item.stellaris.pathogen_storage_cell": "Pathogen Storage Cell",
@@ -648,6 +650,8 @@
   "block.stellaris.meteorite": "Meteorite",
   "block.stellaris.earth_globe": "Earth Globe",
   "block.stellaris.moon_globe": "Moon Globe",
+  "block.stellaris.heart_of_luna_trophy": "Heart of Luna Trophy",
+  "block.stellaris.star_crawler_boss_trophy": "Star Crawler Trophy",
   "block.stellaris.titanium_ore": "Titanium Ore",
   "block.stellaris.deepslate_titanium_ore": "Deepslate Titanium Ore",
   "block.stellaris.raw_titanium_block": "Raw Titanium Block",
