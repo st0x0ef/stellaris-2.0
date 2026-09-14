@@ -21,14 +21,14 @@ public class WikiEntryPack extends SimpleJsonResourceReloadListener<WikiEntry> {
 
     @Override
     protected void apply(Map<Identifier, WikiEntry> IdentifierJsonElementMap, ResourceManager resourceManager, ProfilerFiller profiler) {
-        Stellaris.LOG.info("Loading Assets for Tablet Pack");
+        Stellaris.LOG.debug("Loading Assets for Tablet Pack");
         WikiEntryPack.ENTRIES.clear();
         IdentifierJsonElementMap.forEach((key, entry) -> {
             if (!WikiEntryPack.ENTRIES.contains(entry)) {
                 WikiEntryPack.ENTRIES.add(entry);
             }
 
-            Stellaris.LOG.info("Loaded tablet entry: {}", key);
+            Stellaris.LOG.debug("Loaded tablet entry: {}", key);
         });
 
     }

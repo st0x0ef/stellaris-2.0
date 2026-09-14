@@ -168,7 +168,7 @@ public class AntennaSavedData extends SavedData {
         ServerLevel level = server.getLevel(ServerLevel.OVERWORLD);
 
         if (level == null) {
-            Stellaris.LOG.info("level is null");
+            Stellaris.LOG.warn("No overworld level available; returning empty antenna data");
             return new AntennaSavedData(); // Return a new instance if the level is null.
         }
 

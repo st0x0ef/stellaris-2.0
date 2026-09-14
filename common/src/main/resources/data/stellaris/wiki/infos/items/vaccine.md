@@ -30,9 +30,9 @@ Feed the filled cell to the [ref=stellaris:machines/laboratory]Laboratory[ref] a
 
 In the Laboratory's Vaccine tab, combine : 
 - A Honey Bottle 
+- A Blue Plasma 
 - A Lunar Parasite Tooth 
 - A Lunar Crawler Spike Cluster 
-- A Blue Plasma 
 
 
 

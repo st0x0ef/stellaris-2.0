@@ -19,7 +19,6 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
-import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.common.antennas.Antenna;
 import org.exodusstudio.stellaris.common.antennas.AntennaSavedData;
 import org.exodusstudio.stellaris.common.blocks.base.BaseMachineBlock;
@@ -73,7 +72,6 @@ public class AntennaBlock extends BaseMachineBlock {
 
             AntennaSavedData antennaSavedData = AntennaSavedData.getSavedAntennas(level.getServer());
             Antenna antenna = antennaSavedData.getAntenna(padCreatorBlock.launchPadId);
-            Stellaris.LOG.info(" " + antenna);
 
             return new ExtendedMenuProvider() {
                 @Override

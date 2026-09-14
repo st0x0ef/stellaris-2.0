@@ -2,9 +2,9 @@
   "type": "stellaris:vaccine",
   "ingredients": [
     "minecraft:honey_bottle",
+    "stellaris:blue_plasma",
     "stellaris:lunar_parasite_tooth",
-    "stellaris:lunar_crawler_spike_cluster",
-    "stellaris:blue_plasma"
+    "stellaris:lunar_crawler_spike_cluster"
   ],
   "output": {
     "id": "stellaris:vaccine",

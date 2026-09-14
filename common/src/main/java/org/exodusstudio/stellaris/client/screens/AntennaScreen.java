@@ -14,7 +14,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.util.ARGB;
 import net.minecraft.world.entity.player.Inventory;
-import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.client.screens.components.CustomCheckBox;
 import org.exodusstudio.stellaris.client.screens.components.TexturedButton;
 import org.exodusstudio.stellaris.client.screens.utils.GUISprites;
@@ -196,7 +195,6 @@ public class AntennaScreen extends AbstractContainerScreen<AntennaMenu> {
                     menu.getPlayer().getGameProfile().id(),
                     List.of()
             );
-            Stellaris.LOG.info("creating new antenna named "  + this.nameBox.getValue());
         } else {
             this.antenna = new Antenna(antenna.blockPos, antenna.dimension, this.nameBox.getValue(), this.publicCheckbox.selected, antenna.ownerUUID, antenna.whitelist);
             NetworkManager.sendToServer(new AntennasOperations(this.antenna, "modify"));
