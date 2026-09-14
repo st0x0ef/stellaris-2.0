@@ -1,12 +1,13 @@
 {
   "type": "minecraft:crafting_shaped",
   "pattern": [
-    " T ",
+    "OOO",
     "TCT",
-    " T "
+    "OOO"
   ],
   "key": {
     "T": "stellaris:titanium_nugget",
+    "O": "stellaris:silicon",
     "C": "minecraft:copper_nugget"
   },
   "result": {
