@@ -1,7 +1,7 @@
 {
   "parent": "minecraft:block/block",
   "textures": {
-    "particle": "stellaris:block/dark_crystal_block"
+    "particle": "stellaris:block/astrum_vitreus_block"
   },
   "display": {
     "gui": { "rotation": [12, 200, 0], "scale": [0.8, 0.8, 0.8] },

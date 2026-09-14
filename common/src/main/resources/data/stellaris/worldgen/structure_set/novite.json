@@ -1,0 +1,14 @@
+{
+  "structures": [
+    {
+      "structure": "stellaris:novite",
+      "weight": 1
+    }
+  ],
+  "placement": {
+    "type": "minecraft:random_spread",
+    "salt": 745219038,
+    "spacing": 44,
+    "separation": 22
+  }
+}
