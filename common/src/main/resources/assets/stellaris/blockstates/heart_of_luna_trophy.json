@@ -1,0 +1,8 @@
+{
+  "variants": {
+    "facing=north": { "model": "stellaris:block/heart_of_luna_trophy" },
+    "facing=east": { "model": "stellaris:block/heart_of_luna_trophy", "y": 90 },
+    "facing=south": { "model": "stellaris:block/heart_of_luna_trophy", "y": 180 },
+    "facing=west": { "model": "stellaris:block/heart_of_luna_trophy", "y": 270 }
+  }
+}

@@ -9,7 +9,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ItemStackTemplate;
 import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.Level;
-import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.common.blocks.entities.machines.LaboratoryBlockEntity;
 import org.exodusstudio.stellaris.common.data.recipes.input.VaccineInput;
 import org.exodusstudio.stellaris.common.registries.RecipesRegistry;
@@ -21,7 +20,6 @@ public record VaccineRecipe(List<Ingredient> ingredients, ItemStackTemplate outp
     @Override
     public boolean matches(VaccineInput input, Level level) {
         for (int i = 0; i < ((LaboratoryBlockEntity) input.entity()).getContainerSize() - 1; i++) {
-            Stellaris.LOG.error("Testing ingredient {}: {} against {}", i, input.getItem(i).getItem().getDefaultInstance(), ingredients.get(i));
             if (!ingredients.get(i).test(input.getItem(i).getItem().getDefaultInstance())) {
                 return false;
             }

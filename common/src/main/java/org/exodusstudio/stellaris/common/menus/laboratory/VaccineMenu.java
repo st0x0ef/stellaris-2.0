@@ -142,6 +142,6 @@ public class VaccineMenu extends BaseItemCombinerMenu {
 
     public int getUnknownVaccineItem() {
         int stage = MoonLoreUtils.getResearchProgressionStage(player);
-        return 4 - Math.max(stage, 0);
+        return MoonLoreUtils.VACCINE_UNLOCK_STAGE - Math.max(stage, 0);
     }
 }

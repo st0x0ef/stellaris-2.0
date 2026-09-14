@@ -16,7 +16,7 @@ public class VaccineItem extends Item {
     @Override
     public InteractionResult use(Level level, Player player, InteractionHand hand) {
         if (!level.isClientSide()) {
-            if (MoonLoreUtils.getResearchProgressionStage(player) == MoonLoreUtils.MAX_STAGE) {
+            if (MoonLoreUtils.isVaccineUnlocked(player)) {
                 if (MoonLoreUtils.isPlayerImmunisedToInfection(player)) {
                     player.sendSystemMessage(MoonLoreUtils.PLAYER_ALREADY_IMMUNE_MESSAGE);
                 } else {

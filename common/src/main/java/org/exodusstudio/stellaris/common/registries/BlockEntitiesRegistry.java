@@ -64,6 +64,9 @@ public class BlockEntitiesRegistry {
     public static final Supplier<BlockEntityType<GlobeBlockEntity>> GLOBE = BLOCK_ENTITY_TYPE.register("globe",
             () -> new BlockEntityType<>(GlobeBlockEntity::new, Set.of(BlocksRegistry.EARTH_GLOBE.block().get(), BlocksRegistry.MOON_GLOBE.block().get())));
 
+    public static final Supplier<BlockEntityType<BossTrophyBlockEntity>> BOSS_TROPHY = BLOCK_ENTITY_TYPE.register("boss_trophy",
+            () -> new BlockEntityType<>(BossTrophyBlockEntity::new, Set.of(BlocksRegistry.HEART_OF_LUNA_TROPHY.block().get(), BlocksRegistry.STAR_CRAWLER_BOSS_TROPHY.block().get())));
+
     public static final Supplier<BlockEntityType<ModSignBlockEntity>> MOD_SIGN = BLOCK_ENTITY_TYPE.register("sign",
             () -> new BlockEntityType<>(ModSignBlockEntity::new, Set.of(BlocksRegistry.LUNAR_SIGN.get(), BlocksRegistry.LUNAR_WALL_SIGN.get())));
 

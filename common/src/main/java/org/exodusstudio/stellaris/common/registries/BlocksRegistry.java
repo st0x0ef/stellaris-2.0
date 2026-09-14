@@ -303,6 +303,13 @@ public final class BlocksRegistry {
             BlockBehaviour.Properties.of().mapColor(MapColor.STONE).strength(2.5F).sound(SoundType.STONE).noOcclusion(),
             GlobeBlock::new);
 
+    public static final BlockItemRegistrySupplier HEART_OF_LUNA_TROPHY = blockWithItem("heart_of_luna_trophy",
+            BlockBehaviour.Properties.of().mapColor(MapColor.STONE).strength(2.5F).sound(SoundType.STONE).noOcclusion(),
+            BossTrophyBlock::new);
+    public static final BlockItemRegistrySupplier STAR_CRAWLER_BOSS_TROPHY = blockWithItem("star_crawler_boss_trophy",
+            BlockBehaviour.Properties.of().mapColor(MapColor.STONE).strength(2.5F).sound(SoundType.STONE).noOcclusion(),
+            BossTrophyBlock::new);
+
 
     public static <T extends FlowerBlock> BlockItemRegistrySupplier flower(String name, BlockBehaviour.Properties properties, Holder<MobEffect> mobEffect, float duration) {
         Identifier id = IdentifierUtils.id(name);

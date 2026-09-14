@@ -14,7 +14,13 @@ public class MoonLoreUtils {
     public static final Identifier MOON_LORE_PROGRESSION = IdentifierUtils.id("moon_lore_progression");
     public static final Identifier PLAYER_IMMUNISED_TO_INFECTION = IdentifierUtils.id("player_immunised_to_infection");
 
-    public static final int MAX_STAGE = 4;
+    public static final int MAX_STAGE = 5;
+
+    /**
+     * Every ingredient is named by this stage, so the vaccine becomes craftable and usable here. The final
+     * stage only recaps the formula and grants no new ingredient.
+     */
+    public static final int VACCINE_UNLOCK_STAGE = 4;
 
     public static final Component PLAYER_ALREADY_IMMUNE_MESSAGE = Component.translatable("message.stellaris.player_already_immune");
     public static final Component PLAYER_NOW_IMMUNISED_MESSAGE = Component.translatable("message.stellaris.player_now_immunised");
@@ -67,6 +73,10 @@ public class MoonLoreUtils {
         }
 
         return 100 * (currentStage + 1);
+    }
+
+    public static boolean isVaccineUnlocked(Player player) {
+        return getResearchProgressionStage(player) >= VACCINE_UNLOCK_STAGE;
     }
 
     public static ItemStack getSdCardForStage(int stage) {
