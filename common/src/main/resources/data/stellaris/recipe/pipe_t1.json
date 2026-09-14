@@ -1,12 +1,14 @@
 {
   "type": "minecraft:crafting_shaped",
   "pattern": [
-    " I ",
-    "I I",
-    " I "
+    "OOO",
+    "IPI",
+    "OOO"
   ],
   "key": {
-    "I": "minecraft:iron_nugget"
+    "I": "minecraft:iron_nugget",
+    "O": "stellaris:silicon",
+    "P": "minecraft:glass"
   },
   "result": {
     "id": "stellaris:pipe_t1",
