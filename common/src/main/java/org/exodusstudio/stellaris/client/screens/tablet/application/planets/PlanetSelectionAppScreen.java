@@ -58,9 +58,7 @@ public class PlanetSelectionAppScreen extends TabletAbstractContainer<PlanetSele
         this.inSpace = selectionMenu.player.stellaris$isPlanetMenuOpen();
         this.antennaSavedData = selectionMenu.antennaSavedData;
         this.selectionMenu = selectionMenu;
-        this.inventoryLabelY = -this.imageHeight;
         this.isSelectingAutoPilot = !AutopilotModuleItem.findHeldModule(selectionMenu.player).isEmpty();
-        this.titleLabelY = -this.imageHeight;
     }
 
 
@@ -195,6 +193,9 @@ public class PlanetSelectionAppScreen extends TabletAbstractContainer<PlanetSele
         }
         return null;
     }
+
+    @Override
+    protected void extractLabels(GuiGraphicsExtractor guiGraphics, int mouseX, int mouseY) {}
 
     public static class PlanetInfoComponent extends ScrollableContainer {
 

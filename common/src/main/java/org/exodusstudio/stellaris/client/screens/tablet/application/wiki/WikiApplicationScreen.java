@@ -77,8 +77,6 @@ public class WikiApplicationScreen extends TabletAbstractContainer<WikiApplicati
         this.menu = menu;
         this.inventory = inventory;
 
-        this.inventoryLabelY = -this.imageHeight;
-        this.titleLabelY = -this.imageHeight;
         this.openedInfo = menu.openedEntryInfo;
 
     }
@@ -309,6 +307,9 @@ public class WikiApplicationScreen extends TabletAbstractContainer<WikiApplicati
     public int getTopPos() {
         return this.topPos;
     }
+
+    @Override
+    protected void extractLabels(GuiGraphicsExtractor guiGraphics, int mouseX, int mouseY) {}
 
     public record WikiState(WikiEntry currentEntry, int currentInfoPage) {
 

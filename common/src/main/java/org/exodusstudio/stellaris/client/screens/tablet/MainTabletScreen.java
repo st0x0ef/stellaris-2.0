@@ -39,8 +39,6 @@ public class MainTabletScreen extends AbstractContainerScreen<MainTabletMenu> {
 
         this.player = playerInventory.player;
         this.inventory = playerInventory;
-        this.inventoryLabelY = -this.imageHeight;
-        this.titleLabelY = -this.imageHeight;
   }
 
     @Override
@@ -62,6 +60,9 @@ public class MainTabletScreen extends AbstractContainerScreen<MainTabletMenu> {
         guiGraphics.blit(RenderPipelines.GUI_TEXTURED, BACKGROUND, this.leftPos, this.topPos, 0, 0, this.imageWidth, this.imageHeight, this.imageWidth, this.imageHeight);
     }
 
+
+    @Override
+    protected void extractLabels(GuiGraphicsExtractor guiGraphics, int mouseX, int mouseY) {}
 
     private void createAppsButton() {
         AtomicInteger row = new AtomicInteger(0);
