@@ -1,4 +1,4 @@
-package org.exodusstudio.stellaris.common.compats.jei.recipe_cache;
+package org.exodusstudio.stellaris.common.compats.recipe_cache;
 
 import org.exodusstudio.stellaris.common.data.recipes.BlendingRecipe;
 

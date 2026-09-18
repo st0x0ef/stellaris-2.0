@@ -13,10 +13,10 @@ import org.exodusstudio.stellaris.common.compats.jei.categories.ElectrolyzerCate
 import org.exodusstudio.stellaris.common.compats.jei.categories.FuelRefineryCategory;
 import org.exodusstudio.stellaris.common.compats.jei.categories.RocketStationCategory;
 import org.exodusstudio.stellaris.common.compats.jei.categories.SpaceStationCategory;
-import org.exodusstudio.stellaris.common.compats.jei.recipe_cache.BlenderRecipeCache;
-import org.exodusstudio.stellaris.common.compats.jei.recipe_cache.ElectrolyzerRecipeCache;
-import org.exodusstudio.stellaris.common.compats.jei.recipe_cache.FuelRefineryRecipeCache;
-import org.exodusstudio.stellaris.common.compats.jei.recipe_cache.RocketStationRecipeCache;
+import org.exodusstudio.stellaris.common.compats.recipe_cache.BlenderRecipeCache;
+import org.exodusstudio.stellaris.common.compats.recipe_cache.ElectrolyzerRecipeCache;
+import org.exodusstudio.stellaris.common.compats.recipe_cache.FuelRefineryRecipeCache;
+import org.exodusstudio.stellaris.common.compats.recipe_cache.RocketStationRecipeCache;
 import org.exodusstudio.stellaris.common.data.space_station.SpaceStationData;
 import org.exodusstudio.stellaris.common.registries.BlocksRegistry;
 import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
@@ -78,7 +78,7 @@ public class JEIPlugin implements IModPlugin {
         registration.addRecipes(SpaceStationCategory.RECIPE, List.copyOf(SpaceStationData.SPACE_STATION_RECIPES));
     }
 
-    @Override
+    @Override
     public void registerRecipeCatalysts(IRecipeCatalystRegistration registry) {
         registry.addCraftingStation(RocketStationCategory.RECIPE, BlocksRegistry.ENGINEERING_STATION.item().get().getDefaultInstance());
         registry.addCraftingStation(FuelRefineryCategory.RECIPE, BlocksRegistry.FUEL_REFINERY.item().get().getDefaultInstance());

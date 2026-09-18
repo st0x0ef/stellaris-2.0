@@ -17,6 +17,7 @@ import org.exodusstudio.stellaris.client.events.ClientEvents;
 import org.exodusstudio.stellaris.client.overlays.*;
 import org.exodusstudio.stellaris.client.registry.BoatModelLayerRegistry;
 import org.exodusstudio.stellaris.client.registry.FluidInfosRegistry;
+import org.exodusstudio.stellaris.common.compats.rei.REICompat;
 import org.exodusstudio.stellaris.client.registry.KeyMappingsRegistry;
 import org.exodusstudio.stellaris.client.renderers.rover.RoverModel;
 import org.exodusstudio.stellaris.client.renderers.flag.FlagBlockModel;
@@ -73,6 +74,10 @@ public class StellarisClient {
 
         ClientTickEvent.CLIENT_POST.register(
                 OxygenDebugRenderer::clientTick
+        );
+
+        ClientTickEvent.CLIENT_POST.register(
+                REICompat::clientTick
         );
 
         ClientEvents.init();
