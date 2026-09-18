@@ -13,7 +13,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.component.TooltipDisplay;
 import net.minecraft.world.item.equipment.ArmorType;
-import org.exodusstudio.stellaris.common.fluid.FluidUtil;
 import org.exodusstudio.stellaris.common.fluid.OxygenItemFluidStorage;
 import org.exodusstudio.stellaris.common.modules.space_suit.SpaceSuitModule;
 import org.exodusstudio.stellaris.common.registries.DataComponentsRegistry;
@@ -36,6 +35,10 @@ public class SpaceSuitHelmet extends SpaceSuitItem implements FluidProvider.ITEM
     }
 
     public static int getOxygenCapacity(ItemStack stack) {
+        return stack.getItem() instanceof SpaceSuitHelmet helmet ? helmet.oxygenCapacity(stack) : 0;
+    }
+
+    protected int oxygenCapacity(ItemStack stack) {
         AtomicInteger oxygenCapacity = new AtomicInteger(0);
         ModuleUtils.getSpaceSuitModules(stack).getModules().forEach(module -> {
             if (module instanceof SpaceSuitModule.OxygenModule oxygenModule) {
@@ -52,23 +55,33 @@ public class SpaceSuitHelmet extends SpaceSuitItem implements FluidProvider.ITEM
     public void appendHoverText(ItemStack stack, TooltipContext context, TooltipDisplay tooltipDisplay, Consumer<Component> tooltipAdder, TooltipFlag flag) {
         super.appendHoverText(stack, context, tooltipDisplay, tooltipAdder, flag);
 
-        UniversalEnergyStorage energy = getEnergy(stack);
-        if (energy != null) {
-            tooltipAdder.accept(Component.translatable("tooltip.item.stellaris.energy", energy.getEnergy(), energy.getMaxEnergy()));
-        }
+        appendEnergyHoverText(stack, tooltipAdder);
 
-        if (ModuleUtils.hasSpaceSuitModule(stack, SpaceSuitModule.OxygenModule.class)) {
-            int oxygenCapacity = getOxygenCapacity(stack);
-            long oxygen = FluidUtil.readStoredFluid(stack, DataComponentsRegistry.FLUID_LIST.get(), 0).getAmount();
-            tooltipAdder.accept(Component.translatable("tooltip.item.stellaris.space_suit.oxygen_module.header").withColor(Utils.getMinecraftColor("cyan")));
-            tooltipAdder.accept(Component.translatable("tooltip.item.stellaris.space_suit.oxygen_module.amount", oxygen, oxygenCapacity).withColor(Utils.getMinecraftColor("cyan")));
-        }
+        appendOxygenHoverText(stack, tooltipAdder);
 
         SpaceSuitModule.OilFinderModule oilFinderModule = ModuleUtils.getSpaceSuitModule(stack, SpaceSuitModule.OilFinderModule.class);
         if (oilFinderModule != null) {
             tooltipAdder.accept(Component.translatable("tooltip.item.stellaris.space_suit.oil_finder_module.header").withColor(Utils.getMinecraftColor("gold")));
             tooltipAdder.accept(Component.translatable("tooltip.item.stellaris.space_suit.oil_finder_module.info", oilFinderModule.getRange(), oilFinderModule.getRange()).withColor(Utils.getMinecraftColor("gold")));
         }
+    }
+
+    protected void appendEnergyHoverText(ItemStack stack, Consumer<Component> tooltipAdder) {
+        UniversalEnergyStorage energy = getEnergy(stack);
+        if (energy != null) {
+            tooltipAdder.accept(Component.translatable("tooltip.item.stellaris.energy", energy.getEnergy(), energy.getMaxEnergy()));
+        }
+    }
+
+    protected void appendOxygenHoverText(ItemStack stack, Consumer<Component> tooltipAdder) {
+        if (!ModuleUtils.hasSpaceSuitModule(stack, SpaceSuitModule.OxygenModule.class)) {
+            return;
+        }
+
+        UniversalFluidItemStorage oxygenTank = getFluidTank(stack);
+        long oxygen = oxygenTank == null ? 0L : oxygenTank.getFluidInTank(0).getAmount();
+        tooltipAdder.accept(Component.translatable("tooltip.item.stellaris.space_suit.oxygen_module.header").withColor(Utils.getMinecraftColor("cyan")));
+        tooltipAdder.accept(Component.translatable("tooltip.item.stellaris.space_suit.oxygen_module.amount", oxygen, getOxygenCapacity(stack)).withColor(Utils.getMinecraftColor("cyan")));
     }
 
     public static final int ENERGY_CAPACITY = 4000;

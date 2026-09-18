@@ -176,6 +176,7 @@
   "item.stellaris.sd_card": "SD Card",
   "item.stellaris.rover": "Rover",
   "item.stellaris.rocket": "Rocket",
+  "item.stellaris.creative_rocket": "Creative Rocket",
 
   "item.stellaris.engine_fan": "Engine Fan",
   "item.stellaris.rocket_engine": "Rocket Engine",
@@ -201,6 +202,7 @@
   "item.stellaris.skin_military": "Military Skin",
 
   "item.stellaris.space_suit_helmet": "Space Suit Helmet",
+  "item.stellaris.creative_space_suit_helmet": "Creative Space Suit Helmet",
   "item.stellaris.space_suit_chestplate": "Space Suit Chestplate",
   "item.stellaris.space_suit_leggings": "Space Suit Leggings",
   "item.stellaris.space_suit_boots": "Space Suit Boots",
@@ -440,6 +442,7 @@
   "tooltip.item.stellaris.can.saturation": "Saturation: %s",
   "tooltip.item.stellaris.pathogen_storage_cell_info": "A sealed containment cell used to store parasites and support research toward an infection cure.",
   "tooltip.item.stellaris.energy": "⚡ Energy: §e%s§r§f/§r§e%s§r FE",
+  "tooltip.item.stellaris.energy.unlimited": "⚡ Energy: §e∞§r FE",
   "tooltip.item.stellaris.oil_finder": "Right click on a block to check if there is oil.",
   "tooltip.item.stellaris.night_vision_module": "Toggle night vision with the Night Vision key.",
 
@@ -808,6 +811,7 @@
 
   "tooltip.item.stellaris.space_suit.oxygen_module.header": "-- Oxygen Module --",
   "tooltip.item.stellaris.space_suit.oxygen_module.amount": "Oxygen %s / %s mb",
+  "tooltip.item.stellaris.space_suit.oxygen_module.unlimited": "Oxygen ∞",
   "tooltip.item.stellaris.space_suit.oil_finder_module.header": "-- Oil Finder Module --",
   "tooltip.item.stellaris.space_suit.oil_finder_module.info": "Allows detection of oil deposits in the surrounding %s x %s area",
   "tooltip.item.stellaris.space_suit.jet_module.header": "-- Jet Module --",

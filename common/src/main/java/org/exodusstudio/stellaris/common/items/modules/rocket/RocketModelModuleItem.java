@@ -58,7 +58,7 @@ public class RocketModelModuleItem<T extends RocketModel> extends Item implement
         RocketModel rocketModel = getRocketModel();
         rocketModel.setDefaultModel();
         context.setRocketModel(rocketModel);
-        nodeCollector.submitModelPart(rocketModel.root(), poseStack, renderType, context.packedLight, OverlayTexture.NO_OVERLAY, null);
+        nodeCollector.submitModelPart(rocketModel.root(), poseStack, renderType, context.packedLight, OverlayTexture.NO_OVERLAY, null, false, context.hasFoil);
     }
 
 

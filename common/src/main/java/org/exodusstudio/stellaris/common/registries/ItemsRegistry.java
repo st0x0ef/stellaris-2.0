@@ -3,6 +3,7 @@ package org.exodusstudio.stellaris.common.registries;
 import dev.architectury.core.item.ArchitecturyBucketItem;
 import dev.architectury.registry.registries.DeferredRegister;
 import dev.architectury.registry.registries.RegistrySupplier;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
@@ -22,6 +23,7 @@ import org.exodusstudio.stellaris.common.items.modules.rover.RoverMotorModuleIte
 import org.exodusstudio.stellaris.common.items.modules.rover.RoverSpeedModuleItem;
 import org.exodusstudio.stellaris.common.items.modules.rover.RoverTankModuleItem;
 import org.exodusstudio.stellaris.common.items.modules.space_suit.*;
+import org.exodusstudio.stellaris.common.items.space_suit.CreativeSpaceSuitHelmet;
 import org.exodusstudio.stellaris.common.items.space_suit.SpaceSuitBoots;
 import org.exodusstudio.stellaris.common.items.space_suit.SpaceSuitChestplate;
 import org.exodusstudio.stellaris.common.items.space_suit.SpaceSuitHelmet;
@@ -79,6 +81,7 @@ public final class ItemsRegistry {
 
     /** Rocket */
     public static final RegistrySupplier<RocketItem> ROCKET = item("rocket", new Item.Properties().arch$tab(CreativeTabsRegistry.STELLARIS_MAIN).stacksTo(1), RocketItem::new);
+    public static final RegistrySupplier<CreativeRocketItem> CREATIVE_ROCKET = item("creative_rocket", creativeProperties().stacksTo(1), CreativeRocketItem::new);
 
     // Modules
     public static final RegistrySupplier<ShieldModule> SHIELD_MODULE = item("shield_module", ShieldModule::new);
@@ -98,6 +101,7 @@ public final class ItemsRegistry {
 
     /** Space Suit Items */
     public static final RegistrySupplier<SpaceSuitHelmet> SPACE_SUIT_HELMET = item("space_suit_helmet", SpaceSuitHelmet::new);
+    public static final RegistrySupplier<CreativeSpaceSuitHelmet> CREATIVE_SPACE_SUIT_HELMET = item("creative_space_suit_helmet", creativeProperties(), CreativeSpaceSuitHelmet::new);
     public static final RegistrySupplier<SpaceSuitChestplate> SPACE_SUIT_CHESTPLATE = item("space_suit_chestplate", SpaceSuitChestplate::new);
     public static final RegistrySupplier<SpaceSuitLeggings> SPACE_SUIT_LEGGINGS = item("space_suit_leggings", SpaceSuitLeggings::new);
     public static final RegistrySupplier<SpaceSuitBoots> SPACE_SUIT_BOOTS = item("space_suit_boots", SpaceSuitBoots::new);
@@ -226,6 +230,13 @@ public final class ItemsRegistry {
 
     public static final RegistrySupplier<SignItem> LUNAR_SIGN = ItemsRegistry.item("lunar_sign", p -> new SignItem(BlocksRegistry.LUNAR_SIGN.get(), BlocksRegistry.LUNAR_WALL_SIGN.get(), p));
     public static final RegistrySupplier<HangingSignItem> LUNAR_HANGING_SIGN = ItemsRegistry.item("lunar_hanging_sign", p -> new HangingSignItem(BlocksRegistry.LUNAR_HANGING_SIGN.get(), BlocksRegistry.LUNAR_WALL_HANGING_SIGN.get(), p));
+
+    public static Item.Properties creativeProperties() {
+        return new Item.Properties()
+                .arch$tab(CreativeTabsRegistry.STELLARIS_MAIN)
+                .rarity(Rarity.EPIC)
+                .component(DataComponents.ENCHANTMENT_GLINT_OVERRIDE, true);
+    }
 
     public static RegistrySupplier<Item> item(String name) {
         return item(name, new Item.Properties().arch$tab(CreativeTabsRegistry.STELLARIS_MAIN));

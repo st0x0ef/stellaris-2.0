@@ -81,7 +81,7 @@ public class RocketRenderer extends EntityRenderer<RocketEntity, RocketRenderSta
         if  (!rocketModelPresent) {
             RocketModel defaultModel = RocketModelRegistry.create("tiny", Minecraft.getInstance().getEntityModels());
             renderingContext.setRocketModel(defaultModel);
-            nodeCollector.submitModelPart(defaultModel.root(), poseStack, renderType, renderingContext.packedLight, OverlayTexture.NO_OVERLAY, null);
+            nodeCollector.submitModelPart(defaultModel.root(), poseStack, renderType, renderingContext.packedLight, OverlayTexture.NO_OVERLAY, null, false, renderingContext.hasFoil);
         }
 
         renderState.preRenderModules(nodeCollector, poseStack, renderingContext, renderType);
@@ -116,12 +116,18 @@ public class RocketRenderer extends EntityRenderer<RocketEntity, RocketRenderSta
         public final List<RocketModule> rocketModules;
         public final PoseStack poseStack;
         public final int packedLight;
+        public final boolean hasFoil;
         public RocketModel rocketModel;
 
         public RenderingContext(List<RocketModule> rocketModules, PoseStack poseStack, int packedLight) {
+            this(rocketModules, poseStack, packedLight, false);
+        }
+
+        public RenderingContext(List<RocketModule> rocketModules, PoseStack poseStack, int packedLight, boolean hasFoil) {
             this.rocketModules = rocketModules;
             this.poseStack = poseStack;
             this.packedLight = packedLight;
+            this.hasFoil = hasFoil;
         }
 
         public void setRocketModel(RocketModel rocketModel) {

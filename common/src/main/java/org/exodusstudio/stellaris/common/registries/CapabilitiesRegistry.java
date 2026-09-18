@@ -39,6 +39,7 @@ public class CapabilitiesRegistry {
         Capabilities.Energy.ITEM.registerForItem(ItemsRegistry.OIL_FINDER);
 
         Capabilities.Energy.ITEM.registerForItem(ItemsRegistry.SPACE_SUIT_HELMET);
+        Capabilities.Energy.ITEM.registerForItem(ItemsRegistry.CREATIVE_SPACE_SUIT_HELMET);
     }
 
     private static void registerFluidBlockEntities() {
@@ -61,6 +62,7 @@ public class CapabilitiesRegistry {
         Capabilities.Fluid.ITEM.registerForItem(BlocksRegistry.FLUID_TANK_T1.getAsItem());
 
         Capabilities.Fluid.ITEM.registerForItem(ItemsRegistry.SPACE_SUIT_HELMET);
+        Capabilities.Fluid.ITEM.registerForItem(ItemsRegistry.CREATIVE_SPACE_SUIT_HELMET);
         Capabilities.Fluid.ITEM.registerForItem(ItemsRegistry.SPACE_SUIT_CHESTPLATE);
     }
 

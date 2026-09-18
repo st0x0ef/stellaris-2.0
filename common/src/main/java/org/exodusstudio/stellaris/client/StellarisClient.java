@@ -126,6 +126,7 @@ public class StellarisClient {
                 ItemsRegistry.SPACE_SUIT_BOOTS.get(),
                 ItemsRegistry.SPACE_SUIT_LEGGINGS.get(),
                 ItemsRegistry.SPACE_SUIT_HELMET.get(),
+                ItemsRegistry.CREATIVE_SPACE_SUIT_HELMET.get(),
                 ItemsRegistry.SPACE_SUIT_CHESTPLATE.get()
         );
     }

@@ -34,6 +34,7 @@ import java.util.List;
 import java.util.function.Consumer;
 
 public class RocketItem extends Item implements FluidProvider.ITEM {
+    public static final long FUEL_CAPACITY = 3000L;
 
     public RocketItem(Properties properties) {
         super(properties.component(DataComponentsRegistry.ROCKET_MODULES.get(), RocketModules.empty()));
@@ -144,6 +145,6 @@ public class RocketItem extends Item implements FluidProvider.ITEM {
 
     @Override
     public @Nullable UniversalFluidItemStorage getFluidTank(@NotNull ItemStack stack) {
-        return new ItemFluidStorage(DataComponentsRegistry.FLUID_LIST.get(), stack, 1, 3000);
+        return new ItemFluidStorage(DataComponentsRegistry.FLUID_LIST.get(), stack, 1, FUEL_CAPACITY);
     }
 }
