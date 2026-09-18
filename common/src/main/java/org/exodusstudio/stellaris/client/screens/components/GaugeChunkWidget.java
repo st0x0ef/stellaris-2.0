@@ -1,12 +1,15 @@
 package org.exodusstudio.stellaris.client.screens.components;
 
 import com.fej1fun.potentials.fluid.UniversalFluidStorage;
-import com.mojang.blaze3d.textures.GpuTexture;
 import dev.architectury.fluid.FluidStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.renderer.RenderPipelines;
+import net.minecraft.client.renderer.texture.SpriteContents;
+import net.minecraft.client.renderer.texture.TextureAtlas;
+import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.network.chat.Component;
+import net.minecraft.data.AtlasIds;
 import net.minecraft.resources.Identifier;
 import net.minecraft.util.Mth;
 import org.exodusstudio.stellaris.client.registry.FluidInfosRegistry;
@@ -38,9 +41,10 @@ public class GaugeChunkWidget extends GaugeWidget {
     @Override
     protected void extractWidgetRenderState(GuiGraphicsExtractor guiGraphics, int mouseX, int mouseY, float partialTick) {
         if (spriteChanged) {
-            GpuTexture texture = Minecraft.getInstance().getTextureManager().getTexture(sprite).getTexture();
-            this.imageHeight = texture.getHeight(0);
-            this.imageWidth = texture.getWidth(0);
+            TextureAtlasSprite atlasSprite = Minecraft.getInstance().getAtlasManager().getAtlasOrThrow(AtlasIds.GUI).getSprite(sprite);
+            SpriteContents contents = atlasSprite.contents();
+            this.imageHeight = contents.height();
+            this.imageWidth = contents.width();
 
             spriteChanged = false;
         }

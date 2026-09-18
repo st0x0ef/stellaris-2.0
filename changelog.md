@@ -12,3 +12,5 @@
 - Fix every gravity manipulator having the same animation
 - Fix titanium axe, hoe and shovel
 - Error in the console when trying to fill a space suit chestplate with no module
+- Error in the console the first time a player open a gui with a fluid tank
+- Fix remaining item in single slot fluid transfer
