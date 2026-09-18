@@ -55,7 +55,7 @@ public class RocketRenderer extends EntityRenderer<RocketEntity, RocketRenderSta
 
         poseStack.pushPose();
         poseStack.translate(0.0D, -0.3D, 0.0D);
-        poseStack.mulPose(Axis.YP.rotationDegrees(-renderState.bodyRotation));
+        poseStack.mulPose(Axis.YP.rotationDegrees(90.0F - renderState.bodyRotation));
         poseStack.mulPose(Axis.XP.rotationDegrees(180.0F));
         poseStack.scale(0.8f, 0.8f, 0.8f);
 
