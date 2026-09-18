@@ -35,7 +35,6 @@ import org.exodusstudio.stellaris.common.items.space_suit.SpaceSuitItem;
 import org.exodusstudio.stellaris.common.network.packets.StartFadePacket;
 import org.exodusstudio.stellaris.common.registries.BlocksRegistry;
 import org.exodusstudio.stellaris.common.registries.EntityTypesRegistry;
-import org.exodusstudio.stellaris.common.registries.ItemsRegistry;
 import org.exodusstudio.stellaris.common.registries.TagsRegistry;
 import org.jetbrains.annotations.Nullable;
 
