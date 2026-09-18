@@ -6,3 +6,4 @@
 
 ## Fixes
 - Fix every gravity manipulator having the same animation
+- Fix titanium axe, hoe and shovel
