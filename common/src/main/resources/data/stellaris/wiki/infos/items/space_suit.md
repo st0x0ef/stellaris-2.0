@@ -2,6 +2,7 @@
 title: Space Suit
 entryId: stellaris:items
 iconType: item
+overrideTitle: true
 ---
 
 The Space Suit is what keeps you alive **beyond Earth**. Anywhere without breathable air, you take damage every second until you find some - or until you put this on.
@@ -14,9 +15,14 @@ A full set is made of four pieces :
 - Leggings 
 - Boots 
 
-You must wear **all four** for the suit to count. Three pieces protect you from nothing. 
+The Space Suit is like an **Empty Shell** : it does nothing on it owns.
 
-The suit alone is not enough either : it is the oxygen stored in the helmet that you actually breathe. With a filled oxygen module you spend 1 mB per second in vacuum, and you can even breathe underwater. Refill the helmet at an [ref=stellaris:machines/oxygen]Oxygen Distributor[ref] or from a [ref=stellaris:items/fluid_cell]Fluid Cell[ref] of oxygen held in hand. 
+You need to add **modules** to it.
+
+You also must wear **all four** for the suit to count. Three pieces protect you from nothing. (Imagine going to the moon without a pants)
+
+
+The suit alone is not **enough either** : it is the oxygen stored in the helmet that you actually breathe. With a filled oxygen module you spend 1 mB per second in vacuum, and you can even breathe underwater. Refill the helmet at an [ref=stellaris:machines/oxygen]Oxygen Distributor[ref] or from a [ref=stellaris:items/fluid_cell]Fluid Cell[ref] of oxygen held in hand. 
 
 Effort costs air. Sprinting burns oxygen twice as fast, and flying on the jets burns it four times as fast, so a long flight is paid for in air as well as fuel. 
 
@@ -26,12 +32,14 @@ Modules of the same kind replace each other, so installing a higher tier always 
 
 
 
-**Modules** 
+__**Modules**__
 
 Install modules at the [ref=stellaris:machines/engineering_station]Engineering Station[ref], in the Upgrade tab. Each module only fits one piece of the suit. 
 
-**Helmet** 
-- Oxygen module, three tiers : 1 200, 3 600 or 6 000 mB of air — about 20, 60 or 100 minutes of standing still in vacuum. Tier 2 and 3 need desh, so a bigger tank is something you bring back from the Moon. 
+**Helmet**
+
+
+- [ref=stellaris:items/oxygen_module]Oxygen Module[ref]
 - Oil Finder module, three tiers : scans 5 x 5, 3 x 3 or 1 x 1 chunks around you and shows the total [ref=stellaris:items/oil]Oil[ref] on screen. A wider scan drains the helmet's energy faster, a narrower one tells you precisely which chunk to drill. 
 - Night Vision module : see in the dark. It runs off the helmet's battery, so it competes with the Oil Finder for power and switches itself off when the battery is flat. 
 

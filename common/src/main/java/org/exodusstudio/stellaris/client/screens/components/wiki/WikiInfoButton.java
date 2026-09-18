@@ -29,6 +29,12 @@ public class WikiInfoButton extends TexturedButton {
 
     public void setTooltip() {
         Component title = page.getTitle();
+
+        if(page.overrideTitle) {
+            this.tooltip(Tooltip.create(title));
+            return;
+        }
+
         switch (page.iconType) {
             case MarkdownPage.IconType.ITEM:
                 StellardownStyle.ItemStyle itemStyle = page.getItemIcon();
