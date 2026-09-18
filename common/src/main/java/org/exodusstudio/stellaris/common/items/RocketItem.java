@@ -6,7 +6,6 @@ import com.fej1fun.potentials.providers.FluidProvider;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
-import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
@@ -19,6 +18,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
+import org.exodusstudio.stellaris.common.blocks.RocketLaunchPadBlock;
 import org.exodusstudio.stellaris.common.blocks.RocketLaunchPadProxyBlock;
 import org.exodusstudio.stellaris.common.entities.vehicles.RocketEntity;
 import org.exodusstudio.stellaris.common.modules.Modules;
@@ -57,7 +57,8 @@ public class RocketItem extends Item implements FluidProvider.ITEM {
             return super.useOn(context);
         }
 
-        if (level.getBlockState(padPos).is(BlocksRegistry.ROCKET_LAUNCH_PAD.block().get())) {
+        BlockState padState = level.getBlockState(padPos);
+        if (padState.is(BlocksRegistry.ROCKET_LAUNCH_PAD.block().get())) {
             //check if space is free above the launch pad. 0.3 is to avoid clipping into the block
             Vec3 vec3 = Vec3.upFromBottomCenterOf(padPos, 0.3);
             //the size of the rocket's bounding box
@@ -84,7 +85,7 @@ public class RocketItem extends Item implements FluidProvider.ITEM {
 
                         //double yOffset = RocketItem.getYOffset(level, padPos, true, rocket.getBoundingBox());
                         double yOffset = 1.7D;
-                        float rocketRotation = (float) Mth.floor((Mth.wrapDegrees(context.getRotation() - 180.0F) + 45.0F) / 90.0F) * 90.0F;
+                        float rocketRotation = padState.getValue(RocketLaunchPadBlock.FACING).toYRot();
 
                         /** SET FINAL POS */
                         rocket.setPos(new Vec3(padPos.getX() + 0.5D, padPos.getY() + yOffset, padPos.getZ() + 0.5D));

@@ -11,6 +11,7 @@ import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.client.renderer.state.level.CameraRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.Identifier;
+import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.phys.AABB;
 import org.exodusstudio.stellaris.client.renderers.rockets.models.RocketModel;
@@ -36,6 +37,7 @@ public class RocketRenderer extends EntityRenderer<RocketEntity, RocketRenderSta
         super.extractRenderState(entity, reusedState, partialTick);
         reusedState.modules = entity.getEntityData().get(RocketEntity.ROCKET_MODULES).getModules();
         reusedState.rocketStart = entity.getEntityData().get(RocketEntity.ROCKET_START);
+        reusedState.bodyRotation = Mth.rotLerp(partialTick, entity.yRotO, entity.getYRot());
     }
 
     @Override
@@ -53,6 +55,7 @@ public class RocketRenderer extends EntityRenderer<RocketEntity, RocketRenderSta
 
         poseStack.pushPose();
         poseStack.translate(0.0D, -0.3D, 0.0D);
+        poseStack.mulPose(Axis.YP.rotationDegrees(-renderState.bodyRotation));
         poseStack.mulPose(Axis.XP.rotationDegrees(180.0F));
         poseStack.scale(0.8f, 0.8f, 0.8f);
 

@@ -2,3 +2,4 @@
 
 ## Changes
 - Blender recipe
+- Improve rocket rotation on launch pad
