@@ -4,12 +4,15 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.Strictness;
 import com.google.gson.ToNumberPolicy;
+import com.mojang.datafixers.util.Pair;
+import com.mojang.serialization.JsonOps;
 import dev.architectury.networking.NetworkManager;
 import dev.architectury.registry.ReloadListenerRegistry;
 import fr.tathan.exoconfig.common.loader.ConfigsRegistry;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.packs.PackType;
 import org.exodusstudio.stellaris.common.data.space_station.SpaceStationData;
+import org.exodusstudio.stellaris.common.data.trophy.BossTrophyData;
 import org.exodusstudio.stellaris.common.data.wiki.WikiEntryPack;
 import org.exodusstudio.stellaris.common.config.CommonConfig;
 import org.exodusstudio.stellaris.common.data.PlanetsData;
@@ -44,6 +47,7 @@ public final class Stellaris {
     public static void init() {
         StellarisRegistries.register();
         CONFIG = ConfigsRegistry.getInstance().registerConfig(new CommonConfig(), CONFIG);
+
 
         RecipesRegistry.register();
 
@@ -84,6 +88,8 @@ public final class Stellaris {
 
         ReloadListenerRegistry.register(PackType.SERVER_DATA, new WikiMarkdownData(), IdentifierUtils.id(WikiMarkdownData.ID));
         ReloadListenerRegistry.register(PackType.SERVER_DATA, new WikiEntryPack(), IdentifierUtils.id(WikiEntryPack.ID));
+        ReloadListenerRegistry.register(PackType.SERVER_DATA, new BossTrophyData(), IdentifierUtils.id(BossTrophyData.ID));
+
     }
 
     public static void onDatapackSyncEvent(ServerPlayer player, boolean joined) {

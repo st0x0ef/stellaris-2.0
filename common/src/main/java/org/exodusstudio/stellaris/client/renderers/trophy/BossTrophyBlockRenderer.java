@@ -14,24 +14,22 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import org.exodusstudio.stellaris.common.blocks.BossTrophyBlock;
 import org.exodusstudio.stellaris.common.blocks.entities.BossTrophyBlockEntity;
-import org.exodusstudio.stellaris.common.registries.BlocksRegistry;
+import org.exodusstudio.stellaris.common.data.trophy.BossTrophyData;
+import org.exodusstudio.stellaris.common.data.trophy.BossTrophy;
 import org.jspecify.annotations.Nullable;
 
-import java.util.EnumMap;
+import java.util.HashMap;
 import java.util.Map;
 
 public class BossTrophyBlockRenderer implements BlockEntityRenderer<BossTrophyBlockEntity, BossTrophyRenderState> {
 
-    private final Map<TrophyBoss, ModelPart> parts = new EnumMap<>(TrophyBoss.class);
-    private final Map<TrophyBoss, TrophyFit> fits = new EnumMap<>(TrophyBoss.class);
+    private final BlockEntityRendererProvider.Context context;
 
     public BossTrophyBlockRenderer(BlockEntityRendererProvider.Context context) {
-        for (TrophyBoss boss : TrophyBoss.values()) {
-            ModelPart part = boss.bake(context::bakeLayer);
-            this.parts.put(boss, part);
-            this.fits.put(boss, TrophyFit.resting(part, boss.ignoredParts()));
-        }
+        this.context = context;
     }
+
+    private final Map<BossTrophy, BakedTrophy> bakedTrophies = new HashMap<>();
 
     @Override
     public void submit(BossTrophyRenderState renderState, PoseStack poseStack, SubmitNodeCollector nodeCollector, CameraRenderState cameraRenderState) {
@@ -41,15 +39,19 @@ public class BossTrophyBlockRenderer implements BlockEntityRenderer<BossTrophyBl
         poseStack.scale(-1.0F, -1.0F, 1.0F);
         poseStack.mulPose(Axis.YP.rotationDegrees(renderState.facing.toYRot()));
 
-        poseStack.mulPose(Axis.YP.rotationDegrees(renderState.boss.getRotation().y));
-        poseStack.mulPose(Axis.ZP.rotationDegrees(renderState.boss.getRotation().z));
-        poseStack.mulPose(Axis.XP.rotationDegrees(renderState.boss.getRotation().x));
+        poseStack.mulPose(Axis.YP.rotationDegrees(renderState.boss.rotation().y));
+        poseStack.mulPose(Axis.ZP.rotationDegrees(renderState.boss.rotation().z));
+        poseStack.mulPose(Axis.XP.rotationDegrees(renderState.boss.rotation().x));
 
+        BakedTrophy bakedTrophy = this.bakedTrophies.computeIfAbsent(renderState.boss, boss -> {
+            ModelPart part = boss.bake(context::bakeLayer);
+            return new BakedTrophy(part, TrophyFit.resting(part, boss.ignoredParts()));
+        });
 
         // One renderer instance serves every trophy in the world, so the per-block transform rides the
         // PoseStack; mutating the shared ModelPart would leak between blocks once the submit is flushed.
-        this.fits.get(renderState.boss).apply(poseStack);
-        nodeCollector.submitModelPart(this.parts.get(renderState.boss), poseStack,
+        bakedTrophy.fit().apply(poseStack);
+        nodeCollector.submitModelPart(bakedTrophy.part(), poseStack,
                 RenderTypes.entityCutout(renderState.boss.texture()),
                 renderState.lightCoords, OverlayTexture.NO_OVERLAY, null);
 
@@ -61,13 +63,15 @@ public class BossTrophyBlockRenderer implements BlockEntityRenderer<BossTrophyBl
         BlockEntityRenderer.super.extractRenderState(blockEntity, state, partialTicks, cameraPosition, breakProgress);
         BlockState blockState = blockEntity.getBlockState();
         state.facing = blockState.getValue(BossTrophyBlock.FACING);
-        state.boss = blockState.is(BlocksRegistry.STAR_CRAWLER_BOSS_TROPHY.block().get())
-                ? TrophyBoss.STAR_CRAWLER_BOSS
-                : TrophyBoss.HEART_OF_LUNA;
+        state.boss = BossTrophyData.TROPHY_BOSSES.getOrDefault(blockState.getBlock().arch$registryName(), BossTrophyData.HEART_OF_LUNA);
+
     }
 
     @Override
     public BossTrophyRenderState createRenderState() {
         return new BossTrophyRenderState();
+    }
+
+    private record BakedTrophy(ModelPart part, TrophyFit fit) {
     }
 }
