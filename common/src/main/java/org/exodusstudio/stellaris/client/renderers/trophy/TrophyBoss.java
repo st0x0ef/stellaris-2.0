@@ -8,26 +8,33 @@ import net.minecraft.util.StringRepresentable;
 import org.exodusstudio.stellaris.client.renderers.mobs.heartofluna.LunaBoss;
 import org.exodusstudio.stellaris.client.renderers.mobs.starcrawlerboss.StarCrawlerBossModel;
 import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
+import org.joml.Vector3f;
 
 import java.util.Set;
 import java.util.function.Function;
 
 public enum TrophyBoss implements StringRepresentable {
-    HEART_OF_LUNA("heart_of_luna", IdentifierUtils.texture("entity/heart_of_luna")),
-    STAR_CRAWLER_BOSS("star_crawler_boss", IdentifierUtils.texture("entity/star_crawler_boss"));
+    HEART_OF_LUNA("heart_of_luna", IdentifierUtils.texture("entity/heart_of_luna"), new Vector3f(0, 180, 0)),
+    STAR_CRAWLER_BOSS("star_crawler_boss", IdentifierUtils.texture("entity/star_crawler_boss"), new Vector3f());
 
     public static final Codec<TrophyBoss> CODEC = StringRepresentable.fromEnum(TrophyBoss::values);
 
     private final String name;
     private final Identifier texture;
+    private final Vector3f rotation;
 
-    TrophyBoss(String name, Identifier texture) {
+    TrophyBoss(String name, Identifier texture, Vector3f rotation) {
         this.name = name;
         this.texture = texture;
+        this.rotation = rotation;
     }
 
     public Identifier texture() {
         return this.texture;
+    }
+
+    public Vector3f getRotation() {
+        return rotation;
     }
 
     public ModelPart bake(Function<ModelLayerLocation, ModelPart> baker) {
