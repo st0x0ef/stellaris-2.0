@@ -2,6 +2,7 @@
 title: Lander
 entryId: stellaris:rocket
 iconType: item
+overrideTitle: true
 ---
 
 The Lander is what actually brings you down. You never craft one : it appears around you the moment your rocket arrives above a new world.
