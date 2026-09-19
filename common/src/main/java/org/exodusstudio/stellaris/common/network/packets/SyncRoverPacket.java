@@ -5,7 +5,6 @@ import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.entity.player.Player;
 import org.exodusstudio.stellaris.common.entities.vehicles.base.AbstractRoverBase;
 import org.exodusstudio.stellaris.common.network.NetworkRegistry;
 
@@ -31,14 +30,6 @@ public class SyncRoverPacket implements CustomPacketPayload {
             packet.toBytes(buf);
         }
     };
-
-    public SyncRoverPacket(boolean forward, boolean backward, boolean left, boolean right, Player player) {
-        this.forward = forward;
-        this.backward = backward;
-        this.left = left;
-        this.right = right;
-        this.uuid = player.getUUID();
-    }
 
     public SyncRoverPacket(boolean forward, boolean backward, boolean left, boolean right, UUID uuid) {
         this.forward = forward;
@@ -74,8 +65,9 @@ public class SyncRoverPacket implements CustomPacketPayload {
         packetContext.queue(() -> {
             if (packetContext.getPlayer() instanceof ServerPlayer serverPlayer
                     && serverPlayer.getVehicle() instanceof AbstractRoverBase rover
-                    && rover.getUUID().equals(this.uuid)) {
-                rover.updateControls(forward, backward, left, right, serverPlayer);
+                    && rover.getUUID().equals(this.uuid)
+                    && serverPlayer.equals(rover.getDriver())) {
+                rover.updateControls(forward, backward, left, right);
             }
         });
     }

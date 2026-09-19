@@ -49,8 +49,9 @@ public abstract class AbstractRoverBase extends IVehicleEntity {
     private static final EntityDataAccessor<Boolean> LEFT = SynchedEntityData.defineId(AbstractRoverBase.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Boolean> RIGHT = SynchedEntityData.defineId(AbstractRoverBase.class, EntityDataSerializers.BOOLEAN);
 
-    private final float distanceBetweenFuelConsumption = 20F;
-    private float distanceBeforeNextFuelConsumption = 0F;
+    private static final float BLOCKS_PER_FUEL_UNIT = 25F;
+
+    private float distanceSinceFuelConsumption = 0F;
 
     public AbstractRoverBase(EntityType type, Level worldIn) {
         super(type, worldIn);
@@ -91,7 +92,9 @@ public abstract class AbstractRoverBase extends IVehicleEntity {
             controlRover();
             checkPush();
 
+            Vec3 positionBeforeMove = position();
             move(MoverType.SELF, getDeltaMovement());
+            trackFuelConsumption(positionBeforeMove);
 
             if (!level().isClientSide()) {
                 this.xo = getX();
@@ -177,11 +180,9 @@ public abstract class AbstractRoverBase extends IVehicleEntity {
             return;
         }
 
-        if (distanceBeforeNextFuelConsumption <= 0F) {
-            if (!consumeFuel()) {
-                return;
-            }
-            distanceBeforeNextFuelConsumption = distanceBetweenFuelConsumption;
+        if (!hasFuel()) {
+            setSpeed(0F);
+            return;
         }
 
         this.yRotO = this.getYRot();
@@ -235,9 +236,21 @@ public abstract class AbstractRoverBase extends IVehicleEntity {
                 collidedLastTick = false;
             }
         }
+    }
 
-        if (isForward() || isBackward()) {
-            distanceBeforeNextFuelConsumption -= Math.abs(getSpeed());
+    private void trackFuelConsumption(Vec3 positionBeforeMove) {
+        if (level().isClientSide() || !(isForward() || isBackward())) {
+            return;
+        }
+
+        double movedX = getX() - positionBeforeMove.x;
+        double movedZ = getZ() - positionBeforeMove.z;
+        distanceSinceFuelConsumption += (float) Math.sqrt(movedX * movedX + movedZ * movedZ);
+
+        int units = (int) (distanceSinceFuelConsumption / BLOCKS_PER_FUEL_UNIT);
+        if (units > 0) {
+            distanceSinceFuelConsumption -= units * BLOCKS_PER_FUEL_UNIT;
+            consumeFuel(units);
         }
     }
 
@@ -261,7 +274,11 @@ public abstract class AbstractRoverBase extends IVehicleEntity {
         return speed;
     }
 
-    protected abstract boolean consumeFuel();
+    /** Whether there is any fuel left to drive on. */
+    protected abstract boolean hasFuel();
+
+    /** Removes {@code amount} units (mB) of fuel from the tank. */
+    protected abstract void consumeFuel(int amount);
 
     public void onCollision(float speed) {
         setSpeed(0.01F);
@@ -288,7 +305,7 @@ public abstract class AbstractRoverBase extends IVehicleEntity {
         setDeltaMovement(getDeltaMovement().x, getDeltaMovement().y - 0.2D, getDeltaMovement().z);
     }
 
-    public void updateControls(boolean forward, boolean backward, boolean left, boolean right, Player player) {
+    public void updateControls(boolean forward, boolean backward, boolean left, boolean right) {
         boolean needsUpdate = false;
 
         if (isForward() != forward) {
@@ -311,7 +328,7 @@ public abstract class AbstractRoverBase extends IVehicleEntity {
             needsUpdate = true;
         }
         if (level().isClientSide() && needsUpdate) {
-            NetworkManager.sendToServer(new org.exodusstudio.stellaris.common.network.packets.SyncRoverPacket(forward, backward, left, right, player));
+            NetworkManager.sendToServer(new org.exodusstudio.stellaris.common.network.packets.SyncRoverPacket(forward, backward, left, right, this.getUUID()));
         }
     }
 

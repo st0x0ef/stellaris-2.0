@@ -3,5 +3,9 @@
 ## Additions
 - REI compatibility
 
+## Changes
+- Lower diesel consumption for the rover
+
 ## Fixes
 - Fix rover movement smoothness for the second passenger
+- Fix rover diesel sync

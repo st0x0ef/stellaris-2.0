@@ -62,12 +62,6 @@ public class RoverEntity extends AbstractRoverBase implements HasCustomInventory
 
     private static final int BASE_TANK_CAPACITY = 3000;
 
-    /**
-     * Fuel burned each time the {@code distanceBetweenFuelConsumption} interval (20 blocks) is crossed while driving.
-     * At 2 units / 20 blocks a full {@link #BASE_TANK_CAPACITY} tank lasts ~30,000 blocks (~10,000 per bucket).
-     */
-    private static final int FUEL_CONSUMPTION_PER_INTERVAL = 2;
-
     public final SimpleContainer inventory;
 
     /**
@@ -278,14 +272,13 @@ public class RoverEntity extends AbstractRoverBase implements HasCustomInventory
     }
 
     @Override
-    protected boolean consumeFuel() {
-        if (this.getFuel() <= 0) {
-            return false;
-        }
+    protected boolean hasFuel() {
+        return this.getFuel() > 0;
+    }
 
-        FUEL = Math.max(0, FUEL - FUEL_CONSUMPTION_PER_INTERVAL);
-
-        return true;
+    @Override
+    protected void consumeFuel(int amount) {
+        FUEL = Math.max(0, FUEL - amount);
     }
 
     private void checkContainer() {

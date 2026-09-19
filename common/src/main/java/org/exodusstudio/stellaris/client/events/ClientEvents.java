@@ -43,7 +43,7 @@ public class ClientEvents {
             if (minecraft.player != null && minecraft.player.getVehicle() instanceof AbstractRoverBase rover && rover.getDriver() == minecraft.player) {
                 if (StarCrawlerBossIntroController.isAuthoritativelyLocked()
                         || StarCrawlerBossDeathController.isAuthoritativelyLocked()) {
-                    rover.updateControls(false, false, false, false, minecraft.player);
+                    rover.updateControls(false, false, false, false);
                     return;
                 }
 
@@ -51,7 +51,7 @@ public class ClientEvents {
                 boolean backward = minecraft.options.keyDown.isDown();
                 boolean left = minecraft.options.keyLeft.isDown();
                 boolean right = minecraft.options.keyRight.isDown();
-                rover.updateControls(forward, backward, left, right, minecraft.player);
+                rover.updateControls(forward, backward, left, right);
             }
         });
     }
