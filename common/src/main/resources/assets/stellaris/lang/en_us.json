@@ -654,6 +654,12 @@
   "advancements.stellaris.kill_all_moon_mobs.title": "Lunar extermination",
   "advancements.stellaris.kill_all_moon_mobs.description": "Kill all the mobs on the moon",
 
+  "advancements.stellaris.find_titanium.title": "Hard as nails",
+  "advancements.stellaris.find_titanium.description": "Find some titanium ore",
+
+  "advancements.stellaris.craft_tablet.title": "42",
+  "advancements.stellaris.craft_tablet.description": "Craft the galaxy's source of knowledge, the tablet",
+
   "block.stellaris.meteorite": "Meteorite",
   "block.stellaris.earth_globe": "Earth Globe",
   "block.stellaris.moon_globe": "Moon Globe",
