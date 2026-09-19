@@ -2,3 +2,6 @@
 
 ## Additions
 - REI compatibility
+
+## Fixes
+- Fix rover movement smoothness for the second passenger

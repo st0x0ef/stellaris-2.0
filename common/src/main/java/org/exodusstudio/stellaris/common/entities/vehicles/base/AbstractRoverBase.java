@@ -33,12 +33,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 
 public abstract class AbstractRoverBase extends IVehicleEntity {
 
-    private int steps;
-    private double clientX;
-    private double clientY;
-    private double clientZ;
-    private double clientYaw;
-    private double clientPitch;
+    private final InterpolationHandler interpolation = new InterpolationHandler(this);
 
     protected float deltaRotation;
 
@@ -89,20 +84,35 @@ public abstract class AbstractRoverBase extends IVehicleEntity {
             task.run();
         }
 
-        updateGravity();
-        controlRover();
-        checkPush();
+        this.interpolation.interpolate();
 
-        move(MoverType.SELF, getDeltaMovement());
+        if (simulatesMovement()) {
+            updateGravity();
+            controlRover();
+            checkPush();
 
-        if (!level().isClientSide()) {
-            this.xo = getX();
-            this.yo = getY();
-            this.zo = getZ();
+            move(MoverType.SELF, getDeltaMovement());
+
+            if (!level().isClientSide()) {
+                this.xo = getX();
+                this.yo = getY();
+                this.zo = getZ();
+            }
+        }
+        else {
+            deltaRotation = Mth.wrapDegrees(getYRot() - yRotO);
         }
 
         updateWheelRotation();
-        tickLerp();
+    }
+
+    private boolean simulatesMovement() {
+        return !level().isClientSide() || isLocalInstanceAuthoritative();
+    }
+
+    @Override
+    public InterpolationHandler getInterpolation() {
+        return this.interpolation;
     }
 
     public void centerCar() {
@@ -511,35 +521,6 @@ public abstract class AbstractRoverBase extends IVehicleEntity {
     @Override
     public boolean isPickable() {
         return isAlive();
-    }
-
-    private void tickLerp() {
-        if (this.isLocalInstanceAuthoritative()) {
-            this.steps = 0;
-            this.syncPacketPositionCodec(this.getX(), this.getY(), this.getZ());
-        }
-
-        if (this.steps > 0) {
-            double d0 = getX() + (clientX - getX()) / (double) steps;
-            double d1 = getY() + (clientY - getY()) / (double) steps;
-            double d2 = getZ() + (clientZ - getZ()) / (double) steps;
-            double d3 = Mth.wrapDegrees(clientYaw - (double) getYRot());
-            setYRot((float) ((double) getYRot() + d3 / (double) steps));
-            setXRot((float) ((double) getXRot() + (clientPitch - (double) getXRot()) / (double) steps));
-            --steps;
-            setPos(d0, d1, d2);
-            setRot(getYRot(), getXRot());
-        }
-    }
-
-    @Override
-    public void lerpPositionAndRotationStep(int steps, double targetX, double targetY, double targetZ, double targetYRot, double targetXRot) {
-        this.clientX = targetX;
-        this.clientY = targetY;
-        this.clientZ = targetZ;
-        this.clientYaw = targetYRot;
-        this.clientPitch = targetXRot;
-        this.steps = steps;
     }
 
     public static double calculateMotionX(float speed, float rotationYaw) {
