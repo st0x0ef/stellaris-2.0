@@ -15,7 +15,7 @@ import java.util.function.Function;
 
 public enum TrophyBoss implements StringRepresentable {
     HEART_OF_LUNA("heart_of_luna", IdentifierUtils.texture("entity/heart_of_luna"), new Vector3f(0, 180, 0)),
-    STAR_CRAWLER_BOSS("star_crawler_boss", IdentifierUtils.texture("entity/star_crawler_boss"), new Vector3f());
+    STAR_CRAWLER_BOSS("star_crawler_boss", IdentifierUtils.texture("entity/star_crawler_boss"), new Vector3f(0, 180, 0));
 
     public static final Codec<TrophyBoss> CODEC = StringRepresentable.fromEnum(TrophyBoss::values);
 
