@@ -39,9 +39,9 @@ public class BossTrophyBlockRenderer implements BlockEntityRenderer<BossTrophyBl
         poseStack.scale(-1.0F, -1.0F, 1.0F);
         poseStack.mulPose(Axis.YP.rotationDegrees(renderState.facing.toYRot()));
 
-        poseStack.mulPose(Axis.YP.rotationDegrees(renderState.boss.rotation().y));
-        poseStack.mulPose(Axis.ZP.rotationDegrees(renderState.boss.rotation().z));
-        poseStack.mulPose(Axis.XP.rotationDegrees(renderState.boss.rotation().x));
+        poseStack.mulPose(Axis.YP.rotationDegrees(renderState.boss.rotation().y()));
+        poseStack.mulPose(Axis.ZP.rotationDegrees(renderState.boss.rotation().z()));
+        poseStack.mulPose(Axis.XP.rotationDegrees(renderState.boss.rotation().x()));
 
         BakedTrophy bakedTrophy = this.bakedTrophies.computeIfAbsent(renderState.boss, boss -> {
             ModelPart part = boss.bake(context::bakeLayer);
@@ -63,6 +63,7 @@ public class BossTrophyBlockRenderer implements BlockEntityRenderer<BossTrophyBl
         BlockEntityRenderer.super.extractRenderState(blockEntity, state, partialTicks, cameraPosition, breakProgress);
         BlockState blockState = blockEntity.getBlockState();
         state.facing = blockState.getValue(BossTrophyBlock.FACING);
+        //The boss ID need to be the same as the block ID. Maybe need to change this later if we want to have different bosses for the same block.
         state.boss = BossTrophyData.TROPHY_BOSSES.getOrDefault(blockState.getBlock().arch$registryName(), BossTrophyData.HEART_OF_LUNA);
 
     }
