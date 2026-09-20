@@ -6,7 +6,6 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.packs.resources.SimpleJsonResourceReloadListener;
 import net.minecraft.util.profiling.ProfilerFiller;
-import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
 import org.joml.Vector3f;
 
@@ -36,8 +35,6 @@ public class BossTrophyData extends SimpleJsonResourceReloadListener<BossTrophy>
     @Override
     protected void apply(Map<Identifier, BossTrophy> preparations, ResourceManager manager, ProfilerFiller profiler) {
         TROPHY_BOSSES.clear();
-
-        Stellaris.LOG.error("Loading trophy bosses: " + preparations.keySet());
         TROPHY_BOSSES.putAll(preparations);
     }
 }

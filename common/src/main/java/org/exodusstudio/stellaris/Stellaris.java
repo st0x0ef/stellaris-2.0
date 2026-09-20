@@ -22,10 +22,7 @@ import org.exodusstudio.stellaris.common.data.assistant.AssistantData;
 import org.exodusstudio.stellaris.common.data.wiki.WikiMarkdownData;
 import org.exodusstudio.stellaris.common.events.Events;
 import org.exodusstudio.stellaris.common.network.NetworkRegistry;
-import org.exodusstudio.stellaris.common.network.packets.SyncPlanetsPacket;
-import org.exodusstudio.stellaris.common.network.packets.SyncSDCards;
-import org.exodusstudio.stellaris.common.network.packets.SyncSpaceStationsPacket;
-import org.exodusstudio.stellaris.common.network.packets.SyncWiki;
+import org.exodusstudio.stellaris.common.network.packets.*;
 import org.exodusstudio.stellaris.common.registries.*;
 import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
 import org.slf4j.Logger;
@@ -97,5 +94,7 @@ public final class Stellaris {
         NetworkManager.sendToPlayer(player, new SyncSDCards(SdCardData.SD_CARDS));
         NetworkManager.sendToPlayer(player, new SyncPlanetsPacket(new ArrayList<>(PlanetsData.PLANETS)));
         NetworkManager.sendToPlayer(player, new SyncSpaceStationsPacket(new ArrayList<>(SpaceStationData.SPACE_STATION_RECIPES)));
+        NetworkManager.sendToPlayer(player, new SyncBossTrophy(BossTrophyData.TROPHY_BOSSES));
+
     }
 }
