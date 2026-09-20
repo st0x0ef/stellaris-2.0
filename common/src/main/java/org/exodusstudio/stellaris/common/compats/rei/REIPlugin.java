@@ -1,11 +1,17 @@
 package org.exodusstudio.stellaris.common.compats.rei;
 
+import me.shedaniel.math.Rectangle;
 import me.shedaniel.rei.api.client.entry.renderer.EntryRendererRegistry;
 import me.shedaniel.rei.api.client.plugins.REIClientPlugin;
 import me.shedaniel.rei.api.client.registry.category.CategoryRegistry;
 import me.shedaniel.rei.api.client.registry.display.DisplayRegistry;
+import me.shedaniel.rei.api.client.registry.screen.ExclusionZones;
 import me.shedaniel.rei.api.common.entry.type.VanillaEntryTypes;
 import me.shedaniel.rei.api.common.util.EntryStacks;
+import mezz.jei.api.gui.handlers.IGuiContainerHandler;
+import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
+import net.minecraft.client.renderer.Rect2i;
+import org.exodusstudio.stellaris.client.screens.tablet.application.ApplicationRegistry;
 import org.exodusstudio.stellaris.common.compats.recipe_cache.BlenderRecipeCache;
 import org.exodusstudio.stellaris.common.compats.recipe_cache.ElectrolyzerRecipeCache;
 import org.exodusstudio.stellaris.common.compats.recipe_cache.FuelRefineryRecipeCache;
@@ -22,6 +28,9 @@ import org.exodusstudio.stellaris.common.compats.rei.displays.RocketStationDispl
 import org.exodusstudio.stellaris.common.compats.rei.displays.SpaceStationDisplay;
 import org.exodusstudio.stellaris.common.data.space_station.SpaceStationData;
 import org.exodusstudio.stellaris.common.registries.BlocksRegistry;
+
+import java.util.Collections;
+import java.util.List;
 
 public class REIPlugin implements REIClientPlugin {
 
@@ -56,5 +65,13 @@ public class REIPlugin implements REIClientPlugin {
         SpaceStationData.SPACE_STATION_RECIPES.forEach(recipe -> registry.add(new SpaceStationDisplay(recipe)));
 
         REICompat.markDisplaysBuilt(generation);
+    }
+
+    @Override
+    public void registerExclusionZones(ExclusionZones zones) {
+        for(Class<? extends AbstractContainerScreen<?>> screenClass : ApplicationRegistry.applications_menus) {
+            zones.register(screenClass, (screen) -> Collections.singleton(new Rectangle(0, 0, screen.width, screen.height)));
+        }
+
     }
 }

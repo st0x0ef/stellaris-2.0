@@ -1,11 +1,13 @@
 package org.exodusstudio.stellaris.client.screens.tablet.application;
 
 import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.AbstractContainerMenu;
+import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.client.screens.tablet.MainTabletScreen;
 import org.exodusstudio.stellaris.client.screens.tablet.application.planets.PlanetSelectionAppScreen;
 import org.exodusstudio.stellaris.client.screens.tablet.application.sd.SDCardReaderApplicationScreen;
@@ -15,19 +17,30 @@ import org.exodusstudio.stellaris.common.menus.MainTabletMenu;
 import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Set;
 import java.util.function.Function;
 
 public class ApplicationRegistry {
 
-    private static HashMap<Identifier, ApplicationFactory<? extends AbstractContainerMenu>> applications = new HashMap<>();
+    private static final HashMap<Identifier, ApplicationFactory<? extends AbstractContainerMenu>> applications = new HashMap<>();
+    public static final List<Class<? extends AbstractContainerScreen<?>>> applications_menus = new ArrayList<>(Set.of(MainTabletScreen.class));
 
     public static HashMap<Identifier, ApplicationFactory<? extends AbstractContainerMenu>> getApplications() {
         return applications;
     }
 
-    public static <T extends AbstractContainerMenu> ApplicationFactory<T> register(Identifier id, ApplicationFactory<T> factory) {
+    @SuppressWarnings("unchecked")
+    public static <T extends AbstractContainerMenu> ApplicationFactory<T> register(Identifier id, ApplicationFactory<T> factory, @Nullable Class<? extends Screen> screenClass) {
         applications.put(id, factory);
+
+        //Check if the class is a subclass of AbstractContainerMenu and add it to the list if it is
+        if (screenClass != null && AbstractContainerScreen.class.isAssignableFrom(screenClass)) {
+            applications_menus.add((Class<? extends AbstractContainerScreen<?>>) screenClass);
+        }
+
         return factory;
     }
 
@@ -39,7 +52,8 @@ public class ApplicationRegistry {
                     IdentifierUtils.id("icon/wiki_app"),
                     IdentifierUtils.id("icon/wiki_app_hover"),
                     WikiApplicationScreen::create
-            )
+            ),
+            WikiApplicationScreen.class
     );
 
     public static ApplicationFactory<MainTabletMenu> SD_CARD_READER = register(
@@ -50,7 +64,8 @@ public class ApplicationRegistry {
                     IdentifierUtils.id("icon/sd_card_reader_app"),
                     IdentifierUtils.id("icon/sd_card_reader_app_hover"),
                     SDCardReaderApplicationScreen::create
-            )
+            ),
+            SDCardReaderApplicationScreen.class
     );
 
     public static ApplicationFactory<MainTabletMenu> PLANET_SELECTION = register(
@@ -61,7 +76,8 @@ public class ApplicationRegistry {
                     IdentifierUtils.id("icon/planet_selection_app"),
                     IdentifierUtils.id("icon/planet_selection_app_hover"),
                     PlanetSelectionAppScreen::create
-            )
+            ),
+            PlanetSelectionAppScreen.class
     );
 
     public static ApplicationFactory<MainTabletMenu> STATS = register(
@@ -72,7 +88,8 @@ public class ApplicationRegistry {
                     IdentifierUtils.id("icon/stats_app"),
                     IdentifierUtils.id("icon/stats_app_hover"),
                     StatsApplicationScreen::create
-            )
+            ),
+            StatsApplicationScreen.class
     );
 
     public static void init() {
