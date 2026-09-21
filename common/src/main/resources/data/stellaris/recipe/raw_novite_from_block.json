@@ -1,7 +1,7 @@
 {
   "type": "minecraft:crafting_shapeless",
   "ingredients": [
-    "stellaris:raw_novite_block"
+    "#c:storage_blocks/raw_novite"
   ],
   "result": {
     "id": "stellaris:raw_novite",

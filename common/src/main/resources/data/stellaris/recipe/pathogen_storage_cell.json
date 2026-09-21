@@ -6,8 +6,8 @@
     "STS"
   ],
   "key": {
-    "S": "minecraft:amethyst_shard",
-    "T": "stellaris:titanium_ingot"
+    "S": "#c:gems/amethyst",
+    "T": "#c:ingots/titanium"
   },
   "result": {
     "id": "stellaris:pathogen_storage_cell"

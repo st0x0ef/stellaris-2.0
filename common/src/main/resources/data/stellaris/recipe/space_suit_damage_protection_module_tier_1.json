@@ -6,9 +6,9 @@
     "NTN"
   ],
   "key": {
-    "N": "minecraft:iron_nugget",
-    "T": "stellaris:titanium_ingot",
-    "I": "minecraft:iron_ingot"
+    "N": "#c:nuggets/iron",
+    "T": "#c:ingots/titanium",
+    "I": "#c:ingots/iron"
   },
   "result": {"id": "stellaris:space_suit_damage_protection_module_tier_1"}
 }

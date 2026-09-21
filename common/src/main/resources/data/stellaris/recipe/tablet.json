@@ -6,9 +6,9 @@
     "NSN"
   ],
   "key": {
-    "S": "stellaris:titanium_ingot",
-    "H": "minecraft:glass_pane",
-    "N": "stellaris:titanium_nugget"
+    "S": "#c:ingots/titanium",
+    "H": "#c:glass_panes/colorless",
+    "N": "#c:nuggets/titanium"
   },
   "result": {
     "id": "stellaris:tablet",

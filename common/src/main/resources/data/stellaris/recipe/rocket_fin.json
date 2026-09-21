@@ -5,7 +5,7 @@
     "# #"
   ],
   "key": {
-    "#": "stellaris:titanium_ingot"
+    "#": "#c:ingots/titanium"
   },
   "result": {
     "id": "stellaris:rocket_fin"

@@ -6,9 +6,9 @@
     "TBT"
   ],
   "key": {
-    "T": "stellaris:titanium_ingot",
-    "B": "minecraft:bucket",
-    "I": "minecraft:iron_ingot",
+    "T": "#c:ingots/titanium",
+    "B": "#c:buckets/empty",
+    "I": "#c:ingots/iron",
     "F": "minecraft:furnace"
   },
   "result": {

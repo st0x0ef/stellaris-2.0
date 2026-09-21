@@ -49,12 +49,18 @@ public record SpaceStationRecipe(List<IngredientWithCount> items, Identifier str
                     itemKey -> BuiltInRegistries.ITEM.get(itemKey)
                             .map(holder -> (Component) Component.translatable(holder.value().getDescriptionId()))
                             .orElseGet(() -> Component.literal(itemKey.identifier().toString())),
-                    tagKey -> (Component) Component.literal("#" + tagKey.location()));
+                    SpaceStationRecipe::tagName);
             component.append("\n").append(Component.translatable("tooltip.stellaris.space_station.ingredient",
                     ingredient.count(), name).withStyle(ChatFormatting.GRAY));
         }
 
         return component;
+    }
+
+    private static Component tagName(TagKey<Item> tagKey) {
+        Identifier id = tagKey.location();
+        String key = "tag.item." + id.getNamespace() + "." + id.getPath().replace('/', '.');
+        return Component.translatableWithFallback(key, "#" + id);
     }
 
     public boolean hasMaterials(List<Slot> slotsToCheck) {

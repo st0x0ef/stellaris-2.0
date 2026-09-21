@@ -7,8 +7,8 @@
   ],
   "key": {
     "B": "minecraft:glass_bottle",
-    "G": "minecraft:glass",
-    "T": "stellaris:titanium_ingot",
+    "G": "#c:glass_blocks/colorless",
+    "T": "#c:ingots/titanium",
     "C": "minecraft:crafting_table"
   },
   "result": {

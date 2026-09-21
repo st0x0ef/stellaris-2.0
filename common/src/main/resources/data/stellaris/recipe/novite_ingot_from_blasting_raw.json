@@ -1,6 +1,6 @@
 {
   "type": "minecraft:blasting",
-  "ingredient": "stellaris:raw_novite",
+  "ingredient": "#c:raw_materials/novite",
   "result": {
     "id": "stellaris:novite_ingot"
   },

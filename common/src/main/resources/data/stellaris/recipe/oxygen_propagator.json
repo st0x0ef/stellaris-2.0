@@ -6,7 +6,7 @@
     "TTT"
   ],
   "key": {
-    "T": "stellaris:titanium_ingot",
+    "T": "#c:ingots/titanium",
     "F": "stellaris:engine_fan"
   },
   "result": {

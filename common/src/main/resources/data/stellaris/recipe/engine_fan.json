@@ -6,8 +6,8 @@
     " # "
   ],
   "key": {
-    "X": "stellaris:titanium_ingot",
-    "#": "stellaris:titanium_nugget"
+    "X": "#c:ingots/titanium",
+    "#": "#c:nuggets/titanium"
   },
   "result": {
     "id": "stellaris:engine_fan"

@@ -1,5 +1,5 @@
 {
   "type": "minecraft:crafting_shapeless",
-  "ingredients": ["#stellaris:small_can", "minecraft:yellow_dye"],
+  "ingredients": ["#stellaris:small_can", "#c:dyes/yellow"],
   "result": {"id": "stellaris:yellow_can"}
 }

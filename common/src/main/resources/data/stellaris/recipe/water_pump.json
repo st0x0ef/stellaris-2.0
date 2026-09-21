@@ -7,8 +7,8 @@
   ],
   "key": {
     "T": "stellaris:pipe_t1",
-    "X": "minecraft:bucket",
-    "S": "stellaris:titanium_ingot"
+    "X": "#c:buckets/empty",
+    "S": "#c:ingots/titanium"
   },
   "result": {
     "id": "stellaris:water_pump",

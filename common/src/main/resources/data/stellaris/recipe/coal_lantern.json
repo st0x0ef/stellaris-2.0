@@ -6,7 +6,7 @@
     "###"
   ],
   "key": {
-    "#": "minecraft:iron_nugget",
+    "#": "#c:nuggets/iron",
     "T": "stellaris:coal_torch"
   },
   "result": {

@@ -6,8 +6,8 @@
     "ABA"
   ],
   "key": {
-    "A": "stellaris:desh_ingot",
-    "B": "stellaris:silicon",
+    "A": "#c:ingots/desh",
+    "B": "#c:silicon",
     "M": "stellaris:space_suit_oxygen_module_tier_2"
   },
   "result": {"id": "stellaris:space_suit_oxygen_module_tier_3"}

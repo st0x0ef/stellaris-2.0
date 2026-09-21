@@ -6,8 +6,8 @@
     "ABA"
   ],
   "key": {
-    "A": "stellaris:titanium_ingot",
-    "B": "minecraft:iron_ingot",
+    "A": "#c:ingots/titanium",
+    "B": "#c:ingots/iron",
     "M": "stellaris:space_suit_diesel_tank_module_tier_1"
   },
   "result": {"id": "stellaris:space_suit_diesel_tank_module_tier_2"}

@@ -6,7 +6,7 @@
     "###"
   ],
   "key": {
-    "#": "stellaris:novite_ingot"
+    "#": "#c:ingots/novite"
   },
   "result": {
     "id": "stellaris:novite_block",

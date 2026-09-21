@@ -6,9 +6,9 @@
     "TGT"
   ],
   "key": {
-    "T": "stellaris:titanium_ingot",
+    "T": "#c:ingots/titanium",
     "G": "minecraft:glowstone",
-    "R": "minecraft:redstone"
+    "R": "#c:dusts/redstone"
   },
   "result": {
     "id": "stellaris:electric_light",

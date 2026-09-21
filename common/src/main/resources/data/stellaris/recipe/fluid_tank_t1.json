@@ -6,8 +6,8 @@
     "IGI"
   ],
   "key": {
-    "I": "minecraft:iron_ingot",
-    "G": "minecraft:glass"
+    "I": "#c:ingots/iron",
+    "G": "#c:glass_blocks/colorless"
   },
   "result": {
     "id": "stellaris:fluid_tank_t1",

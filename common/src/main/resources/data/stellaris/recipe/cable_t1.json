@@ -6,9 +6,9 @@
     "OOO"
   ],
   "key": {
-    "T": "stellaris:titanium_nugget",
-    "O": "stellaris:silicon",
-    "C": "minecraft:copper_ingot"
+    "T": "#c:nuggets/titanium",
+    "O": "#c:silicon",
+    "C": "#c:ingots/copper"
   },
   "result": {
     "id": "stellaris:cable_t1",

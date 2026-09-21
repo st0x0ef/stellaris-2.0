@@ -7,8 +7,8 @@
   ],
   "key": {
     "X": "minecraft:redstone_torch",
-    "Y": "stellaris:titanium_nugget",
-    "S": "stellaris:silicon"
+    "Y": "#c:nuggets/titanium",
+    "S": "#c:silicon"
   },
   "result": {
     "id": "stellaris:oil_finder"

@@ -1,6 +1,6 @@
 {
   "type": "minecraft:stonecutting",
-  "ingredient": "stellaris:titanium_block",
+  "ingredient": "#c:storage_blocks/titanium",
   "result": {
     "id": "stellaris:titanium_stairs",
     "count": 1

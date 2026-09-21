@@ -1,7 +1,7 @@
 {
   "type": "minecraft:crafting_shapeless",
   "ingredients": [
-    "stellaris:titanium_ingot"
+    "#c:ingots/titanium"
   ],
   "result": {
     "id": "stellaris:titanium_nugget",

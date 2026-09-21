@@ -1,5 +1,5 @@
 {
   "type": "minecraft:crafting_shapeless",
-  "ingredients": ["#stellaris:big_can", "minecraft:cyan_dye"],
+  "ingredients": ["#stellaris:big_can", "#c:dyes/cyan"],
   "result": {"id": "stellaris:big_cyan_can"}
 }

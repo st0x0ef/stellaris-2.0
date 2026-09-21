@@ -6,8 +6,8 @@
     "S"
   ],
   "key": {
-    "T": "stellaris:titanium_ingot",
-    "S": "minecraft:stick"
+    "T": "#c:ingots/titanium",
+    "S": "#c:rods/wooden"
   },
   "result": {
     "id": "stellaris:titanium_shovel"

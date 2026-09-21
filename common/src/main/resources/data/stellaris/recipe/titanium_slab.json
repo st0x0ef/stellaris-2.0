@@ -4,7 +4,7 @@
     "###"
   ],
   "key": {
-    "#": "stellaris:titanium_block"
+    "#": "#c:storage_blocks/titanium"
   },
   "result": {
     "id": "stellaris:titanium_slab",

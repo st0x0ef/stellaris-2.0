@@ -2,7 +2,7 @@
   "type": "minecraft:crafting_shapeless",
   "ingredients": [
     "stellaris:lunar_boat",
-    "minecraft:chest"
+    "#c:chests/wooden"
   ],
   "result": {
     "id": "stellaris:lunar_chest_boat",

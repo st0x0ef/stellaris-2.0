@@ -6,9 +6,9 @@
     "GSG"
   ],
   "key": {
-    "G": "minecraft:gold_nugget",
-    "S": "stellaris:silicon",
-    "R": "minecraft:redstone"
+    "G": "#c:nuggets/gold",
+    "S": "#c:silicon",
+    "R": "#c:dusts/redstone"
   },
   "result": {
     "id": "stellaris:sd_card",

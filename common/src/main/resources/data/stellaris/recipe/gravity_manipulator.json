@@ -6,9 +6,9 @@
     "DTD"
   ],
   "key": {
-    "D": "stellaris:desh_ingot",
-    "T": "stellaris:titanium_ingot",
-    "R": "minecraft:redstone_block"
+    "D": "#c:ingots/desh",
+    "T": "#c:ingots/titanium",
+    "R": "#c:storage_blocks/redstone"
   },
   "result": {
     "id": "stellaris:gravity_manipulator",

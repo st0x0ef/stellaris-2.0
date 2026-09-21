@@ -6,9 +6,9 @@
     "DTD"
   ],
   "key": {
-    "D": "stellaris:desh_ingot",
-    "T": "stellaris:titanium_ingot",
-    "C": "minecraft:chest"
+    "D": "#c:ingots/desh",
+    "T": "#c:ingots/titanium",
+    "C": "#c:chests/wooden"
   },
   "result": {"id": "stellaris:cargo_module"}
 }

@@ -7,9 +7,9 @@
   ],
   "key": {
     "c": "stellaris:coal_generator",
-    "b": "minecraft:bucket",
+    "b": "#c:buckets/empty",
     "s": "#stellaris:titanium_materials",
-    "i": "minecraft:iron_ingot"
+    "i": "#c:ingots/iron"
   },
   "result": {
     "id": "stellaris:diesel_generator",

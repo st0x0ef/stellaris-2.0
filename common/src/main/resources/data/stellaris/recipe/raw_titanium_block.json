@@ -6,7 +6,7 @@
     "###"
   ],
   "key": {
-    "#": "stellaris:raw_titanium"
+    "#": "#c:raw_materials/titanium"
   },
   "result": {
     "id": "stellaris:raw_titanium_block",

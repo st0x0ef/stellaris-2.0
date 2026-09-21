@@ -2,6 +2,9 @@
   "replace": false,
   "values": [
     "stellaris:moon_stone",
-    "stellaris:moon_deepslate"
+    "stellaris:moon_deepslate",
+    "stellaris:casus_astrum_stone",
+    "stellaris:ash_stone",
+    "stellaris:lunar_rock"
   ]
 }

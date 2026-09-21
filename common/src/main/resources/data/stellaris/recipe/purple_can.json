@@ -6,8 +6,8 @@
     "XXX"
   ],
   "key": {
-    "X": "minecraft:iron_nugget",
-    "D": "minecraft:purple_dye"
+    "X": "#c:nuggets/iron",
+    "D": "#c:dyes/purple"
   },
   "result": {"id": "stellaris:purple_can"}
 }

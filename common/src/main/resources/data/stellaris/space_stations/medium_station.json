@@ -1,19 +1,19 @@
 {
   "items": [
     {
-      "item": "stellaris:titanium_block",
+      "item": "#c:storage_blocks/titanium",
       "count": 32
     },
     {
-      "item": "stellaris:desh_ingot",
+      "item": "#c:ingots/desh",
       "count": 32
     },
     {
-      "item": "stellaris:silicon",
+      "item": "#c:silicon",
       "count": 24
     },
     {
-      "item": "minecraft:iron_block",
+      "item": "#c:storage_blocks/iron",
       "count": 48
     },
     {
@@ -29,7 +29,7 @@
       "count": 48
     },
     {
-      "item": "minecraft:glass",
+      "item": "#c:glass_blocks/colorless",
       "count": 64
     }
   ],

@@ -6,9 +6,9 @@
     "TFT"
   ],
   "key": {
-    "T": "stellaris:titanium_ingot",
-    "G": "minecraft:glass",
-    "I": "minecraft:iron_ingot",
+    "T": "#c:ingots/titanium",
+    "G": "#c:glass_blocks/colorless",
+    "I": "#c:ingots/iron",
     "F": "stellaris:engine_fan"
   },
   "result": {

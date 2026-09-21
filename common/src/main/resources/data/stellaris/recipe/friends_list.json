@@ -4,7 +4,7 @@
     "minecraft:paper",
     "minecraft:paper",
     "minecraft:paper",
-    "minecraft:feather"
+    "#c:feathers"
   ],
   "result": {
     "id": "stellaris:friends_list",
