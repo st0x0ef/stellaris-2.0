@@ -131,19 +131,19 @@ public final class StellarisFabricClient implements ClientModInitializer {
         FluidRenderingRegistry.register(FluidsRegistry.OIL_STILL.get(), FluidsRegistry.FLOWING_OIL.get(), new FluidModel.Unbaked(
                 new Material(IdentifierUtils.id("block/fluids/oil_still")),
                 new Material(IdentifierUtils.id("block/fluids/oil_flow")),
-                null,
+                new Material(IdentifierUtils.id("block/fluids/oil_overlay")),
                 null));
 
         FluidRenderingRegistry.register(FluidsRegistry.HYDROGEN_STILL.get(), FluidsRegistry.HYDROGEN_FLOWING.get(), new FluidModel.Unbaked(
                 new Material(IdentifierUtils.id("block/fluids/hydrogen_still")),
                 new Material(IdentifierUtils.id("block/fluids/hydrogen_flow")),
-                null,
+                new Material(IdentifierUtils.id("block/fluids/hydrogen_overlay")),
                 null));
 
         FluidRenderingRegistry.register(FluidsRegistry.FUEL_STILL.get(), FluidsRegistry.FUEL_FLOWING.get(), new FluidModel.Unbaked(
                 new Material(IdentifierUtils.id("block/fluids/fuel_still")),
                 new Material(IdentifierUtils.id("block/fluids/fuel_flow")),
-                null,
+                new Material(IdentifierUtils.id("block/fluids/fuel_overlay")),
                 null));
 
         FluidRenderingRegistry.register(FluidsRegistry.ASTRUM_LIQUIDUS_STILL.get(), FluidsRegistry.ASTRUM_LIQUIDUS_FLOWING.get(), new FluidModel.Unbaked(
@@ -161,7 +161,7 @@ public final class StellarisFabricClient implements ClientModInitializer {
         FluidRenderingRegistry.register(FluidsRegistry.OXYGEN_STILL.get(), FluidsRegistry.OXYGEN_FLOWING.get(), new FluidModel.Unbaked(
                 new Material(IdentifierUtils.id("block/fluids/oxygen_still")),
                 new Material(IdentifierUtils.id("block/fluids/oxygen_flow")),
-                null,
+                new Material(IdentifierUtils.id("block/fluids/oxygen_overlay")),
                 null));
 
         FluidRenderingRegistry.register(FluidsRegistry.DIESEL_STILL.get(), FluidsRegistry.FLOWING_DIESEL.get(), new FluidModel.Unbaked(

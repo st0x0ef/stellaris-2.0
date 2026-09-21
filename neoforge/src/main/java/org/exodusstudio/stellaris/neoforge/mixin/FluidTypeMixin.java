@@ -18,9 +18,10 @@ public class FluidTypeMixin {
             cancellable = true,
             require = 1
     )
-    private void stellaris$onlyLunarBoatsFloatOnBlueLiquid(FluidState state, AbstractBoat boat, CallbackInfoReturnable<Boolean> cir) {
-        if (state.is(TagsRegistry.FluidTags.BLUE_LIQUID)) {
-            cir.setReturnValue(boat.is(TagsRegistry.EntityTags.LUNAR_BOATS));
+    private void stellaris$boatsOnlyFloatOnVanillaWater(FluidState state, AbstractBoat boat, CallbackInfoReturnable<Boolean> cir) {
+        if (state.is(TagsRegistry.FluidTags.STELLARIS_FLUIDS)) {
+            cir.setReturnValue(state.is(TagsRegistry.FluidTags.BLUE_LIQUID)
+                    && boat.is(TagsRegistry.EntityTags.LUNAR_BOATS));
         }
     }
 }

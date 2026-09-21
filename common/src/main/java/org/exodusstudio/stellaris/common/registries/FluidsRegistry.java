@@ -81,7 +81,8 @@ public class FluidsRegistry {
             .dropOff(1)
             .tickDelay(8)
             .explosionResistance(100.0F)
-            .convertToSource(true)
+            .convertToSource(false)
+            .overlayTexture(IdentifierUtils.id("block/fluids/oil_overlay"))
             .sourceTexture(IdentifierUtils.id("block/fluids/oil_still"))
             .flowingTexture(IdentifierUtils.id("block/fluids/oil_flow"));
 
@@ -133,7 +134,15 @@ public class FluidsRegistry {
     public static final RegistrySupplier<FlowingFluid> ASTRUM_LIQUIDUS_STILL = FLUIDS.register("astrum_liquidus", () -> new ArchitecturyFlowingFluid.Source(ASTRUM_LIQUIDUS_ATTRIBUTES));
 
 
-    public static final Set<ArchitecturyFluidAttributes> WATER_LIKE_ATTRIBUTES = Set.of(BLUE_LIQUID_ATTRIBUTES);
+    public static final Set<ArchitecturyFluidAttributes> WATER_LIKE_ATTRIBUTES = Set.of(
+            BLUE_LIQUID_ATTRIBUTES,
+            ASTRUM_LIQUIDUS_ATTRIBUTES,
+            OIL_ATTRIBUTES,
+            DIESEL_ATTRIBUTES,
+            FUEL_ATTRIBUTES,
+            HYDROGEN_ATTRIBUTES,
+            OXYGEN_ATTRIBUTES
+    );
 
     public static void init() {
         FLUIDS.register();

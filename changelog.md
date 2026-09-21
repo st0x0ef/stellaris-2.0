@@ -11,3 +11,4 @@
 - Fix rover movement smoothness for the second passenger
 - Fix rover diesel sync
 - Fix space suit fuel consumption in the rover
+- Fix custom fluids behavior
