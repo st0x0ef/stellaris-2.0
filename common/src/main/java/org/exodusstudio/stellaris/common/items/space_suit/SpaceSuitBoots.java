@@ -117,7 +117,7 @@ public class SpaceSuitBoots extends SpaceSuitItem {
             return;
         }
 
-        if (entity instanceof Player player && Utils.isLivingInSpaceSuit(player)) {
+        if (entity instanceof Player player && !player.isPassenger() && Utils.isLivingInSpaceSuit(player)) {
             if (player.getItemBySlot(EquipmentSlot.CHEST).getItem() instanceof SpaceSuitChestplate chestplate) {
                 UniversalFluidItemStorage storage = chestplate.getFluidTank(player.getItemBySlot(EquipmentSlot.CHEST));
                 SpaceSuitModule.JetModule jetModule = ModuleUtils.getSpaceSuitModule(player.getItemBySlot(EquipmentSlot.FEET), SpaceSuitModule.JetModule.class);
@@ -162,7 +162,10 @@ public class SpaceSuitBoots extends SpaceSuitItem {
         }
 
         ItemStack bootsStack = player.getItemBySlot(EquipmentSlot.FEET);
-        SpaceSuitModule.JetModule jetModule = Utils.isLivingInSpaceSuit(player)
+        /* Riding keeps the player off the ground, so vanilla never clears the flying ability on
+         * its own and the jets would keep burning fuel for a seated passenger. */
+        SpaceSuitModule.JetModule jetModule = !player.isPassenger()
+                && Utils.isLivingInSpaceSuit(player)
                 && getMode(bootsStack) == ModeType.NORMAL.getMode()
                 ? ModuleUtils.getSpaceSuitModule(bootsStack, SpaceSuitModule.JetModule.class)
                 : null;
