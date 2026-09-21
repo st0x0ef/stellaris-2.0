@@ -16,6 +16,7 @@ public class TagsRegistry {
         public static final TagKey<Item> COAL_GENERATOR_FUEL = addTag("coal_generator_fuel");
         public static final TagKey<Item> CAN = addTag("can");
         public static final TagKey<Item> SPACE_SUIT = addTag("space_suit");
+        public static final TagKey<Item> EDIBLE_IN_SPACE = addTag("edible_in_space");
 
         public static final TagKey<Item> TITANIUM_INGOTS = addCTag("ingots/titanium");
 

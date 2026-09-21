@@ -5,6 +5,7 @@
 
 ## Changes
 - Lower diesel consumption for the rover
+- Moon berries can now be eaten in space
 
 ## Fixes
 - Fix rover movement smoothness for the second passenger
