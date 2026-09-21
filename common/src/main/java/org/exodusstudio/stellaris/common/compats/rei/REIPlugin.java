@@ -8,9 +8,7 @@ import me.shedaniel.rei.api.client.registry.display.DisplayRegistry;
 import me.shedaniel.rei.api.client.registry.screen.ExclusionZones;
 import me.shedaniel.rei.api.common.entry.type.VanillaEntryTypes;
 import me.shedaniel.rei.api.common.util.EntryStacks;
-import mezz.jei.api.gui.handlers.IGuiContainerHandler;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
-import net.minecraft.client.renderer.Rect2i;
 import org.exodusstudio.stellaris.client.screens.tablet.application.ApplicationRegistry;
 import org.exodusstudio.stellaris.common.compats.recipe_cache.BlenderRecipeCache;
 import org.exodusstudio.stellaris.common.compats.recipe_cache.ElectrolyzerRecipeCache;
@@ -30,7 +28,6 @@ import org.exodusstudio.stellaris.common.data.space_station.SpaceStationData;
 import org.exodusstudio.stellaris.common.registries.BlocksRegistry;
 
 import java.util.Collections;
-import java.util.List;
 
 public class REIPlugin implements REIClientPlugin {
 

@@ -94,16 +94,13 @@ public class JEIPlugin implements IModPlugin {
 
     @Override
     public void registerGuiHandlers(IGuiHandlerRegistration registration) {
-
-        for(Class<? extends AbstractContainerScreen<?>> screenClass : ApplicationRegistry.applications_menus) {
-            registration.addGenericGuiContainerHandler(screenClass, new IGuiContainerHandler<AbstractContainerScreen<?>>() {
+        for (Class<? extends AbstractContainerScreen<?>> screenClass : ApplicationRegistry.applications_menus) {
+            registration.addGenericGuiContainerHandler(screenClass, new IGuiContainerHandler<>() {
                 @Override
                 public List<Rect2i> getGuiExtraAreas(AbstractContainerScreen<?> containerScreen) {
                     return List.of(new Rect2i(0, 0, containerScreen.width, containerScreen.height));
                 }
             });
         }
-
     }
-
 }
