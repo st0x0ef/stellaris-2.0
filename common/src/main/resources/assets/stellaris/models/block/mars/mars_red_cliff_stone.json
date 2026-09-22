@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cube_column",
+  "textures": {
+    "end": "stellaris:block/mars/mars_red_cliff_stone_top",
+    "side": "stellaris:block/mars/mars_red_cliff_stone_side"
+  }
+}
