@@ -6,8 +6,8 @@
     "T#T"
   ],
   "key": {
-    "T": "minecraft:copper_ingot",
-    "#": "stellaris:titanium_ingot"
+    "T": "#c:ingots/copper",
+    "#": "#c:ingots/titanium"
   },
   "result": {
     "id": "stellaris:space_suit_chestplate"

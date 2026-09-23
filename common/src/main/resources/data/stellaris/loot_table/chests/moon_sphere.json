@@ -25,11 +25,6 @@
         },
         {
           "type": "minecraft:item",
-          "name": "stellaris:rover_hydrogen_motor",
-          "weight": 6
-        },
-        {
-          "type": "minecraft:item",
           "name": "stellaris:space_suit_damage_protection_module_tier_3",
           "weight": 6
         },
@@ -476,7 +471,7 @@
         },
         {
           "type": "minecraft:item",
-          "name": "stellaris:rover_cargo_module",
+          "name": "stellaris:cargo_module",
           "weight": 5
         },
         {

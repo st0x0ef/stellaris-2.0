@@ -6,11 +6,11 @@
     "TRT"
   ],
   "key": {
-    "I": "minecraft:iron_ingot",
+    "I": "#c:ingots/iron",
     "C": "stellaris:cable_t1",
-    "W": "minecraft:bucket",
-    "T": "stellaris:titanium_ingot",
-    "R": "minecraft:redstone"
+    "W": "#c:buckets/empty",
+    "T": "#c:ingots/titanium",
+    "R": "#c:dusts/redstone"
   },
   "result": {
     "id": "stellaris:rover"

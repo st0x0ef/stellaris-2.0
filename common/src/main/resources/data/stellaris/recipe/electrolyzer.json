@@ -6,10 +6,10 @@
     "TIT"
   ],
   "key": {
-    "T": "stellaris:titanium_ingot",
-    "I": "minecraft:iron_ingot",
+    "T": "#c:ingots/titanium",
+    "I": "#c:ingots/iron",
     "C": "stellaris:cable_t1",
-    "B": "minecraft:bucket"
+    "B": "#c:buckets/empty"
   },
   "result": {
     "id": "stellaris:electrolyzer",

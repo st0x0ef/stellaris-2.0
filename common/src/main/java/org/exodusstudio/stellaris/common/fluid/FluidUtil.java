@@ -105,6 +105,7 @@ public class FluidUtil {
 
         // Single-slot tanks (input == output) keep the emptied container in place.
         if (slot == remainingItemSlot) {
+            container.setItem(slot, from.getContainer().copy());
             return;
         }
 

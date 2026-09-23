@@ -6,9 +6,9 @@
     "# #"
   ],
   "key": {
-    "#": "stellaris:titanium_ingot",
-    "R": "minecraft:iron_block",
-    "X": "minecraft:redstone"
+    "#": "#c:ingots/titanium",
+    "R": "#c:storage_blocks/iron",
+    "X": "#c:dusts/redstone"
   },
   "result": {
     "id": "stellaris:rocket_engine"

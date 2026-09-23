@@ -6,9 +6,9 @@
     "SSS"
   ],
   "key": {
-    "S": "minecraft:diamond",
-    "E": "stellaris:desh_block",
-    "D": "stellaris:silicon"
+    "S": "#c:gems/diamond",
+    "E": "#c:storage_blocks/desh",
+    "D": "#c:silicon"
   },
   "result": {
     "id": "stellaris:hydrogen_motor",

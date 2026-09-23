@@ -6,9 +6,9 @@
     "SSS"
   ],
   "key": {
-    "T": "stellaris:titanium_ingot",
+    "T": "#c:ingots/titanium",
     "F": "stellaris:engine_fan",
-    "S": "stellaris:silicon"
+    "S": "#c:silicon"
   },
   "result": {
     "id": "stellaris:oxygen_distributor",

@@ -3,7 +3,7 @@
   "biomes": "#stellaris:has_structure/meteor_biomes",
   "step": "surface_structures",
   "spawn_overrides": {},
-  "terrain_adaptation": "none",
+  "terrain_adaptation": "bury",
   "start_pool": "stellaris:meteor/meteor",
   "size": 1,
   "start_height": {

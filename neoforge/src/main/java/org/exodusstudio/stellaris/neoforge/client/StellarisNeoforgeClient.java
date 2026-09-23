@@ -187,21 +187,21 @@ public class StellarisNeoforgeClient {
         event.register(new FluidModel.Unbaked(
                 new Material(IdentifierUtils.id("block/fluids/hydrogen_still")),
                 new Material(IdentifierUtils.id("block/fluids/hydrogen_flow")),
-                null,
+                new Material(IdentifierUtils.id("block/fluids/hydrogen_overlay")),
                 null
         ), FluidsRegistry.HYDROGEN_STILL, FluidsRegistry.HYDROGEN_FLOWING);
 
         event.register(new FluidModel.Unbaked(
                 new Material(IdentifierUtils.id("block/fluids/oil_still")),
                 new Material(IdentifierUtils.id("block/fluids/oil_flow")),
-                null,
+                new Material(IdentifierUtils.id("block/fluids/oil_overlay")),
                 null
         ), FluidsRegistry.OIL_STILL, FluidsRegistry.FLOWING_OIL);
 
         event.register(new FluidModel.Unbaked(
                 new Material(IdentifierUtils.id("block/fluids/fuel_still")),
                 new Material(IdentifierUtils.id("block/fluids/fuel_flow")),
-                null,
+                new Material(IdentifierUtils.id("block/fluids/fuel_overlay")),
                 null
         ), FluidsRegistry.FUEL_STILL, FluidsRegistry.FUEL_FLOWING);
 
@@ -222,7 +222,7 @@ public class StellarisNeoforgeClient {
         event.register(new FluidModel.Unbaked(
                 new Material(IdentifierUtils.id("block/fluids/oxygen_still")),
                 new Material(IdentifierUtils.id("block/fluids/oxygen_flow")),
-                null,
+                new Material(IdentifierUtils.id("block/fluids/oxygen_overlay")),
                 null
         ), FluidsRegistry.OXYGEN_STILL, FluidsRegistry.OXYGEN_FLOWING);
 

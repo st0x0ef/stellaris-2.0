@@ -6,10 +6,10 @@
     "SSS"
   ],
   "key": {
-    "T": "stellaris:titanium_ingot",
-    "I": "minecraft:iron_ingot",
+    "T": "#c:ingots/titanium",
+    "I": "#c:ingots/iron",
     "P": "minecraft:piston",
-    "S": "stellaris:silicon"
+    "S": "#c:silicon"
   },
   "result": {
     "id": "stellaris:pumpjack",

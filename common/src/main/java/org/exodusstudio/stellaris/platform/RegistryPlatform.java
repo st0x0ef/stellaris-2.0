@@ -12,4 +12,12 @@ public class RegistryPlatform {
         throw new NotImplementedException();
     }
 
+    /**
+     * Makes a removed item id load as another item, so stacks saved under the old id are converted instead of being deleted.
+     */
+    @ExpectPlatform
+    public static void addItemAlias(Identifier from, Identifier to) {
+        throw new NotImplementedException();
+    }
+
 }

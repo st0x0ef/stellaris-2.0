@@ -14,6 +14,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.equipment.ArmorType;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
@@ -30,10 +31,10 @@ import org.exodusstudio.stellaris.common.blocks.entities.AntennaBlockEntity;
 import org.exodusstudio.stellaris.common.data.Planet;
 import org.exodusstudio.stellaris.common.data.Temperature;
 import org.exodusstudio.stellaris.common.data.space_station.SpaceStationRecipe;
+import org.exodusstudio.stellaris.common.items.space_suit.SpaceSuitItem;
 import org.exodusstudio.stellaris.common.network.packets.StartFadePacket;
 import org.exodusstudio.stellaris.common.registries.BlocksRegistry;
 import org.exodusstudio.stellaris.common.registries.EntityTypesRegistry;
-import org.exodusstudio.stellaris.common.registries.ItemsRegistry;
 import org.exodusstudio.stellaris.common.registries.TagsRegistry;
 import org.jetbrains.annotations.Nullable;
 
@@ -214,11 +215,18 @@ public class Utils {
 
 
     public static boolean isLivingInSpaceSuit(LivingEntity entity) {
-        return isLivingInArmor(entity, EquipmentSlot.FEET, ItemsRegistry.SPACE_SUIT_BOOTS.get()) && isLivingInArmor(entity, EquipmentSlot.HEAD, ItemsRegistry.SPACE_SUIT_HELMET.get()) && isLivingInArmor(entity, EquipmentSlot.CHEST, ItemsRegistry.SPACE_SUIT_CHESTPLATE.get()) && isLivingInArmor(entity, EquipmentSlot.LEGS, ItemsRegistry.SPACE_SUIT_LEGGINGS.get());
+        return isSpaceSuitPart(entity.getItemBySlot(EquipmentSlot.FEET), ArmorType.BOOTS)
+                && isSpaceSuitPart(entity.getItemBySlot(EquipmentSlot.HEAD), ArmorType.HELMET)
+                && isSpaceSuitPart(entity.getItemBySlot(EquipmentSlot.CHEST), ArmorType.CHESTPLATE)
+                && isSpaceSuitPart(entity.getItemBySlot(EquipmentSlot.LEGS), ArmorType.LEGGINGS);
     }
 
     public static boolean isSpaceSuitPart(ItemStack stack) {
-        return stack.is(ItemsRegistry.SPACE_SUIT_BOOTS.get()) || stack.is(ItemsRegistry.SPACE_SUIT_HELMET.get()) || stack.is(ItemsRegistry.SPACE_SUIT_CHESTPLATE.get()) || stack.is(ItemsRegistry.SPACE_SUIT_LEGGINGS.get());
+        return stack.getItem() instanceof SpaceSuitItem;
+    }
+
+    public static boolean isSpaceSuitPart(ItemStack stack, ArmorType armorType) {
+        return stack.getItem() instanceof SpaceSuitItem spaceSuitItem && spaceSuitItem.getArmorType() == armorType;
     }
 
     public static boolean isLivingInArmor(LivingEntity entity, EquipmentSlot slot, Item item) {

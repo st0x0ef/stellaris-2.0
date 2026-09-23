@@ -6,6 +6,7 @@ import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import org.exodusstudio.stellaris.common.compats.jei.JEICompat;
+import org.exodusstudio.stellaris.common.compats.rei.REICompat;
 import org.exodusstudio.stellaris.common.data.space_station.SpaceStationData;
 import org.exodusstudio.stellaris.common.data.space_station.SpaceStationRecipe;
 import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
@@ -31,8 +32,9 @@ public record SyncSpaceStationsPacket(List<SpaceStationRecipe> recipes) implemen
         context.queue(() -> {
             SpaceStationData.SPACE_STATION_RECIPES.clear();
             SpaceStationData.SPACE_STATION_RECIPES.addAll(packet.recipes());
-            // JEI listed whatever it had at plugin init, which on a client is nothing.
+
             JEICompat.reloadRecipesSafe();
+            REICompat.reloadDisplaysSafe();
         });
     }
 

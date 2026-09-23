@@ -6,7 +6,7 @@ iconType: entity
 
 This is an Evolved Parasite Villager. It is the evolved form of the [ref=stellaris:mobs/parasite_villager]Parasite Villager[ref].
 
-[entity=stellaris:parasite_affected_villager_evolved scale=25 width=150 rotation=(0,180,0)]
+[entity=stellaris:parasite_affected_villager_evolved scale=25 width=150 height=100]
 
 Unlike its earlier form, this one hunts. It actively chases players, villagers and iron golems. 
 

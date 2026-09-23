@@ -2,7 +2,7 @@
   "type": "stellaris:blending",
   "ingredients": [
     {
-      "ingredient": "minecraft:quartz",
+      "ingredient": "#c:gems/quartz",
       "count": 2
     },
     "#minecraft:coals"

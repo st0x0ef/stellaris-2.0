@@ -5,7 +5,7 @@
     "minecraft:paper",
     "minecraft:paper",
     "minecraft:paper",
-    "stellaris:titanium_ingot"
+    "#c:ingots/titanium"
   ],
   "result": {
     "id": "stellaris:space_station_blueprint",

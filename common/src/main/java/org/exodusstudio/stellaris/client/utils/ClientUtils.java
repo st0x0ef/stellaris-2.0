@@ -11,6 +11,7 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.level.Level;
+import org.exodusstudio.stellaris.client.renderers.mobs.StellarisMobRenderState;
 import org.joml.Quaternionf;
 import org.joml.Vector3f;
 
@@ -42,64 +43,63 @@ public class ClientUtils {
         return type.create(level, EntitySpawnReason.LOAD);
     }
 
-    /**
-     * Render a living entity in a GUI with a default rotation and mouse-following movement.
-     */
-    public static void renderEntityInGui(GuiGraphicsExtractor graphics, int x0, int y0, int x1, int y1, int size, float offsetY, float mouseX, float mouseY, LivingEntity entity, Vector3f defaultRotation) {
-        EntityRenderState renderState = extractRenderState(entity);
+    private static final float GUI_VIEW_PITCH = 20.0F;
+    private static final float GUI_VIEW_YAW = -30.0F;
+    private static final int FULL_BRIGHT = 0xF000F0;
 
-        if(defaultRotation == null){
-            defaultRotation = new Vector3f(0.0F, 0.0F, 0.0F);
-        }
-
-        float centerX = (float) (x0 + x1) / 2.0F;
-        float centerY = (float) (y0 + y1) / 2.0F;
-        float xAngle = (float) Math.atan((centerX - mouseX) / 40.0F);
-        float yAngle = (float) Math.atan((centerY - mouseY) / 40.0F);
-
-        applyLivingEntityDefaults(renderState);
-
-        float defaultPitch = defaultRotation.x;
-        float defaultYaw = defaultRotation.y;
-        float defaultRoll = defaultRotation.z;
-
-        if (renderState instanceof LivingEntityRenderState livingRenderState) {
-            livingRenderState.bodyRot = 180.0F + defaultYaw + xAngle * 20.0F;
-            livingRenderState.yRot = defaultYaw + xAngle * 20.0F;
-
-            if (livingRenderState.pose != Pose.FALL_FLYING) {
-                livingRenderState.xRot = defaultPitch - yAngle * 20.0F;
-            } else {
-                livingRenderState.xRot = defaultPitch;
-            }
-        }
-
-        Quaternionf rotation = new Quaternionf()
-                .rotateZ((float) Math.PI)
-                .rotateY(defaultYaw * ((float) Math.PI / 180F))
-                .rotateX(defaultPitch * ((float) Math.PI / 180F))
-                .rotateZ(defaultRoll * ((float) Math.PI / 180F));
-        Quaternionf xRotation = new Quaternionf().rotateX(yAngle * 20.0F * ((float) Math.PI / 180F));
-        rotation.mul(xRotation);
-
-        Vector3f translation = new Vector3f(0.0F, renderState.boundingBoxHeight / 2.0F + offsetY, 0.0F);
-        graphics.entity(renderState, (float) size, translation, rotation, xRotation, x0, y0, x1, y1);
+    public static void renderEntityInGui(GuiGraphicsExtractor graphics, int x0, int y0, int x1, int y1, float size, float offsetY, Entity entity, Vector3f rotation) {
+        renderEntityInGui(graphics, x0, y0, x1, y1, size, offsetY, extractRenderState(entity), rotation);
     }
 
-    private static void applyLivingEntityDefaults(EntityRenderState renderState) {
+    public static void renderEntityIcon(GuiGraphicsExtractor graphics, int x, int y, int boxSize, float size, float offsetY, Entity entity, Vector3f rotation) {
+        EntityRenderState renderState = extractRenderState(entity);
+        if (size <= 0) {
+            float extent = Math.max(renderState.boundingBoxHeight, renderState.boundingBoxWidth);
+            size = extent > 0 ? boxSize * 0.85F / extent : boxSize;
+        }
+        renderEntityInGui(graphics, x, y, x + boxSize, y + boxSize, size, offsetY, renderState, rotation);
+    }
+
+    private static void renderEntityInGui(GuiGraphicsExtractor graphics, int x0, int y0, int x1, int y1, float size, float offsetY, EntityRenderState renderState, Vector3f rotation) {
+        if (rotation == null) {
+            rotation = new Vector3f();
+        }
+
+        if (renderState instanceof LivingEntityRenderState livingRenderState) {
+            livingRenderState.bodyRot = 180.0F;
+            livingRenderState.yRot = 0.0F;
+            livingRenderState.xRot = 0.0F;
+        } else if (renderState instanceof StellarisMobRenderState mobRenderState) {
+            mobRenderState.bodyRotation = 180.0F;
+            mobRenderState.headYaw = 0.0F;
+            mobRenderState.headPitch = 0.0F;
+            mobRenderState.inWater = true;
+            mobRenderState.swimAmount = 1.0F;
+        }
+        renderState.lightCoords = FULL_BRIGHT;
+
+        Quaternionf view = new Quaternionf().rotateX((float) Math.toRadians(GUI_VIEW_PITCH + rotation.x));
+        Quaternionf pose = new Quaternionf()
+                .rotateZ((float) Math.PI)
+                .mul(view)
+                .rotateY((float) Math.toRadians(GUI_VIEW_YAW + rotation.y))
+                .rotateZ((float) Math.toRadians(rotation.z));
+
+        Vector3f translation = new Vector3f(0.0F, renderState.boundingBoxHeight / 2.0F + offsetY, 0.0F);
+        graphics.entity(renderState, size, translation, pose, view, x0, y0, x1, y1);
+    }
+
+    private static EntityRenderState extractRenderState(Entity entity) {
+        EntityRenderDispatcher entityRenderDispatcher = Minecraft.getInstance().getEntityRenderDispatcher();
+        EntityRenderer<? super Entity, ?> renderer = entityRenderDispatcher.getRenderer(entity);
+        EntityRenderState renderState = renderer.createRenderState(entity, 1.0F);
+        renderState.shadowPieces.clear();
+        renderState.outlineColor = 0;
         if (renderState instanceof LivingEntityRenderState livingRenderState) {
             livingRenderState.boundingBoxWidth /= livingRenderState.scale;
             livingRenderState.boundingBoxHeight /= livingRenderState.scale;
             livingRenderState.scale = 1.0F;
         }
-    }
-
-    private static EntityRenderState extractRenderState(LivingEntity entity) {
-        EntityRenderDispatcher entityRenderDispatcher = Minecraft.getInstance().getEntityRenderDispatcher();
-        EntityRenderer<? super LivingEntity, ?> renderer = entityRenderDispatcher.getRenderer(entity);
-        EntityRenderState renderState = renderer.createRenderState(entity, 1.0F);
-        renderState.shadowPieces.clear();
-        renderState.outlineColor = 0;
         return renderState;
     }
 

@@ -5,7 +5,7 @@
     "III"
   ],
   "key": {
-    "I": "minecraft:iron_ingot",
+    "I": "#c:ingots/iron",
     "C": "stellaris:yellow_can"
   },
   "result": {"id": "stellaris:big_yellow_can"}

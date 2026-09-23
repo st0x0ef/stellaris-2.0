@@ -5,8 +5,8 @@
     "T T"
   ],
   "key": {
-    "#": "minecraft:copper_ingot",
-    "G": "minecraft:glass",
+    "#": "#c:ingots/copper",
+    "G": "#c:glass_blocks/colorless",
     "T": "#stellaris:titanium_materials"
   },
   "result": {

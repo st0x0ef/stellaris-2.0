@@ -1,3 +1,18 @@
-# Stellaris 2.0.0
+# Stellaris 2.0.3 for MC 26.1.2
 
-In this **Major** update, we totally reworked the mod from scratch. This update feature a brand-new Moon, with many things to explore and an imminent threat that must be contained.
+## Changes
+- Improve entity rendering in the tablet
+- Display the lander model for the lander entry in the tablet
+- Clean some outdated data in the rover entry in the tablet
+- Change cable and pipe recipes
+- Added a tooltip to the tablet
+
+## Removed
+- Rover cargo module (will be automatically replaced by the rocket equivalent)
+- Rover hydrogen motor module (will be automatically replaced by the rocket equivalent)
+
+## Fixes
+- Fix oil counting as diesel in fuel check
+- Fix player pose in the rocket
+- Fix planet selection app hover texture in the tablet not being centered
+- Fix trophies hitbox being too big

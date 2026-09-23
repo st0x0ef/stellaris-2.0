@@ -6,8 +6,8 @@
     "TST"
   ],
   "key": {
-    "T": "stellaris:titanium_ingot",
-    "S": "stellaris:silicon",
+    "T": "#c:ingots/titanium",
+    "S": "#c:silicon",
     "P": "minecraft:flower_pot"
   },
   "result": {

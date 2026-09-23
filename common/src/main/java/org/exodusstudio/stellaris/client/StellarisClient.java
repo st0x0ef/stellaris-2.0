@@ -17,6 +17,7 @@ import org.exodusstudio.stellaris.client.events.ClientEvents;
 import org.exodusstudio.stellaris.client.overlays.*;
 import org.exodusstudio.stellaris.client.registry.BoatModelLayerRegistry;
 import org.exodusstudio.stellaris.client.registry.FluidInfosRegistry;
+import org.exodusstudio.stellaris.common.compats.rei.REICompat;
 import org.exodusstudio.stellaris.client.registry.KeyMappingsRegistry;
 import org.exodusstudio.stellaris.client.renderers.rover.RoverModel;
 import org.exodusstudio.stellaris.client.renderers.flag.FlagBlockModel;
@@ -75,6 +76,10 @@ public class StellarisClient {
                 OxygenDebugRenderer::clientTick
         );
 
+        ClientTickEvent.CLIENT_POST.register(
+                REICompat::clientTick
+        );
+
         ClientEvents.init();
 
         PlatformClientHelper.registerConfigScreens(
@@ -126,6 +131,7 @@ public class StellarisClient {
                 ItemsRegistry.SPACE_SUIT_BOOTS.get(),
                 ItemsRegistry.SPACE_SUIT_LEGGINGS.get(),
                 ItemsRegistry.SPACE_SUIT_HELMET.get(),
+                ItemsRegistry.CREATIVE_SPACE_SUIT_HELMET.get(),
                 ItemsRegistry.SPACE_SUIT_CHESTPLATE.get()
         );
     }

@@ -60,6 +60,7 @@ public final class Stellaris {
         BlockEntitiesRegistry.BLOCK_ENTITY_TYPE.register();
         ProcessorsRegistry.STRUCTURE_PROCESSORS.register();
         ItemsRegistry.ITEMS.register();
+        ItemsRegistry.registerAliases();
         ModulesRegistry.init();
         CreativeTabsRegistry.register();
         StatsRegistry.STATS.register();

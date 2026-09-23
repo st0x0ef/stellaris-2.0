@@ -2,12 +2,11 @@ package org.exodusstudio.stellaris.client.renderers.gravity_manipulator;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
-import net.minecraft.client.renderer.blockentity.state.BlockEntityRenderState;
+import net.minecraft.client.renderer.feature.ModelFeatureRenderer;
 import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.client.renderer.state.level.CameraRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
@@ -15,15 +14,17 @@ import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.client.resources.model.sprite.SpriteGetter;
 import net.minecraft.client.resources.model.sprite.SpriteId;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.resources.Identifier;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.Vec3;
 import org.exodusstudio.stellaris.common.blocks.GravityManipulatorBlock;
 import org.exodusstudio.stellaris.common.blocks.entities.machines.GravityManipulatorBlockEntity;
 import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
+import org.jspecify.annotations.Nullable;
 
-public class GravityManipulatorBlockRenderer<T extends GravityManipulatorBlockEntity> implements BlockEntityRenderer<T, BlockEntityRenderState> {
+public class GravityManipulatorBlockRenderer<T extends GravityManipulatorBlockEntity> implements BlockEntityRenderer<T, GravityManipulatorRenderState> {
     public static final Identifier TEXTURE = IdentifierUtils.texture("block/machines/gravity_manipulator");
 
     private final GravityManipulatorModel model;
@@ -40,28 +41,39 @@ public class GravityManipulatorBlockRenderer<T extends GravityManipulatorBlockEn
     }
 
     @Override
-    public void submit(BlockEntityRenderState renderState, PoseStack poseStack, SubmitNodeCollector nodeCollector, CameraRenderState cameraRenderState) {
-        if (Minecraft.getInstance().level != null && Minecraft.getInstance().level.getBlockEntity(renderState.blockPos) instanceof  GravityManipulatorBlockEntity gravityManipulatorBlockEntity) {
-            Direction direction = gravityManipulatorBlockEntity.getBlockState().getValue(GravityManipulatorBlock.FACING);
+    public void extractRenderState(T blockEntity, GravityManipulatorRenderState renderState, float partialTicks, Vec3 cameraPosition, ModelFeatureRenderer.@Nullable CrumblingOverlay breakProgress) {
+        BlockEntityRenderer.super.extractRenderState(blockEntity, renderState, partialTicks, cameraPosition, breakProgress);
 
-            poseStack.pushPose();
+        Level level = blockEntity.getLevel();
 
-            poseStack.translate(0.5D, 1.5D, 0.5D);
-            poseStack.scale(-1.0F, -1.0F, 1.0F);
-            poseStack.mulPose(Axis.YP.rotationDegrees(direction.toYRot()));
+        renderState.facing = blockEntity.getBlockState().getValue(GravityManipulatorBlock.FACING);
+        renderState.active = level != null && blockEntity.isActive();
 
-            if (gravityManipulatorBlockEntity.isActive()) {
-                this.model.animateBlockCore(1f / Minecraft.getInstance().getFps(), gravityManipulatorBlockEntity.getGravity());
-            }
-
-            nodeCollector.submitModelPart(this.model.root(), poseStack, material.renderType(RenderTypes::entityCutout), renderState.lightCoords, OverlayTexture.NO_OVERLAY, sprites.get(material));
-            poseStack.popPose();
+        if (renderState.active) {
+            GravityManipulatorModel.animateCore(renderState, level.getGameTime() + partialTicks, blockEntity.getGravity());
+        } else {
+            GravityManipulatorModel.restCore(renderState);
         }
     }
 
     @Override
-    public BlockEntityRenderState createRenderState() {
-        return new BlockEntityRenderState();
+    public void submit(GravityManipulatorRenderState renderState, PoseStack poseStack, SubmitNodeCollector nodeCollector, CameraRenderState cameraRenderState) {
+        poseStack.pushPose();
+
+        poseStack.translate(0.5D, 1.5D, 0.5D);
+        poseStack.scale(-1.0F, -1.0F, 1.0F);
+        poseStack.mulPose(Axis.YP.rotationDegrees(renderState.facing.toYRot()));
+
+        nodeCollector.submitModel(this.model, renderState, poseStack,
+                material.renderType(RenderTypes::entityCutout), renderState.lightCoords,
+                OverlayTexture.NO_OVERLAY, -1, sprites.get(material), 0, null);
+
+        poseStack.popPose();
+    }
+
+    @Override
+    public GravityManipulatorRenderState createRenderState() {
+        return new GravityManipulatorRenderState();
     }
 
     @Override

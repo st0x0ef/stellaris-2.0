@@ -6,7 +6,7 @@
     "DDD"
   ],
   "key": {
-    "D": "stellaris:desh_ingot",
+    "D": "#c:ingots/desh",
     "M": "stellaris:small_rocket_model"
   },
   "result": {"id": "stellaris:big_rocket_model"}

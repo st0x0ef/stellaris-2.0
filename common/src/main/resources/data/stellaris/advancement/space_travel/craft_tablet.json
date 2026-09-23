@@ -1,0 +1,33 @@
+{
+  "parent": "stellaris:space_travel/find_titanium",
+  "criteria": {
+    "tablet": {
+      "conditions": {
+        "items": [
+          {
+            "items": "stellaris:tablet"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.stellaris.craft_tablet.description"
+    },
+    "frame": "task",
+    "icon": {
+      "id": "stellaris:tablet"
+    },
+    "title": {
+      "translate": "advancements.stellaris.craft_tablet.title"
+    }
+  },
+  "requirements": [
+    [
+      "tablet"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

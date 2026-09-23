@@ -6,9 +6,9 @@
     "III"
   ],
   "key": {
-    "I": "minecraft:iron_ingot",
+    "I": "#c:ingots/iron",
     "C": "#stellaris:small_can",
-    "D": "minecraft:gray_dye"
+    "D": "#c:dyes/gray"
   },
   "result": {"id": "stellaris:big_gray_can"}
 }

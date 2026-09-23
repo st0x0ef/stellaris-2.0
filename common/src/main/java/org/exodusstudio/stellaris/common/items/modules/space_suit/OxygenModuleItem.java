@@ -1,5 +1,6 @@
 package org.exodusstudio.stellaris.common.items.modules.space_suit;
 
+import com.fej1fun.potentials.fluid.UniversalFluidItemStorage;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
@@ -15,11 +16,8 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.component.TooltipDisplay;
 import org.exodusstudio.stellaris.client.overlays.SpaceSuitOverlay;
-import org.exodusstudio.stellaris.common.fluid.FluidUtil;
 import org.exodusstudio.stellaris.common.items.space_suit.SpaceSuitHelmet;
 import org.exodusstudio.stellaris.common.modules.space_suit.SpaceSuitModule;
-import org.exodusstudio.stellaris.common.registries.DataComponentsRegistry;
-import org.exodusstudio.stellaris.common.registries.ItemsRegistry;
 import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
 import org.exodusstudio.stellaris.common.utils.Utils;
 import org.joml.Vector2i;
@@ -51,7 +49,7 @@ public class OxygenModuleItem extends Item implements SpaceSuitModule.OxygenModu
 
     @Override
     public boolean canBeAppliedToSpaceSuitPart(ItemStack part) {
-        return part.is(ItemsRegistry.SPACE_SUIT_HELMET.get());
+        return part.getItem() instanceof SpaceSuitHelmet;
     }
 
     @Override
@@ -66,8 +64,9 @@ public class OxygenModuleItem extends Item implements SpaceSuitModule.OxygenModu
         Font font = Minecraft.getInstance().font;
         x = SpaceSuitOverlay.PADDING;
 
-        if (stack.getItem() instanceof SpaceSuitHelmet && SpaceSuitHelmet.getOxygenCapacity(stack) > 0) {
-            long oxygen = FluidUtil.readStoredFluid(stack, DataComponentsRegistry.FLUID_LIST.get(), 0).getAmount();
+        if (stack.getItem() instanceof SpaceSuitHelmet helmet && SpaceSuitHelmet.getOxygenCapacity(stack) > 0) {
+            UniversalFluidItemStorage oxygenTank = helmet.getFluidTank(stack);
+            long oxygen = oxygenTank == null ? 0L : oxygenTank.getFluidInTank(0).getAmount();
             long maxOxygen = SpaceSuitHelmet.getOxygenCapacity(stack);
 
 

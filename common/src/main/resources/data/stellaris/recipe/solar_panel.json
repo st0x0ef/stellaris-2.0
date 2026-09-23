@@ -6,9 +6,9 @@
     "III"
   ],
   "key": {
-    "G": "minecraft:glass",
-    "T": "stellaris:titanium_ingot",
-    "I": "minecraft:iron_ingot"
+    "G": "#c:glass_blocks/colorless",
+    "T": "#c:ingots/titanium",
+    "I": "#c:ingots/iron"
   },
   "result": {
     "id": "stellaris:solar_panel",

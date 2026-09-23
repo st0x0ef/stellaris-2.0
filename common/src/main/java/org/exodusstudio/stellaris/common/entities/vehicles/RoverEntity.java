@@ -39,7 +39,8 @@ import org.exodusstudio.stellaris.common.fluid.VehicleFuelStorage;
 import org.exodusstudio.stellaris.common.menus.RoverMenu;
 import org.exodusstudio.stellaris.common.modules.Modules;
 import org.exodusstudio.stellaris.common.modules.rover.RoverModule;
-import org.exodusstudio.stellaris.common.modules.rover.RoverModules;
+import org.exodusstudio.stellaris.common.modules.rover.RoverUpgrades;
+import org.exodusstudio.stellaris.common.modules.rocket.RocketModule;
 import org.exodusstudio.stellaris.common.network.packets.SyncRoverDataPacket;
 import org.exodusstudio.stellaris.common.registries.DataComponentsRegistry;
 import org.exodusstudio.stellaris.common.registries.EntityDataSerializersRegistry;
@@ -51,22 +52,17 @@ import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3d;
 
 import java.util.List;
-import java.util.Optional;
 
 public class RoverEntity extends AbstractRoverBase implements HasCustomInventoryScreen, ContainerListener, FluidProvider.ENTITY, FuelledVehicle {
 
-    public static final EntityDataAccessor<Modules<RoverModule>> ROVER_MODULES = SynchedEntityData.defineId(RoverEntity.class, EntityDataSerializersRegistry.ROVER_MODULES);
+    public static final EntityDataAccessor<RoverUpgrades> ROVER_MODULES = SynchedEntityData.defineId(RoverEntity.class, EntityDataSerializersRegistry.ROVER_MODULES);
 
     /** Maximum inventory rows (1 base + cargo module rows). Governs the backing container size. */
     public static final int MAX_INVENTORY_ROWS = 3;
 
-    private static final int BASE_TANK_CAPACITY = 3000;
+    private static final int CARGO_MODULE_ROWS = 2;
 
-    /**
-     * Fuel burned each time the {@code distanceBetweenFuelConsumption} interval (20 blocks) is crossed while driving.
-     * At 2 units / 20 blocks a full {@link #BASE_TANK_CAPACITY} tank lasts ~30,000 blocks (~10,000 per bucket).
-     */
-    private static final int FUEL_CONSUMPTION_PER_INTERVAL = 2;
+    private static final int BASE_TANK_CAPACITY = 3000;
 
     public final SimpleContainer inventory;
 
@@ -124,24 +120,31 @@ public class RoverEntity extends AbstractRoverBase implements HasCustomInventory
     @Override
     protected void defineSynchedData(SynchedEntityData.Builder builder) {
         super.defineSynchedData(builder);
-        builder.define(ROVER_MODULES, RoverModules.empty());
+        builder.define(ROVER_MODULES, RoverUpgrades.empty());
     }
 
-    public void setRoverModules(Modules<RoverModule> modules) {
-        this.entityData.set(ROVER_MODULES, modules);
+    public void setUpgrades(RoverUpgrades upgrades) {
+        this.entityData.set(ROVER_MODULES, upgrades);
     }
 
-    public Modules<RoverModule> getRoverModules() {
+    public RoverUpgrades getUpgrades() {
         return this.entityData.get(ROVER_MODULES);
     }
 
+    public Modules<RoverModule> getRoverModules() {
+        return this.getUpgrades().roverModules();
+    }
+
     /**
-     * The fuel type the motor accepts, driven by an installed MOTOR module (defaults to diesel).
+     * The fuel type the motor accepts, driven by an installed custom fuel module (defaults to diesel).
      */
     public FuelType.Type getMotorFuelType() {
-        for (RoverModule module : this.getRoverModules()) {
-            if (module.getRoverFeature() == RoverModule.RoverFeature.MOTOR && module.getFuelType() != null) {
-                return module.getFuelType();
+        for (RocketModule module : this.getUpgrades().rocketModules()) {
+            if (module instanceof RocketModule.CustomFuelModule fuelModule) {
+                FuelType.Type type = FuelType.Type.getTypeBasedOnFluid(fuelModule.getFuel().getFluid());
+                if (type != null) {
+                    return type;
+                }
             }
         }
         return FuelType.Type.DIESEL;
@@ -177,11 +180,7 @@ public class RoverEntity extends AbstractRoverBase implements HasCustomInventory
     }
 
     public int getInventoryRows() {
-        int rows = 1;
-        for (RoverModule module : this.getRoverModules()) {
-            rows += module.getExtraInventoryRows();
-        }
-        return Math.min(rows, MAX_INVENTORY_ROWS);
+        return this.hasCargoModule() ? 1 + CARGO_MODULE_ROWS : 1;
     }
 
     @Override
@@ -278,14 +277,13 @@ public class RoverEntity extends AbstractRoverBase implements HasCustomInventory
     }
 
     @Override
-    protected boolean consumeFuel() {
-        if (this.getFuel() <= 0) {
-            return false;
-        }
+    protected boolean hasFuel() {
+        return this.getFuel() > 0;
+    }
 
-        FUEL = Math.max(0, FUEL - FUEL_CONSUMPTION_PER_INTERVAL);
-
-        return true;
+    @Override
+    protected void consumeFuel(int amount) {
+        FUEL = Math.max(0, FUEL - amount);
     }
 
     private void checkContainer() {
@@ -344,7 +342,7 @@ public class RoverEntity extends AbstractRoverBase implements HasCustomInventory
 
     public ItemStack toItemStack() {
         ItemStack roverStack = new ItemStack(ItemsRegistry.ROVER.get(), 1);
-        roverStack.set(DataComponentsRegistry.ROVER_MODULES.get(), this.getRoverModules());
+        roverStack.set(DataComponentsRegistry.ROVER_MODULES.get(), this.getUpgrades());
 
         FluidStack fuel = fuelTank.getFluidInTank(0);
         if (!fuel.isEmpty()) {
@@ -357,8 +355,7 @@ public class RoverEntity extends AbstractRoverBase implements HasCustomInventory
 
     public static RoverEntity fromItemStack(Level level, ItemStack stack) {
         RoverEntity rover = new RoverEntity(org.exodusstudio.stellaris.common.registries.EntityTypesRegistry.ROVER.get(), level);
-        Modules<RoverModule> modules = stack.getOrDefault(DataComponentsRegistry.ROVER_MODULES.get(), RoverModules.empty());
-        rover.setRoverModules(modules);
+        rover.setUpgrades(stack.getOrDefault(DataComponentsRegistry.ROVER_MODULES.get(), RoverUpgrades.empty()));
 
         FluidStack stored = FluidUtil.readStoredFluid(stack, DataComponentsRegistry.FLUID_LIST.get(), 0);
         FuelType.Type type = FuelType.Type.getTypeBasedOnFluid(stored.getFluid());
@@ -386,7 +383,7 @@ public class RoverEntity extends AbstractRoverBase implements HasCustomInventory
         InventorySaver saver = InventorySaver.fromContainer(this.inventory);
         saver.saveInventory(output);
 
-        output.store("rover_modules", RoverModules.CODEC, this.getRoverModules());
+        output.store("rover_modules", RoverUpgrades.CODEC, this.getUpgrades());
 
         output.putInt("fuel", FUEL);
 
@@ -401,8 +398,7 @@ public class RoverEntity extends AbstractRoverBase implements HasCustomInventory
 
         InventorySaver.readInventory(input, this.inventory);
 
-        Optional<Modules<RoverModule>> modules = input.read("rover_modules", RoverModules.CODEC);
-        modules.ifPresent(this::setRoverModules);
+        input.read("rover_modules", RoverUpgrades.CODEC).ifPresent(this::setUpgrades);
 
         input.getInt("fuel").ifPresent(fuel -> FUEL = fuel);
 
@@ -440,7 +436,7 @@ public class RoverEntity extends AbstractRoverBase implements HasCustomInventory
     }
 
     public boolean hasCargoModule() {
-        return this.getRoverModules().contains(ModulesRegistry.ROVER_CARGO.get());
+        return this.getUpgrades().rocketModules().contains(ModulesRegistry.CARGO.get());
     }
 
     @Override

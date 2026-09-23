@@ -31,7 +31,7 @@ side = "BOTH"
 [[dependencies.stellaris]]
 modId = "architectury"
 type = "required"
-versionRange = "[20.1.13,)"
+versionRange = "[20.1.15,)"
 ordering = "AFTER"
 side = "BOTH"
 
@@ -62,6 +62,13 @@ type = "optional"
 versionRange = "[29,)"
 ordering = "AFTER"
 side = "BOTH"
+
+[[dependencies.stellaris]]
+modId = "roughlyenoughitems"
+type = "optional"
+versionRange = "[26.1,)"
+ordering = "AFTER"
+side = "CLIENT"
 
 [[dependencies.stellaris]]
 modId = "jade"

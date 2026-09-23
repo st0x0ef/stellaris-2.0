@@ -18,9 +18,10 @@ public class AbstractBoatMixin {
             at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/material/FluidState;is(Lnet/minecraft/tags/TagKey;)Z"),
             require = 1
     )
-    private boolean stellaris$onlyLunarBoatsFloatOnBlueLiquid(FluidState instance, TagKey<Fluid> tag) {
-        if (tag == FluidTags.WATER && instance.is(TagsRegistry.FluidTags.BLUE_LIQUID)) {
-            return ((AbstractBoat) (Object) this).is(TagsRegistry.EntityTags.LUNAR_BOATS);
+    private boolean stellaris$boatsOnlyFloatOnVanillaWater(FluidState instance, TagKey<Fluid> tag) {
+        if (tag == FluidTags.WATER && instance.is(TagsRegistry.FluidTags.STELLARIS_FLUIDS)) {
+            return instance.is(TagsRegistry.FluidTags.BLUE_LIQUID)
+                    && ((AbstractBoat) (Object) this).is(TagsRegistry.EntityTags.LUNAR_BOATS);
         }
 
         return instance.is(tag);

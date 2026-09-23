@@ -6,7 +6,7 @@ iconType: entity
 
 This is a Parasite. This creature lives on the Moon.
 
-[entity=stellaris:lunar_parasite scale=50 width=150 rotation=(0,180,0)]
+[entity=stellaris:lunar_parasite scale=50 width=150]
 
 This alien is aggressive and will attach itself to you to inflict the infection. 
 It also hunts villagers, and a villager it latches onto is transformed into a [ref=stellaris:mobs/parasite_villager]Parasite Villager[ref]. 

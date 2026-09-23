@@ -35,6 +35,8 @@ public class MarkdownPage {
     public Identifier entryId;
     public IconType iconType;
 
+    public boolean overrideTitle = false;
+
 
     public static final Codec<MarkdownPage> CODEC = RecordCodecBuilder.create(instance -> instance.group(
             Identifier.CODEC.fieldOf("id").forGetter((m) -> m.id),
@@ -117,6 +119,10 @@ public class MarkdownPage {
 
         if (line.startsWith("entryId:")) {
             this.entryId = Identifier.parse(line.substring(8).trim());
+        }
+
+        if (line.startsWith("overrideTitle:")) {
+            this.overrideTitle = Boolean.parseBoolean(line.substring(14).trim());
         }
 
         if(line.startsWith("associatedBlocks:")) {

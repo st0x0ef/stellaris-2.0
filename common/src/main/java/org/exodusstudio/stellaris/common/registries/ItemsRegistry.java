@@ -3,6 +3,7 @@ package org.exodusstudio.stellaris.common.registries;
 import dev.architectury.core.item.ArchitecturyBucketItem;
 import dev.architectury.registry.registries.DeferredRegister;
 import dev.architectury.registry.registries.RegistrySupplier;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
@@ -17,17 +18,17 @@ import org.exodusstudio.stellaris.common.items.infection.ParasiteItem;
 import org.exodusstudio.stellaris.common.items.infection.PathogenStorageCellItem;
 import org.exodusstudio.stellaris.common.items.infection.VaccineItem;
 import org.exodusstudio.stellaris.common.items.modules.rocket.*;
-import org.exodusstudio.stellaris.common.items.modules.rover.RoverCargoModuleItem;
-import org.exodusstudio.stellaris.common.items.modules.rover.RoverMotorModuleItem;
 import org.exodusstudio.stellaris.common.items.modules.rover.RoverSpeedModuleItem;
 import org.exodusstudio.stellaris.common.items.modules.rover.RoverTankModuleItem;
 import org.exodusstudio.stellaris.common.items.modules.space_suit.*;
+import org.exodusstudio.stellaris.common.items.space_suit.CreativeSpaceSuitHelmet;
 import org.exodusstudio.stellaris.common.items.space_suit.SpaceSuitBoots;
 import org.exodusstudio.stellaris.common.items.space_suit.SpaceSuitChestplate;
 import org.exodusstudio.stellaris.common.items.space_suit.SpaceSuitHelmet;
 import org.exodusstudio.stellaris.common.items.space_suit.SpaceSuitLeggings;
 import org.exodusstudio.stellaris.common.items.tools.*;
 import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
+import org.exodusstudio.stellaris.platform.RegistryPlatform;
 import org.exodusstudio.stellaris.common.vehicle_upgrade.FuelType;
 import org.jetbrains.annotations.NotNull;
 
@@ -71,14 +72,13 @@ public final class ItemsRegistry {
     public static final RegistrySupplier<RoverItem> ROVER = item("rover", RoverItem::new);
 
     // Rover Modules
-    public static final RegistrySupplier<RoverCargoModuleItem> ROVER_CARGO_MODULE = item("rover_cargo_module", p -> new RoverCargoModuleItem(p, 2));
     public static final RegistrySupplier<RoverTankModuleItem> ROVER_TANK_MODULE = item("rover_tank_module", p -> new RoverTankModuleItem(p, 6000));
     public static final RegistrySupplier<RoverSpeedModuleItem> ROVER_SPEED_MODULE = item("rover_speed_module", p -> new RoverSpeedModuleItem(p, 1.5f));
-    public static final RegistrySupplier<RoverMotorModuleItem> ROVER_HYDROGEN_MOTOR = item("rover_hydrogen_motor", p -> new RoverMotorModuleItem(p, FuelType.Type.HYDROGEN));
 
 
     /** Rocket */
     public static final RegistrySupplier<RocketItem> ROCKET = item("rocket", new Item.Properties().arch$tab(CreativeTabsRegistry.STELLARIS_MAIN).stacksTo(1), RocketItem::new);
+    public static final RegistrySupplier<CreativeRocketItem> CREATIVE_ROCKET = item("creative_rocket", creativeProperties().stacksTo(1), CreativeRocketItem::new);
 
     // Modules
     public static final RegistrySupplier<ShieldModule> SHIELD_MODULE = item("shield_module", ShieldModule::new);
@@ -98,6 +98,7 @@ public final class ItemsRegistry {
 
     /** Space Suit Items */
     public static final RegistrySupplier<SpaceSuitHelmet> SPACE_SUIT_HELMET = item("space_suit_helmet", SpaceSuitHelmet::new);
+    public static final RegistrySupplier<CreativeSpaceSuitHelmet> CREATIVE_SPACE_SUIT_HELMET = item("creative_space_suit_helmet", creativeProperties(), CreativeSpaceSuitHelmet::new);
     public static final RegistrySupplier<SpaceSuitChestplate> SPACE_SUIT_CHESTPLATE = item("space_suit_chestplate", SpaceSuitChestplate::new);
     public static final RegistrySupplier<SpaceSuitLeggings> SPACE_SUIT_LEGGINGS = item("space_suit_leggings", SpaceSuitLeggings::new);
     public static final RegistrySupplier<SpaceSuitBoots> SPACE_SUIT_BOOTS = item("space_suit_boots", SpaceSuitBoots::new);
@@ -182,7 +183,7 @@ public final class ItemsRegistry {
     public static final RegistrySupplier<Item> MOON_BERRIES = item("moon_berries", (p) -> new Item(p.food(Foods.GLOW_BERRIES).useItemDescriptionPrefix()));
 
     // Fluids
-    public static final RegistrySupplier<ArchitecturyBucketItem> HYDROGEN_BUCKET = item("hydrogen_bucket", properties -> new ArchitecturyBucketItem(FluidsRegistry.HYDROGEN_STILL, properties));
+    public static final RegistrySupplier<ArchitecturyBucketItem> HYDROGEN_BUCKET = item("hydrogen_bucket", properties -> new ArchitecturyBucketItem(FluidsRegistry.HYDROGEN_STILL, properties.stacksTo(1)));
     public static final RegistrySupplier<ArchitecturyBucketItem> OIL_BUCKET = item("oil_bucket", properties -> new ArchitecturyBucketItem(FluidsRegistry.OIL_STILL, properties.stacksTo(1)));
     public static final RegistrySupplier<ArchitecturyBucketItem> FUEL_BUCKET = item("fuel_bucket", properties -> new ArchitecturyBucketItem(FluidsRegistry.FUEL_STILL, properties.stacksTo(1)));
     public static final RegistrySupplier<ArchitecturyBucketItem> DIESEL_BUCKET = item("diesel_bucket", properties -> new ArchitecturyBucketItem(FluidsRegistry.DIESEL_STILL, properties.stacksTo(1)));
@@ -226,6 +227,19 @@ public final class ItemsRegistry {
 
     public static final RegistrySupplier<SignItem> LUNAR_SIGN = ItemsRegistry.item("lunar_sign", p -> new SignItem(BlocksRegistry.LUNAR_SIGN.get(), BlocksRegistry.LUNAR_WALL_SIGN.get(), p));
     public static final RegistrySupplier<HangingSignItem> LUNAR_HANGING_SIGN = ItemsRegistry.item("lunar_hanging_sign", p -> new HangingSignItem(BlocksRegistry.LUNAR_HANGING_SIGN.get(), BlocksRegistry.LUNAR_WALL_HANGING_SIGN.get(), p));
+
+    public static Item.Properties creativeProperties() {
+        return new Item.Properties()
+                .arch$tab(CreativeTabsRegistry.STELLARIS_MAIN)
+                .rarity(Rarity.EPIC)
+                .component(DataComponents.ENCHANTMENT_GLINT_OVERRIDE, true);
+    }
+
+    /** Items that were removed or merged into another item: saved stacks load as the new item. */
+    public static void registerAliases() {
+        RegistryPlatform.addItemAlias(IdentifierUtils.id("rover_cargo_module"), IdentifierUtils.id("cargo_module"));
+        RegistryPlatform.addItemAlias(IdentifierUtils.id("rover_hydrogen_motor"), IdentifierUtils.id("hydrogen_motor"));
+    }
 
     public static RegistrySupplier<Item> item(String name) {
         return item(name, new Item.Properties().arch$tab(CreativeTabsRegistry.STELLARIS_MAIN));

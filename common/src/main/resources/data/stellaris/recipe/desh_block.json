@@ -6,7 +6,7 @@
     "###"
   ],
   "key": {
-    "#": "stellaris:desh_ingot"
+    "#": "#c:ingots/desh"
   },
   "result": {
     "id": "stellaris:desh_block",

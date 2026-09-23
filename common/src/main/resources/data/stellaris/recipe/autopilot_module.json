@@ -6,8 +6,8 @@
     "DTD"
   ],
   "key": {
-    "D": "stellaris:desh_ingot",
-    "T": "stellaris:titanium_ingot",
+    "D": "#c:ingots/desh",
+    "T": "#c:ingots/titanium",
     "C": "minecraft:compass"
   },
   "result": {"id": "stellaris:autopilot_module"}

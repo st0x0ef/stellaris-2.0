@@ -7,7 +7,7 @@
   ],
   "key": {
     "#": "stellaris:stripped_lunar_log",
-    "C": "minecraft:iron_chain"
+    "C": "#c:chains"
   },
   "result": {
     "id": "stellaris:lunar_hanging_sign",

@@ -1,5 +1,5 @@
 {
   "type": "minecraft:crafting_shapeless",
-  "ingredients": ["#stellaris:big_can", "minecraft:lime_dye"],
+  "ingredients": ["#stellaris:big_can", "#c:dyes/lime"],
   "result": {"id": "stellaris:big_lime_can"}
 }

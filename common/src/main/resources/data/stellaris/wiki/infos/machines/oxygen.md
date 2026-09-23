@@ -1,8 +1,9 @@
 ---
-title: Oxygen Machines
+title: Oxygen System
 entryId: stellaris:machines
 iconType: item
 associatedBlocks: [stellaris:oxygen_propagator,stellaris:oxygen_distributor]
+overrideTitle: true
 ---
 
 The Oxygen System is the most important system in the universe. Off Earth, an area without oxygen deals 0.5 damage every second to anything that breathes.

@@ -47,7 +47,6 @@ public class WikiMarkdownData extends SimplePreparableReloadListener<Map<Identif
     protected void apply(Map<Identifier, String> preparations, ResourceManager manager, ProfilerFiller profiler) {
         for(Identifier id : preparations.keySet()) {
 
-
             MarkdownPage page = new MarkdownPage(id, preparations.get(id));
 
             ENTRY_PAGES.put(id, page);

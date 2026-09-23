@@ -1,6 +1,6 @@
 {
   "type": "minecraft:blasting",
-  "ingredient": "stellaris:raw_titanium",
+  "ingredient": "#c:raw_materials/titanium",
   "result": {
     "id": "stellaris:titanium_ingot"
   },

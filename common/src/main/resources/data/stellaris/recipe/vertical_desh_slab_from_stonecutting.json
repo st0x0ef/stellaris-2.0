@@ -1,6 +1,6 @@
 {
   "type": "minecraft:stonecutting",
-  "ingredient": "stellaris:desh_block",
+  "ingredient": "#c:storage_blocks/desh",
   "result": {
     "id": "stellaris:vertical_desh_slab",
     "count": 2

@@ -15,12 +15,14 @@ Install them in the Upgrade tab of the [ref=stellaris:machines/engineering_stati
 **Cargo Module** 
 
 Raises the rocket's hold from 1 row to 3 rows. Everything in the hold comes back down with you inside the [ref=stellaris:rocket/lander]Lander[ref]. 
+It also fits the [ref=stellaris:items/rover]Rover[ref], where it adds the same 2 rows. 
 
 
 
 **Hydrogen Motor** 
 
 Switches the engine from Fuel over to Hydrogen. Empty the tank before installing it, a tank only holds one kind of fuel at a time. 
+It also fits the [ref=stellaris:items/rover]Rover[ref], switching it from Diesel to Hydrogen. 
 
 [item=stellaris:hydrogen_motor]
 

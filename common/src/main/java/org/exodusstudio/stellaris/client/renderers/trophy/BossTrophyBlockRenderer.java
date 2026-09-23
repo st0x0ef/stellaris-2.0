@@ -41,6 +41,11 @@ public class BossTrophyBlockRenderer implements BlockEntityRenderer<BossTrophyBl
         poseStack.scale(-1.0F, -1.0F, 1.0F);
         poseStack.mulPose(Axis.YP.rotationDegrees(renderState.facing.toYRot()));
 
+        poseStack.mulPose(Axis.YP.rotationDegrees(renderState.boss.getRotation().y));
+        poseStack.mulPose(Axis.ZP.rotationDegrees(renderState.boss.getRotation().z));
+        poseStack.mulPose(Axis.XP.rotationDegrees(renderState.boss.getRotation().x));
+
+
         // One renderer instance serves every trophy in the world, so the per-block transform rides the
         // PoseStack; mutating the shared ModelPart would leak between blocks once the submit is flushed.
         this.fits.get(renderState.boss).apply(poseStack);

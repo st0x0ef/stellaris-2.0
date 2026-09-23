@@ -7,9 +7,9 @@
   ],
   "key": {
     "L": "minecraft:lightning_rod",
-    "T": "stellaris:titanium_ingot",
-    "R": "minecraft:redstone",
-    "S": "stellaris:silicon"
+    "T": "#c:ingots/titanium",
+    "R": "#c:dusts/redstone",
+    "S": "#c:silicon"
   },
   "result": {
     "id": "stellaris:antenna",

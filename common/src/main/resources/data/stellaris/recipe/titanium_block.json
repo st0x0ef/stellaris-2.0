@@ -6,7 +6,7 @@
     "###"
   ],
   "key": {
-    "#": "stellaris:titanium_ingot"
+    "#": "#c:ingots/titanium"
   },
   "result": {
     "id": "stellaris:titanium_block",

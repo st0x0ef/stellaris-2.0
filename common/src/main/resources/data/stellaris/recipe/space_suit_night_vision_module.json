@@ -6,8 +6,8 @@
     "ABA"
   ],
   "key": {
-    "A": "minecraft:iron_ingot",
-    "B": "stellaris:titanium_nugget",
+    "A": "#c:ingots/iron",
+    "B": "#c:nuggets/titanium",
     "C": "minecraft:golden_carrot"
   },
   "result": {"id": "stellaris:space_suit_night_vision_module"}

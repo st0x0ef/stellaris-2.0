@@ -311,10 +311,10 @@ public final class BlocksRegistry {
 
     public static final BlockItemRegistrySupplier HEART_OF_LUNA_TROPHY = blockWithItem("heart_of_luna_trophy",
             BlockBehaviour.Properties.of().mapColor(MapColor.STONE).strength(2.5F).sound(SoundType.STONE).noOcclusion(),
-            BossTrophyBlock::new);
+            p -> new BossTrophyBlock(p, 14, 12, 10));
     public static final BlockItemRegistrySupplier STAR_CRAWLER_BOSS_TROPHY = blockWithItem("star_crawler_boss_trophy",
             BlockBehaviour.Properties.of().mapColor(MapColor.STONE).strength(2.5F).sound(SoundType.STONE).noOcclusion(),
-            BossTrophyBlock::new);
+            p -> new BossTrophyBlock(p, 14, 6, 12));
 
 
     public static <T extends FlowerBlock> BlockItemRegistrySupplier flower(String name, BlockBehaviour.Properties properties, Holder<MobEffect> mobEffect, float duration) {

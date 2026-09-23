@@ -7,9 +7,9 @@
   ],
   "key": {
     "P": "stellaris:blue_plasma",
-    "D": "stellaris:desh_ingot",
-    "O": "stellaris:novite_ingot",
-    "I": "minecraft:iron_ingot"
+    "D": "#c:ingots/desh",
+    "O": "#c:ingots/novite",
+    "I": "#c:ingots/iron"
   },
   "result": {
     "id": "stellaris:star_light_panel",

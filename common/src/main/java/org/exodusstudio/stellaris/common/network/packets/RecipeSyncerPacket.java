@@ -6,7 +6,8 @@ import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import org.exodusstudio.stellaris.common.compats.jei.JEICompat;
-import org.exodusstudio.stellaris.common.compats.jei.recipe_cache.RocketStationRecipeCache;
+import org.exodusstudio.stellaris.common.compats.rei.REICompat;
+import org.exodusstudio.stellaris.common.compats.recipe_cache.RocketStationRecipeCache;
 import org.exodusstudio.stellaris.common.data.recipes.RocketStationRecipe;
 import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
 
@@ -26,6 +27,7 @@ public record RecipeSyncerPacket(List<RocketStationRecipe> recipes) implements C
         context.queue(() -> {
             RocketStationRecipeCache.set(packet.recipes);
             JEICompat.reloadRecipesSafe();
+            REICompat.reloadDisplaysSafe();
         });
     }
 

@@ -98,7 +98,7 @@ public class FuelType {
             }
             if (fluid.isSame(FluidsRegistry.HYDROGEN_STILL.get())) {
                 return HYDROGEN;
-            } else if (fluid.isSame(FluidsRegistry.DIESEL_STILL.get()) || fluid.isSame(FluidsRegistry.OIL_STILL.get())) {
+            } else if (fluid.isSame(FluidsRegistry.DIESEL_STILL.get())) {
                 return DIESEL;
             } else if (fluid.isSame(FluidsRegistry.FUEL_STILL.get())) {
                 return FUEL;

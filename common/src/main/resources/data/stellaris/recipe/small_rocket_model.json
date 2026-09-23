@@ -6,7 +6,7 @@
     "TTT"
   ],
   "key": {
-    "T": "stellaris:titanium_ingot",
+    "T": "#c:ingots/titanium",
     "M": "stellaris:tiny_rocket_model"
   },
   "result": {"id": "stellaris:small_rocket_model"}

@@ -46,10 +46,10 @@ public record RocketItemRenderer(Identifier texture, boolean gui) implements Spe
             }
         }
 
-        RocketRenderer.RenderingContext renderingContext = new RocketRenderer.RenderingContext(rocketModules, poseStack, packedLight);
+        RocketRenderer.RenderingContext renderingContext = new RocketRenderer.RenderingContext(rocketModules, poseStack, packedLight, hasFoil);
         RenderType renderType = RocketRenderer.getRenderType(renderingContext);
         if  (!rocketModelPresent) {
-            nodeCollector.submitModelPart(RocketModelRegistry.create("tiny", Minecraft.getInstance().getEntityModels()).root(), poseStack, renderType, packedLight, OverlayTexture.NO_OVERLAY, null);
+            nodeCollector.submitModelPart(RocketModelRegistry.create("tiny", Minecraft.getInstance().getEntityModels()).root(), poseStack, renderType, packedLight, OverlayTexture.NO_OVERLAY, null, false, hasFoil);
         }
         modelState.preRenderModules(nodeCollector, poseStack, renderingContext, renderType);
         modelState.renderModules(renderingContext);

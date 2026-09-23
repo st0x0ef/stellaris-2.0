@@ -6,8 +6,8 @@
     "ABA"
   ],
   "key": {
-    "A": "minecraft:iron_ingot",
-    "B": "stellaris:titanium_nugget",
+    "A": "#c:ingots/iron",
+    "B": "#c:nuggets/titanium",
     "C": "minecraft:glass_bottle"
   },
   "result": {"id": "stellaris:space_suit_hydrogen_tank_module_tier_1"}

@@ -1,0 +1,33 @@
+{
+  "parent": "stellaris:space_travel/root",
+  "criteria": {
+    "titanium": {
+      "conditions": {
+        "items": [
+          {
+            "items": "stellaris:raw_titanium"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.stellaris.find_titanium.description"
+    },
+    "frame": "task",
+    "icon": {
+      "id": "stellaris:raw_titanium"
+    },
+    "title": {
+      "translate": "advancements.stellaris.find_titanium.title"
+    }
+  },
+  "requirements": [
+    [
+      "titanium"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

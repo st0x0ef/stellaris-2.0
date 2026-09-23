@@ -17,7 +17,6 @@ import org.exodusstudio.stellaris.common.items.space_suit.SpaceSuitHelmet;
 import org.exodusstudio.stellaris.common.modules.Modules;
 import org.exodusstudio.stellaris.common.modules.space_suit.SpaceSuitModule;
 import org.exodusstudio.stellaris.common.registries.DataComponentsRegistry;
-import org.exodusstudio.stellaris.common.registries.ItemsRegistry;
 import org.exodusstudio.stellaris.common.registries.ModulesRegistry;
 import org.exodusstudio.stellaris.common.utils.ModuleUtils;
 import org.exodusstudio.stellaris.common.utils.Utils;
@@ -38,7 +37,7 @@ public class NightVisionModuleItem extends Item implements SpaceSuitModule {
 
     @Override
     public boolean canBeAppliedToSpaceSuitPart(ItemStack part) {
-        return part.is(ItemsRegistry.SPACE_SUIT_HELMET.get());
+        return part.getItem() instanceof SpaceSuitHelmet;
     }
 
     @Override

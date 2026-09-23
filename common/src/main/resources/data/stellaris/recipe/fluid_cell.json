@@ -6,8 +6,8 @@
     "SBS"
   ],
   "key": {
-    "S": "stellaris:titanium_ingot",
-    "B": "minecraft:bucket"
+    "S": "#c:ingots/titanium",
+    "B": "#c:buckets/empty"
   },
   "result": {
     "id": "stellaris:fluid_cell",

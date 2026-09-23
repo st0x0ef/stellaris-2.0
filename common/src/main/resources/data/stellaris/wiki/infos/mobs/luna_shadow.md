@@ -6,7 +6,7 @@ iconType: entity
 
 The Luna Shadow is a hostile creature that lurks in the lunar forests.
 
-[entity=stellaris:luna_shadow scale=35 width=150 height=100 rotation=(0,180,0)] 
+[entity=stellaris:luna_shadow scale=35 icon_scale=6 offset=0.47 width=150 height=100] 
 
 This shadowy predator hunts players, villagers and iron golems alike. 
 It is immune to fire and resists knockback, making it a dangerous opponent. 

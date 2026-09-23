@@ -150,9 +150,9 @@ public final class HeartOfLunaCinematic {
             Vec3 offset = new Vec3((i&1)==0 ? -0.18 : 0.18,(i&2)==0 ? -0.18 : 0.18,(i&4)==0 ? -0.18 : 0.18);
             Vec3 from = vanilla.add(offset);
             var hit = mc.level.clip(new ClipContext(from,camera.add(offset),ClipContext.Block.COLLIDER,ClipContext.Fluid.NONE,mc.player));
-            if (hit.getType() == net.minecraft.world.phys.HitResult.Type.BLOCK && delta.lengthSqr()>0.0001) fraction=Math.min(fraction,Math.max(0,(hit.getLocation().distanceTo(from)-0.2)/delta.length()));
+            if (hit.getType() == net.minecraft.world.phys.HitResult.Type.BLOCK && delta.lengthSqr()>0.0001) fraction= Math.clamp((hit.getLocation().distanceTo(from) - 0.2) / delta.length(), 0, fraction);
         }
-        double dt = Math.max(0, Math.min(2, clock - lastClock));
+        double dt = Math.clamp(clock - lastClock, 0, 2);
         lastClock = clock;
         collisionFraction = fraction < collisionFraction ? fraction : Mth.lerp(1 - Math.exp(-dt * 0.18), collisionFraction, fraction);
         camera=vanilla.add(delta.scale(collisionFraction));

@@ -15,7 +15,7 @@
       ]
     }
   },
-  "terrain_adaptation": "beard_thin",
+  "terrain_adaptation": "beard_box",
   "start_pool": "stellaris:moon/moon_village",
   "size": 7,
   "start_height": {

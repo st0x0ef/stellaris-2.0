@@ -1,5 +1,5 @@
 {
   "type": "minecraft:crafting_shapeless",
-  "ingredients": ["#stellaris:small_can", "minecraft:magenta_dye"],
+  "ingredients": ["#stellaris:small_can", "#c:dyes/magenta"],
   "result": {"id": "stellaris:magenta_can"}
 }

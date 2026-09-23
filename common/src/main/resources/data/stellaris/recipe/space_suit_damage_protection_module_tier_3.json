@@ -6,9 +6,9 @@
     "NTN"
   ],
   "key": {
-    "N": "minecraft:netherite_ingot",
+    "N": "#c:ingots/netherite",
     "M": "stellaris:space_suit_damage_protection_module_tier_2",
-    "T": "stellaris:titanium_ingot"
+    "T": "#c:ingots/titanium"
   },
   "result": {"id": "stellaris:space_suit_damage_protection_module_tier_3"}
 }

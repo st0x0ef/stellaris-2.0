@@ -1,6 +1,6 @@
 {
   "type": "minecraft:blasting",
-  "ingredient": "stellaris:raw_desh",
+  "ingredient": "#c:raw_materials/desh",
   "result": {
     "id": "stellaris:desh_ingot"
   },

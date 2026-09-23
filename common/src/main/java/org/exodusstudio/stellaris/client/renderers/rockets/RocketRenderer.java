@@ -11,6 +11,7 @@ import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.client.renderer.state.level.CameraRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.Identifier;
+import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.phys.AABB;
 import org.exodusstudio.stellaris.client.renderers.rockets.models.RocketModel;
@@ -36,6 +37,7 @@ public class RocketRenderer extends EntityRenderer<RocketEntity, RocketRenderSta
         super.extractRenderState(entity, reusedState, partialTick);
         reusedState.modules = entity.getEntityData().get(RocketEntity.ROCKET_MODULES).getModules();
         reusedState.rocketStart = entity.getEntityData().get(RocketEntity.ROCKET_START);
+        reusedState.bodyRotation = Mth.rotLerp(partialTick, entity.yRotO, entity.getYRot());
     }
 
     @Override
@@ -53,6 +55,7 @@ public class RocketRenderer extends EntityRenderer<RocketEntity, RocketRenderSta
 
         poseStack.pushPose();
         poseStack.translate(0.0D, -0.3D, 0.0D);
+        poseStack.mulPose(Axis.YP.rotationDegrees(90.0F - renderState.bodyRotation));
         poseStack.mulPose(Axis.XP.rotationDegrees(180.0F));
         poseStack.scale(0.8f, 0.8f, 0.8f);
 
@@ -78,7 +81,7 @@ public class RocketRenderer extends EntityRenderer<RocketEntity, RocketRenderSta
         if  (!rocketModelPresent) {
             RocketModel defaultModel = RocketModelRegistry.create("tiny", Minecraft.getInstance().getEntityModels());
             renderingContext.setRocketModel(defaultModel);
-            nodeCollector.submitModelPart(defaultModel.root(), poseStack, renderType, renderingContext.packedLight, OverlayTexture.NO_OVERLAY, null);
+            nodeCollector.submitModelPart(defaultModel.root(), poseStack, renderType, renderingContext.packedLight, OverlayTexture.NO_OVERLAY, null, false, renderingContext.hasFoil);
         }
 
         renderState.preRenderModules(nodeCollector, poseStack, renderingContext, renderType);
@@ -113,12 +116,18 @@ public class RocketRenderer extends EntityRenderer<RocketEntity, RocketRenderSta
         public final List<RocketModule> rocketModules;
         public final PoseStack poseStack;
         public final int packedLight;
+        public final boolean hasFoil;
         public RocketModel rocketModel;
 
         public RenderingContext(List<RocketModule> rocketModules, PoseStack poseStack, int packedLight) {
+            this(rocketModules, poseStack, packedLight, false);
+        }
+
+        public RenderingContext(List<RocketModule> rocketModules, PoseStack poseStack, int packedLight, boolean hasFoil) {
             this.rocketModules = rocketModules;
             this.poseStack = poseStack;
             this.packedLight = packedLight;
+            this.hasFoil = hasFoil;
         }
 
         public void setRocketModel(RocketModel rocketModel) {

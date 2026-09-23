@@ -43,6 +43,7 @@ subprojects {
         maven { url 'https://maven.exodusstudio.org/snapshots' }
         maven { url 'https://maven.terraformersmc.com/releases' }
         maven { url 'https://maven.blamejared.com/' }
+        maven { url 'https://maven.shedaniel.me/' }
         maven { url 'https://api.modrinth.com/maven' } // Jade
         maven {
             name = 'NeoForged'
@@ -131,7 +132,7 @@ subprojects {
                 server = true
 
                 requires('architectury-api', 'potentials', 'exoconfig', 'sky-aesthetics')
-                optional('jei', 'jade')
+                optional('jei', 'jade', 'roughly-enough-items')
                 if (modLoader == 'fabric') {
                     requires('fabric-api')
                     optional('modmenu')
@@ -144,7 +145,7 @@ subprojects {
                 minecraftVersions.addAll(supportedMinecraftVersions)
 
                 requires('architectury-api', 'potentials', 'exoconfig', 'sky-aesthetics')
-                optional('jei', 'jade')
+                optional('jei', 'jade', 'rei')
                 if (modLoader == 'fabric') {
                     requires('fabric-api')
                     optional('modmenu')

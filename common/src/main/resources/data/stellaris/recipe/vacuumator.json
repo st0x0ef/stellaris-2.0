@@ -6,11 +6,11 @@
     "ISI"
   ],
   "key": {
-    "T": "stellaris:titanium_ingot",
-    "G": "minecraft:glass",
-    "R": "minecraft:redstone",
-    "I": "minecraft:iron_ingot",
-    "S": "stellaris:silicon"
+    "T": "#c:ingots/titanium",
+    "G": "#c:glass_blocks/colorless",
+    "R": "#c:dusts/redstone",
+    "I": "#c:ingots/iron",
+    "S": "#c:silicon"
   },
   "result": {
     "id": "stellaris:vacuumator",

@@ -6,9 +6,9 @@
     "DTD"
   ],
   "key": {
-    "D": "minecraft:diamond",
+    "D": "#c:gems/diamond",
     "M": "stellaris:space_suit_damage_protection_module_tier_1",
-    "T": "stellaris:titanium_ingot"
+    "T": "#c:ingots/titanium"
   },
   "result": {"id": "stellaris:space_suit_damage_protection_module_tier_2"}
 }

@@ -6,7 +6,7 @@
     "###"
   ],
   "key": {
-    "#": "stellaris:raw_novite"
+    "#": "#c:raw_materials/novite"
   },
   "result": {
     "id": "stellaris:raw_novite_block",

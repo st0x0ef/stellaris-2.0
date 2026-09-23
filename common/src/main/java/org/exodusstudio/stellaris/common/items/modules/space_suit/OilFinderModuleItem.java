@@ -14,7 +14,6 @@ import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.component.TooltipDisplay;
 import org.exodusstudio.stellaris.common.items.space_suit.SpaceSuitHelmet;
 import org.exodusstudio.stellaris.common.modules.space_suit.SpaceSuitModule;
-import org.exodusstudio.stellaris.common.registries.ItemsRegistry;
 import org.exodusstudio.stellaris.common.utils.ModuleUtils;
 import org.exodusstudio.stellaris.common.utils.Utils;
 import org.joml.Vector2i;
@@ -41,7 +40,7 @@ public class OilFinderModuleItem extends Item implements SpaceSuitModule.OilFind
 
     @Override
     public boolean canBeAppliedToSpaceSuitPart(ItemStack part) {
-        return part.is(ItemsRegistry.SPACE_SUIT_HELMET.get());
+        return part.getItem() instanceof SpaceSuitHelmet;
     }
 
     @Override

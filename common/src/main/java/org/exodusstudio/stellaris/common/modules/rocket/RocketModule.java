@@ -31,6 +31,13 @@ public interface RocketModule extends Module<RocketModule> {
     }
 
     /**
+     * @return if this module can also be installed on a rover
+     */
+    default boolean fitsRover() {
+        return false;
+    }
+
+    /**
      * @param currentTravelDistance current travelable distance with the rocket in one flight.
      * @return what to add/sub to the current distance.
      *

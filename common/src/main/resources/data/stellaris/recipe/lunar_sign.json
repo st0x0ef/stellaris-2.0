@@ -7,7 +7,7 @@
   ],
   "key": {
     "#": "stellaris:lunar_planks",
-    "S": "minecraft:stick"
+    "S": "#c:rods/wooden"
   },
   "result": {
     "id": "stellaris:lunar_sign",

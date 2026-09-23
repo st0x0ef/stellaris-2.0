@@ -4,7 +4,7 @@
     "###"
   ],
   "key": {
-    "#": "stellaris:desh_block"
+    "#": "#c:storage_blocks/desh"
   },
   "result": {
     "id": "stellaris:desh_slab",

@@ -1,12 +1,13 @@
 ---
 title: Lander
 entryId: stellaris:rocket
-iconType: item
+iconType: entity
+overrideTitle: true
 ---
 
 The Lander is what actually brings you down. You never craft one : it appears around you the moment your rocket arrives above a new world.
 
-[item=stellaris:rocket]
+[entity=stellaris:lander scale=20 icon_scale=3.2 offset=0.5 width=220 height=120]
 
 You start the descent sitting inside it, together with your rocket, its fuel and everything that was in its hold. Ride it down and you land with all your gear. 
 

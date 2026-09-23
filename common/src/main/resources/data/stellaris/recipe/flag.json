@@ -7,7 +7,7 @@
   ],
   "key": {
     "W": "minecraft:white_wool",
-    "S": "minecraft:stick"
+    "S": "#c:rods/wooden"
   },
   "result": {
     "id": "stellaris:flag",

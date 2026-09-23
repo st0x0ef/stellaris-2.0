@@ -4,7 +4,7 @@
     "###"
   ],
   "key": {
-    "#": "minecraft:iron_ingot"
+    "#": "#c:ingots/iron"
   },
   "result": {
     "id": "stellaris:iron_plating_block",

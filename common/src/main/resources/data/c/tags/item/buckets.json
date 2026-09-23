@@ -1,0 +1,11 @@
+{
+  "replace": false,
+  "values": [
+    "#c:buckets/oil",
+    "#c:buckets/fuel",
+    "#c:buckets/diesel",
+    "#c:buckets/hydrogen",
+    "#c:buckets/blue_liquid",
+    "#c:buckets/astrum_liquidus"
+  ]
+}

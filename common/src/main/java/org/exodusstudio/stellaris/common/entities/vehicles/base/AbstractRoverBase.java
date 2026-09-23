@@ -33,12 +33,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 
 public abstract class AbstractRoverBase extends IVehicleEntity {
 
-    private int steps;
-    private double clientX;
-    private double clientY;
-    private double clientZ;
-    private double clientYaw;
-    private double clientPitch;
+    private final InterpolationHandler interpolation = new InterpolationHandler(this);
 
     protected float deltaRotation;
 
@@ -54,8 +49,9 @@ public abstract class AbstractRoverBase extends IVehicleEntity {
     private static final EntityDataAccessor<Boolean> LEFT = SynchedEntityData.defineId(AbstractRoverBase.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Boolean> RIGHT = SynchedEntityData.defineId(AbstractRoverBase.class, EntityDataSerializers.BOOLEAN);
 
-    private final float distanceBetweenFuelConsumption = 20F;
-    private float distanceBeforeNextFuelConsumption = 0F;
+    private static final float BLOCKS_PER_FUEL_UNIT = 25F;
+
+    private float distanceSinceFuelConsumption = 0F;
 
     public AbstractRoverBase(EntityType type, Level worldIn) {
         super(type, worldIn);
@@ -89,20 +85,37 @@ public abstract class AbstractRoverBase extends IVehicleEntity {
             task.run();
         }
 
-        updateGravity();
-        controlRover();
-        checkPush();
+        this.interpolation.interpolate();
 
-        move(MoverType.SELF, getDeltaMovement());
+        if (simulatesMovement()) {
+            updateGravity();
+            controlRover();
+            checkPush();
 
-        if (!level().isClientSide()) {
-            this.xo = getX();
-            this.yo = getY();
-            this.zo = getZ();
+            Vec3 positionBeforeMove = position();
+            move(MoverType.SELF, getDeltaMovement());
+            trackFuelConsumption(positionBeforeMove);
+
+            if (!level().isClientSide()) {
+                this.xo = getX();
+                this.yo = getY();
+                this.zo = getZ();
+            }
+        }
+        else {
+            deltaRotation = Mth.wrapDegrees(getYRot() - yRotO);
         }
 
         updateWheelRotation();
-        tickLerp();
+    }
+
+    private boolean simulatesMovement() {
+        return !level().isClientSide() || isLocalInstanceAuthoritative();
+    }
+
+    @Override
+    public InterpolationHandler getInterpolation() {
+        return this.interpolation;
     }
 
     public void centerCar() {
@@ -167,11 +180,9 @@ public abstract class AbstractRoverBase extends IVehicleEntity {
             return;
         }
 
-        if (distanceBeforeNextFuelConsumption <= 0F) {
-            if (!consumeFuel()) {
-                return;
-            }
-            distanceBeforeNextFuelConsumption = distanceBetweenFuelConsumption;
+        if (!hasFuel()) {
+            setSpeed(0F);
+            return;
         }
 
         this.yRotO = this.getYRot();
@@ -225,9 +236,21 @@ public abstract class AbstractRoverBase extends IVehicleEntity {
                 collidedLastTick = false;
             }
         }
+    }
 
-        if (isForward() || isBackward()) {
-            distanceBeforeNextFuelConsumption -= Math.abs(getSpeed());
+    private void trackFuelConsumption(Vec3 positionBeforeMove) {
+        if (level().isClientSide() || !(isForward() || isBackward())) {
+            return;
+        }
+
+        double movedX = getX() - positionBeforeMove.x;
+        double movedZ = getZ() - positionBeforeMove.z;
+        distanceSinceFuelConsumption += (float) Math.sqrt(movedX * movedX + movedZ * movedZ);
+
+        int units = (int) (distanceSinceFuelConsumption / BLOCKS_PER_FUEL_UNIT);
+        if (units > 0) {
+            distanceSinceFuelConsumption -= units * BLOCKS_PER_FUEL_UNIT;
+            consumeFuel(units);
         }
     }
 
@@ -251,7 +274,11 @@ public abstract class AbstractRoverBase extends IVehicleEntity {
         return speed;
     }
 
-    protected abstract boolean consumeFuel();
+    /** Whether there is any fuel left to drive on. */
+    protected abstract boolean hasFuel();
+
+    /** Removes {@code amount} units (mB) of fuel from the tank. */
+    protected abstract void consumeFuel(int amount);
 
     public void onCollision(float speed) {
         setSpeed(0.01F);
@@ -278,7 +305,7 @@ public abstract class AbstractRoverBase extends IVehicleEntity {
         setDeltaMovement(getDeltaMovement().x, getDeltaMovement().y - 0.2D, getDeltaMovement().z);
     }
 
-    public void updateControls(boolean forward, boolean backward, boolean left, boolean right, Player player) {
+    public void updateControls(boolean forward, boolean backward, boolean left, boolean right) {
         boolean needsUpdate = false;
 
         if (isForward() != forward) {
@@ -301,7 +328,7 @@ public abstract class AbstractRoverBase extends IVehicleEntity {
             needsUpdate = true;
         }
         if (level().isClientSide() && needsUpdate) {
-            NetworkManager.sendToServer(new org.exodusstudio.stellaris.common.network.packets.SyncRoverPacket(forward, backward, left, right, player));
+            NetworkManager.sendToServer(new org.exodusstudio.stellaris.common.network.packets.SyncRoverPacket(forward, backward, left, right, this.getUUID()));
         }
     }
 
@@ -511,35 +538,6 @@ public abstract class AbstractRoverBase extends IVehicleEntity {
     @Override
     public boolean isPickable() {
         return isAlive();
-    }
-
-    private void tickLerp() {
-        if (this.isLocalInstanceAuthoritative()) {
-            this.steps = 0;
-            this.syncPacketPositionCodec(this.getX(), this.getY(), this.getZ());
-        }
-
-        if (this.steps > 0) {
-            double d0 = getX() + (clientX - getX()) / (double) steps;
-            double d1 = getY() + (clientY - getY()) / (double) steps;
-            double d2 = getZ() + (clientZ - getZ()) / (double) steps;
-            double d3 = Mth.wrapDegrees(clientYaw - (double) getYRot());
-            setYRot((float) ((double) getYRot() + d3 / (double) steps));
-            setXRot((float) ((double) getXRot() + (clientPitch - (double) getXRot()) / (double) steps));
-            --steps;
-            setPos(d0, d1, d2);
-            setRot(getYRot(), getXRot());
-        }
-    }
-
-    @Override
-    public void lerpPositionAndRotationStep(int steps, double targetX, double targetY, double targetZ, double targetYRot, double targetXRot) {
-        this.clientX = targetX;
-        this.clientY = targetY;
-        this.clientZ = targetZ;
-        this.clientYaw = targetYRot;
-        this.clientPitch = targetXRot;
-        this.steps = steps;
     }
 
     public static double calculateMotionX(float speed, float rotationYaw) {

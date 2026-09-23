@@ -5,7 +5,6 @@ import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
-import net.minecraft.client.renderer.blockentity.state.BlockEntityRenderState;
 import net.minecraft.client.renderer.rendertype.RenderType;
 import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.resources.Identifier;
@@ -14,8 +13,15 @@ import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
 
 import java.util.function.Function;
 
-public class GravityManipulatorModel extends Model<BlockEntityRenderState> {
+public class GravityManipulatorModel extends Model<GravityManipulatorRenderState> {
     public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(IdentifierUtils.id("gravity_manipulator"), "main");
+
+    public static final float CORE_BASE_Y = 5.0F;
+
+    private static final double CORE_SPIN_PER_TICK = 0.005;
+    private static final double CORE_BOB_PER_TICK = Math.PI / 20.0;
+    private static final double TAU = Math.PI * 2.0;
+
     private final ModelPart GravityCenter;
 
     public GravityManipulatorModel(ModelPart root) {
@@ -51,16 +57,25 @@ public class GravityManipulatorModel extends Model<BlockEntityRenderState> {
         return LayerDefinition.create(meshdefinition, 128, 128);
     }
 
+    @Override
+    public void setupAnim(GravityManipulatorRenderState state) {
+        GravityCenter.yRot = state.coreYRot;
+        GravityCenter.y = state.coreY;
+    }
+
     public void animateItemCore(float partialTick) {
         GravityCenter.yRot += partialTick;
     }
 
-    public void animateBlockCore(float partialTick, double gravity) {
-        float amplitude = (float) (gravity / Stellaris.CONFIG.gravityConfig.maxGravityManipulatorValue);
+    public static void animateCore(GravityManipulatorRenderState state, double ticks, double gravity) {
+        double amplitude = gravity / Stellaris.CONFIG.gravityConfig.maxGravityManipulatorValue;
 
-        GravityCenter.yRot += partialTick * amplitude / 10f;
+        state.coreYRot = (float) ((ticks * amplitude * CORE_SPIN_PER_TICK) % TAU);
+        state.coreY = CORE_BASE_Y + (float) (Math.sin(ticks * amplitude * CORE_BOB_PER_TICK) * amplitude);
+    }
 
-        float time = (System.currentTimeMillis() % 2000L) / 1000f * (float) Math.PI * amplitude;
-        GravityCenter.y = 5.0F + (float) Math.sin(time) * amplitude;
+    public static void restCore(GravityManipulatorRenderState state) {
+        state.coreYRot = 0.0F;
+        state.coreY = CORE_BASE_Y;
     }
 }

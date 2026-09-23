@@ -8,7 +8,6 @@ import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import org.exodusstudio.stellaris.client.utils.ActionBox;
 import org.exodusstudio.stellaris.client.utils.ClientUtils;
@@ -269,21 +268,20 @@ public class StellardownRenderer {
 
                         Entity entity = ClientUtils.createEntity(Minecraft.getInstance().level, entityStyle.identifier);
 
-                        if(entity instanceof LivingEntity livingEntity) {
-
-
+                        if(entity != null) {
                             int left = x + entitySeg.x;
-                            int right = left + entitySeg.getWidth();
 
                             if (entityStyle.centered) {
-                                left = x  + entitySeg.x + this.areaWidth / 2  - (entitySeg.getWidth() / 4);
+                                left = x + (this.areaWidth - entitySeg.getWidth()) / 2;
                             }
+
+                            int right = left + entitySeg.getWidth();
 
                             int top = y + line.y ;
 
                             int bottom = top + entitySeg.getHeight();
 
-                            ClientUtils.renderEntityInGui(guiGraphics, left, top, right, bottom, entityStyle.scale, 0.25F, mouseX, mouseY, livingEntity, entityStyle.rotation);
+                            ClientUtils.renderEntityInGui(guiGraphics, left, top, right, bottom, entityStyle.scale, 0.25F + entityStyle.offset, entity, entityStyle.rotation);
                         }
                     }
                     case ItemSegment itemSeg -> {
