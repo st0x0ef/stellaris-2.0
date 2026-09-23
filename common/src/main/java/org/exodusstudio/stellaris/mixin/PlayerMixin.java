@@ -3,6 +3,7 @@ package org.exodusstudio.stellaris.mixin;
 import dev.architectury.networking.NetworkManager;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.util.Mth;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -67,6 +68,12 @@ public abstract class PlayerMixin extends LivingEntity implements CustomPlayerDa
         return eyeY < eyePos.getY() + fluidState.getHeight(this.level(), eyePos);
     }
 
+    @Unique
+    private int stellaris$nextParasiteDelay() {
+        int minTicks = Math.max(1, Stellaris.CONFIG.parasiteConfig.minDropIntervalTicks);
+        return minTicks + Mth.nextInt(this.random, 0, Math.max(0, Stellaris.CONFIG.parasiteConfig.randomDropIntervalMaxTicks));
+    }
+
     @Inject(method = "tick", at = @At("HEAD"))
     private void stellaris$onTick(CallbackInfo ci) {
 
@@ -74,18 +81,14 @@ public abstract class PlayerMixin extends LivingEntity implements CustomPlayerDa
             if (Stellaris.CONFIG.parasiteConfig.enableParasiteDrop && stellaris$nextFluidCheck <= 0) {
                 if (stellaris$isEyeInBlueLiquid()) {
                     if (stellaris$parasiteTimer == -100) {
-                        int minTicks = Stellaris.CONFIG.parasiteConfig.minDropIntervalTicks;
-                        int maxRandomTicks = Stellaris.CONFIG.parasiteConfig.randomDropIntervalMaxTicks;
-                        stellaris$parasiteTimer = minTicks + this.random.nextInt(maxRandomTicks + 1);
+                        stellaris$parasiteTimer = stellaris$nextParasiteDelay();
                     }
 
                     else if (stellaris$parasiteTimer <= 0) {
                         Player player = (Player) (Object) this;
                         player.getInventory().placeItemBackInInventory(new ItemStack(ItemsRegistry.PARASITE.get()));
 
-                        int minTicks = Stellaris.CONFIG.parasiteConfig.minDropIntervalTicks;
-                        int maxRandomTicks = Stellaris.CONFIG.parasiteConfig.randomDropIntervalMaxTicks;
-                        stellaris$parasiteTimer = minTicks + this.random.nextInt(maxRandomTicks + 1);
+                        stellaris$parasiteTimer = stellaris$nextParasiteDelay();
                     }
 
                     stellaris$parasiteTimer -= stellaris$fluidTickInterval;

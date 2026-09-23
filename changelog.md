@@ -3,6 +3,7 @@
 ## Additions
 - Added custom damage types
 - Added a tooltip to the tablet item
+- Config post validation
 
 ## Changes
 - Improve entity rendering in the tablet

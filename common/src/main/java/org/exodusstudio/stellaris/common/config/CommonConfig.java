@@ -2,9 +2,11 @@ package org.exodusstudio.stellaris.common.config;
 
 import fr.tathan.exoconfig.common.infos.ConfigInfos;
 import fr.tathan.exoconfig.common.infos.ScreenInfos;
+import fr.tathan.exoconfig.common.post_validation.PostValidation;
+import org.exodusstudio.stellaris.Stellaris;
 
 @ConfigInfos(modDisplayName = "Stellaris", name = "stellaris")
-public class CommonConfig {
+public class CommonConfig implements PostValidation {
 
     @ScreenInfos.InnerConfig
     public OilConfig oilConfig = new OilConfig();
@@ -147,4 +149,67 @@ public class CommonConfig {
         public boolean enableAssistant = true;
     }
 
+    @Override
+    public void postValidation() {
+        oilConfig.chunkOilChance = atLeast("oilConfig.chunkOilChance", oilConfig.chunkOilChance, 1);
+        oilConfig.minOil = atLeast("oilConfig.minOil", oilConfig.minOil, 0);
+        oilConfig.maxOil = atLeast("oilConfig.maxOil", oilConfig.maxOil, oilConfig.minOil);
+        oilConfig.oilExtractionPerTick = atLeast("oilConfig.oilExtractionPerTick", oilConfig.oilExtractionPerTick, 0);
+
+        gravityConfig.gravityUpdateInterval = atLeast("gravityConfig.gravityUpdateInterval", gravityConfig.gravityUpdateInterval, 1);
+        gravityConfig.minGravityManipulatorValue = atLeast("gravityConfig.minGravityManipulatorValue", gravityConfig.minGravityManipulatorValue, 0.0);
+        gravityConfig.maxGravityManipulatorValue = atLeast("gravityConfig.maxGravityManipulatorValue", gravityConfig.maxGravityManipulatorValue, gravityConfig.minGravityManipulatorValue);
+        gravityConfig.gravityManipulatorEnergyPerTick = atLeast("gravityConfig.gravityManipulatorEnergyPerTick", gravityConfig.gravityManipulatorEnergyPerTick, 0);
+
+        oxygenConfig.oxygenUpdateInterval = atLeast("oxygenConfig.oxygenUpdateInterval", oxygenConfig.oxygenUpdateInterval, 1);
+        oxygenConfig.oxygenDamageInterval = atLeast("oxygenConfig.oxygenDamageInterval", oxygenConfig.oxygenDamageInterval, 1);
+        oxygenConfig.noOxygenDamage = atLeast("oxygenConfig.noOxygenDamage", oxygenConfig.noOxygenDamage, 0F);
+        oxygenConfig.baseOxygenDrain = atLeast("oxygenConfig.baseOxygenDrain", oxygenConfig.baseOxygenDrain, 1);
+        oxygenConfig.sprintOxygenDrainMultiplier = atLeast("oxygenConfig.sprintOxygenDrainMultiplier", oxygenConfig.sprintOxygenDrainMultiplier, 1);
+        oxygenConfig.jetOxygenDrainMultiplier = atLeast("oxygenConfig.jetOxygenDrainMultiplier", oxygenConfig.jetOxygenDrainMultiplier, 1);
+
+        parasiteConfig.minDropIntervalTicks = atLeast("parasiteConfig.minDropIntervalTicks", parasiteConfig.minDropIntervalTicks, 1);
+        parasiteConfig.randomDropIntervalMaxTicks = atLeast("parasiteConfig.randomDropIntervalMaxTicks", parasiteConfig.randomDropIntervalMaxTicks, 0);
+        parasiteConfig.researchDelay = atLeast("parasiteConfig.researchDelay", parasiteConfig.researchDelay, 1);
+
+        vehicleConfig.cargoUnloadingRadius = atLeast("vehicleConfig.cargoUnloadingRadius", vehicleConfig.cargoUnloadingRadius, 0);
+
+        effectsConfig.infectionTickChance = atLeast("effectsConfig.infectionTickChance", effectsConfig.infectionTickChance, 0);
+        effectsConfig.infectionDamage = atLeast("effectsConfig.infectionDamage", effectsConfig.infectionDamage, 0F);
+        effectsConfig.corrosionTickInterval = atLeast("effectsConfig.corrosionTickInterval", effectsConfig.corrosionTickInterval, 0);
+        effectsConfig.corrosionDamage = atLeast("effectsConfig.corrosionDamage", effectsConfig.corrosionDamage, 0F);
+
+        machineConfig.vacuumatorEnergyPerCraft = atLeast("machineConfig.vacuumatorEnergyPerCraft", machineConfig.vacuumatorEnergyPerCraft, 0);
+        machineConfig.vacuumatorDurationMultiplier = atLeast("machineConfig.vacuumatorDurationMultiplier", machineConfig.vacuumatorDurationMultiplier, 1);
+        machineConfig.vacuumatorWaterPerCraft = atLeast("machineConfig.vacuumatorWaterPerCraft", machineConfig.vacuumatorWaterPerCraft, 0);
+        machineConfig.blenderEnergyPerCraft = atLeast("machineConfig.blenderEnergyPerCraft", machineConfig.blenderEnergyPerCraft, 0);
+        machineConfig.blenderTicksPerCraft = atLeast("machineConfig.blenderTicksPerCraft", machineConfig.blenderTicksPerCraft, 1);
+    }
+
+    private static int atLeast(String name, int value, int min) {
+        if (value >= min) {
+            return value;
+        }
+
+        Stellaris.LOG.warn("Config value {} = {} is below its minimum of {}; using {}", name, value, min, min);
+        return min;
+    }
+
+    private static float atLeast(String name, float value, float min) {
+        if (value >= min && Float.isFinite(value)) {
+            return value;
+        }
+
+        Stellaris.LOG.warn("Config value {} = {} is invalid (minimum {}); using {}", name, value, min, min);
+        return min;
+    }
+
+    private static double atLeast(String name, double value, double min) {
+        if (value >= min && Double.isFinite(value)) {
+            return value;
+        }
+
+        Stellaris.LOG.warn("Config value {} = {} is invalid (minimum {}); using {}", name, value, min, min);
+        return min;
+    }
 }

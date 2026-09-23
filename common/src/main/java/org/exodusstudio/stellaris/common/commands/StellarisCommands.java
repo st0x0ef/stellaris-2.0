@@ -82,7 +82,7 @@ public class StellarisCommands {
                             return context.success();
                         })))
                         .addSubCommand(builder.createSubCommand("set")
-                                .addArgument(ArgumentBuilder.of("quantity", IntegerArgumentType.integer(0, Stellaris.CONFIG.oilConfig.maxOil)))
+                                .addArgument(ArgumentBuilder.of("quantity", IntegerArgumentType.integer(0, Math.max(0, Stellaris.CONFIG.oilConfig.maxOil))))
                                 .execute((context -> {
 
                                     if(!context.runByPlayer()) {
