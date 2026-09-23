@@ -1,6 +1,7 @@
 package org.exodusstudio.stellaris.mixin;
 
 import net.minecraft.world.level.chunk.ChunkAccess;
+import net.minecraft.world.level.chunk.LevelChunk;
 import org.exodusstudio.stellaris.common.oil.ChunkOilLevelGetter;
 import org.exodusstudio.stellaris.common.oil.OilUtils;
 import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
@@ -18,6 +19,10 @@ public class ChunkAccessMixin implements ChunkOilLevelGetter {
         Integer oil = DataAttachmentsPlatform.getChunkData(access, IdentifierUtils.id("oil"), Integer.class);
 
         if (oil == null || oil == -1) {
+            if (access instanceof LevelChunk levelChunk && levelChunk.getLevel().isClientSide()) {
+                return 0;
+            }
+
             stellaris$setChunkOilLevel(OilUtils.getRandomOilLevel());
         }
 

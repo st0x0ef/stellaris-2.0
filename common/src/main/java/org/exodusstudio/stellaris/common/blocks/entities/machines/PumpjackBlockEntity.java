@@ -11,7 +11,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.AbstractContainerMenu;
-import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.chunk.ChunkAccess;
@@ -25,7 +24,6 @@ import org.exodusstudio.stellaris.common.fluid.FluidUtil;
 import org.exodusstudio.stellaris.common.fluid.SingleFluidStorage;
 import org.exodusstudio.stellaris.common.menus.PumpjackMenu;
 import org.exodusstudio.stellaris.common.network.packets.SyncFluidPacket;
-import org.exodusstudio.stellaris.common.network.packets.SyncOilLevelPacket;
 import org.exodusstudio.stellaris.common.registries.BlockEntitiesRegistry;
 import org.exodusstudio.stellaris.common.registries.FluidsRegistry;
 import org.jetbrains.annotations.Nullable;
@@ -34,7 +32,6 @@ import java.util.List;
 
 public class PumpjackBlockEntity extends BaseEnergyContainerBlockEntity implements FluidProvider.BLOCK {
 
-    private boolean isGenerating = false;
     public final SingleFluidStorage resultTank;
 
     public PumpjackBlockEntity(BlockPos pos, BlockState state) {
@@ -57,49 +54,28 @@ public class PumpjackBlockEntity extends BaseEnergyContainerBlockEntity implemen
     @Override
     public void tick(Level level, BlockState state) {
         FluidUtil.moveFluidToItem(0, resultTank, 0, 1, this, Long.MAX_VALUE);
-        setChanged();
 
         // Push extracted oil into any adjacent pipe network (or a directly-touching tank/machine).
         FluidUtil.distributeFluidNearby(level, worldPosition, resultTank.getFluidInTank(0));
 
         ChunkAccess access = level.getChunk(this.worldPosition);
+        int chunkOil = access.stellaris$getChunkOilLevel();
+        int oilToExtract = Math.min(Stellaris.CONFIG.oilConfig.oilExtractionPerTick, chunkOil);
 
-        if (!level.isClientSide()) {
-            ChunkPos pos = access.getPos();
-            NetworkManager.sendToPlayers(level.getServer().getPlayerList().getPlayers(), new SyncOilLevelPacket(access.stellaris$getChunkOilLevel(), pos.x(), pos.z()));
+        boolean generating = oilToExtract > 0
+                && energyContainer.getEnergy() >= 2 * oilToExtract
+                && resultTank.getFluidValueInTank() + oilToExtract <= resultTank.getTankCapacity(0);
+
+        if (generating) {
+            access.stellaris$setChunkOilLevel(chunkOil - oilToExtract);
+            resultTank.fillWithoutLimits(FluidStack.create(FluidsRegistry.OIL_STILL.get(), oilToExtract), false);
+            energyContainer.extract(2 * oilToExtract, false);
         }
 
-        int actualOilToExtract = Stellaris.CONFIG.oilConfig.oilExtractionPerTick;
-
-        if (access.stellaris$getChunkOilLevel() < actualOilToExtract) {
-            actualOilToExtract = access.stellaris$getChunkOilLevel();
+        BlockState currentState = getBlockState();
+        if (currentState.getValue(CoalGeneratorBlock.LIT) != generating) {
+            level.setBlock(getBlockPos(), currentState.setValue(CoalGeneratorBlock.LIT, generating), 3);
         }
-
-        if (actualOilToExtract == 0) {
-            return;
-        }
-
-        if (energyContainer.getEnergy() >= 2 * actualOilToExtract) {
-            if (resultTank.getFluidValueInTank() + actualOilToExtract <= resultTank.getTankCapacity(0)) {
-                access.stellaris$setChunkOilLevel(access.stellaris$getChunkOilLevel() - actualOilToExtract);
-                resultTank.fillWithoutLimits(FluidStack.create(FluidsRegistry.OIL_STILL.get(), actualOilToExtract), false);
-
-                energyContainer.extract(2 * actualOilToExtract, false);
-                isGenerating = true;
-                setChanged();
-            }
-            else {
-                isGenerating = false;
-            }
-        }
-
-        if (isGenerating) {
-            state = getBlockState().setValue(CoalGeneratorBlock.LIT, true);
-        }
-        else {
-            state = getBlockState().setValue(CoalGeneratorBlock.LIT, false);
-        }
-        level.setBlock(getBlockPos(), state, 3);
     }
 
     @Override

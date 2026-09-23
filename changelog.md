@@ -18,3 +18,4 @@
 - Fix planet selection app hover texture in the tablet not being centered
 - Fix trophies hitbox being too big
 - Fix research progression being cleared if the player dies
+- Fix oil synchronization issue between client and server

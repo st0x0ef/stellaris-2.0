@@ -150,6 +150,9 @@ public class Events {
             if (entity instanceof Player player && (sectionX != prevX || sectionZ != prevZ)) {
                 ItemStack headStack = player.getItemBySlot(EquipmentSlot.HEAD);
                 SpaceSuitHelmet.tickOilFinderEnergy(headStack);
+                if (player instanceof ServerPlayer serverPlayer) {
+                    SpaceSuitHelmet.loadOilAround(serverPlayer, sectionX, sectionZ);
+                }
             }
         });
 

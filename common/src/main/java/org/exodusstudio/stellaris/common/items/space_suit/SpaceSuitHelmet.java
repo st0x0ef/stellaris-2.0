@@ -7,6 +7,7 @@ import com.fej1fun.potentials.providers.EnergyProvider;
 import com.fej1fun.potentials.providers.FluidProvider;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.ItemStack;
@@ -113,6 +114,23 @@ public class SpaceSuitHelmet extends SpaceSuitItem implements FluidProvider.ITEM
 
         if (stack.getItem() instanceof SpaceSuitHelmet spaceSuitHelmet && oilFinderModule != null) {
             spaceSuitHelmet.getEnergy(stack).extract(oilFinderModule.getRange() * oilFinderModule.getRange(), false);
+        }
+    }
+
+    public static void loadOilAround(ServerPlayer player, int chunkX, int chunkZ) {
+        SpaceSuitModule.OilFinderModule oilFinderModule = ModuleUtils.getSpaceSuitModule(player.getItemBySlot(EquipmentSlot.HEAD), SpaceSuitModule.OilFinderModule.class);
+        if (oilFinderModule == null) {
+            return;
+        }
+
+        ServerLevel level = player.level();
+        int offset = (oilFinderModule.getRange() - 1) / 2;
+        for (int x = chunkX - offset; x <= chunkX + offset; x++) {
+            for (int z = chunkZ - offset; z <= chunkZ + offset; z++) {
+                if (level.hasChunk(x, z)) {
+                    level.getChunk(x, z).stellaris$getChunkOilLevel();
+                }
+            }
         }
     }
 }
