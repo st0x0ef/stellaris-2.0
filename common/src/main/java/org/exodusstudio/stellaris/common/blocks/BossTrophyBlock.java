@@ -15,7 +15,6 @@ import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.shapes.CollisionContext;
-import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.exodusstudio.stellaris.common.blocks.entities.BossTrophyBlockEntity;
 import org.jetbrains.annotations.Nullable;
@@ -25,12 +24,15 @@ public class BossTrophyBlock extends BaseEntityBlock implements SimpleWaterlogge
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
     public static final EnumProperty<Direction> FACING = HorizontalDirectionalBlock.FACING;
 
-    public static final VoxelShape SHAPE = Shapes.box(0.125, 0, 0.125, 0.875, 1, 0.875);
+    public static final MapCodec<BossTrophyBlock> CODEC = simpleCodec(p -> new BossTrophyBlock(p, 16, 16, 16));
 
-    public static final MapCodec<BossTrophyBlock> CODEC = simpleCodec(BossTrophyBlock::new);
+    private final VoxelShape northSouthShape;
+    private final VoxelShape eastWestShape;
 
-    public BossTrophyBlock(Properties properties) {
+    public BossTrophyBlock(Properties properties, double width, double height, double depth) {
         super(properties);
+        this.northSouthShape = Block.box(8 - width / 2, 0, 8 - depth / 2, 8 + width / 2, height, 8 + depth / 2);
+        this.eastWestShape = Block.box(8 - depth / 2, 0, 8 - width / 2, 8 + depth / 2, height, 8 + width / 2);
         this.registerDefaultState(this.stateDefinition.any()
                 .setValue(FACING, Direction.NORTH)
                 .setValue(WATERLOGGED, false));
@@ -43,7 +45,7 @@ public class BossTrophyBlock extends BaseEntityBlock implements SimpleWaterlogge
 
     @Override
     protected VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
-        return SHAPE;
+        return state.getValue(FACING).getAxis() == Direction.Axis.X ? this.eastWestShape : this.northSouthShape;
     }
 
     @Override

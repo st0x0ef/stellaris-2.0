@@ -15,3 +15,4 @@
 - Fix oil counting as diesel in fuel check
 - Fix player pose in the rocket
 - Fix planet selection app hover texture in the tablet not being centered
+- Fix trophies hitbox being too big
