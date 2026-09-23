@@ -9,4 +9,6 @@
 - Rover cargo module (will be automatically replaced by the rocket equivalent)
 - Rover hydrogen motor module (will be automatically replaced by the rocket equivalent)
 
+## Fixes
 - Fix oil counting as diesel in fuel check
+- Fix player pose in the rocket

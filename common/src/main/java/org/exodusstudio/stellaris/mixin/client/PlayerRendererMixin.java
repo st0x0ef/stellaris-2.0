@@ -8,6 +8,7 @@ import net.minecraft.client.renderer.entity.player.AvatarRenderer;
 import net.minecraft.client.renderer.entity.state.AvatarRenderState;
 import net.minecraft.world.entity.Avatar;
 import org.exodusstudio.stellaris.common.entities.vehicles.LanderEntity;
+import org.exodusstudio.stellaris.common.entities.vehicles.RocketEntity;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -26,8 +27,8 @@ public abstract class PlayerRendererMixin<AvatarlikeEntity extends Avatar & Clie
         if (avatar.getVehicle() instanceof LanderEntity) {
             avatarRenderState.isInvisible = true;
             avatarRenderState.isInvisibleToPlayer = true;
+        } else if (avatar.getVehicle() instanceof RocketEntity) {
+            avatarRenderState.isPassenger = false;
         }
-
     }
-
 }
