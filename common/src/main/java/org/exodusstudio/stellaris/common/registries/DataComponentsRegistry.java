@@ -17,8 +17,7 @@ import org.exodusstudio.stellaris.common.data.space_station.SpaceStationRecipe;
 import org.exodusstudio.stellaris.common.modules.Modules;
 import org.exodusstudio.stellaris.common.modules.rocket.RocketModule;
 import org.exodusstudio.stellaris.common.modules.rocket.RocketModules;
-import org.exodusstudio.stellaris.common.modules.rover.RoverModule;
-import org.exodusstudio.stellaris.common.modules.rover.RoverModules;
+import org.exodusstudio.stellaris.common.modules.rover.RoverUpgrades;
 import org.exodusstudio.stellaris.common.modules.space_suit.SpaceSuitModule;
 import org.exodusstudio.stellaris.common.modules.space_suit.SpaceSuitModules;
 
@@ -42,9 +41,9 @@ public class DataComponentsRegistry {
             register("rocket_modules", builder -> builder
                     .persistent(RocketModules.CODEC).networkSynchronized(RocketModules.STREAM_CODEC).cacheEncoding());
 
-    public static final RegistrySupplier<DataComponentType<Modules<RoverModule>>> ROVER_MODULES =
+    public static final RegistrySupplier<DataComponentType<RoverUpgrades>> ROVER_MODULES =
             register("rover_modules", builder -> builder
-                    .persistent(RoverModules.CODEC).networkSynchronized(RoverModules.STREAM_CODEC).cacheEncoding());
+                    .persistent(RoverUpgrades.CODEC).networkSynchronized(RoverUpgrades.STREAM_CODEC).cacheEncoding());
 
     public static final RegistrySupplier<DataComponentType<Modules<SpaceSuitModule>>> SPACE_SUIT_MODULES =
             register("space_suit_modules", builder -> builder

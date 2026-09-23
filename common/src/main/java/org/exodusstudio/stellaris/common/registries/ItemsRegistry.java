@@ -18,8 +18,6 @@ import org.exodusstudio.stellaris.common.items.infection.ParasiteItem;
 import org.exodusstudio.stellaris.common.items.infection.PathogenStorageCellItem;
 import org.exodusstudio.stellaris.common.items.infection.VaccineItem;
 import org.exodusstudio.stellaris.common.items.modules.rocket.*;
-import org.exodusstudio.stellaris.common.items.modules.rover.RoverCargoModuleItem;
-import org.exodusstudio.stellaris.common.items.modules.rover.RoverMotorModuleItem;
 import org.exodusstudio.stellaris.common.items.modules.rover.RoverSpeedModuleItem;
 import org.exodusstudio.stellaris.common.items.modules.rover.RoverTankModuleItem;
 import org.exodusstudio.stellaris.common.items.modules.space_suit.*;
@@ -30,6 +28,7 @@ import org.exodusstudio.stellaris.common.items.space_suit.SpaceSuitHelmet;
 import org.exodusstudio.stellaris.common.items.space_suit.SpaceSuitLeggings;
 import org.exodusstudio.stellaris.common.items.tools.*;
 import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
+import org.exodusstudio.stellaris.platform.RegistryPlatform;
 import org.exodusstudio.stellaris.common.vehicle_upgrade.FuelType;
 import org.jetbrains.annotations.NotNull;
 
@@ -73,10 +72,8 @@ public final class ItemsRegistry {
     public static final RegistrySupplier<RoverItem> ROVER = item("rover", RoverItem::new);
 
     // Rover Modules
-    public static final RegistrySupplier<RoverCargoModuleItem> ROVER_CARGO_MODULE = item("rover_cargo_module", p -> new RoverCargoModuleItem(p, 2));
     public static final RegistrySupplier<RoverTankModuleItem> ROVER_TANK_MODULE = item("rover_tank_module", p -> new RoverTankModuleItem(p, 6000));
     public static final RegistrySupplier<RoverSpeedModuleItem> ROVER_SPEED_MODULE = item("rover_speed_module", p -> new RoverSpeedModuleItem(p, 1.5f));
-    public static final RegistrySupplier<RoverMotorModuleItem> ROVER_HYDROGEN_MOTOR = item("rover_hydrogen_motor", p -> new RoverMotorModuleItem(p, FuelType.Type.HYDROGEN));
 
 
     /** Rocket */
@@ -236,6 +233,12 @@ public final class ItemsRegistry {
                 .arch$tab(CreativeTabsRegistry.STELLARIS_MAIN)
                 .rarity(Rarity.EPIC)
                 .component(DataComponents.ENCHANTMENT_GLINT_OVERRIDE, true);
+    }
+
+    /** Items that were removed or merged into another item: saved stacks load as the new item. */
+    public static void registerAliases() {
+        RegistryPlatform.addItemAlias(IdentifierUtils.id("rover_cargo_module"), IdentifierUtils.id("cargo_module"));
+        RegistryPlatform.addItemAlias(IdentifierUtils.id("rover_hydrogen_motor"), IdentifierUtils.id("hydrogen_motor"));
     }
 
     public static RegistrySupplier<Item> item(String name) {

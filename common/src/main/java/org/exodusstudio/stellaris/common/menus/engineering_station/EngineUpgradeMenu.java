@@ -21,6 +21,7 @@ import org.exodusstudio.stellaris.common.modules.rocket.RocketModule;
 import org.exodusstudio.stellaris.common.modules.rocket.RocketModules;
 import org.exodusstudio.stellaris.common.modules.rover.RoverModule;
 import org.exodusstudio.stellaris.common.modules.rover.RoverModules;
+import org.exodusstudio.stellaris.common.modules.rover.RoverUpgrades;
 import org.exodusstudio.stellaris.common.modules.space_suit.SpaceSuitModule;
 import org.exodusstudio.stellaris.common.modules.space_suit.SpaceSuitModules;
 import org.exodusstudio.stellaris.common.network.packets.OpenBlockEntityMenusPacket;
@@ -86,7 +87,7 @@ public class EngineUpgradeMenu extends BaseItemCombinerMenu {
         /** ROCKET MODULES HANDLING */
         Modules<RocketModule> rocketModule = itemToUpgrade.getOrDefault(DataComponentsRegistry.ROCKET_MODULES.get(), RocketModules.empty());
 
-        if (module.getItem() instanceof RocketModule validModule) {
+        if (itemToUpgrade.getItem() instanceof RocketItem && module.getItem() instanceof RocketModule validModule) {
             if (!itemToUpgrade.isEmpty() && !module.isEmpty()
                     && !rocketModule.contains(validModule)
                     && canUpgradeFuel(module, itemToUpgrade).equals(Error.NONE)
@@ -120,23 +121,25 @@ public class EngineUpgradeMenu extends BaseItemCombinerMenu {
         /* --------------------------------------------------------------- */
 
         /** ROVER MODULES HANDLING */
-        Modules<RoverModule> roverModules = itemToUpgrade.getOrDefault(DataComponentsRegistry.ROVER_MODULES.get(), RoverModules.empty());
+        if (itemToUpgrade.getItem() instanceof RoverItem) {
+            RoverUpgrades upgrades = itemToUpgrade.getOrDefault(DataComponentsRegistry.ROVER_MODULES.get(), RoverUpgrades.empty());
+            RoverUpgrades upgraded = null;
 
-        if (module.getItem() instanceof RoverModule validModule) {
-            if (!itemToUpgrade.isEmpty() && !module.isEmpty()
-                    && !roverModules.contains(validModule)
-            ) {
-                List<RoverModule> modules = roverModules.getModules();
-                List<RoverModule> newRoverModules = new ArrayList<>();
-                for (RoverModule mod : modules) {
-                    if (mod.asModule().getRoverFeature() != validModule.asModule().getRoverFeature()) {
-                        newRoverModules.add(mod.asModule());
-                    }
-                }
-                newRoverModules.add(validModule.asModule());
+            if (module.getItem() instanceof RocketModule validModule && validModule.fitsRover()
+                    && !upgrades.rocketModules().contains(validModule)) {
+                Modules<RocketModule>.Mutable modules = upgrades.rocketModules().toMutable();
+                modules.removeIf(installed -> installed.getRocketFeature() == validModule.getRocketFeature());
+                upgraded = upgrades.withRocketModules(new RocketModules(modules.insert(validModule).getModules()));
+            }
+            else if (module.getItem() instanceof RoverModule validModule
+                    && !upgrades.roverModules().contains(validModule)) {
+                Modules<RoverModule>.Mutable modules = upgrades.roverModules().toMutable();
+                modules.removeIf(installed -> installed.getRoverFeature() == validModule.getRoverFeature());
+                upgraded = upgrades.withRoverModules(new RoverModules(modules.insert(validModule).getModules()));
+            }
 
-                itemToUpgrade.set(DataComponentsRegistry.ROVER_MODULES.get(), new RoverModules(newRoverModules));
-
+            if (upgraded != null) {
+                itemToUpgrade.set(DataComponentsRegistry.ROVER_MODULES.get(), upgraded);
                 this.resultSlots.setItem(0, itemToUpgrade);
                 this.broadcastChanges();
             }
@@ -211,17 +214,18 @@ public class EngineUpgradeMenu extends BaseItemCombinerMenu {
     public Error getErrorMessage(ItemStack module, ItemStack rocket) {
         Modules<RocketModule> rocketModule = rocket.getOrDefault(DataComponentsRegistry.ROCKET_MODULES.get(), RocketModules.empty());
 
-        if (module.getItem() instanceof RocketModule validModule) {
+        if (rocket.getItem() instanceof RocketItem && module.getItem() instanceof RocketModule validModule) {
             if( rocketModule.contains(validModule)) {
                 return Error.DUPLICATE_MODULE;
             }
             return canUpgradeFuel(module, rocket);
         }
 
-        Modules<RoverModule> roverModules = rocket.getOrDefault(DataComponentsRegistry.ROVER_MODULES.get(), RoverModules.empty());
+        RoverUpgrades roverUpgrades = rocket.getOrDefault(DataComponentsRegistry.ROVER_MODULES.get(), RoverUpgrades.empty());
 
-        if (module.getItem() instanceof RoverModule validModule) {
-            if (roverModules.contains(validModule)) {
+        if (rocket.getItem() instanceof RoverItem) {
+            if (module.getItem() instanceof RocketModule validModule && roverUpgrades.rocketModules().contains(validModule)
+                    || module.getItem() instanceof RoverModule roverModule && roverUpgrades.roverModules().contains(roverModule)) {
                 return Error.DUPLICATE_MODULE;
             }
             return Error.NONE;
@@ -251,7 +255,8 @@ public class EngineUpgradeMenu extends BaseItemCombinerMenu {
         if (this.inputSlots.getItem(0).is(ItemsRegistry.ROCKET.get())) {
             return module.getItem() instanceof RocketModule rocketModule && StellarisRegistries.ROCKET_MODULES.containsValue(rocketModule);
         } else if (this.inputSlots.getItem(0).is(ItemsRegistry.ROVER.get())) {
-            return module.getItem() instanceof RoverModule roverModule && StellarisRegistries.ROVER_MODULES.containsValue(roverModule);
+            return module.getItem() instanceof RocketModule rocketModule && rocketModule.fitsRover() && StellarisRegistries.ROCKET_MODULES.containsValue(rocketModule)
+                    || module.getItem() instanceof RoverModule roverModule && StellarisRegistries.ROVER_MODULES.containsValue(roverModule);
         } else if (this.inputSlots.getItem(0).is(TagsRegistry.ItemTags.SPACE_SUIT)) {
             return module.getItem() instanceof SpaceSuitModule spaceSuitModule && StellarisRegistries.SPACE_SUIT_MODULES.containsValue(spaceSuitModule) && spaceSuitModule.canBeAppliedToSpaceSuitPart(this.inputSlots.getItem(0));
         }

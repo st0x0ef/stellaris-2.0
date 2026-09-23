@@ -1,5 +1,6 @@
 package org.exodusstudio.stellaris.platform.neoforge;
 
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.syncher.EntityDataSerializer;
 import net.minecraft.resources.Identifier;
 import net.neoforged.neoforge.registries.DeferredRegister;
@@ -13,6 +14,10 @@ public class RegistryPlatformImpl {
 
     public static <T> void registerEntityDataSerializer(Identifier location, EntityDataSerializer<T> serializer) {
         ENTITY_DATA_SERIALIZERS.register(location.getPath(), () -> serializer);
+    }
+
+    public static void addItemAlias(Identifier from, Identifier to) {
+        BuiltInRegistries.ITEM.addAlias(from, to);
     }
 
 }

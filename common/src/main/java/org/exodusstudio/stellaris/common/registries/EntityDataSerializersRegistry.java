@@ -5,15 +5,14 @@ import org.exodusstudio.stellaris.common.data.Planet;
 import org.exodusstudio.stellaris.common.modules.Modules;
 import org.exodusstudio.stellaris.common.modules.rocket.RocketModule;
 import org.exodusstudio.stellaris.common.modules.rocket.RocketModules;
-import org.exodusstudio.stellaris.common.modules.rover.RoverModule;
-import org.exodusstudio.stellaris.common.modules.rover.RoverModules;
+import org.exodusstudio.stellaris.common.modules.rover.RoverUpgrades;
 import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
 import org.exodusstudio.stellaris.platform.RegistryPlatform;
 
 public class EntityDataSerializersRegistry {
 
     public static EntityDataSerializer<Modules<RocketModule>> ROCKET_MODULES = EntityDataSerializer.forValueType(RocketModules.STREAM_CODEC);
-    public static EntityDataSerializer<Modules<RoverModule>> ROVER_MODULES = EntityDataSerializer.forValueType(RoverModules.STREAM_CODEC);
+    public static EntityDataSerializer<RoverUpgrades> ROVER_MODULES = EntityDataSerializer.forValueType(RoverUpgrades.STREAM_CODEC);
     public static EntityDataSerializer<Planet> PLANET = EntityDataSerializer.forValueType(Planet.STREAM_CODEC);
 
 

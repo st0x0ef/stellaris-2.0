@@ -3,8 +3,6 @@ package org.exodusstudio.stellaris.common.registries;
 
 import dev.architectury.registry.registries.RegistrySupplier;
 import org.exodusstudio.stellaris.common.items.modules.rocket.*;
-import org.exodusstudio.stellaris.common.items.modules.rover.RoverCargoModuleItem;
-import org.exodusstudio.stellaris.common.items.modules.rover.RoverMotorModuleItem;
 import org.exodusstudio.stellaris.common.items.modules.rover.RoverSpeedModuleItem;
 import org.exodusstudio.stellaris.common.items.modules.rover.RoverTankModuleItem;
 import org.exodusstudio.stellaris.common.items.modules.space_suit.*;
@@ -28,10 +26,8 @@ public class ModulesRegistry {
     public static final RegistrySupplier<RocketModelModuleItem<?>> BIG_ROCKET_MODEL = StellarisRegistries.ROCKET_MODULES.register(IdentifierUtils.id("big_rocket_model"), ItemsRegistry.BIG_ROCKET_MODEL);
 
     /** Rover Modules */
-    public static final RegistrySupplier<RoverCargoModuleItem> ROVER_CARGO = StellarisRegistries.ROVER_MODULES.register(IdentifierUtils.id("rover_cargo_module"), ItemsRegistry.ROVER_CARGO_MODULE);
     public static final RegistrySupplier<RoverTankModuleItem> ROVER_TANK = StellarisRegistries.ROVER_MODULES.register(IdentifierUtils.id("rover_tank_module"), ItemsRegistry.ROVER_TANK_MODULE);
     public static final RegistrySupplier<RoverSpeedModuleItem> ROVER_SPEED = StellarisRegistries.ROVER_MODULES.register(IdentifierUtils.id("rover_speed_module"), ItemsRegistry.ROVER_SPEED_MODULE);
-    public static final RegistrySupplier<RoverMotorModuleItem> ROVER_HYDROGEN_MOTOR = StellarisRegistries.ROVER_MODULES.register(IdentifierUtils.id("rover_hydrogen_motor"), ItemsRegistry.ROVER_HYDROGEN_MOTOR);
 
     /** Space Suit Modules */
     public static final RegistrySupplier<OxygenModuleItem> OXYGEN_MODULE_T1 = StellarisRegistries.SPACE_SUIT_MODULES.register(IdentifierUtils.id("oxygen_module_tier_1"), ItemsRegistry.SPACE_SUIT_OXYGEN_MODULE_T1);
