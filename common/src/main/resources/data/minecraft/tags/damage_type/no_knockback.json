@@ -1,0 +1,8 @@
+{
+  "replace": false,
+  "values": [
+    "stellaris:oxygen_deprivation",
+    "stellaris:corrosion",
+    "stellaris:infection"
+  ]
+}

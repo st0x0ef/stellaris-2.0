@@ -1,11 +1,14 @@
 # Stellaris 2.0.3 for MC 26.1.2
 
+## Additions
+- Added custom damage types
+- Added a tooltip to the tablet item
+
 ## Changes
 - Improve entity rendering in the tablet
 - Display the lander model for the lander entry in the tablet
 - Clean some outdated data in the rover entry in the tablet
 - Change cable and pipe recipes
-- Added a tooltip to the tablet
 - Improve elytra mode fly on the space suit
 - Improve rover driving physics
 

@@ -1,0 +1,6 @@
+{
+  "message_id": "stellaris.oxygen_deprivation",
+  "scaling": "never",
+  "exhaustion": 0.0,
+  "effects": "drowning"
+}

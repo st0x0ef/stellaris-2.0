@@ -4,8 +4,6 @@ package org.exodusstudio.stellaris.common.entities.vehicles.base;
 import dev.architectury.networking.NetworkManager;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.Holder;
-import net.minecraft.core.registries.Registries;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -13,9 +11,6 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.damagesource.DamageType;
-import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.vehicle.DismountHelper;
@@ -25,10 +20,10 @@ import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import org.exodusstudio.stellaris.common.utils.GravityUtils;
+import org.exodusstudio.stellaris.common.registries.DamageTypesRegistry;
 import org.joml.Vector3d;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
@@ -153,8 +148,8 @@ public abstract class AbstractRoverBase extends IVehicleEntity {
                     float damage = speed * 10;
                     tasks.add(() -> {
                         ServerLevel serverLevel = (ServerLevel) level();
-                        Optional<Holder.Reference<DamageType>> holder = serverLevel.registryAccess().lookupOrThrow(Registries.DAMAGE_TYPE).get(DamageTypes.DROWN);
-                        holder.ifPresent(damageTypeReference -> entityIn.hurt(new DamageSource(damageTypeReference, this), damage));
+                        Entity driver = getDriver();
+                        entityIn.hurtServer(serverLevel, DamageTypesRegistry.source(serverLevel, DamageTypesRegistry.ROVER_IMPACT, this, driver != null ? driver : this), damage);
                     });
                 }
             }
