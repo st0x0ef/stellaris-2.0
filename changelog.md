@@ -7,6 +7,7 @@
 - Change cable and pipe recipes
 - Added a tooltip to the tablet
 - Improve elytra mode fly on the space suit
+- Improve rover driving physics
 
 ## Removed
 - Rover cargo module (will be automatically replaced by the rocket equivalent)
