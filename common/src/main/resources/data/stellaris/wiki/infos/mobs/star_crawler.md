@@ -6,7 +6,7 @@ iconType: entity
 
 The Star Crawler is an armored hostile creature, a leftover of an experiment that got out of hand.
 
-[entity=stellaris:star_crawler scale=35 width=150]
+[entity=stellaris:star_crawler scale=25 icon_scale=3 width=200 height=90]
 
 Its natural armor makes it tougher than most monsters, and it will relentlessly pursue players and villagers. 
 It does not spawn on its own anywhere yet : for now you only meet one if it is released with a spawn egg. 

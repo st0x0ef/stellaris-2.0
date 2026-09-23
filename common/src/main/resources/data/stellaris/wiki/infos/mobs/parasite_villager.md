@@ -6,7 +6,7 @@ iconType: entity
 
 This is a Parasite Villager. Scientists have discovered that the [ref=stellaris:mobs/parasite]parasite[ref] transforms regular villagers into this creature.
 
-[entity=stellaris:parasite_affected_villager scale=25 width=150 rotation=(0,180,0)]
+[entity=stellaris:parasite_affected_villager scale=25 width=150 height=100]
 
 It never hunts on its own : it only [tl=tooltip.wiki.stellaris.strikes_back]strikes back[tl] at whoever hurts it first. 
 Every hit it lands infects you for 16 seconds and slows you down for 4 seconds. 

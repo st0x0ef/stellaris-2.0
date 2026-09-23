@@ -8,7 +8,6 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import org.exodusstudio.stellaris.common.data.wiki.MarkdownPage;
 import org.exodusstudio.stellaris.client.utils.stellardown.StellardownStyle;
@@ -87,8 +86,8 @@ public class WikiInfoButton extends TexturedButton {
                 StellardownStyle.EntityStyle entityStyle = page.getEntityIcon();
                 if(entityStyle != null) {
                     Entity entity = ClientUtils.createEntity(Minecraft.getInstance().level, entityStyle.identifier);
-                    if(entity instanceof LivingEntity livingEntity) {
-                        ClientUtils.renderEntityInGui(graphics, this.getX() + 2, this.getY(), this.getX() + 18, this.getY() + 16, 8, 0.25F, mouseX, mouseY, livingEntity, entityStyle.rotation);
+                    if(entity != null) {
+                        ClientUtils.renderEntityIcon(graphics, this.getX() + 2, this.getY() + 2, 16, entityStyle.iconScale, entityStyle.offset, entity, entityStyle.rotation);
                     }
                 }
         }

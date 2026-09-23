@@ -110,12 +110,15 @@ public abstract class StellardownStyle {
     public static class EntityStyle extends StellardownStyle {
         public Identifier identifier;
         public int scale = 10;
+        public float iconScale = 0;
+        public float offset = 0;
         public Vector3f rotation = new Vector3f(0, 0, 0);
 
         public EntityStyle(Identifier identifier) {
             this.identifier = identifier;
             this.width = 50;
             this.height = 50;
+            this.centered = true;
         }
 
         public static EntityStyle parse(String content) {
@@ -136,6 +139,12 @@ public abstract class StellardownStyle {
                 }
                 if(param.startsWith("height=") ) {
                     style.height = Integer.parseInt(param.substring("height=".length()));
+                }
+                if(param.startsWith("icon_scale=") ) {
+                    style.iconScale = Float.parseFloat(param.substring("icon_scale=".length()));
+                }
+                if(param.startsWith("offset=") ) {
+                    style.offset = Float.parseFloat(param.substring("offset=".length()));
                 }
                 if(param.startsWith("rotation=") ) {
                     String onlyDigits = param.substring("rotation=".length()).trim().replace("(", "").replace(")", "");
