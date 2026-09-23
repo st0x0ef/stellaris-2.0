@@ -1,17 +1,16 @@
 {
   "type": "minecraft:crafting_shaped",
   "pattern": [
-    "OOO",
-    "TCT",
-    "OOO"
+    "TTT",
+    "CCC",
+    "TTT"
   ],
   "key": {
     "T": "#c:nuggets/titanium",
-    "O": "#c:silicon",
-    "C": "#c:ingots/copper"
+    "C": "#c:nuggets/copper"
   },
   "result": {
     "id": "stellaris:cable_t1",
-    "count": 4
+    "count": 6
   }
 }

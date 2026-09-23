@@ -1,17 +1,16 @@
 {
   "type": "minecraft:crafting_shaped",
   "pattern": [
-    "OOO",
-    "IPI",
-    "OOO"
+    "TTT",
+    "GGG",
+    "TTT"
   ],
   "key": {
-    "I": "#c:nuggets/iron",
-    "O": "#c:silicon",
-    "P": "#c:glass_blocks/colorless"
+    "T": "#c:nuggets/titanium",
+    "G": "#c:glass_blocks/colorless"
   },
   "result": {
     "id": "stellaris:pipe_t1",
-    "count": 4
+    "count": 6
   }
 }
