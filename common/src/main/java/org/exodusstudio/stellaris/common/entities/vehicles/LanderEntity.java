@@ -127,7 +127,9 @@ public class LanderEntity extends VehicleEntity {
             }
         }
 
-        this.move(MoverType.SELF, this.getDeltaMovement());
+        if (!this.level().isClientSide()) {
+            this.move(MoverType.SELF, this.getDeltaMovement());
+        }
     }
 
     public Player getFirstPlayerPassenger() {

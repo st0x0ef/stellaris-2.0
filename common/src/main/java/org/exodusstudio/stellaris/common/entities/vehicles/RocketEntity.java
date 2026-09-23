@@ -234,7 +234,9 @@ public class RocketEntity extends VehicleEntity implements FluidProvider.ENTITY,
 
             }
 
-            this.move(MoverType.SELF, this.getDeltaMovement());
+            if (!this.level().isClientSide()) {
+                this.move(MoverType.SELF, this.getDeltaMovement());
+            }
         }
     }
 

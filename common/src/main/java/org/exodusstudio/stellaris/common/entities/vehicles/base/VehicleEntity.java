@@ -10,7 +10,6 @@ import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerEntity;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.FluidTags;
-import net.minecraft.util.Mth;
 import net.minecraft.world.Container;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -33,12 +32,7 @@ public abstract class VehicleEntity extends Entity implements HasCustomInventory
     public SimpleContainer inventory;
     public static final EntityDataAccessor<Integer> FUEL = SynchedEntityData.defineId(VehicleEntity.class, EntityDataSerializers.INT);
 
-    private int lerpSteps;
-    private double lerpX;
-    private double lerpY;
-    private double lerpZ;
-    private double lerpYRot;
-    private double lerpXRot;
+    private final InterpolationHandler interpolation = new InterpolationHandler(this);
 
     private float speed;
     private boolean discardFriction = false;
@@ -83,8 +77,7 @@ public abstract class VehicleEntity extends Entity implements HasCustomInventory
     public void tick() {
         super.tick();
 
-        /** ROT Anim */
-        this.tickLerp();
+        this.interpolation.interpolate();
         this.rotAnim();
 
         /** Movement Physic */
@@ -141,15 +134,8 @@ public abstract class VehicleEntity extends Entity implements HasCustomInventory
 
 
     @Override
-    protected void lerpPositionAndRotationStep(int steps, double targetX, double targetY, double targetZ, double targetYRot, double targetXRot) {
-        super.lerpPositionAndRotationStep(steps, targetX, targetY, targetZ, targetYRot, targetXRot);
-        this.lerpX = targetX;
-        this.lerpY = targetY;
-        this.lerpZ = targetZ;
-
-        this.lerpYRot = targetYRot;
-        this.lerpXRot = targetXRot;
-        this.lerpSteps = steps;
+    public InterpolationHandler getInterpolation() {
+        return this.interpolation;
     }
 
     @Override
@@ -175,25 +161,6 @@ public abstract class VehicleEntity extends Entity implements HasCustomInventory
             if (!itemstack.isEmpty()) {
                 this.spawnAtLocation(level, itemstack);
             }
-        }
-    }
-
-    private void tickLerp() {
-        if (this.isLocalClientAuthoritative()) {
-            this.lerpSteps = 0;
-            this.syncPacketPositionCodec(this.getX(), this.getY(), this.getZ());
-        }
-
-        if (this.lerpSteps > 0) {
-            double d0 = this.getX() + (this.lerpX - this.getX()) / (double) this.lerpSteps;
-            double d2 = this.getY() + (this.lerpY - this.getY()) / (double) this.lerpSteps;
-            double d4 = this.getZ() + (this.lerpZ - this.getZ()) / (double) this.lerpSteps;
-            double d6 = Mth.wrapDegrees(this.lerpYRot - (double) this.getYRot());
-            this.setYRot(this.getYRot() + (float) d6 / (float) this.lerpSteps);
-            this.setXRot(this.getXRot() + (float) (this.lerpXRot - (double) this.getXRot()) / (float) this.lerpSteps);
-            --this.lerpSteps;
-            this.setPos(d0, d2, d4);
-            this.setRot(this.getYRot(), this.getXRot());
         }
     }
 
