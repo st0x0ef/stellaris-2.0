@@ -2,7 +2,9 @@ package org.exodusstudio.stellaris.common.items;
 
 import dev.architectury.networking.NetworkManager;
 import dev.architectury.registry.menu.MenuRegistry;
+import net.minecraft.ChatFormatting;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerPlayer;
@@ -15,6 +17,8 @@ import net.minecraft.world.inventory.ClickAction;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.component.TooltipDisplay;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -27,11 +31,18 @@ import org.exodusstudio.stellaris.common.network.packets.OpenWikiEntry;
 import org.exodusstudio.stellaris.common.registries.AdvancementTriggerRegistry;
 
 import java.util.Map;
+import java.util.function.Consumer;
 
 public class TabletItem extends Item {
 
     public TabletItem(Properties properties) {
         super(properties);
+    }
+
+    @Override
+    public void appendHoverText(ItemStack stack, TooltipContext context, TooltipDisplay tooltipDisplay, Consumer<Component> tooltipAdder, TooltipFlag flag) {
+        tooltipAdder.accept(Component.translatable("tooltip.item.stellaris.tablet").withStyle(ChatFormatting.GRAY));
+        tooltipAdder.accept(Component.translatable("tooltip.item.stellaris.tablet.lookup").withStyle(ChatFormatting.GRAY));
     }
 
     @Override

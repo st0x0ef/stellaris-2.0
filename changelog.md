@@ -5,6 +5,7 @@
 - Display the lander model for the lander entry in the tablet
 - Clean some outdated data in the rover entry in the tablet
 - Change cable and pipe recipes
+- Added a tooltip to the tablet
 
 ## Removed
 - Rover cargo module (will be automatically replaced by the rocket equivalent)

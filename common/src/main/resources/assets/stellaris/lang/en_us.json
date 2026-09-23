@@ -473,6 +473,8 @@
   "tooltip.item.stellaris.energy": "⚡ Energy: §e%s§r§f/§r§e%s§r FE",
   "tooltip.item.stellaris.energy.unlimited": "⚡ Energy: §e∞§r FE",
   "tooltip.item.stellaris.oil_finder": "Right click on a block to check if there is oil.",
+  "tooltip.item.stellaris.tablet": "Right click to open the wiki.",
+  "tooltip.item.stellaris.tablet.lookup": "Shift + right click a block, or drop an item on the tablet, to jump to its page.",
   "tooltip.item.stellaris.night_vision_module": "Toggle night vision with the Night Vision key.",
 
   "tooltip.item.stellaris.can_be_applied_to_space_suit_boots_module": "This module can be applied to the space suit boots.",
