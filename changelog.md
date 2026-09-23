@@ -16,3 +16,4 @@
 - Fix player pose in the rocket
 - Fix planet selection app hover texture in the tablet not being centered
 - Fix trophies hitbox being too big
+- Fix research progression being cleared if the player dies

@@ -63,11 +63,11 @@ public class DataAttachmentRegistry {
         );
 
         MOON_LORE_PROGRESSION = AttachmentRegistry.create(
-                MoonLoreUtils.MOON_LORE_PROGRESSION, builder -> builder.initializer(() -> -1).persistent(Codec.INT).syncWith(ByteBufCodecs.INT, AttachmentSyncPredicate.all())
+                MoonLoreUtils.MOON_LORE_PROGRESSION, builder -> builder.initializer(() -> -1).persistent(Codec.INT).syncWith(ByteBufCodecs.INT, AttachmentSyncPredicate.all()).copyOnDeath()
         );
 
         PLAYER_IMMUNISED_TO_INFECTION = AttachmentRegistry.create(
-                MoonLoreUtils.PLAYER_IMMUNISED_TO_INFECTION, builder -> builder.initializer(() -> false).persistent(Codec.BOOL).syncWith(ByteBufCodecs.BOOL, AttachmentSyncPredicate.all())
+                MoonLoreUtils.PLAYER_IMMUNISED_TO_INFECTION, builder -> builder.initializer(() -> false).persistent(Codec.BOOL).syncWith(ByteBufCodecs.BOOL, AttachmentSyncPredicate.all()).copyOnDeath()
         );
 
 
@@ -75,14 +75,14 @@ public class DataAttachmentRegistry {
                 AssistantPlayerData.KEY,
                 builder -> builder
                         .initializer(AssistantPlayerData::empty)
-                        .persistent(AssistantPlayerData.CODEC) // the client never reads this, so it is not synced
+                        .persistent(AssistantPlayerData.CODEC).copyOnDeath() // the client never reads this, so it is not synced
         );
 
         PARASITE_DATA = AttachmentRegistry.create(
                 ParasitePlayerData.KEY,
                 builder -> builder
                         .initializer(ParasitePlayerData::empty)
-                        .persistent(ParasitePlayerData.CODEC) // server side history, the client never reads it
+                        .persistent(ParasitePlayerData.CODEC).copyOnDeath() // server side history, the client never reads it
         );
 
         FADE = AttachmentRegistry.create(
