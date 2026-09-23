@@ -21,3 +21,4 @@
 - Fix oil synchronization issue between client and server
 - Fix rocket movement synchronization issue between client and server
 - Fix lander movement synchronization issue between client and server
+- Fix gravity manipulator synchronization issue between client and server
