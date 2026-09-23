@@ -6,6 +6,7 @@
 - Clean some outdated data in the rover entry in the tablet
 - Change cable and pipe recipes
 - Added a tooltip to the tablet
+- Improve elytra mode fly on the space suit
 
 ## Removed
 - Rover cargo module (will be automatically replaced by the rocket equivalent)
