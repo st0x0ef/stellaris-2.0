@@ -40,38 +40,24 @@ public class VaccineMenu extends BaseItemCombinerMenu {
     public VaccineMenu(int containerId, Inventory playerInventory, ContainerLevelAccess access, BlockPos pos) {
         super(MenuTypesRegistry.LABORATORY_VACCINE.get(), containerId, playerInventory, access);
         this.laboratoryBlockEntity = (LaboratoryBlockEntity) player.level().getBlockEntity(pos);
-        if (laboratoryBlockEntity != null) {
-            this.inputSlots.setItem(0, laboratoryBlockEntity.vaccineItems.get(0));
-            this.inputSlots.setItem(1, laboratoryBlockEntity.vaccineItems.get(1));
-            this.inputSlots.setItem(2, laboratoryBlockEntity.vaccineItems.get(2));
-            this.inputSlots.setItem(3, laboratoryBlockEntity.vaccineItems.get(3));
-        }
     }
 
     @Override
     public void removed(Player player) {
         super.removed(player); // no-op for items since access is ContainerLevelAccess.NULL
-        if (laboratoryBlockEntity != null && laboratoryBlockEntity.isTabSwitching()) {
-            laboratoryBlockEntity.vaccineItems.set(0, inputSlots.getItem(0).copy());
-            laboratoryBlockEntity.vaccineItems.set(1, inputSlots.getItem(1).copy());
-            laboratoryBlockEntity.vaccineItems.set(2, inputSlots.getItem(2).copy());
-            laboratoryBlockEntity.vaccineItems.set(3, inputSlots.getItem(3).copy());
-        } else {
-            clearContainer(player, inputSlots);
-        }
+        clearContainer(player, inputSlots);
     }
 
     @Override
     protected boolean mayPickup(Player player, boolean hasStack) {
-        return true;
+        return hasStack;
     }
 
     @Override
     protected void onTake(Player player, ItemStack stack) {
-        inputSlots.getItem(0).shrink(stack.getCount());
-        inputSlots.getItem(1).shrink(stack.getCount());
-        inputSlots.getItem(2).shrink(stack.getCount());
-        inputSlots.getItem(3).shrink(stack.getCount());
+        for (int i = 0; i < 4; i++) {
+            inputSlots.removeItem(i, 1);
+        }
     }
 
     @Override
@@ -85,42 +71,17 @@ public class VaccineMenu extends BaseItemCombinerMenu {
             return;
         }
 
-        ItemStack outputStack = getItems().get(4);
-        if ((outputStack.isEmpty() || outputStack.getCount() < outputStack.getMaxStackSize()) && player.level() instanceof ServerLevel serverLevel) {
+        ItemStack result = ItemStack.EMPTY;
+        if (this.laboratoryBlockEntity != null && player.level() instanceof ServerLevel serverLevel) {
             VaccineInput input = new VaccineInput(this.laboratoryBlockEntity, getItems());
             Optional<RecipeHolder<VaccineRecipe>> recipeHolder = quickCheck.getRecipeFor(input, serverLevel);
 
-            if (recipeHolder.isPresent()) {
-                VaccineRecipe recipe = recipeHolder.get().value();
-                if (recipe.matches(input, player.level())) {
-                    ItemStack resultStack = recipe.assemble(input);
-                    if (outputStack.isEmpty() || (ItemStack.isSameItemSameComponents(outputStack, resultStack)
-                            && outputStack.getCount() + resultStack.getCount() <= outputStack.getMaxStackSize())) {
-
-                        if (outputStack.isEmpty()) {
-                            setItem(4, 4, resultStack.copy());
-                        }
-                        else if (ItemStack.isSameItemSameComponents(outputStack, resultStack)) {
-                            outputStack.grow(1);
-                        }
-                        else {
-                            return;
-                        }
-
-                        for (int i = 0; i < 4; i++) {
-                            ItemStack stack = getItems().get(i);
-                            stack.shrink(1);
-
-                            if (stack.isEmpty()) {
-                                setItem(i, i, ItemStack.EMPTY);
-                            }
-                        }
-
-                        laboratoryBlockEntity.setChanged();
-                    }
-                }
+            if (recipeHolder.isPresent() && recipeHolder.get().value().matches(input, serverLevel)) {
+                result = recipeHolder.get().value().assemble(input);
             }
         }
+
+        this.resultSlots.setItem(0, result);
 
     }
 

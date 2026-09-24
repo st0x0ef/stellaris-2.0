@@ -43,11 +43,7 @@ public class SpaceStationPlannerMenu extends BaseContainer implements ContainerL
     public static SpaceStationPlannerMenu create(int syncId, Inventory inventory, FriendlyByteBuf data) {
         BlockPos pos = data.readBlockPos();
         EngineeringStationBlockEntity be = (EngineeringStationBlockEntity) inventory.player.level().getBlockEntity(pos);
-        SimpleContainer container = new SimpleContainer(10);
-        if (be != null) {
-            for (int i = 0; i < 10; i++) container.setItem(i, be.spaceStationPlannerItems.get(i));
-        }
-        return new SpaceStationPlannerMenu(syncId, inventory, container, pos, be);
+        return new SpaceStationPlannerMenu(syncId, inventory, new SimpleContainer(10), pos, be);
     }
 
     public SpaceStationPlannerMenu(int syncId, Inventory playerInventory, Container container, BlockPos pos, EngineeringStationBlockEntity blockEntity) {
@@ -62,6 +58,10 @@ public class SpaceStationPlannerMenu extends BaseContainer implements ContainerL
         this.resultSlotId = this.addSlot(new ResultSlot(this.inventory, 0, 122, 56)).index;
         addMaterialsSlots(30, 48);
         this.addSlotListener(this);
+
+        if (blockEntity != null) {
+            blockEntity.restoreSpaceStationPlannerItems(this.player, this.inventory);
+        }
     }
 
     public void addMaterialsSlots(int xStart, int yStart) {
@@ -83,12 +83,13 @@ public class SpaceStationPlannerMenu extends BaseContainer implements ContainerL
     @Override
     public void removed(Player player) {
         super.removed(player);
-        if (blockEntity != null && blockEntity.isTabSwitching()) {
-            for (int i = 0; i < inventory.getContainerSize(); i++) {
-                blockEntity.spaceStationPlannerItems.set(i, inventory.getItem(i).copy());
-            }
+        if (blockEntity == null) {
+            this.clearContainer(player, this.inventory);
+        } else if (blockEntity.isTabSwitching()) {
+            blockEntity.stashSpaceStationPlannerItems(player, this.inventory);
         } else {
             this.clearContainer(player, this.inventory);
+            this.clearContainer(player, blockEntity.takeStashedItems(player));
         }
     }
 
