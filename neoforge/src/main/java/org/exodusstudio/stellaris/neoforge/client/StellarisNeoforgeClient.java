@@ -24,6 +24,7 @@ import org.exodusstudio.stellaris.client.renderers.trophy.BossTrophyBlockRendere
 import org.exodusstudio.stellaris.client.renderers.globe.GlobeBlockRenderer;
 import org.exodusstudio.stellaris.client.renderers.globe.GlobeModel;
 import org.exodusstudio.stellaris.client.renderers.gravity_manipulator.GravityManipulatorBlockRenderer;
+import org.exodusstudio.stellaris.client.renderers.sliding_door.SlidingDoorRenderer;
 import org.exodusstudio.stellaris.client.renderers.gravity_manipulator.GravityManipulatorModel;
 import org.exodusstudio.stellaris.client.renderers.lander.LanderModel;
 import org.exodusstudio.stellaris.client.renderers.lander.LanderRenderer;
@@ -115,6 +116,7 @@ public class StellarisNeoforgeClient {
         event.registerBlockEntityRenderer(BlockEntitiesRegistry.MOD_HANGING_SIGN.get(), HangingSignRenderer::new);
         event.registerBlockEntityRenderer(BlockEntitiesRegistry.FLAG.get(), FlagBlockRenderer::new);
         event.registerBlockEntityRenderer(BlockEntitiesRegistry.GLOBE.get(), GlobeBlockRenderer::new);
+        event.registerBlockEntityRenderer(BlockEntitiesRegistry.SLIDING_DOOR.get(), SlidingDoorRenderer::new);
         event.registerBlockEntityRenderer(BlockEntitiesRegistry.BOSS_TROPHY.get(), BossTrophyBlockRenderer::new);
         event.registerBlockEntityRenderer((BlockEntityType<RocketLaunchPadBlockEntity>)BlockEntitiesRegistry.ROCKET_LAUNCH_PAD.get(), RocketLaunchPadBlockRenderer::new);
         event.registerBlockEntityRenderer(BlockEntitiesRegistry.SPACE_FARM.get(), SpaceFarmRenderer::new);
