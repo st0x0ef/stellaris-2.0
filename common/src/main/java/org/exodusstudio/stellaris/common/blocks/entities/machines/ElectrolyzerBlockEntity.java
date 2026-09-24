@@ -31,6 +31,7 @@ import org.exodusstudio.stellaris.common.menus.ElectrolyzerMenu;
 import org.exodusstudio.stellaris.common.network.packets.SyncFluidPacket;
 import org.exodusstudio.stellaris.common.registries.BlockEntitiesRegistry;
 import org.exodusstudio.stellaris.common.registries.RecipesRegistry;
+import org.exodusstudio.stellaris.common.utils.Utils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -46,8 +47,9 @@ public class ElectrolyzerBlockEntity extends BaseEnergyContainerBlockEntity impl
         @Override
         protected void onChange() {
             setChanged();
-            if (level != null && level.getServer() != null && !level.getServer().getPlayerList().getPlayers().isEmpty()) {
-                NetworkManager.sendToPlayers(level.getServer().getPlayerList().getPlayers(),
+            List<ServerPlayer> players = Utils.getPlayersTrackingBlock(level, getBlockPos());
+            if (!players.isEmpty()) {
+                NetworkManager.sendToPlayers(players,
                         new SyncFluidPacket(new FluidAmountMapDataComponent(List.of(getFluidInTank(0).getFluid()), List.of(getFluidValueInTank())), 0, getBlockPos(), Direction.UP));
             }
         }
@@ -64,8 +66,9 @@ public class ElectrolyzerBlockEntity extends BaseEnergyContainerBlockEntity impl
         @Override
         protected void onChange(int tank) {
             setChanged();
-            if (level != null && level.getServer() != null && !level.getServer().getPlayerList().getPlayers().isEmpty()) {
-                NetworkManager.sendToPlayers(level.getServer().getPlayerList().getPlayers(),
+            List<ServerPlayer> players = Utils.getPlayersTrackingBlock(level, getBlockPos());
+            if (!players.isEmpty()) {
+                NetworkManager.sendToPlayers(players,
                         new SyncFluidPacket(new FluidAmountMapDataComponent(List.of(getFluidInTank(tank).getFluid()), List.of(getFluidValueInTank(tank))), tank, getBlockPos(), getBlockState().getValue(ElectrolyzerBlock.FACING).getClockWise()));
             }
         }

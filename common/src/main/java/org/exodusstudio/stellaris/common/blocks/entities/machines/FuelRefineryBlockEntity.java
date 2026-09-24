@@ -9,6 +9,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.crafting.RecipeHolder;
@@ -28,6 +29,7 @@ import org.exodusstudio.stellaris.common.network.packets.SyncFluidPacket;
 import org.exodusstudio.stellaris.common.registries.BlockEntitiesRegistry;
 import org.exodusstudio.stellaris.common.registries.FluidsRegistry;
 import org.exodusstudio.stellaris.common.registries.RecipesRegistry;
+import org.exodusstudio.stellaris.common.utils.Utils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -47,8 +49,9 @@ public class FuelRefineryBlockEntity extends BaseEnergyContainerBlockEntity impl
             @Override
             protected void onChange() {
                 setChanged();
-                if (level != null && level.getServer() != null && !level.getServer().getPlayerList().getPlayers().isEmpty()) {
-                    NetworkManager.sendToPlayers(level.getServer().getPlayerList().getPlayers(),
+                List<ServerPlayer> players = Utils.getPlayersTrackingBlock(level, getBlockPos());
+                if (!players.isEmpty()) {
+                    NetworkManager.sendToPlayers(players,
                             new SyncFluidPacket(new FluidAmountMapDataComponent(List.of(getFluidInTank(0).getFluid()), List.of(getFluidValueInTank())), 0, getBlockPos(), Direction.UP));
                 }
             }
@@ -64,9 +67,10 @@ public class FuelRefineryBlockEntity extends BaseEnergyContainerBlockEntity impl
             @Override
             protected void onChange() {
                 setChanged();
-                if (level != null && level.getServer() != null && !level.getServer().getPlayerList().getPlayers().isEmpty()) {
+                List<ServerPlayer> players = Utils.getPlayersTrackingBlock(level, getBlockPos());
+                if (!players.isEmpty()) {
                     Direction fuelDir = getBlockState().getValue(BaseMachineBlock.FACING).getClockWise();
-                    NetworkManager.sendToPlayers(level.getServer().getPlayerList().getPlayers(),
+                    NetworkManager.sendToPlayers(players,
                             new SyncFluidPacket(new FluidAmountMapDataComponent(List.of(getFluidInTank(0).getFluid()), List.of(getFluidValueInTank())), 0, getBlockPos(), fuelDir));
                 }
             }
@@ -75,9 +79,10 @@ public class FuelRefineryBlockEntity extends BaseEnergyContainerBlockEntity impl
             @Override
             protected void onChange() {
                 setChanged();
-                if (level != null && level.getServer() != null && !level.getServer().getPlayerList().getPlayers().isEmpty()) {
+                List<ServerPlayer> players = Utils.getPlayersTrackingBlock(level, getBlockPos());
+                if (!players.isEmpty()) {
                     Direction dieselDir = getBlockState().getValue(BaseMachineBlock.FACING).getCounterClockWise();
-                    NetworkManager.sendToPlayers(level.getServer().getPlayerList().getPlayers(),
+                    NetworkManager.sendToPlayers(players,
                             new SyncFluidPacket(new FluidAmountMapDataComponent(List.of(getFluidInTank(0).getFluid()), List.of(getFluidValueInTank())), 0, getBlockPos(), dieselDir));
                 }
             }

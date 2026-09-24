@@ -31,6 +31,7 @@ import org.exodusstudio.stellaris.common.menus.VacuumatorMenu;
 import org.exodusstudio.stellaris.common.network.packets.SyncFluidPacketWithoutDirection;
 import org.exodusstudio.stellaris.common.registries.BlockEntitiesRegistry;
 import org.exodusstudio.stellaris.common.registries.TagsRegistry;
+import org.exodusstudio.stellaris.common.utils.Utils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -92,8 +93,9 @@ public class VacuumatorBlockEntity extends BaseEnergyContainerBlockEntity implem
             @Override
             protected void onChange() {
                 setChanged();
-                if (level != null && level.getServer() != null && !level.getServer().getPlayerList().getPlayers().isEmpty()) {
-                    NetworkManager.sendToPlayers(level.getServer().getPlayerList().getPlayers(),
+                List<ServerPlayer> players = Utils.getPlayersTrackingBlock(level, getBlockPos());
+                if (!players.isEmpty()) {
+                    NetworkManager.sendToPlayers(players,
                             new SyncFluidPacketWithoutDirection(new FluidAmountMapDataComponent(List.of(getFluidInTank(0).getFluid()), List.of(getFluidValueInTank())), 0, getBlockPos()));
                 }
             }

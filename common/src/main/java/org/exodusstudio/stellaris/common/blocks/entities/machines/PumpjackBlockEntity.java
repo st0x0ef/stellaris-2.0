@@ -26,6 +26,7 @@ import org.exodusstudio.stellaris.common.menus.PumpjackMenu;
 import org.exodusstudio.stellaris.common.network.packets.SyncFluidPacket;
 import org.exodusstudio.stellaris.common.registries.BlockEntitiesRegistry;
 import org.exodusstudio.stellaris.common.registries.FluidsRegistry;
+import org.exodusstudio.stellaris.common.utils.Utils;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -42,8 +43,9 @@ public class PumpjackBlockEntity extends BaseEnergyContainerBlockEntity implemen
             @Override
             protected void onChange() {
                 setChanged();
-                if (level != null && level.getServer() != null && !level.getServer().getPlayerList().getPlayers().isEmpty()) {
-                    NetworkManager.sendToPlayers(level.getServer().getPlayerList().getPlayers(),
+                List<ServerPlayer> players = Utils.getPlayersTrackingBlock(level, getBlockPos());
+                if (!players.isEmpty()) {
+                    NetworkManager.sendToPlayers(players,
                             new SyncFluidPacket(new FluidAmountMapDataComponent(List.of(getFluidInTank(0).getFluid()), List.of(getFluidValueInTank())),
                                     0, getBlockPos(), getBlockState().getValue(PumpjackBlock.FACING).getClockWise()));
                 }
