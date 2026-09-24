@@ -13,6 +13,7 @@ import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ItemUtils;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
@@ -75,69 +76,66 @@ public class SpaceFarmBlock extends BaseTickingEntityBlock {
 
     @Override
     protected InteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) {
-        SpaceFarmBlockEntity blockEntity = (SpaceFarmBlockEntity) level.getBlockEntity(pos);
-        if(level.isClientSide() || blockEntity == null) {
+        if (!(level.getBlockEntity(pos) instanceof SpaceFarmBlockEntity blockEntity)) {
+            return InteractionResult.TRY_WITH_EMPTY_HAND;
+        }
+
+        if (blockEntity.cropState == null) {
+            if (stack.is(ItemTags.DIRT) || stack.is(ItemTags.GRASS_BLOCKS)) {
+                if (!level.isClientSide()) {
+                    setFarmState(state, pos, level, SpaceFarmType.DIRT);
+                    level.playSound(null, pos, Blocks.DIRT.defaultBlockState().getSoundType().getPlaceSound(), SoundSource.BLOCKS);
+                    stack.consume(1, player);
+                }
+                return InteractionResult.SUCCESS;
+            }
+
+            if (stack.is(Items.WATER_BUCKET)) {
+                if (!level.isClientSide()) {
+                    setFarmState(state, pos, level, SpaceFarmType.WATER);
+                    this.updateNearSpaceFarm(state, pos, level);
+                    level.playSound(null, pos, SoundEvents.BUCKET_EMPTY, SoundSource.BLOCKS);
+                    player.setItemInHand(hand, ItemUtils.createFilledResult(stack, player, new ItemStack(Items.BUCKET)));
+                }
+                return InteractionResult.SUCCESS;
+            }
+
+            if (state.getValue(FARM_TYPE) == SpaceFarmType.FARMLAND
+                    && stack.getItem() instanceof BlockItem blockItem
+                    && blockItem.getBlock() instanceof CropBlock cropBlock) {
+                if (!level.isClientSide()) {
+                    blockEntity.setCrop(cropBlock);
+                    stack.consume(1, player);
+                }
+                return InteractionResult.SUCCESS;
+            }
+        } else if (stack.is(ItemTags.HOES)
+                && blockEntity.cropState.getBlock() instanceof CropBlock block
+                && block.isMaxAge(blockEntity.cropState)) {
+            if (level instanceof ServerLevel serverLevel) {
+                List<ItemStack> drops = blockEntity.cropState.getDrops(new LootParams.Builder(serverLevel)
+                        .withParameter(LootContextParams.TOOL, stack)
+                        .withParameter(LootContextParams.BLOCK_STATE, blockEntity.cropState)
+                        .withParameter(LootContextParams.ORIGIN, player.position()));
+
+                for (ItemStack drop : drops) {
+                    level.addFreshEntity(new ItemEntity(level, pos.getX(), pos.getY() + 1, pos.getZ(), drop));
+                }
+
+                blockEntity.setCrop(block);
+                stack.hurtAndBreak(1, player, hand);
+                level.playSound(null, pos, SoundEvents.HOE_TILL, SoundSource.BLOCKS, 1.0F, 1.0F);
+            }
+            return InteractionResult.SUCCESS;
+        } else if (stack.is(Items.BONE_MEAL)) {
+            if (!level.isClientSide()) {
+                blockEntity.performBoneMeal();
+                stack.consume(1, player);
+            }
             return InteractionResult.SUCCESS;
         }
 
-
-        if(blockEntity.cropState == null) {
-            if(stack.is(ItemTags.DIRT) || stack.is(ItemTags.GRASS_BLOCKS)) {
-                setFarmState(state, pos, level, SpaceFarmType.DIRT);
-                level.playSound(null, pos, Blocks.DIRT.defaultBlockState().getSoundType().getPlaceSound(), SoundSource.BLOCKS);
-                stack.shrink(1);
-                return InteractionResult.SUCCESS;
-
-            } else if (stack.is(Items.WATER_BUCKET)) {
-                setFarmState(state, pos, level, SpaceFarmType.WATER);
-                this.updateNearSpaceFarm(state, pos, level);
-
-                level.playSound(null, pos, SoundEvents.BUCKET_FILL, SoundSource.BLOCKS);
-
-                player.setItemInHand(hand, new ItemStack(Items.BUCKET));
-                return InteractionResult.CONSUME;
-
-            }
-
-            if (state.getValue(FARM_TYPE) == SpaceFarmType.FARMLAND && stack.getItem() instanceof BlockItem blockItem) {
-                if(blockItem.getBlock() instanceof CropBlock cropBlock) {
-                    blockEntity.setCrop(cropBlock);
-                    stack.shrink(1);
-
-                }
-            }
-
-        } else  {
-
-             if(stack.is(ItemTags.HOES)) {
-                CropBlock block = (CropBlock) blockEntity.cropState.getBlock();
-                if(block.isMaxAge(blockEntity.cropState)) {
-
-                    List<ItemStack> drops = blockEntity.cropState.getDrops(new LootParams.Builder((ServerLevel) level)
-                            .withParameter(LootContextParams.TOOL, stack)
-                            .withParameter(LootContextParams.BLOCK_STATE, blockEntity.cropState)
-                            .withParameter(LootContextParams.ORIGIN, player.position()));
-
-                    for(ItemStack drop : drops) {
-                        ItemEntity entity = new ItemEntity(level, pos.getX(), pos.getY() + 1, pos.getZ(), drop);
-                        level.addFreshEntity(entity);
-                    }
-
-                    //We replant the crop
-                    blockEntity.setCrop(block);
-                    stack.setDamageValue(stack.getDamageValue() + 1);
-                    level.playSound(null, pos, SoundEvents.HOE_TILL, SoundSource.BLOCKS, 1.0F, 1.0F);
-
-
-                }
-            } else if (stack.is(Items.BONE_MEAL)) {
-                 blockEntity.performBoneMeal();
-                 stack.shrink(1);
-                 return InteractionResult.CONSUME;
-             }
-        }
-
-        return InteractionResult.FAIL;
+        return InteractionResult.TRY_WITH_EMPTY_HAND;
     }
 
     public void updateNearSpaceFarm(BlockState ourState, BlockPos pos, Level level) {

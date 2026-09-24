@@ -9,3 +9,4 @@
 - Fix item duplication in the laboratory vaccine tab
 - Fix items being lost when switching tab in the engineering station
 - Fix item duplication in the engineering station upgrade tab
+- Fix some space farm interactions
