@@ -167,9 +167,18 @@ public class Utils {
         if(startFade) startFade(player);
         else stopFade(player);
 
+        MinecraftServer server = player.level().getServer();
+        if (server == null) {
+            return;
+        }
 
-        CompletableFuture.delayedExecutor(2, java.util.concurrent.TimeUnit.SECONDS)
-                .execute(action);
+        CompletableFuture.delayedExecutor(2, java.util.concurrent.TimeUnit.SECONDS, server)
+                .execute(() -> {
+                    if (player instanceof ServerPlayer serverPlayer && serverPlayer.hasDisconnected()) {
+                        return;
+                    }
+                    action.run();
+                });
     }
 
     public static String capitalizeFirstLetter(String input) {

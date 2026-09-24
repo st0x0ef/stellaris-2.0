@@ -2,3 +2,6 @@
 
 ## Additions
 - Titanium sliding door
+
+## Fixes
+- Prevent a possible crash if player disconnect during screen fade
