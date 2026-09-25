@@ -3,3 +3,4 @@
 ## Fixes
 - Fix jetpack and lander controls ignoring key remapping
 - Fix a small memory leak
+- Fix torches not being consumed when placed without oxygen

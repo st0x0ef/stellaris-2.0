@@ -25,8 +25,6 @@ import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.common.antennas.Antenna;
 import org.exodusstudio.stellaris.common.assistant.AssistantManager;
 import org.exodusstudio.stellaris.common.antennas.AntennaSavedData;
-import org.exodusstudio.stellaris.common.blocks.CoalLanternBlock;
-import org.exodusstudio.stellaris.common.blocks.WallCoalTorchBlock;
 import org.exodusstudio.stellaris.common.blocks.entities.AntennaBlockEntity;
 import org.exodusstudio.stellaris.common.blocks.entities.FlagBlockEntity;
 import org.exodusstudio.stellaris.common.data.recipes.BlendingRecipe;
@@ -44,7 +42,6 @@ import org.exodusstudio.stellaris.common.network.packets.FuelRefinerySyncerPacke
 import org.exodusstudio.stellaris.common.network.packets.RecipeSyncerPacket;
 import org.exodusstudio.stellaris.common.registries.BlocksRegistry;
 import org.exodusstudio.stellaris.common.registries.RecipesRegistry;
-import org.exodusstudio.stellaris.common.utils.OxygenUtils;
 import org.exodusstudio.stellaris.common.utils.Utils;
 
 import java.util.ArrayList;
@@ -259,25 +256,6 @@ public class Events {
         });
 
         BlockEvent.PLACE.register((level, pos, state, player) -> {
-            if (level instanceof ServerLevel serverLevel && !OxygenUtils.isOxygenated(level, pos)) {
-                if (state.is(Blocks.TORCH)) {
-                    serverLevel.setBlockAndUpdate(pos, BlocksRegistry.COAL_TORCH_BLOCK.block().get().defaultBlockState());
-                    return EventResult.interruptFalse();
-                }
-                else if (state.is(Blocks.WALL_TORCH)) {
-                    serverLevel.setBlockAndUpdate(pos, BlocksRegistry.WALL_COAL_TORCH_BLOCK.get().defaultBlockState().setValue(WallCoalTorchBlock.FACING, state.getValue(WallTorchBlock.FACING)));
-                    return EventResult.interruptFalse();
-                }
-                else if (state.is(Blocks.LANTERN)) {
-                    serverLevel.setBlockAndUpdate(pos, BlocksRegistry.COAL_LANTERN_BLOCK.block().get().defaultBlockState().setValue(CoalLanternBlock.HANGING, state.getValue(LanternBlock.HANGING)));
-                    return EventResult.interruptFalse();
-                }
-                else if (state.is(Blocks.CAMPFIRE)) {
-                    serverLevel.setBlockAndUpdate(pos, Blocks.CAMPFIRE.defaultBlockState().setValue(CampfireBlock.LIT, false));
-                    return EventResult.interruptFalse();
-                }
-            }
-
             if (state.is(BlocksRegistry.ANTENNA.block().get())) {
                 //if (level.getBlockState(pos.above()).is(BlocksRegistry.ROCKET_LAUNCH_PAD.block().get()) && level.getBlockState(pos.above()).getValue(RocketLaunchPadBlock.STAGE)) {
                 //    return EventResult.pass();

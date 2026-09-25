@@ -11,9 +11,13 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.CampfireBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.block.state.properties.Property;
 import net.minecraft.world.level.chunk.LevelChunk;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.phys.AABB;
@@ -26,6 +30,7 @@ import org.exodusstudio.stellaris.common.data.PlanetsData;
 import org.exodusstudio.stellaris.common.items.space_suit.SpaceSuitBoots;
 import org.exodusstudio.stellaris.common.items.space_suit.SpaceSuitHelmet;
 import org.exodusstudio.stellaris.common.keybinds.KeyVariables;
+import org.exodusstudio.stellaris.common.registries.BlocksRegistry;
 import org.exodusstudio.stellaris.common.registries.TagsRegistry;
 
 import java.util.*;
@@ -415,5 +420,44 @@ public class OxygenUtils {
         }
 
         return count;
+    }
+
+    public static BlockState getPlacementStateWithoutOxygen(Level level, BlockPos pos, BlockState state) {
+        if (state == null || level.isClientSide()) {
+            return state;
+        }
+
+        Block replacement;
+        if (state.is(Blocks.TORCH)) {
+            replacement = BlocksRegistry.COAL_TORCH_BLOCK.block().get();
+        } else if (state.is(Blocks.WALL_TORCH)) {
+            replacement = BlocksRegistry.WALL_COAL_TORCH_BLOCK.get();
+        } else if (state.is(Blocks.LANTERN)) {
+            replacement = BlocksRegistry.COAL_LANTERN_BLOCK.block().get();
+        } else if (state.is(Blocks.CAMPFIRE)) {
+            replacement = null;
+        } else {
+            return state;
+        }
+
+        if (isOxygenated(level, pos)) {
+            return state;
+        }
+
+        if (replacement == null) {
+            return state.setValue(CampfireBlock.LIT, false);
+        }
+
+        BlockState replaced = replacement.defaultBlockState();
+        for (Property<?> property : state.getProperties()) {
+            if (replaced.hasProperty(property)) {
+                replaced = copyProperty(state, replaced, property);
+            }
+        }
+        return replaced;
+    }
+
+    private static <T extends Comparable<T>> BlockState copyProperty(BlockState from, BlockState to, Property<T> property) {
+        return to.setValue(property, from.getValue(property));
     }
 }
