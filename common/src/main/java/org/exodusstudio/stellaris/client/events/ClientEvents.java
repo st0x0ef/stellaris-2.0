@@ -1,58 +1,62 @@
 package org.exodusstudio.stellaris.client.events;
 
-import dev.architectury.event.EventResult;
 import dev.architectury.event.events.client.ClientPlayerEvent;
-import dev.architectury.event.events.client.ClientRawInputEvent;
 import dev.architectury.event.events.client.ClientTickEvent;
 import dev.architectury.networking.NetworkManager;
+import net.minecraft.client.Minecraft;
+import org.exodusstudio.stellaris.client.cinematic.HeartOfLunaCinematic;
 import org.exodusstudio.stellaris.client.cinematic.StarCrawlerBossIntroController;
 import org.exodusstudio.stellaris.client.cinematic.StarCrawlerBossDeathController;
 import org.exodusstudio.stellaris.common.entities.vehicles.base.AbstractRoverBase;
 import org.exodusstudio.stellaris.common.keybinds.KeyVariables;
 import org.exodusstudio.stellaris.common.network.packets.KeyHandlerPacket;
-import org.lwjgl.glfw.GLFW;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class ClientEvents {
+    private static final Map<String, Boolean> SENT_KEY_STATES = new HashMap<>();
+
     public static void init() {
-        ClientRawInputEvent.KEY_PRESSED.register(((minecraft, action, keyEvent) -> {
-            if(minecraft.player == null) return EventResult.pass();
-            if (StarCrawlerBossIntroController.isAuthoritativelyLocked()
-                    || StarCrawlerBossDeathController.isAuthoritativelyLocked()) return EventResult.pass();
-
-            KeyVariables.getKey(minecraft).forEach((key, name) -> {
-                if (key.getDefaultKey().getValue() == keyEvent.key() && action == GLFW.GLFW_RELEASE) {
-                    KeyVariables.setKeyVariable(name, minecraft.player.getUUID(), false);
-                    NetworkManager.sendToServer(new KeyHandlerPacket(name, false));
-                }
-
-                else if (key.getDefaultKey().getValue() == keyEvent.key() && action == GLFW.GLFW_PRESS) {
-                    KeyVariables.setKeyVariable(name, minecraft.player.getUUID(), true);
-                    NetworkManager.sendToServer(new KeyHandlerPacket(name, true));
-                }
-            });
-            return EventResult.pass();
-        }));
-
         ClientPlayerEvent.CLIENT_PLAYER_QUIT.register(player -> {
+            SENT_KEY_STATES.clear();
             if (player != null) {
                 KeyVariables.clearPlayer(player);
             }
         });
 
         ClientTickEvent.CLIENT_POST.register(minecraft -> {
-            if (minecraft.player != null && minecraft.player.getVehicle() instanceof AbstractRoverBase rover && rover.getDriver() == minecraft.player) {
-                if (StarCrawlerBossIntroController.isAuthoritativelyLocked()
-                        || StarCrawlerBossDeathController.isAuthoritativelyLocked()) {
-                    rover.updateControls(false, false, false, false);
-                    return;
-                }
+            boolean locked = StarCrawlerBossIntroController.isAuthoritativelyLocked()
+                    || StarCrawlerBossDeathController.isAuthoritativelyLocked()
+                    || HeartOfLunaCinematic.isAuthoritativelyLocked();
 
-                boolean forward = minecraft.options.keyUp.isDown();
-                boolean backward = minecraft.options.keyDown.isDown();
-                boolean left = minecraft.options.keyLeft.isDown();
-                boolean right = minecraft.options.keyRight.isDown();
-                rover.updateControls(forward, backward, left, right);
+            if (minecraft.player != null && minecraft.player.getVehicle() instanceof AbstractRoverBase rover && rover.getDriver() == minecraft.player) {
+                if (locked) {
+                    rover.updateControls(false, false, false, false);
+                } else {
+                    rover.updateControls(minecraft.options.keyUp.isDown(), minecraft.options.keyDown.isDown(),
+                            minecraft.options.keyLeft.isDown(), minecraft.options.keyRight.isDown());
+                }
             }
+
+            syncMovementKeys(minecraft, locked);
+        });
+    }
+
+    private static void syncMovementKeys(Minecraft minecraft, boolean locked) {
+        if (minecraft.player == null) {
+            return;
+        }
+
+        KeyVariables.getKey(minecraft).forEach((key, name) -> {
+            boolean down = !locked && key.isDown();
+            if (SENT_KEY_STATES.getOrDefault(name, false) == down) {
+                return;
+            }
+
+            SENT_KEY_STATES.put(name, down);
+            KeyVariables.setKeyVariable(name, minecraft.player.getUUID(), down);
+            NetworkManager.sendToServer(new KeyHandlerPacket(name, down));
         });
     }
 }
