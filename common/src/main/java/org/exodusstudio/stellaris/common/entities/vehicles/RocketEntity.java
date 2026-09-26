@@ -72,7 +72,10 @@ public class RocketEntity extends VehicleEntity implements FluidProvider.ENTITY,
     public static final EntityDataAccessor<Planet> AUTOPILOT_DESTINATION = SynchedEntityData.defineId(RocketEntity.class, EntityDataSerializersRegistry.PLANET);
     public static final EntityDataAccessor<Boolean> HAS_AUTOPILOT_DESTINATION = SynchedEntityData.defineId(RocketEntity.class, EntityDataSerializers.BOOLEAN);
 
+    private static final int LAUNCH_FUEL_COST = 1000;
+
     private boolean inventoryDirty = false;
+    private int launchFuelPaid = 0;
 
     /** Exposes the rocket's integer fuel as a fluid tank so it can reuse the machine slot logic. */
     private final VehicleFuelStorage fuelTank = new VehicleFuelStorage() {
@@ -252,13 +255,15 @@ public class RocketEntity extends VehicleEntity implements FluidProvider.ENTITY,
         Entity entity = this.getPassengers().getFirst();
 
         if (entity instanceof ServerPlayer player) {
-            if (this.getFuel() >= 1000 || player.isCreative()) {
+            if (this.getFuel() >= LAUNCH_FUEL_COST || player.isCreative()) {
                 if (!this.entityData.get(ROCKET_START)) {
                     this.entityData.set(ROCKET_START, true);
 
-                    if (!player.isCreative()) {
+                    launchFuelPaid = 0;
+                    if (!player.isCreative() || !player.isSpectator()) {
                         // TODO: adjust fuel consumption based on planet distance
-                        this.entityData.set(FUEL, Math.max(0, this.getFuel() - 1000));
+                        launchFuelPaid = Math.min(LAUNCH_FUEL_COST, this.getFuel());
+                        this.entityData.set(FUEL, this.getFuel() - launchFuelPaid);
                     }
 
                     player.awardStat(StatsRegistry.ROCKET_LAUNCHED.get());
@@ -270,6 +275,34 @@ public class RocketEntity extends VehicleEntity implements FluidProvider.ENTITY,
                 }
             } else {
                 player.sendOverlayMessage(Component.translatable("text.stellaris.rocket.fuel", getFuelType().getFluid().arch$registryName().toString()));
+            }
+        }
+    }
+
+    public boolean isInFlight() {
+        return this.entityData.get(ROCKET_START) && this.isTimerOver();
+    }
+
+    private void cancelLaunch() {
+        this.entityData.set(ROCKET_START, false);
+        this.entityData.set(ROCKET_START_TIMER, 0);
+        this.entityData.set(FUEL, Math.min(getTankCapacity(), this.getFuel() + launchFuelPaid));
+        launchFuelPaid = 0;
+
+        ClientboundStopSoundPacket stopSound = new ClientboundStopSoundPacket(SoundRegistry.ROCKET_SOUND.getId(), SoundSource.NEUTRAL);
+        for (ServerPlayer player : Utils.getPlayersIn3x3Chunks(level(), blockPosition())) {
+            player.connection.send(stopSound);
+        }
+    }
+
+    @Override
+    protected void removePassenger(Entity passenger) {
+        super.removePassenger(passenger);
+
+        if (!this.level().isClientSide() && this.entityData.get(ROCKET_START) && !this.isTimerOver()) {
+            cancelLaunch();
+            if (passenger instanceof Player player) {
+                player.sendOverlayMessage(Component.translatable("message.stellaris.rocket.launch_cancelled"));
             }
         }
     }
@@ -294,6 +327,14 @@ public class RocketEntity extends VehicleEntity implements FluidProvider.ENTITY,
             MinecraftServer server = level().getServer();
 
             tryFillUpRocket();
+
+            // Riders cannot dismount in flight with esc, but dying can still dismount them
+            if (isInFlight() && this.getPassengers().isEmpty() && this.level() instanceof ServerLevel serverLevel) {
+                this.spawnRocketItem();
+                this.dropEquipment(serverLevel);
+                this.discard();
+                return;
+            }
 
             if (server != null) {
                 if (inventoryDirty) {
@@ -387,6 +428,7 @@ public class RocketEntity extends VehicleEntity implements FluidProvider.ENTITY,
 
         output.store("rocket_start", Codec.BOOL, this.entityData.get(ROCKET_START));
         output.store("rocket_start_timer", Codec.INT, this.entityData.get(ROCKET_START_TIMER));
+        output.putInt("launch_fuel_paid", launchFuelPaid);
         if (this.entityData.get(HAS_AUTOPILOT_DESTINATION)) {
             output.store("autopilot_destination", Planet.CODEC, this.entityData.get(AUTOPILOT_DESTINATION));
         }
@@ -404,6 +446,7 @@ public class RocketEntity extends VehicleEntity implements FluidProvider.ENTITY,
 
         Optional<Integer> rocketStartTimer = input.read("rocket_start_timer", Codec.INT);
         rocketStartTimer.ifPresent(timer -> this.entityData.set(ROCKET_START_TIMER, timer));
+        launchFuelPaid = input.getIntOr("launch_fuel_paid", 0);
 
         Optional<Planet> autopilotDestination = input.read("autopilot_destination", Planet.CODEC);
         autopilotDestination.ifPresent(planet -> {

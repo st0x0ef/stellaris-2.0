@@ -132,6 +132,10 @@ public class LanderEntity extends VehicleEntity {
         }
     }
 
+    public boolean hasLanded() {
+        return this.entityData.get(LANDED);
+    }
+
     public Player getFirstPlayerPassenger() {
         if (!this.getPassengers().isEmpty() && this.getPassengers().getFirst() instanceof Player player) {
             return player;

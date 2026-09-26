@@ -11,6 +11,8 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.material.FluidState;
 import org.exodusstudio.stellaris.Stellaris;
+import org.exodusstudio.stellaris.common.entities.vehicles.LanderEntity;
+import org.exodusstudio.stellaris.common.entities.vehicles.RocketEntity;
 import org.exodusstudio.stellaris.common.network.packets.SyncPlanetMenuState;
 import org.exodusstudio.stellaris.common.registries.ItemsRegistry;
 import org.exodusstudio.stellaris.common.registries.TagsRegistry;
@@ -21,6 +23,7 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(Player.class)
 public abstract class PlayerMixin extends LivingEntity implements CustomPlayerData {
@@ -53,6 +56,13 @@ public abstract class PlayerMixin extends LivingEntity implements CustomPlayerDa
     @Override
     public boolean stellaris$isPlanetMenuOpen() {
         return stellaris$isPlanetMenuOpened;
+    }
+
+    @Inject(method = "wantsToStopRiding", at = @At("HEAD"), cancellable = true)
+    private void stellaris$stayInFlyingVehicle(CallbackInfoReturnable<Boolean> cir) {
+        if (this.getVehicle() instanceof RocketEntity rocket && rocket.isInFlight() || this.getVehicle() instanceof LanderEntity lander && !lander.hasLanded()) {
+            cir.setReturnValue(false);
+        }
     }
 
 

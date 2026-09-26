@@ -899,6 +899,7 @@
   "chat.stellaris.assistant.speaker": "[%s] ",
 
   "message.stellaris.rocket.path_blocked": "There's something blocking the rocket flying path...",
+  "message.stellaris.rocket.launch_cancelled": "Launch cancelled.",
   "message.stellaris.antenna.no_break_permission": "You don't have permission to break this antenna.",
   "message.stellaris.friends_list.use_on_antenna": "Right click this on an antenna.",
   "message.stellaris.oil_finder.found": "Found Oil %smb",
