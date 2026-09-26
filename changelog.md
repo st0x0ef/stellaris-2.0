@@ -5,3 +5,4 @@
 - Fix a small memory leak
 - Fix torches not being consumed when placed without oxygen
 - Fix cable energy distribution with low energy
+- Fix space station option only showing when the blueprint is in the 1st rocket slot

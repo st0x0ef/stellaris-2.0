@@ -13,6 +13,7 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.item.ItemStack;
 import org.exodusstudio.stellaris.client.overlays.FadingHolder;
 import org.exodusstudio.stellaris.client.screens.components.Padding;
 import org.exodusstudio.stellaris.client.screens.components.StellarDownWidget;
@@ -189,7 +190,12 @@ public class PlanetSelectionAppScreen extends TabletAbstractContainer<PlanetSele
     @Nullable
     public SpaceStationRecipe getSpaceStationFromRocket() {
         if(menu.player.getVehicle() instanceof RocketEntity rocketEntity) {
-            return rocketEntity.inventory.getItem(2).get(DataComponentsRegistry.SPACE_STATION_BLUEPRINT.get());
+            for (ItemStack stack : rocketEntity.inventory.getItems()) {
+                SpaceStationRecipe recipe = stack.get(DataComponentsRegistry.SPACE_STATION_BLUEPRINT.get());
+                if (recipe != null) {
+                    return recipe;
+                }
+            }
         }
         return null;
     }
