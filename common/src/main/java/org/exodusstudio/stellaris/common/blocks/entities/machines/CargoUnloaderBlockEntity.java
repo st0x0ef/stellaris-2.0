@@ -25,6 +25,7 @@ import java.util.List;
 import java.util.stream.IntStream;
 
 public class CargoUnloaderBlockEntity extends BaseEnergyContainerBlockEntity {
+    private static final int ENERGY_PER_ITEM = 100;
     private NonNullList<ItemStack> items = NonNullList.withSize(30, ItemStack.EMPTY);
 
     private LanderEntity targetLander;
@@ -94,14 +95,14 @@ public class CargoUnloaderBlockEntity extends BaseEnergyContainerBlockEntity {
         }
 
         // if found, pull 1 item slot out of it and put them in the inventory
-        if (targetLander != null && energyContainer.getEnergy() >= 100) {
+        if (targetLander != null && energyContainer.getEnergy() >= ENERGY_PER_ITEM) {
             // transfer rocket, fuel input, fuel output in the corresponding slot
             for (int j = 0; j < 3; j++) {
                 ItemStack stack = targetLander.inventory.getItem(j);
                 if (!stack.isEmpty()) {
                     items.set(j, stack.copy());
                     stack.setCount(0);
-                    energyContainer.extract(100, false);
+                    useEnergy(ENERGY_PER_ITEM);
                     return;
                 }
             }
@@ -117,7 +118,7 @@ public class CargoUnloaderBlockEntity extends BaseEnergyContainerBlockEntity {
                             ItemStack copy = stack.copy();
                             items.set(i, copy);
                             stack.setCount(0);
-                            energyContainer.extract(100, false);
+                            useEnergy(ENERGY_PER_ITEM);
                         }
                     });
         }
@@ -126,5 +127,10 @@ public class CargoUnloaderBlockEntity extends BaseEnergyContainerBlockEntity {
     @Override
     public int getContainerSize() {
         return 30;
+    }
+
+    @Override
+    public int getMaxEnergyUsage() {
+        return ENERGY_PER_ITEM;
     }
 }

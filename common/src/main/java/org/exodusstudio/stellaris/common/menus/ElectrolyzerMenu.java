@@ -6,6 +6,7 @@ import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import org.exodusstudio.stellaris.common.blocks.entities.machines.ElectrolyzerBlockEntity;
+import org.exodusstudio.stellaris.common.menus.base.EnergyUsageSync;
 import org.exodusstudio.stellaris.common.menus.base.BaseContainer;
 import org.exodusstudio.stellaris.common.menus.slot.ElectrolyzeSlot;
 import org.exodusstudio.stellaris.common.menus.slot.ResultSlot;
@@ -15,6 +16,7 @@ public class ElectrolyzerMenu extends BaseContainer {
 
     private final Container container;
     private final ElectrolyzerBlockEntity blockEntity;
+    private final EnergyUsageSync energyUsage;
 
     public static ElectrolyzerMenu create(int containerId, Inventory inventory, FriendlyByteBuf buf) {
         ElectrolyzerBlockEntity blockEntity = (ElectrolyzerBlockEntity) inventory.player.level().getBlockEntity(buf.readBlockPos());
@@ -28,6 +30,7 @@ public class ElectrolyzerMenu extends BaseContainer {
 
         this.container = container;
         this.blockEntity = blockEntity;
+        this.energyUsage = EnergyUsageSync.create(this.blockEntity, this::addDataSlot);
 
         addSlot(new ResultSlot(container, 0, 106, 113)); // Water tank output
         addSlot(new ElectrolyzeSlot(container, 1, 60, 113, blockEntity, -1)); // Water tank input
@@ -42,5 +45,9 @@ public class ElectrolyzerMenu extends BaseContainer {
 
     public ElectrolyzerBlockEntity getBlockEntity() {
         return blockEntity;
+    }
+
+    public EnergyUsageSync getEnergyUsage() {
+        return energyUsage;
     }
 }

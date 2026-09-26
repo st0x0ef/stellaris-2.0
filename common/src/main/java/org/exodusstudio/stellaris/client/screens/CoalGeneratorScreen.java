@@ -69,7 +69,7 @@ public class CoalGeneratorScreen extends AbstractContainerScreen<CoalGeneratorMe
     @Override
     protected void extractTooltip(GuiGraphicsExtractor guiGraphicsExtractor, int x, int y) {
         super.extractTooltip(guiGraphicsExtractor, x, y);
-        GUIUtils.renderEnergyGeneratorGaugeTooltip(guiGraphicsExtractor, energyGauge, getMenu().getBlockEntity().getEnergyGeneratedPT(), x, y, font);
+        GUIUtils.renderEnergyGeneratorGaugeTooltip(guiGraphicsExtractor, energyGauge, getMenu().getGeneratedEnergy(), getMenu().getBlockEntity().getEnergyGeneratedPT(), x, y, font);
     }
 
     @Override

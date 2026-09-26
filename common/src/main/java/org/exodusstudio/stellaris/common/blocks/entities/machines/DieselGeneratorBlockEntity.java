@@ -89,9 +89,7 @@ public class DieselGeneratorBlockEntity extends BaseGeneratorBlockEntity impleme
             shouldUpdate = true;
         }
 
-        if (isLit()) {
-            energyContainer.insertWithoutLimits(energyGeneratedPT, false);
-        }
+        generate(isLit());
 
         if (wasLit != isLit()) {
             shouldUpdate = true;

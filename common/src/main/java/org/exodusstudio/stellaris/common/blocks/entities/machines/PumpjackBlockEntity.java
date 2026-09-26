@@ -71,7 +71,7 @@ public class PumpjackBlockEntity extends BaseEnergyContainerBlockEntity implemen
         if (generating) {
             access.stellaris$setChunkOilLevel(chunkOil - oilToExtract);
             resultTank.fillWithoutLimits(FluidStack.create(FluidsRegistry.OIL_STILL.get(), oilToExtract), false);
-            energyContainer.extract(2 * oilToExtract, false);
+            useEnergy(2 * oilToExtract);
         }
 
         BlockState currentState = getBlockState();
@@ -126,4 +126,8 @@ public class PumpjackBlockEntity extends BaseEnergyContainerBlockEntity implemen
         return this.resultTank;
     }
 
+    @Override
+    public int getMaxEnergyUsage() {
+        return 2 * Stellaris.CONFIG.oilConfig.oilExtractionPerTick;
+    }
 }

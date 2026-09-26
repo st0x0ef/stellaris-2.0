@@ -10,6 +10,7 @@ import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.inventory.SimpleContainerData;
 import org.exodusstudio.stellaris.common.blocks.entities.machines.CoalGeneratorBlockEntity;
 import org.exodusstudio.stellaris.common.menus.base.BaseContainer;
+import org.exodusstudio.stellaris.common.menus.base.GeneratedEnergyDataSlot;
 import org.exodusstudio.stellaris.common.menus.slot.CoalGeneratorSlot;
 import org.exodusstudio.stellaris.common.registries.MenuTypesRegistry;
 
@@ -18,6 +19,7 @@ public class CoalGeneratorMenu extends BaseContainer {
     private final Container inventory;
     private final CoalGeneratorBlockEntity entity;
     private final ContainerData data;
+    private final GeneratedEnergyDataSlot generatedEnergy;
 
 
     public static CoalGeneratorMenu create(int syncId, Inventory inventory, FriendlyByteBuf data) {
@@ -37,6 +39,8 @@ public class CoalGeneratorMenu extends BaseContainer {
         this.addSlot(new CoalGeneratorSlot(inventory, 0, 68, 54));
 
         addDataSlots(containerData);
+        this.generatedEnergy = playerInventory.player.level().isClientSide() || entity == null ? GeneratedEnergyDataSlot.client() : GeneratedEnergyDataSlot.server(entity);
+        addDataSlot(generatedEnergy);
     }
 
     public CoalGeneratorBlockEntity getBlockEntity() {
@@ -60,5 +64,9 @@ public class CoalGeneratorMenu extends BaseContainer {
 
     public boolean isLit() {
         return this.data.get(0) > 0;
+    }
+
+    public int getGeneratedEnergy() {
+        return generatedEnergy.get();
     }
 }

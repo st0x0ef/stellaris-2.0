@@ -7,6 +7,7 @@ import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Inventory;
+import org.exodusstudio.stellaris.client.screens.utils.GUIUtils;
 import org.exodusstudio.stellaris.client.screens.components.GaugeWidget;
 import org.exodusstudio.stellaris.client.screens.utils.GUISprites;
 import org.exodusstudio.stellaris.common.blocks.entities.machines.FuelRefineryBlockEntity;
@@ -87,7 +88,7 @@ public class FuelRefineryScreen extends AbstractContainerScreen<FuelRefineryMenu
         ingredientTankGauge.renderTooltips(guiGraphics, x, y, font);
         fuelTankGauge.renderTooltips(guiGraphics, x, y, font);
         dieselTankGauge.renderTooltips(guiGraphics, x, y, font);
-        energyGauge.renderTooltips(guiGraphics, x, y, font);
+        GUIUtils.renderEnergyConsumerGaugeTooltip(guiGraphics, energyGauge, getMenu().getEnergyUsage(), x, y, font);
     }
 
     @Override

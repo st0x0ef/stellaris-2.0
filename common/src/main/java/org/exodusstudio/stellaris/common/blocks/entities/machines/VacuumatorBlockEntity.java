@@ -204,7 +204,7 @@ public class VacuumatorBlockEntity extends BaseEnergyContainerBlockEntity implem
             litDuration = getVacuumationDuration(getItem(FOOD_SLOT));
             litTime = litDuration;
 
-            getEnergy(null).extract(Stellaris.CONFIG.machineConfig.vacuumatorEnergyPerCraft, false);
+            useEnergy(Stellaris.CONFIG.machineConfig.vacuumatorEnergyPerCraft);
 
             removeItem(FOOD_SLOT, 1);
             removeItem(CAN_SLOT, 1);
@@ -311,5 +311,10 @@ public class VacuumatorBlockEntity extends BaseEnergyContainerBlockEntity implem
     @Override
     public @Nullable UniversalFluidStorage getFluidTank(@Nullable Direction direction) {
         return waterTank;
+    }
+
+    @Override
+    public int getMaxEnergyUsage() {
+        return isLit() || getVacuumationDuration(getItem(FOOD_SLOT)) > 0 ? Stellaris.CONFIG.machineConfig.vacuumatorEnergyPerCraft : 0;
     }
 }

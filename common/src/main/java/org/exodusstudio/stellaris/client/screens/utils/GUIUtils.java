@@ -7,6 +7,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
 import net.minecraft.network.chat.TextColor;
 import org.exodusstudio.stellaris.client.screens.components.GaugeWidget;
+import org.exodusstudio.stellaris.common.menus.base.EnergyUsageSync;
 import org.exodusstudio.stellaris.common.utils.Utils;
 
 public class GUIUtils {
@@ -61,7 +62,19 @@ public class GUIUtils {
         };
     }
 
-    public static void renderEnergyGeneratorGaugeTooltip(GuiGraphicsExtractor graphics, GaugeWidget widget, int energyGeneratedPerTicks, int x, int y, Font font) {
-        widget.renderTooltips(graphics, x, y, font); // TODO : add back energy per tick info
+    public static void renderEnergyGeneratorGaugeTooltip(GuiGraphicsExtractor graphics, GaugeWidget widget, int currentGeneration, int maxGeneration, int x, int y, Font font) {
+        widget.renderTooltips(graphics, x, y, font, lines -> {
+            lines.add(ClientTooltipComponent.create(Component.translatable("gauge_text.stellaris.current_generation", currentGeneration).getVisualOrderText()));
+            lines.add(ClientTooltipComponent.create(Component.translatable("gauge_text.stellaris.max_generation", maxGeneration).getVisualOrderText()));
+        });
+    }
+
+    public static void renderEnergyConsumerGaugeTooltip(GuiGraphicsExtractor graphics, GaugeWidget widget, EnergyUsageSync usage, int x, int y, Font font) {
+        widget.renderTooltips(graphics, x, y, font, lines -> {
+            lines.add(ClientTooltipComponent.create(Component.translatable("gauge_text.stellaris.current_consumption", usage.current()).getVisualOrderText()));
+            if (usage.max() > 0) {
+                lines.add(ClientTooltipComponent.create(Component.translatable("gauge_text.stellaris.max_consumption", usage.max()).getVisualOrderText()));
+            }
+        });
     }
 }

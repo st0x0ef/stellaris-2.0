@@ -39,7 +39,7 @@ public class GravityManipulatorBlockEntity extends BaseEnergyContainerBlockEntit
     @Override
     public void tick(Level level, BlockState state) {
         if (isActive()) {
-            this.energyContainer.extract(Stellaris.CONFIG.gravityConfig.gravityManipulatorEnergyPerTick, false);
+            useEnergy(Stellaris.CONFIG.gravityConfig.gravityManipulatorEnergyPerTick);
         }
     }
 
@@ -106,5 +106,10 @@ public class GravityManipulatorBlockEntity extends BaseEnergyContainerBlockEntit
                 NetworkManager.sendToPlayers(Utils.getPlayersIn3x3Chunks(level, worldPosition), new SyncGravityManipulatorDataPacketS2C(getBlockPos(), getGravity()));
             }
         }
+    }
+
+    @Override
+    public int getMaxEnergyUsage() {
+        return Stellaris.CONFIG.gravityConfig.gravityManipulatorEnergyPerTick;
     }
 }

@@ -42,6 +42,7 @@ public class FuelRefineryBlockEntity extends BaseEnergyContainerBlockEntity impl
     private final SingleFluidStorage outputFuelTank;
     private final SingleFluidStorage outputDieselTank;
     private final RecipeManager.CachedCheck<FluidInput, FuelRefineryRecipe> cachedCheck = RecipeManager.createCheck(RecipesRegistry.FUEL_REFINERY_TYPE.get());
+    private int activeRecipeEnergy;
 
     public FuelRefineryBlockEntity(BlockPos pos, BlockState state) {
         super(BlockEntitiesRegistry.FUEL_REFINERY.get(), pos, state);
@@ -104,6 +105,7 @@ public class FuelRefineryBlockEntity extends BaseEnergyContainerBlockEntity impl
         }
 
         Optional<RecipeHolder<FuelRefineryRecipe>> recipeHolder = cachedCheck.getRecipeFor(new FluidInput(level.getBlockEntity(getBlockPos())), (ServerLevel) level);
+        activeRecipeEnergy = recipeHolder.map(holder -> holder.value().energy()).orElse(0);
         if (recipeHolder.isPresent()) {
             FuelRefineryRecipe recipe = recipeHolder.get().value();
 
@@ -124,7 +126,7 @@ public class FuelRefineryBlockEntity extends BaseEnergyContainerBlockEntity impl
 
                         if (shouldUseEnergyAndDrainOil) {
                             inputTank.drain(recipe.ingredientStack().create(), false);
-                            energyContainer.extract(recipe.energy(), false);
+                            useEnergy(recipe.energy());
                             setChanged();
                         }
                     }
@@ -210,5 +212,10 @@ public class FuelRefineryBlockEntity extends BaseEnergyContainerBlockEntity impl
             return outputDieselTank;
         }
         return inputTank;
+    }
+
+    @Override
+    public int getMaxEnergyUsage() {
+        return activeRecipeEnergy;
     }
 }

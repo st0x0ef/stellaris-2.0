@@ -387,7 +387,10 @@
   "biome.stellaris.moon_craters": "Moon Craters",
   "biome.stellaris.space": "Space",
 
+  "gauge_text.stellaris.current_generation": "Current Generation : %s Fe/tick",
   "gauge_text.stellaris.max_generation": "Max Generation : %s Fe/tick",
+  "gauge_text.stellaris.current_consumption": "Current Consumption : %s Fe/tick",
+  "gauge_text.stellaris.max_consumption": "Max Consumption : %s Fe/tick",
 
   "text.stellaris.rocket.fuel": "You need %s fuel to launch this rocket.",
   "text.stellaris.oil_finder.no_oil": "No oil detected here.",

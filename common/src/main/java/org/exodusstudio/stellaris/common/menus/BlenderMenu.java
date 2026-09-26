@@ -12,6 +12,7 @@ import net.minecraft.world.inventory.SimpleContainerData;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import org.exodusstudio.stellaris.common.blocks.entities.machines.BlenderBlockEntity;
+import org.exodusstudio.stellaris.common.menus.base.EnergyUsageSync;
 import org.exodusstudio.stellaris.common.menus.slot.ResultSlot;
 import org.exodusstudio.stellaris.common.registries.MenuTypesRegistry;
 import org.jetbrains.annotations.NotNull;
@@ -28,6 +29,7 @@ public class BlenderMenu extends AbstractContainerMenu {
 
     private final Container container;
     private final BlenderBlockEntity entity;
+    private final EnergyUsageSync energyUsage;
     private final ContainerData data;
 
     public static BlenderMenu create(int syncId, Inventory inventory, FriendlyByteBuf data) {
@@ -43,6 +45,7 @@ public class BlenderMenu extends AbstractContainerMenu {
         checkContainerSize(container, BlenderBlockEntity.CONTAINER_SIZE);
         this.container = container;
         this.entity = entity;
+        this.energyUsage = EnergyUsageSync.create(this.entity, this::addDataSlot);
         this.data = containerData;
 
         for (int row = 0; row < BlenderBlockEntity.GRID_HEIGHT; row++) {
@@ -96,6 +99,10 @@ public class BlenderMenu extends AbstractContainerMenu {
 
     public BlenderBlockEntity getBlockEntity() {
         return this.entity;
+    }
+
+    public EnergyUsageSync getEnergyUsage() {
+        return energyUsage;
     }
 
     public float getBlendProgress() {

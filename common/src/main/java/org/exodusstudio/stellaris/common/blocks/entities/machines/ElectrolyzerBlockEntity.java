@@ -41,6 +41,7 @@ import java.util.Optional;
 public class ElectrolyzerBlockEntity extends BaseEnergyContainerBlockEntity implements FluidProvider.BLOCK {
 
     private final RecipeManager.CachedCheck<FluidInput, ElectrolyzeRecipe> cachedCheck = RecipeManager.createCheck(RecipesRegistry.ELECTROLYZE_RECIPE_TYPE.get());
+    private int activeRecipeEnergy;
 
     public final SingleFluidStorage ingredientTank = new SingleFluidStorage(10000, 10000, 0) {
 
@@ -102,6 +103,7 @@ public class ElectrolyzerBlockEntity extends BaseEnergyContainerBlockEntity impl
 
         if (level instanceof ServerLevel serverLevel) {
             Optional<RecipeHolder<ElectrolyzeRecipe>> recipeHolder = cachedCheck.getRecipeFor(new FluidInput(this), serverLevel);
+            activeRecipeEnergy = recipeHolder.map(holder -> (int) holder.value().energy()).orElse(0);
             if (recipeHolder.isPresent()) {
                 ElectrolyzeRecipe recipe = recipeHolder.get().value();
 
@@ -124,7 +126,7 @@ public class ElectrolyzerBlockEntity extends BaseEnergyContainerBlockEntity impl
 
                     if (shouldDrainWaterAndEnergy) {
                         ingredientTank.drainWithoutLimits(ingredientStack, false);
-                        energyContainer.extract((int)recipe.energy(), false);
+                        useEnergy((int) recipe.energy());
                     }
                 }
             }
@@ -224,4 +226,8 @@ public class ElectrolyzerBlockEntity extends BaseEnergyContainerBlockEntity impl
         return 4;
     }
 
+    @Override
+    public int getMaxEnergyUsage() {
+        return activeRecipeEnergy;
+    }
 }

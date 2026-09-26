@@ -38,6 +38,8 @@ public abstract class BaseEnergyContainerBlockEntity extends BaseContainerBlockE
     protected EnergyStorage energyContainer;
     protected NonNullList<ItemStack> items = NonNullList.withSize(getContainerSize(), ItemStack.EMPTY);
     private int lastSyncedEnergy = Integer.MIN_VALUE;
+    private long energyUsedTick = -1;
+    private int energyUsed;
 
     public BaseEnergyContainerBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state, int initialMaxCapacity, int initialMaxInsert, int initialMaxExtract) {
         super(type, pos, state);
@@ -70,6 +72,27 @@ public abstract class BaseEnergyContainerBlockEntity extends BaseContainerBlockE
     public BaseEnergyContainerBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
         this(type, pos, state, 12800);
     }
+    protected int useEnergy(int amount) {
+        int used = energyContainer.extract(amount, false);
+        if (level != null) {
+            long now = level.getGameTime();
+            if (energyUsedTick != now) {
+                energyUsedTick = now;
+                energyUsed = 0;
+            }
+            energyUsed += used;
+        }
+        return used;
+    }
+
+    public int getCurrentEnergyUsage() {
+        return level != null && energyUsedTick >= level.getGameTime() - 1 ? energyUsed : 0;
+    }
+
+    public int getMaxEnergyUsage() {
+        return 0;
+    }
+
     @Override
     public NonNullList<ItemStack> getItems() {
         return items;

@@ -9,6 +9,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Inventory;
+import org.exodusstudio.stellaris.client.screens.utils.GUIUtils;
 import org.exodusstudio.stellaris.client.screens.components.GaugeWidget;
 import org.exodusstudio.stellaris.client.screens.components.TexturedButton;
 import org.exodusstudio.stellaris.client.screens.utils.GUISprites;
@@ -107,7 +108,7 @@ public class BlenderScreen extends AbstractContainerScreen<BlenderMenu> {
         super.extractTooltip(guiGraphics, x, y);
 
         if (energyGauge != null) {
-            energyGauge.renderTooltips(guiGraphics, x, y, font);
+            GUIUtils.renderEnergyConsumerGaugeTooltip(guiGraphics, energyGauge, getMenu().getEnergyUsage(), x, y, font);
         }
     }
 

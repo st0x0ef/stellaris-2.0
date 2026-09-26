@@ -133,7 +133,7 @@ public class OxygenDistributorBlockEntity extends BaseEnergyContainerBlockEntity
                     oxygenatedPosition.addAll(result.positions());
                 } else if (oxygenTank.getFluidValueInTank() >= livingEntitiesCount) {
                     oxygenTank.drainWithoutLimits(livingEntitiesCount, false);
-                    energyContainer.extract(1, false);
+                    useEnergy(1);
                     oxygenatedPosition.addAll(result.positions());
                 } else {
                     newStatus = OxygenUtils.OxygenStatus.NOT_ENOUGH_OXYGEN;
@@ -252,5 +252,10 @@ public class OxygenDistributorBlockEntity extends BaseEnergyContainerBlockEntity
 
     public Set<BlockPos> getOxygenatedPositions() {
         return Collections.unmodifiableSet(oxygenatedPosition);
+    }
+
+    @Override
+    public int getMaxEnergyUsage() {
+        return 1;
     }
 }

@@ -9,6 +9,7 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Inventory;
 import org.exodusstudio.stellaris.client.screens.components.GaugeWidget;
 import org.exodusstudio.stellaris.client.screens.utils.GUISprites;
+import org.exodusstudio.stellaris.client.screens.utils.GUIUtils;
 import org.exodusstudio.stellaris.common.blocks.entities.machines.DieselGeneratorBlockEntity;
 import org.exodusstudio.stellaris.common.fluid.SingleFluidStorage;
 import org.exodusstudio.stellaris.common.menus.DieselGeneratorMenu;
@@ -71,7 +72,9 @@ public class DieselGeneratorScreen extends AbstractContainerScreen<DieselGenerat
     protected void extractTooltip(GuiGraphicsExtractor guiGraphics, int x, int y) {
         super.extractTooltip(guiGraphics, x, y);
         dieselTankGauge.renderTooltips(guiGraphics, x, y, font);
-        energyGauge.renderTooltips(guiGraphics, x, y, font);
+        if (blockEntity != null) {
+            GUIUtils.renderEnergyGeneratorGaugeTooltip(guiGraphics, energyGauge, getMenu().getGeneratedEnergy(), blockEntity.getEnergyGeneratedPT(), x, y, font);
+        }
     }
 
     @Override

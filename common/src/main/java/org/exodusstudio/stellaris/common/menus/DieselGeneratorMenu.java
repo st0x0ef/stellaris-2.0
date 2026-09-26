@@ -7,6 +7,7 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import org.exodusstudio.stellaris.common.blocks.entities.machines.DieselGeneratorBlockEntity;
 import org.exodusstudio.stellaris.common.menus.base.BaseContainer;
+import org.exodusstudio.stellaris.common.menus.base.GeneratedEnergyDataSlot;
 import org.exodusstudio.stellaris.common.menus.slot.ResultSlot;
 import org.exodusstudio.stellaris.common.menus.slot.SpecificFluidContainerSlot;
 import org.exodusstudio.stellaris.common.registries.FluidsRegistry;
@@ -16,6 +17,7 @@ public class DieselGeneratorMenu extends BaseContainer {
 
     private final Container container;
     private final DieselGeneratorBlockEntity blockEntity;
+    private final GeneratedEnergyDataSlot generatedEnergy;
 
     public static DieselGeneratorMenu create(int containerId, Inventory inventory, FriendlyByteBuf buf) {
         DieselGeneratorBlockEntity blockEntity = (DieselGeneratorBlockEntity) inventory.player.level().getBlockEntity(buf.readBlockPos());
@@ -32,6 +34,9 @@ public class DieselGeneratorMenu extends BaseContainer {
 
         addSlot(new SpecificFluidContainerSlot(container, FluidsRegistry.FLOWING_DIESEL.get(), 0, 42, 40, false));
         addSlot(new ResultSlot(container, 1, 42, 74));
+
+        this.generatedEnergy = inventory.player.level().isClientSide() || blockEntity == null ? GeneratedEnergyDataSlot.client() : GeneratedEnergyDataSlot.server(blockEntity);
+        addDataSlot(generatedEnergy);
     }
 
     @Override
@@ -41,5 +46,9 @@ public class DieselGeneratorMenu extends BaseContainer {
 
     public DieselGeneratorBlockEntity getBlockEntity() {
         return blockEntity;
+    }
+
+    public int getGeneratedEnergy() {
+        return generatedEnergy.get();
     }
 }

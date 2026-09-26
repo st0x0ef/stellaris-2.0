@@ -63,7 +63,7 @@ public class SkyPanelScreen extends AbstractContainerScreen<SkyPanelMenu> {
     @Override
     protected void extractTooltip(GuiGraphicsExtractor guiGraphics, int x, int y) {
         super.extractTooltip(guiGraphics, x, y);
-        GUIUtils.renderEnergyGeneratorGaugeTooltip(guiGraphics, energyGauge, getMenu().getBlockEntity().getEnergyGeneratedPT(), x, y, font);
+        GUIUtils.renderEnergyGeneratorGaugeTooltip(guiGraphics, energyGauge, getMenu().getGeneratedEnergy(), getMenu().getBlockEntity().getEnergyGeneratedPT(), x, y, font);
     }
 
     @Override

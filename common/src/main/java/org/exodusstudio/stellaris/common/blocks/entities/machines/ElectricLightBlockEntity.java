@@ -53,7 +53,7 @@ public class ElectricLightBlockEntity extends BaseEnergyContainerBlockEntity {
             ticksSinceDrain++;
             if (ticksSinceDrain >= ticksPerEnergy(brightness)) {
                 ticksSinceDrain = 0;
-                this.energyContainer.extract(1, false);
+                useEnergy(1);
             }
         } else {
             ticksSinceDrain = 0;
@@ -128,5 +128,10 @@ public class ElectricLightBlockEntity extends BaseEnergyContainerBlockEntity {
         if (state.getValue(ElectricLightBlock.BRIGHTNESS) != effective) {
             level.setBlock(worldPosition, state.setValue(ElectricLightBlock.BRIGHTNESS, effective), Block.UPDATE_ALL);
         }
+    }
+
+    @Override
+    public int getMaxEnergyUsage() {
+        return brightness > 0 ? 1 : 0;
     }
 }
