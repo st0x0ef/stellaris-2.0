@@ -4,12 +4,15 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.Strictness;
 import com.google.gson.ToNumberPolicy;
+import com.mojang.datafixers.util.Pair;
+import com.mojang.serialization.JsonOps;
 import dev.architectury.networking.NetworkManager;
 import dev.architectury.registry.ReloadListenerRegistry;
 import fr.tathan.exoconfig.common.loader.ConfigsRegistry;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.packs.PackType;
 import org.exodusstudio.stellaris.common.data.space_station.SpaceStationData;
+import org.exodusstudio.stellaris.common.data.trophy.BossTrophyData;
 import org.exodusstudio.stellaris.common.data.wiki.WikiEntryPack;
 import org.exodusstudio.stellaris.common.config.CommonConfig;
 import org.exodusstudio.stellaris.common.data.PlanetsData;
@@ -19,10 +22,7 @@ import org.exodusstudio.stellaris.common.data.assistant.AssistantData;
 import org.exodusstudio.stellaris.common.data.wiki.WikiMarkdownData;
 import org.exodusstudio.stellaris.common.events.Events;
 import org.exodusstudio.stellaris.common.network.NetworkRegistry;
-import org.exodusstudio.stellaris.common.network.packets.SyncPlanetsPacket;
-import org.exodusstudio.stellaris.common.network.packets.SyncSDCards;
-import org.exodusstudio.stellaris.common.network.packets.SyncSpaceStationsPacket;
-import org.exodusstudio.stellaris.common.network.packets.SyncWiki;
+import org.exodusstudio.stellaris.common.network.packets.*;
 import org.exodusstudio.stellaris.common.registries.*;
 import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
 import org.slf4j.Logger;
@@ -44,6 +44,7 @@ public final class Stellaris {
     public static void init() {
         StellarisRegistries.register();
         CONFIG = ConfigsRegistry.getInstance().registerConfig(new CommonConfig(), CONFIG);
+
 
         RecipesRegistry.register();
 
@@ -85,6 +86,8 @@ public final class Stellaris {
 
         ReloadListenerRegistry.register(PackType.SERVER_DATA, new WikiMarkdownData(), IdentifierUtils.id(WikiMarkdownData.ID));
         ReloadListenerRegistry.register(PackType.SERVER_DATA, new WikiEntryPack(), IdentifierUtils.id(WikiEntryPack.ID));
+        ReloadListenerRegistry.register(PackType.SERVER_DATA, new BossTrophyData(), IdentifierUtils.id(BossTrophyData.ID));
+
     }
 
     public static void onDatapackSyncEvent(ServerPlayer player, boolean joined) {
@@ -92,5 +95,7 @@ public final class Stellaris {
         NetworkManager.sendToPlayer(player, new SyncSDCards(SdCardData.SD_CARDS));
         NetworkManager.sendToPlayer(player, new SyncPlanetsPacket(new ArrayList<>(PlanetsData.PLANETS)));
         NetworkManager.sendToPlayer(player, new SyncSpaceStationsPacket(new ArrayList<>(SpaceStationData.SPACE_STATION_RECIPES)));
+        NetworkManager.sendToPlayer(player, new SyncBossTrophy(BossTrophyData.TROPHY_BOSSES));
+
     }
 }

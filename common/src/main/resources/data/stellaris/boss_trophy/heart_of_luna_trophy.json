@@ -1,0 +1,20 @@
+{
+  "texture": "stellaris:textures/entity/heart_of_luna.png",
+  "rotation": [
+    0.0,
+    180.0,
+    0.0
+  ],
+  "renderedPartPath": [
+    "Upper Full Body",
+    "Upper Body",
+    "Head"
+  ],
+  "ignoredParts": [
+    "cube_12"
+  ],
+  "modelLayerLocation": {
+    "model": "stellaris:heart_of_luna",
+    "layer": "main"
+  }
+}

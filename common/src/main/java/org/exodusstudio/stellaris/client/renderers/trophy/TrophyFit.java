@@ -2,6 +2,7 @@ package org.exodusstudio.stellaris.client.renderers.trophy;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.model.geom.ModelPart;
+import org.exodusstudio.stellaris.common.data.trophy.BossTrophy;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
 
@@ -68,7 +69,7 @@ public record TrophyFit(float scale, float x, float y, float z) {
      * geometry and derive the transform instead of hand-tuning offsets per boss.
      *
      * <p>Walks the tree via {@link ModelPart#visit} rather than {@code getExtentsForGui} so {@code ignored}
-     * can drop parts by name — see {@link TrophyBoss#ignoredParts()} for why that is needed.
+     * can drop parts by name — see {@link BossTrophy#ignoredParts()} for why that is needed.
      *
      * @return min/max XYZ in block units, or null when nothing was measured.
      */

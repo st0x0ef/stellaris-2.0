@@ -8,11 +8,14 @@ import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.client.renderer.special.NoDataSpecialModelRenderer;
 import net.minecraft.client.renderer.special.SpecialModelRenderer;
+import net.minecraft.resources.Identifier;
+import org.exodusstudio.stellaris.common.data.trophy.BossTrophyData;
+import org.exodusstudio.stellaris.common.data.trophy.BossTrophy;
 import org.joml.Vector3fc;
 
 import java.util.function.Consumer;
 
-public record BossTrophyItemRenderer(TrophyBoss boss, ModelPart part, TrophyFit fit) implements NoDataSpecialModelRenderer {
+public record BossTrophyItemRenderer(BossTrophy boss, ModelPart part, TrophyFit fit) implements NoDataSpecialModelRenderer {
 
     @Override
     public void submit(PoseStack poseStack, SubmitNodeCollector nodeCollector, int packedLight, int packedOverlay, boolean hasFoil, int outlineColor) {
@@ -38,17 +41,26 @@ public record BossTrophyItemRenderer(TrophyBoss boss, ModelPart part, TrophyFit 
         this.part.getExtentsForGui(poseStack, output);
     }
 
-    public record Unbaked(TrophyBoss boss) implements SpecialModelRenderer.Unbaked {
+    public static class Unbaked implements SpecialModelRenderer.Unbaked {
+
+
         public static final MapCodec<BossTrophyItemRenderer.Unbaked> MAP_CODEC = RecordCodecBuilder.mapCodec(instance ->
                 instance.group(
-                        TrophyBoss.CODEC.fieldOf("boss").forGetter(BossTrophyItemRenderer.Unbaked::boss)
-                ).apply(instance, BossTrophyItemRenderer.Unbaked::new)
+                        Identifier.CODEC.fieldOf("id").forGetter(unbaked -> unbaked.bossId)
+                ).apply(instance, Unbaked::new)
         );
+
+        private final Identifier bossId;
+
+        public Unbaked(Identifier bossId) {
+            this.bossId = bossId;
+        }
 
         @Override
         public SpecialModelRenderer<?> bake(BakingContext context) {
-            ModelPart part = this.boss.bake(context.entityModelSet()::bakeLayer);
-            return new BossTrophyItemRenderer(this.boss, part, TrophyFit.centred(part, this.boss.ignoredParts()));
+            BossTrophy boss = BossTrophyData.TROPHY_BOSSES.getOrDefault(this.bossId, BossTrophyData.HEART_OF_LUNA);
+            ModelPart part = boss.bake(context.entityModelSet()::bakeLayer);
+            return new BossTrophyItemRenderer(boss, part, TrophyFit.centred(part, boss.ignoredParts()));
         }
 
         @Override
