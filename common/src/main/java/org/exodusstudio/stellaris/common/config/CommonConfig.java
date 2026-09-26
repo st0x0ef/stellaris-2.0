@@ -96,6 +96,7 @@ public class CommonConfig implements PostValidation {
     public static class VehicleConfig {
         public int rocketTpHeight = 400;
         public boolean shouldLanderExplode = true;
+        public int landerMaxExplosionRadius = 10;
         public int cargoUnloadingRadius = 5;
 
         public int orbitTeleportationYCoord = 62;
@@ -173,6 +174,7 @@ public class CommonConfig implements PostValidation {
         parasiteConfig.researchDelay = atLeast("parasiteConfig.researchDelay", parasiteConfig.researchDelay, 1);
 
         vehicleConfig.cargoUnloadingRadius = atLeast("vehicleConfig.cargoUnloadingRadius", vehicleConfig.cargoUnloadingRadius, 0);
+        vehicleConfig.landerMaxExplosionRadius = atLeast("vehicleConfig.landerMaxExplosionRadius", vehicleConfig.landerMaxExplosionRadius, 0);
 
         effectsConfig.infectionTickChance = atLeast("effectsConfig.infectionTickChance", effectsConfig.infectionTickChance, 0);
         effectsConfig.infectionDamage = atLeast("effectsConfig.infectionDamage", effectsConfig.infectionDamage, 0F);

@@ -552,6 +552,7 @@
   "config.stellaris.vehicleConfig": "Vehicle Settings",
   "config.stellaris.rocketTpHeight": "Rocket Teleport Height",
   "config.stellaris.shouldLanderExplode": "Lander Explodes on Impact",
+  "config.stellaris.landerMaxExplosionRadius": "Lander Max Explosion Radius",
   "config.stellaris.cargoUnloadingRadius": "Cargo Unloading Radius",
   "config.stellaris.orbitTeleportationYCoord": "Orbit Teleportation Y Coord",
   "config.stellaris.vehicleConfig.desc": "Settings related to vehicles (rockets, rovers, landers).",

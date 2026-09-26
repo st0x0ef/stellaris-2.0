@@ -5,6 +5,7 @@
 - Show machine energy consumption per tick in the tooltip
 - Leaving a rocket during the countdown cancels the launch and refunds the fuel
 - Players can no longer leave a rocket or a lander during flight
+- Lander crash explosion radius now increase based on impact speed
 
 ## Fixes
 - Fix jetpack and lander controls ignoring key remapping
@@ -13,3 +14,4 @@
 - Fix cable energy distribution with low energy
 - Fix space station option only showing when the blueprint is in the 1st rocket slot
 - Fix rocket flying forever if the player leaves the rocket during flight
+- Fix players getting stuck on the death screen after a lander crash
