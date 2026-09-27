@@ -260,7 +260,7 @@ public class RocketEntity extends VehicleEntity implements FluidProvider.ENTITY,
                     this.entityData.set(ROCKET_START, true);
 
                     launchFuelPaid = 0;
-                    if (!player.isCreative() || !player.isSpectator()) {
+                    if (!player.isCreative() && !player.isSpectator()) {
                         // TODO: adjust fuel consumption based on planet distance
                         launchFuelPaid = Math.min(LAUNCH_FUEL_COST, this.getFuel());
                         this.entityData.set(FUEL, this.getFuel() - launchFuelPaid);
