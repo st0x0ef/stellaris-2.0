@@ -21,3 +21,5 @@
 - Fix the space farm destroying its content when a player try to change it
 - Fix the space farm not dropping its content when broken
 - Fix bone meal being used even if the crops growing is done
+- Fix cargo unloader deleting items when full
+- Fix cargo unloader emptying landers that aren't landed

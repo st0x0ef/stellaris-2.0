@@ -84,11 +84,16 @@ public class CargoUnloaderBlockEntity extends BaseEnergyContainerBlockEntity {
 
         cooldown = cooldownMax;
 
+        int radius = Stellaris.CONFIG.vehicleConfig.cargoUnloadingRadius;
+        AABB aabb = new AABB(this.getBlockPos()).inflate(radius, 3, radius);
+
+        if (targetLander != null && !canUnloadLander(targetLander, aabb)) {
+            targetLander = null;
+        }
+
         // if the inventory is empty, find a lander in a 5x5 (configurable) area
-        if (this.items.equals(NonNullList.withSize(this.items.size(), ItemStack.EMPTY))) {
-            int radius = Stellaris.CONFIG.vehicleConfig.cargoUnloadingRadius;
-            AABB aabb = new AABB(this.getBlockPos()).inflate(radius, 3, radius);
-            List<LanderEntity> landerEntityList = level.getEntitiesOfClass(LanderEntity.class, aabb);
+        if (targetLander == null && this.items.equals(NonNullList.withSize(this.items.size(), ItemStack.EMPTY))) {
+            List<LanderEntity> landerEntityList = level.getEntitiesOfClass(LanderEntity.class, aabb, lander -> canUnloadLander(lander, aabb));
             if (!landerEntityList.isEmpty()) {
                 targetLander = landerEntityList.getFirst();
             }
@@ -99,7 +104,7 @@ public class CargoUnloaderBlockEntity extends BaseEnergyContainerBlockEntity {
             // transfer rocket, fuel input, fuel output in the corresponding slot
             for (int j = 0; j < 3; j++) {
                 ItemStack stack = targetLander.inventory.getItem(j);
-                if (!stack.isEmpty()) {
+                if (!stack.isEmpty() && items.get(j).isEmpty()) {
                     items.set(j, stack.copy());
                     stack.setCount(0);
                     useEnergy(ENERGY_PER_ITEM);
@@ -107,21 +112,28 @@ public class CargoUnloaderBlockEntity extends BaseEnergyContainerBlockEntity {
                 }
             }
 
-            // find the first non-empty slot
-            int i = IntStream.range(2, getContainerSize()).filter(j -> items.get(j).isEmpty()).findFirst().orElse(0);
+            // find the first empty slot
+            int i = IntStream.range(3, getContainerSize()).filter(j -> items.get(j).isEmpty()).findFirst().orElse(-1);
 
-            targetLander.inventory.getItems().subList(2, targetLander.inventory.getContainerSize()).stream()
+            if (i == -1) {
+                return;
+            }
+
+            targetLander.inventory.getItems().subList(3, targetLander.inventory.getContainerSize()).stream()
                     .filter(stack -> !stack.isEmpty())
                     .findFirst()
                     .ifPresent(stack -> {
-                        if (i < getContainerSize()) {
-                            ItemStack copy = stack.copy();
-                            items.set(i, copy);
-                            stack.setCount(0);
-                            useEnergy(ENERGY_PER_ITEM);
-                        }
+                        ItemStack copy = stack.copy();
+                        items.set(i, copy);
+                        stack.setCount(0);
+                        useEnergy(ENERGY_PER_ITEM);
                     });
         }
+    }
+
+    private boolean canUnloadLander(LanderEntity lander, AABB aabb) {
+        return !lander.isRemoved() && lander.level() == this.level && lander.hasLanded() && !lander.isVehicle()
+                && aabb.intersects(lander.getBoundingBox());
     }
 
     @Override
