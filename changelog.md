@@ -18,3 +18,6 @@
 - Fix rocket flying forever if the player leaves the rocket during flight
 - Fix players getting stuck on the death screen after a lander crash
 - Fix antennas deleting the block under the launch pad instead of dropping it
+- Fix the space farm destroying its content when a player try to change it
+- Fix the space farm not dropping its content when broken
+- Fix bone meal being used even if the crops growing is done

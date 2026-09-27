@@ -81,7 +81,7 @@ public class SpaceFarmBlock extends BaseTickingEntityBlock {
         }
 
         if (blockEntity.cropState == null) {
-            if (stack.is(ItemTags.DIRT) || stack.is(ItemTags.GRASS_BLOCKS)) {
+            if (state.getValue(FARM_TYPE) == SpaceFarmType.EMPTY && (stack.is(ItemTags.DIRT) || stack.is(ItemTags.GRASS_BLOCKS))) {
                 if (!level.isClientSide()) {
                     setFarmState(state, pos, level, SpaceFarmType.DIRT);
                     level.playSound(null, pos, Blocks.DIRT.defaultBlockState().getSoundType().getPlaceSound(), SoundSource.BLOCKS);
@@ -90,7 +90,7 @@ public class SpaceFarmBlock extends BaseTickingEntityBlock {
                 return InteractionResult.SUCCESS;
             }
 
-            if (stack.is(Items.WATER_BUCKET)) {
+            if (state.getValue(FARM_TYPE) == SpaceFarmType.EMPTY && stack.is(Items.WATER_BUCKET)) {
                 if (!level.isClientSide()) {
                     setFarmState(state, pos, level, SpaceFarmType.WATER);
                     this.updateNearSpaceFarm(state, pos, level);
@@ -127,7 +127,9 @@ public class SpaceFarmBlock extends BaseTickingEntityBlock {
                 level.playSound(null, pos, SoundEvents.HOE_TILL, SoundSource.BLOCKS, 1.0F, 1.0F);
             }
             return InteractionResult.SUCCESS;
-        } else if (stack.is(Items.BONE_MEAL)) {
+        } else if (stack.is(Items.BONE_MEAL)
+                && blockEntity.cropState.getBlock() instanceof CropBlock crop
+                && !crop.isMaxAge(blockEntity.cropState)) {
             if (!level.isClientSide()) {
                 blockEntity.performBoneMeal();
                 stack.consume(1, player);
@@ -182,6 +184,8 @@ public class SpaceFarmBlock extends BaseTickingEntityBlock {
                 level.setBlock(pos, Blocks.WATER.defaultBlockState(), 3);
             }
             case FARMLAND -> {
+                level.addFreshEntity(new ItemEntity(level, pos.getX(), pos.getY() + 1, pos.getZ(), new ItemStack(Items.DIRT)));
+
                 if(blockEntity instanceof SpaceFarmBlockEntity spaceFarmBlockEntity && spaceFarmBlockEntity.cropState != null) {
                     Block cropBlock = spaceFarmBlockEntity.cropState.getBlock();
                     ItemEntity itemEntity = new ItemEntity(level, pos.getX(), pos.getY() + 1, pos.getZ(), new ItemStack(cropBlock.asItem()));
