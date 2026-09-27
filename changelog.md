@@ -7,6 +7,7 @@
 - Players can no longer leave a rocket or a lander during flight
 - Lander crash explosion radius now increase based on impact speed
 - Bump minimum Architectury API version to 20.1.16
+- Improve the antenna tooltip
 
 ## Fixes
 - Fix jetpack and lander controls ignoring key remapping
@@ -16,3 +17,4 @@
 - Fix space station option only showing when the blueprint is in the 1st rocket slot
 - Fix rocket flying forever if the player leaves the rocket during flight
 - Fix players getting stuck on the death screen after a lander crash
+- Fix antennas deleting the block under the launch pad instead of dropping it

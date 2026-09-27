@@ -495,7 +495,7 @@
   "tooltip.item.stellaris.can_be_applied_to_space_suit_module": "This module can be applied to any space suit part.",
   "tooltip.item.stellaris.can_be_applied_to_rocket_module": "This module can be applied to the rocket.",
   "tooltip.item.stellaris.can_be_applied_to_rover_module": "This module can be applied to the rover.",
-  "tooltip.item.stellaris.antenna": "Place this block under a rocket launch pad.",
+  "tooltip.item.stellaris.antenna": "Right-click a rocket launch pad with this to install it under the pad.",
   "tooltip.item.stellaris.space_station_blueprint": "Blueprint : ",
   "tooltip.item.stellaris.space_station_blueprint.in_rocket": "Put it in the rocket inventory to build the station on arrival.",
   "tooltip.item.stellaris.space_station_blueprint.plan_first": "Plan a station in the Engineering Station to use this blueprint.",
