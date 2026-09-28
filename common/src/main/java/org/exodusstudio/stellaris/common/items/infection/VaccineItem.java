@@ -1,5 +1,7 @@
 package org.exodusstudio.stellaris.common.items.infection;
 
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
@@ -22,6 +24,7 @@ public class VaccineItem extends Item {
                 } else {
                     player.sendSystemMessage(MoonLoreUtils.PLAYER_NOW_IMMUNISED_MESSAGE);
                     MoonLoreUtils.immunisePlayerToInfection(player);
+                    player.getItemInHand(hand).consume(1, player);
                 }
 
                 player.removeEffect(EffectsRegistry.getHolder(EffectsRegistry.INFECTED));
