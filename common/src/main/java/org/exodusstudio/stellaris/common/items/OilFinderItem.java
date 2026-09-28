@@ -34,8 +34,10 @@ public class OilFinderItem extends Item implements EnergyProvider.ITEM {
         }
 
         ItemEnergyStorage energy = getEnergy(player.getItemInHand(usedHand));
-        if (energy.getEnergy() < 1)
+        if (energy.getEnergy() < 1) {
+            player.sendOverlayMessage(Component.translatable("text.stellaris.oil_finder.cant_search").withStyle(ChatFormatting.RED));
             return InteractionResult.FAIL;
+        }
 
         int oilLevel = level.getChunk(player.getOnPos()).stellaris$getChunkOilLevel();
 

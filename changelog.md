@@ -24,3 +24,4 @@
 - Fix cargo unloader deleting items when full
 - Fix cargo unloader emptying landers that aren't landed
 - Fix flag loot table
+- Fix the oil finder not showing the no energy message
