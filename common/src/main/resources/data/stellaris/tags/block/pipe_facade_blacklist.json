@@ -1,0 +1,15 @@
+{
+  "replace": false,
+  "values": [
+    "#stellaris:oxygen_permeable",
+    "#c:fence_gates",
+    "#c:clusters",
+    "#c:flowers",
+    "#minecraft:flowers",
+    "#minecraft:crops",
+    "#stellaris:pipes",
+    "#stellaris:cables"
+
+
+  ]
+}

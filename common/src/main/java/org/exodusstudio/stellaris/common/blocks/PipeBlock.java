@@ -6,14 +6,23 @@ import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.RotatedPillarBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.BlockHitResult;
+import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.common.blocks.base.BaseCableBlock;
 import org.exodusstudio.stellaris.common.blocks.entities.PipeBlockEntity;
 import org.exodusstudio.stellaris.common.registries.BlockEntitiesRegistry;
+import org.exodusstudio.stellaris.common.registries.TagsRegistry;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -74,6 +83,38 @@ public class PipeBlock extends BaseCableBlock {
     @Override
     public boolean hasTicker(Level level) {
         return false;
+    }
+
+
+    @Override
+    protected InteractionResult useItemOn(ItemStack itemStack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) {
+
+
+        if (level.getBlockEntity(pos) instanceof PipeBlockEntity pipeBlockEntity) {
+
+            if (player.isShiftKeyDown() && itemStack.isEmpty()) {
+                pipeBlockEntity.setFacadeState(null);
+                return InteractionResult.SUCCESS;
+
+            } else if(itemStack.getItem() instanceof BlockItem blockItem)  {
+
+                BlockState itemBlockState = blockItem.getBlock().defaultBlockState();
+
+                if(!itemBlockState.is(TagsRegistry.BlockTags.PIPE_FACADE_BLACKLIST)) {
+
+                    if(itemBlockState.hasProperty(RotatedPillarBlock.AXIS)) {
+                        itemBlockState = itemBlockState.setValue(RotatedPillarBlock.AXIS, hitResult.getDirection().getAxis());
+                    }
+
+                    pipeBlockEntity.setFacadeState(itemBlockState);
+
+                    return InteractionResult.SUCCESS;
+
+                }
+            }
+        }
+
+        return super.useItemOn(itemStack, state, level, pos, player, hand, hitResult);
     }
 
 
