@@ -23,3 +23,4 @@
 - Fix bone meal being used even if the crops growing is done
 - Fix cargo unloader deleting items when full
 - Fix cargo unloader emptying landers that aren't landed
+- Fix flag loot table

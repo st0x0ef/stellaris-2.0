@@ -8,7 +8,6 @@ import dev.architectury.event.events.common.PlayerEvent;
 import dev.architectury.event.events.common.TickEvent;
 import dev.architectury.networking.NetworkManager;
 import net.minecraft.ChatFormatting;
-import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
@@ -26,7 +25,6 @@ import org.exodusstudio.stellaris.common.antennas.Antenna;
 import org.exodusstudio.stellaris.common.assistant.AssistantManager;
 import org.exodusstudio.stellaris.common.antennas.AntennaSavedData;
 import org.exodusstudio.stellaris.common.blocks.entities.AntennaBlockEntity;
-import org.exodusstudio.stellaris.common.blocks.entities.FlagBlockEntity;
 import org.exodusstudio.stellaris.common.data.recipes.BlendingRecipe;
 import org.exodusstudio.stellaris.common.data.recipes.ElectrolyzeRecipe;
 import org.exodusstudio.stellaris.common.data.recipes.FuelRefineryRecipe;
@@ -211,19 +209,7 @@ public class Events {
                 return EventResult.pass();
             }
 
-            if (level.getBlockEntity(pos) instanceof FlagBlockEntity flagBlock) {
-                if (player.isCrouching() && !player.getAbilities().instabuild) {
-                    ItemStack stack = new ItemStack(BlocksRegistry.FLAG.item().get());
-
-                    stack.set(DataComponents.BASE_COLOR, flagBlock.getColor());
-
-                    if (flagBlock.getGameProfile() != null) {
-                        stack.set(DataComponents.PROFILE, flagBlock.getGameProfile());
-                    }
-
-                    Block.popResource(level, pos, stack);
-                }
-            } else if(state.is(BlocksRegistry.ROCKET_LAUNCH_PAD.block().get()) || state.is(BlocksRegistry.ROCKET_LAUNCH_PAD_PROXY.get())) {
+            if(state.is(BlocksRegistry.ROCKET_LAUNCH_PAD.block().get()) || state.is(BlocksRegistry.ROCKET_LAUNCH_PAD_PROXY.get())) {
 
                 if(Utils.checkIfAntennaIsNear(pos, level, 1) || Utils.checkIfRocketIsNear(pos, level, 1)) {
                     return EventResult.interruptFalse();

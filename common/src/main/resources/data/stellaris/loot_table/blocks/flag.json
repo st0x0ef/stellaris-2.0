@@ -12,6 +12,16 @@
       "entries": [
         {
           "type": "minecraft:item",
+          "functions": [
+            {
+              "function": "minecraft:copy_components",
+              "include": [
+                "minecraft:base_color",
+                "minecraft:profile"
+              ],
+              "source": "block_entity"
+            }
+          ],
           "name": "stellaris:flag"
         }
       ]
