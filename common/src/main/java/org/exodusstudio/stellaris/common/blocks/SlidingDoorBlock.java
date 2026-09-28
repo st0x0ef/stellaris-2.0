@@ -27,10 +27,13 @@ import org.exodusstudio.stellaris.common.blocks.entities.SlidingDoorBlockEntity;
 import org.exodusstudio.stellaris.common.registries.BlockEntitiesRegistry;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+
 public class SlidingDoorBlock extends DoorBlock implements EntityBlock {
     public static final MapCodec<SlidingDoorBlock> CODEC = simpleCodec(SlidingDoorBlock::new);
 
-    private static final VoxelShape[][][] SHAPES = buildShapes();
+    private static final Map<ShapeKey, VoxelShape> SHAPES = new ConcurrentHashMap<>();
 
     public SlidingDoorBlock(Properties properties) {
         super(BlockSetType.IRON, properties.dynamicShape());
@@ -41,26 +44,55 @@ public class SlidingDoorBlock extends DoorBlock implements EntityBlock {
         return CODEC;
     }
 
-    public static @Nullable Direction getPartnerSide(BlockGetter level, BlockPos pos, BlockState state) {
-        Direction facing = state.getValue(FACING);
-        Direction found = null;
-        for (Direction side : new Direction[]{facing.getCounterClockWise(), facing.getClockWise()}) {
-            BlockState neighbor = level.getBlockState(pos.relative(side));
-            if (neighbor.getBlock() instanceof SlidingDoorBlock
-                    && neighbor.getValue(FACING).getAxis() == facing.getAxis()
-                    && neighbor.getValue(HALF) == state.getValue(HALF)) {
-                if (found != null) return null;
-                found = side;
-            }
+    public record Layout(Direction slideDirection, int index, int size) {
+        public float travel(float openness) {
+            return openness * (16 * size - 1);
         }
-        return found;
     }
 
-    public static Direction getSlideDirection(BlockGetter level, BlockPos pos, BlockState state) {
-        Direction partner = getPartnerSide(level, pos, state);
-        if (partner != null) return partner.getOpposite();
+    private record Row(BlockPos first, Direction along, int size, int index) {
+        BlockPos get(int i) {
+            return first.relative(along, i);
+        }
+    }
+
+    private static boolean sameRow(BlockState state, BlockState other) {
+        return other.getBlock() instanceof SlidingDoorBlock
+                && other.getValue(FACING).getAxis() == state.getValue(FACING).getAxis()
+                && other.getValue(HALF) == state.getValue(HALF);
+    }
+
+    private static int countRow(BlockGetter level, BlockPos pos, BlockState state, Direction direction) {
+        BlockPos.MutableBlockPos cursor = pos.mutable();
+        int count = 0;
+        while (count < 16 && sameRow(state, level.getBlockState(cursor.move(direction)))) count++;
+        return count;
+    }
+
+    private static Row getRow(BlockGetter level, BlockPos pos, BlockState state) {
+        Direction along = Direction.fromAxisAndDirection(state.getValue(FACING).getClockWise().getAxis(), Direction.AxisDirection.POSITIVE);
+        int before = countRow(level, pos, state, along.getOpposite());
+        int after = countRow(level, pos, state, along);
+        return new Row(pos.relative(along.getOpposite(), before), along, before + after + 1, before);
+    }
+
+    public static Layout getLayout(BlockGetter level, BlockPos pos, BlockState state) {
+        Row row = getRow(level, pos, state);
+        Direction negative = row.along().getOpposite();
+        BlockState first = row.index() == 0 ? state : level.getBlockState(row.first());
+        int negativeSize = row.size() / 2 + (row.size() % 2 == 1 && getExtraSide(first) == negative ? 1 : 0);
+        return row.index() < negativeSize
+                ? new Layout(negative, row.index(), negativeSize)
+                : new Layout(row.along(), row.size() - 1 - row.index(), row.size() - negativeSize);
+    }
+
+    private static Direction getExtraSide(BlockState state) {
         Direction facing = state.getValue(FACING);
         return state.getValue(HINGE) == DoorHingeSide.LEFT ? facing.getCounterClockWise() : facing.getClockWise();
+    }
+
+    private static DoorHingeSide hingeTowards(BlockState state, Direction side) {
+        return state.getValue(FACING).getCounterClockWise() == side ? DoorHingeSide.LEFT : DoorHingeSide.RIGHT;
     }
 
     @Override
@@ -69,56 +101,72 @@ public class SlidingDoorBlock extends DoorBlock implements EntityBlock {
         int progress = level.getBlockEntity(lower) instanceof SlidingDoorBlockEntity door
                 ? door.getProgress()
                 : state.getValue(OPEN) ? SlidingDoorBlockEntity.SLIDE_TICKS : 0;
-        Direction facing = state.getValue(FACING);
-        int side = getSlideDirection(level, pos, state) == facing.getCounterClockWise() ? 0 : 1;
-        return SHAPES[facing.get2DDataValue()][side][progress];
+        return SHAPES.computeIfAbsent(new ShapeKey(getLayout(level, pos, state), progress), SlidingDoorBlock::buildShape);
     }
 
     @Override
     public @Nullable BlockState getStateForPlacement(BlockPlaceContext context) {
         BlockState state = super.getStateForPlacement(context);
-        if (state == null || state.getValue(OPEN)) return state;
-        Direction partner = getPartnerSide(context.getLevel(), context.getClickedPos(), state);
-        if (partner != null && context.getLevel().getBlockState(context.getClickedPos().relative(partner)).getValue(OPEN)) {
-            return state.setValue(OPEN, true).setValue(POWERED, true);
+        if (state == null) return null;
+        Direction facing = state.getValue(FACING);
+        for (Direction side : new Direction[]{facing.getCounterClockWise(), facing.getClockWise()}) {
+            BlockState neighbor = context.getLevel().getBlockState(context.getClickedPos().relative(side));
+            if (sameRow(state, neighbor)) {
+                state = state.setValue(HINGE, hingeTowards(state, getExtraSide(neighbor)));
+                return state.getValue(OPEN) ? state : state.setValue(OPEN, neighbor.getValue(OPEN)).setValue(POWERED, neighbor.getValue(POWERED));
+            }
         }
         return state;
     }
 
     @Override
     protected void neighborChanged(BlockState state, Level level, BlockPos pos, Block neighborBlock, @Nullable Orientation orientation, boolean movedByPiston) {
-        Direction partner = getPartnerSide(level, pos, state);
-        BlockPos partnerPos = partner == null ? null : pos.relative(partner);
-        boolean powered = hasSignal(level, pos, state) || (partnerPos != null && hasSignal(level, partnerPos, level.getBlockState(partnerPos)));
+        Row row = getRow(level, pos, state);
+        int signals = 0;
+        int signalSum = 0;
+        for (int i = 0; i < row.size(); i++) {
+            BlockPos member = row.get(i);
+            if (hasSignal(level, member, level.getBlockState(member))) {
+                signals++;
+                signalSum += i;
+            }
+        }
+        boolean powered = signals > 0;
 
-        if (powered != state.getValue(POWERED)) {
-            if (powered != state.getValue(OPEN)) {
-                level.playSound(null, pos, powered ? type().doorOpen() : type().doorClose(), SoundSource.BLOCKS, 1.0F, level.getRandom().nextFloat() * 0.1F + 0.9F);
-                level.gameEvent(null, powered ? GameEvent.BLOCK_OPEN : GameEvent.BLOCK_CLOSE, pos);
-            }
-            BlockState newState = state.setValue(POWERED, powered).setValue(OPEN, powered);
-            if (powered && partner == null) {
-                DoorHingeSide sourceSide = getSignalSide(level, pos, newState);
-                if (sourceSide != null) newState = newState.setValue(HINGE, sourceSide);
-            }
-            level.setBlock(pos, newState, UPDATE_CLIENTS);
+        Direction extraSide = null;
+        if (powered && !state.getValue(POWERED) && row.size() % 2 == 1) {
+            int middle = row.size() / 2;
+            float average = (float) signalSum / signals;
+            if (average < middle) extraSide = row.along().getOpposite();
+            else if (average > middle) extraSide = row.along();
+            else extraSide = getSignalSide(level, row.get(middle), level.getBlockState(row.get(middle)));
         }
 
-        if (partnerPos != null) {
-            BlockState partnerState = level.getBlockState(partnerPos);
-            if (partnerState.getValue(POWERED) != powered) {
-                level.setBlock(partnerPos, partnerState.setValue(POWERED, powered).setValue(OPEN, powered), UPDATE_CLIENTS);
+        boolean toggled = false;
+        for (int i = 0; i < row.size(); i++) {
+            BlockPos member = row.get(i);
+            BlockState memberState = level.getBlockState(member);
+            BlockState updated = memberState.setValue(POWERED, powered).setValue(OPEN, powered);
+            if (extraSide != null) updated = updated.setValue(HINGE, hingeTowards(updated, extraSide));
+            if (updated != memberState) {
+                toggled |= memberState.getValue(OPEN) != powered;
+                level.setBlock(member, updated, UPDATE_CLIENTS);
             }
+        }
+
+        if (toggled) {
+            level.playSound(null, pos, powered ? type().doorOpen() : type().doorClose(), SoundSource.BLOCKS, 1.0F, level.getRandom().nextFloat() * 0.1F + 0.9F);
+            level.gameEvent(null, powered ? GameEvent.BLOCK_OPEN : GameEvent.BLOCK_CLOSE, pos);
         }
     }
 
-    private static @Nullable DoorHingeSide getSignalSide(Level level, BlockPos pos, BlockState state) {
+    private static @Nullable Direction getSignalSide(Level level, BlockPos pos, BlockState state) {
         Direction facing = state.getValue(FACING);
         BlockPos other = state.getValue(HALF) == DoubleBlockHalf.LOWER ? pos.above() : pos.below();
         boolean left = hasSideSignal(level, pos, other, facing.getCounterClockWise());
         boolean right = hasSideSignal(level, pos, other, facing.getClockWise());
         if (left == right) return null;
-        return left ? DoorHingeSide.LEFT : DoorHingeSide.RIGHT;
+        return left ? facing.getCounterClockWise() : facing.getClockWise();
     }
 
     private static boolean hasSideSignal(Level level, BlockPos pos, BlockPos other, Direction side) {
@@ -149,29 +197,22 @@ public class SlidingDoorBlock extends DoorBlock implements EntityBlock {
         return (BlockEntityTicker<T>) (BlockEntityTicker<SlidingDoorBlockEntity>) (l, pos, s, door) -> door.tick(s);
     }
 
-    private static VoxelShape[][][] buildShapes() {
-        int steps = SlidingDoorBlockEntity.SLIDE_TICKS;
-        VoxelShape[][][] shapes = new VoxelShape[4][2][steps + 1];
-        for (int facing = 0; facing < 4; facing++) {
-            Direction direction = Direction.from2DDataValue(facing);
-            for (int side = 0; side < 2; side++) {
-                for (int progress = 0; progress <= steps; progress++) {
-                    float slide = 16 * SlidingDoorBlockEntity.ease((float) progress / steps);
-                    double min = side == 0 ? 0 : slide;
-                    double max = side == 0 ? 16 - slide : 16;
-                    shapes[facing][side][progress] = max - min < 0.01 ? Shapes.empty() : panel(direction, min, max);
-                }
-            }
-        }
-        return shapes;
-    }
+    private record ShapeKey(Layout layout, int progress) {}
 
-    private static VoxelShape panel(Direction facing, double min, double max) {
-        return switch (facing) {
-            case EAST -> Block.box(7, 0, min, 9, 16, max);
-            case SOUTH -> Block.box(16 - max, 0, 7, 16 - min, 16, 9);
-            case WEST -> Block.box(7, 0, 16 - max, 9, 16, 16 - min);
-            default -> Block.box(min, 0, 7, max, 16, 9);
-        };
+    private static VoxelShape buildShape(ShapeKey key) {
+        Layout layout = key.layout();
+        float openness = SlidingDoorBlockEntity.ease((float) key.progress() / SlidingDoorBlockEntity.SLIDE_TICKS);
+        int start = 16 * layout.index();
+        int end = 16 * layout.size();
+        double min = Math.max(-15 * openness, start) - start;
+        double max = Math.min(end - openness * (end - 1), start + 16) - start;
+        if (max - min < 0.01) return Shapes.empty();
+
+        Direction direction = layout.slideDirection();
+        double low = direction.getAxisDirection() == Direction.AxisDirection.NEGATIVE ? min : 16 - max;
+        double high = direction.getAxisDirection() == Direction.AxisDirection.NEGATIVE ? max : 16 - min;
+        return direction.getAxis() == Direction.Axis.X
+                ? Block.box(low, 0, 7, high, 16, 9)
+                : Block.box(7, 0, low, 9, 16, high);
     }
 }

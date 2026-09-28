@@ -14,11 +14,12 @@ import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.resources.model.sprite.SpriteGetter;
 import net.minecraft.client.resources.model.sprite.SpriteId;
-import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.level.block.DoorBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.DoorHingeSide;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import org.exodusstudio.stellaris.common.blocks.SlidingDoorBlock;
@@ -51,21 +52,20 @@ public class SlidingDoorRenderer implements BlockEntityRenderer<SlidingDoorBlock
         BlockEntityRenderer.super.extractRenderState(door, state, partialTicks, cameraPosition, breakProgress);
         BlockState blockState = door.getBlockState();
         state.facing = blockState.getValue(DoorBlock.FACING);
-        state.slidesLeft = door.getLevel() != null && SlidingDoorBlock.getSlideDirection(door.getLevel(), door.getBlockPos(), blockState) == state.facing.getCounterClockWise();
-        state.openness = door.getOpenness(partialTicks);
+        SlidingDoorBlock.Layout layout = getLayout(door);
+        state.slidesLeft = layout.slideDirection() == state.facing.getCounterClockWise();
+        state.panelIndex = layout.index();
+        state.travel = layout.travel(door.getOpenness(partialTicks));
         state.sprite = new SpriteId(TextureAtlas.LOCATION_BLOCKS, BuiltInRegistries.BLOCK.getKey(blockState.getBlock()).withPrefix("block/"));
     }
 
     @Override
     public void submit(SlidingDoorRenderState state, PoseStack poseStack, SubmitNodeCollector collector, CameraRenderState camera) {
-        float slide = state.openness * WIDTH;
-        if (slide >= WIDTH) return;
-
         TextureAtlasSprite sprite = sprites.get(state.sprite);
-        boolean left = state.slidesLeft;
-        float shift = left ? -slide : slide;
-        float visibleMin = left ? slide : 0;
-        float visibleMax = left ? WIDTH : WIDTH - slide;
+        float shift = state.slidesLeft ? -state.travel : state.travel;
+        float min = state.slidesLeft ? Math.max(shift, -WIDTH * state.panelIndex) : shift;
+        float max = state.slidesLeft ? WIDTH + shift : Math.min(WIDTH + shift, WIDTH * (state.panelIndex + 1));
+        if (max - min < 0.01F) return;
 
         poseStack.pushPose();
         poseStack.translate(0.5F, 0, 0.5F);
@@ -74,50 +74,51 @@ public class SlidingDoorRenderer implements BlockEntityRenderer<SlidingDoorBlock
         poseStack.scale(1 / 16F, 1 / 16F, 1 / 16F);
 
         collector.submitCustomGeometry(poseStack, state.sprite.renderType(RenderTypes::entityCutout), (pose, vertices) ->
-                panel(pose, vertices, sprite, state.lightCoords, visibleMin, visibleMax, shift));
+                panel(pose, vertices, sprite, state.lightCoords, min, max, shift));
 
         poseStack.popPose();
     }
 
     private static void panel(PoseStack.Pose pose, VertexConsumer out, TextureAtlasSprite sprite, int light, float min, float max, float shift) {
-        float x0 = min + shift, x1 = max + shift;
-        float uMinX = (min / WIDTH), uMaxX = (max / WIDTH);
+        float x0 = min, x1 = max;
+        float uMinX = (min - shift) / WIDTH, uMaxX = (max - shift) / WIDTH;
+        float y0 = 0, y1 = HEIGHT, z0 = Z_MIN, z1 = Z_MAX;
 
         Face north = new Face(pose, out, sprite, light, UV_NORTH, 0, 0, -1);
-        north.vertex(x1, HEIGHT, Z_MIN, 1 - uMaxX, 0);
-        north.vertex(x1, 0, Z_MIN, 1 - uMaxX, 1);
-        north.vertex(x0, 0, Z_MIN, 1 - uMinX, 1);
-        north.vertex(x0, HEIGHT, Z_MIN, 1 - uMinX, 0);
+        north.vertex(x1, y1, z0, 1 - uMaxX, 0);
+        north.vertex(x1, y0, z0, 1 - uMaxX, 1);
+        north.vertex(x0, y0, z0, 1 - uMinX, 1);
+        north.vertex(x0, y1, z0, 1 - uMinX, 0);
 
         Face south = new Face(pose, out, sprite, light, UV_SOUTH, 0, 0, 1);
-        south.vertex(x0, HEIGHT, Z_MAX, uMinX, 0);
-        south.vertex(x0, 0, Z_MAX, uMinX, 1);
-        south.vertex(x1, 0, Z_MAX, uMaxX, 1);
-        south.vertex(x1, HEIGHT, Z_MAX, uMaxX, 0);
+        south.vertex(x0, y1, z1, uMinX, 0);
+        south.vertex(x0, y0, z1, uMinX, 1);
+        south.vertex(x1, y0, z1, uMaxX, 1);
+        south.vertex(x1, y1, z1, uMaxX, 0);
 
         Face east = new Face(pose, out, sprite, light, UV_EAST, 1, 0, 0);
-        east.vertex(x1, HEIGHT, Z_MAX, 0, 0);
-        east.vertex(x1, 0, Z_MAX, 0, 1);
-        east.vertex(x1, 0, Z_MIN, 1, 1);
-        east.vertex(x1, HEIGHT, Z_MIN, 1, 0);
+        east.vertex(x1, y1, z1, 0, 0);
+        east.vertex(x1, y0, z1, 0, 1);
+        east.vertex(x1, y0, z0, 1, 1);
+        east.vertex(x1, y1, z0, 1, 0);
 
         Face west = new Face(pose, out, sprite, light, UV_WEST, -1, 0, 0);
-        west.vertex(x0, HEIGHT, Z_MIN, 0, 0);
-        west.vertex(x0, 0, Z_MIN, 0, 1);
-        west.vertex(x0, 0, Z_MAX, 1, 1);
-        west.vertex(x0, HEIGHT, Z_MAX, 1, 0);
+        west.vertex(x0, y1, z0, 0, 0);
+        west.vertex(x0, y0, z0, 0, 1);
+        west.vertex(x0, y0, z1, 1, 1);
+        west.vertex(x0, y1, z1, 1, 0);
 
         Face up = new Face(pose, out, sprite, light, UV_UP, 0, 1, 0);
-        up.vertex(x0, HEIGHT, Z_MIN, uMinX, 0);
-        up.vertex(x0, HEIGHT, Z_MAX, uMinX, 1);
-        up.vertex(x1, HEIGHT, Z_MAX, uMaxX, 1);
-        up.vertex(x1, HEIGHT, Z_MIN, uMaxX, 0);
+        up.vertex(x0, y1, z0, uMinX, 0);
+        up.vertex(x0, y1, z1, uMinX, 1);
+        up.vertex(x1, y1, z1, uMaxX, 1);
+        up.vertex(x1, y1, z0, uMaxX, 0);
 
         Face down = new Face(pose, out, sprite, light, UV_DOWN, 0, -1, 0);
-        down.vertex(x1, 0, Z_MIN, uMaxX, 1);
-        down.vertex(x1, 0, Z_MAX, uMaxX, 0);
-        down.vertex(x0, 0, Z_MAX, uMinX, 0);
-        down.vertex(x0, 0, Z_MIN, uMinX, 1);
+        down.vertex(x1, y0, z0, uMaxX, 1);
+        down.vertex(x1, y0, z1, uMaxX, 0);
+        down.vertex(x0, y0, z1, uMinX, 0);
+        down.vertex(x0, y0, z0, uMinX, 1);
     }
 
     private record Face(PoseStack.Pose pose, VertexConsumer out, TextureAtlasSprite sprite, int light, float[] uv, float nx, float ny, float nz) {
@@ -139,7 +140,18 @@ public class SlidingDoorRenderer implements BlockEntityRenderer<SlidingDoorBlock
     }
 
     public AABB getRenderBoundingBox(BlockEntity blockEntity) {
-        BlockPos pos = blockEntity.getBlockPos();
-        return new AABB(pos.getX(), pos.getY(), pos.getZ(), pos.getX() + 1, pos.getY() + 2, pos.getZ() + 1);
+        SlidingDoorBlock.Layout layout = getLayout(blockEntity);
+        int reach = layout.index();
+        return new AABB(blockEntity.getBlockPos()).expandTowards(0, 1, 0)
+                .expandTowards(layout.slideDirection().getStepX() * reach, 0, layout.slideDirection().getStepZ() * reach);
+    }
+
+    private static SlidingDoorBlock.Layout getLayout(BlockEntity door) {
+        BlockState state = door.getBlockState();
+        if (door.getLevel() == null) {
+            Direction facing = state.getValue(DoorBlock.FACING);
+            return new SlidingDoorBlock.Layout(state.getValue(DoorBlock.HINGE) == DoorHingeSide.LEFT ? facing.getCounterClockWise() : facing.getClockWise(), 0, 1);
+        }
+        return SlidingDoorBlock.getLayout(door.getLevel(), door.getBlockPos(), state);
     }
 }

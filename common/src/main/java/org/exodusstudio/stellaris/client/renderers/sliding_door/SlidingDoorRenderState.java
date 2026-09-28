@@ -7,6 +7,7 @@ import net.minecraft.core.Direction;
 public class SlidingDoorRenderState extends BlockEntityRenderState {
     public Direction facing = Direction.NORTH;
     public boolean slidesLeft;
-    public float openness;
+    public float travel;
+    public int panelIndex;
     public SpriteId sprite;
 }
