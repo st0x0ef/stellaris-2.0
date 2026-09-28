@@ -114,12 +114,12 @@ public class FuelRefineryBlockEntity extends BaseEnergyContainerBlockEntity impl
                     if ((outputFuelTank.getFluidInTank(0).isEmpty() || outputFuelTank.getFluidInTank(0).getFluid().isSame(recipe.fuelStack().fluid().value())) &&
                             (outputDieselTank.getFluidInTank(0).isEmpty() || outputDieselTank.getFluidInTank(0).getFluid().isSame(recipe.dieselStack().fluid().value()))) {
                         boolean shouldUseEnergyAndDrainOil = false;
-                        if (outputFuelTank.getFluidValueInTank() + recipe.fuelStack().amount() < outputFuelTank.getTankCapacity(0)) {
+                        if (outputFuelTank.getFluidValueInTank() + recipe.fuelStack().amount() <= outputFuelTank.getTankCapacity(0)) {
                             outputFuelTank.fillWithoutLimits(recipe.fuelStack().create(), false);
                             shouldUseEnergyAndDrainOil = true;
                         }
 
-                        if (outputDieselTank.getFluidValueInTank() + recipe.dieselStack().amount() < outputDieselTank.getTankCapacity(0)) {
+                        if (outputDieselTank.getFluidValueInTank() + recipe.dieselStack().amount() <= outputDieselTank.getTankCapacity(0)) {
                             outputDieselTank.fillWithoutLimits(recipe.dieselStack().create(), false);
                             shouldUseEnergyAndDrainOil = true;
                         }

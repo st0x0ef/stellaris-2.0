@@ -15,14 +15,16 @@
 - Fix torches not being consumed when placed without oxygen
 - Fix cable energy distribution with low energy
 - Fix space station option only showing when the blueprint is in the 1st rocket slot
-- Fix rocket flying forever if the player leaves the rocket during flight
-- Fix players getting stuck on the death screen after a lander crash
+- Fix rocket flying forever if player leaves a rocket during flight
+- Fix players getting stuck on death screen after a lander crash
 - Fix antennas deleting the block under the launch pad instead of dropping it
-- Fix the space farm destroying its content when a player try to change it
-- Fix the space farm not dropping its content when broken
+- Fix space farm destroying its content when a player try to change it
+- Fix space farm not dropping its content when broken
 - Fix bone meal being used even if the crops growing is done
 - Fix cargo unloader deleting items when full
 - Fix cargo unloader emptying landers that aren't landed
 - Fix flag loot table
-- Fix the oil finder not showing the no energy message
-- Fix the vaccine not being consumed when used
+- Fix oil finder not showing the no energy message
+- Fix vaccine not being consumed when used
+- Fix fuel refinery output tanks never filling completely
+- Fix electrolyzer doesn't stop before getting full (which can cause it to consume to much water)
