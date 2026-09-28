@@ -34,6 +34,9 @@ import java.util.List;
 public class PumpjackBlockEntity extends BaseEnergyContainerBlockEntity implements FluidProvider.BLOCK {
 
     public final SingleFluidStorage resultTank;
+    public float animationSpeed;
+    public float animationTicks;
+    public float lastAnimationFrame;
 
     public PumpjackBlockEntity(BlockPos pos, BlockState state) {
         super(BlockEntitiesRegistry.PUMPJACK.get(), pos, state);

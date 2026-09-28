@@ -8,6 +8,7 @@
 - Lander crash explosion radius now increase based on impact speed
 - Bump minimum Architectury API version to 20.1.16
 - Improve the antenna tooltip
+- New pumpjack model and animation
 
 ## Fixes
 - Fix jetpack and lander controls ignoring key remapping

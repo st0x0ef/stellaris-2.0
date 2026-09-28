@@ -26,6 +26,7 @@ import org.exodusstudio.stellaris.client.renderers.globe.GlobeModel;
 import org.exodusstudio.stellaris.client.renderers.gravity_manipulator.GravityManipulatorModel;
 import org.exodusstudio.stellaris.client.renderers.lander.LanderModel;
 import org.exodusstudio.stellaris.client.renderers.launchpad.RocketLaunchPadModel;
+import org.exodusstudio.stellaris.client.renderers.pumpjack.PumpjackModel;
 import org.exodusstudio.stellaris.client.renderers.mobs.*;
 import org.exodusstudio.stellaris.client.renderers.mobs.starcrawler.StarCrawlerModel;
 import org.exodusstudio.stellaris.client.renderers.mobs.starcrawlerboss.StarCrawlerBossHud;
@@ -214,6 +215,11 @@ public class StellarisClient {
         EntityModelLayerRegistry.register(
                 RocketLaunchPadModel.LAYER_LOCATION,
                 RocketLaunchPadModel::createBodyLayer
+        );
+
+        EntityModelLayerRegistry.register(
+                PumpjackModel.LAYER_LOCATION,
+                PumpjackModel::createBodyLayer
         );
 
         EntityModelLayerRegistry.register(

@@ -1,6 +1,10 @@
 {
   "model": {
-    "type": "minecraft:model",
-    "model": "stellaris:item/pumpjack"
+    "type": "minecraft:special",
+    "base": "stellaris:item/pumpjack",
+    "model": {
+      "type": "stellaris:pumpjack",
+      "texture": "stellaris:block/machines/pumpjack"
+    }
   }
 }
