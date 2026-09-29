@@ -810,6 +810,8 @@
   "block.stellaris.cargo_unloader": "Cargo Unloader",
   "block.stellaris.laboratory": "Laboratory",
   "block.stellaris.flag": "Flag",
+  "block.stellaris.mars_sand": "Mars Sand",
+  "block.stellaris.mars_stone": "Mars Stone",
 
   "tooltip.stellaris.none": "None",
   "tooltip.stellaris.unknown": "Unknown",

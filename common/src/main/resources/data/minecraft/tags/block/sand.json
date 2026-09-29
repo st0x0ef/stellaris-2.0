@@ -1,6 +1,7 @@
 {
   "replace": false,
   "values": [
-    "stellaris:moon_sand"
+    "#c:sand/moon",
+    "#c:sand/mars"
   ]
 }
