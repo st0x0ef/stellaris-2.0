@@ -16,6 +16,7 @@ import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.BaseEntityBlock;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.RotatedPillarBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -107,7 +108,7 @@ public class PipeBlock extends BaseCableBlock {
 
         if (level.getBlockEntity(pos) instanceof PipeBlockEntity pipeBlockEntity) {
 
-            if (player.isShiftKeyDown() && itemStack.isEmpty()) {
+            if (player.isShiftKeyDown() && (itemStack.isEmpty() || pipeBlockEntity.facadeState != null)) {
                 dropFacadeBlock(pos, pipeBlockEntity);
                 pipeBlockEntity.setFacadeState(null);
                 return InteractionResult.SUCCESS;
@@ -116,8 +117,11 @@ public class PipeBlock extends BaseCableBlock {
 
                 BlockState itemBlockState = blockItem.getBlock().defaultBlockState();
 
-                if(!itemBlockState.is(TagsRegistry.BlockTags.PIPE_FACADE_BLACKLIST) //We don't want thoses block
-                        && !(itemBlockState.getBlock() instanceof BaseEntityBlock)) { //And we don't want block entity
+                if(!itemBlockState.is(TagsRegistry.BlockTags.PIPE_FACADE_BLACKLIST) &&//We don't want thoses block
+                   !(itemBlockState.getBlock() instanceof BaseEntityBlock) &&//we don't want block entity
+                   Block.isShapeFullBlock(itemBlockState.getShape(level, pos))) //And we only want full block
+                {
+
 
                     if(itemBlockState.hasProperty(RotatedPillarBlock.AXIS)) {
                         itemBlockState = itemBlockState.setValue(RotatedPillarBlock.AXIS, hitResult.getDirection().getAxis());
