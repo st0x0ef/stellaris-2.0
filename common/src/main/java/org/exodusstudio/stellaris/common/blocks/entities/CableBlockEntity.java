@@ -1,12 +1,12 @@
-package org.exodusstudio.stellaris.common.blocks.entities.machines;
+package org.exodusstudio.stellaris.common.blocks.entities;
 
 import com.fej1fun.potentials.energy.UniversalEnergyStorage;
 import com.fej1fun.potentials.providers.EnergyProvider;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import org.exodusstudio.stellaris.common.blocks.CableBlock;
+import org.exodusstudio.stellaris.common.blocks.entities.machines.base.BaseFacadeBlockEntity;
 import org.exodusstudio.stellaris.common.registries.BlockEntitiesRegistry;
 import org.exodusstudio.stellaris.common.transport.PassthroughEnergyStorage;
 import org.jetbrains.annotations.Nullable;
@@ -19,7 +19,7 @@ import org.jetbrains.annotations.Nullable;
  * push directly into a Stellaris line; that capability routes straight into the network and stores
  * nothing. The block entity itself neither ticks nor persists anything.
  */
-public class CableBlockEntity extends BlockEntity implements EnergyProvider.BLOCK {
+public class CableBlockEntity extends BaseFacadeBlockEntity implements EnergyProvider.BLOCK  {
 
     public CableBlockEntity(BlockPos pos, BlockState state) {
         super(BlockEntitiesRegistry.CABLES.get(), pos, state);
@@ -32,4 +32,6 @@ public class CableBlockEntity extends BlockEntity implements EnergyProvider.BLOC
         }
         return new PassthroughEnergyStorage(level, worldPosition, direction, cable.transferRate);
     }
+
+
 }

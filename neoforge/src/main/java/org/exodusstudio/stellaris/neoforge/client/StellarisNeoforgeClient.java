@@ -2,7 +2,6 @@ package org.exodusstudio.stellaris.neoforge.client;
 
 import net.minecraft.client.model.object.boat.BoatModel;
 import net.minecraft.client.renderer.block.FluidModel;
-import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
 import net.minecraft.client.renderer.blockentity.HangingSignRenderer;
 import net.minecraft.client.renderer.blockentity.StandingSignRenderer;
 import net.minecraft.client.renderer.entity.BoatRenderer;
@@ -21,7 +20,7 @@ import org.exodusstudio.stellaris.client.registry.KeyMappingsRegistry;
 import org.exodusstudio.stellaris.client.renderers.flag.FlagBlockModel;
 import org.exodusstudio.stellaris.client.renderers.flag.FlagBlockRenderer;
 import org.exodusstudio.stellaris.client.renderers.flag.FlagHeadModel;
-import org.exodusstudio.stellaris.client.renderers.pipe.PipeFacadeRenderer;
+import org.exodusstudio.stellaris.client.renderers.pipe.FacadeBlockRenderer;
 import org.exodusstudio.stellaris.client.renderers.trophy.BossTrophyBlockRenderer;
 import org.exodusstudio.stellaris.client.renderers.globe.GlobeBlockRenderer;
 import org.exodusstudio.stellaris.client.renderers.globe.GlobeModel;
@@ -120,7 +119,8 @@ public class StellarisNeoforgeClient {
         event.registerBlockEntityRenderer(BlockEntitiesRegistry.BOSS_TROPHY.get(), BossTrophyBlockRenderer::new);
         event.registerBlockEntityRenderer((BlockEntityType<RocketLaunchPadBlockEntity>)BlockEntitiesRegistry.ROCKET_LAUNCH_PAD.get(), RocketLaunchPadBlockRenderer::new);
         event.registerBlockEntityRenderer(BlockEntitiesRegistry.SPACE_FARM.get(), SpaceFarmRenderer::new);
-        event.registerBlockEntityRenderer(BlockEntitiesRegistry.PIPE_ENTITY.get(), PipeFacadeRenderer::new);
+        event.registerBlockEntityRenderer(BlockEntitiesRegistry.PIPE_ENTITY.get(), FacadeBlockRenderer::new);
+        event.registerBlockEntityRenderer(BlockEntitiesRegistry.CABLES.get(), FacadeBlockRenderer::new);
 
 
         event.registerEntityRenderer(EntityTypesRegistry.LANDER.get(), LanderRenderer::new);

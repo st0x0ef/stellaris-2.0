@@ -13,33 +13,29 @@ import net.minecraft.client.renderer.state.level.CameraRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
-import org.exodusstudio.stellaris.client.renderers.space_farm.SpaceFarmRenderState;
-import org.exodusstudio.stellaris.common.blocks.base.BaseCableBlock;
-import org.exodusstudio.stellaris.common.blocks.entities.PipeBlockEntity;
-import org.exodusstudio.stellaris.common.blocks.entities.machines.SpaceFarmBlockEntity;
+import org.exodusstudio.stellaris.common.blocks.entities.machines.base.BaseFacadeBlockEntity;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 
-public class PipeFacadeRenderer implements BlockEntityRenderer<PipeBlockEntity, PipeFacadeRenderer.PipeFacadeRenderState> {
+public class FacadeBlockRenderer implements BlockEntityRenderer<BaseFacadeBlockEntity, FacadeBlockRenderer.FacadeBlockRenderState> {
 
     private final BlockModelResolver blockModelResolver;
     private static final BlockDisplayContext BLOCK_DISPLAY_CONTEXT = BlockDisplayContext.create();
 
 
-    public PipeFacadeRenderer(BlockEntityRendererProvider.Context context) {
+    public FacadeBlockRenderer(BlockEntityRendererProvider.Context context) {
         this.blockModelResolver = context.blockModelResolver();
-
     }
 
 
     @Override
-    public @NonNull PipeFacadeRenderState createRenderState() {
+    public FacadeBlockRenderer.FacadeBlockRenderState createRenderState() {
 
-        return new PipeFacadeRenderState();
+        return new FacadeBlockRenderState();
     }
 
     @Override
-    public void submit(PipeFacadeRenderState state, PoseStack poseStack, SubmitNodeCollector submitNodeCollector, CameraRenderState camera) {
+    public void submit(FacadeBlockRenderState state, PoseStack poseStack, SubmitNodeCollector submitNodeCollector, CameraRenderState camera) {
 
         if(state.facadeState == null) {
             return;
@@ -57,16 +53,17 @@ public class PipeFacadeRenderer implements BlockEntityRenderer<PipeBlockEntity, 
     }
 
     @Override
-    public void extractRenderState(PipeBlockEntity blockEntity, @NonNull PipeFacadeRenderState state, float partialTicks, Vec3 cameraPosition, ModelFeatureRenderer.@Nullable CrumblingOverlay breakProgress) {
+    public void extractRenderState(BaseFacadeBlockEntity blockEntity, FacadeBlockRenderer.FacadeBlockRenderState state, float partialTicks, Vec3 cameraPosition, ModelFeatureRenderer.@Nullable CrumblingOverlay breakProgress) {
         BlockEntityRenderer.super.extractRenderState(blockEntity, state, partialTicks, cameraPosition, breakProgress);
-        state.facadeState = blockEntity.facadeState;
+
+        state.facadeState = blockEntity.getFacadeState();
 
         if(state.facadeState != null) {
             blockModelResolver.update(state.facadeRenderState, state.facadeState, BLOCK_DISPLAY_CONTEXT);
         }
     }
 
-    public static class PipeFacadeRenderState extends BlockEntityRenderState {
+    public static class FacadeBlockRenderState extends BlockEntityRenderState {
         public final BlockModelRenderState facadeRenderState = new BlockModelRenderState();
 
         public BlockState facadeState = null;

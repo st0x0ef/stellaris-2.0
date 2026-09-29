@@ -3,23 +3,28 @@ package org.exodusstudio.stellaris.common.blocks.base;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
-import net.minecraft.world.level.BlockGetter;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.LevelReader;
-import net.minecraft.world.level.ScheduledTickAccess;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.PipeBlock;
-import net.minecraft.world.level.block.RenderShape;
+import net.minecraft.world.level.*;
+import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.Property;
 import net.minecraft.world.level.pathfinder.PathComputationType;
+import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import org.exodusstudio.stellaris.common.blocks.entities.PipeBlockEntity;
+import org.exodusstudio.stellaris.common.blocks.entities.machines.base.BaseFacadeBlockEntity;
+import org.exodusstudio.stellaris.common.registries.TagsRegistry;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Map;
@@ -92,6 +97,9 @@ public abstract class BaseCableBlock extends BaseTickingEntityBlock {
     }
 
     public @NotNull VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
+        if(level.getBlockEntity(pos) instanceof BaseFacadeBlockEntity facadeBlockEntity && facadeBlockEntity.facadeState != null) {
+            return facadeBlockEntity.facadeState.getShape(level, pos);
+        }
         return this.shapeByIndex[this.getAABBIndex(state)];
     }
 
@@ -134,4 +142,66 @@ public abstract class BaseCableBlock extends BaseTickingEntityBlock {
 
         return i;
     }
+
+    @Override
+    protected @NotNull InteractionResult useItemOn(ItemStack itemStack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) {
+
+        if (level.getBlockEntity(pos) instanceof BaseFacadeBlockEntity facadeBlockEntity) {
+
+            if (player.isShiftKeyDown() && (itemStack.isEmpty() || facadeBlockEntity.facadeState != null)) {
+                dropFacadeBlock(pos, facadeBlockEntity);
+                facadeBlockEntity.setFacadeState(null);
+                return InteractionResult.SUCCESS;
+
+            } else if(itemStack.getItem() instanceof BlockItem blockItem)  {
+
+                BlockState itemBlockState = blockItem.getBlock().defaultBlockState();
+
+                if(!itemBlockState.is(TagsRegistry.BlockTags.PIPE_FACADE_BLACKLIST) &&//We don't want thoses block
+                        !(itemBlockState.getBlock() instanceof BaseEntityBlock) &&//we don't want block entity
+                        Block.isShapeFullBlock(itemBlockState.getShape(level, pos))) //And we only want full block
+                {
+
+
+                    if(itemBlockState.hasProperty(RotatedPillarBlock.AXIS)) {
+                        itemBlockState = itemBlockState.setValue(RotatedPillarBlock.AXIS, hitResult.getDirection().getAxis());
+                    }
+
+                    itemStack.shrink(1);
+                    dropFacadeBlock(pos, facadeBlockEntity);
+
+                    facadeBlockEntity.setFacadeState(itemBlockState);
+
+                    return InteractionResult.SUCCESS;
+
+                }
+            }
+        }
+
+        return super.useItemOn(itemStack, state, level, pos, player, hand, hitResult);
+    }
+
+    @Override
+    public void destroy(LevelAccessor level, BlockPos pos, BlockState state) {
+
+        if(!level.isClientSide()) {
+            if (level.getBlockEntity(pos) instanceof PipeBlockEntity pipeBlockEntity) {
+                dropFacadeBlock(pos, pipeBlockEntity);
+            }
+        }
+        super.destroy(level, pos, state);
+    }
+
+    public void dropFacadeBlock(BlockPos pos, BaseFacadeBlockEntity facadeBlockEntity) {
+        if(facadeBlockEntity.facadeState != null) {
+
+            ItemEntity entity = new ItemEntity(facadeBlockEntity.getLevel(), pos.getX(), pos.getY() + 1, pos.getZ(),
+                    facadeBlockEntity.facadeState.getCloneItemStack(facadeBlockEntity.getLevel(), pos, true));
+
+            facadeBlockEntity.getLevel().addFreshEntity(entity);
+
+        }
+
+    }
+
 }

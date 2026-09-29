@@ -15,7 +15,7 @@ import org.exodusstudio.stellaris.client.StellarisClient;
 import org.exodusstudio.stellaris.client.registry.BoatModelLayerRegistry;
 import org.exodusstudio.stellaris.client.registry.KeyMappingsRegistry;
 import org.exodusstudio.stellaris.client.renderers.flag.FlagBlockRenderer;
-import org.exodusstudio.stellaris.client.renderers.pipe.PipeFacadeRenderer;
+import org.exodusstudio.stellaris.client.renderers.pipe.FacadeBlockRenderer;
 import org.exodusstudio.stellaris.client.renderers.trophy.BossTrophyBlockRenderer;
 import org.exodusstudio.stellaris.client.renderers.globe.GlobeBlockRenderer;
 import org.exodusstudio.stellaris.client.renderers.gravity_manipulator.GravityManipulatorBlockRenderer;
@@ -102,7 +102,8 @@ public final class StellarisFabricClient implements ClientModInitializer {
         BlockEntityRenderers.register(BlockEntitiesRegistry.BOSS_TROPHY.get(), BossTrophyBlockRenderer::new);
         BlockEntityRenderers.register((BlockEntityType<RocketLaunchPadBlockEntity>)BlockEntitiesRegistry.ROCKET_LAUNCH_PAD.get(), RocketLaunchPadBlockRenderer::new);
         BlockEntityRenderers.register(BlockEntitiesRegistry.SPACE_FARM.get(), SpaceFarmRenderer::new);
-        BlockEntityRenderers.register(BlockEntitiesRegistry.PIPE_ENTITY.get(), PipeFacadeRenderer::new);
+        BlockEntityRenderers.register(BlockEntitiesRegistry.PIPE_ENTITY.get(), FacadeBlockRenderer::new);
+        BlockEntityRenderers.register(BlockEntitiesRegistry.CABLES.get(), FacadeBlockRenderer::new);
 
         EntityRenderers.register(EntityTypesRegistry.LANDER.get(), LanderRenderer::new);
         EntityRenderers.register(EntityTypesRegistry.ROCKET.get(), RocketRenderer::new);

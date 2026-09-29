@@ -12,7 +12,7 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import org.exodusstudio.stellaris.common.blocks.base.BaseCableBlock;
-import org.exodusstudio.stellaris.common.blocks.entities.machines.CableBlockEntity;
+import org.exodusstudio.stellaris.common.blocks.entities.CableBlockEntity;
 import org.exodusstudio.stellaris.common.registries.BlockEntitiesRegistry;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
