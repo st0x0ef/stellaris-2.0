@@ -1,0 +1,24 @@
+{
+  "display": {
+    "icon": {
+      "id": "stellaris:mars_sand"
+    },
+    "title": {
+      "translate": "advancements.stellaris.arrived_mars.title"
+    },
+    "description": {
+      "translate": "advancements.stellaris.arrived_mars.description"
+    },
+    "show_toast": true,
+    "announce_to_chat": true
+  },
+  "parent": "stellaris:space_travel/arrived_moon",
+  "criteria": {
+    "step_mars": {
+      "trigger": "minecraft:changed_dimension",
+      "conditions": {
+        "to": "stellaris:mars"
+      }
+    }
+  }
+}

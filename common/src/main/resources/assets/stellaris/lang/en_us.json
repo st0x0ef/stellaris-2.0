@@ -674,6 +674,9 @@
   "assistant.stellaris.moon.first_visit.1": "Touchdown confirmed. Welcome to the Moon!",
   "assistant.stellaris.moon.first_visit.2": "Gravity here is a sixth of what you are used to, so watch your jumps and your landings.",
   "assistant.stellaris.moon.first_visit.3": "There is no atmosphere out there. Your suit oxygen is the only thing keeping you alive, so keep an eye on it.",
+  "assistant.stellaris.mars.first_visit.1": "Touchdown confirmed. Welcome to Mars!",
+  "assistant.stellaris.mars.first_visit.2": "Gravity here is about a third of Earth's. Lighter than home, heavier than the Moon.",
+  "assistant.stellaris.mars.first_visit.3": "The air is far too thin to breathe and the nights get brutally cold. Keep your suit sealed.",
   "assistant.stellaris.infected.1": "Warning. I am picking up foreign biological activity in your bloodstream.",
   "assistant.stellaris.infected.2": "The parasite is spreading. It will keep hurting you until it is dealt with.",
   "assistant.stellaris.infected.3": "Study the parasites in a laboratory to work out a vaccine. It is your only way out of this.",
@@ -684,6 +687,8 @@
 
   "advancements.stellaris.arrived_moon.title": "That's one small step for a man, one giant leap for mankind.",
   "advancements.stellaris.arrived_moon.description": "You landed on the moon",
+  "advancements.stellaris.arrived_mars.title": "The Red Planet",
+  "advancements.stellaris.arrived_mars.description": "Land on Mars",
 
   "advancements.stellaris.first_rocket.title": "Let's go!",
   "advancements.stellaris.first_rocket.description": "Launch your first rocket",
