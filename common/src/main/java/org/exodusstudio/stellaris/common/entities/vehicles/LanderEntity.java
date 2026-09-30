@@ -9,11 +9,11 @@ import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.Mth;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -30,9 +30,10 @@ import org.exodusstudio.stellaris.common.menus.LanderMenu;
 import org.exodusstudio.stellaris.common.registries.EntityTypesRegistry;
 import org.exodusstudio.stellaris.common.utils.GravityUtils;
 
-import java.util.List;
 
 public class LanderEntity extends VehicleEntity {
+    private static final double MIN_CRASH_SPEED = 5.0 / 4.5;
+
     public static final EntityDataAccessor<Boolean> AUTOPILOT = SynchedEntityData.defineId(LanderEntity.class, EntityDataSerializers.BOOLEAN);
     public static final EntityDataAccessor<Boolean> LANDED = SynchedEntityData.defineId(LanderEntity.class, EntityDataSerializers.BOOLEAN);
 
@@ -64,20 +65,26 @@ public class LanderEntity extends VehicleEntity {
         this.remove(RemovalReason.DISCARDED);
     }
 
+    private float getCrashExplosionRadius() {
+        int maxRadius = Stellaris.CONFIG.vehicleConfig.landerMaxExplosionRadius;
+        if (maxRadius <= 0) {
+            return 0;
+        }
+
+        double impactSpeed = -this.getDeltaMovement().y;
+        double terminalSpeed = GravityUtils.getEntityGravity(this);
+        double ratio = terminalSpeed <= MIN_CRASH_SPEED ? 1 : Mth.clamp((impactSpeed - MIN_CRASH_SPEED) / (terminalSpeed - MIN_CRASH_SPEED), 0, 1);
+
+        return Math.max(1, Math.round(maxRadius * ratio));
+    }
+
     @Override
     public boolean causeFallDamage(double fallDistance, float damageMultiplier, DamageSource damageSource) {
         if (fallDistance > 5.0F) {
             if (this.level() instanceof ServerLevel serverLevel) {
                 if (!this.entityData.get(AUTOPILOT) && Stellaris.CONFIG.vehicleConfig.shouldLanderExplode) {
 
-                    this.level().explode(this, this.getX(), this.getY(), this.getZ(), 10, true,
-                            Level.ExplosionInteraction.TNT);
-
-                    List<Entity> passengersToDamage = this.getPassengers().stream().filter(entity -> !entity.isInvulnerable()).toList();
-                    for (Entity passenger : passengersToDamage) {
-                        if (passenger instanceof LivingEntity living)
-                            living.setHealth(1);
-                    }
+                    this.level().explode(this, this.getX(), this.getY(), this.getZ(), getCrashExplosionRadius(), true, Level.ExplosionInteraction.TNT);
 
                     this.dropEquipment(serverLevel);
                     this.remove(RemovalReason.DISCARDED);
@@ -127,7 +134,13 @@ public class LanderEntity extends VehicleEntity {
             }
         }
 
-        this.move(MoverType.SELF, this.getDeltaMovement());
+        if (!this.level().isClientSide()) {
+            this.move(MoverType.SELF, this.getDeltaMovement());
+        }
+    }
+
+    public boolean hasLanded() {
+        return this.entityData.get(LANDED);
     }
 
     public Player getFirstPlayerPassenger() {

@@ -24,11 +24,14 @@ import org.exodusstudio.stellaris.client.renderers.trophy.BossTrophyBlockRendere
 import org.exodusstudio.stellaris.client.renderers.globe.GlobeBlockRenderer;
 import org.exodusstudio.stellaris.client.renderers.globe.GlobeModel;
 import org.exodusstudio.stellaris.client.renderers.gravity_manipulator.GravityManipulatorBlockRenderer;
+import org.exodusstudio.stellaris.client.renderers.sliding_door.SlidingDoorRenderer;
 import org.exodusstudio.stellaris.client.renderers.gravity_manipulator.GravityManipulatorModel;
 import org.exodusstudio.stellaris.client.renderers.lander.LanderModel;
 import org.exodusstudio.stellaris.client.renderers.lander.LanderRenderer;
 import org.exodusstudio.stellaris.client.renderers.launchpad.RocketLaunchPadBlockRenderer;
 import org.exodusstudio.stellaris.client.renderers.launchpad.RocketLaunchPadModel;
+import org.exodusstudio.stellaris.client.renderers.pumpjack.PumpjackBlockRenderer;
+import org.exodusstudio.stellaris.client.renderers.pumpjack.PumpjackModel;
 import org.exodusstudio.stellaris.client.renderers.mobs.*;
 import org.exodusstudio.stellaris.client.renderers.mobs.starcrawler.StarCrawlerModel;
 import org.exodusstudio.stellaris.client.renderers.mobs.starcrawler.StarCrawlerRenderer;
@@ -115,8 +118,10 @@ public class StellarisNeoforgeClient {
         event.registerBlockEntityRenderer(BlockEntitiesRegistry.MOD_HANGING_SIGN.get(), HangingSignRenderer::new);
         event.registerBlockEntityRenderer(BlockEntitiesRegistry.FLAG.get(), FlagBlockRenderer::new);
         event.registerBlockEntityRenderer(BlockEntitiesRegistry.GLOBE.get(), GlobeBlockRenderer::new);
+        event.registerBlockEntityRenderer(BlockEntitiesRegistry.SLIDING_DOOR.get(), SlidingDoorRenderer::new);
         event.registerBlockEntityRenderer(BlockEntitiesRegistry.BOSS_TROPHY.get(), BossTrophyBlockRenderer::new);
         event.registerBlockEntityRenderer((BlockEntityType<RocketLaunchPadBlockEntity>)BlockEntitiesRegistry.ROCKET_LAUNCH_PAD.get(), RocketLaunchPadBlockRenderer::new);
+        event.registerBlockEntityRenderer(BlockEntitiesRegistry.PUMPJACK.get(), PumpjackBlockRenderer::new);
         event.registerBlockEntityRenderer(BlockEntitiesRegistry.SPACE_FARM.get(), SpaceFarmRenderer::new);
 
 
@@ -165,6 +170,7 @@ public class StellarisNeoforgeClient {
 
         event.registerLayerDefinition(AlienModel.LAYER_LOCATION, AlienModel::createBodyLayer);
         event.registerLayerDefinition(RocketLaunchPadModel.LAYER_LOCATION, RocketLaunchPadModel::createBodyLayer);
+        event.registerLayerDefinition(PumpjackModel.LAYER_LOCATION, PumpjackModel::createBodyLayer);
 
         event.registerLayerDefinition(SpaceSuitModel.LAYER_LOCATION, SpaceSuitModel::createBodyLayer);
         event.registerLayerDefinition(BoatModelLayerRegistry.LUNAR_BOAT, BoatModel::createBoatModel);

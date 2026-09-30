@@ -11,6 +11,7 @@ import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Inventory;
+import org.exodusstudio.stellaris.client.screens.utils.GUIUtils;
 import org.exodusstudio.stellaris.client.screens.components.GaugeWidget;
 import org.exodusstudio.stellaris.client.screens.components.TextureComponentButton;
 import org.exodusstudio.stellaris.client.screens.utils.GUISprites;
@@ -118,7 +119,7 @@ public class GravityManipulatorScreen extends AbstractContainerScreen<GravityMan
     @Override
     protected void extractTooltip(GuiGraphicsExtractor guiGraphics, int x, int y) {
         super.extractTooltip(guiGraphics, x, y);
-        energyGauge.renderTooltips(guiGraphics, x, y, font);
+        GUIUtils.renderEnergyConsumerGaugeTooltip(guiGraphics, energyGauge, getMenu().getEnergyUsage(), x, y, font);
 
         moonButton.extractTooltip(guiGraphics, x, y);
         marsButton.extractTooltip(guiGraphics, x, y);

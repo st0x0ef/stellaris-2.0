@@ -75,11 +75,7 @@ public class MenuUtils {
             @Override
             public AbstractContainerMenu createMenu(int containerId, Inventory inventory, Player player) {
                 EngineeringStationBlockEntity be = (EngineeringStationBlockEntity) player.level().getBlockEntity(pos);
-                SimpleContainer container = new SimpleContainer(10);
-                if (be != null) {
-                    for (int i = 0; i < 10; i++) container.setItem(i, be.spaceStationPlannerItems.get(i));
-                }
-                return new SpaceStationPlannerMenu(containerId, inventory, container, pos, be);
+                return new SpaceStationPlannerMenu(containerId, inventory, new SimpleContainer(10), pos, be);
             }
         };
     }

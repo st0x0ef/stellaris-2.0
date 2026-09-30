@@ -195,27 +195,22 @@ public class RoverEntity extends AbstractRoverBase implements HasCustomInventory
 
     @Override
     public float getAcceleration() {
-        return (1.8F * getSpeedModifier() * 0.5f) / 2;
+        return 0.02F * getSpeedModifier();
+    }
+
+    @Override
+    public float getBrakingForce() {
+        return 0.05F;
+    }
+
+    @Override
+    public float getRollResistance() {
+        return 0.015F;
     }
 
     @Override
     public float getMaxRotationSpeed() {
         return 6.8F;
-    }
-
-    @Override
-    public float getMinRotationSpeed() {
-        return 4.8F;
-    }
-
-    @Override
-    public float getRollResistance() {
-        return 1.5F;
-    }
-
-    @Override
-    public float getRotationModifier() {
-        return 2.9F;
     }
 
     @Override

@@ -57,6 +57,14 @@ public class RocketStationMenu extends AbstractContainerMenu {
         return this.inventory.stillValid(player);
     }
 
+    @Override
+    public void removed(Player player) {
+        super.removed(player);
+        if (!blockEntity.isTabSwitching()) {
+            clearContainer(player, blockEntity.takeStashedItems(player));
+        }
+    }
+
 
     private void addSlots(Container inventory) {
         this.addSlot(new Slot(inventory, 0, 63, 22));

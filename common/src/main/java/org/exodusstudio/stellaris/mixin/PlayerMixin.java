@@ -3,6 +3,7 @@ package org.exodusstudio.stellaris.mixin;
 import dev.architectury.networking.NetworkManager;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.util.Mth;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -10,6 +11,8 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.material.FluidState;
 import org.exodusstudio.stellaris.Stellaris;
+import org.exodusstudio.stellaris.common.entities.vehicles.LanderEntity;
+import org.exodusstudio.stellaris.common.entities.vehicles.RocketEntity;
 import org.exodusstudio.stellaris.common.network.packets.SyncPlanetMenuState;
 import org.exodusstudio.stellaris.common.registries.ItemsRegistry;
 import org.exodusstudio.stellaris.common.registries.TagsRegistry;
@@ -20,6 +23,7 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(Player.class)
 public abstract class PlayerMixin extends LivingEntity implements CustomPlayerData {
@@ -54,6 +58,13 @@ public abstract class PlayerMixin extends LivingEntity implements CustomPlayerDa
         return stellaris$isPlanetMenuOpened;
     }
 
+    @Inject(method = "wantsToStopRiding", at = @At("HEAD"), cancellable = true)
+    private void stellaris$stayInFlyingVehicle(CallbackInfoReturnable<Boolean> cir) {
+        if (this.getVehicle() instanceof RocketEntity rocket && rocket.isInFlight() || this.getVehicle() instanceof LanderEntity lander && !lander.hasLanded()) {
+            cir.setReturnValue(false);
+        }
+    }
+
 
     @Unique
     private boolean stellaris$isEyeInBlueLiquid() {
@@ -67,6 +78,12 @@ public abstract class PlayerMixin extends LivingEntity implements CustomPlayerDa
         return eyeY < eyePos.getY() + fluidState.getHeight(this.level(), eyePos);
     }
 
+    @Unique
+    private int stellaris$nextParasiteDelay() {
+        int minTicks = Math.max(1, Stellaris.CONFIG.parasiteConfig.minDropIntervalTicks);
+        return minTicks + Mth.nextInt(this.random, 0, Math.max(0, Stellaris.CONFIG.parasiteConfig.randomDropIntervalMaxTicks));
+    }
+
     @Inject(method = "tick", at = @At("HEAD"))
     private void stellaris$onTick(CallbackInfo ci) {
 
@@ -74,18 +91,14 @@ public abstract class PlayerMixin extends LivingEntity implements CustomPlayerDa
             if (Stellaris.CONFIG.parasiteConfig.enableParasiteDrop && stellaris$nextFluidCheck <= 0) {
                 if (stellaris$isEyeInBlueLiquid()) {
                     if (stellaris$parasiteTimer == -100) {
-                        int minTicks = Stellaris.CONFIG.parasiteConfig.minDropIntervalTicks;
-                        int maxRandomTicks = Stellaris.CONFIG.parasiteConfig.randomDropIntervalMaxTicks;
-                        stellaris$parasiteTimer = minTicks + this.random.nextInt(maxRandomTicks + 1);
+                        stellaris$parasiteTimer = stellaris$nextParasiteDelay();
                     }
 
                     else if (stellaris$parasiteTimer <= 0) {
                         Player player = (Player) (Object) this;
                         player.getInventory().placeItemBackInInventory(new ItemStack(ItemsRegistry.PARASITE.get()));
 
-                        int minTicks = Stellaris.CONFIG.parasiteConfig.minDropIntervalTicks;
-                        int maxRandomTicks = Stellaris.CONFIG.parasiteConfig.randomDropIntervalMaxTicks;
-                        stellaris$parasiteTimer = minTicks + this.random.nextInt(maxRandomTicks + 1);
+                        stellaris$parasiteTimer = stellaris$nextParasiteDelay();
                     }
 
                     stellaris$parasiteTimer -= stellaris$fluidTickInterval;

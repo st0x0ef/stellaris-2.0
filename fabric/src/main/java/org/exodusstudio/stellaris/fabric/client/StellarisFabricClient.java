@@ -18,8 +18,10 @@ import org.exodusstudio.stellaris.client.renderers.flag.FlagBlockRenderer;
 import org.exodusstudio.stellaris.client.renderers.trophy.BossTrophyBlockRenderer;
 import org.exodusstudio.stellaris.client.renderers.globe.GlobeBlockRenderer;
 import org.exodusstudio.stellaris.client.renderers.gravity_manipulator.GravityManipulatorBlockRenderer;
+import org.exodusstudio.stellaris.client.renderers.sliding_door.SlidingDoorRenderer;
 import org.exodusstudio.stellaris.client.renderers.lander.LanderRenderer;
 import org.exodusstudio.stellaris.client.renderers.launchpad.RocketLaunchPadBlockRenderer;
+import org.exodusstudio.stellaris.client.renderers.pumpjack.PumpjackBlockRenderer;
 import org.exodusstudio.stellaris.client.renderers.mobs.*;
 import org.exodusstudio.stellaris.client.renderers.mobs.starcrawler.StarCrawlerRenderer;
 import org.exodusstudio.stellaris.client.renderers.mobs.starcrawlerboss.StarCrawlerBossRenderer;
@@ -98,8 +100,10 @@ public final class StellarisFabricClient implements ClientModInitializer {
         BlockEntityRenderers.register(BlockEntitiesRegistry.MOD_HANGING_SIGN.get(), HangingSignRenderer::new);
         BlockEntityRenderers.register(BlockEntitiesRegistry.FLAG.get(), FlagBlockRenderer::new);
         BlockEntityRenderers.register(BlockEntitiesRegistry.GLOBE.get(), GlobeBlockRenderer::new);
+        BlockEntityRenderers.register(BlockEntitiesRegistry.SLIDING_DOOR.get(), SlidingDoorRenderer::new);
         BlockEntityRenderers.register(BlockEntitiesRegistry.BOSS_TROPHY.get(), BossTrophyBlockRenderer::new);
         BlockEntityRenderers.register((BlockEntityType<RocketLaunchPadBlockEntity>)BlockEntitiesRegistry.ROCKET_LAUNCH_PAD.get(), RocketLaunchPadBlockRenderer::new);
+        BlockEntityRenderers.register(BlockEntitiesRegistry.PUMPJACK.get(), PumpjackBlockRenderer::new);
         BlockEntityRenderers.register(BlockEntitiesRegistry.SPACE_FARM.get(), SpaceFarmRenderer::new);
 
         EntityRenderers.register(EntityTypesRegistry.LANDER.get(), LanderRenderer::new);

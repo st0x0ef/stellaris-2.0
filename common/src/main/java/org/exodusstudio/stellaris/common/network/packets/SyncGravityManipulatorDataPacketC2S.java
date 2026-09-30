@@ -43,7 +43,7 @@ public record SyncGravityManipulatorDataPacketC2S(BlockPos gravityManipulatorPos
 
             Level level = player.level();
             if (level.getBlockEntity(data.gravityManipulatorPos()) instanceof GravityManipulatorBlockEntity blockEntity) {
-                blockEntity.setGravity(data.gravity(), false);
+                blockEntity.setGravity(data.gravity(), true);
             }
         });
     }

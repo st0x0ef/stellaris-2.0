@@ -52,6 +52,7 @@ public class BlenderBlockEntity extends BaseEnergyContainerBlockEntity {
 
     private int blendTime;
     private int blendDuration;
+    private int batchEnergy;
 
     private ItemStack resultStack = ItemStack.EMPTY;
 
@@ -172,12 +173,13 @@ public class BlenderBlockEntity extends BaseEnergyContainerBlockEntity {
     private void startBatch(Level level, Batch batch) {
         Blend blend = batch.blend();
 
-        energyContainer.extract(blend.energyPerCraft() * batch.size(), false);
         consumePicks(level, batch.picks(), batch.size(), remaindersFor(batch.input(), blend.recipe(), batch.picks()));
 
         resultStack = blend.unitResult().copyWithCount(blend.unitResult().getCount() * batch.size());
         blendDuration = Math.max(1, blend.ticksPerCraft() * batch.size());
         blendTime = blendDuration;
+        batchEnergy = blend.energyPerCraft() * batch.size();
+        useEnergy(batchEnergy);
 
         canBlend = false;
         ticksSinceCanBlendCheck = Integer.MAX_VALUE;
@@ -483,5 +485,10 @@ public class BlenderBlockEntity extends BaseEnergyContainerBlockEntity {
     @Override
     public int getContainerSize() {
         return CONTAINER_SIZE;
+    }
+
+    @Override
+    public int getMaxEnergyUsage() {
+        return isBlending() ? batchEnergy : 0;
     }
 }

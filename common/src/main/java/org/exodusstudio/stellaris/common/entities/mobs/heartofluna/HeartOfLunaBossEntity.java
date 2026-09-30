@@ -1,7 +1,6 @@
 // fishguy was here!
 package org.exodusstudio.stellaris.common.entities.mobs.heartofluna;
 
-import net.minecraft.core.registries.Registries;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -32,8 +31,8 @@ import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
-import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
 import org.exodusstudio.stellaris.common.utils.InfectionUtils;
+import org.exodusstudio.stellaris.common.registries.DamageTypesRegistry;
 import org.joml.Vector3f;
 import org.joml.Vector3fc;
 
@@ -459,8 +458,7 @@ public final class HeartOfLunaBossEntity extends Monster {
         if (tick == 0) HeartOfLunaVfx.sound(this, SoundEvents.WARDEN_SONIC_CHARGE, 2, 0.6F);
         if (tick == HeartOfLunaCombatRules.RAY_FIRE_TICK) HeartOfLunaVfx.impact(this, origin, 3);
         if (tick < HeartOfLunaCombatRules.RAY_FIRE_TICK || tick > HeartOfLunaCombatRules.RAY_END_TICK) return;
-        DamageSource source = new DamageSource(server.registryAccess().lookupOrThrow(Registries.DAMAGE_TYPE)
-                .getOrThrow(IdentifierUtils.resourceKey(Registries.DAMAGE_TYPE, "lunar_pulse")), this);
+        DamageSource source = DamageTypesRegistry.source(server, DamageTypesRegistry.LUNAR_PULSE, this, this);
         AABB bounds = new AABB(origin, end).inflate(0.65);
         for (LivingEntity victim : server.getEntitiesOfClass(LivingEntity.class, bounds, HeartOfLunaBossEntity::valid)) {
             if (victim == this || rayHits.contains(victim.getUUID()) || victim.getBoundingBox().inflate(0.65).clip(origin, end).isEmpty()) continue;

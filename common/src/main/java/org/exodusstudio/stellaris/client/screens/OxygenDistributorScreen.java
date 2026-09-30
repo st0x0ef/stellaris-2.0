@@ -7,6 +7,7 @@ import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Inventory;
+import org.exodusstudio.stellaris.client.screens.utils.GUIUtils;
 import org.exodusstudio.stellaris.client.screens.components.GaugeWidget;
 import org.exodusstudio.stellaris.client.screens.utils.GUISprites;
 import org.exodusstudio.stellaris.common.blocks.entities.machines.OxygenDistributorBlockEntity;
@@ -71,7 +72,7 @@ public class OxygenDistributorScreen extends AbstractContainerScreen<OxygenDistr
     protected void extractTooltip(GuiGraphicsExtractor guiGraphics, int x, int y) {
         super.extractTooltip(guiGraphics, x, y);
         oxygenGauge.renderTooltips(guiGraphics, x, y, this.font);
-        energyGauge.renderTooltips(guiGraphics, x, y, this.font);
+        GUIUtils.renderEnergyConsumerGaugeTooltip(guiGraphics, energyGauge, getMenu().getEnergyUsage(), x, y, this.font);
     }
 
     @Override

@@ -129,12 +129,10 @@ public final class Transport {
         long remaining = Math.min(mover.extractable(from), network.throughputRemaining);
         long total = 0L;
         int count = sinks.size();
+        int offset = (int) Math.floorMod(level.getGameTime(), (long) count);
         for (int i = 0; i < count && remaining > 0; i++) {
-            long share = remaining / (count - i);
-            if (share <= 0) {
-                share = remaining;
-            }
-            long moved = mover.move(from, sinks.get(i), share, simulate);
+            long share = Math.max(1L, remaining / (count - i));
+            long moved = mover.move(from, sinks.get((offset + i) % count), share, simulate);
             remaining -= moved;
             total += moved;
             if (!simulate) {

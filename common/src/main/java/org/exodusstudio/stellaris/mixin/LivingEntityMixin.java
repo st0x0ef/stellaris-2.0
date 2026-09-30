@@ -13,6 +13,7 @@ import org.exodusstudio.stellaris.common.registries.TagsRegistry;
 import org.exodusstudio.stellaris.common.utils.GravityUtils;
 import org.exodusstudio.stellaris.common.utils.OxygenUtils;
 import org.exodusstudio.stellaris.common.utils.Utils;
+import org.exodusstudio.stellaris.common.registries.DamageTypesRegistry;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -72,7 +73,7 @@ public class LivingEntityMixin {
                     }
 
                     if (noAtmosphere) {
-                        stellaris$entity.hurtServer(serverLevel, stellaris$entity.damageSources().generic(), Stellaris.CONFIG.oxygenConfig.noOxygenDamage);
+                        stellaris$entity.hurtServer(serverLevel, DamageTypesRegistry.source(serverLevel, DamageTypesRegistry.OXYGEN_DEPRIVATION), Stellaris.CONFIG.oxygenConfig.noOxygenDamage);
                     }
                 }
             }

@@ -48,14 +48,13 @@ public class EngineUpgradeMenu extends BaseItemCombinerMenu {
         this.engineeringStationPos = pos;
         this.blockEntity = blockEntity;
         if (blockEntity != null) {
-            this.inputSlots.setItem(0, blockEntity.engineUpgradeItems.get(0));
-            this.inputSlots.setItem(1, blockEntity.engineUpgradeItems.get(1));
+            blockEntity.restoreEngineUpgradeItems(this.player, this.inputSlots);
         }
     }
 
     @Override
     protected boolean mayPickup(Player player, boolean hasStack) {
-        return true;
+        return hasStack;
     }
 
     @Override
@@ -79,6 +78,8 @@ public class EngineUpgradeMenu extends BaseItemCombinerMenu {
 
         ItemStack itemToUpgrade = this.inputSlots.getItem(0).copy();
         ItemStack module = this.inputSlots.getItem(1).copy();
+
+        this.resultSlots.setItem(0, ItemStack.EMPTY);
 
         if(itemToUpgrade.isEmpty() || module.isEmpty()) {
             return;
@@ -266,11 +267,13 @@ public class EngineUpgradeMenu extends BaseItemCombinerMenu {
     @Override
     public void removed(Player player) {
         super.removed(player); // no-op for items since access is ContainerLevelAccess.NULL
-        if (blockEntity != null && blockEntity.isTabSwitching()) {
-            blockEntity.engineUpgradeItems.set(0, inputSlots.getItem(0).copy());
-            blockEntity.engineUpgradeItems.set(1, inputSlots.getItem(1).copy());
+        if (blockEntity == null) {
+            clearContainer(player, inputSlots);
+        } else if (blockEntity.isTabSwitching()) {
+            blockEntity.stashEngineUpgradeItems(player, inputSlots);
         } else {
             clearContainer(player, inputSlots);
+            clearContainer(player, blockEntity.takeStashedItems(player));
         }
     }
 

@@ -31,22 +31,22 @@ public class DataAttachmentRegistry {
     );
 
     private static final Supplier<AttachmentType<?>> MOON_LORE_PROGRESSION = ATTACHMENT_TYPES.register(
-            "moon_lore_progression", () -> AttachmentType.builder(() -> -1).serialize(Codec.INT.fieldOf("stage")).sync(ByteBufCodecs.INT).build()
+            "moon_lore_progression", () -> AttachmentType.builder(() -> -1).serialize(Codec.INT.fieldOf("stage")).sync(ByteBufCodecs.INT).copyOnDeath().build()
     );
 
     private static final Supplier<AttachmentType<?>> PLAYER_IMMUNISED_TO_INFECTION = ATTACHMENT_TYPES.register(
-            "player_immunised_to_infection", () -> AttachmentType.builder(() -> false).serialize(Codec.BOOL.fieldOf("immunised")).sync(ByteBufCodecs.BOOL).build()
+            "player_immunised_to_infection", () -> AttachmentType.builder(() -> false).serialize(Codec.BOOL.fieldOf("immunised")).sync(ByteBufCodecs.BOOL).copyOnDeath().build()
     );
 
 
 
 
     private static final Supplier<AttachmentType<?>> ASSISTANT_DATA = ATTACHMENT_TYPES.register(
-            "assistant_data", () -> AttachmentType.builder(AssistantPlayerData::empty).serialize(AssistantPlayerData.CODEC.fieldOf("assistant_data")).build()
+            "assistant_data", () -> AttachmentType.builder(AssistantPlayerData::empty).serialize(AssistantPlayerData.CODEC.fieldOf("assistant_data")).copyOnDeath().build()
     );
 
     private static final Supplier<AttachmentType<?>> PARASITE_DATA = ATTACHMENT_TYPES.register(
-            "parasite_data", () -> AttachmentType.builder(ParasitePlayerData::empty).serialize(ParasitePlayerData.CODEC.fieldOf("parasite_data")).build()
+            "parasite_data", () -> AttachmentType.builder(ParasitePlayerData::empty).serialize(ParasitePlayerData.CODEC.fieldOf("parasite_data")).copyOnDeath().build()
     );
 
     public static void register(IEventBus bus) {

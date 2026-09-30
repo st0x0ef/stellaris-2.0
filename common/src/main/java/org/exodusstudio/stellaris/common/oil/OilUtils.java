@@ -1,19 +1,23 @@
 package org.exodusstudio.stellaris.common.oil;
 
 import org.exodusstudio.stellaris.Stellaris;
+import org.exodusstudio.stellaris.common.config.CommonConfig;
 import org.exodusstudio.stellaris.common.utils.Utils;
 
-import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class OilUtils {
 
     public static int getRandomOilLevel() {
-        Random random = new Random();
-        if (random.nextInt(0, Stellaris.CONFIG.oilConfig.chunkOilChance) == 0) {
-            return random.nextInt(Stellaris.CONFIG.oilConfig.minOil, Stellaris.CONFIG.oilConfig.maxOil);
+        CommonConfig.OilConfig config = Stellaris.CONFIG.oilConfig;
+        ThreadLocalRandom random = ThreadLocalRandom.current();
 
+        if (config.chunkOilChance > 1 && random.nextInt(config.chunkOilChance) != 0) {
+            return 0;
         }
-        return 0;
+
+        int min = Math.max(0, config.minOil);
+        return config.maxOil > min ? random.nextInt(min, config.maxOil) : min;
     }
 
     public static int getOilLevelColor(int oilLevel) {

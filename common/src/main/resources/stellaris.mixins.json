@@ -17,6 +17,7 @@
     "client.PlayerRendererMixin"
   ],
   "mixins": [
+    "BlockItemMixin",
     "ChunkAccessMixin",
     "ConsumableMixin",
     "CropGrowsMixin",
@@ -26,6 +27,7 @@
     "LivingEntityMixin",
     "NetherPortalMixin",
     "PlayerMixin",
+    "StandingAndWallBlockItemMixin",
     "WeatheringCopperMixin",
     "gravity_modifier.AbstractArrowEntityMixin",
     "gravity_modifier.AbstractBoatEntityMixin",

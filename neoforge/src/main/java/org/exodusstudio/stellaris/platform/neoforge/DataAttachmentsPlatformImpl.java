@@ -3,6 +3,7 @@ package org.exodusstudio.stellaris.platform.neoforge;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.chunk.ChunkAccess;
+import net.minecraft.world.level.chunk.LevelChunk;
 import net.neoforged.neoforge.attachment.AttachmentType;
 import org.exodusstudio.stellaris.neoforge.common.registries.DataAttachmentRegistry;
 import org.jetbrains.annotations.Nullable;
@@ -15,7 +16,12 @@ public class DataAttachmentsPlatformImpl {
     }
 
     public static <T> void saveChunkData(ChunkAccess chunk, Identifier key, T value) {
-        chunk.setData(getAttachment(key), value);
+        AttachmentType<T> type = getAttachment(key);
+        chunk.setData(type, value);
+
+        if (chunk instanceof LevelChunk levelChunk && !levelChunk.getLevel().isClientSide()) {
+            levelChunk.syncData(type);
+        }
     }
 
     public static boolean hasChunkData(ChunkAccess chunk, Identifier key) {

@@ -6,11 +6,13 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
 import org.exodusstudio.stellaris.common.blocks.entities.machines.GravityManipulatorBlockEntity;
+import org.exodusstudio.stellaris.common.menus.base.EnergyUsageSync;
 import org.exodusstudio.stellaris.common.registries.MenuTypesRegistry;
 
 public class GravityManipulatorMenu extends AbstractContainerMenu {
 
     private final GravityManipulatorBlockEntity entity;
+    private final EnergyUsageSync energyUsage;
 
 
     public static GravityManipulatorMenu create(int syncId, Inventory inventory, FriendlyByteBuf data) {
@@ -23,10 +25,15 @@ public class GravityManipulatorMenu extends AbstractContainerMenu {
         super(MenuTypesRegistry.GRAVITY_MANIPULATOR.get(), syncId);
 
         this.entity = entity;
+        this.energyUsage = EnergyUsageSync.create(this.entity, this::addDataSlot);
     }
 
     public GravityManipulatorBlockEntity getBlockEntity() {
         return entity;
+    }
+
+    public EnergyUsageSync getEnergyUsage() {
+        return energyUsage;
     }
 
     @Override

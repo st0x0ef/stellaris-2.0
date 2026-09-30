@@ -12,6 +12,7 @@ import net.minecraft.world.inventory.SimpleContainerData;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import org.exodusstudio.stellaris.common.blocks.entities.machines.VacuumatorBlockEntity;
+import org.exodusstudio.stellaris.common.menus.base.EnergyUsageSync;
 import org.exodusstudio.stellaris.common.menus.slot.FluidContainerSlot;
 import org.exodusstudio.stellaris.common.menus.slot.FoodSlot;
 import org.exodusstudio.stellaris.common.menus.slot.ResultSlot;
@@ -23,6 +24,7 @@ import org.jetbrains.annotations.NotNull;
 public class VacuumatorMenu extends AbstractContainerMenu {
     private final Container container;
     private VacuumatorBlockEntity entity;
+    private final EnergyUsageSync energyUsage;
     private final ContainerData data;
 
     public static VacuumatorMenu create(int syncId, Inventory inventory, FriendlyByteBuf data) {
@@ -37,6 +39,7 @@ public class VacuumatorMenu extends AbstractContainerMenu {
         checkContainerSize(container, 5);
         this.container = container;
         this.entity = entity;
+        this.energyUsage = EnergyUsageSync.create(this.entity, this::addDataSlot);
 
         this.data = containerData;
 
@@ -79,6 +82,10 @@ public class VacuumatorMenu extends AbstractContainerMenu {
 
     public VacuumatorBlockEntity getBlockEntity() {
         return this.entity;
+    }
+
+    public EnergyUsageSync getEnergyUsage() {
+        return energyUsage;
     }
 
     public float getLitProgress() {

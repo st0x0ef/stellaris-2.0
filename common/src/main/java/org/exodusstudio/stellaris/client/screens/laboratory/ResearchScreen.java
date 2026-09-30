@@ -70,7 +70,8 @@ public class ResearchScreen extends TabbedMachineScreen<ResearchMenu> {
             this.startResearchButton.active = false;
             this.menu.blockEntity.progressTickLeft = -1;
         } else if (this.menu.blockEntity.progressTickLeft > 0) {
-            int u = (Stellaris.CONFIG.parasiteConfig.researchDelay - this.menu.blockEntity.progressTickLeft) * 54 / Stellaris.CONFIG.parasiteConfig.researchDelay;
+            int delay = Math.max(this.menu.blockEntity.progressTickLeft, Stellaris.CONFIG.parasiteConfig.researchDelay);
+            int u = (delay - this.menu.blockEntity.progressTickLeft) * 54 / delay;
             guiGraphics.blit(RenderPipelines.GUI_TEXTURED, GUISprites.RESEARCH_PROGRESS, this.leftPos + 63, this.topPos + 47, u,  0, u, 2, 54, 2);
             this.startResearchButton.active = false;
         } else if(this.menu.blockEntity.progressTickLeft == 0) {

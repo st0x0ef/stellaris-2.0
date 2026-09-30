@@ -8,7 +8,6 @@ import dev.architectury.event.events.common.PlayerEvent;
 import dev.architectury.event.events.common.TickEvent;
 import dev.architectury.networking.NetworkManager;
 import net.minecraft.ChatFormatting;
-import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
@@ -25,10 +24,7 @@ import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.common.antennas.Antenna;
 import org.exodusstudio.stellaris.common.assistant.AssistantManager;
 import org.exodusstudio.stellaris.common.antennas.AntennaSavedData;
-import org.exodusstudio.stellaris.common.blocks.CoalLanternBlock;
-import org.exodusstudio.stellaris.common.blocks.WallCoalTorchBlock;
 import org.exodusstudio.stellaris.common.blocks.entities.AntennaBlockEntity;
-import org.exodusstudio.stellaris.common.blocks.entities.FlagBlockEntity;
 import org.exodusstudio.stellaris.common.data.recipes.BlendingRecipe;
 import org.exodusstudio.stellaris.common.data.recipes.ElectrolyzeRecipe;
 import org.exodusstudio.stellaris.common.data.recipes.FuelRefineryRecipe;
@@ -44,7 +40,6 @@ import org.exodusstudio.stellaris.common.network.packets.FuelRefinerySyncerPacke
 import org.exodusstudio.stellaris.common.network.packets.RecipeSyncerPacket;
 import org.exodusstudio.stellaris.common.registries.BlocksRegistry;
 import org.exodusstudio.stellaris.common.registries.RecipesRegistry;
-import org.exodusstudio.stellaris.common.utils.OxygenUtils;
 import org.exodusstudio.stellaris.common.utils.Utils;
 
 import java.util.ArrayList;
@@ -150,6 +145,9 @@ public class Events {
             if (entity instanceof Player player && (sectionX != prevX || sectionZ != prevZ)) {
                 ItemStack headStack = player.getItemBySlot(EquipmentSlot.HEAD);
                 SpaceSuitHelmet.tickOilFinderEnergy(headStack);
+                if (player instanceof ServerPlayer serverPlayer) {
+                    SpaceSuitHelmet.loadOilAround(serverPlayer, sectionX, sectionZ);
+                }
             }
         });
 
@@ -211,19 +209,7 @@ public class Events {
                 return EventResult.pass();
             }
 
-            if (level.getBlockEntity(pos) instanceof FlagBlockEntity flagBlock) {
-                if (player.isCrouching() && !player.getAbilities().instabuild) {
-                    ItemStack stack = new ItemStack(BlocksRegistry.FLAG.item().get());
-
-                    stack.set(DataComponents.BASE_COLOR, flagBlock.getColor());
-
-                    if (flagBlock.getGameProfile() != null) {
-                        stack.set(DataComponents.PROFILE, flagBlock.getGameProfile());
-                    }
-
-                    Block.popResource(level, pos, stack);
-                }
-            } else if(state.is(BlocksRegistry.ROCKET_LAUNCH_PAD.block().get()) || state.is(BlocksRegistry.ROCKET_LAUNCH_PAD_PROXY.get())) {
+            if(state.is(BlocksRegistry.ROCKET_LAUNCH_PAD.block().get()) || state.is(BlocksRegistry.ROCKET_LAUNCH_PAD_PROXY.get())) {
 
                 if(Utils.checkIfAntennaIsNear(pos, level, 1) || Utils.checkIfRocketIsNear(pos, level, 1)) {
                     return EventResult.interruptFalse();
@@ -256,25 +242,6 @@ public class Events {
         });
 
         BlockEvent.PLACE.register((level, pos, state, player) -> {
-            if (level instanceof ServerLevel serverLevel && !OxygenUtils.isOxygenated(level, pos)) {
-                if (state.is(Blocks.TORCH)) {
-                    serverLevel.setBlockAndUpdate(pos, BlocksRegistry.COAL_TORCH_BLOCK.block().get().defaultBlockState());
-                    return EventResult.interruptFalse();
-                }
-                else if (state.is(Blocks.WALL_TORCH)) {
-                    serverLevel.setBlockAndUpdate(pos, BlocksRegistry.WALL_COAL_TORCH_BLOCK.get().defaultBlockState().setValue(WallCoalTorchBlock.FACING, state.getValue(WallTorchBlock.FACING)));
-                    return EventResult.interruptFalse();
-                }
-                else if (state.is(Blocks.LANTERN)) {
-                    serverLevel.setBlockAndUpdate(pos, BlocksRegistry.COAL_LANTERN_BLOCK.block().get().defaultBlockState().setValue(CoalLanternBlock.HANGING, state.getValue(LanternBlock.HANGING)));
-                    return EventResult.interruptFalse();
-                }
-                else if (state.is(Blocks.CAMPFIRE)) {
-                    serverLevel.setBlockAndUpdate(pos, Blocks.CAMPFIRE.defaultBlockState().setValue(CampfireBlock.LIT, false));
-                    return EventResult.interruptFalse();
-                }
-            }
-
             if (state.is(BlocksRegistry.ANTENNA.block().get())) {
                 //if (level.getBlockState(pos.above()).is(BlocksRegistry.ROCKET_LAUNCH_PAD.block().get()) && level.getBlockState(pos.above()).getValue(RocketLaunchPadBlock.STAGE)) {
                 //    return EventResult.pass();

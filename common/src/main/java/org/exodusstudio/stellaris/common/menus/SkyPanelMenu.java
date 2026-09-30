@@ -7,6 +7,7 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import org.exodusstudio.stellaris.common.blocks.entities.machines.SkyPanelBlockEntity;
 import org.exodusstudio.stellaris.common.menus.base.BaseContainer;
+import org.exodusstudio.stellaris.common.menus.base.GeneratedEnergyDataSlot;
 import org.exodusstudio.stellaris.common.menus.slot.EnergySlot;
 import org.exodusstudio.stellaris.common.registries.MenuTypesRegistry;
 
@@ -14,6 +15,7 @@ public class SkyPanelMenu extends BaseContainer {
 
     private final Container inventory;
     private final SkyPanelBlockEntity blockEntity;
+    private final GeneratedEnergyDataSlot generatedEnergy;
 
     public static SkyPanelMenu create(int syncId, Inventory inventory, FriendlyByteBuf data) {
         SkyPanelBlockEntity entity = (SkyPanelBlockEntity) inventory.player.level().getBlockEntity(data.readBlockPos());
@@ -28,10 +30,17 @@ public class SkyPanelMenu extends BaseContainer {
         this.blockEntity = entity;
 
         addSlot(new EnergySlot(inventory, 0, 82, 56));
+
+        this.generatedEnergy = playerInventory.player.level().isClientSide() || entity == null ? GeneratedEnergyDataSlot.client() : GeneratedEnergyDataSlot.server(entity);
+        addDataSlot(generatedEnergy);
     }
 
     public SkyPanelBlockEntity getBlockEntity() {
         return blockEntity;
+    }
+
+    public int getGeneratedEnergy() {
+        return generatedEnergy.get();
     }
 
 

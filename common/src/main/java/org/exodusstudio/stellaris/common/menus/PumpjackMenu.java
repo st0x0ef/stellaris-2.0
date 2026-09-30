@@ -6,6 +6,7 @@ import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import org.exodusstudio.stellaris.common.blocks.entities.machines.PumpjackBlockEntity;
+import org.exodusstudio.stellaris.common.menus.base.EnergyUsageSync;
 import org.exodusstudio.stellaris.common.menus.base.BaseContainer;
 import org.exodusstudio.stellaris.common.menus.slot.ResultSlot;
 import org.exodusstudio.stellaris.common.menus.slot.SpecificFluidContainerSlot;
@@ -16,6 +17,7 @@ public class PumpjackMenu extends BaseContainer {
 
     private final Container container;
     private final PumpjackBlockEntity blockEntity;
+    private final EnergyUsageSync energyUsage;
 
     public static PumpjackMenu create(int containerId, Inventory inventory, FriendlyByteBuf buf) {
         PumpjackBlockEntity blockEntity = (PumpjackBlockEntity) inventory.player.level().getBlockEntity(buf.readBlockPos());
@@ -26,6 +28,7 @@ public class PumpjackMenu extends BaseContainer {
         super(MenuTypesRegistry.PUMPJACK.get(), containerId, 2, inventory, 10, 106);
         this.container = container;
         this.blockEntity = blockEntity;
+        this.energyUsage = EnergyUsageSync.create(this.blockEntity, this::addDataSlot);
         checkContainerSize(container, 2);
 
         // Result tank
@@ -40,6 +43,10 @@ public class PumpjackMenu extends BaseContainer {
 
     public PumpjackBlockEntity getBlockEntity() {
         return blockEntity;
+    }
+
+    public EnergyUsageSync getEnergyUsage() {
+        return energyUsage;
     }
 
 }

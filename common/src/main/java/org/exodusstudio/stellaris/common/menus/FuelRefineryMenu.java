@@ -6,6 +6,7 @@ import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import org.exodusstudio.stellaris.common.blocks.entities.machines.FuelRefineryBlockEntity;
+import org.exodusstudio.stellaris.common.menus.base.EnergyUsageSync;
 import org.exodusstudio.stellaris.common.menus.base.BaseContainer;
 import org.exodusstudio.stellaris.common.menus.slot.ResultSlot;
 import org.exodusstudio.stellaris.common.menus.slot.SpecificFluidContainerSlot;
@@ -16,6 +17,7 @@ public class FuelRefineryMenu extends BaseContainer {
 
     private final Container container;
     private final FuelRefineryBlockEntity blockEntity;
+    private final EnergyUsageSync energyUsage;
 
     public static FuelRefineryMenu create(int containerId, Inventory inventory, FriendlyByteBuf buf) {
         FuelRefineryBlockEntity blockEntity = (FuelRefineryBlockEntity) inventory.player.level().getBlockEntity(buf.readBlockPos());
@@ -26,6 +28,7 @@ public class FuelRefineryMenu extends BaseContainer {
         super(MenuTypesRegistry.FUEL_REFINERY.get(), containerId, 6, inventory, 10, 142);
         this.container = container;
         this.blockEntity = blockEntity;
+        this.energyUsage = EnergyUsageSync.create(this.blockEntity, this::addDataSlot);
 
         // Ingredient tank
         addSlot(new SpecificFluidContainerSlot(container, FluidsRegistry.OIL_STILL.get(), 0, 14, 76, true));
@@ -47,5 +50,9 @@ public class FuelRefineryMenu extends BaseContainer {
 
     public FuelRefineryBlockEntity getBlockEntity() {
         return blockEntity;
+    }
+
+    public EnergyUsageSync getEnergyUsage() {
+        return energyUsage;
     }
 }

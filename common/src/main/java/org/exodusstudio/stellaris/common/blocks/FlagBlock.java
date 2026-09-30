@@ -7,7 +7,6 @@ import net.minecraft.core.component.DataComponents;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.DyeColor;
@@ -27,8 +26,6 @@ import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.level.pathfinder.PathComputationType;
-import net.minecraft.world.level.storage.loot.LootParams;
-import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
@@ -37,9 +34,7 @@ import org.exodusstudio.stellaris.common.blocks.entities.FlagBlockEntity;
 import org.exodusstudio.stellaris.common.registries.BlocksRegistry;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Collections;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 
@@ -227,18 +222,6 @@ public class FlagBlock extends BaseEntityBlock implements SimpleWaterloggedBlock
     @Override
     public FluidState getFluidState(BlockState state) {
         return state.getValue(WATERLOGGED) ? Fluids.WATER.getSource(false) : super.getFluidState(state);
-    }
-
-    // Basically the Events file handles the drop if player is shifting, this handles it if it's normal
-    @Override
-    public List<ItemStack> getDrops(BlockState state, LootParams.Builder params) {
-        Entity entity = params.getOptionalParameter(LootContextParams.THIS_ENTITY);
-
-        if (entity instanceof Player player && player.isCrouching() && !player.getAbilities().instabuild) {
-            return Collections.emptyList();
-        }
-
-        return super.getDrops(state, params);
     }
 
     @Override

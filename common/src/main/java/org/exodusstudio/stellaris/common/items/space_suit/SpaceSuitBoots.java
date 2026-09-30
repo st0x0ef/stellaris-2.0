@@ -14,7 +14,6 @@ import net.minecraft.util.StringRepresentable;
 import net.minecraft.util.Unit;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.entity.player.Abilities;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -273,8 +272,8 @@ public class SpaceSuitBoots extends SpaceSuitItem {
             player.startFallFlying();
             Utils.disableFlyAntiCheat(player);
         } else if (player.isSprinting() && player.onGround() && KeyVariables.isHoldingJump(player)) {
-
-            player.move(MoverType.SELF, new Vec3(player.getX(), player.getY() + 5, player.getZ()));
+            Vec3 motion = player.getDeltaMovement();
+            player.setDeltaMovement(motion.x, 0.9, motion.z);
             player.hurtMarked = true;
         }
     }

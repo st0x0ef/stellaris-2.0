@@ -133,6 +133,15 @@ public class Utils {
         return count;
     }
 
+    /** Every player who has the block's chunk loaded, i.e. everyone who can see or render it. */
+    public static List<ServerPlayer> getPlayersTrackingBlock(Level level, BlockPos pos) {
+        if (!(level instanceof ServerLevel serverLevel)) {
+            return List.of();
+        }
+
+        return serverLevel.getChunkSource().chunkMap.getPlayers(ChunkPos.containing(pos), false);
+    }
+
     public static List<ServerPlayer> getPlayersIn3x3Chunks(Level level, BlockPos pos) {
         List<ServerPlayer> playersInChunks = List.of();
         if (level != null) {
@@ -167,9 +176,18 @@ public class Utils {
         if(startFade) startFade(player);
         else stopFade(player);
 
+        MinecraftServer server = player.level().getServer();
+        if (server == null) {
+            return;
+        }
 
-        CompletableFuture.delayedExecutor(2, java.util.concurrent.TimeUnit.SECONDS)
-                .execute(action);
+        CompletableFuture.delayedExecutor(2, java.util.concurrent.TimeUnit.SECONDS, server)
+                .execute(() -> {
+                    if (player instanceof ServerPlayer serverPlayer && serverPlayer.hasDisconnected()) {
+                        return;
+                    }
+                    action.run();
+                });
     }
 
     public static String capitalizeFirstLetter(String input) {

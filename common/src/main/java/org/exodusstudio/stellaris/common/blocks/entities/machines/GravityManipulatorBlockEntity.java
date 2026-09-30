@@ -38,9 +38,8 @@ public class GravityManipulatorBlockEntity extends BaseEnergyContainerBlockEntit
 
     @Override
     public void tick(Level level, BlockState state) {
-        if  (isActive() && this.level != null) {
-            this.energyContainer.extract(Stellaris.CONFIG.gravityConfig.gravityManipulatorEnergyPerTick, false);
-            syncDataAccess();
+        if (isActive()) {
+            useEnergy(Stellaris.CONFIG.gravityConfig.gravityManipulatorEnergyPerTick);
         }
     }
 
@@ -85,14 +84,16 @@ public class GravityManipulatorBlockEntity extends BaseEnergyContainerBlockEntit
         return Mth.clamp((this.gravity - getMinGravity()) / range, 0.0, 1.0);
     }
 
-    public void setGravity(double gravity, boolean shouldSyncC2S) {
-        if (Math.abs(getGravity() - gravity) < 0.01) {
+    public void setGravity(double gravity, boolean shouldSync) {
+        double clamped = Mth.clamp(gravity, getMinGravity(), getMaxGravity());
+        if (Math.abs(getGravity() - clamped) < 0.01) {
             return;
         }
 
-        this.gravity = Mth.clamp(gravity, getMinGravity(), getMaxGravity());
+        this.gravity = clamped;
+        setChanged();
 
-        if  (shouldSyncC2S) {
+        if (shouldSync) {
             syncDataAccess();
         }
     }
@@ -105,5 +106,10 @@ public class GravityManipulatorBlockEntity extends BaseEnergyContainerBlockEntit
                 NetworkManager.sendToPlayers(Utils.getPlayersIn3x3Chunks(level, worldPosition), new SyncGravityManipulatorDataPacketS2C(getBlockPos(), getGravity()));
             }
         }
+    }
+
+    @Override
+    public int getMaxEnergyUsage() {
+        return Stellaris.CONFIG.gravityConfig.gravityManipulatorEnergyPerTick;
     }
 }

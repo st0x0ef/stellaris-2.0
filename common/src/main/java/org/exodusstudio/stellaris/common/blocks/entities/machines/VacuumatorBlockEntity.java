@@ -31,6 +31,7 @@ import org.exodusstudio.stellaris.common.menus.VacuumatorMenu;
 import org.exodusstudio.stellaris.common.network.packets.SyncFluidPacketWithoutDirection;
 import org.exodusstudio.stellaris.common.registries.BlockEntitiesRegistry;
 import org.exodusstudio.stellaris.common.registries.TagsRegistry;
+import org.exodusstudio.stellaris.common.utils.Utils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -92,8 +93,9 @@ public class VacuumatorBlockEntity extends BaseEnergyContainerBlockEntity implem
             @Override
             protected void onChange() {
                 setChanged();
-                if (level != null && level.getServer() != null && !level.getServer().getPlayerList().getPlayers().isEmpty()) {
-                    NetworkManager.sendToPlayers(level.getServer().getPlayerList().getPlayers(),
+                List<ServerPlayer> players = Utils.getPlayersTrackingBlock(level, getBlockPos());
+                if (!players.isEmpty()) {
+                    NetworkManager.sendToPlayers(players,
                             new SyncFluidPacketWithoutDirection(new FluidAmountMapDataComponent(List.of(getFluidInTank(0).getFluid()), List.of(getFluidValueInTank())), 0, getBlockPos()));
                 }
             }
@@ -202,7 +204,7 @@ public class VacuumatorBlockEntity extends BaseEnergyContainerBlockEntity implem
             litDuration = getVacuumationDuration(getItem(FOOD_SLOT));
             litTime = litDuration;
 
-            getEnergy(null).extract(Stellaris.CONFIG.machineConfig.vacuumatorEnergyPerCraft, false);
+            useEnergy(Stellaris.CONFIG.machineConfig.vacuumatorEnergyPerCraft);
 
             removeItem(FOOD_SLOT, 1);
             removeItem(CAN_SLOT, 1);
@@ -309,5 +311,10 @@ public class VacuumatorBlockEntity extends BaseEnergyContainerBlockEntity implem
     @Override
     public @Nullable UniversalFluidStorage getFluidTank(@Nullable Direction direction) {
         return waterTank;
+    }
+
+    @Override
+    public int getMaxEnergyUsage() {
+        return isLit() || getVacuumationDuration(getItem(FOOD_SLOT)) > 0 ? Stellaris.CONFIG.machineConfig.vacuumatorEnergyPerCraft : 0;
     }
 }

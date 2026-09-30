@@ -13,6 +13,7 @@ public abstract class BaseGeneratorBlockEntity extends BaseEnergyContainerBlockE
 
     protected int energyGeneratedPT;
     protected final int maxCapacity;
+    private int generatedLastTick;
 
     public BaseGeneratorBlockEntity(BlockEntityType<?> entityType, BlockPos blockPos, BlockState blockState, int energyGeneratedPT, int maxCapacity) {
         super(entityType, blockPos, blockState, maxCapacity, 0, maxCapacity);
@@ -22,6 +23,14 @@ public abstract class BaseGeneratorBlockEntity extends BaseEnergyContainerBlockE
 
     public int getEnergyGeneratedPT() {
         return energyGeneratedPT;
+    }
+
+    public int getGeneratedLastTick() {
+        return generatedLastTick;
+    }
+
+    protected void generate(boolean active) {
+        generatedLastTick = active ? energyContainer.insertWithoutLimits(energyGeneratedPT, false) : 0;
     }
 
     @Override
@@ -36,9 +45,7 @@ public abstract class BaseGeneratorBlockEntity extends BaseEnergyContainerBlockE
 
     @Override
     public void tick(Level level, BlockState state) {
-        if (canGenerate()) {
-            energyContainer.insertWithoutLimits(energyGeneratedPT, false);
-        }
+        generate(canGenerate());
         EnergyUtil.distributeEnergyNearby(level, worldPosition, maxCapacity);
     }
 }

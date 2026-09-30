@@ -6,11 +6,13 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
 import org.exodusstudio.stellaris.common.blocks.entities.machines.ElectricLightBlockEntity;
+import org.exodusstudio.stellaris.common.menus.base.EnergyUsageSync;
 import org.exodusstudio.stellaris.common.registries.MenuTypesRegistry;
 
 public class ElectricLightMenu extends AbstractContainerMenu {
 
     private final ElectricLightBlockEntity entity;
+    private final EnergyUsageSync energyUsage;
 
     public static ElectricLightMenu create(int syncId, Inventory inventory, FriendlyByteBuf data) {
         ElectricLightBlockEntity entity = (ElectricLightBlockEntity) inventory.player.level().getBlockEntity(data.readBlockPos());
@@ -22,10 +24,15 @@ public class ElectricLightMenu extends AbstractContainerMenu {
         super(MenuTypesRegistry.ELECTRIC_LIGHT.get(), syncId);
 
         this.entity = entity;
+        this.energyUsage = EnergyUsageSync.create(this.entity, this::addDataSlot);
     }
 
     public ElectricLightBlockEntity getBlockEntity() {
         return entity;
+    }
+
+    public EnergyUsageSync getEnergyUsage() {
+        return energyUsage;
     }
 
     @Override

@@ -9,6 +9,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.crafting.RecipeHolder;
@@ -28,6 +29,7 @@ import org.exodusstudio.stellaris.common.network.packets.SyncFluidPacket;
 import org.exodusstudio.stellaris.common.registries.BlockEntitiesRegistry;
 import org.exodusstudio.stellaris.common.registries.FluidsRegistry;
 import org.exodusstudio.stellaris.common.registries.RecipesRegistry;
+import org.exodusstudio.stellaris.common.utils.Utils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -40,6 +42,7 @@ public class FuelRefineryBlockEntity extends BaseEnergyContainerBlockEntity impl
     private final SingleFluidStorage outputFuelTank;
     private final SingleFluidStorage outputDieselTank;
     private final RecipeManager.CachedCheck<FluidInput, FuelRefineryRecipe> cachedCheck = RecipeManager.createCheck(RecipesRegistry.FUEL_REFINERY_TYPE.get());
+    private int activeRecipeEnergy;
 
     public FuelRefineryBlockEntity(BlockPos pos, BlockState state) {
         super(BlockEntitiesRegistry.FUEL_REFINERY.get(), pos, state);
@@ -47,8 +50,9 @@ public class FuelRefineryBlockEntity extends BaseEnergyContainerBlockEntity impl
             @Override
             protected void onChange() {
                 setChanged();
-                if (level != null && level.getServer() != null && !level.getServer().getPlayerList().getPlayers().isEmpty()) {
-                    NetworkManager.sendToPlayers(level.getServer().getPlayerList().getPlayers(),
+                List<ServerPlayer> players = Utils.getPlayersTrackingBlock(level, getBlockPos());
+                if (!players.isEmpty()) {
+                    NetworkManager.sendToPlayers(players,
                             new SyncFluidPacket(new FluidAmountMapDataComponent(List.of(getFluidInTank(0).getFluid()), List.of(getFluidValueInTank())), 0, getBlockPos(), Direction.UP));
                 }
             }
@@ -64,9 +68,10 @@ public class FuelRefineryBlockEntity extends BaseEnergyContainerBlockEntity impl
             @Override
             protected void onChange() {
                 setChanged();
-                if (level != null && level.getServer() != null && !level.getServer().getPlayerList().getPlayers().isEmpty()) {
+                List<ServerPlayer> players = Utils.getPlayersTrackingBlock(level, getBlockPos());
+                if (!players.isEmpty()) {
                     Direction fuelDir = getBlockState().getValue(BaseMachineBlock.FACING).getClockWise();
-                    NetworkManager.sendToPlayers(level.getServer().getPlayerList().getPlayers(),
+                    NetworkManager.sendToPlayers(players,
                             new SyncFluidPacket(new FluidAmountMapDataComponent(List.of(getFluidInTank(0).getFluid()), List.of(getFluidValueInTank())), 0, getBlockPos(), fuelDir));
                 }
             }
@@ -75,9 +80,10 @@ public class FuelRefineryBlockEntity extends BaseEnergyContainerBlockEntity impl
             @Override
             protected void onChange() {
                 setChanged();
-                if (level != null && level.getServer() != null && !level.getServer().getPlayerList().getPlayers().isEmpty()) {
+                List<ServerPlayer> players = Utils.getPlayersTrackingBlock(level, getBlockPos());
+                if (!players.isEmpty()) {
                     Direction dieselDir = getBlockState().getValue(BaseMachineBlock.FACING).getCounterClockWise();
-                    NetworkManager.sendToPlayers(level.getServer().getPlayerList().getPlayers(),
+                    NetworkManager.sendToPlayers(players,
                             new SyncFluidPacket(new FluidAmountMapDataComponent(List.of(getFluidInTank(0).getFluid()), List.of(getFluidValueInTank())), 0, getBlockPos(), dieselDir));
                 }
             }
@@ -99,6 +105,7 @@ public class FuelRefineryBlockEntity extends BaseEnergyContainerBlockEntity impl
         }
 
         Optional<RecipeHolder<FuelRefineryRecipe>> recipeHolder = cachedCheck.getRecipeFor(new FluidInput(level.getBlockEntity(getBlockPos())), (ServerLevel) level);
+        activeRecipeEnergy = recipeHolder.map(holder -> holder.value().energy()).orElse(0);
         if (recipeHolder.isPresent()) {
             FuelRefineryRecipe recipe = recipeHolder.get().value();
 
@@ -107,19 +114,19 @@ public class FuelRefineryBlockEntity extends BaseEnergyContainerBlockEntity impl
                     if ((outputFuelTank.getFluidInTank(0).isEmpty() || outputFuelTank.getFluidInTank(0).getFluid().isSame(recipe.fuelStack().fluid().value())) &&
                             (outputDieselTank.getFluidInTank(0).isEmpty() || outputDieselTank.getFluidInTank(0).getFluid().isSame(recipe.dieselStack().fluid().value()))) {
                         boolean shouldUseEnergyAndDrainOil = false;
-                        if (outputFuelTank.getFluidValueInTank() + recipe.fuelStack().amount() < outputFuelTank.getTankCapacity(0)) {
+                        if (outputFuelTank.getFluidValueInTank() + recipe.fuelStack().amount() <= outputFuelTank.getTankCapacity(0)) {
                             outputFuelTank.fillWithoutLimits(recipe.fuelStack().create(), false);
                             shouldUseEnergyAndDrainOil = true;
                         }
 
-                        if (outputDieselTank.getFluidValueInTank() + recipe.dieselStack().amount() < outputDieselTank.getTankCapacity(0)) {
+                        if (outputDieselTank.getFluidValueInTank() + recipe.dieselStack().amount() <= outputDieselTank.getTankCapacity(0)) {
                             outputDieselTank.fillWithoutLimits(recipe.dieselStack().create(), false);
                             shouldUseEnergyAndDrainOil = true;
                         }
 
                         if (shouldUseEnergyAndDrainOil) {
                             inputTank.drain(recipe.ingredientStack().create(), false);
-                            energyContainer.extract(recipe.energy(), false);
+                            useEnergy(recipe.energy());
                             setChanged();
                         }
                     }
@@ -205,5 +212,10 @@ public class FuelRefineryBlockEntity extends BaseEnergyContainerBlockEntity impl
             return outputDieselTank;
         }
         return inputTank;
+    }
+
+    @Override
+    public int getMaxEnergyUsage() {
+        return activeRecipeEnergy;
     }
 }

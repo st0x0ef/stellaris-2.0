@@ -11,6 +11,7 @@ import org.exodusstudio.stellaris.client.renderers.trophy.BossTrophyItemRenderer
 import org.exodusstudio.stellaris.client.renderers.globe.GlobeItemRenderer;
 import org.exodusstudio.stellaris.client.renderers.gravity_manipulator.GravityManipulatorItemRenderer;
 import org.exodusstudio.stellaris.client.renderers.launchpad.RocketLaunchPadItemRenderer;
+import org.exodusstudio.stellaris.client.renderers.pumpjack.PumpjackItemRenderer;
 import org.exodusstudio.stellaris.client.renderers.rockets.RocketItemRenderer;
 import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
 import org.spongepowered.asm.mixin.Final;
@@ -34,6 +35,7 @@ public class CustomItemModelRenderer {
         ID_MAPPER.put(IdentifierUtils.id("rocket"), RocketItemRenderer.Unbaked.MAP_CODEC);
         ID_MAPPER.put(IdentifierUtils.id("rover"), RoverItemRenderer.Unbaked.MAP_CODEC);
         ID_MAPPER.put(IdentifierUtils.id("rocket_launch_pad"), RocketLaunchPadItemRenderer.Unbaked.MAP_CODEC);
+        ID_MAPPER.put(IdentifierUtils.id("pumpjack"), PumpjackItemRenderer.Unbaked.MAP_CODEC);
         ID_MAPPER.put(IdentifierUtils.id("boss_trophy"), BossTrophyItemRenderer.Unbaked.MAP_CODEC);
     }
 }

@@ -4,8 +4,6 @@ package org.exodusstudio.stellaris.common.entities.vehicles.base;
 import dev.architectury.networking.NetworkManager;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.Holder;
-import net.minecraft.core.registries.Registries;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -13,9 +11,6 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.damagesource.DamageType;
-import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.vehicle.DismountHelper;
@@ -24,10 +19,11 @@ import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
+import org.exodusstudio.stellaris.common.utils.GravityUtils;
+import org.exodusstudio.stellaris.common.registries.DamageTypesRegistry;
 import org.joml.Vector3d;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
@@ -41,7 +37,13 @@ public abstract class AbstractRoverBase extends IVehicleEntity {
 
     private float wheelRotation;
 
-    private boolean collidedLastTick;
+    private static final float FULL_STEERING_SPEED = 0.2F;
+    private static final float AIR_RESISTANCE = 0.002F;
+    private static final float FLUID_SPEED_DRAG = 0.85F;
+    private static final double AIR_VERTICAL_DRAG = 0.98D;
+    private static final double FLUID_VERTICAL_DRAG = 0.8D;
+
+    private float speed;
 
     private static final EntityDataAccessor<Float> SPEED = SynchedEntityData.defineId(AbstractRoverBase.class, EntityDataSerializers.FLOAT);
     private static final EntityDataAccessor<Boolean> FORWARD = SynchedEntityData.defineId(AbstractRoverBase.class, EntityDataSerializers.BOOLEAN);
@@ -66,13 +68,11 @@ public abstract class AbstractRoverBase extends IVehicleEntity {
 
     public abstract float getAcceleration();
 
-    public abstract float getMaxRotationSpeed();
-
-    public abstract float getMinRotationSpeed();
+    public abstract float getBrakingForce();
 
     public abstract float getRollResistance();
 
-    public abstract float getRotationModifier();
+    public abstract float getMaxRotationSpeed();
 
     public abstract float getPitch();
 
@@ -88,12 +88,13 @@ public abstract class AbstractRoverBase extends IVehicleEntity {
         this.interpolation.interpolate();
 
         if (simulatesMovement()) {
-            updateGravity();
+            applyRoverGravity();
             controlRover();
             checkPush();
 
             Vec3 positionBeforeMove = position();
             move(MoverType.SELF, getDeltaMovement());
+            loseSpeedOnImpact(positionBeforeMove);
             trackFuelConsumption(positionBeforeMove);
 
             if (!level().isClientSide()) {
@@ -147,8 +148,8 @@ public abstract class AbstractRoverBase extends IVehicleEntity {
                     float damage = speed * 10;
                     tasks.add(() -> {
                         ServerLevel serverLevel = (ServerLevel) level();
-                        Optional<Holder.Reference<DamageType>> holder = serverLevel.registryAccess().lookupOrThrow(Registries.DAMAGE_TYPE).get(DamageTypes.DROWN);
-                        holder.ifPresent(damageTypeReference -> entityIn.hurt(new DamageSource(damageTypeReference, this), damage));
+                        Entity driver = getDriver();
+                        entityIn.hurtServer(serverLevel, DamageTypesRegistry.source(serverLevel, DamageTypesRegistry.ROVER_IMPACT, this, driver != null ? driver : this), damage);
                     });
                 }
             }
@@ -177,29 +178,22 @@ public abstract class AbstractRoverBase extends IVehicleEntity {
             setBackward(false);
             setLeft(false);
             setRight(false);
-            return;
         }
 
-        if (!hasFuel()) {
-            setSpeed(0F);
-            return;
-        }
-
-        this.yRotO = this.getYRot();
-
-        float speed = getRoverSpeed(0.5F);
-
+        boolean grounded = onGround();
+        float speed = computeSpeed(grounded);
         setSpeed(speed);
 
-        float rotationSpeed = 0;
-        if (Math.abs(speed) > 0.02F) {
-            rotationSpeed = Mth.abs(getRotationModifier() / (float) Math.pow(speed, 2));
-            rotationSpeed = Mth.clamp(rotationSpeed, getMinRotationSpeed(), getMaxRotationSpeed());
-        }
+        steer(grounded ? speed : 0F);
 
-        if (speed < 0) {
-            rotationSpeed = -rotationSpeed;
-        }
+        setDeltaMovement(calculateMotionX(speed, getYRot()), getDeltaMovement().y, calculateMotionZ(speed, getYRot()));
+    }
+
+    private void steer(float speed) {
+        this.yRotO = this.getYRot();
+
+        float grip = Mth.clamp(Math.abs(speed) / FULL_STEERING_SPEED, 0F, 1F);
+        float rotationSpeed = getMaxRotationSpeed() * grip * Math.signum(speed);
 
         float targetRotation = 0;
         if (isLeft()) {
@@ -210,7 +204,6 @@ public abstract class AbstractRoverBase extends IVehicleEntity {
         }
 
         deltaRotation += (targetRotation - deltaRotation) * STEERING_SMOOTHING;
-        deltaRotation = Mth.clamp(deltaRotation, -45.0F, 45.0F);
 
         setYRot(getYRot() + deltaRotation);
         float delta = Math.abs(getYRot() - yRotO);
@@ -223,18 +216,52 @@ public abstract class AbstractRoverBase extends IVehicleEntity {
             setYRot(getYRot() + 360F);
             yRotO = delta + getYRot();
         }
+    }
 
-        if (horizontalCollision) {
-            if (level().isClientSide() && !collidedLastTick) {
-                onCollision(speed);
-                collidedLastTick = true;
-            }
+    private float computeSpeed(boolean grounded) {
+        float speed = getSpeed();
+
+        boolean throttle = grounded && hasFuel();
+        boolean forward = throttle && isForward();
+        boolean backward = throttle && isBackward();
+
+        if (forward && !backward) {
+            speed = speed < 0 ? Math.min(speed + getBrakingForce(), 0F) : accelerate(speed, getMaxSpeed());
+        }
+        else if (backward && !forward) {
+            speed = speed > 0 ? Math.max(speed - getBrakingForce(), 0F) : -accelerate(-speed, getMaxReverseSpeed());
         }
         else {
-            setDeltaMovement(calculateMotionX(getSpeed(), getYRot()), getDeltaMovement().y, calculateMotionZ(getSpeed(), getYRot()));
-            if (level().isClientSide()) {
-                collidedLastTick = false;
-            }
+            speed = towardsZero(speed, grounded ? getRollResistance() : AIR_RESISTANCE);
+        }
+
+        if (isInWater() || isInLava()) {
+            speed *= FLUID_SPEED_DRAG;
+        }
+
+        return speed;
+    }
+
+    private float accelerate(float speed, float max) {
+        return speed > max ? Math.max(speed - getRollResistance(), max) : Math.min(speed + getAcceleration(), max);
+    }
+
+    private static float towardsZero(float value, float amount) {
+        return value > 0 ? Math.max(value - amount, 0F) : Math.min(value + amount, 0F);
+    }
+
+    private void loseSpeedOnImpact(Vec3 positionBeforeMove) {
+        if (!horizontalCollision) {
+            return;
+        }
+
+        double movedX = getX() - positionBeforeMove.x;
+        double movedZ = getZ() - positionBeforeMove.z;
+        float moved = (float) Math.sqrt(movedX * movedX + movedZ * movedZ);
+
+        float speed = getSpeed();
+        if (Math.abs(speed) > moved) {
+            setSpeed(Math.copySign(moved, speed));
         }
     }
 
@@ -254,36 +281,11 @@ public abstract class AbstractRoverBase extends IVehicleEntity {
         }
     }
 
-    private float getRoverSpeed(float modifier) {
-        float maxSp = getMaxSpeed() * modifier;
-        float maxBackSp = getMaxReverseSpeed() * modifier;
-
-        float speed = Math.max(0.0f, getSpeed() - getRollResistance());
-
-        if (isForward()) {
-            if (speed <= maxSp) {
-                speed = Math.min(speed + getAcceleration(), maxSp);
-            }
-        }
-
-        if (isBackward()) {
-            if (speed >= -maxBackSp) {
-                speed = Math.max(speed - getAcceleration(), -maxBackSp);
-            }
-        }
-        return speed;
-    }
-
     /** Whether there is any fuel left to drive on. */
     protected abstract boolean hasFuel();
 
     /** Removes {@code amount} units (mB) of fuel from the tank. */
     protected abstract void consumeFuel(int amount);
-
-    public void onCollision(float speed) {
-        setSpeed(0.01F);
-        setDeltaMovement(0D, getDeltaMovement().y, 0D);
-    }
 
     public boolean canPlayerDriveCar(Player player) {
         if (player.equals(getDriver())) {
@@ -297,12 +299,16 @@ public abstract class AbstractRoverBase extends IVehicleEntity {
         }
     }
 
-    private void updateGravity() {
+    private void applyRoverGravity() {
+        Vec3 motion = getDeltaMovement();
         if (isNoGravity()) {
-            setDeltaMovement(getDeltaMovement().x, 0D, getDeltaMovement().z);
+            setDeltaMovement(motion.x, 0D, motion.z);
             return;
         }
-        setDeltaMovement(getDeltaMovement().x, getDeltaMovement().y - 0.2D, getDeltaMovement().z);
+
+        double gravity = GravityUtils.getEntityGravity(GravityUtils.GRAVITY_LIVING_CONVERSION_RATE, this);
+        double drag = isInWater() || isInLava() ? FLUID_VERTICAL_DRAG : AIR_VERTICAL_DRAG;
+        setDeltaMovement(motion.x, (motion.y - gravity) * drag, motion.z);
     }
 
     public void updateControls(boolean forward, boolean backward, boolean left, boolean right) {
@@ -385,11 +391,14 @@ public abstract class AbstractRoverBase extends IVehicleEntity {
     }
 
     public void setSpeed(float speed) {
-        this.entityData.set(SPEED, speed);
+        this.speed = speed;
+        if (!level().isClientSide()) {
+            this.entityData.set(SPEED, speed);
+        }
     }
 
     public float getSpeed() {
-        return this.entityData.get(SPEED);
+        return simulatesMovement() ? this.speed : this.entityData.get(SPEED);
     }
 
     public void setForward(boolean forward) {

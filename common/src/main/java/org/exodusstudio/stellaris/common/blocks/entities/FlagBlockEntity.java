@@ -72,13 +72,14 @@ public class FlagBlockEntity extends BlockEntity {
     protected void applyImplicitComponents(DataComponentGetter componentGetter) {
         super.applyImplicitComponents(componentGetter);
         this.profile = componentGetter.getOrDefault(DataComponents.PROFILE, ResolvableProfile.createResolved(new GameProfile(UUID.fromString("fe40f09c-fdaa-497f-8e2b-bed31180bfbd"), "TATHAN_06")));
-
+        this.color = componentGetter.getOrDefault(DataComponents.BASE_COLOR, this.color);
     }
 
     @Override
     protected void collectImplicitComponents(DataComponentMap.Builder components) {
         super.collectImplicitComponents(components);
         components.set(DataComponents.PROFILE, this.profile);
+        components.set(DataComponents.BASE_COLOR, this.color);
     }
 
     public void setDyeColor(DyeColor color) {

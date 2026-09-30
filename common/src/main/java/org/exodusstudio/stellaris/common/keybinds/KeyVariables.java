@@ -7,14 +7,15 @@ import net.minecraft.world.entity.player.Player;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class KeyVariables {
 
-    public static final Map<UUID, Boolean> KEY_UP = new HashMap<>();
-    public static final Map<UUID, Boolean> KEY_DOWN = new HashMap<>();
-    public static final Map<UUID, Boolean> KEY_RIGHT = new HashMap<>();
-    public static final Map<UUID, Boolean> KEY_LEFT = new HashMap<>();
-    public static final Map<UUID, Boolean> KEY_JUMP = new HashMap<>();
+    public static final Map<UUID, Boolean> KEY_UP = new ConcurrentHashMap<>();
+    public static final Map<UUID, Boolean> KEY_DOWN = new ConcurrentHashMap<>();
+    public static final Map<UUID, Boolean> KEY_RIGHT = new ConcurrentHashMap<>();
+    public static final Map<UUID, Boolean> KEY_LEFT = new ConcurrentHashMap<>();
+    public static final Map<UUID, Boolean> KEY_JUMP = new ConcurrentHashMap<>();
 
     private static final Map<String, Map<UUID, Boolean>> KEY_STATES = Map.of(
             "key_up", KEY_UP,

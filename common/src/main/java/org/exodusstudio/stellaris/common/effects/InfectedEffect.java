@@ -7,6 +7,7 @@ import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.entity.LivingEntity;
 import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.common.utils.MoonLoreUtils;
+import org.exodusstudio.stellaris.common.registries.DamageTypesRegistry;
 
 public class InfectedEffect extends MobEffect {
     public InfectedEffect() {
@@ -19,7 +20,7 @@ public class InfectedEffect extends MobEffect {
             return false;
         }
 
-        entity.hurtServer(level, entity.damageSources().magic(), Stellaris.CONFIG.effectsConfig.infectionDamage + ((float) amplifier / 2));
+        entity.hurtServer(level, DamageTypesRegistry.source(level, DamageTypesRegistry.INFECTION), Stellaris.CONFIG.effectsConfig.infectionDamage + ((float) amplifier / 2));
         return true;
     }
 

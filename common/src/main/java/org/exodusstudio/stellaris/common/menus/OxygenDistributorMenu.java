@@ -6,6 +6,7 @@ import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import org.exodusstudio.stellaris.common.blocks.entities.machines.OxygenDistributorBlockEntity;
+import org.exodusstudio.stellaris.common.menus.base.EnergyUsageSync;
 import org.exodusstudio.stellaris.common.menus.base.BaseContainer;
 import org.exodusstudio.stellaris.common.menus.slot.FluidContainerSlot;
 import org.exodusstudio.stellaris.common.menus.slot.SpecificFluidContainerSlot;
@@ -16,6 +17,7 @@ public class OxygenDistributorMenu extends BaseContainer {
 
     private final Container inventory;
     private final OxygenDistributorBlockEntity entity;
+    private final EnergyUsageSync energyUsage;
 
 
     public static OxygenDistributorMenu create(int syncId, Inventory inventory, FriendlyByteBuf data) {
@@ -30,6 +32,7 @@ public class OxygenDistributorMenu extends BaseContainer {
         checkContainerSize(container, 2);
         this.inventory = container;
         this.entity = entity;
+        this.energyUsage = EnergyUsageSync.create(this.entity, this::addDataSlot);
 
         this.addSlot(new SpecificFluidContainerSlot(inventory, FluidsRegistry.OXYGEN_STILL.get(), OxygenDistributorBlockEntity.INPUT_SLOT, 48, 40, false));
         this.addSlot(new FluidContainerSlot(inventory, OxygenDistributorBlockEntity.OUTPUT_SLOT, 48, 74, true));
@@ -37,6 +40,10 @@ public class OxygenDistributorMenu extends BaseContainer {
 
     public OxygenDistributorBlockEntity getBlockEntity() {
         return entity;
+    }
+
+    public EnergyUsageSync getEnergyUsage() {
+        return energyUsage;
     }
 
     @Override

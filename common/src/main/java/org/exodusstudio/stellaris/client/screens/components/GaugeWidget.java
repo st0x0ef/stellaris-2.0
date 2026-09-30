@@ -16,6 +16,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
 
 
 public class GaugeWidget extends AbstractWidget {
@@ -62,6 +63,10 @@ public class GaugeWidget extends AbstractWidget {
     }
 
     public void renderTooltips(GuiGraphicsExtractor graphics, int mouseX, int mouseY, Font font) {
+        renderTooltips(graphics, mouseX, mouseY, font, lines -> {});
+    }
+
+    public void renderTooltips(GuiGraphicsExtractor graphics, int mouseX, int mouseY, Font font, Consumer<List<ClientTooltipComponent>> extraLines) {
         Component GaugeComponent = Component.translatable("gui.stellaris.gauge.amount", getMessage(), amount, this.capacity);
         ClientTooltipComponent capacity;
 
@@ -77,6 +82,7 @@ public class GaugeWidget extends AbstractWidget {
 
         List<ClientTooltipComponent> components1 = new ArrayList<>();
         components1.addFirst(capacity);
+        extraLines.accept(components1);
         if (mouseX >= this.getX() && mouseX <= this.getX() + width && mouseY >= this.getY() && mouseY <= this.getY() + this.height) {
             graphics.tooltip(font, components1, mouseX, mouseY, DefaultTooltipPositioner.INSTANCE, null);
         }

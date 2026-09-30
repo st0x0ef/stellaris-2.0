@@ -5,6 +5,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -37,7 +38,6 @@ import org.exodusstudio.stellaris.common.blocks.entities.RocketLaunchPadBlockEnt
 import org.exodusstudio.stellaris.common.registries.BlockEntitiesRegistry;
 import org.exodusstudio.stellaris.common.registries.BlocksRegistry;
 import org.exodusstudio.stellaris.common.registries.ItemsRegistry;
-import org.exodusstudio.stellaris.common.registries.TagsRegistry;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.HashSet;
@@ -180,9 +180,8 @@ public class RocketLaunchPadBlock extends BaseEntityBlock  {
     }
 
     /**
-     * Places an antenna in the block directly below the launch pad center, if that block is
-     * replaceable ({@link TagsRegistry.BlockTags#ANTENNA_REPLACEABLES}). Callable from the main
-     * block or any proxy (resolved to its main position).
+     * Places an antenna in the block directly below the launch pad center, if that block can host
+     * one. Callable from the main block or any proxy (resolved to its main position).
      */
     public static InteractionResult tryPlaceAntenna(Level level, BlockPos mainPos, BlockState mainState, Player player, ItemStack stack) {
         if (level.isClientSide()) {
@@ -191,7 +190,8 @@ public class RocketLaunchPadBlock extends BaseEntityBlock  {
 
         BlockPos belowPos = mainPos.below();
 
-        if (level.getBlockState(belowPos).is(TagsRegistry.BlockTags.ANTENNA_REPLACEABLES)) {
+        if (canHostAntenna(level, belowPos, level.getBlockState(belowPos)) && level.mayInteract(player, belowPos)) {
+            level.destroyBlock(belowPos, !player.getAbilities().instabuild, player);
             level.setBlock(belowPos, BlocksRegistry.ANTENNA.block().get().defaultBlockState(), 3);
 
             if (!player.getAbilities().instabuild) {
@@ -206,6 +206,10 @@ public class RocketLaunchPadBlock extends BaseEntityBlock  {
 
         player.sendSystemMessage(Component.translatable("message.stellaris.launch_pad_antenna_obstructed"));
         return InteractionResult.FAIL;
+    }
+
+    private static boolean canHostAntenna(Level level, BlockPos pos, BlockState state) {
+        return state.getDestroySpeed(level, pos) >= 0 && !state.hasBlockEntity() && !state.is(BlockTags.INCORRECT_FOR_WOODEN_TOOL);
     }
 
     /**

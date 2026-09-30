@@ -1,3 +1,101 @@
 {
-  "parent": "stellaris:custom/pumpjack"
+  "textures": {
+    "particle": "stellaris:block/machines/pumpjack"
+  },
+  "display": {
+    "thirdperson_righthand": {
+      "translation": [
+        0,
+        2.25,
+        0
+      ],
+      "scale": [
+        0.3,
+        0.3,
+        0.32
+      ]
+    },
+    "thirdperson_lefthand": {
+      "translation": [
+        0,
+        2.25,
+        0
+      ],
+      "scale": [
+        0.3,
+        0.3,
+        0.32
+      ]
+    },
+    "firstperson_righthand": {
+      "translation": [
+        -1.25,
+        2.25,
+        1.25
+      ],
+      "scale": [
+        0.3,
+        0.3,
+        0.32
+      ]
+    },
+    "firstperson_lefthand": {
+      "translation": [
+        -1.25,
+        2.25,
+        1.25
+      ],
+      "scale": [
+        0.3,
+        0.3,
+        0.32
+      ]
+    },
+    "ground": {
+      "translation": [
+        0,
+        3,
+        0
+      ],
+      "scale": [
+        0.25,
+        0.25,
+        0.25
+      ]
+    },
+    "gui": {
+      "rotation": [
+        30,
+        225,
+        0
+      ],
+      "translation": [
+        0.5,
+        -1.25,
+        0
+      ],
+      "scale": [
+        0.374,
+        0.374,
+        0.374
+      ]
+    },
+    "fixed": {
+      "rotation": [
+        0,
+        90,
+        0
+      ],
+      "translation": [
+        0,
+        -1.5,
+        0
+      ],
+      "scale": [
+        0.35,
+        0.35,
+        0.35
+      ]
+    }
+  }
 }

@@ -29,7 +29,6 @@ import org.exodusstudio.stellaris.common.items.space_suit.SpaceSuitLeggings;
 import org.exodusstudio.stellaris.common.items.tools.*;
 import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
 import org.exodusstudio.stellaris.platform.RegistryPlatform;
-import org.exodusstudio.stellaris.common.vehicle_upgrade.FuelType;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.function.Function;

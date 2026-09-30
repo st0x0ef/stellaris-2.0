@@ -12,6 +12,7 @@ import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.DoubleHighBlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.*;
@@ -59,6 +60,7 @@ public final class BlocksRegistry {
     public static final BlockItemRegistrySupplier TITANIUM_PLATING_STAIRS = blockWithItem("titanium_plating_stairs", ofFullCopy(Blocks.COBBLESTONE_STAIRS), p -> new StairBlock(TITANIUM_BLOCK.block().get().defaultBlockState(), p));
     public static final BlockItemRegistrySupplier VERTICAL_TITANIUM_SLAB = blockWithItem("vertical_titanium_slab", ofFullCopy(Blocks.IRON_BLOCK), p -> new VerticalSlab(p));
     public static final BlockItemRegistrySupplier VERTICAL_TIANIUM_PLATING_SLAB = blockWithItem("vertical_titanium_plating_slab", ofFullCopy(Blocks.IRON_BLOCK), p -> new VerticalSlab(p));
+    public static final BlockItemRegistrySupplier TITANIUM_DOOR = blockWithCustomItem("titanium_door", ofFullCopy(Blocks.IRON_DOOR), SlidingDoorBlock::new, new Item.Properties(), DoubleHighBlockItem::new);
     public static final BlockItemRegistrySupplier IRON_PLATING_BLOCK = blockWithItem("iron_plating_block", ofFullCopy(Blocks.IRON_BLOCK));
     public static final BlockItemRegistrySupplier IRON_PLATING_SLAB = blockWithItem("iron_plating_slab", ofFullCopy(Blocks.IRON_BLOCK), SlabBlock::new);
     public static final BlockItemRegistrySupplier IRON_PLATING_STAIRS = blockWithItem("iron_plating_stairs", ofFullCopy(Blocks.COBBLESTONE_STAIRS), p -> new StairBlock(TITANIUM_BLOCK.block().get().defaultBlockState(), p));
