@@ -20,8 +20,6 @@ import net.minecraft.world.item.component.TooltipDisplay;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import org.exodusstudio.stellaris.common.entities.vehicles.RoverEntity;
-import org.exodusstudio.stellaris.common.modules.Modules;
-import org.exodusstudio.stellaris.common.modules.rover.RoverModule;
 import org.exodusstudio.stellaris.common.modules.rover.RoverUpgrades;
 import org.exodusstudio.stellaris.common.registries.DataComponentsRegistry;
 import org.jetbrains.annotations.NotNull;
@@ -81,7 +79,12 @@ public class RoverItem extends Item implements FluidProvider.ITEM {
 
     @Override
     public @Nullable UniversalFluidItemStorage getFluidTank(@NotNull ItemStack stack) {
-        Modules<RoverModule> modules = stack.getOrDefault(DataComponentsRegistry.ROVER_MODULES.get(), RoverUpgrades.empty()).roverModules();
-        return new ItemFluidStorage(DataComponentsRegistry.FLUID_LIST.get(), stack, 1, RoverEntity.getTankCapacity(modules));
+        RoverUpgrades upgrades = stack.getOrDefault(DataComponentsRegistry.ROVER_MODULES.get(), RoverUpgrades.empty());
+        return new ItemFluidStorage(DataComponentsRegistry.FLUID_LIST.get(), stack, 1, RoverEntity.getTankCapacity(upgrades.roverModules())) {
+            @Override
+            public boolean isFluidValid(int tank, FluidStack fluidStack) {
+                return RoverEntity.acceptsFuel(upgrades, fluidStack.getFluid());
+            }
+        };
     }
 }

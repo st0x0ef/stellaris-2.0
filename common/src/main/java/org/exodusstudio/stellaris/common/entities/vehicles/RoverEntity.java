@@ -94,11 +94,10 @@ public class RoverEntity extends AbstractRoverBase implements HasCustomInventory
 
         @Override
         public boolean isFluidValid(int tank, FluidStack stack) {
-            FuelType.Type type = FuelType.Type.getTypeBasedOnFluid(stack.getFluid());
-            if (type == null || getMotorFuelType() != type.getMotorType()) {
+            if (!acceptsFuel(getUpgrades(), stack.getFluid())) {
                 return false;
             }
-            return FUEL <= 0 || type == FUEL_TYPE;
+            return FUEL <= 0 || FuelType.Type.getTypeBasedOnFluid(stack.getFluid()) == FUEL_TYPE;
         }
 
         @Override
@@ -139,7 +138,11 @@ public class RoverEntity extends AbstractRoverBase implements HasCustomInventory
      * The fuel type the motor accepts, driven by an installed custom fuel module (defaults to diesel).
      */
     public FuelType.Type getMotorFuelType() {
-        for (RocketModule module : this.getUpgrades().rocketModules()) {
+        return getMotorFuelType(this.getUpgrades());
+    }
+
+    public static FuelType.Type getMotorFuelType(RoverUpgrades upgrades) {
+        for (RocketModule module : upgrades.rocketModules()) {
             if (module instanceof RocketModule.CustomFuelModule fuelModule) {
                 FuelType.Type type = FuelType.Type.getTypeBasedOnFluid(fuelModule.getFuel().getFluid());
                 if (type != null) {
@@ -148,6 +151,11 @@ public class RoverEntity extends AbstractRoverBase implements HasCustomInventory
             }
         }
         return FuelType.Type.DIESEL;
+    }
+
+    public static boolean acceptsFuel(RoverUpgrades upgrades, Fluid fluid) {
+        FuelType.Type type = FuelType.Type.getTypeBasedOnFluid(fluid);
+        return type != null && getMotorFuelType(upgrades) == type.getMotorType();
     }
 
     /**
@@ -354,7 +362,7 @@ public class RoverEntity extends AbstractRoverBase implements HasCustomInventory
 
         FluidStack stored = FluidUtil.readStoredFluid(stack, DataComponentsRegistry.FLUID_LIST.get(), 0);
         FuelType.Type type = FuelType.Type.getTypeBasedOnFluid(stored.getFluid());
-        if (!stored.isEmpty() && type != null) {
+        if (!stored.isEmpty() && type != null && acceptsFuel(rover.getUpgrades(), stored.getFluid())) {
             rover.FUEL_TYPE = type;
             rover.FUEL = (int) Math.min(stored.getAmount(), rover.getTankCapacity());
         }

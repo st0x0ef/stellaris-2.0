@@ -161,18 +161,15 @@ public class RocketEntity extends VehicleEntity implements FluidProvider.ENTITY,
      * @return The FluidStack representing the rocket's fuel type.
      */
     public FluidStack getFuelType() {
-        FluidStack fuel = FluidStack.create(FluidsRegistry.FUEL_STILL.get(), this.getFuel());
-        for (RocketModule module : this.getRocketModules()) {
-            if (module instanceof RocketModule.CustomFuelModule customFuelModule) {
-                fuel = FluidStack.create(customFuelModule.getFuel().getFluid(), this.getFuel());
-            }
-        }
-
-        return fuel;
+        return FluidStack.create(getExpectedFuelFluid(), this.getFuel());
     }
 
     private Fluid getExpectedFuelFluid() {
-        for (RocketModule module : this.getRocketModules()) {
+        return getExpectedFuelFluid(this.getRocketModules());
+    }
+
+    public static Fluid getExpectedFuelFluid(Modules<RocketModule> modules) {
+        for (RocketModule module : modules) {
             if (module instanceof RocketModule.CustomFuelModule customFuelModule) {
                 return customFuelModule.getFuel().getFluid();
             }
@@ -563,11 +560,9 @@ public class RocketEntity extends VehicleEntity implements FluidProvider.ENTITY,
             rocketEntity.entityData.set(HAS_AUTOPILOT_DESTINATION, true);
         }
 
-        //Only allow to change the fuel type when the rocket is not empty
-        if(stack.has(DataComponentsRegistry.FLUID_LIST.get())) {
-            FluidAmountMapDataComponent fluidData = stack.get(DataComponentsRegistry.FLUID_LIST.get());
-
-            rocketEntity.entityData.set(FUEL, (int) fluidData.getAmount(0));
+        FluidStack stored = FluidUtil.readStoredFluid(stack, DataComponentsRegistry.FLUID_LIST.get(), 0);
+        if (!stored.isEmpty() && stored.getFluid().isSame(getExpectedFuelFluid(modulesOptional))) {
+            rocketEntity.entityData.set(FUEL, (int) Math.min(stored.getAmount(), rocketEntity.getTankCapacity()));
         }
         return rocketEntity;
     }

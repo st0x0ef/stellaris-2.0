@@ -3,6 +3,7 @@ package org.exodusstudio.stellaris.common.items;
 import com.fej1fun.potentials.fluid.ItemFluidStorage;
 import com.fej1fun.potentials.fluid.UniversalFluidItemStorage;
 import com.fej1fun.potentials.providers.FluidProvider;
+import dev.architectury.fluid.FluidStack;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
@@ -16,6 +17,7 @@ import net.minecraft.world.item.component.TooltipDisplay;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import org.exodusstudio.stellaris.common.blocks.RocketLaunchPadBlock;
@@ -145,6 +147,12 @@ public class RocketItem extends Item implements FluidProvider.ITEM {
 
     @Override
     public @Nullable UniversalFluidItemStorage getFluidTank(@NotNull ItemStack stack) {
-        return new ItemFluidStorage(DataComponentsRegistry.FLUID_LIST.get(), stack, 1, FUEL_CAPACITY);
+        Fluid fuel = RocketEntity.getExpectedFuelFluid(stack.getOrDefault(DataComponentsRegistry.ROCKET_MODULES.get(), RocketModules.empty()));
+        return new ItemFluidStorage(DataComponentsRegistry.FLUID_LIST.get(), stack, 1, FUEL_CAPACITY) {
+            @Override
+            public boolean isFluidValid(int tank, FluidStack fluidStack) {
+                return fluidStack.getFluid().isSame(fuel);
+            }
+        };
     }
 }
