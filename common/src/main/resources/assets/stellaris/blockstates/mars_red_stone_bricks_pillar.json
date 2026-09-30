@@ -1,7 +1,7 @@
 {
   "variants": {
     "axis=x": {
-      "model": "stellaris:block/mars/mars_red_stone_bricks_horizontal",
+      "model": "stellaris:block/mars/mars_red_stone_bricks_pillar_horizontal",
       "x": 90,
       "y": 90
     },
@@ -9,7 +9,7 @@
       "model": "stellaris:block/mars/mars_red_stone_bricks_pillar"
     },
     "axis=z": {
-      "model": "stellaris:block/mars/mars_red_stone_bricks_horizontal",
+      "model": "stellaris:block/mars/mars_red_stone_bricks_pillar_horizontal",
       "x": 90
     }
   }
