@@ -1,0 +1,14 @@
+{
+  "translation_key": "planet.stellaris.mars",
+  "dimension": "stellaris:mars",
+  "gravity": 1.62,
+  "has_oxygen": false,
+  "planet_bar": "stellaris:textures/planet_bar/moon_planet_bar.png",
+  "temperature": {
+    "dayTimeTemperature": 123,
+    "nightTimeTemperature": -233
+  },
+  "required_modules": [
+    "stellaris:shield"
+  ]
+}

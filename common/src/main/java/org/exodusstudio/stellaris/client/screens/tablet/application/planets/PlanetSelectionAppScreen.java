@@ -11,8 +11,10 @@ import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
 import org.exodusstudio.stellaris.client.overlays.FadingHolder;
 import org.exodusstudio.stellaris.client.screens.components.Padding;
 import org.exodusstudio.stellaris.client.screens.components.StellarDownWidget;
@@ -30,10 +32,13 @@ import org.exodusstudio.stellaris.common.data.space_station.SpaceStationRecipe;
 import org.exodusstudio.stellaris.common.entities.vehicles.RocketEntity;
 import org.exodusstudio.stellaris.common.menus.MainTabletMenu;
 import org.exodusstudio.stellaris.common.menus.PlanetSelectionMenu;
+import org.exodusstudio.stellaris.common.modules.Modules;
+import org.exodusstudio.stellaris.common.modules.rocket.RocketModule;
 import org.exodusstudio.stellaris.common.network.packets.OpenMenuPacket;
 import org.exodusstudio.stellaris.common.network.packets.SelectPlanetPacket;
 import org.exodusstudio.stellaris.common.network.packets.TeleportToPlanetPacket;
 import org.exodusstudio.stellaris.common.registries.DataComponentsRegistry;
+import org.exodusstudio.stellaris.common.registries.StellarisRegistries;
 import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
 import org.exodusstudio.stellaris.common.utils.Utils;
 import org.jetbrains.annotations.Nullable;
@@ -53,12 +58,23 @@ public class PlanetSelectionAppScreen extends TabletAbstractContainer<PlanetSele
     private final boolean isSelectingAutoPilot;
     public AntennaSavedData antennaSavedData;
 
+    public Modules<RocketModule> rocketModules = new Modules<RocketModule>(List.<RocketModule>of());
+
     public PlanetSelectionAppScreen(PlanetSelectionMenu selectionMenu, Inventory playerInventory, Component component) {
         super(selectionMenu, playerInventory, Component.empty(), 310, 192);
         this.inSpace = selectionMenu.player.stellaris$isPlanetMenuOpen();
         this.antennaSavedData = selectionMenu.antennaSavedData;
         this.selectionMenu = selectionMenu;
         this.isSelectingAutoPilot = !AutopilotModuleItem.findHeldModule(selectionMenu.player).isEmpty();
+        this.rocketModules = getRocketModules(playerInventory.player);
+
+    }
+
+    public Modules<RocketModule> getRocketModules(Player player) {
+        if(player.getVehicle() instanceof RocketEntity rocket) {
+            rocketModules = rocket.getRocketModules();
+        }
+        return new Modules<RocketModule>(List.<RocketModule>of());
     }
 
 
@@ -135,20 +151,36 @@ public class PlanetSelectionAppScreen extends TabletAbstractContainer<PlanetSele
         return this.topPos;
     }
 
+
+    public List<Identifier> getRemainingModulesForPlanet(Planet planet) {
+
+        List<Identifier> modules = new ArrayList<>(planet.modulesRequired()) ;
+
+        for(RocketModule requireModule : this.rocketModules) {
+
+            if(modules.contains(StellarisRegistries.ROCKET_MODULES.getId(requireModule))) {
+                modules.remove(StellarisRegistries.ROCKET_MODULES.getId(requireModule));
+            }
+        }
+
+        return modules;
+
+    }
+
     /**
      * The teleport button should only be visible if a planet is selected and the player is in space. This method checks those conditions and returns true if the button should be visible, false otherwise.
      * @return true if the teleport button should be visible, false otherwise.
      */
-    public boolean isTeleportButtonVisible() {
-        return this.selectedPlanet != null && this.inSpace && this.canTeleportToPlanet();
+    public boolean isTeleportButtonVisible(Planet planet) {
+        return this.selectedPlanet != null && this.inSpace && this.canTeleportToPlanet() && getRemainingModulesForPlanet(planet).isEmpty();
     }
 
     /**
      * The select planet button should only be visible if a planet is selected and the player is not in space. This method checks those conditions and returns true if the button should be visible, false otherwise.
      * @return true if the select planet button should be visible, false otherwise.
      */
-    public boolean isSelectPlanetButtonVisible() {
-        return this.selectedPlanet != null && this.inSpace && this.canTeleportToPlanet() || this.isSelectingAutoPilot;
+    public boolean isSelectPlanetButtonVisible(Planet planet) {
+        return this.selectedPlanet != null && this.inSpace && this.canTeleportToPlanet() || this.isSelectingAutoPilot && getRemainingModulesForPlanet(planet).isEmpty();
     }
 
     /**
@@ -218,7 +250,7 @@ public class PlanetSelectionAppScreen extends TabletAbstractContainer<PlanetSele
             super.renderContent(guiGraphics, mouseX, mouseY, partialTick);
 
             if(this.selectionAppScreen.selectedPlanet != null) {
-                this.teleportButton.visible = this.selectionAppScreen.isTeleportButtonVisible();
+                this.teleportButton.visible = this.selectionAppScreen.isTeleportButtonVisible(this.selectionAppScreen.selectedPlanet);
 
                 Component planetName = Component.translatable(this.selectionAppScreen.selectedPlanet.translationKey());
                 guiGraphics.text(Minecraft.getInstance().font, planetName, getX() + this.getWidth() / 2 - Minecraft.getInstance().font.width(planetName) / 2 , getY() + 2 - (int) scrollAmount(), Utils.getMinecraftColor("white"));
@@ -238,43 +270,52 @@ public class PlanetSelectionAppScreen extends TabletAbstractContainer<PlanetSele
         public void setWidget() {
             if(this.selectionAppScreen.selectedPlanet == null) return;
 
+            Planet planet = this.selectionAppScreen.selectedPlanet;
             int infoHeight = setupInfoWidget();
-            int antennasHeight = setupAntennas(getY() + infoHeight + 5);
+            int antennasHeight = setupAntennas(infoHeight);
+            int requiredModulesHeight = this.setupRequiredModules(antennasHeight);
 
-            this.teleportButton = new TexturedButton(this.getX(),this.getY() + antennasHeight + infoHeight, 100, 20, btn -> {
-                if (this.selectionAppScreen.isTeleportButtonVisible()
+            int buttonsHeight = requiredModulesHeight;
+
+
+            this.teleportButton = new TexturedButton(this.getX(),buttonsHeight, 100, 20, btn -> {
+                if (this.selectionAppScreen.isTeleportButtonVisible(planet)
                         && this.selectionAppScreen.canTeleportToPlanet()) {
-                    NetworkManager.sendToServer(new TeleportToPlanetPacket(this.selectionAppScreen.selectedPlanet, Optional.empty(), false));
+                    NetworkManager.sendToServer(new TeleportToPlanetPacket(planet, Optional.empty(), false));
                 }
             }).tex(IdentifierUtils.guiTexture("tablet/tablet_entry_button"), IdentifierUtils.guiTexture("tablet/tablet_entry_button")).setText(Component.translatable("application.stellaris.planet_selection.teleport_button"));
 
-            this.selectPlanetButton = new TexturedButton(this.getX(), this.getY() + antennasHeight + infoHeight, 100, 20, btn -> {
+            this.selectPlanetButton = new TexturedButton(this.getX(), buttonsHeight, 100, 20, btn -> {
                 if (this.selectionAppScreen != null) {
-                    NetworkManager.sendToServer(new SelectPlanetPacket(this.selectionAppScreen.selectedPlanet));
+                    NetworkManager.sendToServer(new SelectPlanetPacket(planet));
                 }
             }).tex(IdentifierUtils.guiTexture("tablet/tablet_entry_button"), IdentifierUtils.guiTexture("tablet/tablet_entry_button")).setText(Component.translatable("application.stellaris.planet_selection.select_button"));
 
-            this.teleportButton.visible = this.selectionAppScreen.isTeleportButtonVisible();
-            this.selectPlanetButton.visible = this.selectionAppScreen.isSelectPlanetButtonVisible();
+            this.teleportButton.visible = this.selectionAppScreen.isTeleportButtonVisible(planet);
+            this.selectPlanetButton.visible = this.selectionAppScreen.isSelectPlanetButtonVisible(planet);
+
+
 
             addAntennaWidget(this.teleportButton);
             addAntennaWidget(this.selectPlanetButton);
 
+
             //We remove the button height if it's not visible .
-            if(selectionAppScreen.isTeleportButtonVisible()) {
-                this.setContentHeight(teleportButton.getY());
+            if(selectionAppScreen.isTeleportButtonVisible(planet)) {
+                this.setContentHeight(teleportButton.getBottom());
             } else {
-                this.setContentHeight(antennasHeight + infoHeight);
+                this.setContentHeight(buttonsHeight);
             }
 
             SpaceStationRecipe spaceStationRecipe = this.selectionAppScreen.getSpaceStationFromRocket();
-            if(selectionAppScreen.isTeleportButtonVisible() && spaceStationRecipe != null && selectionAppScreen.selectedPlanet.allowSpaceStation()) {
-                int height = setupSpaceStation(this.teleportButton.getY() + (selectionAppScreen.isTeleportButtonVisible() ? teleportButton.getHeight() + 5 : 0), spaceStationRecipe);
+            if(selectionAppScreen.isTeleportButtonVisible(planet) && spaceStationRecipe != null && selectionAppScreen.selectedPlanet.allowSpaceStation()) {
+                int height = setupSpaceStation(this.teleportButton.getY() + (selectionAppScreen.isTeleportButtonVisible(planet) ? teleportButton.getHeight() + 5 : 0), spaceStationRecipe);
                 this.setContentHeight(height);
             }
         }
 
         private int setupSpaceStation(int y, SpaceStationRecipe spaceStationRecipe) {
+            Planet planet = this.selectionAppScreen.selectedPlanet;
 
             StringWidget title = new StringWidget(this.getX(), y, this.getWidth(), Minecraft.getInstance().font.lineHeight, Component.translatable("stellaris.screen.space_station"), Minecraft.getInstance().font);
             StringWidget description = new StringWidget(this.getX(), y + Minecraft.getInstance().font.lineHeight, getWidth(), Minecraft.getInstance().font.lineHeight, Component.translatable("stellaris.screen.blueprint_detected").withStyle(ChatFormatting.GRAY), Minecraft.getInstance().font);
@@ -283,14 +324,14 @@ public class PlanetSelectionAppScreen extends TabletAbstractContainer<PlanetSele
             addAntennaWidget(description);
 
             TexturedButton stationButton = new TexturedButton(this.getX(), description.getY() + description.getHeight() + 2, 100, 20, btn -> {
-                if (this.selectionAppScreen.isTeleportButtonVisible()
+                if (this.selectionAppScreen.isTeleportButtonVisible(planet)
                         && this.selectionAppScreen.canTeleportToPlanet()) {
                     NetworkManager.sendToServer(new TeleportToPlanetPacket(this.selectionAppScreen.selectedPlanet, Optional.empty(), true));
                 }
             }).tex(IdentifierUtils.guiTexture("tablet/tablet_entry_button"), IdentifierUtils.guiTexture("tablet/tablet_entry_button"))
                     .setText(Component.translatable("stellaris.screen.build_space_station"));
             addAntennaWidget(stationButton);
-            return stationButton.getY();
+            return this.antennaWidgets.getLast().getBottom();
         }
 
         private int setupAntennas(int y) {
@@ -333,7 +374,7 @@ public class PlanetSelectionAppScreen extends TabletAbstractContainer<PlanetSele
 
             if(i == 1) addAntennaWidget(new StringWidget(this.getX(), y + font.lineHeight, 200, font.lineHeight * i++, Component.translatable("stellaris.screen.no_antenna_available").withStyle(ChatFormatting.GRAY), Minecraft.getInstance().font));
 
-            return stringWidget.getHeight() + ((i - 1) * font.lineHeight + 7) + 5;
+            return antennaWidgets.getLast().getBottom() + 5;
         }
 
 
@@ -353,8 +394,39 @@ public class PlanetSelectionAppScreen extends TabletAbstractContainer<PlanetSele
 
             StellarDownWidget widget = builder.build(this.getX(), this.getY() + 20, 300, Minecraft.getInstance().font.lineHeight * 6);
             addAntennaWidget(widget);
-            return widget.getHeight() + 20;
+            return antennaWidgets.getLast().getBottom()  + 5;
         }
+
+        public int setupRequiredModules(int y) {
+            Planet planet = this.selectionAppScreen.selectedPlanet;
+
+            if(planet == null) return 0;
+
+            List<Identifier> neededModules = this.selectionAppScreen.getRemainingModulesForPlanet(planet);
+
+            if(neededModules.isEmpty()) return 0;
+
+            StellarDownWidget.Builder builder = new StellarDownWidget.Builder();
+
+            builder.addText("Modules Required :").breakL();
+
+            for(Identifier neededModule : neededModules) {
+                RocketModule module = StellarisRegistries.ROCKET_MODULES.get(neededModule);
+
+                if(module != null) {
+                    builder.addText("- [color=red]" + module.getDisplayName().getString() + "[color]").breakL();
+                } else {
+                    builder.addText("- [color=red]" + neededModule + "[color]").breakL();
+                }
+
+            }
+
+
+            StellarDownWidget widget = builder.build(this.getX() - 3, y + 5, 300, Minecraft.getInstance().font.lineHeight * 6);
+            addAntennaWidget(widget);
+            return antennaWidgets.getLast().getBottom()  + 5;
+        }
+
 
         public void onPlanetChange() {
 

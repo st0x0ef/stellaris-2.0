@@ -12,10 +12,13 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.Level;
+import org.exodusstudio.stellaris.common.modules.rocket.RocketModule;
+import org.exodusstudio.stellaris.common.registries.StellarisRegistries;
 
+import java.util.List;
 import java.util.Optional;
 
-public record Planet(String translationKey, Identifier dimension, double gravity, boolean hasOxygen, Boolean allowSpaceStation, Optional<Temperature> temperature, Optional<ResourceKey<Level>> parentPlanet, Optional<Identifier> planetBar) {
+public record Planet(String translationKey, Identifier dimension, double gravity, boolean hasOxygen, Boolean allowSpaceStation, Optional<Temperature> temperature, Optional<ResourceKey<Level>> parentPlanet, Optional<Identifier> planetBar, List<Identifier> modulesRequired) {
     public static final Codec<Planet> CODEC = RecordCodecBuilder.create(instance -> instance.group(
             Codec.STRING.fieldOf("translation_key").forGetter(Planet::translationKey),
             Identifier.CODEC.fieldOf("dimension").forGetter(Planet::dimension),
@@ -24,7 +27,8 @@ public record Planet(String translationKey, Identifier dimension, double gravity
             Codec.BOOL.optionalFieldOf("allow_space_stations", false).forGetter(Planet::allowSpaceStation),
             Temperature.CODEC.optionalFieldOf("temperature").forGetter(Planet::temperature),
             ResourceKey.codec(Registries.DIMENSION).optionalFieldOf("parent_planet").forGetter(Planet::parentPlanet),
-            Identifier.CODEC.optionalFieldOf("planet_bar").forGetter(Planet::planetBar)
+            Identifier.CODEC.optionalFieldOf("planet_bar").forGetter(Planet::planetBar),
+            Identifier.CODEC.listOf().optionalFieldOf("required_modules", List.of()).forGetter(Planet::modulesRequired)
         ).apply(instance, Planet::new)
     );
 
@@ -37,6 +41,7 @@ public record Planet(String translationKey, Identifier dimension, double gravity
             ByteBufCodecs.optional(Temperature.STREAM_CODEC), Planet::temperature,
             ByteBufCodecs.optional(ResourceKey.streamCodec(Registries.DIMENSION)), Planet::parentPlanet,
             ByteBufCodecs.optional(Identifier.STREAM_CODEC), Planet::planetBar,
+            Identifier.STREAM_CODEC.apply(ByteBufCodecs.list()), Planet::modulesRequired,
             Planet::new
     );
 
@@ -44,7 +49,7 @@ public record Planet(String translationKey, Identifier dimension, double gravity
     public static final Planet FALLBACK = new Planet(
             "dimension.minecraft.overworld",
             Level.OVERWORLD.identifier(),
-            9.81, true, false, Optional.empty(), Optional.empty(), Optional.empty());
+            9.81, true, false, Optional.empty(), Optional.empty(), Optional.empty(), List.of());
 
     public boolean is(ServerLevel level) {
         return is(level.dimension());
