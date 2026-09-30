@@ -15,6 +15,15 @@ loom {
             client()
             property 'neoforge.enabledGameTestNamespaces', rootProject.mod_id
         }
+
+        data {
+            clientData()
+
+            programArguments.addAll '--mod', rootProject.mod_id,
+                '--all',
+                '--output', project(':common').file('src/generated/resources').absolutePath,
+                '--existing', project(':common').file('src/main/resources').absolutePath
+        }
     }
 }
 
