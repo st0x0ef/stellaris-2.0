@@ -7,5 +7,9 @@
   "temperature": {
     "dayTimeTemperature": 20,
     "nightTimeTemperature": -73
-  }
+  },
+  "required_modules": [
+    "stellaris:shield"
+  ],
+  "screen_order": 3.0
 }
