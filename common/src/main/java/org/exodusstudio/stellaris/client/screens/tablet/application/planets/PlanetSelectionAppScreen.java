@@ -133,6 +133,9 @@ public class PlanetSelectionAppScreen extends TabletAbstractContainer<PlanetSele
         this.container.setPadding(new Padding(5));
 
         int i = 0;
+
+        PlanetsData.PLANETS.sort((p1, p2) -> (int) (p1.screenOrder() - p2.screenOrder()));
+
         for(Planet planet : PlanetsData.PLANETS) {
             TexturedButton button = new TexturedButton(container.getX() + 5, this.container.getY() + 5 + i * 25, 110, 20, btn -> {
                 this.selectedPlanet = planet;
