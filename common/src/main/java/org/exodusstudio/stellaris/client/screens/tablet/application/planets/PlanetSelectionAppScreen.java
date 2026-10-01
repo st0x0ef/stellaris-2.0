@@ -73,9 +73,6 @@ public class PlanetSelectionAppScreen extends TabletAbstractContainer<PlanetSele
 
     public Modules<RocketModule> getRocketModules(Player player) {
         if(player.getVehicle() instanceof RocketEntity rocket) {
-            Stellaris.LOG.error("is rocket");
-            rocket.getRocketModules().forEach((rocketModule) -> Stellaris.LOG.error("module name {}", rocketModule.getDisplayName().getString()));
-
             return rocket.getRocketModules();
         }
         return new Modules<RocketModule>(List.<RocketModule>of());
@@ -162,15 +159,12 @@ public class PlanetSelectionAppScreen extends TabletAbstractContainer<PlanetSele
     public List<Identifier> getRemainingModulesForPlanet(Planet planet) {
 
         List<Identifier> modules = new ArrayList<>(planet.modulesRequired()) ;
-        this.rocketModules.forEach((rocketModule) -> Stellaris.LOG.error("module name {}", rocketModule.getDisplayName().getString()));
-
         for(RocketModule installedModules : this.rocketModules) {
             Identifier moduleId = StellarisRegistries.ROCKET_MODULES.getId(installedModules);
             modules.remove(moduleId);
 
         }
         return modules;
-
     }
 
     /**
