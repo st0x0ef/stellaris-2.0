@@ -4,7 +4,7 @@
     "base": "stellaris:item/heart_of_luna_trophy",
     "model": {
       "type": "stellaris:boss_trophy",
-      "boss": "heart_of_luna"
+      "id": "stellaris:heart_of_luna_trophy"
     }
   }
 }

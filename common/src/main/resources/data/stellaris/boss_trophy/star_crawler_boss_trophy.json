@@ -1,0 +1,16 @@
+{
+  "texture": "stellaris:textures/entity/star_crawler_boss.png",
+  "rotation": [
+    0.0,
+    180.0,
+    0.0
+  ],
+  "renderedPartPath": [
+  ],
+  "ignoredParts": [
+  ],
+  "modelLayerLocation": {
+    "model": "stellaris:star_crawler_boss",
+    "layer": "main"
+  }
+}
