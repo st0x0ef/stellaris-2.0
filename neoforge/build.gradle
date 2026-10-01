@@ -21,8 +21,8 @@ loom {
 
             programArguments.addAll '--mod', rootProject.mod_id,
                 '--all',
-                '--output', project(':common').file('src/generated/resources').absolutePath,
-                '--existing', project(':common').file('src/main/resources').absolutePath
+                '--output', project(':common').file('src/generated/resources/').getAbsolutePath(),
+                '--existing', project(':common').file('src/main/resources/').getAbsolutePath()
         }
     }
 }
