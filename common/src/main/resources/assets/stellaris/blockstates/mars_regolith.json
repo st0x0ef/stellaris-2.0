@@ -1,7 +1,7 @@
 {
   "variants": {
     "": {
-      "model": "stellaris:block/mars_rock"
+      "model": "stellaris:block/mars_regolith"
     }
   }
 }

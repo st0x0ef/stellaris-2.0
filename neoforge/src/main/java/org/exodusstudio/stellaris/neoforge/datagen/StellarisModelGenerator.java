@@ -30,6 +30,12 @@ public class StellarisModelGenerator extends ModelProvider {
         StellarisModelGenerator.blockModels = blockModels;
 
         blockModels.createTrivialCube(BlocksRegistry.MARS_STONE_IRON_ORE.block().get());
+        blockModels.createTrivialCube(BlocksRegistry.MARS_WEATHERED_STONE.block().get());
+        blockModels.createTrivialCube(BlocksRegistry.MARS_WEATHERED_SAND.block().get());
+        blockModels.createTrivialCube(BlocksRegistry.MARS_REGOLITH.block().get());
+        blockModels.createTrivialCube(BlocksRegistry.MARS_REGOLITH_BRICKS.block().get());
+
+
     }
 
     @Override

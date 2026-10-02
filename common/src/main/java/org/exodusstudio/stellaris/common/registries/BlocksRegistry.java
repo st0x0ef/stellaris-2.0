@@ -194,6 +194,11 @@ public final class BlocksRegistry {
     public static final BlockItemRegistrySupplier MARS_STONE = blockWithItem("mars_stone", ofFullCopy(Blocks.STONE));
     public static final BlockItemRegistrySupplier MARS_STONE_IRON_ORE = blockWithItem("mars_stone_iron_ore", ofFullCopy(Blocks.IRON_ORE));
 
+    public static final BlockItemRegistrySupplier MARS_WEATHERED_STONE = blockWithItem("mars_weathered_stone", ofFullCopy(Blocks.STONE));
+    public static final BlockItemRegistrySupplier MARS_WEATHERED_SAND = blockWithItem("mars_weathered_sand", ofFullCopy(Blocks.SAND));
+    public static final BlockItemRegistrySupplier MARS_REGOLITH = blockWithItem("mars_regolith", ofFullCopy(Blocks.STONE));
+    public static final BlockItemRegistrySupplier MARS_REGOLITH_BRICKS = blockWithItem("mars_regolith_bricks", ofFullCopy(Blocks.STONE_BRICKS));
+
 
     /**
      * MACHINES BLOCKS
