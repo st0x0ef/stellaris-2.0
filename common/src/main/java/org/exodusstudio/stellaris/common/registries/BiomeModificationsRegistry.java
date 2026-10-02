@@ -16,6 +16,7 @@ import net.minecraft.world.level.levelgen.Heightmap;
 import org.exodusstudio.stellaris.common.entities.mobs.BlueFishEntity;
 import org.exodusstudio.stellaris.common.entities.mobs.LunarParasiteEntity;
 import org.exodusstudio.stellaris.common.world.ModPlacedFeatures;
+import org.exodusstudio.stellaris.common.world.StellarisOreFeatures;
 
 public class BiomeModificationsRegistry {
     private static final SpawnPlacementType IN_WATER_OR_BLUE_LIQUID = (level, pos, entityType) -> {
@@ -100,6 +101,10 @@ public class BiomeModificationsRegistry {
                 Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
                 BiomeModificationsRegistry::checkMoonMonsterSpawnRules
         );
+
+        BiomeModifications.addProperties(context -> context.hasTag(TagsRegistry.BiomeTags.IS_MARS), ((_, mutable) -> {
+            mutable.getGenerationProperties().addFeature(GenerationStep.Decoration.UNDERGROUND_ORES, StellarisOreFeatures.MARS_IRON_ORE.placedFeature());
+        }));
     }
 
     private static boolean isWaterOrBlueLiquid(LevelReader level, BlockPos pos) {

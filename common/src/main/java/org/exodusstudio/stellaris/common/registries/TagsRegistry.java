@@ -66,6 +66,8 @@ public class TagsRegistry {
         public static final TagKey<Biome> IS_MOON_WATER = addTag("is_moon_water");
         public static final TagKey<Biome> IS_MOON_FOREST = addTag("is_moon_forest");
 
+        public static final TagKey<Biome> IS_MARS = addTag("is_mars");
+
         public static TagKey<Biome> addTag(String path) {
             return TagKey.create(Registries.BIOME, IdentifierUtils.id(path));
         }

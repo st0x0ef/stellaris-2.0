@@ -5,7 +5,6 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.data.worldgen.features.FeatureUtils;
 import net.minecraft.data.worldgen.placement.PlacementUtils;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.levelgen.VerticalAnchor;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.feature.Feature;
@@ -13,6 +12,7 @@ import net.minecraft.world.level.levelgen.feature.configurations.OreConfiguratio
 import net.minecraft.world.level.levelgen.placement.*;
 import net.minecraft.world.level.levelgen.structure.templatesystem.RuleTest;
 import net.minecraft.world.level.levelgen.structure.templatesystem.TagMatchTest;
+import org.exodusstudio.stellaris.common.registries.BlocksRegistry;
 import org.exodusstudio.stellaris.common.registries.TagsRegistry;
 
 import java.util.List;
@@ -23,7 +23,7 @@ public class StellarisOreFeatures {
     public static void bootstrapConfigured(BootstrapContext<ConfiguredFeature<?, ?>> context) {
         RuleTest marsStoneReplaceable = new TagMatchTest(TagsRegistry.BlockTags.MARS_STONE_ORE_REPLACEABLE);
         FeatureUtils.register(context, MARS_IRON_ORE.configuredFeature(), Feature.ORE, new OreConfiguration(
-                marsStoneReplaceable, Blocks.IRON_ORE.defaultBlockState(), 9
+                marsStoneReplaceable, BlocksRegistry.MARS_STONE_IRON_ORE.block().get().defaultBlockState(), 9
         ));
 
         
