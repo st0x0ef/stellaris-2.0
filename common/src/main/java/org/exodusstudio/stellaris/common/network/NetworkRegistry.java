@@ -25,7 +25,7 @@ public interface NetworkRegistry {
         registerC2S(KeyHandlerPacket.TYPE, KeyHandlerPacket.STREAM_CODEC, KeyHandlerPacket::handle);
         registerS2C(StartFadePacket.TYPE, StartFadePacket.STREAM_CODEC, StartFadePacket::handle);
         registerS2C(CountdownOverlayPacket.TYPE, CountdownOverlayPacket.STREAM_CODEC, CountdownOverlayPacket::handle);
-        registerS2C(SyncBlenderItems.TYPE, SyncBlenderItems.STREAM_CODEC, SyncBlenderItems::handle);
+        registerS2C(SyncBlenderState.TYPE, SyncBlenderState.STREAM_CODEC, SyncBlenderState::handle);
 
 
         registerC2S(OpenWikiEntry.TYPE, OpenWikiEntry.STREAM_CODEC, OpenWikiEntry::handle);

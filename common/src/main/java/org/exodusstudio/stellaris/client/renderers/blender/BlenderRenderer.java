@@ -13,12 +13,11 @@ import net.minecraft.client.renderer.item.ItemModelResolver;
 import net.minecraft.client.renderer.item.ItemStackRenderState;
 import net.minecraft.client.renderer.state.level.CameraRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
-import net.minecraft.core.NonNullList;
+import net.minecraft.util.Mth;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.Vec3;
-import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.common.blocks.entities.machines.BlenderBlockEntity;
 import org.joml.Vector3f;
 import org.jspecify.annotations.NonNull;
@@ -30,10 +29,10 @@ public class BlenderRenderer implements BlockEntityRenderer<BlenderBlockEntity, 
 
     private final BlockModelResolver blockModelResolver;
     private final ItemModelResolver itemModelResolver;
-    private NonNullList<ItemStack> itemStacksSnapshot = null;
-    private boolean firstRender = true;
 
     private final Map<Item, Vector3f> rotationCache = new HashMap<>();
+    private float rotationSpeed = 0.1f; // Adjust this value to control the rotation speed
+    private float rotation = 0.0f;
 
 
     public BlenderRenderer(BlockEntityRendererProvider.Context context) {
@@ -56,47 +55,64 @@ public class BlenderRenderer implements BlockEntityRenderer<BlenderBlockEntity, 
             return;
         }
 
+        poseStack.pushPose();
 
-        int i = 1;
-        int renderIndex = 0;
-        float y = 1.1f;
 
-        float z = 0.3f;
+        int itemCount = state.ingredientsStates.size();
 
-        for(ItemStackRenderState renderState : state.ingredientsStates) {
+        int columns = itemCount <= 2 ? itemCount : 3;
+        int rows = (itemCount + columns - 1) / columns;
+
+        float scale = switch (itemCount) {
+            case 1 -> 0.6f;
+            case 2 -> 0.5f;
+            default -> 0.3f;
+        };
+        float spacing = switch (itemCount) {
+            case 1 -> 0.0f;
+            case 2 -> 0.28f;
+            default -> 0.19f;
+        };
+        poseStack.rotateAround(Axis.YN.rotation(rotation / 100.0f), 0.5f, 1.1f, 0.5f);
+
+        for (int index = 0; index < itemCount; index++) {
+
+            IngredientRenderData renderData = state.ingredientsStates.get(index);
+
+            int column = index % columns;
+            int row = index / columns;
+
+            float gridX = (column - (columns - 1) / 2.0f) * spacing;
+            float gridZ = (row - (rows - 1) / 2.0f) * spacing;
+
+            Random random = new Random(31L * renderData.slot() + renderData.stack().getItem().hashCode());
+
+            float jitter = itemCount <= 2 ? 0.035f : 0.02f;
+            float offsetX = (random.nextFloat() - 0.5f) * jitter;
+            float offsetZ = (random.nextFloat() - 0.5f) * jitter;
+
             poseStack.pushPose();
 
 
-            z += i % 4 == 0 ? 0.25f : 0f;
-            poseStack.translate(0.3 + (i - 1) * 0.25f, y, z);
-            poseStack.scale(0.4f, 0.4f, 0.4f);
+            poseStack.translate(0.5f + gridX + offsetX, 1.1f, 0.5f + gridZ + offsetZ);
+            poseStack.scale(scale, scale, scale);
 
-            i = i % 4 == 0 ? 1 : i + 1;
-            Vector3f rotation = state.ingredientsRotations.get(renderIndex++);
+            Vector3f rotation = this.rotationCache.get(renderData.stack().getItem());
             poseStack.mulPose(Axis.XN.rotation(rotation.x));
             poseStack.mulPose(Axis.YN.rotation(rotation.y));
             poseStack.mulPose(Axis.ZN.rotation(rotation.z));
 
-            renderState.submit(poseStack, submitNodeCollector, state.lightCoords, OverlayTexture.NO_OVERLAY, 0);
+            renderData.renderState().submit(poseStack, submitNodeCollector, state.lightCoords, OverlayTexture.NO_OVERLAY, 0);
             poseStack.popPose();
         }
 
-
-
-//
-//        for(ItemStackRenderState itemStackRenderState : state.ingredientsStates) {
-//            poseStack.pushPose();
-//            poseStack.translate(0.15 + x, 1.05 + y, 0.15 + x);
-//            poseStack.scale(0.75f, 0.75f, 0.75f);
-//            itemStackRenderState.submit(poseStack, submitNodeCollector, state.lightCoords, OverlayTexture.NO_OVERLAY, 0);
-//            poseStack.popPose();
-//
-//            x +=  0.25f;
-//            i++;
-//            if(i % 3 == 0) {
-//                y += 0.25f;
-//            }
-//        }
+        if(state.isBlending) {
+            this.rotationSpeed = 0.5f; // Increase rotation speed when blending
+        } else {
+            this.rotationSpeed = 0.1f; // Reset to normal speed when not blending
+        }
+        this.rotation =  Mth.lerp(this.rotation, this.rotation + this.rotationSpeed, 0.1f);
+        poseStack.popPose();
 
     }
 
@@ -104,59 +120,29 @@ public class BlenderRenderer implements BlockEntityRenderer<BlenderBlockEntity, 
     public void extractRenderState(BlenderBlockEntity blockEntity, @NonNull BlenderState state, float partialTicks, Vec3 cameraPosition, ModelFeatureRenderer.@Nullable CrumblingOverlay breakProgress) {
         BlockEntityRenderer.super.extractRenderState(blockEntity, state, partialTicks, cameraPosition, breakProgress);
 
-
-        if(itemStacksSnapshot == null) {
-            itemStacksSnapshot = blockEntity.getItems();
-            Stellaris.LOG.error("snapshot is null, setting it for the first time");
-            setState(blockEntity, state);
-            return;
-        } else if(!isItemStacksSnapshotEqual(blockEntity.getItems())) {
-            itemStacksSnapshot = blockEntity.getItems();
-            Stellaris.LOG.error("snapshot is different, updating it");
-            setState(blockEntity, state);
-        }
-    }
-
-    public boolean isItemStacksSnapshotEqual(NonNullList<ItemStack> other) {
-        if(itemStacksSnapshot == null) return false;
-        if(other == null) return false;
-        if(itemStacksSnapshot.size() != other.size()) return false;
-
-        for(int i = 0; i < itemStacksSnapshot.size(); i++) {
-            ItemStack stack1 = itemStacksSnapshot.get(i);
-            ItemStack stack2 = other.get(i);
-            Stellaris.LOG.error("Comparing stack {}: {} vs {}", i, stack1, stack2);
-            if(!ItemStack.isSameItem(stack1, stack2)) {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-    private void setState(BlenderBlockEntity blockEntity, @NonNull BlenderState state) {
-        Random random = new Random();
-
         state.ingredientsStates.clear();
-        state.ingredientsRotations.clear();
+        state.isBlending = blockEntity.isBlending();
+        Random random = new Random();
 
         for(int i = 0; i < BlenderBlockEntity.INPUT_SLOT_COUNT; i++) {
             ItemStack stack = blockEntity.getItem(i);
             if(stack.isEmpty()) continue;
 
-            ItemStackRenderState itemStackRender = new ItemStackRenderState();
-            this.itemModelResolver.updateForTopItem(itemStackRender, stack, ItemDisplayContext.FIXED, blockEntity.getLevel(), null, 1);
-            state.ingredientsStates.add(itemStackRender);
-            state.ingredientsRotations.add(rotationCache.computeIfAbsent(stack.getItem(),
-                    item -> new Vector3f(random.nextFloat(), random.nextFloat(), random.nextFloat())));
+            IngredientRenderData ingredientRenderData = new IngredientRenderData(new ItemStackRenderState(), stack, i);
+            this.itemModelResolver.updateForTopItem(ingredientRenderData.renderState(), stack, ItemDisplayContext.FIXED, blockEntity.getLevel(), null, 1);
+            state.ingredientsStates.add(ingredientRenderData);
+            rotationCache.computeIfAbsent(stack.getItem(),
+                    item -> new Vector3f(random.nextFloat(), random.nextFloat(), random.nextFloat()));
         }
 
     }
 
+    public record IngredientRenderData(ItemStackRenderState renderState, ItemStack stack, int slot) {}
+
     public class BlenderState extends BlockEntityRenderState {
 
-        public final List<ItemStackRenderState> ingredientsStates = new ArrayList<>();
-        public final List<Vector3f> ingredientsRotations = new ArrayList<>();
+        public final List<IngredientRenderData> ingredientsStates = new ArrayList<>();
+        public boolean isBlending = false;
 
 
     }

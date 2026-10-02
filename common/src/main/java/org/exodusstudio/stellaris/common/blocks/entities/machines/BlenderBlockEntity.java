@@ -443,6 +443,14 @@ public class BlenderBlockEntity extends BaseEnergyContainerBlockEntity {
         return blendTime > 0;
     }
 
+    public void setBlendTime(int blendTime) {
+        this.blendTime = blendTime;
+    }
+
+    public int getBlendTime() {
+        return blendTime;
+    }
+
     @Override
     protected void loadAdditional(ValueInput input) {
         super.loadAdditional(input);
