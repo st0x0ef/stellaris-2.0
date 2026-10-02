@@ -64,6 +64,8 @@ public class BlenderBlockEntity extends BaseEnergyContainerBlockEntity {
     private int ticksSinceCanBlendCheck = Integer.MAX_VALUE;
     private static final int CAN_BLEND_CHECK_INTERVAL = 5;
 
+    public boolean itemHasChanged = true;
+
     public final ContainerData dataAccess = new ContainerData() {
         public int get(int index) {
             return switch (index) {
@@ -490,5 +492,12 @@ public class BlenderBlockEntity extends BaseEnergyContainerBlockEntity {
     @Override
     public int getMaxEnergyUsage() {
         return isBlending() ? batchEnergy : 0;
+    }
+
+    @Override
+    public void setChanged() {
+        super.setChanged();
+        Stellaris.LOG.error("changed");
+        itemHasChanged = true;
     }
 }

@@ -14,6 +14,7 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import org.exodusstudio.stellaris.client.StellarisClient;
 import org.exodusstudio.stellaris.client.registry.BoatModelLayerRegistry;
 import org.exodusstudio.stellaris.client.registry.KeyMappingsRegistry;
+import org.exodusstudio.stellaris.client.renderers.blender.BlenderRenderer;
 import org.exodusstudio.stellaris.client.renderers.flag.FlagBlockRenderer;
 import org.exodusstudio.stellaris.client.renderers.trophy.BossTrophyBlockRenderer;
 import org.exodusstudio.stellaris.client.renderers.globe.GlobeBlockRenderer;
@@ -105,6 +106,7 @@ public final class StellarisFabricClient implements ClientModInitializer {
         BlockEntityRenderers.register((BlockEntityType<RocketLaunchPadBlockEntity>)BlockEntitiesRegistry.ROCKET_LAUNCH_PAD.get(), RocketLaunchPadBlockRenderer::new);
         BlockEntityRenderers.register(BlockEntitiesRegistry.PUMPJACK.get(), PumpjackBlockRenderer::new);
         BlockEntityRenderers.register(BlockEntitiesRegistry.SPACE_FARM.get(), SpaceFarmRenderer::new);
+        BlockEntityRenderers.register(BlockEntitiesRegistry.BLENDER.get(), BlenderRenderer::new);
 
         EntityRenderers.register(EntityTypesRegistry.LANDER.get(), LanderRenderer::new);
         EntityRenderers.register(EntityTypesRegistry.ROCKET.get(), RocketRenderer::new);
