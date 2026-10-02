@@ -13,6 +13,7 @@ import net.minecraft.client.renderer.item.ItemModelResolver;
 import net.minecraft.client.renderer.item.ItemStackRenderState;
 import net.minecraft.client.renderer.state.level.CameraRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
+import net.minecraft.core.NonNullList;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
@@ -29,8 +30,8 @@ public class BlenderRenderer implements BlockEntityRenderer<BlenderBlockEntity, 
 
     private final BlockModelResolver blockModelResolver;
     private final ItemModelResolver itemModelResolver;
-    private final List<ItemStack> itemStacksSnapshot = new ArrayList<>();
-
+    private NonNullList<ItemStack> itemStacksSnapshot = null;
+    private boolean firstRender = true;
 
     private final Map<Item, Vector3f> rotationCache = new HashMap<>();
 
@@ -104,14 +105,43 @@ public class BlenderRenderer implements BlockEntityRenderer<BlenderBlockEntity, 
         BlockEntityRenderer.super.extractRenderState(blockEntity, state, partialTicks, cameraPosition, breakProgress);
 
 
+        if(itemStacksSnapshot == null) {
+            itemStacksSnapshot = blockEntity.getItems();
+            Stellaris.LOG.error("snapshot is null, setting it for the first time");
+            setState(blockEntity, state);
+            return;
+        } else if(!isItemStacksSnapshotEqual(blockEntity.getItems())) {
+            itemStacksSnapshot = blockEntity.getItems();
+            Stellaris.LOG.error("snapshot is different, updating it");
+            setState(blockEntity, state);
+        }
+    }
+
+    public boolean isItemStacksSnapshotEqual(NonNullList<ItemStack> other) {
+        if(itemStacksSnapshot == null) return false;
+        if(other == null) return false;
+        if(itemStacksSnapshot.size() != other.size()) return false;
+
+        for(int i = 0; i < itemStacksSnapshot.size(); i++) {
+            ItemStack stack1 = itemStacksSnapshot.get(i);
+            ItemStack stack2 = other.get(i);
+            Stellaris.LOG.error("Comparing stack {}: {} vs {}", i, stack1, stack2);
+            if(!ItemStack.isSameItem(stack1, stack2)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    private void setState(BlenderBlockEntity blockEntity, @NonNull BlenderState state) {
         Random random = new Random();
+
         state.ingredientsStates.clear();
         state.ingredientsRotations.clear();
-        itemStacksSnapshot.clear();
 
         for(int i = 0; i < BlenderBlockEntity.INPUT_SLOT_COUNT; i++) {
             ItemStack stack = blockEntity.getItem(i);
-            itemStacksSnapshot.add(stack.copy());
             if(stack.isEmpty()) continue;
 
             ItemStackRenderState itemStackRender = new ItemStackRenderState();
@@ -120,6 +150,7 @@ public class BlenderRenderer implements BlockEntityRenderer<BlenderBlockEntity, 
             state.ingredientsRotations.add(rotationCache.computeIfAbsent(stack.getItem(),
                     item -> new Vector3f(random.nextFloat(), random.nextFloat(), random.nextFloat())));
         }
+
     }
 
     public class BlenderState extends BlockEntityRenderState {

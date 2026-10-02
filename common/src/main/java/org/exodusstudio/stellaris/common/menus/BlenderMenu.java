@@ -1,6 +1,8 @@
 package org.exodusstudio.stellaris.common.menus;
 
+import dev.architectury.networking.NetworkManager;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.Mth;
 import net.minecraft.world.Container;
 import net.minecraft.world.SimpleContainer;
@@ -14,7 +16,10 @@ import net.minecraft.world.item.ItemStack;
 import org.exodusstudio.stellaris.common.blocks.entities.machines.BlenderBlockEntity;
 import org.exodusstudio.stellaris.common.menus.base.EnergyUsageSync;
 import org.exodusstudio.stellaris.common.menus.slot.ResultSlot;
+import org.exodusstudio.stellaris.common.network.NetworkRegistry;
+import org.exodusstudio.stellaris.common.network.packets.SyncBlenderItems;
 import org.exodusstudio.stellaris.common.registries.MenuTypesRegistry;
+import org.exodusstudio.stellaris.common.utils.InventorySaver;
 import org.jetbrains.annotations.NotNull;
 
 public class BlenderMenu extends AbstractContainerMenu {
@@ -70,6 +75,9 @@ public class BlenderMenu extends AbstractContainerMenu {
 
     @Override
     public boolean stillValid(Player player) {
+        if(player instanceof ServerPlayer serverPlayer) {
+            NetworkManager.sendToPlayer(serverPlayer, new SyncBlenderItems(InventorySaver.fromContainer(this.container), this.entity.getBlockPos()));
+        }
         return this.container.stillValid(player);
     }
 

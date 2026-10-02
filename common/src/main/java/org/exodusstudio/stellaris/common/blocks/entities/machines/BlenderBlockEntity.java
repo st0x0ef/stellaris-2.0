@@ -1,9 +1,12 @@
 package org.exodusstudio.stellaris.common.blocks.entities.machines;
 
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
-import net.minecraft.core.Holder;
+import dev.architectury.impl.NetworkAggregator;
+import dev.architectury.networking.NetworkManager;
+import net.minecraft.core.*;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtOps;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.Containers;
 import net.minecraft.world.entity.player.Inventory;
@@ -13,14 +16,18 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 import org.exodusstudio.stellaris.Stellaris;
+import org.exodusstudio.stellaris.client.overlays.FadingHolder;
 import org.exodusstudio.stellaris.common.blocks.entities.machines.base.BaseEnergyContainerBlockEntity;
 import org.exodusstudio.stellaris.common.data.recipes.BlendingRecipe;
 import org.exodusstudio.stellaris.common.data.recipes.input.BlenderInput;
 import org.exodusstudio.stellaris.common.menus.BlenderMenu;
+import org.exodusstudio.stellaris.common.network.NetworkRegistry;
+import org.exodusstudio.stellaris.common.network.packets.StartFadePacket;
 import org.exodusstudio.stellaris.common.registries.BlockEntitiesRegistry;
 import org.exodusstudio.stellaris.common.registries.RecipesRegistry;
 import org.jetbrains.annotations.NotNull;
@@ -494,10 +501,5 @@ public class BlenderBlockEntity extends BaseEnergyContainerBlockEntity {
         return isBlending() ? batchEnergy : 0;
     }
 
-    @Override
-    public void setChanged() {
-        super.setChanged();
-        Stellaris.LOG.error("changed");
-        itemHasChanged = true;
-    }
+
 }
