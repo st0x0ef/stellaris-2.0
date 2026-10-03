@@ -8,6 +8,8 @@ import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.world.flag.FeatureFlags;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.DoublePlantBlock;
+import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.common.registries.BlocksRegistry;
 
@@ -32,6 +34,10 @@ public class StellarisBlockLootTable extends BlockLootSubProvider {
         dropSelf(BlocksRegistry.MARS_REGOLITH_BRICKS.block().get());
         dropSelf(BlocksRegistry.MARS_WEATHERED_SAND.block().get());
         dropSelf(BlocksRegistry.MARS_WEATHERED_STONE.block().get());
+        dropSelf(BlocksRegistry.DUSTBLOOM.block().get());
+        dropSelf(BlocksRegistry.ECLIPSE_TULIP.block().get());
+        this.add(BlocksRegistry.STARLIGHT_BUSH.block().get(), (block) -> this.createSinglePropConditionTable(block, DoublePlantBlock.HALF, DoubleBlockHalf.LOWER));
+        dropSelf(BlocksRegistry.MARS_COBBLESTONE.block().get());
     }
 
     @Override
