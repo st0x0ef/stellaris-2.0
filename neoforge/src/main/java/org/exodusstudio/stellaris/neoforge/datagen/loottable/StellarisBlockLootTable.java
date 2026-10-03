@@ -22,7 +22,7 @@ public class StellarisBlockLootTable extends BlockLootSubProvider {
 
     @Override
     protected void generate() {
-        dropSelf(BlocksRegistry.MARS_STONE.block().get());
+        add(BlocksRegistry.MARS_STONE.block().get(), block -> this.createSingleItemTableWithSilkTouch(block, BlocksRegistry.MARS_COBBLESTONE.block().get()));
         dropSelf(BlocksRegistry.MARS_SAND.block().get());
         this.add(BlocksRegistry.MARS_STONE_IRON_ORE.block().get(), (block) -> this.createOreDrop(block, Items.RAW_IRON));
         dropSelf(BlocksRegistry.MARS_RED_CANYON_STONE.block().get());

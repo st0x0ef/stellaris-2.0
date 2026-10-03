@@ -192,6 +192,7 @@ public final class BlocksRegistry {
     public static final BlockItemRegistrySupplier MARS_RED_STONE_BRICKS_PILLAR = blockWithItem("mars_red_stone_bricks_pillar", ofFullCopy(Blocks.QUARTZ_PILLAR), RotatedPillarBlock::new);
     public static final BlockItemRegistrySupplier MARS_SAND = blockWithItem("mars_sand", ofFullCopy(Blocks.SAND).strength(0.5f));
     public static final BlockItemRegistrySupplier MARS_STONE = blockWithItem("mars_stone", ofFullCopy(Blocks.STONE));
+    public static final BlockItemRegistrySupplier MARS_COBBLESTONE = blockWithItem("mars_cobblestone", ofFullCopy(Blocks.COBBLESTONE));
     public static final BlockItemRegistrySupplier MARS_STONE_IRON_ORE = blockWithItem("mars_stone_iron_ore", ofFullCopy(Blocks.IRON_ORE));
 
     public static final BlockItemRegistrySupplier MARS_WEATHERED_STONE = blockWithItem("mars_weathered_stone", ofFullCopy(Blocks.STONE));
