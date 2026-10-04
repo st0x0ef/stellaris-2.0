@@ -18,6 +18,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.Vec3;
+import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.common.blocks.entities.machines.BlenderBlockEntity;
 import org.joml.Vector3f;
 import org.jspecify.annotations.NonNull;
@@ -33,6 +34,8 @@ public class BlenderRenderer implements BlockEntityRenderer<BlenderBlockEntity, 
     private final Map<Item, Vector3f> rotationCache = new HashMap<>();
     private float rotationSpeed = 0.1f; // Adjust this value to control the rotation speed
     private float rotation = 0.0f;
+
+    private static float MAX_ROTATION_SPEED = 4.0f; // Maximum rotation speed
 
 
     public BlenderRenderer(BlockEntityRendererProvider.Context context) {
@@ -107,11 +110,11 @@ public class BlenderRenderer implements BlockEntityRenderer<BlenderBlockEntity, 
         }
 
         if(state.isBlending) {
-            this.rotationSpeed = 0.5f; // Increase rotation speed when blending
+            this.rotationSpeed = Mth.lerp(0.005f, this.rotationSpeed, MAX_ROTATION_SPEED); // Smoothly increase rotation speed when blending
         } else {
-            this.rotationSpeed = 0.1f; // Reset to normal speed when not blending
+            this.rotationSpeed = Mth.lerp(0.005f, this.rotationSpeed, 0.1f); // Smoothly reset to normal speed when not blending
         }
-        this.rotation =  Mth.lerp(this.rotation, this.rotation + this.rotationSpeed, 0.1f);
+        this.rotation += this.rotationSpeed;
         poseStack.popPose();
 
     }
