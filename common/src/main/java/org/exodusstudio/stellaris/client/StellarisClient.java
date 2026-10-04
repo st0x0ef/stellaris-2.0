@@ -17,6 +17,7 @@ import org.exodusstudio.stellaris.client.events.ClientEvents;
 import org.exodusstudio.stellaris.client.overlays.*;
 import org.exodusstudio.stellaris.client.registry.BoatModelLayerRegistry;
 import org.exodusstudio.stellaris.client.registry.FluidInfosRegistry;
+import org.exodusstudio.stellaris.client.renderers.blender.BlenderBlockModel;
 import org.exodusstudio.stellaris.common.compats.rei.REICompat;
 import org.exodusstudio.stellaris.client.registry.KeyMappingsRegistry;
 import org.exodusstudio.stellaris.client.renderers.rover.RoverModel;
@@ -256,5 +257,11 @@ public class StellarisClient {
                 RoverModel.LAYER_LOCATION,
                 RoverModel::createBodyLayer
         );
+
+        EntityModelLayerRegistry.register(
+                BlenderBlockModel.LAYER_LOCATION,
+                BlenderBlockModel::createBodyLayer
+        );
+
     }
 }

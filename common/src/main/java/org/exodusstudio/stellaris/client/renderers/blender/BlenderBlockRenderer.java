@@ -2,33 +2,41 @@ package org.exodusstudio.stellaris.client.renderers.blender;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
+import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.block.BlockModelResolver;
-import net.minecraft.client.renderer.block.model.BlockDisplayContext;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.blockentity.state.BlockEntityRenderState;
 import net.minecraft.client.renderer.feature.ModelFeatureRenderer;
 import net.minecraft.client.renderer.item.ItemModelResolver;
 import net.minecraft.client.renderer.item.ItemStackRenderState;
+import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.client.renderer.state.level.CameraRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
+import net.minecraft.client.renderer.texture.TextureAtlas;
+import net.minecraft.client.resources.model.sprite.SpriteGetter;
+import net.minecraft.client.resources.model.sprite.SpriteId;
+import net.minecraft.core.Direction;
 import net.minecraft.util.Mth;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.phys.Vec3;
-import org.exodusstudio.stellaris.Stellaris;
+import org.exodusstudio.stellaris.client.renderers.gravity_manipulator.GravityManipulatorModel;
+import org.exodusstudio.stellaris.common.blocks.BlenderBlock;
+import org.exodusstudio.stellaris.common.blocks.GravityManipulatorBlock;
 import org.exodusstudio.stellaris.common.blocks.entities.machines.BlenderBlockEntity;
+import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
 import org.joml.Vector3f;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 
 import java.util.*;
 
-public class BlenderRenderer implements BlockEntityRenderer<BlenderBlockEntity, BlenderRenderer.BlenderState> {
+public class BlenderBlockRenderer implements BlockEntityRenderer<BlenderBlockEntity, BlenderBlockRenderer.BlenderState> {
 
-    private final BlockModelResolver blockModelResolver;
     private final ItemModelResolver itemModelResolver;
 
     private final Map<Item, Vector3f> rotationCache = new HashMap<>();
@@ -37,22 +45,41 @@ public class BlenderRenderer implements BlockEntityRenderer<BlenderBlockEntity, 
 
     private static float MAX_ROTATION_SPEED = 4.0f; // Maximum rotation speed
 
+    private final BlenderBlockModel model;
+    private final SpriteGetter sprites;
 
-    public BlenderRenderer(BlockEntityRendererProvider.Context context) {
-        this.blockModelResolver = context.blockModelResolver();
+    SpriteId material = new SpriteId(TextureAtlas.LOCATION_BLOCKS, IdentifierUtils.id("block/machines/blender"));
+
+
+    public BlenderBlockRenderer(BlockEntityRendererProvider.Context context) {
         this.itemModelResolver = context.itemModelResolver();
 
+        ModelPart modelPart = context.bakeLayer(BlenderBlockModel.LAYER_LOCATION);
+        this.model = new BlenderBlockModel(modelPart);
+        this.sprites = context.sprites();
     }
 
 
     @Override
     public @NonNull BlenderState createRenderState() {
-
         return new BlenderState();
     }
 
     @Override
     public void submit(BlenderState state, PoseStack poseStack, SubmitNodeCollector submitNodeCollector, CameraRenderState camera) {
+
+        poseStack.pushPose();
+        poseStack.translate(0.5D, 1.5D, 0.5D);
+        poseStack.scale(-1.0F, -1.0F, 1.0F);
+        poseStack.mulPose(Axis.YP.rotationDegrees(state.facing.toYRot()));
+
+        submitNodeCollector.submitModel(this.model, state, poseStack,
+                material.renderType(RenderTypes::entityCutout), state.lightCoords,
+                OverlayTexture.NO_OVERLAY, -1, sprites.get(material), 0, null);
+
+        poseStack.popPose();
+
+
 
         if(state.ingredientsStates.isEmpty()) {
             return;
@@ -109,6 +136,7 @@ public class BlenderRenderer implements BlockEntityRenderer<BlenderBlockEntity, 
             poseStack.popPose();
         }
 
+        state.bladeRotation = this.rotation;
         if(state.isBlending) {
             this.rotationSpeed = Mth.lerp(0.005f, this.rotationSpeed, MAX_ROTATION_SPEED); // Smoothly increase rotation speed when blending
         } else {
@@ -125,6 +153,7 @@ public class BlenderRenderer implements BlockEntityRenderer<BlenderBlockEntity, 
 
         state.ingredientsStates.clear();
         state.isBlending = blockEntity.isBlending();
+        state.facing = blockEntity.getBlockState().getValue(BlenderBlock.FACING);
         Random random = new Random();
 
         for(int i = 0; i < BlenderBlockEntity.INPUT_SLOT_COUNT; i++) {
@@ -146,6 +175,8 @@ public class BlenderRenderer implements BlockEntityRenderer<BlenderBlockEntity, 
 
         public final List<IngredientRenderData> ingredientsStates = new ArrayList<>();
         public boolean isBlending = false;
+        public float bladeRotation = 0.0f;
+        public Direction facing = Direction.NORTH;
 
 
     }
