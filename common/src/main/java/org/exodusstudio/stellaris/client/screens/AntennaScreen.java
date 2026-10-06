@@ -123,15 +123,14 @@ public class AntennaScreen extends AbstractContainerScreen<AntennaMenu> {
 
         nameBox.setBordered(false);
 
-        this.publicCheckbox = new CustomCheckBox(this.leftPos + 118, this.topPos + 38, 17, Component.empty(), this.font, false)
+        this.publicCheckbox = new CustomCheckBox(this.leftPos + 119, this.topPos + 39, 14, Component.empty(), this.font, false)
                 .setTexture(GUISprites.INDUSTRIAL_CHECKBOX, GUISprites.INDUSTRIAL_CHECKBOX_SELECTED);
-        this.publicCheckbox.setTooltip(Tooltip.create(Component.translatable("gui.stellaris.launchpad_creator.public_checkbox").withStyle(ChatFormatting.GRAY)));
+        this.publicCheckbox.setTooltip(Tooltip.create(Component.translatable("gui.stellaris.launchpad_creator.public_checkbox")));
 
-        this.saveButton = new TexturedButton(this.leftPos + (this.imageWidth / 2 - 96 / 2),  88, 96, 16, Component.translatable("gui.stellaris.antenna.create"), (b) -> onClose())
+        this.saveButton = new TexturedButton(this.leftPos + (this.imageWidth / 2 - 96 / 2), this.topPos + 79, 96, 16, Component.translatable("gui.stellaris.antenna.create"), (b) -> onClose())
                 .tex(GUISprites.RESEARCH_BUTTON, GUISprites.RESEARCH_BUTTON_HOVER)
                 .useSprite(true)
                 .setText(Component.translatable("gui.stellaris.antenna.create"));
-
 
         if(pad != null) {
             this.nameBox.setValue(pad.name);
@@ -143,7 +142,6 @@ public class AntennaScreen extends AbstractContainerScreen<AntennaMenu> {
         this.addRenderableWidget(this.saveButton);
         this.addRenderableWidget(this.publicCheckbox);
     }
-
 
     private void queueWhitelistNameResolves() {
         if (this.antenna == null) return;
