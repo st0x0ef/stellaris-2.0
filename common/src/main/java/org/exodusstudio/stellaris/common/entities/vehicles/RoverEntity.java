@@ -372,7 +372,7 @@ public class RoverEntity extends AbstractRoverBase implements HasCustomInventory
 
     protected void dropEquipment(ServerLevel level) {
         for (int i = 0; i < this.inventory.getItems().size(); ++i) {
-            ItemStack itemstack = this.inventory.getItem(i);
+            ItemStack itemstack = this.inventory.removeItemNoUpdate(i);
             if (!itemstack.isEmpty()) {
                 this.spawnAtLocation(level, itemstack);
             }

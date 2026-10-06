@@ -6,3 +6,4 @@
 ## Fixes
 - Fix vehicles item accepting the wrong fuel from machines
 - Fix antenna screen layout
+- Fix inventory duplication issue with vehicles

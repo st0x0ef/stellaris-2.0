@@ -51,7 +51,7 @@ public class RocketMenu extends AbstractContainerMenu {
 
     @Override
     public boolean stillValid(Player player) {
-        return this.inventory.stillValid(player);
+        return IVehicleMenu.isVehicleInInteractionRange(this.rocket, player);
     }
 
     private void addSlots(Container inventory, float inventoryRows) {

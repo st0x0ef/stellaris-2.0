@@ -130,19 +130,6 @@ public class RocketEntity extends VehicleEntity implements FluidProvider.ENTITY,
     }
 
     /**
-     * Drops all equipment stored in the rocket's inventory when destroyed.
-     * @param level The server level where the rocket is located.
-     */
-    protected void dropEquipment(ServerLevel level) {
-        for (int i = 0; i < this.inventory.getItems().size(); ++i) {
-            ItemStack itemstack = this.inventory.getItem(i);
-            if (!itemstack.isEmpty()) {
-                this.spawnAtLocation(level, itemstack);
-            }
-        }
-    }
-
-    /**
      * Spawns the rocket item with its modules saved when the rocket entity is destroyed.
      */
     protected void spawnRocketItem() {

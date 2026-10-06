@@ -177,7 +177,7 @@ public class LanderEntity extends VehicleEntity {
         this.inventory.setItem(0, rocketEntity.toItemStack());
 
         for(int i = 0; i < rocketEntity.getInventory().getContainerSize(); i++) {
-            this.inventory.setItem(i + 1, rocketEntity.getInventory().getItem(i));
+            this.inventory.setItem(i + 1, rocketEntity.getInventory().removeItemNoUpdate(i));
         }
     }
 
@@ -197,7 +197,7 @@ public class LanderEntity extends VehicleEntity {
 
             @Override
             public AbstractContainerMenu createMenu(int id, Inventory playerInv, Player player) {
-                return new LanderMenu(id, playerInv, inventory);
+                return new LanderMenu(id, playerInv, inventory, LanderEntity.this);
             }
         });
     }

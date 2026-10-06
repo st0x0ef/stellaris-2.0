@@ -8,22 +8,26 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
+import org.exodusstudio.stellaris.common.entities.vehicles.LanderEntity;
 import org.exodusstudio.stellaris.common.menus.slot.ResultSlot;
 import org.exodusstudio.stellaris.common.registries.MenuTypesRegistry;
+import org.jetbrains.annotations.Nullable;
 
 public class LanderMenu extends AbstractContainerMenu {
 
     private final Container inventory;
+    private final @Nullable LanderEntity lander;
 
     public static LanderMenu create(int syncId, Inventory inventory, FriendlyByteBuf buffer) {
-        return new LanderMenu(syncId, inventory, new SimpleContainer(30));
+        return new LanderMenu(syncId, inventory, new SimpleContainer(30), null);
     }
 
-    public LanderMenu(int syncId, Inventory playerInventory, Container container) {
+    public LanderMenu(int syncId, Inventory playerInventory, Container container, @Nullable LanderEntity lander) {
         super(MenuTypesRegistry.LANDER_MENU.get(), syncId);
 
         checkContainerSize(container, 30);
         this.inventory = container;
+        this.lander = lander;
         addSlots(inventory);
 
         addPlayerHotbar(playerInventory);
@@ -37,8 +41,7 @@ public class LanderMenu extends AbstractContainerMenu {
 
     @Override
     public boolean stillValid(Player player) {
-
-        return this.inventory.stillValid(player);
+        return IVehicleMenu.isVehicleInInteractionRange(this.lander, player);
     }
 
     private void addSlots(Container inventory) {
