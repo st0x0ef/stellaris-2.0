@@ -12,6 +12,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.level.Level;
@@ -28,6 +29,7 @@ import org.exodusstudio.stellaris.common.fluid.FluidUtil;
 import org.exodusstudio.stellaris.common.fluid.MultipleFluidStorage;
 import org.exodusstudio.stellaris.common.fluid.SingleFluidStorage;
 import org.exodusstudio.stellaris.common.menus.ElectrolyzerMenu;
+import org.exodusstudio.stellaris.common.menus.slot.ElectrolyzeSlot;
 import org.exodusstudio.stellaris.common.network.packets.SyncFluidPacket;
 import org.exodusstudio.stellaris.common.registries.BlockEntitiesRegistry;
 import org.exodusstudio.stellaris.common.registries.RecipesRegistry;
@@ -224,6 +226,29 @@ public class ElectrolyzerBlockEntity extends BaseEnergyContainerBlockEntity impl
     @Override
     public int getContainerSize() {
         return 4;
+    }
+
+    @Override
+    public boolean canPlaceItem(int slot, ItemStack stack) {
+        if (!getItem(slot).isEmpty()) {
+            return false;
+        }
+
+        return switch (slot) {
+            case 1 -> ElectrolyzeSlot.accepts(stack, this, -1);
+            case 2 -> ElectrolyzeSlot.accepts(stack, this, 0);
+            case 3 -> ElectrolyzeSlot.accepts(stack, this, 1);
+            default -> false;
+        };
+    }
+
+    @Override
+    public boolean canTakeItemThroughFace(int slot, ItemStack stack, Direction direction) {
+        return switch (slot) {
+            case 0 -> true;
+            case 2, 3 -> FluidUtil.isItemFluidFull(stack);
+            default -> false;
+        };
     }
 
     @Override

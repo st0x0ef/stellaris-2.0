@@ -40,6 +40,16 @@ public class FluidUtil {
         return Capabilities.Fluid.ITEM.getCapability(stack);
     }
 
+    public static boolean isItemFluidEmpty(ItemStack stack) {
+        UniversalFluidItemStorage storage = getItemFluidStorage(stack);
+        return storage == null || storage.getFluidInTank(0).isEmpty();
+    }
+
+    public static boolean isItemFluidFull(ItemStack stack) {
+        UniversalFluidItemStorage storage = getItemFluidStorage(stack);
+        return storage == null || storage.getFluidInTank(0).getAmount() >= storage.getTankCapacity(0);
+    }
+
     public static void moveFluidToItem(int tank, UniversalFluidStorage from, int slot, int resultSlot, Container container, long amount) {
         moveFluidToItem(tank, from, slot, resultSlot, container, amount, false);
     }

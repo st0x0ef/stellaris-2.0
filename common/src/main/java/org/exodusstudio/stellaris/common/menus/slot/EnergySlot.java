@@ -13,6 +13,10 @@ public class EnergySlot extends Slot {
 
     @Override
     public boolean mayPlace(ItemStack stack) {
+        return accepts(stack);
+    }
+
+    public static boolean accepts(ItemStack stack) {
         return Capabilities.Energy.ITEM.getCapability(stack) != null;
     }
 }

@@ -1,6 +1,7 @@
 package org.exodusstudio.stellaris.common.blocks.entities.machines;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -143,5 +144,15 @@ public class CoalGeneratorBlockEntity extends BaseGeneratorBlockEntity {
     @Override
     public int getContainerSize() {
         return 1;
+    }
+
+    @Override
+    public boolean canPlaceItem(int slot, ItemStack stack) {
+        return stack.is(TagsRegistry.ItemTags.COAL_GENERATOR_FUEL);
+    }
+
+    @Override
+    public boolean canTakeItemThroughFace(int slot, ItemStack stack, Direction direction) {
+        return false;
     }
 }

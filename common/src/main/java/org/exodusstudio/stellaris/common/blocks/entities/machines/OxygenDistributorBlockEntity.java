@@ -10,6 +10,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -22,6 +23,8 @@ import org.exodusstudio.stellaris.common.blocks.entities.machines.base.BaseEnerg
 import org.exodusstudio.stellaris.common.fluid.FluidUtil;
 import org.exodusstudio.stellaris.common.fluid.SingleFluidStorage;
 import org.exodusstudio.stellaris.common.menus.OxygenDistributorMenu;
+import org.exodusstudio.stellaris.common.menus.slot.FluidContainerSlot;
+import org.exodusstudio.stellaris.common.menus.slot.SpecificFluidContainerSlot;
 import org.exodusstudio.stellaris.common.network.packets.SyncFluidPacketWithoutDirection;
 import org.exodusstudio.stellaris.common.registries.BlockEntitiesRegistry;
 import org.exodusstudio.stellaris.common.registries.FluidsRegistry;
@@ -222,6 +225,28 @@ public class OxygenDistributorBlockEntity extends BaseEnergyContainerBlockEntity
     @Override
     public int getContainerSize() {
         return 2;
+    }
+
+    @Override
+    public boolean canPlaceItem(int slot, ItemStack stack) {
+        if (!getItem(slot).isEmpty()) {
+            return false;
+        }
+
+        return switch (slot) {
+            case INPUT_SLOT -> SpecificFluidContainerSlot.accepts(stack, FluidsRegistry.OXYGEN_STILL.get(), false);
+            case OUTPUT_SLOT -> FluidContainerSlot.accepts(stack, true);
+            default -> false;
+        };
+    }
+
+    @Override
+    public boolean canTakeItemThroughFace(int slot, ItemStack stack, Direction direction) {
+        return switch (slot) {
+            case INPUT_SLOT -> FluidUtil.isItemFluidEmpty(stack);
+            case OUTPUT_SLOT -> FluidUtil.isItemFluidFull(stack);
+            default -> false;
+        };
     }
 
     @Override

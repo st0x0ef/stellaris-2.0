@@ -33,6 +33,16 @@ public class EnergyUtil {
         return moveEnergy(from, to, amount);
     }
 
+    public static boolean isItemEnergyEmpty(ItemStack stack) {
+        UniversalEnergyStorage storage = Capabilities.Energy.ITEM.getCapability(stack);
+        return storage == null || storage.getEnergy() <= 0;
+    }
+
+    public static boolean isItemEnergyFull(ItemStack stack) {
+        UniversalEnergyStorage storage = Capabilities.Energy.ITEM.getCapability(stack);
+        return storage == null || storage.getEnergy() >= storage.getMaxEnergy();
+    }
+
     public static void distributeEnergyNearby(Level level, BlockPos pos, int amount) {
         distributeEnergyNearby(level, pos, amount, null);
     }
