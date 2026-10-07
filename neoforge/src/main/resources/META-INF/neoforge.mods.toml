@@ -17,14 +17,14 @@ displayURL = "https://github.com/st0x0ef/stellaris-2.0"
 [[dependencies.stellaris]]
 modId = "neoforge"
 type = "required"
-versionRange = "[26.1,)"
+versionRange = "[26.1.2.99,)"
 ordering = "NONE"
 side = "BOTH"
 
 [[dependencies.stellaris]]
 modId = "minecraft"
 type = "required"
-versionRange = "[26.1,)"
+versionRange = "[26.1.2,)"
 ordering = "NONE"
 side = "BOTH"
 
@@ -45,7 +45,7 @@ side = "BOTH"
 [[dependencies.stellaris]]
 modId = "potentials"
 type = "required"
-versionRange = "[0.9.3,)"
+versionRange = "[0.10.0,)"
 ordering = "AFTER"
 side = "BOTH"
 

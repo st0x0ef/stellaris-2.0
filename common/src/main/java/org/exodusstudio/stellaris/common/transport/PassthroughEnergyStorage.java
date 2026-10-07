@@ -72,4 +72,9 @@ public final class PassthroughEnergyStorage implements UniversalEnergyStorage {
     public boolean canExtractEnergy() {
         return false;
     }
+
+    @Override
+    public boolean deferUntilCommit() {
+        return true;
+    }
 }

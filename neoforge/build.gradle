@@ -41,6 +41,7 @@ dependencies {
     runtimeOnly "me.shedaniel:RoughlyEnoughItems-neoforge:$rootProject.rei_version"
 
     runtimeOnly "maven.modrinth:jade:${rootProject.jade_version}+neoforge"
+    runtimeOnly "maven.modrinth:energized-power:${rootProject.energized_power_version}-neoforge"
 
     common(project(path: ':common')) { transitive = false }
     shadowCommon(project(path: ':common', configuration: 'transformProductionNeoForge')) { transitive = false }

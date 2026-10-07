@@ -75,6 +75,11 @@ public final class PassthroughFluidStorage implements UniversalFluidStorage {
     }
 
     @Override
+    public boolean deferUntilCommit() {
+        return true;
+    }
+
+    @Override
     public Iterator<FluidStack> iterator() {
         return List.of(FluidStack.empty()).iterator();
     }

@@ -69,6 +69,11 @@ public abstract class SingleFluidStorage implements UniversalFluidStorage {
     }
 
     @Override
+    public void setFluidInTank(int tank, FluidStack stack) {
+        setFluidInTank(stack);
+    }
+
+    @Override
     public FluidStack drain(FluidStack stack, boolean simulate) {
         if (!isFluidValid(0, stack)) {
             return FluidStack.empty();

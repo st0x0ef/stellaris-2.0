@@ -2,6 +2,7 @@
 
 ## Changes
 - Improve hopper interaction with machines
+- Bump potentials dependency to 0.10.0
 
 ## Fixes
 - Fix vehicles item accepting the wrong fuel from machines

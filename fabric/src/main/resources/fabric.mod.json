@@ -44,12 +44,12 @@
   ],
   "depends": {
     "fabricloader": ">=0.18.5",
-    "minecraft": ">=26.1",
+    "minecraft": ">=26.1.2",
     "java": ">=25",
     "architectury": ">=20.1.16",
     "fabric-api": "*",
     "exoconfig": ">=0.3.5",
-    "potentials": "*",
+    "potentials": ">=0.10.0",
     "sky_aesthetics": ">=2.1.4"
   }
 }
