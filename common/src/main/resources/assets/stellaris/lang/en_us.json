@@ -891,6 +891,7 @@
   "stellaris.screen.research": "Research",
   "stellaris.screen.research.start": "Start Research",
   "stellaris.screen.research.start.tooltip": "Start the research, the more parasite you have, the more chance you have to progress toward the vaccine recipe.",
+  "stellaris.screen.research.chance": "Success chance: %s%% (%s/%s parasites)",
   "stellaris.screen.vaccine": "Vaccine",
   "stellaris.screen.space_station": "Space Station",
   "stellaris.screen.blueprint_detected": "Blueprint detected!",

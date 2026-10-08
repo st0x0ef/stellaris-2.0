@@ -71,7 +71,6 @@ public class TexturedButton extends Button {
         this.text = title;
     }
 
-    /** Override Methods */
     @Override
     public void setTooltip(@Nullable Tooltip tooltip) {
         super.setTooltip(tooltip);
