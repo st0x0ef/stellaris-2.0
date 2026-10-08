@@ -6,4 +6,5 @@ import net.minecraft.core.Direction;
 public class BossTrophyRenderState extends BlockEntityRenderState {
     public Direction facing;
     public TrophyBoss boss;
+    public float animationTicks = -1.0F;
 }
