@@ -55,7 +55,7 @@ public class FluidUtil {
     }
 
     public static void moveFluidToItem(int tank, UniversalFluidStorage from, int slot, int resultSlot, Container container, long amount, boolean ignoreDrainLimit) {
-        if (container.getItem(slot).isEmpty()) {
+        if (container.getItem(slot).getCount() != 1) {
             return;
         }
 
@@ -88,7 +88,7 @@ public class FluidUtil {
 
     public static void moveFluidFromItem(int tank, int slot, int remainingItemSlot, Container container, UniversalFluidStorage to, long amount) {
         ItemStack input = container.getItem(slot);
-        if (input.isEmpty()) {
+        if (input.getCount() != 1) {
             return;
         }
 

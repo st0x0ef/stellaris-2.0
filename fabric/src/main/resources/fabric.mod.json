@@ -49,7 +49,7 @@
     "architectury": ">=20.1.16",
     "fabric-api": "*",
     "exoconfig": ">=0.3.5",
-    "potentials": ">=0.10.0",
+    "potentials": ">=0.11.0",
     "sky_aesthetics": ">=2.1.4"
   }
 }

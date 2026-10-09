@@ -16,6 +16,11 @@ public class EnergySlot extends Slot {
         return accepts(stack);
     }
 
+    @Override
+    public int getMaxStackSize() {
+        return 1;
+    }
+
     public static boolean accepts(ItemStack stack) {
         return Capabilities.Energy.ITEM.getCapability(stack) != null;
     }

@@ -21,6 +21,8 @@ import org.jetbrains.annotations.Nullable;
  */
 public class PipeBlockEntity extends BlockEntity implements FluidProvider.BLOCK {
 
+    private final PassthroughFluidStorage[] passthroughs = new PassthroughFluidStorage[7];
+
     public PipeBlockEntity(BlockPos pos, BlockState state) {
         super(BlockEntitiesRegistry.PIPE_ENTITY.get(), pos, state);
     }
@@ -34,6 +36,10 @@ public class PipeBlockEntity extends BlockEntity implements FluidProvider.BLOCK 
         if (level == null || !(getBlockState().getBlock() instanceof PipeBlock pipe)) {
             return null;
         }
-        return new PassthroughFluidStorage(level, worldPosition, direction, pipe.maxIn);
+        int index = direction == null ? 6 : direction.ordinal();
+        if (passthroughs[index] == null) {
+            passthroughs[index] = new PassthroughFluidStorage(level, worldPosition, direction, pipe.maxIn);
+        }
+        return passthroughs[index];
     }
 }

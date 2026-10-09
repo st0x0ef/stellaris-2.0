@@ -75,6 +75,6 @@ public final class PassthroughEnergyStorage implements UniversalEnergyStorage {
 
     @Override
     public boolean deferUntilCommit() {
-        return true;
+        return Transport.DEFER_PASSTHROUGH;
     }
 }

@@ -65,6 +65,10 @@ public final class PassthroughFluidStorage implements UniversalFluidStorage {
     }
 
     @Override
+    public void setFluidInTank(int tank, FluidStack stack) {
+    }
+
+    @Override
     public long getTankCapacity(int tank) {
         return maxIn;
     }
@@ -76,7 +80,7 @@ public final class PassthroughFluidStorage implements UniversalFluidStorage {
 
     @Override
     public boolean deferUntilCommit() {
-        return true;
+        return Transport.DEFER_PASSTHROUGH;
     }
 
     @Override

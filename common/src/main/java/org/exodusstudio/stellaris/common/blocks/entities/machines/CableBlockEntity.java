@@ -21,6 +21,8 @@ import org.jetbrains.annotations.Nullable;
  */
 public class CableBlockEntity extends BlockEntity implements EnergyProvider.BLOCK {
 
+    private final PassthroughEnergyStorage[] passthroughs = new PassthroughEnergyStorage[7];
+
     public CableBlockEntity(BlockPos pos, BlockState state) {
         super(BlockEntitiesRegistry.CABLES.get(), pos, state);
     }
@@ -30,6 +32,10 @@ public class CableBlockEntity extends BlockEntity implements EnergyProvider.BLOC
         if (level == null || !(getBlockState().getBlock() instanceof CableBlock cable)) {
             return null;
         }
-        return new PassthroughEnergyStorage(level, worldPosition, direction, cable.transferRate);
+        int index = direction == null ? 6 : direction.ordinal();
+        if (passthroughs[index] == null) {
+            passthroughs[index] = new PassthroughEnergyStorage(level, worldPosition, direction, cable.transferRate);
+        }
+        return passthroughs[index];
     }
 }
