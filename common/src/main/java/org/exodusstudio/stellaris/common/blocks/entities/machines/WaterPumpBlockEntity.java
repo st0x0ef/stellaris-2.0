@@ -25,10 +25,15 @@ public class WaterPumpBlockEntity extends BaseEnergyBlockEntity implements Fluid
 
     private static final int NEEDED_ENERGY = 100;
 
-    private final SingleFluidStorage waterTank = new SingleFluidStorage(1000) {
+    private final SingleFluidStorage waterTank = new SingleFluidStorage(1000, 0, 1000) {
         @Override
         protected void onChange() {
             setChanged();
+        }
+
+        @Override
+        public boolean isFluidValid(int tank, FluidStack stack) {
+            return stack.getFluid().isSame(Fluids.WATER);
         }
     };
 

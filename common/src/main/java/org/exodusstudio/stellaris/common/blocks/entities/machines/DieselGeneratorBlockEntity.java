@@ -45,7 +45,7 @@ public class DieselGeneratorBlockEntity extends BaseGeneratorBlockEntity impleme
     public DieselGeneratorBlockEntity(BlockEntityType<?> entityType, BlockPos blockPos, BlockState blockState, int energyGeneratedPT, int maxCapacity) {
         super(entityType, blockPos, blockState, energyGeneratedPT, maxCapacity);
 
-        this.dieselTank = new SingleFluidStorage(10000) {
+        this.dieselTank = new SingleFluidStorage(10000, 10000, 0) {
             @Override
             protected void onChange() {
                 setChanged();
@@ -87,7 +87,7 @@ public class DieselGeneratorBlockEntity extends BaseGeneratorBlockEntity impleme
         if (!dieselTank.isEmpty() && !isLit()) {
             // TODO : use recipe to manage diesel consumption and energy production
             litTime = 5;
-            dieselTank.drain(dieselTank.getFluidInTank(0).copyWithAmount(1), false);
+            dieselTank.drainWithoutLimits(1, false);
             shouldUpdate = true;
         }
 

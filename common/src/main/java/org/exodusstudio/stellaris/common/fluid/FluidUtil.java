@@ -127,8 +127,20 @@ public class FluidUtil {
             container.setItem(slot, ItemStack.EMPTY);
         }
         else {
-            to.drain(fluidMoved.copy(), false);
+            drainWithoutLimits(to, fluidMoved.copy());
             container.setItem(slot, inputBackup);
+        }
+    }
+
+    private static void drainWithoutLimits(UniversalFluidStorage storage, FluidStack stack) {
+        if (storage instanceof SingleFluidStorage single) {
+            single.drainWithoutLimits(stack, false);
+        }
+        else if (storage instanceof BaseFluidStorage base) {
+            base.drainWithoutLimits(stack, false);
+        }
+        else {
+            storage.drain(stack, false);
         }
     }
 

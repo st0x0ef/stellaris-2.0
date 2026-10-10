@@ -48,7 +48,7 @@ public class FuelRefineryBlockEntity extends BaseEnergyContainerBlockEntity impl
 
     public FuelRefineryBlockEntity(BlockPos pos, BlockState state) {
         super(BlockEntitiesRegistry.FUEL_REFINERY.get(), pos, state);
-        this.inputTank = new SingleFluidStorage(10000) {
+        this.inputTank = new SingleFluidStorage(10000, 10000, 0) {
             @Override
             protected void onChange() {
                 setChanged();
@@ -96,7 +96,7 @@ public class FuelRefineryBlockEntity extends BaseEnergyContainerBlockEntity impl
     @Override
     public void tick(Level level, BlockState state) {
         FluidUtil.moveFluidFromItem(0, 0, 1, this, inputTank, Long.MAX_VALUE);
-        FluidUtil.moveFluidToItem(0, inputTank, 0, 1, this, Long.MAX_VALUE);
+        FluidUtil.moveFluidToItem(0, inputTank, 0, 1, this, Long.MAX_VALUE, true);
         FluidUtil.moveFluidToItem(0, outputFuelTank, 2, 3, this, Long.MAX_VALUE);
         FluidUtil.moveFluidToItem(0, outputDieselTank, 4, 5, this, Long.MAX_VALUE);
         setChanged();
@@ -127,7 +127,7 @@ public class FuelRefineryBlockEntity extends BaseEnergyContainerBlockEntity impl
                         }
 
                         if (shouldUseEnergyAndDrainOil) {
-                            inputTank.drain(recipe.ingredientStack().create(), false);
+                            inputTank.drainWithoutLimits(recipe.ingredientStack().create(), false);
                             useEnergy(recipe.energy());
                             setChanged();
                         }
