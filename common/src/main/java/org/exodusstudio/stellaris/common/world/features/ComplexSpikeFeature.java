@@ -22,24 +22,25 @@ public class ComplexSpikeFeature extends Feature<SpikeFeatureConfiguration> {
         WorldGenLevel level = context.level();
         BlockPos origin = context.origin();
         RandomSource random = context.random();
+        var config = context.config();
 
-        // 1. Verify the placement context (e.g., must be placed in stone/cave walls)
+        // Verify the placement context (e.g., must be placed in stone/cave walls)
         if (!level.getBlockState(origin.below()).isSolidRender()) {
             return false;
         }
 
         // Define our crystal variables
         Vec3 originBottomCorner = new Vec3(origin.getX(), origin.getY(), origin.getZ());
-        BlockState baseBlock = context.config().blockState();
-        int numberOfSpikes = 6;
-        int tau = 360;
+        BlockState baseBlock = config.blockState();
+        int numberOfSpikes = config.branchCount().sample(random);
+        int tau = config.baseAngle().sample(random);
         int baseAngle = random.nextInt(tau);
 
         for (int i = 0; i < numberOfSpikes; i++) {
             double angle = Math.toRadians(baseAngle + i * ((double) tau / numberOfSpikes));
-            int coreRadius = 3;
-            int spread = random.nextIntBetweenInclusive(10, 17);
-            int height = random.nextIntBetweenInclusive(14, 20);
+            int coreRadius = config.baseRadius().sample(random);
+            int spread = config.spread().sample(random);
+            int height = config.height().sample(random);
 
             Vec3 offset = new Vec3(Math.cos(angle + Math.toRadians(random.nextInt(5))) * spread, height, Math.sin(angle + Math.toRadians(random.nextInt(5))) * spread);
             Vec3 tip = origin.getCenter().add(offset);
