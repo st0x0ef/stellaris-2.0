@@ -1,0 +1,58 @@
+name: Bug Report
+description: Report a bug or crash with Stellaris
+labels: [ bug ]
+body:
+  - type: dropdown
+    id: modloader
+    attributes:
+      label: Mod loader
+      options:
+        - NeoForge
+        - Fabric
+    validations:
+      required: true
+
+  - type: input
+    id: stellaris-version
+    attributes:
+      label: Stellaris Version
+      placeholder: "Ex: 26.1.2-neoforge-2.0.8"
+    validations:
+      required: true
+
+  - type: input
+    id: logs
+    attributes:
+      label: latest.log file
+      description: Paste a link to the crash report or latest.log. Use https://mclo.gs/ or another paste site of your choice
+    validations:
+      required: true
+
+  - type: markdown
+    attributes:
+      value: "## Issue Description"
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Describe the issue
+      placeholder: Space suits do not function on the moon
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduction-steps
+    attributes:
+      label: How to reproduce
+      placeholder: |
+       1. Wear a spacesuit
+       2. Go outside on the moon
+       3. Suffocate
+    validations:
+      required: true
+
+  - type: textarea
+    id: other-information
+    attributes:
+      label: Other Information
+      placeholder: Anything else that might be useful, such as other mods (and their versions) that you were using
