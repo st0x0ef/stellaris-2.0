@@ -50,6 +50,6 @@
     "fabric-api": "*",
     "exoconfig": ">=0.3.5",
     "potentials": ">=0.11.0",
-    "sky_aesthetics": ">=2.1.4"
+    "sky_aesthetics": ">=2.2.0"
   }
 }
