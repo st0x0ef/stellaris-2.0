@@ -94,6 +94,11 @@ public class WikiEntryScreen extends Screen {
         return super.keyPressed(event);
     }
 
+    @Override
+    public void onClose() {
+        this.minecraft.player.closeContainer();
+    }
+
 
     public int getLeftPos() {
         return this.wikiApplicationScreen.getLeftPos();
