@@ -156,6 +156,15 @@ public class CommonConfig implements PostValidation {
     }
 
     @ScreenInfos.InnerConfig
+    @ScreenInfos.Description("config.stellaris.foodConfig.desc")
+    public FoodConfig foodConfig = new FoodConfig();
+
+    public static class FoodConfig {
+        @ScreenInfos.Description(value = "config.stellaris.foodConfig.fluidCellWaterPerCan.desc")
+        public int fluidCellWaterPerCan = 100;
+    }
+
+    @ScreenInfos.InnerConfig
     @ScreenInfos.Description("config.stellaris.assistantConfig.desc")
     public AssistantConfig assistantConfig = new AssistantConfig();
 
@@ -202,6 +211,8 @@ public class CommonConfig implements PostValidation {
         machineConfig.vacuumatorWaterPerCraft = atLeast("machineConfig.vacuumatorWaterPerCraft", machineConfig.vacuumatorWaterPerCraft, 0);
         machineConfig.blenderEnergyPerCraft = atLeast("machineConfig.blenderEnergyPerCraft", machineConfig.blenderEnergyPerCraft, 0);
         machineConfig.blenderTicksPerCraft = atLeast("machineConfig.blenderTicksPerCraft", machineConfig.blenderTicksPerCraft, 1);
+
+        foodConfig.fluidCellWaterPerCan = atLeast("foodConfig.fluidCellWaterPerCan", foodConfig.fluidCellWaterPerCan, 1);
     }
 
     private static int atLeast(String name, int value, int min) {

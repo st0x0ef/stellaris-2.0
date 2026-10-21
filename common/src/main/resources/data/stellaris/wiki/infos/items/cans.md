@@ -14,8 +14,9 @@ Cans are the only way to eat in space. On a planet without a breathable atmosphe
 
 **How to eat a can** 
 
-Hold the can in one hand and a **potion in your other hand**, for example a simple water bottle, then right-click the can. Without something to drink you cannot get the food down. 
-While you hold a can, the potion itself cannot be drunk, so nothing is wasted. 
+Hold the can and right-click it. You need something to drink to get the food down : 
+- A [ref=stellaris:items/fluid_cell]Fluid Cell[ref] filled with **water**, anywhere in your inventory. Each can uses 100 mB, so a full cell lasts 30 meals. 
+- Or a **potion** held in your other hand, for example a simple water bottle. It is used up. While you hold a can, the potion itself cannot be drunk, so nothing is wasted. 
 
 
 

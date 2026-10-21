@@ -1,10 +1,13 @@
 package org.exodusstudio.stellaris.common.items;
 
+import com.fej1fun.potentials.fluid.UniversalFluidItemStorage;
+import dev.architectury.fluid.FluidStack;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.*;
@@ -12,6 +15,10 @@ import net.minecraft.world.item.alchemy.PotionContents;
 import net.minecraft.world.item.component.Consumable;
 import net.minecraft.world.item.component.TooltipDisplay;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.material.Fluids;
+import org.exodusstudio.stellaris.Stellaris;
+import org.exodusstudio.stellaris.common.fluid.FluidUtil;
+import org.exodusstudio.stellaris.common.registries.DataComponentsRegistry;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.function.Consumer;
@@ -86,7 +93,7 @@ public class CanItem extends Item {
         ItemStack emptyCanStack = new ItemStack(stack.getItem());
         super.finishUsingItem(stack, level, entity);
 
-        usePotion(level, entity);
+        useDrink(level, entity);
 
         if (entity instanceof Player player && !player.hasInfiniteMaterials()) {
             if (stack.isEmpty()) {
@@ -100,18 +107,65 @@ public class CanItem extends Item {
         return stack;
     }
 
-    private static void usePotion(Level level, LivingEntity entity) {
-        ItemStack potionStack;
-        InteractionHand hand;
-        if (entity.getMainHandItem().has(DataComponents.POTION_CONTENTS)) {
-            potionStack = entity.getMainHandItem();
-            hand = InteractionHand.MAIN_HAND;
-        } else {
-            potionStack = entity.getOffhandItem();
-            hand = InteractionHand.OFF_HAND;
+    public static boolean hasDrink(LivingEntity entity) {
+        return entity.getMainHandItem().is(Items.POTION) || entity.getOffhandItem().is(Items.POTION) || (entity instanceof Player player && findWaterCellSlot(player) != -1);
+    }
+
+    private static int findWaterCellSlot(Player player) {
+        Inventory inventory = player.getInventory();
+        for (int slot = 0; slot < inventory.getContainerSize(); slot++) {
+            if (hasWaterForCan(inventory.getItem(slot))) {
+                return slot;
+            }
         }
+        return -1;
+    }
+
+    private static boolean hasWaterForCan(ItemStack stack) {
+        if (!(stack.getItem() instanceof FluidCellItem)) {
+            return false;
+        }
+
+        FluidStack fluid = FluidUtil.readStoredFluid(stack, DataComponentsRegistry.FLUID_LIST.get(), 0);
+        return fluid.getFluid().isSame(Fluids.WATER) && fluid.getAmount() >= Stellaris.CONFIG.foodConfig.fluidCellWaterPerCan;
+    }
+
+    private static void useDrink(Level level, LivingEntity entity) {
+        if (!entity.getMainHandItem().is(Items.POTION) && !entity.getOffhandItem().is(Items.POTION)) {
+            if (entity instanceof Player player && !player.hasInfiniteMaterials()) {
+                int slot = findWaterCellSlot(player);
+                if (slot != -1) {
+                    drinkFromCell(player, slot);
+                }
+            }
+            return;
+        }
+
+        InteractionHand hand = entity.getMainHandItem().is(Items.POTION) ? InteractionHand.MAIN_HAND : InteractionHand.OFF_HAND;
+        ItemStack potionStack = entity.getItemInHand(hand);
         potionStack.getOrDefault(DataComponents.POTION_CONTENTS, PotionContents.EMPTY).onConsume(level, entity, potionStack, null);
         if (entity instanceof Player player)
             entity.setItemInHand(hand, ItemUtils.createFilledResult(potionStack, player, new ItemStack(Items.GLASS_BOTTLE)));
+    }
+
+    private static void drinkFromCell(Player player, int slot) {
+        Inventory inventory = player.getInventory();
+        ItemStack cellStack = inventory.getItem(slot);
+        ItemStack single = cellStack.copyWithCount(1);
+        UniversalFluidItemStorage storage = ((FluidCellItem) single.getItem()).getFluidTank(single);
+        if (storage == null) {
+            return;
+        }
+
+        storage.drain(FluidStack.create(Fluids.WATER, Stellaris.CONFIG.foodConfig.fluidCellWaterPerCan), false);
+        ItemStack drained = storage.getContainer().copy();
+        if (cellStack.getCount() == 1) {
+            inventory.setItem(slot, drained);
+        } else {
+            cellStack.shrink(1);
+            if (!inventory.add(drained)) {
+                player.drop(drained, false);
+            }
+        }
     }
 }

@@ -12,6 +12,7 @@
 - Player pose when holding a rocket
 - Improve Jade compat
 - The fuel refinery and the pumpjack and refinery oil slots accept any fluid in the c:oil tag
+- Cans content can now be consumed with a fluid cell filled with water (100mb, configurable)
 
 ## Fixes
 - Fix water pump not working after a potentials update
