@@ -856,6 +856,8 @@
   "tooltip.stellaris.material.netherite": "netherite",
   "tooltip.stellaris.space_station.resources": "Resources :",
   "tooltip.stellaris.space_station.ingredient": "- %sx %s",
+  "tooltip.stellaris.space_station.ingredient_tag": "- %sx Any %s",
+  "tooltip.stellaris.space_station.accepts_tag": "Accepts any item in %s",
 
   "tooltip.item.stellaris.fluid_cell.content": "%s : %s / %s",
   "tooltip.item.stellaris.fluid_cell.empty": "%s: 0 / %s",
