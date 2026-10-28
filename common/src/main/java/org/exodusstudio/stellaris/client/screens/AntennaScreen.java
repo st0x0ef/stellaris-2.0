@@ -9,6 +9,7 @@ import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.input.KeyEvent;
+import net.minecraft.client.renderer.Rect2i;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
@@ -32,7 +33,7 @@ import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class AntennaScreen extends AbstractContainerScreen<AntennaMenu> {
+public class AntennaScreen extends AbstractContainerScreen<AntennaMenu> implements GuiExtraAreas {
 
     private static final Identifier TEXTURE = IdentifierUtils.guiTexture("antenna");
 
@@ -64,9 +65,15 @@ public class AntennaScreen extends AbstractContainerScreen<AntennaMenu> {
     @Override
     protected void init() {
         super.init();
+        this.leftPos = Math.max(0, Math.min(this.leftPos, this.width - this.imageWidth - 100));
 
         addWidgets(antenna);
         queueWhitelistNameResolves();
+    }
+
+    @Override
+    public List<Rect2i> getExtraAreas() {
+        return List.of(new Rect2i(this.leftPos + this.imageWidth, this.topPos, 100, 132));
     }
 
     @Override
