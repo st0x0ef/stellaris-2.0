@@ -2,6 +2,8 @@ package org.exodusstudio.stellaris.common.entities.vehicles;
 
 import dev.architectury.registry.menu.ExtendedMenuProvider;
 import dev.architectury.registry.menu.MenuRegistry;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
@@ -20,6 +22,7 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.phys.Vec3;
@@ -124,16 +127,25 @@ public class LanderEntity extends VehicleEntity {
             this.setDeltaMovement(delta.x, terminalVelocity, delta.z);
         }
 
+        double fluidSurface = getFluidSurface();
+        boolean floating = !Double.isNaN(fluidSurface);
+
         boolean thrusting = KeyVariables.isHoldingJump(getFirstPlayerPassenger()) || this.entityData.get(AUTOPILOT);
-        if (thrusting) {
+        if (thrusting && !floating) {
             slowDownLander();
         }
 
-        if (!this.level().isClientSide()) {
-            this.entityData.set(THRUSTING, thrusting && !this.onGround());
+        if (floating) {
+            Vec3 movement = this.getDeltaMovement();
+            this.setDeltaMovement(movement.x, Math.min(fluidSurface - this.getY(), 0.5), movement.z);
+            this.resetFallDistance();
         }
 
-        if (this.verticalCollisionBelow && !this.entityData.get(LANDED)) {
+        if (!this.level().isClientSide()) {
+            this.entityData.set(THRUSTING, thrusting && !this.onGround() && !floating);
+        }
+
+        if ((this.verticalCollisionBelow || floating) && !this.entityData.get(LANDED)) {
             this.setSpeed(0);
             this.entityData.set(LANDED, true);
 
@@ -145,6 +157,23 @@ public class LanderEntity extends VehicleEntity {
         if (!this.level().isClientSide()) {
             this.move(MoverType.SELF, this.getDeltaMovement());
         }
+    }
+
+    private double getFluidSurface() {
+        BlockPos.MutableBlockPos pos = this.blockPosition().mutable();
+        FluidState fluid = this.level().getFluidState(pos);
+        if (fluid.isEmpty()) {
+            return Double.NaN;
+        }
+
+        FluidState above = this.level().getFluidState(pos.above());
+        while (!above.isEmpty()) {
+            fluid = above;
+            pos.move(Direction.UP);
+            above = this.level().getFluidState(pos.above());
+        }
+
+        return pos.getY() + fluid.getHeight(this.level(), pos);
     }
 
     public boolean hasLanded() {

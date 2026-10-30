@@ -3,6 +3,8 @@
 ## Changes
 - Space station recipes now show which materials accept any item from a tag
 - Improve the fluid tooltip on vehicles
+- Reduce the chance to land in fluids by checking for a dry block around
+- Allow the lander to float on fluids
 
 ## Fixes
 - Fix JEI and REI exclusion zones
