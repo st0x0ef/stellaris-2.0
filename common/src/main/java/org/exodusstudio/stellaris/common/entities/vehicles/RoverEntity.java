@@ -144,7 +144,7 @@ public class RoverEntity extends AbstractRoverBase implements HasCustomInventory
     public static FuelType.Type getMotorFuelType(RoverUpgrades upgrades) {
         for (RocketModule module : upgrades.rocketModules()) {
             if (module instanceof RocketModule.CustomFuelModule fuelModule) {
-                FuelType.Type type = FuelType.Type.getTypeBasedOnFluid(fuelModule.getFuel().getFluid());
+                FuelType.Type type = FuelType.Type.getTypeBasedOnFluid(fuelModule.getFuel());
                 if (type != null) {
                     return type;
                 }

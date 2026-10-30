@@ -158,7 +158,7 @@ public class RocketEntity extends VehicleEntity implements FluidProvider.ENTITY,
     public static Fluid getExpectedFuelFluid(Modules<RocketModule> modules) {
         for (RocketModule module : modules) {
             if (module instanceof RocketModule.CustomFuelModule customFuelModule) {
-                return customFuelModule.getFuel().getFluid();
+                return customFuelModule.getFuel();
             }
         }
         return FluidsRegistry.FUEL_STILL.get();

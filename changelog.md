@@ -6,3 +6,4 @@
 ## Fixes
 - Fix JEI and REI exclusion zones
 - Fix rare crash during pack loading
+- Fix motor upgrade fluid being empty
