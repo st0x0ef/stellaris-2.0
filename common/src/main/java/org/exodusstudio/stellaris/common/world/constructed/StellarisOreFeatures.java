@@ -8,9 +8,6 @@ import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.data.worldgen.features.FeatureUtils;
 import net.minecraft.data.worldgen.placement.PlacementUtils;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.util.valueproviders.ConstantInt;
-import net.minecraft.util.valueproviders.UniformInt;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.VerticalAnchor;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
@@ -24,7 +21,6 @@ import org.exodusstudio.stellaris.common.registries.TagsRegistry;
 import org.exodusstudio.stellaris.common.world.FeaturesRecord;
 import org.exodusstudio.stellaris.common.world.ModFeatures;
 import org.exodusstudio.stellaris.common.world.configuration.SequenceConfiguration;
-import org.exodusstudio.stellaris.common.world.configuration.SpikeFeatureConfiguration;
 
 import java.util.List;
 
@@ -32,7 +28,6 @@ public class StellarisOreFeatures {
     /// [FeaturesRecord]
     public static final FeaturesRecord MARS_ORE_IRON_SMALL = FeaturesRecord.create("mars_ore_iron_small");
     public static final FeaturesRecord ICE_CAVE_ORE_IRON_SMALL = FeaturesRecord.create("ice_cave_ore_iron_small");
-    public static final FeaturesRecord TEST = FeaturesRecord.create("test");
 
     /// [ConfiguredFeature]
     public static final ResourceKey<ConfiguredFeature<?, ?>> MARS_ORE_IRON = FeaturesRecord.createConfiguredFeature("mars_ore_iron");
@@ -64,7 +59,7 @@ public class StellarisOreFeatures {
         FeatureUtils.register(context, ICE_CAVE_ORE_IRON, ModFeatures.SEQUENCE.get(), hostedOre(
                 iceCaveMarsStoneReplaceable, BlocksRegistry.MARS_STONE.block().get().defaultBlockState(), oreIronConfiguredFeature
         ));
-        FeatureUtils.register(context, TEST.configuredFeature(), ModFeatures.SPIKE.get(), new SpikeFeatureConfiguration(Blocks.BLUE_ICE.defaultBlockState(), ConstantInt.of(6), ConstantInt.of(9), UniformInt.of(30,60), ConstantInt.of(4)));
+//        FeatureUtils.register(context, TEST.configuredFeature(), ModFeatures.SPIKE.get(), new SpikeFeatureConfiguration(Blocks.BLUE_ICE.defaultBlockState(), ConstantInt.of(6), ConstantInt.of(9), UniformInt.of(30,60), ConstantInt.of(4)));
         
     }
 
@@ -108,10 +103,10 @@ public class StellarisOreFeatures {
                 configureFeatures.getOrThrow(ICE_CAVE_ORE_IRON_SMALL.configuredFeature()),
                 oreIronSmallModifiers
         );
-        PlacementUtils.register(context,
-                TEST.placedFeature(),
-                configureFeatures.getOrThrow(TEST.configuredFeature()),
-                CountPlacement.of(3), InSquarePlacement.spread(), PlacementUtils.HEIGHTMAP, BiomeFilter.biome());
+//        PlacementUtils.register(context,
+//                TEST.placedFeature(),
+//                configureFeatures.getOrThrow(TEST.configuredFeature()),
+//                CountPlacement.of(3), InSquarePlacement.spread(), PlacementUtils.HEIGHTMAP, BiomeFilter.biome());
     }
 
     private static List<PlacementModifier> orePlacement(final PlacementModifier frequencyModifier, final PlacementModifier heightRange) {

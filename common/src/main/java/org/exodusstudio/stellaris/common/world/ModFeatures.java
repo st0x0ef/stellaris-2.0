@@ -6,10 +6,12 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.common.world.configuration.LargeSpeleothemConfiguration;
+import org.exodusstudio.stellaris.common.world.configuration.PointySpikeFeatureConfiguration;
 import org.exodusstudio.stellaris.common.world.configuration.SequenceConfiguration;
 import org.exodusstudio.stellaris.common.world.configuration.SpikeFeatureConfiguration;
 import org.exodusstudio.stellaris.common.world.features.ComplexSpikeFeature;
 import org.exodusstudio.stellaris.common.world.features.LargeSpeleothemFeature;
+import org.exodusstudio.stellaris.common.world.features.PointySpikeFeature;
 import org.exodusstudio.stellaris.common.world.features.SequenceFeature;
 
 public class ModFeatures {
@@ -20,6 +22,9 @@ public class ModFeatures {
             "sequence", () -> new SequenceFeature(SequenceConfiguration.CODEC));
     public static final RegistrySupplier<Feature<SpikeFeatureConfiguration>> SPIKE = FEATURES.register(
             "spike", () -> new ComplexSpikeFeature(SpikeFeatureConfiguration.CODEC)
+    );
+    public static final RegistrySupplier<Feature<PointySpikeFeatureConfiguration>> POINTY_SPIKE = FEATURES.register(
+            "pointy_spike", () -> new PointySpikeFeature(PointySpikeFeatureConfiguration.CODEC)
     );
 
 }

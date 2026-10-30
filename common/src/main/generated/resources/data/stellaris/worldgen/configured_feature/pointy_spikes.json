@@ -1,0 +1,20 @@
+{
+  "type": "stellaris:pointy_spike",
+  "config": {
+    "block_state": {
+      "Name": "minecraft:packed_ice"
+    },
+    "branch_count": 6,
+    "height": {
+      "type": "minecraft:uniform",
+      "max_inclusive": 17,
+      "min_inclusive": 10
+    },
+    "radius": 3,
+    "spread": {
+      "type": "minecraft:uniform",
+      "max_inclusive": 20,
+      "min_inclusive": 14
+    }
+  }
+}
