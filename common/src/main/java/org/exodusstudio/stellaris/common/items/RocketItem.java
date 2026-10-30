@@ -133,9 +133,11 @@ public class RocketItem extends Item implements FluidProvider.ITEM {
 
         UniversalFluidItemStorage storage = getFluidTank(stack);
         if (storage != null) {
+            FluidStack fuel = storage.getFluidInTank(0);
+            Fluid displayedFluid = fuel.isEmpty() ? RocketEntity.getExpectedFuelFluid(modules != null ? modules : RocketModules.empty()) : fuel.getFluid();
             tooltipAdder.accept(Component.literal("---------------------"));
-            tooltipAdder.accept(Component.translatable("tooltip.stellaris.fluid_amount", storage.getFluidInTank(0).getAmount(), storage.getTankCapacity(0)).withStyle(ChatFormatting.GRAY));
-            tooltipAdder.accept(Component.translatable("tooltip.stellaris.fuel", storage.getFluidInTank(0).getName()).withStyle(ChatFormatting.GRAY));
+            tooltipAdder.accept(Component.translatable("tooltip.stellaris.fluid_amount", fuel.getAmount(), storage.getTankCapacity(0)).withStyle(ChatFormatting.GRAY));
+            tooltipAdder.accept(Component.translatable("tooltip.stellaris.fuel", FluidStack.create(displayedFluid, 1).getName()).withStyle(ChatFormatting.GRAY));
         }
 
         if (stack.has(DataComponentsRegistry.AUTOPILOT.get())) {

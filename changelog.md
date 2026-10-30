@@ -2,6 +2,7 @@
 
 ## Changes
 - Space station recipes now show which materials accept any item from a tag
+- Improve the fluid tooltip on vehicles
 
 ## Fixes
 - Fix JEI and REI exclusion zones

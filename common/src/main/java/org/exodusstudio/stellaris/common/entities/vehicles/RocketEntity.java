@@ -258,7 +258,7 @@ public class RocketEntity extends VehicleEntity implements FluidProvider.ENTITY,
                     this.level().playSeededSound(null,this, SoundRegistry.ROCKET_SOUND, SoundSource.NEUTRAL, 1, 1, 1);
                 }
             } else {
-                player.sendOverlayMessage(Component.translatable("text.stellaris.rocket.fuel", getFuelType().getFluid().arch$registryName().toString()));
+                player.sendOverlayMessage(Component.translatable("text.stellaris.rocket.fuel", getExpectedFuelFluid().arch$registryName().toString()));
             }
         }
     }
