@@ -210,6 +210,7 @@ public final class BlocksRegistry {
     public static final BlockItemRegistrySupplier STAR_LIGHT_PANEL = blockWithItem("star_light_panel", BlockBehaviour.Properties.of().strength(3.0F).noOcclusion(), p -> new SkyPanelBlock(p, SkyPanelType.STAR_LIGHT));
     public static final BlockItemRegistrySupplier COAL_GENERATOR = blockWithItem("coal_generator", BlockBehaviour.Properties.of().strength(3.0F), CoalGeneratorBlock::new);
     public static final BlockItemRegistrySupplier DIESEL_GENERATOR = blockWithItem("diesel_generator", BlockBehaviour.Properties.of().strength(3.0F), DieselGeneratorBlock::new);
+    public static final BlockItemRegistrySupplier GALACTIC_RAYS_COLLECTOR = blockWithItem("galactic_rays_collector", BlockBehaviour.Properties.of().strength(3.0F).noOcclusion(), GalacticRaysCollectorBlock::new);
 
     // FOOD PROCESSING
     public static final BlockItemRegistrySupplier VACUUMATOR = blockWithItem("vacuumator", BlockBehaviour.Properties.of().strength(3.0F), VacuumatorBlock::new);

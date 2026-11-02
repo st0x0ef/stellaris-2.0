@@ -100,4 +100,7 @@ public class BlockEntitiesRegistry {
     public static final Supplier<BlockEntityType<SpaceFarmBlockEntity>> SPACE_FARM = BLOCK_ENTITY_TYPE.register("space_farm",
             () -> new BlockEntityType<>(SpaceFarmBlockEntity::new, Set.of(BlocksRegistry.SPACE_FARM.block().get())));
 
+    public static final Supplier<BlockEntityType<GalacticRaysCollectorBlockEntity>> GALACTIC_RAYS_COLLECTOR = BLOCK_ENTITY_TYPE.register("galactic_rays_collector",
+            () -> new BlockEntityType<>(GalacticRaysCollectorBlockEntity::new, Set.of(BlocksRegistry.GALACTIC_RAYS_COLLECTOR.block().get())));
+
 }

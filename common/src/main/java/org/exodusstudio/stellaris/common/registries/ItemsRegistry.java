@@ -12,6 +12,7 @@ import net.minecraft.world.entity.vehicle.boat.AbstractBoat;
 import net.minecraft.world.food.Foods;
 import net.minecraft.world.item.*;
 import net.minecraft.world.item.equipment.ArmorMaterials;
+import org.exodusstudio.stellaris.common.components.RadiationHolderComponent;
 import org.exodusstudio.stellaris.common.data.space_station.SpaceStationRecipe;
 import org.exodusstudio.stellaris.common.items.*;
 import org.exodusstudio.stellaris.common.items.infection.ParasiteItem;
@@ -178,6 +179,9 @@ public final class ItemsRegistry {
     public static final RegistrySupplier<CanItem> BIG_WHITE_CAN = item("big_white_can", (p) -> new CanItem(p, 20));
     public static final RegistrySupplier<CanItem> BIG_YELLOW_CAN = item("big_yellow_can", (p) -> new CanItem(p, 20));
 
+    // Radiation Containers
+    public static final RegistrySupplier<Item> SMALL_RADIATION_CONTAINER = item("radiation_containe_small", new Item.Properties().stacksTo(64).component(DataComponentsRegistry.RADIATION_HOLDER.get(), new RadiationHolderComponent(1000.0f)));
+
     // Foods
     public static final RegistrySupplier<Item> MOON_BERRIES = item("moon_berries", (p) -> new Item(p.food(Foods.GLOW_BERRIES).useItemDescriptionPrefix()));
 
@@ -260,4 +264,3 @@ public final class ItemsRegistry {
         return ITEMS.register(id, () -> itemFunc.apply(properties.setId(key)));
     }
 }
-

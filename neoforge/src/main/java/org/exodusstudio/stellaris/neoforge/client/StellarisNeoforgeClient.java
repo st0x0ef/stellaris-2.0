@@ -107,6 +107,7 @@ public class StellarisNeoforgeClient {
         event.register(MenuTypesRegistry.CARGO_UNLOADER.get(), CargoUnloaderScreen::new);
         event.register(MenuTypesRegistry.FLUID_TANK_MENU.get(), FluidTankScreen::new);
         event.register(MenuTypesRegistry.ANTENNA.get(), AntennaScreen::new);
+        event.register(MenuTypesRegistry.SOLAR_RADIATION_CAPTER.get(), GalacticRaysCollectorScreen::new);
 
     }
 
