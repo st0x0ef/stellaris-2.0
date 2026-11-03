@@ -3,8 +3,10 @@ package org.exodusstudio.stellaris.common.registries;
 import dev.architectury.core.item.ArchitecturyBucketItem;
 import dev.architectury.registry.registries.DeferredRegister;
 import dev.architectury.registry.registries.RegistrySupplier;
+import net.minecraft.ChatFormatting;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.entity.EntityType;
@@ -180,7 +182,13 @@ public final class ItemsRegistry {
     public static final RegistrySupplier<CanItem> BIG_YELLOW_CAN = item("big_yellow_can", (p) -> new CanItem(p, 20));
 
     // Radiation Containers
-    public static final RegistrySupplier<Item> SMALL_RADIATION_CONTAINER = item("radiation_containe_small", new Item.Properties().stacksTo(64).component(DataComponentsRegistry.RADIATION_HOLDER.get(), new RadiationHolderComponent(1000.0f)));
+    public static final RegistrySupplier<TooltipItem> SMALL_RADIATION_CONTAINER = item("radiation_containe_small", new Item.Properties().stacksTo(64)
+            .component(DataComponentsRegistry.RADIATION_HOLDER.get(), new RadiationHolderComponent(1000.0f)),
+            (p) -> new TooltipItem(p).addTooltip((s) -> {
+                RadiationHolderComponent radiation = s.getOrDefault(DataComponentsRegistry.RADIATION_HOLDER.get(), RadiationHolderComponent.DEFAULT);
+                return Component.translatable("tooltip.item.stellaris.radiation_container", radiation.radiationContained(), radiation.maxRadiation())
+                        .withStyle(ChatFormatting.DARK_GRAY);
+            }));
 
     // Foods
     public static final RegistrySupplier<Item> MOON_BERRIES = item("moon_berries", (p) -> new Item(p.food(Foods.GLOW_BERRIES).useItemDescriptionPrefix()));

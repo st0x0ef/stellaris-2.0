@@ -8,6 +8,8 @@ import net.minecraft.network.codec.StreamCodec;
 
 public record RadiationHolderComponent(float radiationContained, float maxRadiation) {
 
+    public static RadiationHolderComponent DEFAULT = new RadiationHolderComponent(0.0f, 1000.0f);
+
     public RadiationHolderComponent(float maxRadiation) {
         this(0.0f, maxRadiation);
     }

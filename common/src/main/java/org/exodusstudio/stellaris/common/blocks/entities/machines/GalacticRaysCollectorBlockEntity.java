@@ -33,7 +33,7 @@ public class GalacticRaysCollectorBlockEntity extends BaseGeneratorBlockEntity {
 
     @Override
     protected Component getDefaultName() {
-        return Component.literal("Solar Radiation Captor");
+        return Component.translatable("stellaris.screen.galactic_rays_collector");
     }
 
     @Override

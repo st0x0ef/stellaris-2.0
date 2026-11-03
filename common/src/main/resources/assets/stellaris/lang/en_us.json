@@ -448,6 +448,7 @@
   "stellaris.screen.build_space_station": "Build Space Station",
   "stellaris.screen.antenna_available": "Available Antennas",
   "stellaris.screen.owned_by": "Owned by : ",
+  "stellaris.screen.galactic_rays_collector": "Energy",
 
   "station.stellaris.space_station_small": "Small Station",
   "station.stellaris.space_station_medium": "Medium Station",
@@ -499,7 +500,7 @@
   "tooltip.item.stellaris.space_station_blueprint": "Blueprint : ",
   "tooltip.item.stellaris.space_station_blueprint.in_rocket": "Put it in the rocket inventory to build the station on arrival.",
   "tooltip.item.stellaris.space_station_blueprint.plan_first": "Plan a station in the Engineering Station to use this blueprint.",
-
+  "tooltip.item.stellaris.radiation_container": "Radiation Contained : %s/%s",
   "config.stellaris.parasiteConfig": "Parasite Settings",
   "config.stellaris.enableParasiteDrop": "Enable Parasite Drops in Blue Liquid",
   "config.stellaris.minDropIntervalTicks": "Minimum Ticks Before Dropping",
