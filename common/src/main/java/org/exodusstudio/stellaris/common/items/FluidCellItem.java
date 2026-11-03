@@ -33,7 +33,8 @@ public class FluidCellItem extends Item implements FluidProvider.ITEM {
     @Override
     public InteractionResult use(Level level, Player player, InteractionHand hand) {
         if (!level.isClientSide()) {
-            ItemStack stack = player.getItemInHand(hand);
+            ItemStack held = player.getItemInHand(hand);
+            ItemStack stack = held.copyWithCount(1);
             UniversalFluidItemStorage cellFluidStorage = getFluidTank(stack);
             if (cellFluidStorage != null) {
                 FluidStack fluidInCell = cellFluidStorage.getFluidInTank(0);
@@ -45,7 +46,16 @@ public class FluidCellItem extends Item implements FluidProvider.ITEM {
                     if (target.getItem() instanceof FluidProvider.ITEM fluidItem) {
                         UniversalFluidItemStorage suitFluidStorage = fluidItem.getFluidTank(target);
                         if (suitFluidStorage != null && suitFluidStorage.isFluidValid(0, fluidInCell)) {
-                            FluidUtil.moveFluid(cellFluidStorage, suitFluidStorage, fluidInCell.copy());
+                            if (!FluidUtil.moveFluid(cellFluidStorage, suitFluidStorage, fluidInCell.copy()).isEmpty()) {
+                                if (held.getCount() == 1) {
+                                    player.setItemInHand(hand, stack);
+                                } else {
+                                    held.shrink(1);
+                                    if (!player.getInventory().add(stack)) {
+                                        player.drop(stack, false);
+                                    }
+                                }
+                            }
                             return InteractionResult.SUCCESS;
                         }
                     }

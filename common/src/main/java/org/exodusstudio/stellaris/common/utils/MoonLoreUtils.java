@@ -56,11 +56,19 @@ public class MoonLoreUtils {
                 player.stellaris$saveDataAttachments(MOON_LORE_PROGRESSION, 0);
                 return true;
             } else {
-                return random.nextInt(100) <= parasiteUsed / (currentStage + 1);
+                return random.nextInt(getParasitesNeededToLeaveStage(currentStage)) < parasiteUsed;
             }
         }
 
         return false;
+    }
+
+    public static int getResearchSuccessPercent(int currentStage, int parasiteUsed) {
+        if (currentStage >= MAX_STAGE || parasiteUsed < 1) {
+            return 0;
+        }
+
+        return Math.clamp(parasiteUsed * 100L / getParasitesNeededToLeaveStage(currentStage), 1, 100);
     }
 
     public static int getParasitesNeededToLeaveStage(int currentStage) {

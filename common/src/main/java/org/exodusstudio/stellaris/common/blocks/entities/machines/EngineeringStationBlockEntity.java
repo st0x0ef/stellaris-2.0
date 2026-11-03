@@ -40,6 +40,10 @@ import java.util.UUID;
 
 public class EngineeringStationBlockEntity extends BaseContainerBlockEntity implements ImplementedInventory, RecipeInput, TickingBlockEntity, TabSwitchableBlockEntity {
 
+    private static final int OUTPUT_SLOT = 14;
+    private static final int[] NO_SLOTS = new int[0];
+    private static final int[] OUTPUT_SLOTS = new int[]{OUTPUT_SLOT};
+
     private NonNullList<ItemStack> items = NonNullList.withSize(15, ItemStack.EMPTY);
     private final Map<UUID, List<ItemStack>> engineUpgradeStash = new HashMap<>();
     private final Map<UUID, List<ItemStack>> spaceStationPlannerStash = new HashMap<>();
@@ -143,7 +147,7 @@ public class EngineeringStationBlockEntity extends BaseContainerBlockEntity impl
 
     @Override
     public int @NotNull [] getSlotsForFace(Direction direction) {
-        return new int[0];
+        return direction == Direction.DOWN ? OUTPUT_SLOTS : NO_SLOTS;
     }
 
     @Override
@@ -153,7 +157,7 @@ public class EngineeringStationBlockEntity extends BaseContainerBlockEntity impl
 
     @Override
     public boolean canTakeItemThroughFace(int i, ItemStack itemStack, Direction direction) {
-        return false;
+        return direction == Direction.DOWN && i == OUTPUT_SLOT;
     }
 
     @Override

@@ -97,6 +97,7 @@ public class TagsRegistry {
     public static class FluidTags {
         public static final TagKey<Fluid> BLUE_LIQUID = addTag("blue_liquid");
         public static final TagKey<Fluid> STELLARIS_FLUIDS = addTag("fluids");
+        public static final TagKey<Fluid> OIL = addCTag("oil");
 
         public static TagKey<Fluid> addTag(String path) {
             return TagKey.create(Registries.FLUID, IdentifierUtils.id(path));

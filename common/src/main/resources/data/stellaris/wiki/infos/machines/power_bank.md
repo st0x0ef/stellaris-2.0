@@ -17,6 +17,6 @@ Place the Power Bank and connect it to your grid with [ref=stellaris:machines/ca
 
 
 **Stats :** 
-- Tier 1 Capacity : 16 000 FE
+- Tier 1 Capacity : 240 000 FE
 
 [item=stellaris:power_bank_t1 onlyIcon]

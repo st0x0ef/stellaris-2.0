@@ -9,6 +9,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
 import net.minecraft.util.StringRepresentable;
 import net.minecraft.util.Unit;
@@ -26,6 +27,7 @@ import org.exodusstudio.stellaris.common.components.JetComponent;
 import org.exodusstudio.stellaris.common.keybinds.KeyVariables;
 import org.exodusstudio.stellaris.common.modules.space_suit.SpaceSuitModule;
 import org.exodusstudio.stellaris.common.registries.DataComponentsRegistry;
+import org.exodusstudio.stellaris.common.registries.SoundRegistry;
 import org.exodusstudio.stellaris.common.utils.ModuleUtils;
 import org.exodusstudio.stellaris.common.utils.Utils;
 import org.jetbrains.annotations.Nullable;
@@ -50,6 +52,8 @@ public class SpaceSuitBoots extends SpaceSuitItem {
     private static final float FLYING_SPEED_PER_BLOCK_PER_TICK = 1.0F / 7.5F;
 
     private static final Set<UUID> JET_FLIGHT_GRANTED = ConcurrentHashMap.newKeySet();
+
+    private static final Set<UUID> SONIC_BOOM_PLAYED = ConcurrentHashMap.newKeySet();
 
     /**
      * How long each player has been holding jump, keyed by UUID. This item is a singleton, so
@@ -135,6 +139,15 @@ public class SpaceSuitBoots extends SpaceSuitItem {
                     this.boost(player, 0.9, false);
                 }
 
+                /** JET SUIT SONIC BOOM */
+                if (player.isSprinting() && player.isFallFlying()) {
+                    if (SONIC_BOOM_PLAYED.add(player.getUUID())) {
+                        serverLevel.playSound(null, player.getX(), player.getY(), player.getZ(), SoundRegistry.SONIC_BOOM_SOUND.get(), SoundSource.PLAYERS, 1.0F, 1.0F);
+                    }
+                } else {
+                    SONIC_BOOM_PLAYED.remove(player.getUUID());
+                }
+
                 switch (SpaceSuitBoots.getMode(itemStack)) {
                     case 2 -> this.hoverModeMovement(player, itemStack, storage, jetModule);
                     case 3 -> this.elytraModeMovement(player);
@@ -217,6 +230,7 @@ public class SpaceSuitBoots extends SpaceSuitItem {
      * permanent survival flight on the next join.
      */
     public static void clearJetFlight(ServerPlayer player) {
+        SONIC_BOOM_PLAYED.remove(player.getUUID());
         if (JET_FLIGHT_GRANTED.remove(player.getUUID()) && !player.isCreative() && !player.isSpectator()) {
             Abilities abilities = player.getAbilities();
             abilities.mayfly = false;

@@ -5,6 +5,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.component.Consumable;
+import org.exodusstudio.stellaris.common.items.CanItem;
 import org.exodusstudio.stellaris.common.registries.TagsRegistry;
 import org.exodusstudio.stellaris.common.utils.OxygenUtils;
 import org.spongepowered.asm.mixin.Mixin;
@@ -20,7 +21,7 @@ public class ConsumableMixin {
     public void canConsume(LivingEntity entity, ItemStack stack, CallbackInfoReturnable<Boolean> cir) {
         if (stack.has(DataComponents.FOOD) && !stack.is(TagsRegistry.ItemTags.CAN)
                 && !stack.is(TagsRegistry.ItemTags.EDIBLE_IN_SPACE)
-                && !OxygenUtils.isOxygenated(entity.level(), entity.blockPosition())) {
+                && !OxygenUtils.hasBreathableAtmosphere(entity.level())) {
             cir.setReturnValue(false);
             return;
         }
@@ -32,7 +33,7 @@ public class ConsumableMixin {
                 cir.setReturnValue(false);
             }
         } else if (stack.is(TagsRegistry.ItemTags.CAN)) {
-            if (!entity.getMainHandItem().is(Items.POTION) && !entity.getOffhandItem().is(Items.POTION)) {
+            if (!CanItem.hasDrink(entity)) {
                 cir.setReturnValue(false);
             }
         }

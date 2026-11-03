@@ -12,6 +12,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.level.Level;
@@ -25,11 +26,14 @@ import org.exodusstudio.stellaris.common.data.recipes.input.FluidInput;
 import org.exodusstudio.stellaris.common.fluid.FluidUtil;
 import org.exodusstudio.stellaris.common.fluid.SingleFluidStorage;
 import org.exodusstudio.stellaris.common.menus.FuelRefineryMenu;
+import org.exodusstudio.stellaris.common.menus.slot.SpecificFluidContainerSlot;
 import org.exodusstudio.stellaris.common.network.packets.SyncFluidPacket;
 import org.exodusstudio.stellaris.common.registries.BlockEntitiesRegistry;
 import org.exodusstudio.stellaris.common.registries.FluidsRegistry;
 import org.exodusstudio.stellaris.common.registries.RecipesRegistry;
+import org.exodusstudio.stellaris.common.registries.TagsRegistry;
 import org.exodusstudio.stellaris.common.utils.Utils;
+import org.exodusstudio.stellaris.common.utils.capabilities.energy.EnergyUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -46,7 +50,7 @@ public class FuelRefineryBlockEntity extends BaseEnergyContainerBlockEntity impl
 
     public FuelRefineryBlockEntity(BlockPos pos, BlockState state) {
         super(BlockEntitiesRegistry.FUEL_REFINERY.get(), pos, state);
-        this.inputTank = new SingleFluidStorage(10000) {
+        this.inputTank = new SingleFluidStorage(10000, 10000, 0) {
             @Override
             protected void onChange() {
                 setChanged();
@@ -59,7 +63,7 @@ public class FuelRefineryBlockEntity extends BaseEnergyContainerBlockEntity impl
 
             @Override
             public boolean isFluidValid(int tank, FluidStack stack) {
-                return stack.getFluid().isSame(FluidsRegistry.OIL_STILL.get());
+                return stack.getFluid().defaultFluidState().is(TagsRegistry.FluidTags.OIL);
             }
         };
 
@@ -94,7 +98,7 @@ public class FuelRefineryBlockEntity extends BaseEnergyContainerBlockEntity impl
     @Override
     public void tick(Level level, BlockState state) {
         FluidUtil.moveFluidFromItem(0, 0, 1, this, inputTank, Long.MAX_VALUE);
-        FluidUtil.moveFluidToItem(0, inputTank, 0, 1, this, Long.MAX_VALUE);
+        FluidUtil.moveFluidToItem(0, inputTank, 0, 1, this, Long.MAX_VALUE, true);
         FluidUtil.moveFluidToItem(0, outputFuelTank, 2, 3, this, Long.MAX_VALUE);
         FluidUtil.moveFluidToItem(0, outputDieselTank, 4, 5, this, Long.MAX_VALUE);
         setChanged();
@@ -105,11 +109,11 @@ public class FuelRefineryBlockEntity extends BaseEnergyContainerBlockEntity impl
         }
 
         Optional<RecipeHolder<FuelRefineryRecipe>> recipeHolder = cachedCheck.getRecipeFor(new FluidInput(level.getBlockEntity(getBlockPos())), (ServerLevel) level);
-        activeRecipeEnergy = recipeHolder.map(holder -> holder.value().energy()).orElse(0);
+        activeRecipeEnergy = recipeHolder.map(holder -> EnergyUtil.scaled(holder.value().energy())).orElse(0);
         if (recipeHolder.isPresent()) {
             FuelRefineryRecipe recipe = recipeHolder.get().value();
 
-            if (energyContainer.getEnergy() >= recipe.energy()) {
+            if (energyContainer.getEnergy() >= activeRecipeEnergy) {
                 if (inputTank.getFluidValueInTank() >= recipe.ingredientStack().amount()) {
                     if ((outputFuelTank.getFluidInTank(0).isEmpty() || outputFuelTank.getFluidInTank(0).getFluid().isSame(recipe.fuelStack().fluid().value())) &&
                             (outputDieselTank.getFluidInTank(0).isEmpty() || outputDieselTank.getFluidInTank(0).getFluid().isSame(recipe.dieselStack().fluid().value()))) {
@@ -125,8 +129,8 @@ public class FuelRefineryBlockEntity extends BaseEnergyContainerBlockEntity impl
                         }
 
                         if (shouldUseEnergyAndDrainOil) {
-                            inputTank.drain(recipe.ingredientStack().create(), false);
-                            useEnergy(recipe.energy());
+                            inputTank.drainWithoutLimits(recipe.ingredientStack().create(), false);
+                            useEnergy(activeRecipeEnergy);
                             setChanged();
                         }
                     }
@@ -165,6 +169,25 @@ public class FuelRefineryBlockEntity extends BaseEnergyContainerBlockEntity impl
     @Override
     public int getContainerSize() {
         return 6;
+    }
+
+    @Override
+    public boolean canPlaceItem(int slot, ItemStack stack) {
+        if (!getItem(slot).isEmpty()) {
+            return false;
+        }
+
+        return switch (slot) {
+            case 0 -> SpecificFluidContainerSlot.accepts(stack, TagsRegistry.FluidTags.OIL, true);
+            case 2 -> SpecificFluidContainerSlot.accepts(stack, FluidsRegistry.FUEL_STILL.get(), true);
+            case 4 -> SpecificFluidContainerSlot.accepts(stack, FluidsRegistry.DIESEL_STILL.get(), true);
+            default -> false;
+        };
+    }
+
+    @Override
+    public boolean canTakeItemThroughFace(int slot, ItemStack stack, Direction direction) {
+        return slot == 1 || slot == 3 || slot == 5;
     }
 
     @Override

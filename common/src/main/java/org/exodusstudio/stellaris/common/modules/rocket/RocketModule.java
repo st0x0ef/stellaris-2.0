@@ -1,12 +1,12 @@
 package org.exodusstudio.stellaris.common.modules.rocket;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import dev.architectury.fluid.FluidStack;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.rendertype.RenderType;
 import org.exodusstudio.stellaris.client.renderers.rockets.RocketRenderer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.ItemLike;
+import net.minecraft.world.level.material.Fluid;
 import org.exodusstudio.stellaris.common.modules.Module;
 
 public interface RocketModule extends Module<RocketModule> {
@@ -85,9 +85,9 @@ public interface RocketModule extends Module<RocketModule> {
 
         /**
          * Change the fuel of the rocket with this module.
-         * @return The fluid stack representing the fuel.
+         * @return The fluid representing the fuel.
          */
-        FluidStack getFuel();
+        Fluid getFuel();
     }
 
     interface CustomModelModule extends RocketModule {

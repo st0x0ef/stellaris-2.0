@@ -12,7 +12,7 @@ import java.util.Map;
 public class SdCardData extends SimpleJsonResourceReloadListener<SdCard> {
     public static final String ID = "sd_cards";
 
-    public static final Map<String, SdCard> SD_CARDS = new HashMap<>();
+    public static volatile Map<String, SdCard> SD_CARDS = new HashMap<>();
 
     public SdCardData() {
         super(SdCard.CODEC, FileToIdConverter.json(ID));
@@ -20,10 +20,11 @@ public class SdCardData extends SimpleJsonResourceReloadListener<SdCard> {
 
     @Override
     protected void apply(Map<Identifier, SdCard> sdCardMap, ResourceManager resourceManager, ProfilerFiller profiler) {
-        SD_CARDS.clear();
+        Map<String, SdCard> sdCards = new HashMap<>();
         for (Map.Entry<Identifier, SdCard> entry : sdCardMap.entrySet()) {
-            SD_CARDS.put(entry.getKey().toString(), entry.getValue().withId(entry.getKey()));
+            sdCards.put(entry.getKey().toString(), entry.getValue().withId(entry.getKey()));
         }
+        SD_CARDS = sdCards;
     }
 
     public static SdCard getSdCard(String identifier) {

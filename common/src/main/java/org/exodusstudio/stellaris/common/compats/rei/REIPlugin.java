@@ -9,6 +9,7 @@ import me.shedaniel.rei.api.client.registry.screen.ExclusionZones;
 import me.shedaniel.rei.api.common.entry.type.VanillaEntryTypes;
 import me.shedaniel.rei.api.common.util.EntryStacks;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
+import org.exodusstudio.stellaris.client.screens.GuiExtraAreas;
 import org.exodusstudio.stellaris.client.screens.tablet.application.ApplicationRegistry;
 import org.exodusstudio.stellaris.common.compats.recipe_cache.BlenderRecipeCache;
 import org.exodusstudio.stellaris.common.compats.recipe_cache.ElectrolyzerRecipeCache;
@@ -28,6 +29,7 @@ import org.exodusstudio.stellaris.common.data.space_station.SpaceStationData;
 import org.exodusstudio.stellaris.common.registries.BlocksRegistry;
 
 import java.util.Collections;
+import java.util.List;
 
 public class REIPlugin implements REIClientPlugin {
 
@@ -69,6 +71,13 @@ public class REIPlugin implements REIClientPlugin {
         for(Class<? extends AbstractContainerScreen<?>> screenClass : ApplicationRegistry.applications_menus) {
             zones.register(screenClass, (screen) -> Collections.singleton(new Rectangle(0, 0, screen.width, screen.height)));
         }
+
+        zones.register(AbstractContainerScreen.class, (screen) -> {
+            if (screen instanceof GuiExtraAreas extraAreas) {
+                return extraAreas.getExtraAreas().stream().map(area -> new Rectangle(area.getX(), area.getY(), area.getWidth(), area.getHeight())).toList();
+            }
+            return List.of();
+        });
 
     }
 }

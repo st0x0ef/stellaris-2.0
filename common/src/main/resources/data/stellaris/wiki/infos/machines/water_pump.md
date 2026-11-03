@@ -19,6 +19,6 @@ Because the source block is consumed, build the pump over an infinite water sour
 
 
 **Stats :** 
-- Power Consumption : 100 FE per 1 000 mB pumped 
+- Power Consumption : 1 500 FE per 1 000 mB pumped 
 - Tank Capacity : 1 000 mB 
-- Internal Buffer : 100 FE
+- Internal Buffer : 1 500 FE

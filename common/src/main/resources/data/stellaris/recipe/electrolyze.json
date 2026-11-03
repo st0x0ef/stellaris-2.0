@@ -1,6 +1,6 @@
 {
   "type": "stellaris:electrolyze",
-  "energyContainer": 50,
+  "energyContainer": 5,
   "ingredient": {
     "id": "minecraft:water",
     "amount": 10

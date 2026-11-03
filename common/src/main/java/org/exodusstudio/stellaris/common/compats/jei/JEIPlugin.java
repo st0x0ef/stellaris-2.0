@@ -12,6 +12,7 @@ import mezz.jei.api.runtime.IJeiRuntime;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.Rect2i;
 import net.minecraft.resources.Identifier;
+import org.exodusstudio.stellaris.client.screens.GuiExtraAreas;
 import org.exodusstudio.stellaris.client.screens.tablet.application.ApplicationRegistry;
 import org.exodusstudio.stellaris.common.compats.jei.categories.BlenderCategory;
 import org.exodusstudio.stellaris.common.compats.jei.categories.ElectrolyzerCategory;
@@ -102,5 +103,13 @@ public class JEIPlugin implements IModPlugin {
                 }
             });
         }
+
+        registration.addGenericGuiContainerHandler(AbstractContainerScreen.class, new IGuiContainerHandler<>() {
+            @Override
+            public List<Rect2i> getGuiExtraAreas(AbstractContainerScreen<?> containerScreen) {
+                if (containerScreen instanceof GuiExtraAreas screen) return screen.getExtraAreas();
+                return List.of();
+            }
+        });
     }
 }

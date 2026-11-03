@@ -7,6 +7,7 @@ import me.shedaniel.rei.api.common.display.basic.BasicDisplay;
 import me.shedaniel.rei.api.common.entry.EntryIngredient;
 import me.shedaniel.rei.api.common.util.EntryIngredients;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 import org.exodusstudio.stellaris.common.compats.rei.categories.SpaceStationCategory;
 import org.exodusstudio.stellaris.common.data.space_station.SpaceStationRecipe;
@@ -37,9 +38,18 @@ public class SpaceStationDisplay extends BasicDisplay {
     private static List<EntryIngredient> materialsOf(SpaceStationRecipe recipe) {
         return recipe.items().stream()
                 .limit(SpaceStationCategory.MATERIAL_SLOTS)
-                .map(SpaceStationDisplay::stacksFor)
-                .map(EntryIngredients::ofItemStacks)
+                .map(SpaceStationDisplay::ingredientFor)
                 .toList();
+    }
+
+    private static EntryIngredient ingredientFor(SpaceStationRecipe.IngredientWithCount ingredient) {
+        EntryIngredient entries = EntryIngredients.ofItemStacks(stacksFor(ingredient));
+        if (ingredient.itemRef().right().isPresent()) {
+            Component tooltip = SpaceStationRecipe.acceptsAnyOf(ingredient.itemRef().right().get());
+            return entries.map(stack -> stack.tooltip(tooltip));
+        }
+
+        return entries;
     }
 
     private static List<ItemStack> stacksFor(SpaceStationRecipe.IngredientWithCount ingredient) {

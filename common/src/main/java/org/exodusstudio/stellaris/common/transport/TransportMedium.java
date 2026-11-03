@@ -76,6 +76,6 @@ public final class TransportMedium<S> {
     public static final TransportMedium<UniversalEnergyStorage> ENERGY = new TransportMedium<>(
             Capabilities.Energy.BLOCK,
             state -> state.getBlock() instanceof CableBlock,
-            state -> state.getBlock() instanceof CableBlock cable ? cable.transferRate : 0L,
+            state -> state.getBlock() instanceof CableBlock cable ? cable.getTransferRate() : 0L,
             (be, dir) -> be instanceof EnergyProvider.BLOCK p ? p.getEnergy(dir) : null);
 }

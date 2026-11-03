@@ -1,0 +1,9 @@
+{
+  "asset_id": "stellaris:the_milky_way",
+  "height": 3,
+  "title": {
+    "color": "yellow",
+    "translate": "painting.stellaris.the_milky_way.title"
+  },
+  "width": 4
+}

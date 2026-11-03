@@ -4,14 +4,18 @@ import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Inventory;
 import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.client.screens.TabbedMachineScreen;
 import org.exodusstudio.stellaris.client.screens.components.TexturedButton;
 import org.exodusstudio.stellaris.client.screens.utils.GUISprites;
+import org.exodusstudio.stellaris.common.components.PathogenStorageComponent;
 import org.exodusstudio.stellaris.common.menus.laboratory.ResearchMenu;
+import org.exodusstudio.stellaris.common.registries.DataComponentsRegistry;
 import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
+import org.exodusstudio.stellaris.common.utils.MoonLoreUtils;
 import org.exodusstudio.stellaris.common.utils.Utils;
 
 public class ResearchScreen extends TabbedMachineScreen<ResearchMenu> {
@@ -52,6 +56,32 @@ public class ResearchScreen extends TabbedMachineScreen<ResearchMenu> {
         this.addRenderableWidget(researchButton);
         this.addRenderableWidget(vaccineButton);
         this.addRenderableWidget(startResearchButton);
+    }
+
+    @Override
+    protected void containerTick() {
+        super.containerTick();
+
+        if (this.minecraft.player == null) return;
+
+        if (this.menu.getSlot(0).getItem().isEmpty() && this.menu.getSlot(1).getItem().isEmpty()) {
+            this.menu.clearResearchResult();
+        }
+
+        MutableComponent tooltip = Component.translatable("stellaris.screen.research.start.tooltip");
+
+        int currentStage = MoonLoreUtils.getResearchProgressionStage(this.minecraft.player);
+        if (currentStage < MoonLoreUtils.MAX_STAGE) {
+            int parasiteStored = this.menu.getSlot(0).getItem().getOrDefault(DataComponentsRegistry.PATHOGEN_STORED.get(), PathogenStorageComponent.DEFAULT).stored();
+            int successPercent = MoonLoreUtils.getResearchSuccessPercent(currentStage, parasiteStored);
+
+            int color = successPercent < 25 ? Utils.getMinecraftColor("red")
+                    : successPercent < 75 ? Utils.getMinecraftColor("orange")
+                    : Utils.getMinecraftColor("green");
+            tooltip.append("\n\n").append(Component.translatable("stellaris.screen.research.chance", successPercent, parasiteStored, MoonLoreUtils.getParasitesNeededToLeaveStage(currentStage)).withColor(color));
+        }
+
+        this.startResearchButton.setTooltip(Tooltip.create(tooltip));
     }
 
     @Override

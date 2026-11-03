@@ -9,6 +9,7 @@ import net.minecraft.resources.Identifier;
 import org.exodusstudio.stellaris.common.data.wiki.*;
 import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -28,11 +29,9 @@ public record SyncWiki(Map<Identifier, MarkdownPage> entryComponent, List<WikiEn
 
     public static void handle(SyncWiki packet, NetworkManager.PacketContext context) {
         context.queue(() -> {
-            WikiEntryPack.ENTRIES.clear();
-            WikiEntryPack.ENTRIES.addAll(packet.wikiEntries);
+            WikiEntryPack.ENTRIES = new ArrayList<>(packet.wikiEntries);
 
-            WikiMarkdownData.ENTRY_PAGES.clear();
-            WikiMarkdownData.ENTRY_PAGES.putAll(packet.entryComponent);
+            WikiMarkdownData.ENTRY_PAGES = new HashMap<>(packet.entryComponent);
         });
     }
 

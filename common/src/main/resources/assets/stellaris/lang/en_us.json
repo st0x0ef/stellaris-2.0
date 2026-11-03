@@ -42,8 +42,13 @@
   "death.attack.stellaris.infection": "%1$s succumbed to the infection",
   "death.attack.stellaris.infection.player": "%1$s succumbed to the infection while fighting %2$s",
   "jade.stellaris.flag_owner": "Placed by %s",
+  "jade.stellaris.energy_generation": "Generating: %s FE/t",
+  "jade.stellaris.energy_usage": "Using: %s FE/t",
+  "jade.stellaris.oxygenated_blocks": "Oxygenating %s blocks",
   "config.jade.plugin_stellaris.proxy_as_main": "Multiblock Proxy as Main Block",
   "config.jade.plugin_stellaris.flag_owner": "Flag Owner",
+  "config.jade.plugin_stellaris.energy_rate": "Energy Generation and Usage",
+  "config.jade.plugin_stellaris.oxygen_distributor": "Oxygen Distributor Status",
 
   "itemGroup.stellaris.stellaris": "Stellaris",
   "itemGroup.stellaris.stellaris_blocks" : "Stellaris Blocks",
@@ -510,6 +515,8 @@
   "config.stellaris.minOil": "Minimum Oil",
   "config.stellaris.maxOil": "Maximum Oil",
   "config.stellaris.oilExtractionPerTick": "Oil Extraction Per Tick",
+  "config.stellaris.pumpjackFluid": "Pumpjack Output Fluid",
+  "config.stellaris.oilConfig.pumpjackFluid.desc": "The fluid the Pumpjack extracts, as a fluid ID. Defaults to stellaris:oil. The Fuel Refinery and the oil slots accept any fluid in the c:oil tag.",
 
   "config.stellaris.gravityConfig": "Gravity Settings",
   "config.stellaris.enableGravityEffects": "Enable Gravity Effects",
@@ -573,6 +580,11 @@
   "config.stellaris.assistantConfig.desc": "Settings related to the on-board assistant that comments on your exploration.",
   "config.stellaris.assistantConfig.enableAssistant.desc": "Enable or disable the assistant messages sent in chat.",
 
+  "config.stellaris.energyConfig": "Energy Settings",
+  "config.stellaris.energyMultiplier": "Energy Multiplier",
+  "config.stellaris.energyConfig.desc": "Settings related to how much energy Stellaris produces, stores and consumes.",
+  "config.stellaris.energyConfig.energyMultiplier.desc": "Multiplies every Stellaris energy value: generator output, machine and item costs, storage capacities and cable throughput. Ratios between them stay the same. Changes apply to machines when they are next loaded.",
+
   "config.stellaris.machineConfig": "Machine Settings",
   "config.stellaris.vacuumatorEnergyPerCraft": "Vacuumator Energy Per Craft",
   "config.stellaris.vacuumatorDurationMultiplier": "Vacuumator Duration Multiplier",
@@ -585,6 +597,11 @@
   "config.stellaris.machineConfig.vacuumatorWaterPerCraft.desc": "Amount of water (in mB) condensed into the Vacuumator's tank each time a can is filled.",
   "config.stellaris.machineConfig.blenderEnergyPerCraft.desc": "Energy consumed by the Blender each craft, taken up front. Blending recipes may override it with their own \"energy\" field.",
   "config.stellaris.machineConfig.blenderTicksPerCraft.desc": "How long the Blender takes per craft, in ticks. Blending recipes may override it with their own \"duration\" field.",
+
+  "config.stellaris.foodConfig": "Food Settings",
+  "config.stellaris.fluidCellWaterPerCan": "Fluid Cell Water Per Can",
+  "config.stellaris.foodConfig.desc": "Settings related to eating canned food.",
+  "config.stellaris.foodConfig.fluidCellWaterPerCan.desc": "The minimum amount of water a can need to be eaten",
 
   "config.stellaris.showOxygenDebug": "Show Oxygen Debug",
   "config.stellaris.showOxygenDebug.desc": "Show oxygen debug information on the HUD.",
@@ -846,6 +863,8 @@
   "tooltip.stellaris.material.netherite": "netherite",
   "tooltip.stellaris.space_station.resources": "Resources :",
   "tooltip.stellaris.space_station.ingredient": "- %sx %s",
+  "tooltip.stellaris.space_station.ingredient_tag": "- %sx Any %s",
+  "tooltip.stellaris.space_station.accepts_tag": "Accepts any item in %s",
 
   "tooltip.item.stellaris.fluid_cell.content": "%s : %s / %s",
   "tooltip.item.stellaris.fluid_cell.empty": "%s: 0 / %s",
@@ -898,6 +917,7 @@
   "stellaris.screen.research": "Research",
   "stellaris.screen.research.start": "Start Research",
   "stellaris.screen.research.start.tooltip": "Start the research, the more parasite you have, the more chance you have to progress toward the vaccine recipe.",
+  "stellaris.screen.research.chance": "Success chance: %s%% (%s/%s parasites)",
   "stellaris.screen.vaccine": "Vaccine",
   "stellaris.screen.space_station": "Space Station",
   "stellaris.screen.blueprint_detected": "Blueprint detected!",
@@ -1075,5 +1095,23 @@
   "sd_card.stellaris.space_base_log_3.name": "Research Station - Vaccine Notes",
   "sd_card.stellaris.space_base_log_3.content": "Breakthrough. A vaccine grown from the parasite's own filaments halts the spread, and honey - ordinary honey - smothers the spores on contact. Its antimicrobial sugars starve them. We are synthesizing doses as fast as the reactors allow. For the first time since the meteor, I believe we might actually win this.",
   "sd_card.stellaris.stellaris_secrets.name": "Stellaris Easter Eggs",
-  "sd_card.stellaris.stellaris_secrets.content": "You.. You found this SD card ? This SD card contains a lot of Easter eggs hidden in Stellaris! Here a list of places where they are hidden : - The Home in the Earth wiki page - The other name of the moon on her wiki page - The parasite villager strikes back ? "
+  "sd_card.stellaris.stellaris_secrets.content": "You.. You found this SD card ? This SD card contains a lot of Easter eggs hidden in Stellaris! Here a list of places where they are hidden : - The Home in the Earth wiki page - The other name of the moon on her wiki page - The parasite villager strikes back ?",
+
+  "painting.stellaris.the_milky_way.title": "The Milky Way",
+  "painting.stellaris.sun.title": "Sun",
+  "painting.stellaris.earth.title": "Earth",
+  "painting.stellaris.moon.title": "Moon",
+  "painting.stellaris.mars.title": "Mars",
+  "painting.stellaris.mercury.title": "Mercury",
+  "painting.stellaris.venus.title": "Venus",
+  "painting.stellaris.neptune.title": "Neptune",
+  "painting.stellaris.saturn.title": "Saturn",
+  "painting.stellaris.jupiter.title": "Jupiter",
+  "painting.stellaris.pluto.title": "Pluto",
+  "painting.stellaris.uranus.title": "Uranus",
+  "painting.stellaris.proxima_centaury.title": "Proxima Centauri",
+  "painting.stellaris.glacio.title": "Glacio",
+
+  "subtitles.stellaris.beep": "Lander warning beeps",
+  "subtitles.stellaris.sonic_boom": "Sonic boom"
 }

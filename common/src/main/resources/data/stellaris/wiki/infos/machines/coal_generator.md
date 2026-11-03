@@ -22,9 +22,9 @@ Accepted fuels : Coal, Charcoal and Blocks of Coal.
 
 
 **Stats :** 
-- Power Output : 3 FE/t 
-- Internal Buffer : 48 000 FE 
-- 1 Coal or Charcoal burns for about 177 ticks, so roughly 530 FE 
-- 1 Block of Coal burns about nine times longer, so roughly 5 300 FE
+- Power Output : 45 FE/t 
+- Internal Buffer : 720 000 FE 
+- 1 Coal or Charcoal burns for about 533 ticks, so roughly 24 000 FE 
+- 1 Block of Coal burns ten times longer, so roughly 240 000 FE
 
 [item=stellaris:coal_generator onlyIcon]

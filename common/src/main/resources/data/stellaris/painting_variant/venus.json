@@ -1,0 +1,9 @@
+{
+  "asset_id": "stellaris:venus",
+  "height": 2,
+  "title": {
+    "color": "yellow",
+    "translate": "painting.stellaris.venus.title"
+  },
+  "width": 2
+}

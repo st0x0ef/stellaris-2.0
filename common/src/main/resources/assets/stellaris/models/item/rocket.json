@@ -2,5 +2,17 @@
   "parent": "minecraft:item/generated",
   "textures": {
     "layer0": "stellaris:item/rocket"
+  },
+  "display": {
+    "thirdperson_righthand": {
+      "rotation": [-57, -180, 90],
+      "translation": [3.78, -0.54, -6.22],
+      "scale": [1.25, 1.25, 1.25]
+    },
+    "thirdperson_lefthand": {
+      "rotation": [-57, -180, 90],
+      "translation": [3.78, -1.59, -4.61],
+      "scale": [1.25, 1.25, 1.25]
+    }
   }
 }

@@ -8,6 +8,7 @@ import org.exodusstudio.stellaris.common.energy.InfiniteItemEnergyStorage;
 import org.exodusstudio.stellaris.common.fluid.InfiniteOxygenItemFluidStorage;
 import org.exodusstudio.stellaris.common.registries.DataComponentsRegistry;
 import org.exodusstudio.stellaris.common.utils.Utils;
+import org.exodusstudio.stellaris.common.utils.capabilities.energy.EnergyUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -27,7 +28,7 @@ public class CreativeSpaceSuitHelmet extends SpaceSuitHelmet {
 
     @Override
     public @Nullable UniversalEnergyStorage getEnergy(@NotNull ItemStack stack) {
-        return new InfiniteItemEnergyStorage(stack, DataComponentsRegistry.ENERGY.get(), ENERGY_CAPACITY, 20, 25);
+        return new InfiniteItemEnergyStorage(stack, DataComponentsRegistry.ENERGY.get(), EnergyUtil.scaled(ENERGY_CAPACITY), EnergyUtil.scaled(20), EnergyUtil.scaled(25));
     }
 
     /** Never zero, so the helmet breathes on its own without an oxygen module installed. */

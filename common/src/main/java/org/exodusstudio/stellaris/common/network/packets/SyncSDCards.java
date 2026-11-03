@@ -27,8 +27,9 @@ public record SyncSDCards(Map<String, SdCard> sdCards) implements CustomPacketPa
 
     public static void handle(SyncSDCards packet, NetworkManager.PacketContext context) {
         context.queue(() -> {
-            SdCardData.SD_CARDS.clear();
-            packet.sdCards.forEach((id, card) -> SdCardData.SD_CARDS.put(id, card.withId(Identifier.tryParse(id))));
+            Map<String, SdCard> sdCards = new HashMap<>();
+            packet.sdCards.forEach((id, card) -> sdCards.put(id, card.withId(Identifier.tryParse(id))));
+            SdCardData.SD_CARDS = sdCards;
         });
     }
 

@@ -1,0 +1,9 @@
+{
+  "asset_id": "stellaris:sun",
+  "height": 5,
+  "title": {
+    "color": "yellow",
+    "translate": "painting.stellaris.sun.title"
+  },
+  "width": 5
+}

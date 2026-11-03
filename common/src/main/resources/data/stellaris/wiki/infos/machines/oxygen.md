@@ -24,10 +24,10 @@ Oxygen is only spent on breathing : 1 mB per living creature standing in the roo
 
 
 **Stats :** 
-- Energy Consumption : 1 FE per update, by default one update per second 
+- Energy Consumption : 15 FE per update, by default one update per second 
 - Oxygen Consumption : 1 mB per breathing creature per update 
 - Tank Capacity : 10 000 mB 
-- Internal Buffer : 12 800 FE
+- Internal Buffer : 192 000 FE
 
 [image=stellaris:textures/wiki/rendered_blocks/oxygen_propagator width=96 height=96]
 

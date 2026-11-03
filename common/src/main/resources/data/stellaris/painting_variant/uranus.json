@@ -1,0 +1,9 @@
+{
+  "asset_id": "stellaris:uranus",
+  "height": 3,
+  "title": {
+    "color": "yellow",
+    "translate": "painting.stellaris.uranus.title"
+  },
+  "width": 3
+}

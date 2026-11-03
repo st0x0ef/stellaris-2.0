@@ -8,6 +8,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.WorldlyContainer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
@@ -21,6 +22,7 @@ import org.exodusstudio.stellaris.common.blocks.entities.machines.base.TickingBl
 import org.exodusstudio.stellaris.common.fluid.FluidUtil;
 import org.exodusstudio.stellaris.common.fluid.SingleFluidStorage;
 import org.exodusstudio.stellaris.common.menus.FluidTankMenu;
+import org.exodusstudio.stellaris.common.menus.slot.FluidContainerSlot;
 import org.exodusstudio.stellaris.common.network.packets.SyncFluidPacketWithoutDirection;
 import org.exodusstudio.stellaris.common.registries.BlockEntitiesRegistry;
 import org.exodusstudio.stellaris.common.utils.Utils;
@@ -28,7 +30,9 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-public class FluidTankBlockEntity extends BaseContainerBlockEntity implements FluidProvider.BLOCK, TickingBlockEntity {
+public class FluidTankBlockEntity extends BaseContainerBlockEntity implements FluidProvider.BLOCK, TickingBlockEntity, WorldlyContainer {
+
+    private static final int[] SLOTS = {0, 1};
 
     private final SingleFluidStorage fluidTank;
     protected NonNullList<ItemStack> items = NonNullList.withSize(2, ItemStack.EMPTY);
@@ -132,6 +136,26 @@ public class FluidTankBlockEntity extends BaseContainerBlockEntity implements Fl
     @Override
     public int getContainerSize() {
         return 2;
+    }
+
+    @Override
+    public int[] getSlotsForFace(Direction direction) {
+        return SLOTS;
+    }
+
+    @Override
+    public boolean canPlaceItem(int slot, ItemStack stack) {
+        return getItem(slot).isEmpty() && FluidContainerSlot.accepts(stack, slot == 1);
+    }
+
+    @Override
+    public boolean canPlaceItemThroughFace(int slot, ItemStack stack, @Nullable Direction direction) {
+        return canPlaceItem(slot, stack);
+    }
+
+    @Override
+    public boolean canTakeItemThroughFace(int slot, ItemStack stack, Direction direction) {
+        return slot == 0 ? FluidUtil.isItemFluidEmpty(stack) : FluidUtil.isItemFluidFull(stack);
     }
 
     public SingleFluidStorage getFluidTank() {

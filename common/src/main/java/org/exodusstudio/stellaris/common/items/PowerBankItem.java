@@ -11,6 +11,7 @@ import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.component.TooltipDisplay;
 import org.exodusstudio.stellaris.common.blocks.PowerBankBlock;
 import org.exodusstudio.stellaris.common.registries.DataComponentsRegistry;
+import org.exodusstudio.stellaris.common.utils.capabilities.energy.EnergyUtil;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.function.Consumer;
@@ -32,6 +33,7 @@ public class PowerBankItem extends BlockItem implements EnergyProvider.ITEM {
 
     @Override
     public @NotNull UniversalEnergyStorage getEnergy(@NotNull ItemStack stack) {
-        return new ItemEnergyStorage(stack, DataComponentsRegistry.ENERGY.get(), capacity, capacity, capacity);
+        int scaledCapacity = EnergyUtil.scaled(capacity);
+        return new ItemEnergyStorage(stack, DataComponentsRegistry.ENERGY.get(), scaledCapacity, scaledCapacity, scaledCapacity);
     }
 }

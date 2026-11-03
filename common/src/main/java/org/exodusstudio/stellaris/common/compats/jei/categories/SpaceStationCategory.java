@@ -85,7 +85,9 @@ public record SpaceStationCategory(IGuiHelper guiHelper, IDrawable background) i
             IRecipeSlotBuilder slot = builder.addSlot(RecipeIngredientRole.INPUT, gridX(index), gridY(index));
 
             if (index < recipe.items().size()) {
-                slot.addItemStacks(stacksFor(recipe.items().get(index)));
+                SpaceStationRecipe.IngredientWithCount ingredient = recipe.items().get(index);
+                slot.addItemStacks(stacksFor(ingredient));
+                ingredient.itemRef().ifRight(tagKey -> slot.addRichTooltipCallback((view, tooltip) -> tooltip.add(SpaceStationRecipe.acceptsAnyOf(tagKey))));
             }
         }
 

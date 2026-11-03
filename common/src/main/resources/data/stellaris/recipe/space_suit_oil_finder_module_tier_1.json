@@ -8,7 +8,7 @@
   "key": {
     "A": "#c:ingots/iron",
     "B": "#c:nuggets/titanium",
-    "C": "minecraft:compass"
+    "C": "stellaris:oil_finder"
   },
   "result": {"id": "stellaris:space_suit_oil_finder_module_tier_1"}
 }

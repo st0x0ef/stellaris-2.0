@@ -11,9 +11,11 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.chunk.ChunkAccess;
+import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 import org.exodusstudio.stellaris.Stellaris;
@@ -23,10 +25,13 @@ import org.exodusstudio.stellaris.common.blocks.entities.machines.base.BaseEnerg
 import org.exodusstudio.stellaris.common.fluid.FluidUtil;
 import org.exodusstudio.stellaris.common.fluid.SingleFluidStorage;
 import org.exodusstudio.stellaris.common.menus.PumpjackMenu;
+import org.exodusstudio.stellaris.common.menus.slot.SpecificFluidContainerSlot;
 import org.exodusstudio.stellaris.common.network.packets.SyncFluidPacket;
+import org.exodusstudio.stellaris.common.oil.OilUtils;
 import org.exodusstudio.stellaris.common.registries.BlockEntitiesRegistry;
-import org.exodusstudio.stellaris.common.registries.FluidsRegistry;
+import org.exodusstudio.stellaris.common.registries.TagsRegistry;
 import org.exodusstudio.stellaris.common.utils.Utils;
+import org.exodusstudio.stellaris.common.utils.capabilities.energy.EnergyUtil;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -67,14 +72,18 @@ public class PumpjackBlockEntity extends BaseEnergyContainerBlockEntity implemen
         int chunkOil = access.stellaris$getChunkOilLevel();
         int oilToExtract = Math.min(Stellaris.CONFIG.oilConfig.oilExtractionPerTick, chunkOil);
 
+        Fluid oil = OilUtils.getPumpjackFluid();
+        FluidStack stored = resultTank.getFluidInTank(0);
+        int energyCost = EnergyUtil.scaled(2 * oilToExtract);
         boolean generating = oilToExtract > 0
-                && energyContainer.getEnergy() >= 2 * oilToExtract
+                && energyContainer.getEnergy() >= energyCost
+                && (stored.isEmpty() || stored.getFluid().isSame(oil))
                 && resultTank.getFluidValueInTank() + oilToExtract <= resultTank.getTankCapacity(0);
 
         if (generating) {
             access.stellaris$setChunkOilLevel(chunkOil - oilToExtract);
-            resultTank.fillWithoutLimits(FluidStack.create(FluidsRegistry.OIL_STILL.get(), oilToExtract), false);
-            useEnergy(2 * oilToExtract);
+            resultTank.fillWithoutLimits(FluidStack.create(oil, oilToExtract), false);
+            useEnergy(energyCost);
         }
 
         BlockState currentState = getBlockState();
@@ -101,6 +110,16 @@ public class PumpjackBlockEntity extends BaseEnergyContainerBlockEntity implemen
     @Override
     public int getContainerSize() {
         return 2;
+    }
+
+    @Override
+    public boolean canPlaceItem(int slot, ItemStack stack) {
+        return slot == 0 && getItem(slot).isEmpty() && SpecificFluidContainerSlot.accepts(stack, TagsRegistry.FluidTags.OIL, true);
+    }
+
+    @Override
+    public boolean canTakeItemThroughFace(int slot, ItemStack stack, Direction direction) {
+        return slot == 1;
     }
 
     @Override
@@ -131,6 +150,6 @@ public class PumpjackBlockEntity extends BaseEnergyContainerBlockEntity implemen
 
     @Override
     public int getMaxEnergyUsage() {
-        return 2 * Stellaris.CONFIG.oilConfig.oilExtractionPerTick;
+        return EnergyUtil.scaled(2 * Stellaris.CONFIG.oilConfig.oilExtractionPerTick);
     }
 }

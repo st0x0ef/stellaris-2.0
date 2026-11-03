@@ -6,14 +6,16 @@ import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import org.exodusstudio.stellaris.common.blocks.entities.machines.FuelRefineryBlockEntity;
+import org.exodusstudio.stellaris.common.menus.base.EnergyUsageMenu;
 import org.exodusstudio.stellaris.common.menus.base.EnergyUsageSync;
 import org.exodusstudio.stellaris.common.menus.base.BaseContainer;
 import org.exodusstudio.stellaris.common.menus.slot.ResultSlot;
 import org.exodusstudio.stellaris.common.menus.slot.SpecificFluidContainerSlot;
 import org.exodusstudio.stellaris.common.registries.FluidsRegistry;
 import org.exodusstudio.stellaris.common.registries.MenuTypesRegistry;
+import org.exodusstudio.stellaris.common.registries.TagsRegistry;
 
-public class FuelRefineryMenu extends BaseContainer {
+public class FuelRefineryMenu extends BaseContainer implements EnergyUsageMenu {
 
     private final Container container;
     private final FuelRefineryBlockEntity blockEntity;
@@ -28,10 +30,10 @@ public class FuelRefineryMenu extends BaseContainer {
         super(MenuTypesRegistry.FUEL_REFINERY.get(), containerId, 6, inventory, 10, 142);
         this.container = container;
         this.blockEntity = blockEntity;
-        this.energyUsage = EnergyUsageSync.create(this.blockEntity, this::addDataSlot);
+        this.energyUsage = EnergyUsageSync.create(this.blockEntity, inventory);
 
         // Ingredient tank
-        addSlot(new SpecificFluidContainerSlot(container, FluidsRegistry.OIL_STILL.get(), 0, 14, 76, true));
+        addSlot(new SpecificFluidContainerSlot(container, TagsRegistry.FluidTags.OIL, 0, 14, 76, true));
         addSlot(new ResultSlot(container, 1, 14, 110));
 
         // Fuel tank
@@ -52,7 +54,14 @@ public class FuelRefineryMenu extends BaseContainer {
         return blockEntity;
     }
 
+    @Override
     public EnergyUsageSync getEnergyUsage() {
         return energyUsage;
+    }
+
+    @Override
+    public void broadcastChanges() {
+        super.broadcastChanges();
+        energyUsage.broadcastChanges(containerId);
     }
 }

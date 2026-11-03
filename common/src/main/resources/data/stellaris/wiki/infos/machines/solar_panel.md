@@ -19,8 +19,8 @@ It also has an item slot : put a chargeable item in it, such as an [ref=stellari
 
 
 **Stats :** 
-- Power Output : 1 FE/t 
-- Item Charging Rate : 10 FE/t 
-- Internal Buffer : 12 800 FE
+- Power Output : 15 FE/t 
+- Item Charging Rate : 150 FE/t 
+- Internal Buffer : 192 000 FE
 
 [item=stellaris:solar_panel onlyIcon]

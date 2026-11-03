@@ -23,6 +23,7 @@ import net.minecraft.world.level.storage.ValueOutput;
 import org.exodusstudio.stellaris.common.network.packets.SyncEnergyPacketWithoutDirection;
 import org.exodusstudio.stellaris.common.utils.Utils;
 import org.exodusstudio.stellaris.common.utils.capabilities.energy.EnergyStorage;
+import org.exodusstudio.stellaris.common.utils.capabilities.energy.EnergyUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -43,7 +44,7 @@ public abstract class BaseEnergyContainerBlockEntity extends BaseContainerBlockE
 
     public BaseEnergyContainerBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state, int initialMaxCapacity, int initialMaxInsert, int initialMaxExtract) {
         super(type, pos, state);
-        this.energyContainer = new EnergyStorage(initialMaxCapacity, initialMaxInsert, initialMaxExtract) {
+        this.energyContainer = new EnergyStorage(EnergyUtil.scaled(initialMaxCapacity), EnergyUtil.scaled(initialMaxInsert), EnergyUtil.scaled(initialMaxExtract)) {
             @Override
             protected void onChange() {
                 setChanged();

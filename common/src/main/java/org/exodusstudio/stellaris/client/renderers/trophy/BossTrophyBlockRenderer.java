@@ -2,7 +2,6 @@ package org.exodusstudio.stellaris.client.renderers.trophy;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
-import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
@@ -22,14 +21,14 @@ import java.util.Map;
 
 public class BossTrophyBlockRenderer implements BlockEntityRenderer<BossTrophyBlockEntity, BossTrophyRenderState> {
 
-    private final Map<TrophyBoss, ModelPart> parts = new EnumMap<>(TrophyBoss.class);
+    private final Map<TrophyBoss, TrophyModel> models = new EnumMap<>(TrophyBoss.class);
     private final Map<TrophyBoss, TrophyFit> fits = new EnumMap<>(TrophyBoss.class);
 
     public BossTrophyBlockRenderer(BlockEntityRendererProvider.Context context) {
         for (TrophyBoss boss : TrophyBoss.values()) {
-            ModelPart part = boss.bake(context::bakeLayer);
-            this.parts.put(boss, part);
-            this.fits.put(boss, TrophyFit.resting(part, boss.ignoredParts()));
+            TrophyModel model = new TrophyModel(boss, boss.bake(context::bakeLayer));
+            this.models.put(boss, model);
+            this.fits.put(boss, TrophyFit.resting(model.root(), boss.ignoredParts()));
         }
     }
 
@@ -45,13 +44,10 @@ public class BossTrophyBlockRenderer implements BlockEntityRenderer<BossTrophyBl
         poseStack.mulPose(Axis.ZP.rotationDegrees(renderState.boss.getRotation().z));
         poseStack.mulPose(Axis.XP.rotationDegrees(renderState.boss.getRotation().x));
 
-
-        // One renderer instance serves every trophy in the world, so the per-block transform rides the
-        // PoseStack; mutating the shared ModelPart would leak between blocks once the submit is flushed.
         this.fits.get(renderState.boss).apply(poseStack);
-        nodeCollector.submitModelPart(this.parts.get(renderState.boss), poseStack,
+        nodeCollector.submitModel(this.models.get(renderState.boss), renderState, poseStack,
                 RenderTypes.entityCutout(renderState.boss.texture()),
-                renderState.lightCoords, OverlayTexture.NO_OVERLAY, null);
+                renderState.lightCoords, OverlayTexture.NO_OVERLAY, -1, null, 0, null);
 
         poseStack.popPose();
     }
@@ -64,6 +60,7 @@ public class BossTrophyBlockRenderer implements BlockEntityRenderer<BossTrophyBl
         state.boss = blockState.is(BlocksRegistry.STAR_CRAWLER_BOSS_TROPHY.block().get())
                 ? TrophyBoss.STAR_CRAWLER_BOSS
                 : TrophyBoss.HEART_OF_LUNA;
+        state.animationTicks = blockEntity.getAnimationTicks(partialTicks);
     }
 
     @Override

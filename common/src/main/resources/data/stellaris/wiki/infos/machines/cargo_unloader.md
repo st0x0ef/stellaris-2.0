@@ -19,10 +19,10 @@ It moves one stack per second and only looks for a new lander once its own inven
 
 
 **Stats :** 
-- Power Consumption : 100 FE per stack moved 
+- Power Consumption : 1 500 FE per stack moved 
 - Speed : 1 stack per second 
 - Inventory : 30 slots 
 - Search Radius : 5 blocks 
-- Internal Buffer : 3 000 FE
+- Internal Buffer : 45 000 FE
 
 [item=stellaris:cargo_unloader onlyIcon]

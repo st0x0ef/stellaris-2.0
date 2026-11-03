@@ -17,8 +17,8 @@ import java.util.*;
 public class PlanetsData extends SimpleJsonResourceReloadListener<Planet> {
     public static final String ID = "planets";
 
-    public static final List<Planet> PLANETS = new ArrayList<>();
-    public static final Map<Identifier, ResourceKey<Level>> PLANETS_LEVEL = new HashMap<>();
+    public static volatile List<Planet> PLANETS = new ArrayList<>();
+    public static volatile Map<Identifier, ResourceKey<Level>> PLANETS_LEVEL = new HashMap<>();
 
     public PlanetsData() {
         super(Planet.CODEC, FileToIdConverter.json(ID));
@@ -38,13 +38,15 @@ public class PlanetsData extends SimpleJsonResourceReloadListener<Planet> {
     public static void setPlanets(Collection<Planet> planets) {
         GravityUtils.clearCaches();
 
-        PLANETS.clear();
-        PLANETS.addAll(planets);
+        List<Planet> newPlanets = new ArrayList<>(planets);
 
-        PLANETS_LEVEL.clear();
-        for (Planet planet : PLANETS) {
-            PLANETS_LEVEL.put(planet.dimension(), ResourceKey.create(Registries.DIMENSION, planet.dimension()));
+        Map<Identifier, ResourceKey<Level>> newPlanetsLevel = new HashMap<>();
+        for (Planet planet : newPlanets) {
+            newPlanetsLevel.put(planet.dimension(), ResourceKey.create(Registries.DIMENSION, planet.dimension()));
         }
+
+        PLANETS = newPlanets;
+        PLANETS_LEVEL = newPlanetsLevel;
     }
 
     public static ServerLevel getPlanetLevel(MinecraftServer server, Planet planet) {

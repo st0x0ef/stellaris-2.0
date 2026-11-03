@@ -22,6 +22,24 @@
         "stream": true
       }
     ]
+  },
+  "beep": {
+    "subtitle": "subtitles.stellaris.beep",
+    "sounds": [
+      {
+        "name": "stellaris:beep",
+        "stream": false
+      }
+    ]
+  },
+  "sonic_boom": {
+    "subtitle": "subtitles.stellaris.sonic_boom",
+    "sounds": [
+      {
+        "name": "stellaris:sonic_boom",
+        "stream": false
+      }
+    ]
   }
 
 }

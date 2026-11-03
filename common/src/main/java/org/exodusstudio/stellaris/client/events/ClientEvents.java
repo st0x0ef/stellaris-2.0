@@ -7,6 +7,7 @@ import net.minecraft.client.Minecraft;
 import org.exodusstudio.stellaris.client.cinematic.HeartOfLunaCinematic;
 import org.exodusstudio.stellaris.client.cinematic.StarCrawlerBossIntroController;
 import org.exodusstudio.stellaris.client.cinematic.StarCrawlerBossDeathController;
+import org.exodusstudio.stellaris.client.sounds.JetSuitSound;
 import org.exodusstudio.stellaris.common.entities.vehicles.base.AbstractRoverBase;
 import org.exodusstudio.stellaris.common.keybinds.KeyVariables;
 import org.exodusstudio.stellaris.common.network.packets.KeyHandlerPacket;
@@ -40,6 +41,7 @@ public class ClientEvents {
             }
 
             syncMovementKeys(minecraft, locked);
+            JetSuitSound.clientTick(minecraft);
         });
     }
 

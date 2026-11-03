@@ -17,6 +17,7 @@ import net.minecraft.world.item.component.TooltipDisplay;
 import net.minecraft.world.level.Level;
 import org.exodusstudio.stellaris.common.oil.OilUtils;
 import org.exodusstudio.stellaris.common.registries.DataComponentsRegistry;
+import org.exodusstudio.stellaris.common.utils.capabilities.energy.EnergyUtil;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.function.Consumer;
@@ -34,7 +35,7 @@ public class OilFinderItem extends Item implements EnergyProvider.ITEM {
         }
 
         ItemEnergyStorage energy = getEnergy(player.getItemInHand(usedHand));
-        if (energy.getEnergy() < 1) {
+        if (energy.getEnergy() < EnergyUtil.scaled(1)) {
             player.sendOverlayMessage(Component.translatable("text.stellaris.oil_finder.cant_search").withStyle(ChatFormatting.RED));
             return InteractionResult.FAIL;
         }
@@ -48,7 +49,7 @@ public class OilFinderItem extends Item implements EnergyProvider.ITEM {
         component.withColor(OilUtils.getOilLevelColor(oilLevel));
 
         player.getItemInHand(usedHand).hurtAndBreak(2, player, EquipmentSlot.MAINHAND);
-        energy.extract(1, false);
+        energy.extract(EnergyUtil.scaled(1), false);
 
         player.sendOverlayMessage(component);
 
@@ -64,6 +65,6 @@ public class OilFinderItem extends Item implements EnergyProvider.ITEM {
 
     @Override
     public @NotNull ItemEnergyStorage getEnergy(@NotNull ItemStack stack) {
-        return new ItemEnergyStorage(stack, DataComponentsRegistry.ENERGY.get(), 1000, 20, 1);
+        return new ItemEnergyStorage(stack, DataComponentsRegistry.ENERGY.get(), EnergyUtil.scaled(1000), EnergyUtil.scaled(20), EnergyUtil.scaled(1));
     }
 }

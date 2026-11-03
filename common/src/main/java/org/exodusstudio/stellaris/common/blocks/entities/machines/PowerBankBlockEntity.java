@@ -1,14 +1,17 @@
 package org.exodusstudio.stellaris.common.blocks.entities.machines;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import org.exodusstudio.stellaris.common.blocks.PowerBankBlock;
 import org.exodusstudio.stellaris.common.blocks.entities.machines.base.BaseEnergyContainerBlockEntity;
 import org.exodusstudio.stellaris.common.menus.PowerBankMenu;
+import org.exodusstudio.stellaris.common.menus.slot.EnergySlot;
 import org.exodusstudio.stellaris.common.registries.BlockEntitiesRegistry;
 import org.exodusstudio.stellaris.common.utils.capabilities.energy.EnergyUtil;
 import org.jetbrains.annotations.NotNull;
@@ -55,6 +58,16 @@ public class PowerBankBlockEntity extends BaseEnergyContainerBlockEntity {
     @Override
     public int getContainerSize() {
         return 2;
+    }
+
+    @Override
+    public boolean canPlaceItem(int slot, ItemStack stack) {
+        return getItem(slot).isEmpty() && EnergySlot.accepts(stack);
+    }
+
+    @Override
+    public boolean canTakeItemThroughFace(int slot, ItemStack stack, Direction direction) {
+        return slot == 0 ? EnergyUtil.isItemEnergyEmpty(stack) : EnergyUtil.isItemEnergyFull(stack);
     }
 
     @Override

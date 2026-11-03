@@ -30,8 +30,7 @@ public record SyncSpaceStationsPacket(List<SpaceStationRecipe> recipes) implemen
 
     public static void handle(SyncSpaceStationsPacket packet, NetworkManager.PacketContext context) {
         context.queue(() -> {
-            SpaceStationData.SPACE_STATION_RECIPES.clear();
-            SpaceStationData.SPACE_STATION_RECIPES.addAll(packet.recipes());
+            SpaceStationData.SPACE_STATION_RECIPES = new ArrayList<>(packet.recipes());
 
             JEICompat.reloadRecipesSafe();
             REICompat.reloadDisplaysSafe();

@@ -6,12 +6,13 @@ import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import org.exodusstudio.stellaris.common.blocks.entities.machines.CargoUnloaderBlockEntity;
+import org.exodusstudio.stellaris.common.menus.base.EnergyUsageMenu;
 import org.exodusstudio.stellaris.common.menus.base.EnergyUsageSync;
 import org.exodusstudio.stellaris.common.menus.base.BaseContainer;
 import org.exodusstudio.stellaris.common.menus.slot.ResultSlot;
 import org.exodusstudio.stellaris.common.registries.MenuTypesRegistry;
 
-public class CargoUnloaderMenu extends BaseContainer {
+public class CargoUnloaderMenu extends BaseContainer implements EnergyUsageMenu {
 
     private final Container inventory;
     private final CargoUnloaderBlockEntity blockEntity;
@@ -27,7 +28,7 @@ public class CargoUnloaderMenu extends BaseContainer {
         checkContainerSize(container, 30);
         this.inventory = container;
         this.blockEntity = entity;
-        this.energyUsage = EnergyUsageSync.create(this.blockEntity, this::addDataSlot);
+        this.energyUsage = EnergyUsageSync.create(this.blockEntity, playerInventory);
 
         addSlot(new ResultSlot(inventory, 0, 46, 42)); // rocket
         addSlot(new ResultSlot(inventory, 1, 96, 42)); // fuel input
@@ -45,8 +46,15 @@ public class CargoUnloaderMenu extends BaseContainer {
         return blockEntity;
     }
 
+    @Override
     public EnergyUsageSync getEnergyUsage() {
         return energyUsage;
+    }
+
+    @Override
+    public void broadcastChanges() {
+        super.broadcastChanges();
+        energyUsage.broadcastChanges(containerId);
     }
 
     @Override

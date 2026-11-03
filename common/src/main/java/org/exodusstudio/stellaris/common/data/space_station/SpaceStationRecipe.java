@@ -50,11 +50,16 @@ public record SpaceStationRecipe(List<IngredientWithCount> items, Identifier str
                             .map(holder -> (Component) Component.translatable(holder.value().getDescriptionId()))
                             .orElseGet(() -> Component.literal(itemKey.identifier().toString())),
                     SpaceStationRecipe::tagName);
-            component.append("\n").append(Component.translatable("tooltip.stellaris.space_station.ingredient",
+            boolean isTag = ingredient.itemRef().right().isPresent();
+            component.append("\n").append(Component.translatable(isTag ? "tooltip.stellaris.space_station.ingredient_tag" : "tooltip.stellaris.space_station.ingredient",
                     ingredient.count(), name).withStyle(ChatFormatting.GRAY));
         }
 
         return component;
+    }
+
+    public static Component acceptsAnyOf(TagKey<Item> tagKey) {
+        return Component.translatable("tooltip.stellaris.space_station.accepts_tag", "#" + tagKey.location());
     }
 
     private static Component tagName(TagKey<Item> tagKey) {

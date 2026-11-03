@@ -10,6 +10,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -22,11 +23,14 @@ import org.exodusstudio.stellaris.common.blocks.entities.machines.base.BaseEnerg
 import org.exodusstudio.stellaris.common.fluid.FluidUtil;
 import org.exodusstudio.stellaris.common.fluid.SingleFluidStorage;
 import org.exodusstudio.stellaris.common.menus.OxygenDistributorMenu;
+import org.exodusstudio.stellaris.common.menus.slot.FluidContainerSlot;
+import org.exodusstudio.stellaris.common.menus.slot.SpecificFluidContainerSlot;
 import org.exodusstudio.stellaris.common.network.packets.SyncFluidPacketWithoutDirection;
 import org.exodusstudio.stellaris.common.registries.BlockEntitiesRegistry;
 import org.exodusstudio.stellaris.common.registries.FluidsRegistry;
 import org.exodusstudio.stellaris.common.utils.OxygenUtils;
 import org.exodusstudio.stellaris.common.utils.Utils;
+import org.exodusstudio.stellaris.common.utils.capabilities.energy.EnergyUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -115,7 +119,7 @@ public class OxygenDistributorBlockEntity extends BaseEnergyContainerBlockEntity
 
         if (OxygenUtils.hasBreathableAtmosphere(level)) {
             newStatus = OxygenUtils.OxygenStatus.BREATHABLE_ATMOSPHERE;
-        } else if (energyContainer.getEnergy() <= 0) {
+        } else if (energyContainer.getEnergy() < EnergyUtil.scaled(1)) {
             newStatus = OxygenUtils.OxygenStatus.NO_ENERGY;
         } else if (oxygenTank.isEmpty()) {
             newStatus = OxygenUtils.OxygenStatus.NO_OXYGEN;
@@ -133,7 +137,7 @@ public class OxygenDistributorBlockEntity extends BaseEnergyContainerBlockEntity
                     oxygenatedPosition.addAll(result.positions());
                 } else if (oxygenTank.getFluidValueInTank() >= livingEntitiesCount) {
                     oxygenTank.drainWithoutLimits(livingEntitiesCount, false);
-                    useEnergy(1);
+                    useEnergy(EnergyUtil.scaled(1));
                     oxygenatedPosition.addAll(result.positions());
                 } else {
                     newStatus = OxygenUtils.OxygenStatus.NOT_ENOUGH_OXYGEN;
@@ -225,6 +229,28 @@ public class OxygenDistributorBlockEntity extends BaseEnergyContainerBlockEntity
     }
 
     @Override
+    public boolean canPlaceItem(int slot, ItemStack stack) {
+        if (!getItem(slot).isEmpty()) {
+            return false;
+        }
+
+        return switch (slot) {
+            case INPUT_SLOT -> SpecificFluidContainerSlot.accepts(stack, FluidsRegistry.OXYGEN_STILL.get(), false);
+            case OUTPUT_SLOT -> FluidContainerSlot.accepts(stack, true);
+            default -> false;
+        };
+    }
+
+    @Override
+    public boolean canTakeItemThroughFace(int slot, ItemStack stack, Direction direction) {
+        return switch (slot) {
+            case INPUT_SLOT -> FluidUtil.isItemFluidEmpty(stack);
+            case OUTPUT_SLOT -> FluidUtil.isItemFluidFull(stack);
+            default -> false;
+        };
+    }
+
+    @Override
     public @Nullable SingleFluidStorage getFluidTank(@Nullable Direction direction) {
         return oxygenTank;
     }
@@ -256,6 +282,6 @@ public class OxygenDistributorBlockEntity extends BaseEnergyContainerBlockEntity
 
     @Override
     public int getMaxEnergyUsage() {
-        return 1;
+        return EnergyUtil.scaled(1);
     }
 }
