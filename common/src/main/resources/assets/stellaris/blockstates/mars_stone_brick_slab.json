@@ -1,0 +1,12 @@
+{
+  "variants": {
+    "type=bottom,waterlogged=false": { "model": "stellaris:block/mars_stone_brick_slab" },
+    "type=bottom,waterlogged=true":  { "model": "stellaris:block/mars_stone_brick_slab" },
+
+    "type=top,waterlogged=false": { "model": "stellaris:block/mars_stone_brick_slab_top" },
+    "type=top,waterlogged=true":  { "model": "stellaris:block/mars_stone_brick_slab_top" },
+
+    "type=double,waterlogged=false": { "model": "stellaris:block/mars_stone_bricks" },
+    "type=double,waterlogged=true":  { "model": "stellaris:block/mars_stone_bricks" }
+  }
+}

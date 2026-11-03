@@ -62,7 +62,7 @@ public class BlockEntitiesRegistry {
             () -> new BlockEntityType<>(FlagBlockEntity::new, Set.of(BlocksRegistry.FLAG.block().get())));
 
     public static final Supplier<BlockEntityType<GlobeBlockEntity>> GLOBE = BLOCK_ENTITY_TYPE.register("globe",
-            () -> new BlockEntityType<>(GlobeBlockEntity::new, Set.of(BlocksRegistry.EARTH_GLOBE.block().get(), BlocksRegistry.MOON_GLOBE.block().get())));
+            () -> new BlockEntityType<>(GlobeBlockEntity::new, Set.of(BlocksRegistry.EARTH_GLOBE.block().get(), BlocksRegistry.MOON_GLOBE.block().get(), BlocksRegistry.MARS_GLOBE.block().get())));
 
     public static final Supplier<BlockEntityType<SlidingDoorBlockEntity>> SLIDING_DOOR = BLOCK_ENTITY_TYPE.register("sliding_door",
             () -> new BlockEntityType<>(SlidingDoorBlockEntity::new, Set.of(BlocksRegistry.TITANIUM_DOOR.block().get())));

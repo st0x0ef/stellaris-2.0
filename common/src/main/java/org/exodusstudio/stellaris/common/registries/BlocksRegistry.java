@@ -8,6 +8,7 @@ import net.minecraft.core.Holder;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.EntityType;
@@ -200,6 +201,32 @@ public final class BlocksRegistry {
     public static final BlockItemRegistrySupplier MARS_REGOLITH = blockWithItem("mars_regolith", ofFullCopy(Blocks.STONE));
     public static final BlockItemRegistrySupplier MARS_REGOLITH_BRICKS = blockWithItem("mars_regolith_bricks", ofFullCopy(Blocks.STONE_BRICKS));
 
+    public static final BlockItemRegistrySupplier MARS_STONE_SLAB = blockWithItem("mars_stone_slab", ofFullCopy(Blocks.STONE_SLAB), SlabBlock::new);
+    public static final BlockItemRegistrySupplier MARS_STONE_STAIRS = blockWithItem("mars_stone_stairs", ofFullCopy(Blocks.STONE_STAIRS), p -> new StairBlock(MARS_STONE.block().get().defaultBlockState(), p));
+    public static final BlockItemRegistrySupplier VERTICAL_MARS_SLAB = blockWithItem("vertical_mars_slab", ofFullCopy(Blocks.STONE_SLAB), p -> new VerticalSlab(p));
+    public static final BlockItemRegistrySupplier MARS_STONE_BRICKS = blockWithItem("mars_stone_bricks", ofFullCopy(Blocks.STONE_BRICKS));
+    public static final BlockItemRegistrySupplier MARS_STONE_BRICK_SLAB = blockWithItem("mars_stone_brick_slab", ofFullCopy(Blocks.STONE_BRICK_SLAB), SlabBlock::new);
+    public static final BlockItemRegistrySupplier MARS_STONE_BRICK_STAIRS = blockWithItem("mars_stone_brick_stairs", ofFullCopy(Blocks.STONE_BRICK_STAIRS), p -> new StairBlock(MARS_STONE_BRICKS.block().get().defaultBlockState(), p));
+    public static final BlockItemRegistrySupplier CRACKED_MARS_STONE_BRICKS = blockWithItem("cracked_mars_stone_bricks", ofFullCopy(Blocks.CRACKED_STONE_BRICKS));
+    public static final BlockItemRegistrySupplier CHISELED_MARS_STONE_BRICKS = blockWithItem("chiseled_mars_stone_bricks", ofFullCopy(Blocks.CHISELED_STONE_BRICKS));
+    public static final BlockItemRegistrySupplier POLISHED_MARS_STONE = blockWithItem("polished_mars_stone", ofFullCopy(Blocks.STONE));
+    public static final BlockItemRegistrySupplier MARS_POLISHED_STONE_SLAB = blockWithItem("mars_polished_stone_slab", ofFullCopy(Blocks.STONE_SLAB), SlabBlock::new);
+    public static final BlockItemRegistrySupplier MARS_POLISHED_STONE_STAIRS = blockWithItem("mars_polished_stone_stairs", ofFullCopy(Blocks.STONE_STAIRS), p -> new StairBlock(POLISHED_MARS_STONE.block().get().defaultBlockState(), p));
+    public static final BlockItemRegistrySupplier MARS_PILLAR = blockWithItem("mars_pillar", ofFullCopy(Blocks.STONE), RotatedPillarBlock::new);
+
+    public static final BlockItemRegistrySupplier CONGLOMORATE = blockWithItem("conglomorate", ofFullCopy(Blocks.STONE));
+    public static final BlockItemRegistrySupplier CONGLOMORATE_SLAB = blockWithItem("conglomorate_slab", ofFullCopy(Blocks.STONE_SLAB), SlabBlock::new);
+    public static final BlockItemRegistrySupplier CONGLOMORATE_STAIRS = blockWithItem("conglomorate_stairs", ofFullCopy(Blocks.STONE_STAIRS), p -> new StairBlock(CONGLOMORATE.block().get().defaultBlockState(), p));
+    public static final BlockItemRegistrySupplier POLISHED_CONGLOMORATE = blockWithItem("polished_conglomorate", ofFullCopy(Blocks.STONE));
+    public static final BlockItemRegistrySupplier POLISHED_CONGLOMORATE_SLAB = blockWithItem("polished_conglomorate_slab", ofFullCopy(Blocks.STONE_SLAB), SlabBlock::new);
+    public static final BlockItemRegistrySupplier POLISHED_CONGLOMORATE_STAIRS = blockWithItem("polished_conglomorate_stairs", ofFullCopy(Blocks.STONE_STAIRS), p -> new StairBlock(POLISHED_CONGLOMORATE.block().get().defaultBlockState(), p));
+
+    public static final BlockItemRegistrySupplier MARS_DIAMOND_ORE = blockWithItem("mars_diamond_ore", ofFullCopy(Blocks.DIAMOND_ORE), p -> new DropExperienceBlock(UniformInt.of(3, 7), p));
+    public static final BlockItemRegistrySupplier MARS_ICE_SHARD_ORE = blockWithItem("mars_ice_shard_ore", ofFullCopy(Blocks.IRON_ORE));
+    public static final BlockItemRegistrySupplier MARS_OSTRUM_ORE = blockWithItem("mars_ostrum_ore", ofFullCopy(Blocks.IRON_ORE));
+    public static final BlockItemRegistrySupplier MARS_PLUTONIUM_ORE = blockWithItem("mars_plutonium_ore", ofFullCopy(Blocks.IRON_ORE));
+    public static final BlockItemRegistrySupplier MARS_THARSITE_ORE = blockWithItem("mars_tharsite_ore", ofFullCopy(Blocks.IRON_ORE));
+
 
     /**
      * MACHINES BLOCKS
@@ -318,6 +345,9 @@ public final class BlocksRegistry {
             BlockBehaviour.Properties.of().mapColor(MapColor.STONE).strength(2.5F).sound(SoundType.STONE).noOcclusion(),
             GlobeBlock::new);
     public static final BlockItemRegistrySupplier MOON_GLOBE = blockWithItem("moon_globe",
+            BlockBehaviour.Properties.of().mapColor(MapColor.STONE).strength(2.5F).sound(SoundType.STONE).noOcclusion(),
+            GlobeBlock::new);
+    public static final BlockItemRegistrySupplier MARS_GLOBE = blockWithItem("mars_globe",
             BlockBehaviour.Properties.of().mapColor(MapColor.STONE).strength(2.5F).sound(SoundType.STONE).noOcclusion(),
             GlobeBlock::new);
 
