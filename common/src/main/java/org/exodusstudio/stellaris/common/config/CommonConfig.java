@@ -173,6 +173,17 @@ public class CommonConfig implements PostValidation {
         public boolean enableAssistant = true;
     }
 
+    @ScreenInfos.InnerConfig
+    @ScreenInfos.Description(value = "The admin part of the config. Beware...", translate = false)
+    public Admin admin = new Admin();
+
+    public static class Admin {
+        @ScreenInfos.Description(value = "config.stellaris.regenDimension.desc")
+        public boolean regenDimension = false;
+        public Identifier[] dimensionsToRegen = new Identifier[]{IdentifierUtils.id("mars")};
+
+    }
+
     @Override
     public void postValidation() {
         oilConfig.chunkOilChance = atLeast("oilConfig.chunkOilChance", oilConfig.chunkOilChance, 1);
