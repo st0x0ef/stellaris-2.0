@@ -8,7 +8,6 @@ import net.minecraft.core.Holder;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.EntityType;
@@ -221,9 +220,6 @@ public final class BlocksRegistry {
     public static final BlockItemRegistrySupplier POLISHED_CONGLOMORATE_SLAB = blockWithItem("polished_conglomorate_slab", ofFullCopy(Blocks.STONE_SLAB), SlabBlock::new);
     public static final BlockItemRegistrySupplier POLISHED_CONGLOMORATE_STAIRS = blockWithItem("polished_conglomorate_stairs", ofFullCopy(Blocks.STONE_STAIRS), p -> new StairBlock(POLISHED_CONGLOMORATE.block().get().defaultBlockState(), p));
 
-    public static final BlockItemRegistrySupplier MARS_DIAMOND_ORE = blockWithItem("mars_diamond_ore", ofFullCopy(Blocks.DIAMOND_ORE), p -> new DropExperienceBlock(UniformInt.of(3, 7), p));
-    public static final BlockItemRegistrySupplier MARS_ICE_SHARD_ORE = blockWithItem("mars_ice_shard_ore", ofFullCopy(Blocks.IRON_ORE));
-    public static final BlockItemRegistrySupplier MARS_OSTRUM_ORE = blockWithItem("mars_ostrum_ore", ofFullCopy(Blocks.IRON_ORE));
     public static final BlockItemRegistrySupplier MARS_THARSITE_ORE = blockWithItem("mars_tharsite_ore", ofFullCopy(Blocks.IRON_ORE));
 
 
