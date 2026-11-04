@@ -54,6 +54,9 @@ public final class ItemsRegistry {
     public static final RegistrySupplier<Item> NOVITE_INGOT = item("novite_ingot");
     public static final RegistrySupplier<Item> RAW_NOVITE = item("raw_novite");
 
+    public static final RegistrySupplier<Item> THARSITE_INGOT = item("tharsite_ingot");
+    public static final RegistrySupplier<Item> RAW_THARSITE = item("raw_tharsite");
+
     public static final RegistrySupplier<Item> ICE_SHARD = item("ice_shard");
 
     /** Tools */
