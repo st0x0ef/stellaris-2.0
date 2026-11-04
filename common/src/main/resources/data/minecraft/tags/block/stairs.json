@@ -9,6 +9,11 @@
     "stellaris:moon_polished_stone_brick_stairs",
     "stellaris:desh_plating_stairs",
     "stellaris:casus_astrum_stone_stairs",
-    "stellaris:lunar_stairs"
+    "stellaris:lunar_stairs",
+    "stellaris:mars_stone_stairs",
+    "stellaris:mars_stone_brick_stairs",
+    "stellaris:mars_polished_stone_stairs",
+    "stellaris:conglomorate_stairs",
+    "stellaris:polished_conglomorate_stairs"
   ]
 }

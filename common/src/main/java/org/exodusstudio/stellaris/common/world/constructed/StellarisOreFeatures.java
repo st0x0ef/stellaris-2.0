@@ -44,14 +44,14 @@ public class StellarisOreFeatures {
         RuleTest marsStoneReplaceable = new TagMatchTest(TagsRegistry.BlockTags.MARS_STONE_ORE_REPLACEABLE);
         RuleTest iceCaveMarsStoneReplaceable = new TagMatchTest(TagsRegistry.BlockTags.ICE_CAVE_ORE_REPLACEABLE);
 
-       Holder<ConfiguredFeature<?, ?>> oreIronConfiguredFeature = Holder.direct(oreFeatureBuilder(marsStoneReplaceable, BlocksRegistry.MARS_STONE_IRON_ORE.block().get().defaultBlockState(), 9));
-        Holder<ConfiguredFeature<?, ?>> oreIronSmallConfiguredFeature = Holder.direct(oreFeatureBuilder(marsStoneReplaceable, BlocksRegistry.MARS_STONE_IRON_ORE.block().get().defaultBlockState(), 4));
+       Holder<ConfiguredFeature<?, ?>> oreIronConfiguredFeature = Holder.direct(oreFeatureBuilder(marsStoneReplaceable, BlocksRegistry.MARS_IRON_ORE.block().get().defaultBlockState(), 9));
+        Holder<ConfiguredFeature<?, ?>> oreIronSmallConfiguredFeature = Holder.direct(oreFeatureBuilder(marsStoneReplaceable, BlocksRegistry.MARS_IRON_ORE.block().get().defaultBlockState(), 4));
 
         FeatureUtils.register(context, MARS_ORE_IRON_SMALL.configuredFeature(), Feature.ORE, new OreConfiguration(
-                marsStoneReplaceable, BlocksRegistry.MARS_STONE_IRON_ORE.block().get().defaultBlockState(), 4
+                marsStoneReplaceable, BlocksRegistry.MARS_IRON_ORE.block().get().defaultBlockState(), 4
         ));
         FeatureUtils.register(context, MARS_ORE_IRON, Feature.ORE, new OreConfiguration(
-                marsStoneReplaceable, BlocksRegistry.MARS_STONE_IRON_ORE.block().get().defaultBlockState(), 9
+                marsStoneReplaceable, BlocksRegistry.MARS_IRON_ORE.block().get().defaultBlockState(), 9
         ));
         FeatureUtils.register(context, ICE_CAVE_ORE_IRON_SMALL.configuredFeature(), ModFeatures.SEQUENCE.get(), hostedOre(
                 iceCaveMarsStoneReplaceable, BlocksRegistry.MARS_STONE.block().get().defaultBlockState(), oreIronSmallConfiguredFeature

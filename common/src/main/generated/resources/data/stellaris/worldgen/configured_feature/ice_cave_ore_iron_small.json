@@ -32,7 +32,7 @@
             "targets": [
               {
                 "state": {
-                  "Name": "stellaris:mars_stone_iron_ore"
+                  "Name": "stellaris:mars_iron_ore"
                 },
                 "target": {
                   "predicate_type": "minecraft:tag_match",
