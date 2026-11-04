@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": "stellaris:polished_mars_stone",
+  "result": {
+    "id": "stellaris:mars_polished_stone_slab",
+    "count": 2
+  }
+}

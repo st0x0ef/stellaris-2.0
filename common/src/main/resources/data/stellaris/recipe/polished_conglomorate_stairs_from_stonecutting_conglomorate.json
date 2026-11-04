@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": "stellaris:conglomorate",
+  "result": {
+    "id": "stellaris:polished_conglomorate_stairs",
+    "count": 1
+  }
+}

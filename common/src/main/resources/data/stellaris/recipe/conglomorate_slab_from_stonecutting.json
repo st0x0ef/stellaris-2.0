@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": "stellaris:conglomorate",
+  "result": {
+    "id": "stellaris:conglomorate_slab",
+    "count": 2
+  }
+}

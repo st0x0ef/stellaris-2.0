@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "#",
+    "#"
+  ],
+  "key": {
+    "#": "stellaris:mars_red_canyon_stone"
+  },
+  "result": {
+    "id": "stellaris:mars_red_stone_bricks_pillar",
+    "count": 2
+  }
+}

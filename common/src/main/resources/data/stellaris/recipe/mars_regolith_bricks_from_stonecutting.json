@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": "stellaris:mars_regolith",
+  "result": {
+    "id": "stellaris:mars_regolith_bricks",
+    "count": 1
+  }
+}
