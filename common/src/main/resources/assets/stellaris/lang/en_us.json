@@ -654,6 +654,10 @@
   "config.stellaris.landerThirdPerson.desc": "Switch to third person automatically while riding a lander.",
   "config.stellaris.temperatureOverlay": "Show Temperature Overlay",
 
+  "config.stellaris.regenDimension.desc": "When selected, all the dimensions in the dimensionsToRegen will be regenerated.",
+  "config.stellaris.regenDimension": "Regenerate dimensions",
+  "config.stellaris.dimensionsToRegen": "Dimensions to Regenerate",
+
   "effect.stellaris.infected": "Infected",
   "effect.stellaris.corrosion": "Corrosion",
 
