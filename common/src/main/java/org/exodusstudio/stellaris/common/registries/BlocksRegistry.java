@@ -224,7 +224,6 @@ public final class BlocksRegistry {
     public static final BlockItemRegistrySupplier MARS_DIAMOND_ORE = blockWithItem("mars_diamond_ore", ofFullCopy(Blocks.DIAMOND_ORE), p -> new DropExperienceBlock(UniformInt.of(3, 7), p));
     public static final BlockItemRegistrySupplier MARS_ICE_SHARD_ORE = blockWithItem("mars_ice_shard_ore", ofFullCopy(Blocks.IRON_ORE));
     public static final BlockItemRegistrySupplier MARS_OSTRUM_ORE = blockWithItem("mars_ostrum_ore", ofFullCopy(Blocks.IRON_ORE));
-    public static final BlockItemRegistrySupplier MARS_PLUTONIUM_ORE = blockWithItem("mars_plutonium_ore", ofFullCopy(Blocks.IRON_ORE));
     public static final BlockItemRegistrySupplier MARS_THARSITE_ORE = blockWithItem("mars_tharsite_ore", ofFullCopy(Blocks.IRON_ORE));
 
 

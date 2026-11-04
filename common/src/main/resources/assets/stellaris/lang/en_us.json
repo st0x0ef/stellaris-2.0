@@ -96,7 +96,6 @@
   "item.stellaris.mars_diamond_ore": "Mars Diamond Ore",
   "item.stellaris.mars_ice_shard_ore": "Mars Ice Shard Ore",
   "item.stellaris.mars_ostrum_ore": "Mars Ostrum Ore",
-  "item.stellaris.mars_plutonium_ore": "Mars Plutonium Ore",
   "item.stellaris.mars_tharsite_ore": "Mars Tharsite Ore",
   "item.stellaris.mars_globe": "Mars Globe",
 
@@ -131,6 +130,8 @@
   "item.stellaris.raw_novite_block": "Raw Novite Block",
 
   "item.stellaris.silicon": "Silicon",
+
+  "item.stellaris.ice_shard": "Ice Shard",
 
   "item.stellaris.titanium_ingot": "Titanium Ingot",
   "item.stellaris.titanium_nugget": "Titanium Nugget",
@@ -893,7 +894,6 @@
   "block.stellaris.mars_diamond_ore": "Mars Diamond Ore",
   "block.stellaris.mars_ice_shard_ore": "Mars Ice Shard Ore",
   "block.stellaris.mars_ostrum_ore": "Mars Ostrum Ore",
-  "block.stellaris.mars_plutonium_ore": "Mars Plutonium Ore",
   "block.stellaris.mars_tharsite_ore": "Mars Tharsite Ore",
   "block.stellaris.mars_globe": "Mars Globe",
 
