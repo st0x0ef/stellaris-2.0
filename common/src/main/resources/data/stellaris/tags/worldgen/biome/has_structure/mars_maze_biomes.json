@@ -1,0 +1,7 @@
+{
+  "replace": false,
+  "values": [
+    "#stellaris:is_mars",
+    "stellaris:ice_caves"
+  ]
+}
