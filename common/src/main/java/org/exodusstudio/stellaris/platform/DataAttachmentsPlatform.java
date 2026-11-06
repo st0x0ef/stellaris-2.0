@@ -4,10 +4,11 @@ import dev.architectury.injectables.annotations.ExpectPlatform;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.chunk.ChunkAccess;
+import org.jetbrains.annotations.Nullable;
 
 public class DataAttachmentsPlatform {
 
-
+    @Nullable
     @ExpectPlatform
     public static <T> T getChunkData(ChunkAccess chunk, Identifier location, Class<T> clazz) {
         throw new AssertionError();

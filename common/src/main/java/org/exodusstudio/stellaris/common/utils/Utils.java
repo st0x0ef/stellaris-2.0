@@ -1,10 +1,14 @@
 package org.exodusstudio.stellaris.common.utils;
 
+import com.mojang.datafixers.util.Pair;
 import dev.architectury.networking.NetworkManager;
+import io.netty.buffer.ByteBuf;
+import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Holder;
 import net.minecraft.core.Vec3i;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -412,8 +416,31 @@ public class Utils {
         }
 
         return maxTemp - (time / halfDayDuration - 1) * tempDiff;
-
-
     }
+
+    public static ChatFormatting getColorForRadiationLevel(float radiationLevel) {
+       if(radiationLevel < 10f) {
+           return ChatFormatting.GRAY;
+       } else if (radiationLevel >= 10f && radiationLevel < 50f) {
+           return ChatFormatting.GREEN;
+       }
+       else if (radiationLevel >= 50f && radiationLevel < 100f) {
+           return ChatFormatting.YELLOW;
+       }else if (radiationLevel >= 100f && radiationLevel < 1000f) {
+           return ChatFormatting.RED;
+       }
+       return ChatFormatting.DARK_RED;
+    }
+
+    public static <V1, V2> StreamCodec<ByteBuf, Pair<V1,V2>> pairStreamCodec(StreamCodec<ByteBuf, V1> codec1, StreamCodec<ByteBuf, V2> codec2)
+    {
+        return StreamCodec.composite(
+                codec1, Pair::getFirst,
+                codec2, Pair::getSecond,
+                Pair::of
+        );
+    }
+
+
 
 }

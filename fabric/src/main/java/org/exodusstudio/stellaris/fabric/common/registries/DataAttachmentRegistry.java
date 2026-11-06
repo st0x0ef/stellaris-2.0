@@ -1,9 +1,11 @@
 package org.exodusstudio.stellaris.fabric.common.registries;
 
+import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.Codec;
 import net.fabricmc.fabric.api.attachment.v1.AttachmentRegistry;
 import net.fabricmc.fabric.api.attachment.v1.AttachmentSyncPredicate;
 import net.fabricmc.fabric.api.attachment.v1.AttachmentType;
+import net.minecraft.core.BlockPos;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.resources.Identifier;
 import org.exodusstudio.stellaris.client.overlays.FadingHolder;
@@ -16,8 +18,11 @@ import org.exodusstudio.stellaris.common.modules.space_suit.SpaceSuitModule;
 import org.exodusstudio.stellaris.common.modules.space_suit.SpaceSuitModules;
 import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
 import org.exodusstudio.stellaris.common.utils.MoonLoreUtils;
+import org.exodusstudio.stellaris.common.utils.RadiationUtils;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 @SuppressWarnings("all")
 public class DataAttachmentRegistry {
@@ -32,6 +37,7 @@ public class DataAttachmentRegistry {
     public static final AttachmentType<Boolean> PLAYER_IMMUNISED_TO_INFECTION;
     public static final AttachmentType<AssistantPlayerData> ASSISTANT_DATA;
     public static final AttachmentType<ParasitePlayerData> PARASITE_DATA;
+    public static final AttachmentType<List<Pair<BlockPos, Float>>> RADIOACTIVE_BLOCKS_MAP;
 
     public static void register() {
 
@@ -93,6 +99,14 @@ public class DataAttachmentRegistry {
                         .syncWith(FadingHolder.STREAM_CODEC, AttachmentSyncPredicate.all()) // only the player's own client needs the value for rendering
         );
 
+        RADIOACTIVE_BLOCKS_MAP = AttachmentRegistry.create(
+                RadiationUtils.RADIATION_BLOCKS_MAP_ID,
+                builder -> builder
+                        .initializer(() -> new ArrayList<>()) // start with a default value like hunger
+                        .persistent(RadiationUtils.RADIATION_BLOCK_MAP_CODEC) // persist across restarts
+                        .syncWith(RadiationUtils.RADIATION_BLOCK_MAP_STREAMCODEC, AttachmentSyncPredicate.all()) // only the player's own client needs the value for rendering
+        );
+
         ATTACHMENT_TYPES.put(OIL.identifier(), OIL);
         ATTACHMENT_TYPES.put(ROCKET_MODULES.identifier(), ROCKET_MODULES);
         ATTACHMENT_TYPES.put(SPACE_SUIT_MODULES.identifier(), SPACE_SUIT_MODULES);
@@ -101,6 +115,7 @@ public class DataAttachmentRegistry {
         ATTACHMENT_TYPES.put(PLAYER_IMMUNISED_TO_INFECTION.identifier(), PLAYER_IMMUNISED_TO_INFECTION);
         ATTACHMENT_TYPES.put(ASSISTANT_DATA.identifier(), ASSISTANT_DATA);
         ATTACHMENT_TYPES.put(PARASITE_DATA.identifier(), PARASITE_DATA);
+        ATTACHMENT_TYPES.put(RADIOACTIVE_BLOCKS_MAP.identifier(), RADIOACTIVE_BLOCKS_MAP);
 
     }
 

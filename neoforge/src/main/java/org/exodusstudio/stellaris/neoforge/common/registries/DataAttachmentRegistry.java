@@ -13,41 +13,52 @@ import org.exodusstudio.stellaris.common.assistant.AssistantPlayerData;
 import org.exodusstudio.stellaris.common.infection.ParasitePlayerData;
 import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
 import org.exodusstudio.stellaris.common.utils.MoonLoreUtils;
+import org.exodusstudio.stellaris.common.utils.RadiationUtils;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.function.Supplier;
+import com.mojang.datafixers.util.Pair;
+import net.minecraft.core.BlockPos;
 
 public class DataAttachmentRegistry {
 
-    public static HashMap<Identifier, Supplier<AttachmentType<?>>> ATTACHMENTS = new HashMap<>();
+    public static HashMap<Identifier, Supplier<? extends AttachmentType<?>>> ATTACHMENTS = new HashMap<>();
     public static final DeferredRegister<AttachmentType<?>> ATTACHMENT_TYPES = DeferredRegister.create(NeoForgeRegistries.ATTACHMENT_TYPES, Stellaris.MOD_ID);
 
-    private static final Supplier<AttachmentType<?>> OIL = ATTACHMENT_TYPES.register(
+    private static final Supplier<AttachmentType<Integer>> OIL = ATTACHMENT_TYPES.register(
             "oil", () -> AttachmentType.builder(() -> -1).serialize(Codec.INT.fieldOf("oil")).sync(ByteBufCodecs.INT).build()
     );
 
-    private static final Supplier<AttachmentType<?>> PLAYER_FADE = ATTACHMENT_TYPES.register(
+
+    public static final Supplier<AttachmentType<List<Pair<BlockPos, Float>>>> RADIOACTIVE_BLOCKS_MAP = ATTACHMENT_TYPES.register(
+            "radioactive_blocks_map", () -> AttachmentType.<List<Pair<BlockPos, Float>>>builder(() -> new ArrayList<>()).serialize(RadiationUtils.RADIATION_BLOCK_MAP_CODEC.fieldOf("radioactive_blocks_map")).sync(RadiationUtils.RADIATION_BLOCK_MAP_STREAMCODEC)
+                    .build()
+            // only the player's own client needs the value for rendering
+    );
+    private static final Supplier<AttachmentType<FadingHolder>> PLAYER_FADE = ATTACHMENT_TYPES.register(
             "player_fade", () -> AttachmentType.builder(() -> new FadingHolder(false, 0f)).serialize(FadingHolder.CODEC.fieldOf("player_fade")).sync(FadingHolder.STREAM_CODEC).build()
     );
 
-    private static final Supplier<AttachmentType<?>> MOON_LORE_PROGRESSION = ATTACHMENT_TYPES.register(
+    private static final Supplier<AttachmentType<Integer>> MOON_LORE_PROGRESSION = ATTACHMENT_TYPES.register(
             "moon_lore_progression", () -> AttachmentType.builder(() -> -1).serialize(Codec.INT.fieldOf("stage")).sync(ByteBufCodecs.INT).copyOnDeath().build()
     );
 
-    private static final Supplier<AttachmentType<?>> PLAYER_IMMUNISED_TO_INFECTION = ATTACHMENT_TYPES.register(
+    private static final Supplier<AttachmentType<Boolean>> PLAYER_IMMUNISED_TO_INFECTION = ATTACHMENT_TYPES.register(
             "player_immunised_to_infection", () -> AttachmentType.builder(() -> false).serialize(Codec.BOOL.fieldOf("immunised")).sync(ByteBufCodecs.BOOL).copyOnDeath().build()
     );
 
 
-
-
-    private static final Supplier<AttachmentType<?>> ASSISTANT_DATA = ATTACHMENT_TYPES.register(
+    private static final Supplier<AttachmentType<AssistantPlayerData>> ASSISTANT_DATA = ATTACHMENT_TYPES.register(
             "assistant_data", () -> AttachmentType.builder(AssistantPlayerData::empty).serialize(AssistantPlayerData.CODEC.fieldOf("assistant_data")).copyOnDeath().build()
     );
 
-    private static final Supplier<AttachmentType<?>> PARASITE_DATA = ATTACHMENT_TYPES.register(
+    private static final Supplier<AttachmentType<ParasitePlayerData>> PARASITE_DATA = ATTACHMENT_TYPES.register(
             "parasite_data", () -> AttachmentType.builder(ParasitePlayerData::empty).serialize(ParasitePlayerData.CODEC.fieldOf("parasite_data")).copyOnDeath().build()
     );
+
+
 
     public static void register(IEventBus bus) {
         ATTACHMENTS.put(IdentifierUtils.id("oil"), OIL);
@@ -56,6 +67,7 @@ public class DataAttachmentRegistry {
         ATTACHMENTS.put(MoonLoreUtils.PLAYER_IMMUNISED_TO_INFECTION, PLAYER_IMMUNISED_TO_INFECTION);
         ATTACHMENTS.put(AssistantPlayerData.KEY, ASSISTANT_DATA);
         ATTACHMENTS.put(ParasitePlayerData.KEY, PARASITE_DATA);
+        ATTACHMENTS.put(RadiationUtils.RADIATION_BLOCKS_MAP_ID, RADIOACTIVE_BLOCKS_MAP);
 
         ATTACHMENT_TYPES.register(bus);
     }

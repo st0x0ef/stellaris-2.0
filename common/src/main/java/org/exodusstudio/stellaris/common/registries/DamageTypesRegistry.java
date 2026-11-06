@@ -15,6 +15,7 @@ public final class DamageTypesRegistry {
     public static final ResourceKey<DamageType> ROVER_IMPACT = key("rover_impact");
     public static final ResourceKey<DamageType> CORROSION = key("corrosion");
     public static final ResourceKey<DamageType> INFECTION = key("infection");
+    public static final ResourceKey<DamageType> RADIATION = key("radiation");
 
     private DamageTypesRegistry() {}
 

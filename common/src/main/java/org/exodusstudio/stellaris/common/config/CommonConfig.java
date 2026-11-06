@@ -150,6 +150,28 @@ public class CommonConfig implements PostValidation {
         public boolean enableAssistant = true;
     }
 
+
+    @ScreenInfos.InnerConfig
+    @ScreenInfos.Description(value = "config.stellaris.oxygenConfig.desc")
+    public RadiationConfig radiationConfig = new RadiationConfig();
+
+    public static class RadiationConfig {
+        @ScreenInfos.Description(value = "config.stellaris.oxygenConfig.enableOxygenSystem.desc")
+        public boolean enableRadiationSystem = true;
+
+
+        @ScreenInfos.Description(value = "config.stellaris.oxygenConfig.oxygenDamageInterval.desc")
+        public int radiationDamageInterval = 80;
+
+        @ScreenInfos.Description(value = "config.stellaris.oxygenConfig.noOxygenDamage.desc")
+        public float radiationDamageMultiplier = 0.1f;
+
+        @ScreenInfos.Description(value = "config.stellaris.radiationConfig.radiationDetectionRadius.desc")
+        public int radiationDetectionRadius = 5;
+
+    }
+
+
     @Override
     public void postValidation() {
         oilConfig.chunkOilChance = atLeast("oilConfig.chunkOilChance", oilConfig.chunkOilChance, 1);

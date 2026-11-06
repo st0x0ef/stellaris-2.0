@@ -322,7 +322,8 @@ public class OxygenUtils {
         return pos.getY() >= seals.highest();
     }
 
-    private record SealColumn(int lowest, int highest) {}
+    private record SealColumn(int lowest, int highest) {
+    }
 
     private static SealColumn scanSeals(Level level, LevelChunk chunk, int x, int fromY, int z) {
         BlockPos.MutableBlockPos cursor = new BlockPos.MutableBlockPos();

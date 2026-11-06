@@ -448,7 +448,7 @@
   "stellaris.screen.build_space_station": "Build Space Station",
   "stellaris.screen.antenna_available": "Available Antennas",
   "stellaris.screen.owned_by": "Owned by : ",
-  "stellaris.screen.galactic_rays_collector": "Energy",
+  "stellaris.screen.galactic_rays_collector": "Galactic Rays Collector",
 
   "station.stellaris.space_station_small": "Small Station",
   "station.stellaris.space_station_medium": "Medium Station",
@@ -488,6 +488,7 @@
   "tooltip.item.stellaris.tablet": "Right click to open the wiki.",
   "tooltip.item.stellaris.tablet.lookup": "Shift + right click a block, or drop an item on the tablet, to jump to its page.",
   "tooltip.item.stellaris.night_vision_module": "Toggle night vision with the Night Vision key.",
+  "tooltip.item.stellaris.radiation": "Radiation : ",
 
   "tooltip.item.stellaris.can_be_applied_to_space_suit_boots_module": "This module can be applied to the space suit boots.",
   "tooltip.item.stellaris.can_be_applied_to_space_suit_leggings_module": "This module can be applied to the space suit leggings.",

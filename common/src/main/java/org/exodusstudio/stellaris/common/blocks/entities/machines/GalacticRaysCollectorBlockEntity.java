@@ -23,7 +23,7 @@ public class GalacticRaysCollectorBlockEntity extends BaseGeneratorBlockEntity {
     public static int FULL_RADIATION_CONTAINER_SLOT = 2;
 
     public static int ENERGY_CAPACITY = 100000;
-    public static int DEFAULT_ENERGY_OUTPUT = 10;
+    public static int DEFAULT_ENERGY_OUTPUT = 5;
 
 
     public GalacticRaysCollectorBlockEntity(BlockPos blockPos, BlockState blockState) {

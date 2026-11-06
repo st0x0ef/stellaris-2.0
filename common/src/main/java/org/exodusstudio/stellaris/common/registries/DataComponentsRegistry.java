@@ -73,6 +73,9 @@ public class DataComponentsRegistry {
     public static final RegistrySupplier<DataComponentType<RadiationHolderComponent>> RADIATION_HOLDER =
             register("radiation_holder", builder -> builder.persistent(RadiationHolderComponent.CODEC).networkSynchronized(RadiationHolderComponent.STREAM_CODEC));
 
+    public static final RegistrySupplier<DataComponentType<Float>> RADIATION =
+            register("radiation", builder -> builder.persistent(Codec.FLOAT).networkSynchronized(ByteBufCodecs.FLOAT));
+
 
     private static <T> RegistrySupplier<DataComponentType<T>> register(String name, UnaryOperator<DataComponentType.Builder<T>> builderOperator) {
         return DATA_COMPONENT_TYPE.register(name, () -> builderOperator.apply(DataComponentType.builder()).build());

@@ -1,6 +1,8 @@
 package org.exodusstudio.stellaris.common.events;
 
+import com.mojang.datafixers.util.Pair;
 import dev.architectury.event.EventResult;
+import dev.architectury.event.events.client.ClientTooltipEvent;
 import dev.architectury.event.events.common.BlockEvent;
 import dev.architectury.event.events.common.EntityEvent;
 import dev.architectury.event.events.common.LifecycleEvent;
@@ -8,7 +10,9 @@ import dev.architectury.event.events.common.PlayerEvent;
 import dev.architectury.event.events.common.TickEvent;
 import dev.architectury.networking.NetworkManager;
 import net.minecraft.ChatFormatting;
+import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -39,10 +43,14 @@ import org.exodusstudio.stellaris.common.network.packets.ElectrolyzerSyncerPacke
 import org.exodusstudio.stellaris.common.network.packets.FuelRefinerySyncerPacket;
 import org.exodusstudio.stellaris.common.network.packets.RecipeSyncerPacket;
 import org.exodusstudio.stellaris.common.registries.BlocksRegistry;
+import org.exodusstudio.stellaris.common.registries.DataComponentsRegistry;
 import org.exodusstudio.stellaris.common.registries.RecipesRegistry;
+import org.exodusstudio.stellaris.common.utils.RadiationUtils;
 import org.exodusstudio.stellaris.common.utils.Utils;
+import org.exodusstudio.stellaris.platform.DataAttachmentsPlatform;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class Events {
@@ -236,6 +244,13 @@ public class Events {
 
                 }
 
+                //When a radioactive block is broken, remove it from the chunk data
+                List<Pair<BlockPos, Float>> blockList = DataAttachmentsPlatform.getChunkData(level.getChunk(pos), RadiationUtils.RADIATION_BLOCKS_MAP_ID, List.class);
+                if(blockList != null) {
+                    HashMap<BlockPos, Float> blockMap = RadiationUtils.pairListToMap(blockList);
+                    blockMap.remove(pos);
+                    DataAttachmentsPlatform.saveChunkData(level.getChunk(pos), RadiationUtils.RADIATION_BLOCKS_MAP_ID, RadiationUtils.mapToPairList(blockMap));
+                }
             }
 
             return EventResult.pass();
@@ -250,6 +265,20 @@ public class Events {
             }
 
             return EventResult.pass();
+        });
+
+        ClientTooltipEvent.ITEM.register((stack, lines, tooltipContext, flag) -> {
+            if (stack.has(DataComponentsRegistry.RADIATION.get())) {
+
+                MutableComponent radiationLevel = Component.literal(Float.toString(stack.get(DataComponentsRegistry.RADIATION.get())))
+                        .withStyle(Utils.getColorForRadiationLevel(stack.get(DataComponentsRegistry.RADIATION.get())));
+
+                MutableComponent radiationComponent = Component.translatable("tooltip.item.stellaris.radiation").withStyle(ChatFormatting.GRAY);
+                MutableComponent sivertComponent = Component.literal("mSv").withStyle(ChatFormatting.GRAY);
+
+
+                lines.add(radiationComponent.append(radiationLevel.append(sivertComponent)));
+            }
         });
     }
 }

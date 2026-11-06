@@ -1,6 +1,8 @@
 package org.exodusstudio.stellaris.mixin;
 
 import com.fej1fun.potentials.fluid.UniversalFluidItemStorage;
+import com.mojang.datafixers.util.Pair;
+import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
@@ -12,6 +14,7 @@ import org.exodusstudio.stellaris.common.items.space_suit.SpaceSuitHelmet;
 import org.exodusstudio.stellaris.common.registries.TagsRegistry;
 import org.exodusstudio.stellaris.common.utils.GravityUtils;
 import org.exodusstudio.stellaris.common.utils.OxygenUtils;
+import org.exodusstudio.stellaris.common.utils.RadiationUtils;
 import org.exodusstudio.stellaris.common.utils.Utils;
 import org.exodusstudio.stellaris.common.registries.DamageTypesRegistry;
 import org.spongepowered.asm.mixin.Mixin;
@@ -20,6 +23,8 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+
+import java.util.List;
 
 @Mixin(LivingEntity.class)
 public class LivingEntityMixin {
@@ -30,6 +35,9 @@ public class LivingEntityMixin {
     private int stellaris$gravityCounter = 0;
     @Unique
     private int stellaris$oxygenCounter = 0;
+    @Unique
+    private int stellaris$radiationCounter = 0;
+
 
     @Inject(method = "tick", at = @At("HEAD"))
     private void stellaris$updateGravity(CallbackInfo ci) {
@@ -43,6 +51,12 @@ public class LivingEntityMixin {
 
     @Inject(method = "tick", at = @At("HEAD"))
     private void tick(CallbackInfo ci) {
+        stellaris$updateRadiation();
+        stellaris$updateOxygen();
+    }
+
+    @Unique
+    private void stellaris$updateOxygen() {
         if (!Stellaris.CONFIG.oxygenConfig.enableOxygenSystem || stellaris$entity.is(TagsRegistry.EntityTags.NO_OXYGEN_NEEDED)) {
             return;
         }
@@ -80,6 +94,32 @@ public class LivingEntityMixin {
         }
 
         stellaris$oxygenCounter++;
+    }
+
+    @Unique
+    private void stellaris$updateRadiation() {
+        if (!Stellaris.CONFIG.radiationConfig.enableRadiationSystem || stellaris$entity.is(TagsRegistry.EntityTags.RADIATION_IMMUNE)) {
+            return;
+        }
+
+        if (stellaris$radiationCounter >= Stellaris.CONFIG.radiationConfig.radiationDamageInterval) {
+            stellaris$radiationCounter = 0;
+
+            if (stellaris$entity.level() instanceof ServerLevel serverLevel) {
+
+                List<Pair<BlockPos, Float>> radiationBlocks = RadiationUtils.getRadioactiveBlocksInRadius(stellaris$entity.level().getChunk(stellaris$entity.blockPosition()),
+                        stellaris$entity.blockPosition(), Stellaris.CONFIG.radiationConfig.radiationDetectionRadius);
+
+                for (Pair<BlockPos, Float> pair : radiationBlocks) {
+                    float radiationLevel = pair.getSecond();
+                    if (radiationLevel > 0f) {
+                        stellaris$entity.hurtServer(serverLevel, DamageTypesRegistry.source(serverLevel, DamageTypesRegistry.RADIATION), radiationLevel * Stellaris.CONFIG.radiationConfig.radiationDamageMultiplier);
+                    }
+                }
+            }
+        }
+
+        stellaris$radiationCounter++;
     }
 
 

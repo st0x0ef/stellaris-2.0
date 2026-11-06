@@ -184,11 +184,13 @@ public final class ItemsRegistry {
     // Radiation Containers
     public static final RegistrySupplier<TooltipItem> SMALL_RADIATION_CONTAINER = item("radiation_containe_small", new Item.Properties().stacksTo(64)
             .component(DataComponentsRegistry.RADIATION_HOLDER.get(), new RadiationHolderComponent(1000.0f)),
-            (p) -> new TooltipItem(p).addTooltip((s) -> {
-                RadiationHolderComponent radiation = s.getOrDefault(DataComponentsRegistry.RADIATION_HOLDER.get(), RadiationHolderComponent.DEFAULT);
-                return Component.translatable("tooltip.item.stellaris.radiation_container", radiation.radiationContained(), radiation.maxRadiation())
-                        .withStyle(ChatFormatting.DARK_GRAY);
-            }));
+            (p) -> new TooltipItem(p).addComponentTooltip(DataComponentsRegistry.RADIATION_HOLDER.get(), (s, v) ->
+                Component.translatable("tooltip.item.stellaris.radiation_container", v.radiationContained(), v.maxRadiation()).withStyle(ChatFormatting.DARK_GRAY)
+            ));
+
+    public static final RegistrySupplier<Item> TEST_RADIATION_WASTE = item("test_radiation_waste",
+            (p) -> new Item(p.component(DataComponentsRegistry.RADIATION.get(), 100f)));
+
 
     // Foods
     public static final RegistrySupplier<Item> MOON_BERRIES = item("moon_berries", (p) -> new Item(p.food(Foods.GLOW_BERRIES).useItemDescriptionPrefix()));
