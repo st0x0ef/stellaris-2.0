@@ -950,6 +950,10 @@
   "command.stellaris.infection.no_longer_immunised": "You are no longer immunised to the infection.",
   "command.stellaris.infection.now_immunised.other": "%s is now immunised to the infection.",
   "command.stellaris.infection.no_longer_immunised.other": "%s is no longer immunised to the infection.",
+  "command.stellaris.radiation.entry": "- %s : %s at %smCv",
+  "command.stellaris.radiation.header": "Radiation List",
+  "command.stellaris.radiation.added": "Radiation source added at %s",
+  "command.stellaris.radiation.air_block": "No block at %s",
 
   "wiki.stellaris.items.description": "Learn about Items and Blocks.",
   "wiki.stellaris.machines.description": "Machines and their properties",

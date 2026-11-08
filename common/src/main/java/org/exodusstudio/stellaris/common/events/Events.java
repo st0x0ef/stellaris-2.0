@@ -244,13 +244,6 @@ public class Events {
 
                 }
 
-                //When a radioactive block is broken, remove it from the chunk data
-                List<Pair<BlockPos, Float>> blockList = DataAttachmentsPlatform.getChunkData(level.getChunk(pos), RadiationUtils.RADIATION_BLOCKS_MAP_ID, List.class);
-                if(blockList != null) {
-                    HashMap<BlockPos, Float> blockMap = RadiationUtils.pairListToMap(blockList);
-                    blockMap.remove(pos);
-                    DataAttachmentsPlatform.saveChunkData(level.getChunk(pos), RadiationUtils.RADIATION_BLOCKS_MAP_ID, RadiationUtils.mapToPairList(blockMap));
-                }
             }
 
             return EventResult.pass();

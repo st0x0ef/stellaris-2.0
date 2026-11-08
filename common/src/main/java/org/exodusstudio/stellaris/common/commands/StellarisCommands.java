@@ -2,15 +2,18 @@ package org.exodusstudio.stellaris.common.commands;
 
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.BoolArgumentType;
+import com.mojang.brigadier.arguments.FloatArgumentType;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
+import com.mojang.datafixers.util.Pair;
 import dev.architectury.networking.NetworkManager;
 import dev.architectury.registry.menu.MenuRegistry;
 import net.minecraft.commands.CommandBuildContext;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.commands.arguments.EntityArgument;
+import net.minecraft.commands.arguments.coordinates.BlockPosArgument;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
@@ -18,6 +21,8 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.permissions.Permissions;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.chunk.ChunkAccess;
 import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.client.overlays.FadingHolder;
@@ -34,10 +39,7 @@ import org.exodusstudio.stellaris.common.entities.vehicles.RocketEntity;
 import org.exodusstudio.stellaris.common.menus.MainTabletMenu;
 import org.exodusstudio.stellaris.common.network.packets.CountdownOverlayPacket;
 import org.exodusstudio.stellaris.common.network.packets.StartFadePacket;
-import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
-import org.exodusstudio.stellaris.common.utils.MoonLoreUtils;
-import org.exodusstudio.stellaris.common.utils.PlanetUtil;
-import org.exodusstudio.stellaris.common.utils.Utils;
+import org.exodusstudio.stellaris.common.utils.*;
 
 import java.util.List;
 import java.util.Map;
@@ -53,8 +55,8 @@ public class StellarisCommands {
         adminCommand(builder);
         antennaCommands(builder);
         countdownCommand(builder);
-
         infectionCommand(builder);
+        radiationCommand(builder);
         builder.register();
     }
 
@@ -476,4 +478,70 @@ public class StellarisCommands {
         infection.addSubCommand(isImmunisedNoArgs);
         infection.addSubCommand(setImmunisedCurrentPlayer);
     }
+
+
+    private void radiationCommand(CommandBuilder builder) {
+        CommandBuilder radiationCommand = builder.createSubCommand("radiation");
+
+
+        radiationCommand.addSubCommand(
+                builder.createSubCommand("set")
+                        .addArgument(ArgumentBuilder.of("blockPos", BlockPosArgument.blockPos())
+                                .addArgument(ArgumentBuilder.of("radiationLevel", FloatArgumentType.floatArg(0.0F))
+                                .execute(c -> {
+                                    if (!c.runByPlayer()) {
+                                        return c.failure();
+                                    }
+
+                                    Player player = c.getPlayer();
+                                    Level level = player.level();
+                                    BlockPos pos = BlockPosArgument.getBlockPos(c.context(), "blockPos");
+
+                                    if(level.getBlockState(pos).isAir()) {
+                                        c.sendFailure(Component.translatable("command.stellaris.radiation.air_block", pos.toShortString()));
+                                        return c.failure();
+                                    }
+
+                                    float radiationLevel = FloatArgumentType.getFloat(c.context(), "radiationLevel");
+
+                                    RadiationUtils.modifyBlockMap(
+                                            player.level().getChunk(pos),
+                                            pos,
+                                            radiationLevel, false);
+
+
+
+                                    c.sendSuccess(Component.translatable("command.stellaris.radiation.added", pos.toShortString()), false);
+                                    return c.success();
+                                }))));
+
+        radiationCommand.addSubCommand(builder.createSubCommand("get")
+                .addArgument(ArgumentBuilder.of("radius", IntegerArgumentType.integer())
+                        .execute(c -> {
+                            if (!c.runByPlayer()) {
+                                return c.failure();
+                            }
+                            int radius = IntegerArgumentType.getInteger(c.context(), "radius");
+
+                            List<Pair<BlockPos, Float>> radioactiveBlocks = RadiationUtils.getRadioactiveBlocksInRadius(c.getPlayer().level().getChunk(c.getPlayer().blockPosition()),
+                                    c.getPlayer().blockPosition(), radius);
+
+                            MutableComponent component = Component.translatable("command.stellaris.radiation.header", radius);
+                            for(Pair<BlockPos, Float> pair : radioactiveBlocks) {
+                                BlockPos pos = pair.getFirst();
+                                BlockState state = c.getPlayer().level().getBlockState(pos);
+
+                                float radiationLevel = pair.getSecond();
+                                component.append("\n").append(Component.translatable("command.stellaris.radiation.entry", state.getBlock().getName().getString(), pos.toShortString(), radiationLevel));
+                            }
+                            c.sendSuccess(component, false);
+
+                            return c.success();
+                        })));
+
+
+
+        builder.addSubCommand(radiationCommand);
+    }
+
 }

@@ -36,7 +36,7 @@ public class BlockItemMixin {
     )
     private void placeRadioactiveBlock(BlockPlaceContext placeContext, CallbackInfoReturnable<InteractionResult> cir) {
 
-        if(!Stellaris.CONFIG.radiationConfig.enableRadiationSystem || !placeContext.getLevel().isClientSide()) {
+        if(!Stellaris.CONFIG.radiationConfig.enableRadiationSystem ) {
             return;
         }
 

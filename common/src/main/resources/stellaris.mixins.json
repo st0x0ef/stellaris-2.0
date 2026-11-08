@@ -18,6 +18,7 @@
   ],
   "mixins": [
     "BlockItemMixin",
+    "BlockMixin",
     "ChunkAccessMixin",
     "ConsumableMixin",
     "CropGrowsMixin",
