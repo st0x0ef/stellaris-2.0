@@ -20,7 +20,8 @@ public class StellarisBlockTagsProvider extends BlockTagsProvider {
         tag(TagsRegistry.BlockTags.MARS_STONE_ORE_REPLACEABLE)
                 .add(BlocksRegistry.MARS_STONE.block().get())
                 .add(BlocksRegistry.MARS_RED_CANYON_STONE.block().get())
-                .add(BlocksRegistry.MARS_RED_CLIFF_STONE.block().get());
+                .add(BlocksRegistry.MARS_RED_CLIFF_STONE.block().get())
+                .add(BlocksRegistry.MARS_SAND.block().get());
         tag(TagsRegistry.BlockTags.ICE_CAVE_ORE_REPLACEABLE)
                 .add(Blocks.CALCITE)
                 .add(Blocks.PACKED_ICE)

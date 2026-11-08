@@ -19,20 +19,16 @@
         [],
         [],
         [],
-        [
-            "minecraft:ice_spike",
-            "minecraft:ice_patch"
-        ],
+        [],
         [],
         [],
         [],
         [],
         [],
         [
-            "minecraft:freeze_top_layer"
         ]
     ],
-    "has_precipitation": true,
+    "has_precipitation": false,
     "spawn_costs": {},
     "spawners": {},
     "temperature": 0
