@@ -28,13 +28,13 @@ public class StellarisOreFeatures {
     /// [FeaturesRecord]
     public static final FeaturesRecord MARS_ORE_IRON_SMALL = FeaturesRecord.create("mars_ore_iron_small");
     public static final FeaturesRecord ICE_CAVE_ORE_IRON_SMALL = FeaturesRecord.create("ice_cave_ore_iron_small");
+    public static final FeaturesRecord ORE_MARS_SAND = FeaturesRecord.create("ore_mars_sand");
 
     /// [ConfiguredFeature]
     public static final ResourceKey<ConfiguredFeature<?, ?>> MARS_ORE_IRON = FeaturesRecord.createConfiguredFeature("mars_ore_iron");
     public static final ResourceKey<ConfiguredFeature<?, ?>> ICE_CAVE_ORE_IRON = FeaturesRecord.createConfiguredFeature("ice_cave_ore_iron");
 
     /// [PlacedFeature]
-
     public static final ResourceKey<PlacedFeature> ICE_CAVE_ORE_IRON_UPPER = FeaturesRecord.createPlacementFeature("ice_cave_ore_iron_upper");
     public static final ResourceKey<PlacedFeature> ICE_CAVE_ORE_IRON_MIDDLE =  FeaturesRecord.createPlacementFeature("ice_cave_ore_iron_middle");
     public static final ResourceKey<PlacedFeature> MARS_ORE_IRON_MIDDLE = FeaturesRecord.createPlacementFeature("mars_ore_iron_middle");
@@ -42,7 +42,7 @@ public class StellarisOreFeatures {
 
     public static void bootstrapConfigured(BootstrapContext<ConfiguredFeature<?, ?>> context) {
         RuleTest marsStoneReplaceable = new TagMatchTest(TagsRegistry.BlockTags.MARS_STONE_ORE_REPLACEABLE);
-        RuleTest iceCaveMarsStoneReplaceable = new TagMatchTest(TagsRegistry.BlockTags.ICE_CAVE_ORE_REPLACEABLE);
+        RuleTest iceCaveMarsStoneReplaceable = new TagMatchTest(TagsRegistry.BlockTags.ICE_BIOME_ORE_REPLACEABLE);
 
        Holder<ConfiguredFeature<?, ?>> oreIronConfiguredFeature = Holder.direct(oreFeatureBuilder(marsStoneReplaceable, BlocksRegistry.MARS_IRON_ORE.block().get().defaultBlockState(), 9));
         Holder<ConfiguredFeature<?, ?>> oreIronSmallConfiguredFeature = Holder.direct(oreFeatureBuilder(marsStoneReplaceable, BlocksRegistry.MARS_IRON_ORE.block().get().defaultBlockState(), 4));
@@ -58,6 +58,12 @@ public class StellarisOreFeatures {
         ));
         FeatureUtils.register(context, ICE_CAVE_ORE_IRON, ModFeatures.SEQUENCE.get(), hostedOre(
                 iceCaveMarsStoneReplaceable, BlocksRegistry.MARS_STONE.block().get().defaultBlockState(), oreIronConfiguredFeature
+        ));
+
+        FeatureUtils.register(context, ORE_MARS_SAND.configuredFeature(), Feature.ORE, new OreConfiguration(
+                iceCaveMarsStoneReplaceable,
+                BlocksRegistry.MARS_SAND.block().get().defaultBlockState(),
+                33
         ));
 //        FeatureUtils.register(context, TEST.configuredFeature(), ModFeatures.SPIKE.get(), new SpikeFeatureConfiguration(Blocks.BLUE_ICE.defaultBlockState(), ConstantInt.of(6), ConstantInt.of(9), UniformInt.of(30,60), ConstantInt.of(4)));
         
@@ -102,6 +108,11 @@ public class StellarisOreFeatures {
                 ICE_CAVE_ORE_IRON_SMALL.placedFeature(),
                 configureFeatures.getOrThrow(ICE_CAVE_ORE_IRON_SMALL.configuredFeature()),
                 oreIronSmallModifiers
+        );
+        PlacementUtils.register(context,
+                ORE_MARS_SAND.placedFeature(),
+                configureFeatures.getOrThrow(ORE_MARS_SAND.configuredFeature()),
+                commonOrePlacement(7, HeightRangePlacement.uniform(VerticalAnchor.absolute(30), VerticalAnchor.TOP))
         );
 //        PlacementUtils.register(context,
 //                TEST.placedFeature(),

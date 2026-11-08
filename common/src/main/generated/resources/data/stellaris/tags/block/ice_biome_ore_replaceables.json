@@ -2,6 +2,7 @@
   "values": [
     "minecraft:calcite",
     "minecraft:packed_ice",
+    "minecraft:ice",
     "#stellaris:mars_stone_ore_replaceables"
   ]
 }

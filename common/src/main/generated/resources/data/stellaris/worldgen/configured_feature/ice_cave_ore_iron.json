@@ -15,7 +15,7 @@
                 },
                 "target": {
                   "predicate_type": "minecraft:tag_match",
-                  "tag": "stellaris:ice_cave_mars_stone_replaceables"
+                  "tag": "stellaris:ice_biome_ore_replaceables"
                 }
               }
             ]

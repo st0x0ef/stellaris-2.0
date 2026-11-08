@@ -47,7 +47,7 @@ public class TagsRegistry {
         public static final TagKey<Block> OXYGEN_PERMEABLE = addTag("oxygen_permeable");
         public static final TagKey<Block> MARS_STONE_ORE_REPLACEABLE = addTag("mars_stone_ore_replaceables");
         public static final TagKey<Block> LARGE_ICICLE_REPLACEABLE = addTag("large_icicle_replaceables");
-        public static final TagKey<Block> ICE_CAVE_ORE_REPLACEABLE = addTag("ice_cave_mars_stone_replaceables");
+        public static final TagKey<Block> ICE_BIOME_ORE_REPLACEABLE = addTag("ice_biome_ore_replaceables");
 
         public static TagKey<Block> addTag(String path) {
             return TagKey.create(Registries.BLOCK, IdentifierUtils.id(path));

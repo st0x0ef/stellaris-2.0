@@ -19,14 +19,17 @@
         [],
         [],
         [],
-        [],
-        [],
-        [],
-        [],
-        [],
+        [
+            "stellaris:pointy_spikes"
+        ],
         [],
         [
-        ]
+            "stellaris:ore_mars_sand"
+        ],
+        [],
+        [],
+        [],
+        []
     ],
     "has_precipitation": false,
     "spawn_costs": {},

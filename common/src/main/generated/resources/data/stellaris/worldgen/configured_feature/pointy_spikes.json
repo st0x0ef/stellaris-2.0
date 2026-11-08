@@ -4,7 +4,7 @@
     "block_state": {
       "Name": "minecraft:packed_ice"
     },
-    "branch_count": 6,
+    "branch_count": 1,
     "height": {
       "type": "minecraft:uniform",
       "max_inclusive": 17,
