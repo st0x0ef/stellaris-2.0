@@ -93,6 +93,7 @@
   "item.stellaris.vertical_desh_plating_slab": "Vertical Desh Plating Slab",
   "item.stellaris.vertical_desh_slab": "Vertical Desh Slab",
   "item.stellaris.desh_pillar": "Desh Pillar",
+  "item.stellaris.galactic_rays_collector": "Galactic Rays Collector",
 
   "item.stellaris.novite_ingot": "Novite Ingot",
   "item.stellaris.raw_novite": "Raw Novite",
@@ -371,6 +372,7 @@
   "block.stellaris.rocket_launch_pad_proxy": "Rocket Launch Pad",
   "block.stellaris.space_farm": "Space Farm",
   "block.stellaris.wall_coal_torch": "Wall Coal Torch",
+  "block.stellaris.galactic_rays_collector": "Galactic Rays Collector",
 
   "block.stellaris.hydrogen_block": "Hydrogen",
   "block.stellaris.oxygen_block": "Oxygen",

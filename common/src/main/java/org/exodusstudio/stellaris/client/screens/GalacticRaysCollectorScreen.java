@@ -13,11 +13,12 @@ import org.exodusstudio.stellaris.client.screens.utils.GUIUtils;
 import org.exodusstudio.stellaris.common.blocks.entities.machines.GalacticRaysCollectorBlockEntity;
 import org.exodusstudio.stellaris.common.menus.GalacticRaysCollectorMenu;
 import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
+import org.exodusstudio.stellaris.common.utils.Utils;
 
 
 public class GalacticRaysCollectorScreen extends AbstractContainerScreen<GalacticRaysCollectorMenu> {
 
-    private static final Identifier TEXTURE = IdentifierUtils.guiTexture("coal_generator");
+    private static final Identifier TEXTURE = IdentifierUtils.guiTexture("galactic_rays_collector");
 
     private final GalacticRaysCollectorBlockEntity blockEntity = getMenu().getBlockEntity();
     private GaugeWidget energyGauge;
@@ -51,6 +52,11 @@ public class GalacticRaysCollectorScreen extends AbstractContainerScreen<Galacti
             return;
         }
 
+        graphics.centeredText(this.font, Component.literal("Radiation" ),  leftPos + 90, topPos + 31, -11050641);
+        graphics.centeredText(this.font, Component.literal("" + blockEntity.getSolarRadiation())
+                .withStyle(Utils.getColorForRadiationLevel(blockEntity.getSolarRadiation()))
+                .append(Component.literal(" mCv").withColor(-11050641)), leftPos + 90, topPos + 40, -11050641);
+
         energyGauge.updateAmount(blockEntity.getEnergy(null).getEnergy());
     }
 
@@ -59,7 +65,6 @@ public class GalacticRaysCollectorScreen extends AbstractContainerScreen<Galacti
         super.extractBackground(graphics, mouseX, mouseY, partialTick);
         graphics.blit(RenderPipelines.GUI_TEXTURED, TEXTURE, leftPos, topPos, 0, 0, imageWidth, imageHeight, imageWidth, imageHeight);
 
-        graphics.text(this.font, Component.literal("Solar Radiation: " + this.blockEntity.getSolarRadiation()), this.imageWidth, this.titleLabelY, -11050641, false);
     }
 
     @Override

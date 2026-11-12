@@ -35,9 +35,9 @@ public class GalacticRaysCollectorMenu extends BaseContainer {
         this.inventory = container;
         this.entity = entity;
 
-        this.addSlot(new ComponentsSlot(inventory, 0, 50, 54, DataComponentsRegistry.RADIATION_HOLDER.get()));
-        this.addSlot(new NonInteractiveResultSlot(inventory, 1, 68, 54));
-        this.addSlot(new ResultSlot(inventory, 2, 86, 54));
+        this.addSlot(new ComponentsSlot(inventory, 0, 42, 65, DataComponentsRegistry.RADIATION_HOLDER.get()));
+        this.addSlot(new NonInteractiveResultSlot(inventory, 1, 82, 65));
+        this.addSlot(new ResultSlot(inventory, 2, 122, 65));
 
         this.generatedEnergy = playerInventory.player.level().isClientSide() || entity == null ? GeneratedEnergyDataSlot.client() : GeneratedEnergyDataSlot.server(entity);
         addDataSlot(generatedEnergy);

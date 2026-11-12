@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "stellaris:block/galactic_rays_collector"
+    }
+  }
+}
