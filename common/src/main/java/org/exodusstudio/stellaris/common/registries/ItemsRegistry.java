@@ -14,6 +14,7 @@ import net.minecraft.world.entity.vehicle.boat.AbstractBoat;
 import net.minecraft.world.food.Foods;
 import net.minecraft.world.item.*;
 import net.minecraft.world.item.equipment.ArmorMaterials;
+import org.exodusstudio.stellaris.common.components.GeigerCounterComponent;
 import org.exodusstudio.stellaris.common.components.RadiationHolderComponent;
 import org.exodusstudio.stellaris.common.data.space_station.SpaceStationRecipe;
 import org.exodusstudio.stellaris.common.items.*;
@@ -190,6 +191,10 @@ public final class ItemsRegistry {
 
     public static final RegistrySupplier<Item> TEST_RADIATION_WASTE = item("test_radiation_waste",
             (p) -> new Item(p.component(DataComponentsRegistry.RADIATION.get(), 100f)));
+
+    public static final RegistrySupplier<GeigerCounterItem> GEIGER_COUNTER_TIER_1 = item("geiger_counter_tier_1",
+            (p) -> new GeigerCounterItem(p.component(DataComponentsRegistry.GEIGER_COUNTER.get(),
+                    new GeigerCounterComponent(GeigerCounterComponent.Type.TOTAL_RADIATION, 5)), 10));
 
 
     // Foods

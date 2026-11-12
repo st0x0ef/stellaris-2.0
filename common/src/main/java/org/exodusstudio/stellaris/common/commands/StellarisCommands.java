@@ -523,11 +523,11 @@ public class StellarisCommands {
                             }
                             int radius = IntegerArgumentType.getInteger(c.context(), "radius");
 
-                            List<Pair<BlockPos, Float>> radioactiveBlocks = RadiationUtils.getRadioactiveBlocksInRadius(c.getPlayer().level().getChunk(c.getPlayer().blockPosition()),
-                                    c.getPlayer().blockPosition(), radius);
+                            List<Pair<BlockPos, Float>> radiationBlocks = RadiationUtils.getRadioactiveBlocksInRadius(c.getPlayer().level(),
+                                    c.getPlayer().blockPosition(), Stellaris.CONFIG.radiationConfig.radiationDetectionRadius);
 
                             MutableComponent component = Component.translatable("command.stellaris.radiation.header", radius);
-                            for(Pair<BlockPos, Float> pair : radioactiveBlocks) {
+                            for(Pair<BlockPos, Float> pair : radiationBlocks) {
                                 BlockPos pos = pair.getFirst();
                                 BlockState state = c.getPlayer().level().getBlockState(pos);
 

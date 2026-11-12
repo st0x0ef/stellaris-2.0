@@ -7,6 +7,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.Identifier;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.chunk.ChunkAccess;
 import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.platform.DataAttachmentsPlatform;
@@ -48,16 +49,24 @@ public class RadiationUtils {
         DataAttachmentsPlatform.saveChunkData(chunk, RADIATION_BLOCKS_MAP_ID, mapToPairList(blockMap));
     }
 
-    public static List<Pair<BlockPos, Float>> getRadioactiveBlocksInRadius(ChunkAccess chunk, BlockPos pos, int radius) {
-        List<Pair<BlockPos, Float>> blockList = DataAttachmentsPlatform.getChunkData(chunk, RADIATION_BLOCKS_MAP_ID, List.class);
-
-        if (blockList == null) blockList = new ArrayList<>();
-
+    public static List<Pair<BlockPos, Float>> getRadioactiveBlocksInRadius(ServerLevel level, BlockPos center, int radius) {
         List<Pair<BlockPos, Float>> blocksInRadius = new ArrayList<>();
 
-        for (Pair<BlockPos, Float> pair : blockList) {
-            if (pair.getFirst().closerThan(pos, radius)) {
-                blocksInRadius.add(pair);
+        int minChunkX = (center.getX() - radius) >> 4;
+        int maxChunkX = (center.getX() + radius) >> 4;
+        int minChunkZ = (center.getZ() - radius) >> 4;
+        int maxChunkZ = (center.getZ() + radius) >> 4;
+
+        for (int chunkX = minChunkX; chunkX <= maxChunkX; chunkX++) {
+            for (int chunkZ = minChunkZ; chunkZ <= maxChunkZ; chunkZ++) {
+                ChunkAccess chunk = level.getChunkSource().getChunkNow(chunkX, chunkZ);
+                if (chunk == null) continue;
+
+                for (Pair<BlockPos, Float> pair : getRadioactiveBlocks(chunk)) {
+                    if (pair.getFirst().closerThan(center, radius)) {
+                        blocksInRadius.add(pair);
+                    }
+                }
             }
         }
 

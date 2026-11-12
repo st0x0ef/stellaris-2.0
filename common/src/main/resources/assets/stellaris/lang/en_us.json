@@ -832,7 +832,6 @@
   "block.stellaris.flag": "Flag",
   "block.stellaris.mars_sand": "Mars Sand",
   "block.stellaris.mars_stone": "Mars Stone",
-
   "tooltip.stellaris.none": "None",
   "tooltip.stellaris.unknown": "Unknown",
   "tooltip.stellaris.list_entry": "- %s",
@@ -848,6 +847,17 @@
   "tooltip.stellaris.material.netherite": "netherite",
   "tooltip.stellaris.space_station.resources": "Resources :",
   "tooltip.stellaris.space_station.ingredient": "- %sx %s",
+
+  "tooltip.stellaris.geiger_counter.radius": "Radius: %s",
+  "tooltip.stellaris.geiger_counter.radiation": "Radiation: %s",
+  "tooltip.item.stellaris.geiger_counter": "Geiger Counter",
+  "text.stellaris.geiger_counter.max_radiation": "Max Radiation",
+  "text.stellaris.geiger_counter.total_radiation": "Total Radiation",
+
+  "text.stellaris.geiger_counter.max_radiation.result": "Max Radiation in %s radius : %s",
+  "text.stellaris.geiger_counter.total_radiation.result": "Total Radiation in %s radius : %s",
+
+
 
   "tooltip.item.stellaris.fluid_cell.content": "%s : %s / %s",
   "tooltip.item.stellaris.fluid_cell.empty": "%s: 0 / %s",

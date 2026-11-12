@@ -4,12 +4,14 @@ import com.fej1fun.potentials.fluid.UniversalFluidItemStorage;
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.common.entities.vehicles.base.VehicleEntity;
+import org.exodusstudio.stellaris.common.items.CustomSwingItem;
 import org.exodusstudio.stellaris.common.items.space_suit.SpaceSuitHelmet;
 import org.exodusstudio.stellaris.common.registries.TagsRegistry;
 import org.exodusstudio.stellaris.common.utils.GravityUtils;
@@ -107,7 +109,7 @@ public class LivingEntityMixin {
 
             if (stellaris$entity.level() instanceof ServerLevel serverLevel) {
 
-                List<Pair<BlockPos, Float>> radiationBlocks = RadiationUtils.getRadioactiveBlocksInRadius(stellaris$entity.level().getChunk(stellaris$entity.blockPosition()),
+                List<Pair<BlockPos, Float>> radiationBlocks = RadiationUtils.getRadioactiveBlocksInRadius(serverLevel,
                         stellaris$entity.blockPosition(), Stellaris.CONFIG.radiationConfig.radiationDetectionRadius);
 
                 for (Pair<BlockPos, Float> pair : radiationBlocks) {
@@ -121,6 +123,17 @@ public class LivingEntityMixin {
 
         stellaris$radiationCounter++;
     }
+
+    @Inject(method = "swing(Lnet/minecraft/world/InteractionHand;Z)V", at = @At("HEAD"), cancellable = true)
+    private void stellaris$onSwing(final InteractionHand hand, final boolean sendToSwingingEntity, CallbackInfo ci) {
+        ItemStack stack = stellaris$entity.getItemInHand(hand);
+        if(stack.getItem() instanceof CustomSwingItem customSwingItem) {
+            if(customSwingItem.onSwing(hand, stellaris$entity)) {
+                ci.cancel();
+            }
+        }
+    }
+
 
 
     @Inject(at = @At(value = "HEAD"), method = "rideTick")

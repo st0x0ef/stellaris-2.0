@@ -9,10 +9,7 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.world.item.component.ResolvableProfile;
 import org.exodusstudio.stellaris.Stellaris;
-import org.exodusstudio.stellaris.common.components.JetComponent;
-import org.exodusstudio.stellaris.common.components.PathogenStorageComponent;
-import org.exodusstudio.stellaris.common.components.RadiationHolderComponent;
-import org.exodusstudio.stellaris.common.components.TimerComponent;
+import org.exodusstudio.stellaris.common.components.*;
 import org.exodusstudio.stellaris.common.data.Planet;
 import org.exodusstudio.stellaris.common.data.space_station.SpaceStationRecipe;
 import org.exodusstudio.stellaris.common.modules.Modules;
@@ -75,6 +72,9 @@ public class DataComponentsRegistry {
 
     public static final RegistrySupplier<DataComponentType<Float>> RADIATION =
             register("radiation", builder -> builder.persistent(Codec.FLOAT).networkSynchronized(ByteBufCodecs.FLOAT));
+
+    public static final RegistrySupplier<DataComponentType<GeigerCounterComponent>> GEIGER_COUNTER =
+            register("geiger_counter", builder -> builder.persistent(GeigerCounterComponent.CODEC).networkSynchronized(GeigerCounterComponent.STREAM_CODEC));
 
 
     private static <T> RegistrySupplier<DataComponentType<T>> register(String name, UnaryOperator<DataComponentType.Builder<T>> builderOperator) {

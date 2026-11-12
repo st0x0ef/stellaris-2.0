@@ -10,7 +10,6 @@ import dev.architectury.event.events.common.PlayerEvent;
 import dev.architectury.event.events.common.TickEvent;
 import dev.architectury.networking.NetworkManager;
 import net.minecraft.ChatFormatting;
-import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.server.MinecraftServer;
@@ -45,12 +44,9 @@ import org.exodusstudio.stellaris.common.network.packets.RecipeSyncerPacket;
 import org.exodusstudio.stellaris.common.registries.BlocksRegistry;
 import org.exodusstudio.stellaris.common.registries.DataComponentsRegistry;
 import org.exodusstudio.stellaris.common.registries.RecipesRegistry;
-import org.exodusstudio.stellaris.common.utils.RadiationUtils;
 import org.exodusstudio.stellaris.common.utils.Utils;
-import org.exodusstudio.stellaris.platform.DataAttachmentsPlatform;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 public class Events {
