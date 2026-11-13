@@ -28,7 +28,8 @@ public record GeigerCounterComponent(Type type, int radius) {
 
     public enum Type implements StringRepresentable {
         MAX_RADIATION(blocks -> blocks.stream().map(Pair::getSecond).max(Float::compare).orElse(0f)),
-        TOTAL_RADIATION(blocks -> blocks.stream().map(Pair::getSecond).reduce(0f, Float::sum));
+        TOTAL_RADIATION(blocks -> blocks.stream().map(Pair::getSecond).reduce(0f, Float::sum)),
+        AVG_RADIATION(blocks -> (float) blocks.stream().mapToDouble(Pair::getSecond).average().orElse(0.0f));
 
         @Override
         public String getSerializedName() {

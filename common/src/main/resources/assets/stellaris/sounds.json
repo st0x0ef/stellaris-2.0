@@ -22,6 +22,30 @@
         "stream": true
       }
     ]
-  }
+  },
+  "geiger_low": {
+    "sounds": [
+      {
+        "name": "stellaris:geiger_low",
+        "stream": true
+      }
+    ]
+  },
+    "geiger_medium": {
+        "sounds": [
+        {
+            "name": "stellaris:geiger_medium",
+            "stream": true
+        }
+        ]
+    },
+    "geiger_high": {
+        "sounds": [
+        {
+            "name": "stellaris:geiger_high",
+            "stream": true
+        }
+        ]
+    }
 
 }
