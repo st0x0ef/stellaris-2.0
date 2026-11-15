@@ -414,14 +414,6 @@ public class SpaceSuitBoots extends SpaceSuitItem {
     public void appendHoverText(ItemStack stack, TooltipContext context, TooltipDisplay tooltipDisplay, Consumer<Component> tooltipAdder, TooltipFlag flag) {
         super.appendHoverText(stack, context, tooltipDisplay, tooltipAdder, flag);
 
-        SpaceSuitModule.JetModule jetModule = ModuleUtils.getSpaceSuitModule(stack, SpaceSuitModule.JetModule.class);
-        if (jetModule != null) {
-            double consumption = jetModule.getConsumptionPerSecond();
-            double climbSpeed = jetModule.getMaxUpwardSpeed();
-            tooltipAdder.accept(Component.translatable("tooltip.item.stellaris.space_suit.jet_module.header").withColor(Utils.getMinecraftColor("darkred")));
-            tooltipAdder.accept(Component.translatable("tooltip.item.stellaris.space_suit.jet_module.consumption", consumption).withColor(Utils.getMinecraftColor("darkred")));
-            tooltipAdder.accept(Component.translatable("tooltip.item.stellaris.space_suit.jet_module.climb_speed", climbSpeed).withColor(Utils.getMinecraftColor("darkred")));
-        }
     }
 
     public enum ModeType implements StringRepresentable {

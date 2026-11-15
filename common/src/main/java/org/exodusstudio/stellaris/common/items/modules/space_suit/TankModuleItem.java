@@ -27,7 +27,7 @@ import org.joml.Vector2i;
 
 import java.util.function.Consumer;
 
-public class TankModuleItem extends Item implements SpaceSuitModule.CustomFuelModule {
+public class TankModuleItem extends Item implements SpaceSuitModule.CustomFuelModule, SpaceSuitModule.ArmorTooltipAdder {
     public int capacity;
 
     public TankModuleItem(Properties properties, int capacity) {
@@ -91,4 +91,13 @@ public class TankModuleItem extends Item implements SpaceSuitModule.CustomFuelMo
         return CustomFuelModule.super.renderStackedGui(graphics, deltaTracker, player, stack, x, y);
     }
 
+    @Override
+    public void appendTooltipsToArmor(ItemStack stack, TooltipContext context, TooltipDisplay tooltipDisplay, Consumer<Component> tooltipAdder, TooltipFlag flag) {
+        int oxygenCapacity =  SpaceSuitChestplate.getFuelCapacity(this);
+        long fuel = FluidUtil.readStoredFluid(stack, DataComponentsRegistry.FLUID_LIST.get(), 0).getAmount();
+        Component fluidName = FluidStack.create(this.getFuel(), 1).getName();
+        tooltipAdder.accept(Component.translatable("tooltip.item.stellaris.space_suit.tank_module.header", fluidName).withColor(Utils.getMinecraftColor("cyan")));
+        tooltipAdder.accept(Component.translatable("tooltip.item.stellaris.space_suit.tank_module.amount", fluidName, fuel, oxygenCapacity).withColor(Utils.getMinecraftColor("cyan")));
+
+    }
 }

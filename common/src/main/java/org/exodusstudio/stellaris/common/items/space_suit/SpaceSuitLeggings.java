@@ -6,4 +6,6 @@ public class SpaceSuitLeggings extends SpaceSuitItem {
     public SpaceSuitLeggings(Properties properties) {
         super(properties, ArmorType.LEGGINGS);
     }
+
+
 }

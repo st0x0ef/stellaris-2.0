@@ -45,6 +45,7 @@
   "jade.stellaris.energy_generation": "Generating: %s FE/t",
   "jade.stellaris.energy_usage": "Using: %s FE/t",
   "jade.stellaris.oxygenated_blocks": "Oxygenating %s blocks",
+
   "config.jade.plugin_stellaris.proxy_as_main": "Multiblock Proxy as Main Block",
   "config.jade.plugin_stellaris.flag_owner": "Flag Owner",
   "config.jade.plugin_stellaris.energy_rate": "Energy Generation and Usage",
@@ -119,6 +120,7 @@
   "item.stellaris.vertical_desh_plating_slab": "Vertical Desh Plating Slab",
   "item.stellaris.vertical_desh_slab": "Vertical Desh Slab",
   "item.stellaris.desh_pillar": "Desh Pillar",
+  "item.stellaris.galactic_rays_collector": "Galactic Rays Collector",
 
   "item.stellaris.novite_ingot": "Novite Ingot",
   "item.stellaris.raw_novite": "Raw Novite",
@@ -369,6 +371,8 @@
   "item.stellaris.friends_list": "Friends List",
   "item.stellaris.antenna": "Antenna",
   "item.stellaris.space_station_blueprint": "Space Station Blueprint",
+  "item.stellaris.geiger_counter_tier_1": "Tier 1 Geiger Counter",
+  "item.stellaris.radioactive_waste": "Radioactive Waste",
 
 
   "fluid.stellaris.hydrogen": "Hydrogen",
@@ -400,6 +404,7 @@
   "block.stellaris.rocket_launch_pad_proxy": "Rocket Launch Pad",
   "block.stellaris.space_farm": "Space Farm",
   "block.stellaris.wall_coal_torch": "Wall Coal Torch",
+  "block.stellaris.galactic_rays_collector": "Galactic Rays Collector",
 
   "block.stellaris.hydrogen_block": "Hydrogen",
   "block.stellaris.oxygen_block": "Oxygen",
@@ -477,6 +482,7 @@
   "stellaris.screen.build_space_station": "Build Space Station",
   "stellaris.screen.antenna_available": "Available Antennas",
   "stellaris.screen.owned_by": "Owned by : ",
+  "stellaris.screen.galactic_rays_collector": "Galactic Rays Collector",
 
   "station.stellaris.space_station_small": "Small Station",
   "station.stellaris.space_station_medium": "Medium Station",
@@ -516,6 +522,7 @@
   "tooltip.item.stellaris.tablet": "Right click to open the wiki.",
   "tooltip.item.stellaris.tablet.lookup": "Shift + right click a block, or drop an item on the tablet, to jump to its page.",
   "tooltip.item.stellaris.night_vision_module": "Toggle night vision with the Night Vision key.",
+  "tooltip.item.stellaris.radiation": "Radiation : ",
 
   "tooltip.item.stellaris.can_be_applied_to_space_suit_boots_module": "This module can be applied to the space suit boots.",
   "tooltip.item.stellaris.can_be_applied_to_space_suit_leggings_module": "This module can be applied to the space suit leggings.",
@@ -528,7 +535,7 @@
   "tooltip.item.stellaris.space_station_blueprint": "Blueprint : ",
   "tooltip.item.stellaris.space_station_blueprint.in_rocket": "Put it in the rocket inventory to build the station on arrival.",
   "tooltip.item.stellaris.space_station_blueprint.plan_first": "Plan a station in the Engineering Station to use this blueprint.",
-
+  "tooltip.item.stellaris.radiation_container": "Radiation Contained : %s/%s",
   "config.stellaris.parasiteConfig": "Parasite Settings",
   "config.stellaris.enableParasiteDrop": "Enable Parasite Drops in Blue Liquid",
   "config.stellaris.minDropIntervalTicks": "Minimum Ticks Before Dropping",
@@ -604,6 +611,7 @@
   "config.stellaris.assistantConfig.desc": "Settings related to the on-board assistant that comments on your exploration.",
   "config.stellaris.assistantConfig.enableAssistant.desc": "Enable or disable the assistant messages sent in chat.",
 
+
   "config.stellaris.energyConfig": "Energy Settings",
   "config.stellaris.energyMultiplier": "Energy Multiplier",
   "config.stellaris.energyConfig.desc": "Settings related to how much energy Stellaris produces, stores and consumes.",
@@ -621,6 +629,7 @@
   "config.stellaris.machineConfig.vacuumatorWaterPerCraft.desc": "Amount of water (in mB) condensed into the Vacuumator's tank each time a can is filled.",
   "config.stellaris.machineConfig.blenderEnergyPerCraft.desc": "Energy consumed by the Blender each craft, taken up front. Blending recipes may override it with their own \"energy\" field.",
   "config.stellaris.machineConfig.blenderTicksPerCraft.desc": "How long the Blender takes per craft, in ticks. Blending recipes may override it with their own \"duration\" field.",
+
 
   "config.stellaris.foodConfig": "Food Settings",
   "config.stellaris.fluidCellWaterPerCan": "Fluid Cell Water Per Can",
@@ -651,6 +660,7 @@
   "config.stellaris.temperatureOverlay.desc": "Show the current temperature",
   "config.stellaris.landerThirdPerson.desc": "Switch to third person automatically while riding a lander.",
   "config.stellaris.temperatureOverlay": "Show Temperature Overlay",
+
 
   "config.stellaris.regenDimension.desc": "When selected, all the dimensions in the dimensionsToRegen will be regenerated.",
   "config.stellaris.regenDimension": "Regenerate dimensions",
@@ -905,6 +915,7 @@
   "block.stellaris.mars_regolith": "Mars Regolith",
   "block.stellaris.mars_regolith_bricks": "Mars Regolith Bricks",
 
+
   "tooltip.stellaris.none": "None",
   "tooltip.stellaris.unknown": "Unknown",
   "tooltip.stellaris.list_entry": "- %s",
@@ -1025,6 +1036,10 @@
   "command.stellaris.infection.no_longer_immunised": "You are no longer immunised to the infection.",
   "command.stellaris.infection.now_immunised.other": "%s is now immunised to the infection.",
   "command.stellaris.infection.no_longer_immunised.other": "%s is no longer immunised to the infection.",
+  "command.stellaris.radiation.entry": "- %s : %s at %smCv",
+  "command.stellaris.radiation.header": "Radiation List",
+  "command.stellaris.radiation.added": "Radiation source added at %s",
+  "command.stellaris.radiation.air_block": "No block at %s",
 
   "wiki.stellaris.items.description": "Learn about Items and Blocks.",
   "wiki.stellaris.machines.description": "Machines and their properties",

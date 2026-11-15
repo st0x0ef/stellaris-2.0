@@ -12,7 +12,7 @@ import org.exodusstudio.stellaris.common.utils.Utils;
 
 import java.util.function.Consumer;
 
-public class DamageProtectionModuleItem extends Item implements SpaceSuitModule.DamageProtectionModule {
+public class DamageProtectionModuleItem extends Item implements SpaceSuitModule.DamageProtectionModule, SpaceSuitModule.ArmorTooltipAdder {
     public ArmorMaterial equivalentMaterial;
     public String materialName;
 
@@ -46,5 +46,12 @@ public class DamageProtectionModuleItem extends Item implements SpaceSuitModule.
     public void appendHoverText(ItemStack stack, TooltipContext context, TooltipDisplay tooltipDisplay, Consumer<Component> tooltipAdder, TooltipFlag flag) {
         tooltipAdder.accept(Component.translatable("tooltip.item.stellaris.damage_protection.equivalent", getMaterialNameComponent()).withColor(Utils.getMinecraftColor("gray")));
         tooltipAdder.accept(Component.translatable("tooltip.item.stellaris.can_be_applied_to_space_suit_module").withColor(Utils.getMinecraftColor("gray")));
+    }
+
+    @Override
+    public void appendTooltipsToArmor(ItemStack stack, TooltipContext context, TooltipDisplay tooltipDisplay, Consumer<Component> tooltipAdder, TooltipFlag flag) {
+        tooltipAdder.accept(Component.translatable("tooltip.item.stellaris.space_suit.damage_protection_module.header").withColor(Utils.getMinecraftColor("red")));
+        tooltipAdder.accept(Component.translatable("tooltip.item.stellaris.damage_protection.equivalent", this.getMaterialNameComponent()).withColor(Utils.getMinecraftColor("red")));
+
     }
 }

@@ -30,7 +30,7 @@ public class SpaceSuitChestplate extends SpaceSuitItem implements FluidProvider.
         return new SpaceSuitItemFluidStorage(DataComponentsRegistry.FLUID_LIST.get(), itemStack, 1, getFuelCapacity(tankModule), tankModule);
     }
 
-    public int getFuelCapacity(SpaceSuitModule.CustomFuelModule tankModule) {
+    public static int getFuelCapacity(SpaceSuitModule.CustomFuelModule tankModule) {
         if (tankModule != null) {
             return tankModule.getCapacity();
         }
@@ -38,17 +38,4 @@ public class SpaceSuitChestplate extends SpaceSuitItem implements FluidProvider.
         return 0;
     }
 
-    @Override
-    public void appendHoverText(ItemStack stack, TooltipContext context, TooltipDisplay tooltipDisplay, Consumer<Component> tooltipAdder, TooltipFlag flag) {
-        super.appendHoverText(stack, context, tooltipDisplay, tooltipAdder, flag);
-
-        SpaceSuitModule.CustomFuelModule tankModule = ModuleUtils.getSpaceSuitModule(stack, SpaceSuitModule.CustomFuelModule.class);
-        if (tankModule != null) {
-            int oxygenCapacity = getFuelCapacity(tankModule);
-            long fuel = FluidUtil.readStoredFluid(stack, DataComponentsRegistry.FLUID_LIST.get(), 0).getAmount();
-            Component fluidName = FluidStack.create(tankModule.getFuel(), 1).getName();
-            tooltipAdder.accept(Component.translatable("tooltip.item.stellaris.space_suit.tank_module.header", fluidName).withColor(Utils.getMinecraftColor("cyan")));
-            tooltipAdder.accept(Component.translatable("tooltip.item.stellaris.space_suit.tank_module.amount", fluidName, fuel, oxygenCapacity).withColor(Utils.getMinecraftColor("cyan")));
-        }
-    }
 }
