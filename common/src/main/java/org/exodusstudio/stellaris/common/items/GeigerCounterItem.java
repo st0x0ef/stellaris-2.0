@@ -107,7 +107,7 @@ public class GeigerCounterItem extends Item implements CustomSwingItem {
                 .append(Component.translatable("tooltip.stellaris.geiger_counter.radius", geigerCounter.radius()))).withStyle(ChatFormatting.GRAY));
     }
 
-    private SoundEvent getGeigerSound(double avgRadiation) {
+    public static SoundEvent getGeigerSound(double avgRadiation) {
         if(avgRadiation < 40f) {
             return SoundRegistry.GEIGER_LOW.get();
         } else if(avgRadiation < 120f) {

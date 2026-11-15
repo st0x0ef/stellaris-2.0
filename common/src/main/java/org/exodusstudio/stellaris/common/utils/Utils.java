@@ -52,6 +52,9 @@ import java.util.concurrent.CompletableFuture;
 
 public class Utils {
 
+    public static EquipmentSlot[] ARMOR_SLOTS = new EquipmentSlot[]{EquipmentSlot.HEAD, EquipmentSlot.CHEST, EquipmentSlot.LEGS, EquipmentSlot.FEET};
+
+
     public static int getColorHexCode(String colorName) {
         // Custom Colour Hex Code Support
         if (colorName.startsWith("#")) {

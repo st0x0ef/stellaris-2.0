@@ -1,6 +1,5 @@
 package org.exodusstudio.stellaris.common.events;
 
-import com.mojang.datafixers.util.Pair;
 import dev.architectury.event.EventResult;
 import dev.architectury.event.events.client.ClientTooltipEvent;
 import dev.architectury.event.events.common.BlockEvent;
@@ -32,11 +31,16 @@ import org.exodusstudio.stellaris.common.data.recipes.BlendingRecipe;
 import org.exodusstudio.stellaris.common.data.recipes.ElectrolyzeRecipe;
 import org.exodusstudio.stellaris.common.data.recipes.FuelRefineryRecipe;
 import org.exodusstudio.stellaris.common.data.recipes.RocketStationRecipe;
+import org.exodusstudio.stellaris.common.entities.mobs.heartofluna.HeartOfLunaCinematicManager;
+import org.exodusstudio.stellaris.common.entities.mobs.heartofluna.HeartOfLunaMovementLock;
 import org.exodusstudio.stellaris.common.items.space_suit.SpaceSuitBoots;
 import org.exodusstudio.stellaris.common.items.space_suit.SpaceSuitHelmet;
+import org.exodusstudio.stellaris.common.items.space_suit.SpaceSuitItem;
 import org.exodusstudio.stellaris.common.keybinds.KeyVariables;
 import org.exodusstudio.stellaris.common.entities.mobs.starcrawlerboss.StarCrawlerBossDeathManager;
 import org.exodusstudio.stellaris.common.entities.mobs.starcrawlerboss.StarCrawlerBossIntroManager;
+import org.exodusstudio.stellaris.common.modules.Modules;
+import org.exodusstudio.stellaris.common.modules.space_suit.SpaceSuitModule;
 import org.exodusstudio.stellaris.common.network.packets.BlenderSyncerPacket;
 import org.exodusstudio.stellaris.common.network.packets.ElectrolyzerSyncerPacket;
 import org.exodusstudio.stellaris.common.network.packets.FuelRefinerySyncerPacket;
@@ -44,6 +48,7 @@ import org.exodusstudio.stellaris.common.network.packets.RecipeSyncerPacket;
 import org.exodusstudio.stellaris.common.registries.BlocksRegistry;
 import org.exodusstudio.stellaris.common.registries.DataComponentsRegistry;
 import org.exodusstudio.stellaris.common.registries.RecipesRegistry;
+import org.exodusstudio.stellaris.common.utils.ModuleUtils;
 import org.exodusstudio.stellaris.common.utils.Utils;
 
 import java.util.ArrayList;
@@ -51,9 +56,10 @@ import java.util.List;
 
 public class Events {
 
+
     public static void init() {
-        org.exodusstudio.stellaris.common.entities.mobs.heartofluna.HeartOfLunaMovementLock.init();
-        org.exodusstudio.stellaris.common.entities.mobs.heartofluna.HeartOfLunaCinematicManager.init();
+        HeartOfLunaMovementLock.init();
+        HeartOfLunaCinematicManager.init();
         LifecycleEvent.DATAPACK_SYNC.register(Stellaris::onDatapackSyncEvent);
 
         TickEvent.SERVER_POST.register(AssistantManager::tick);
@@ -69,6 +75,27 @@ public class Events {
                 StarCrawlerBossDeathManager.tickPlayer(serverPlayer);
             }
         });
+
+        TickEvent.PLAYER_POST.register(player -> {
+
+            ItemStack helmetStack = player.getItemBySlot(EquipmentSlot.HEAD);
+
+            if (player instanceof ServerPlayer serverPlayer && !helmetStack.isEmpty()) {
+
+                for(EquipmentSlot equipmentSlot : Utils.ARMOR_SLOTS) {
+                    ItemStack partStack = player.getItemBySlot(equipmentSlot);
+                    if(partStack.getItem() instanceof SpaceSuitItem) {
+                        Modules<SpaceSuitModule> modules = ModuleUtils.getSpaceSuitModules(partStack);
+                        for(SpaceSuitModule module : modules.getModules()) {
+                            if (module instanceof SpaceSuitModule.TickableModule tickableModule) {
+                                tickableModule.tick(partStack, serverPlayer, equipmentSlot);
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
 
         EntityEvent.LIVING_HURT.register((entity, source, amount) ->
                 (StarCrawlerBossIntroManager.shouldProtect(entity, source)

@@ -31,6 +31,7 @@ import org.exodusstudio.stellaris.common.items.space_suit.SpaceSuitChestplate;
 import org.exodusstudio.stellaris.common.items.space_suit.SpaceSuitHelmet;
 import org.exodusstudio.stellaris.common.items.space_suit.SpaceSuitLeggings;
 import org.exodusstudio.stellaris.common.items.tools.*;
+import org.exodusstudio.stellaris.common.modules.space_suit.SpaceSuitModule;
 import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
 import org.exodusstudio.stellaris.platform.RegistryPlatform;
 import org.jetbrains.annotations.NotNull;
@@ -116,6 +117,9 @@ public final class ItemsRegistry {
     public static final RegistrySupplier<OilFinderModuleItem> SPACE_SUIT_OIL_FINDER_MODULE_T1 = item("space_suit_oil_finder_module_tier_1", p -> new OilFinderModuleItem(p, 5));
     public static final RegistrySupplier<OilFinderModuleItem> SPACE_SUIT_OIL_FINDER_MODULE_T2 = item("space_suit_oil_finder_module_tier_2", p -> new OilFinderModuleItem(p, 3));
     public static final RegistrySupplier<OilFinderModuleItem> SPACE_SUIT_OIL_FINDER_MODULE_T3 = item("space_suit_oil_finder_module_tier_3", p -> new OilFinderModuleItem(p, 1));
+
+    // Geiger Counter Modules
+    public static final RegistrySupplier<GeigerCounterModuleItem> SPACE_SUIT_GEIGER_COUNTER_MODULE_T1 = item("space_suit_geiger_counter_module_tier_1", p -> new GeigerCounterModuleItem(p, 10));
 
 
     // Diesel Tank Modules

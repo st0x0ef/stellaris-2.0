@@ -318,6 +318,8 @@ public final class BlocksRegistry {
     //Radioactive blocks
     public static final BlockItemRegistrySupplier TEST_RADIOACTIVE_BLOCK = blockWithItem("test_radioactice_block",
             ofFullCopy(Blocks.IRON_BLOCK), Block::new, new Item.Properties().component(DataComponentsRegistry.RADIATION.get(), 50f));
+    public static final BlockItemRegistrySupplier TEST_RADIOACTIVE_BLOCK_2 = blockWithItem("test_radioactice_block_2",
+            ofFullCopy(Blocks.IRON_BLOCK), Block::new, new Item.Properties().component(DataComponentsRegistry.RADIATION.get(), 170f));
 
 
     public static final BlockItemRegistrySupplier EARTH_GLOBE = blockWithItem("earth_globe",

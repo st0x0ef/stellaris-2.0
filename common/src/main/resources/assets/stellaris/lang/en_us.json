@@ -862,6 +862,7 @@
   "text.stellaris.geiger_counter.max_radiation.result": "Max Radiation in a %s blocks radius : %s",
   "text.stellaris.geiger_counter.total_radiation.result": "Total Radiation in a %s blocks radius : %s",
   "text.stellaris.geiger_counter.avg_radiation.result": "Average Radiation in a %s blocks radius : %s",
+  "text.stellaris.geiger_counter.cant_search": "Cannot search for radiation (no energy).",
 
 
 
