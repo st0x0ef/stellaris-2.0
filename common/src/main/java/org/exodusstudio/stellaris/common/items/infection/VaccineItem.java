@@ -16,20 +16,15 @@ public class VaccineItem extends Item {
     @Override
     public InteractionResult use(Level level, Player player, InteractionHand hand) {
         if (!level.isClientSide()) {
-            if (MoonLoreUtils.isVaccineUnlocked(player)) {
-                if (MoonLoreUtils.isPlayerImmunisedToInfection(player)) {
-                    player.sendSystemMessage(MoonLoreUtils.PLAYER_ALREADY_IMMUNE_MESSAGE);
-                } else {
-                    player.sendSystemMessage(MoonLoreUtils.PLAYER_NOW_IMMUNISED_MESSAGE);
-                    MoonLoreUtils.immunisePlayerToInfection(player);
-                    player.getItemInHand(hand).consume(1, player);
-                }
-
-                player.removeEffect(EffectsRegistry.getHolder(EffectsRegistry.INFECTED));
+            if (MoonLoreUtils.isPlayerImmunisedToInfection(player)) {
+                player.sendSystemMessage(MoonLoreUtils.PLAYER_ALREADY_IMMUNE_MESSAGE);
             } else {
-                player.sendSystemMessage(MoonLoreUtils.PLAYER_NOT_READY_FOR_VACCINE);
+                player.sendSystemMessage(MoonLoreUtils.PLAYER_NOW_IMMUNISED_MESSAGE);
+                MoonLoreUtils.immunisePlayerToInfection(player);
+                player.getItemInHand(hand).consume(1, player);
             }
 
+            player.removeEffect(EffectsRegistry.getHolder(EffectsRegistry.INFECTED));
             return InteractionResult.SUCCESS;
         }
 
