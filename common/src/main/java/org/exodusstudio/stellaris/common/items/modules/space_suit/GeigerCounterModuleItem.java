@@ -83,8 +83,8 @@ public class GeigerCounterModuleItem extends Item implements SpaceSuitModule.Gei
 
 
                 /** Oil amount text */
-                Component cantSearchText = Component.translatable("text.stellaris.oil_finder.cant_search").withStyle(ChatFormatting.RED);
-                Component oilFoundText = Component.translatable("text.stellaris.geiger_counter.avg_radiation.result", range, radiationDetected).withStyle(ChatFormatting.GREEN);
+                Component cantSearchText = Component.translatable("text.stellaris.geiger_counter.cant_search").withStyle(ChatFormatting.RED);
+                Component radiationFoundText = Component.translatable("text.stellaris.geiger_counter.avg_radiation.result", range, radiationDetected).withStyle(ChatFormatting.GREEN);
                 Component energyText = Component.translatable("tooltip.item.stellaris.energy", energy.getEnergy(), energy.getMaxEnergy()).withStyle(ChatFormatting.YELLOW);
 
                 int height = 0;
@@ -93,7 +93,7 @@ public class GeigerCounterModuleItem extends Item implements SpaceSuitModule.Gei
                     graphics.text(font, cantSearchText, x, y, Utils.getMinecraftColor("red"));
                     height += font.lineHeight + 1;
                 } else {
-                    graphics.text(font, oilFoundText, x, y, Utils.getMinecraftColor("green"));
+                    graphics.text(font, radiationFoundText, x, y, Utils.getMinecraftColor("green"));
 
                     height += font.lineHeight + 1;
                 }
@@ -101,7 +101,7 @@ public class GeigerCounterModuleItem extends Item implements SpaceSuitModule.Gei
                 graphics.text(font, energyText, x, y + height, Utils.getMinecraftColor("yellow"));
                 height += font.lineHeight + 1;
 
-                return new Vector2i(font.width(energy.getEnergy() < 1 ? cantSearchText : oilFoundText), height);
+                return new Vector2i(font.width(energy.getEnergy() < 1 ? cantSearchText : radiationFoundText), height);
             }
         }
 
