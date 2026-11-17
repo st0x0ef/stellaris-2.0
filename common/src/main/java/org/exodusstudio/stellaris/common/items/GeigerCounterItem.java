@@ -88,7 +88,6 @@ public class GeigerCounterItem extends Item implements CustomSwingItem {
             stack.set(DataComponentsRegistry.GEIGER_COUNTER.get(), new GeigerCounterComponent(geigerCounter.type(), newRadius));
             player.sendOverlayMessage(Component.translatable("tooltip.stellaris.geiger_counter.radius", newRadius).withStyle(ChatFormatting.GREEN));
             return true;
-
         }
 
         return false;

@@ -52,6 +52,7 @@ import org.exodusstudio.stellaris.common.registries.BlocksRegistry;
 import org.exodusstudio.stellaris.common.registries.DataComponentsRegistry;
 import org.exodusstudio.stellaris.common.registries.RecipesRegistry;
 import org.exodusstudio.stellaris.common.utils.ModuleUtils;
+import org.exodusstudio.stellaris.common.utils.RadiationUtils;
 import org.exodusstudio.stellaris.common.utils.Utils;
 
 import java.io.IOException;
@@ -248,8 +249,17 @@ public class Events {
                 return EventResult.pass();
             }
 
-            if(state.is(BlocksRegistry.ROCKET_LAUNCH_PAD.block().get()) || state.is(BlocksRegistry.ROCKET_LAUNCH_PAD_PROXY.get())) {
+            //In survival, we use the block mixin so we can set radiation level to the items
+            //If it's in creative, we can remove it here because we don't need to drops
+            if(player.isCreative()) {
+                float blockRadLevel = RadiationUtils.getBlockRadiation(level, pos);
+                if(blockRadLevel > 0) {
+                    RadiationUtils.modifyBlockMap(level.getChunk(pos), pos, blockRadLevel, true);
+                }
+            }
 
+
+            if(state.is(BlocksRegistry.ROCKET_LAUNCH_PAD.block().get()) || state.is(BlocksRegistry.ROCKET_LAUNCH_PAD_PROXY.get())) {
                 if(Utils.checkIfAntennaIsNear(pos, level, 1) || Utils.checkIfRocketIsNear(pos, level, 1)) {
                     return EventResult.interruptFalse();
                 }

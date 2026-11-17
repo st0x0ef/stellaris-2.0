@@ -25,3 +25,5 @@ accessible field net/minecraft/client/renderer/blockentity/state/BlockEntityRend
 accessible method net/minecraft/client/renderer/GameRenderer setPostEffect (Lnet/minecraft/resources/Identifier;)V
 
 accessible method net/minecraft/world/level/block/CropBlock randomTick (Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/server/level/ServerLevel;Lnet/minecraft/core/BlockPos;Lnet/minecraft/util/RandomSource;)V
+
+accessible method net/minecraft/world/level/block/state/BlockBehaviour tick (Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/server/level/ServerLevel;Lnet/minecraft/core/BlockPos;Lnet/minecraft/util/RandomSource;)V

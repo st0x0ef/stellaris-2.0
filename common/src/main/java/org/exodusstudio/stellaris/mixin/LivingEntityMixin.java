@@ -115,7 +115,9 @@ public class LivingEntityMixin {
                 for (Pair<BlockPos, Float> pair : radiationBlocks) {
                     float radiationLevel = pair.getSecond();
                     if (radiationLevel > 0f) {
-                        stellaris$entity.hurtServer(serverLevel, DamageTypesRegistry.source(serverLevel, DamageTypesRegistry.RADIATION), radiationLevel * Stellaris.CONFIG.radiationConfig.radiationDamageMultiplier);
+                        stellaris$entity.hurtServer(serverLevel,
+                                DamageTypesRegistry.source(serverLevel, DamageTypesRegistry.RADIATION),
+                                radiationLevel * Stellaris.CONFIG.radiationConfig.radiationDamageMultiplier);
                     }
                 }
             }

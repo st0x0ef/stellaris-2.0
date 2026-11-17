@@ -48,8 +48,10 @@ public class GalacticRaysCollectorBlockEntity extends BaseGeneratorBlockEntity {
 
         EnvironmentAttributeSystem environmentAttributeSystem = level.environmentAttributes();
         float solarRadiation = environmentAttributeSystem.getValue(EnvironmentAttributesRegistry.SOLAR_RADIATION.get(), getBlockPos());
+        BlockPos blockPos = this.getBlockPos().offset(0, 1, 0);
 
-        if(solarRadiation <= 0.0f) return false;
+
+        if(solarRadiation <= 0.0f || !level.canSeeSky(blockPos)) return false;
 
         return energyContainer.getEnergy() != energyContainer.getMaxEnergy();
     }
@@ -90,8 +92,7 @@ public class GalacticRaysCollectorBlockEntity extends BaseGeneratorBlockEntity {
                 moveFullContainerToOutput();
             }
 
-            int energyToGenerate = (int)(DEFAULT_ENERGY_OUTPUT * solarRadiation);
-            energyContainer.insertWithoutLimits(energyToGenerate, false);
+            energyContainer.insertWithoutLimits((int) solarRadiation, false);
         }
     }
 

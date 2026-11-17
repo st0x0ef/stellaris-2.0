@@ -8,6 +8,7 @@ import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.chunk.ChunkAccess;
 import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.platform.DataAttachmentsPlatform;
@@ -71,6 +72,12 @@ public class RadiationUtils {
         }
 
         return blocksInRadius;
+    }
+
+    public static float getBlockRadiation(Level level, BlockPos blockPos) {
+        Map<BlockPos, Float> radioactiveBlocks = pairListToMap(getRadioactiveBlocks(level.getChunk(blockPos)));
+
+        return radioactiveBlocks.getOrDefault(blockPos, 0f);
     }
 
 

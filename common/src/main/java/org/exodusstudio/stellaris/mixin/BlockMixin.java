@@ -2,22 +2,20 @@ package org.exodusstudio.stellaris.mixin;
 
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.core.BlockPos;
-import net.minecraft.stats.Stats;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.common.registries.DataComponentsRegistry;
 import org.exodusstudio.stellaris.common.utils.RadiationUtils;
-import org.exodusstudio.stellaris.platform.DataAttachmentsPlatform;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -40,9 +38,13 @@ public class BlockMixin {
 
         //When a radioactive block is broken, remove it from the chunk data
         //We dont use the event because we need this to happen after the drops
-        RadiationUtils.modifyBlockMap(level.getChunk(pos), pos, 0f, true);
+        //This only work in survival
+
+        float blockRadLevel = RadiationUtils.getBlockRadiation(level, pos);
+        if(blockRadLevel > 0) {
+            RadiationUtils.modifyBlockMap(level.getChunk(pos), pos, blockRadLevel, true);
+
+        }
     }
-
-
 
 }

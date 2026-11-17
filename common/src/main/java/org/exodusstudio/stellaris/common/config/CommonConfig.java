@@ -199,7 +199,7 @@ public class CommonConfig implements PostValidation {
         public int radiationDamageInterval = 80;
 
         @ScreenInfos.Description(value = "config.stellaris.oxygenConfig.noOxygenDamage.desc")
-        public float radiationDamageMultiplier = 0.1f;
+        public float radiationDamageMultiplier = 0.05f;
 
         @ScreenInfos.Description(value = "config.stellaris.radiationConfig.radiationDetectionRadius.desc")
         public int radiationDetectionRadius = 5;
