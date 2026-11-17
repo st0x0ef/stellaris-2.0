@@ -22,6 +22,6 @@ Every crafting recipe that is not a shaped pattern can be made here, plus the bl
 
 
 **Stats :**
-- Internal Buffer : 6 000 FE
+- Internal Buffer : 90 000 FE
 
 [item=stellaris:blender onlyIcon]

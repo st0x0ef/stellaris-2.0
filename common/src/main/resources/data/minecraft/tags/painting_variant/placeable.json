@@ -1,0 +1,19 @@
+{
+  "replace": false,
+  "values": [
+    "stellaris:the_milky_way",
+    "stellaris:sun",
+    "stellaris:earth",
+    "stellaris:moon",
+    "stellaris:mars",
+    "stellaris:mercury",
+    "stellaris:venus",
+    "stellaris:neptune",
+    "stellaris:saturn",
+    "stellaris:jupiter",
+    "stellaris:pluto",
+    "stellaris:uranus",
+    "stellaris:proxima_centaury",
+    "stellaris:glacio"
+  ]
+}

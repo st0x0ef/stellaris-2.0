@@ -13,8 +13,8 @@ Place the light, connect it to a power source, then open the GUI and drag the sl
 It only shines while it has energy. Cut the power and it goes dark without losing its setting, so it lights back up at the same brightness as soon as the power comes back. Wiring it through a switchable line is the easiest way to turn a whole base on and off. 
 
 **Stats**
-- Power Consumption : 1 FE every 150 ticks at brightness 1, up to 1 FE every 10 ticks at brightness 15 
+- Power Consumption : 15 FE every 150 ticks at brightness 1, up to 15 FE every 10 ticks at brightness 15 
 - Brightness Range : 0 to 15 
-- Internal Buffer : 1 000 FE
+- Internal Buffer : 15 000 FE
 
 [item=stellaris:electric_light onlyIcon]

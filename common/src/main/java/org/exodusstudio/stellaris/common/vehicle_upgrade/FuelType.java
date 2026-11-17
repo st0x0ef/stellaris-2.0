@@ -28,15 +28,6 @@ public class FuelType {
                 case HYDROGEN ->
                     21.36f * fuelQuantity; // Need 18mb to go on Moon, 1920mb to go on Venus, 2610mb to go on Mars and
                                            // 4307mb to go on Mercury (approx)
-                case RADIOACTIVE, URANIUM ->
-                    23.74f * fuelQuantity; // Need 16mb to go on Moon, 1728mb to go on Venus, 2349mb to go on Mars and
-                                           // 3876mb to go on Mercury (approx)
-                case NEPTUNIUM ->
-                    26.38f * fuelQuantity; // Need 15mb to go on Moon, 1555mb to go on Venus, 2114mb to go on Mars and
-                                           // 3488mb to go on Mercury (approx)
-                case PLUTONIUM ->
-                    29.3f * fuelQuantity; // Need 14mb to go on Moon, 1400mb to go on Venus, 1903mb to go on Mars and
-                                          // 3140mb to go on Mercury (approx)
             };
         }
 
@@ -55,15 +46,6 @@ public class FuelType {
                 case HYDROGEN ->
                     distance / 21.36f; // Need 18mb to go on Moon, 1920mb to go on Venus, 2610mb to go on Mars and
                                        // 4307mb to go on Mercury (approx)
-                case RADIOACTIVE, URANIUM ->
-                    distance / 23.74f; // Need 16mb to go on Moon, 1728mb to go on Venus, 2349mb to go on Mars and
-                                       // 3876mb to go on Mercury (approx)
-                case NEPTUNIUM ->
-                    distance / 26.38f; // Need 15mb to go on Moon, 1555mb to go on Venus, 2114mb to go on Mars and
-                                       // 3488mb to go on Mercury (approx)
-                case PLUTONIUM ->
-                    distance / 29.3f; // Need 14mb to go on Moon, 1400mb to go on Venus, 1903mb to go on Mars and
-                                      // 3140mb to go on Mercury (approx)
             };
         }
 
@@ -77,11 +59,7 @@ public class FuelType {
     public enum Type implements StringRepresentable {
         FUEL(GUISprites.FUEL_OVERLAY, null),
         DIESEL(GUISprites.DIESEL_OVERLAY, null),
-        HYDROGEN(GUISprites.HYDROGEN_OVERLAY, null),
-        RADIOACTIVE(GUISprites.SIDEWAYS_ENERGY_FULL, null),
-        URANIUM(GUISprites.SIDEWAYS_ENERGY_FULL, RADIOACTIVE),
-        NEPTUNIUM(GUISprites.SIDEWAYS_ENERGY_FULL, RADIOACTIVE),
-        PLUTONIUM(GUISprites.SIDEWAYS_ENERGY_FULL, RADIOACTIVE);
+        HYDROGEN(GUISprites.HYDROGEN_OVERLAY, null);
 
         private final Identifier fuelTexture;
         private final Type motorType;
@@ -125,10 +103,6 @@ public class FuelType {
                 case "fuel" -> FUEL;
                 case "diesel" -> DIESEL;
                 case "hydrogen" -> HYDROGEN;
-                case "uranium" -> URANIUM;
-                case "neptunium" -> NEPTUNIUM;
-                case "plutonium" -> PLUTONIUM;
-                case "radioactive" -> RADIOACTIVE;
                 default -> null;
             };
         }

@@ -1,50 +1,59 @@
 package org.exodusstudio.stellaris.common.menus.base;
 
-import net.minecraft.world.inventory.DataSlot;
+import dev.architectury.networking.NetworkManager;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.player.Inventory;
 import org.exodusstudio.stellaris.common.blocks.entities.machines.base.BaseEnergyContainerBlockEntity;
+import org.exodusstudio.stellaris.common.network.packets.SyncEnergyUsagePacket;
 import org.jetbrains.annotations.Nullable;
-
-import java.util.function.Consumer;
-import java.util.function.IntSupplier;
 
 public final class EnergyUsageSync {
 
-    private final DataSlot current;
-    private final DataSlot max;
+    @Nullable
+    private final BaseEnergyContainerBlockEntity machine;
+    @Nullable
+    private final ServerPlayer player;
+    private boolean sent;
+    private int current;
+    private int max;
 
-    private EnergyUsageSync(DataSlot current, DataSlot max) {
+    private EnergyUsageSync(@Nullable BaseEnergyContainerBlockEntity machine, @Nullable ServerPlayer player) {
+        this.machine = machine;
+        this.player = player;
+    }
+
+    public static EnergyUsageSync create(@Nullable BaseEnergyContainerBlockEntity machine, Inventory inventory) {
+        ServerPlayer player = inventory.player instanceof ServerPlayer serverPlayer ? serverPlayer : null;
+        return new EnergyUsageSync(player != null ? machine : null, player);
+    }
+
+    public void broadcastChanges(int containerId) {
+        if (machine == null || player == null) {
+            return;
+        }
+
+        int newCurrent = machine.getCurrentEnergyUsage();
+        int newMax = machine.getMaxEnergyUsage();
+        if (sent && newCurrent == current && newMax == max) {
+            return;
+        }
+
+        sent = true;
+        current = newCurrent;
+        max = newMax;
+        NetworkManager.sendToPlayer(player, new SyncEnergyUsagePacket(containerId, current, max));
+    }
+
+    public void set(int current, int max) {
         this.current = current;
         this.max = max;
     }
 
-    public static EnergyUsageSync create(@Nullable BaseEnergyContainerBlockEntity machine, Consumer<DataSlot> addDataSlot) {
-        boolean server = machine != null && machine.getLevel() != null && !machine.getLevel().isClientSide();
-
-        DataSlot current = server ? reading(machine::getCurrentEnergyUsage) : DataSlot.standalone();
-        DataSlot max = server ? reading(machine::getMaxEnergyUsage) : DataSlot.standalone();
-        addDataSlot.accept(current);
-        addDataSlot.accept(max);
-        return new EnergyUsageSync(current, max);
-    }
-
     public int current() {
-        return current.get();
+        return current;
     }
 
     public int max() {
-        return max.get();
-    }
-
-    private static DataSlot reading(IntSupplier value) {
-        return new DataSlot() {
-            @Override
-            public int get() {
-                return value.getAsInt();
-            }
-
-            @Override
-            public void set(int value) {
-            }
-        };
+        return max;
     }
 }

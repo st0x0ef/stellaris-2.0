@@ -18,6 +18,7 @@ import org.exodusstudio.stellaris.common.registries.ArmorMaterialsRegistry;
 import org.exodusstudio.stellaris.common.utils.ModuleUtils;
 import org.exodusstudio.stellaris.common.utils.Utils;
 
+import java.util.List;
 import java.util.function.Consumer;
 
 public class SpaceSuitItem extends Item {
@@ -58,10 +59,11 @@ public class SpaceSuitItem extends Item {
     public void appendHoverText(ItemStack stack, TooltipContext context, TooltipDisplay tooltipDisplay, Consumer<Component> tooltipAdder, TooltipFlag flag) {
         super.appendHoverText(stack, context, tooltipDisplay, tooltipAdder, flag);
 
-        SpaceSuitModule.DamageProtectionModule damageProtectionModule = ModuleUtils.getSpaceSuitModule(stack, SpaceSuitModule.DamageProtectionModule.class);
-        if (damageProtectionModule != null) {
-            tooltipAdder.accept(Component.translatable("tooltip.item.stellaris.space_suit.damage_protection_module.header").withColor(Utils.getMinecraftColor("red")));
-            tooltipAdder.accept(Component.translatable("tooltip.item.stellaris.damage_protection.equivalent", damageProtectionModule.getMaterialNameComponent()).withColor(Utils.getMinecraftColor("red")));
+
+        List<SpaceSuitModule.ArmorTooltipAdder> armorTooltipAdders = ModuleUtils.getSpaceSuitModules(stack,SpaceSuitModule.ArmorTooltipAdder.class);
+        for(SpaceSuitModule.ArmorTooltipAdder armorTooltipAdder : armorTooltipAdders) {
+            armorTooltipAdder.appendTooltipsToArmor(stack, context, tooltipDisplay, tooltipAdder, flag);
         }
+
     }
 }

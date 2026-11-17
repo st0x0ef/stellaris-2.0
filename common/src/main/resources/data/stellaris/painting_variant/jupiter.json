@@ -1,0 +1,9 @@
+{
+  "asset_id": "stellaris:jupiter",
+  "height": 3,
+  "title": {
+    "color": "yellow",
+    "translate": "painting.stellaris.jupiter.title"
+  },
+  "width": 3
+}

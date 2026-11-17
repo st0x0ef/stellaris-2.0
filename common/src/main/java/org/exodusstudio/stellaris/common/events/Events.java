@@ -11,6 +11,7 @@ import dev.architectury.networking.NetworkManager;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -21,7 +22,9 @@ import net.minecraft.world.item.ItemStackTemplate;
 import net.minecraft.world.item.crafting.CraftingInput;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.ShapelessRecipe;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.*;
+import org.apache.commons.io.FileUtils;
 import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.common.antennas.Antenna;
 import org.exodusstudio.stellaris.common.assistant.AssistantManager;
@@ -51,7 +54,12 @@ import org.exodusstudio.stellaris.common.registries.RecipesRegistry;
 import org.exodusstudio.stellaris.common.utils.ModuleUtils;
 import org.exodusstudio.stellaris.common.utils.Utils;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 
 public class Events {
@@ -296,5 +304,56 @@ public class Events {
                 lines.add(radiationComponent.append(radiationLevel.append(sivertComponent)));
             }
         });
+
+        LifecycleEvent.SERVER_STARTING.register((MinecraftServer server) -> {
+            if (Stellaris.CONFIG.admin.regenDimension) {
+                regenStellarisDim(server);
+            }
+        });
+
     }
+
+
+    /**
+     * Regenerates specified dimensions by deleting their region, data, poi, and entities folders.
+     * Useful for development purposes to reset dimensions on server start.
+     * @param server
+     */
+    public static void regenStellarisDim(MinecraftServer server) {
+        List<ServerLevel> levelList = new ArrayList<>((Collection<ServerLevel>) server.getAllLevels());
+        List<Identifier> dimensionsToRegen = List.of(Stellaris.CONFIG.admin.dimensionsToRegen);
+
+
+        Stellaris.LOG.warn("---------- Dimension Regeneration Enabled ----------");
+        Stellaris.LOG.warn("All theses dimensions will be regenerated on join");
+        Stellaris.LOG.warn("This is used for development only");
+
+        Stellaris.LOG.warn("Do disable this, go to the config.");
+        Stellaris.LOG.warn("Dimensions Regenerated:");
+
+        levelList.stream()
+                .map(Level::dimension)
+                .filter((level -> dimensionsToRegen.contains(level.identifier())))
+                .forEach((level) -> {
+                    Path dimensionPath = server.storageSource.getDimensionPath(level);
+                    String[] folderToDelete = new String[]{"region", "data", "poi", "entities"};
+
+                    Arrays.stream(folderToDelete)
+                            .map(dimensionPath::resolve)
+                            .map(Path::toFile)
+                            .forEach((file) -> {
+                                try {
+                                    if (Files.exists(file.toPath())) {
+                                        FileUtils.deleteDirectory(file);
+                                        Stellaris.LOG.warn("    - {}", level.identifier());
+                                    }
+                                } catch(IOException e) {
+                                    throw new RuntimeException(e);
+
+                                }
+                            });
+                });
+        Stellaris.LOG.warn("---------- Dimension Regeneration Enabled ----------");
+    }
+
 }

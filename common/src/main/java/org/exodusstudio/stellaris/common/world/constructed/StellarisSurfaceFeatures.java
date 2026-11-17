@@ -24,7 +24,7 @@ public class StellarisSurfaceFeatures {
 
     public static void bootstrapConfigured(BootstrapContext<ConfiguredFeature<?,?>> context) {
         FeatureUtils.register(context, CIRCULAR_SPIKES.configuredFeature(), ModFeatures.SPIKE.get(), new SpikeFeatureConfiguration(Blocks.BLUE_ICE.defaultBlockState(), UniformInt.of(14,20),UniformInt.of(10,17), ConstantInt.of(3), ConstantInt.of(360), ConstantInt.of(6)));
-        FeatureUtils.register(context, POINTY_SPIKES.configuredFeature(), ModFeatures.POINTY_SPIKE.get(), new PointySpikeFeatureConfiguration(Blocks.PACKED_ICE.defaultBlockState(), UniformInt.of(14,20),UniformInt.of(10,17), ConstantInt.of(3), ConstantInt.of(6)));
+        FeatureUtils.register(context, POINTY_SPIKES.configuredFeature(), ModFeatures.POINTY_SPIKE.get(), new PointySpikeFeatureConfiguration(Blocks.PACKED_ICE.defaultBlockState(), UniformInt.of(14,20),UniformInt.of(10,17), ConstantInt.of(3), ConstantInt.of(1)));
 
     }
 

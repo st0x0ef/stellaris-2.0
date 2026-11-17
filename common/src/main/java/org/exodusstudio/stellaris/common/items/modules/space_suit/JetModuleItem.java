@@ -22,7 +22,7 @@ import org.joml.Vector2i;
 
 import java.util.function.Consumer;
 
-public class JetModuleItem extends Item implements SpaceSuitModule.JetModule {
+public class JetModuleItem extends Item implements SpaceSuitModule.JetModule, SpaceSuitModule.ArmorTooltipAdder {
     private final long consumptionPerSecond;
     private final double maxUpwardSpeed;
 
@@ -75,5 +75,15 @@ public class JetModuleItem extends Item implements SpaceSuitModule.JetModule {
         }
 
         return new Vector2i(0);
+    }
+
+    @Override
+    public void appendTooltipsToArmor(ItemStack stack, TooltipContext context, TooltipDisplay tooltipDisplay, Consumer<Component> tooltipAdder, TooltipFlag flag) {
+        double consumption = this.getConsumptionPerSecond();
+        double climbSpeed = this.getMaxUpwardSpeed();
+        tooltipAdder.accept(Component.translatable("tooltip.item.stellaris.space_suit.jet_module.header").withColor(Utils.getMinecraftColor("darkred")));
+        tooltipAdder.accept(Component.translatable("tooltip.item.stellaris.space_suit.jet_module.consumption", consumption).withColor(Utils.getMinecraftColor("darkred")));
+        tooltipAdder.accept(Component.translatable("tooltip.item.stellaris.space_suit.jet_module.climb_speed", climbSpeed).withColor(Utils.getMinecraftColor("darkred")));
+
     }
 }

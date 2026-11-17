@@ -24,20 +24,23 @@ import net.minecraft.world.level.storage.ValueOutput;
 import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.common.blocks.base.BaseLitMachineBlock;
 import org.exodusstudio.stellaris.common.blocks.entities.machines.base.BaseEnergyContainerBlockEntity;
+import org.exodusstudio.stellaris.common.blocks.entities.machines.base.ProgressingBlockEntity;
 import org.exodusstudio.stellaris.common.fluid.FluidUtil;
 import org.exodusstudio.stellaris.common.fluid.SingleFluidStorage;
 import org.exodusstudio.stellaris.common.items.CanItem;
 import org.exodusstudio.stellaris.common.menus.VacuumatorMenu;
+import org.exodusstudio.stellaris.common.menus.slot.FluidContainerSlot;
 import org.exodusstudio.stellaris.common.network.packets.SyncFluidPacketWithoutDirection;
 import org.exodusstudio.stellaris.common.registries.BlockEntitiesRegistry;
 import org.exodusstudio.stellaris.common.registries.TagsRegistry;
 import org.exodusstudio.stellaris.common.utils.Utils;
+import org.exodusstudio.stellaris.common.utils.capabilities.energy.EnergyUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-public class VacuumatorBlockEntity extends BaseEnergyContainerBlockEntity implements FluidProvider.BLOCK {
+public class VacuumatorBlockEntity extends BaseEnergyContainerBlockEntity implements FluidProvider.BLOCK, ProgressingBlockEntity {
     /** Slot 0: food (consumed), 1: can (consumed), 2: canned result, 3: empty fluid container, 4: filled container. */
     public static final int FOOD_SLOT = 0;
     public static final int CAN_SLOT = 1;
@@ -47,10 +50,10 @@ public class VacuumatorBlockEntity extends BaseEnergyContainerBlockEntity implem
 
     public static final int WATER_CAPACITY = 4000;
 
-    /** Hoppers on top feed the food and can slots, hoppers underneath pull the canned result. */
+    /** Top feeds food and cans, the sides feed empty fluid containers, the bottom pulls cans and filled containers. */
     private static final int[] INPUT_SLOTS = new int[]{FOOD_SLOT, CAN_SLOT};
-    private static final int[] OUTPUT_SLOTS = new int[]{RESULT_SLOT};
-    private static final int[] NO_SLOTS = new int[0];
+    private static final int[] CONTAINER_SLOTS = new int[]{FLUID_CONTAINER_SLOT};
+    private static final int[] OUTPUT_SLOTS = new int[]{RESULT_SLOT, FILLED_CONTAINER_SLOT};
 
     private int litTime;
     private int litDuration;
@@ -155,30 +158,27 @@ public class VacuumatorBlockEntity extends BaseEnergyContainerBlockEntity implem
             return OUTPUT_SLOTS;
         }
 
-        return NO_SLOTS;
+        return CONTAINER_SLOTS;
     }
 
     @Override
     public boolean canPlaceItem(int i, ItemStack itemStack) {
-        return canInsertIntoSlot(i, itemStack);
+        return switch (i) {
+            case FOOD_SLOT -> isFood(itemStack) && !itemStack.is(TagsRegistry.ItemTags.CAN);
+            case CAN_SLOT -> itemStack.is(TagsRegistry.ItemTags.CAN);
+            case FLUID_CONTAINER_SLOT -> getItem(i).isEmpty() && FluidContainerSlot.accepts(itemStack, true);
+            default -> false;
+        };
     }
 
     @Override
     public boolean canPlaceItemThroughFace(int i, ItemStack itemStack, @Nullable Direction direction) {
-        return direction == Direction.UP && canInsertIntoSlot(i, itemStack);
+        return direction != null && direction != Direction.DOWN && canPlaceItem(i, itemStack);
     }
 
     @Override
     public boolean canTakeItemThroughFace(int i, ItemStack itemStack, Direction direction) {
-        return direction == Direction.DOWN && i == RESULT_SLOT;
-    }
-
-    private static boolean canInsertIntoSlot(int slot, ItemStack stack) {
-        return switch (slot) {
-            case FOOD_SLOT -> isFood(stack) && !stack.is(TagsRegistry.ItemTags.CAN);
-            case CAN_SLOT -> stack.is(TagsRegistry.ItemTags.CAN);
-            default -> false;
-        };
+        return direction == Direction.DOWN && (i == RESULT_SLOT || i == FILLED_CONTAINER_SLOT);
     }
 
     @Override
@@ -204,7 +204,7 @@ public class VacuumatorBlockEntity extends BaseEnergyContainerBlockEntity implem
             litDuration = getVacuumationDuration(getItem(FOOD_SLOT));
             litTime = litDuration;
 
-            useEnergy(Stellaris.CONFIG.machineConfig.vacuumatorEnergyPerCraft);
+            useEnergy(EnergyUtil.scaled(Stellaris.CONFIG.machineConfig.vacuumatorEnergyPerCraft));
 
             removeItem(FOOD_SLOT, 1);
             removeItem(CAN_SLOT, 1);
@@ -241,7 +241,7 @@ public class VacuumatorBlockEntity extends BaseEnergyContainerBlockEntity implem
             return false;
         }
 
-        if (getEnergy(null).getEnergy() < Stellaris.CONFIG.machineConfig.vacuumatorEnergyPerCraft) {
+        if (getEnergy(null).getEnergy() < EnergyUtil.scaled(Stellaris.CONFIG.machineConfig.vacuumatorEnergyPerCraft)) {
             return false;
         }
 
@@ -300,6 +300,16 @@ public class VacuumatorBlockEntity extends BaseEnergyContainerBlockEntity implem
     }
 
     @Override
+    public boolean isInProgress() {
+        return isLit();
+    }
+
+    @Override
+    public float getProgress() {
+        return 1f - (float) litTime / Math.max(litDuration, litTime);
+    }
+
+    @Override
     public int getContainerSize() {
         return 5;
     }
@@ -315,6 +325,6 @@ public class VacuumatorBlockEntity extends BaseEnergyContainerBlockEntity implem
 
     @Override
     public int getMaxEnergyUsage() {
-        return isLit() || getVacuumationDuration(getItem(FOOD_SLOT)) > 0 ? Stellaris.CONFIG.machineConfig.vacuumatorEnergyPerCraft : 0;
+        return isLit() || getVacuumationDuration(getItem(FOOD_SLOT)) > 0 ? EnergyUtil.scaled(Stellaris.CONFIG.machineConfig.vacuumatorEnergyPerCraft) : 0;
     }
 }

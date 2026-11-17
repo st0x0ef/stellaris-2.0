@@ -38,6 +38,7 @@ public class ModulesRegistry {
     public static final RegistrySupplier<OilFinderModuleItem> OIL_FINDER_MODULE_T2 = StellarisRegistries.SPACE_SUIT_MODULES.register(IdentifierUtils.id("oil_finder_module_tier_2"), ItemsRegistry.SPACE_SUIT_OIL_FINDER_MODULE_T2);
     public static final RegistrySupplier<OilFinderModuleItem> OIL_FINDER_MODULE_T3 = StellarisRegistries.SPACE_SUIT_MODULES.register(IdentifierUtils.id("oil_finder_module_tier_3"), ItemsRegistry.SPACE_SUIT_OIL_FINDER_MODULE_T3);
 
+
     public static final RegistrySupplier<TankModuleItem> DIESEL_TANK_MODULE_T1 = StellarisRegistries.SPACE_SUIT_MODULES.register(IdentifierUtils.id("diesel_tank_module_tier_1"), ItemsRegistry.SPACE_SUIT_DIESEL_TANK_MODULE_T1);
     public static final RegistrySupplier<TankModuleItem> DIESEL_TANK_MODULE_T2 = StellarisRegistries.SPACE_SUIT_MODULES.register(IdentifierUtils.id("diesel_tank_module_tier_2"), ItemsRegistry.SPACE_SUIT_DIESEL_TANK_MODULE_T2);
     public static final RegistrySupplier<TankModuleItem> DIESEL_TANK_MODULE_T3 = StellarisRegistries.SPACE_SUIT_MODULES.register(IdentifierUtils.id("diesel_tank_module_tier_3"), ItemsRegistry.SPACE_SUIT_DIESEL_TANK_MODULE_T3);

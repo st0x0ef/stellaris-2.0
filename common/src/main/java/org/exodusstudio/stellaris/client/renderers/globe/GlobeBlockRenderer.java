@@ -26,6 +26,7 @@ public class GlobeBlockRenderer implements BlockEntityRenderer<GlobeBlockEntity,
 
     public static final SpriteId EARTH_GLOBE = new SpriteId(TextureAtlas.LOCATION_BLOCKS, IdentifierUtils.id("block/globes/earth_globe"));
     public static final SpriteId MOON_GLOBE = new SpriteId(TextureAtlas.LOCATION_BLOCKS, IdentifierUtils.id("block/globes/moon_globe"));
+    public static final SpriteId MARS_GLOBE = new SpriteId(TextureAtlas.LOCATION_BLOCKS, IdentifierUtils.id("block/globes/mars_globe"));
 
     private final GlobeModel model;
     private final SpriteGetter sprites;
@@ -35,9 +36,13 @@ public class GlobeBlockRenderer implements BlockEntityRenderer<GlobeBlockEntity,
         this.sprites = context.sprites();
     }
 
+    // TODO : make fully data driven
     private static SpriteId spriteFor(BlockState state) {
         if (state.is(BlocksRegistry.MOON_GLOBE.block().get())) {
             return MOON_GLOBE;
+        }
+        if (state.is(BlocksRegistry.MARS_GLOBE.block().get())) {
+            return MARS_GLOBE;
         }
         return EARTH_GLOBE;
     }

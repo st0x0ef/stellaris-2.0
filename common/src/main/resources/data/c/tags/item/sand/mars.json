@@ -1,6 +1,7 @@
 {
   "replace": false,
   "values": [
-    "stellaris:mars_sand"
+    "stellaris:mars_sand",
+    "stellaris:mars_weathered_sand"
   ]
 }

@@ -6,6 +6,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.common.transport.Transport;
 import org.exodusstudio.stellaris.common.transport.TransportMedium;
 
@@ -15,8 +16,16 @@ public class EnergyUtil {
 
     private static final List<Direction> ALL_DIRECTIONS = List.of(Direction.values());
 
+    public static int scaled(int baseAmount) {
+        if (baseAmount <= 0) {
+            return baseAmount;
+        }
+        long scaled = Math.round(baseAmount * Stellaris.CONFIG.energyConfig.energyMultiplier);
+        return Math.clamp(scaled, 1, Integer.MAX_VALUE);
+    }
+
     public static int moveEnergyToItem(UniversalEnergyStorage from, ItemStack stackTo, int amount) {
-        if (stackTo.isEmpty()) return 0;
+        if (stackTo.getCount() != 1) return 0;
         UniversalEnergyStorage to = Capabilities.Energy.ITEM.getCapability(stackTo);
         if (to == null) {
             return 0;
@@ -25,12 +34,22 @@ public class EnergyUtil {
     }
 
     public static int moveEnergyFromItem(UniversalEnergyStorage to, ItemStack stackFrom, int amount) {
-        if (stackFrom.isEmpty()) return 0;
+        if (stackFrom.getCount() != 1) return 0;
         UniversalEnergyStorage from = Capabilities.Energy.ITEM.getCapability(stackFrom);
         if (from == null) {
             return 0;
         }
         return moveEnergy(from, to, amount);
+    }
+
+    public static boolean isItemEnergyEmpty(ItemStack stack) {
+        UniversalEnergyStorage storage = Capabilities.Energy.ITEM.getCapability(stack);
+        return storage == null || storage.getEnergy() <= 0;
+    }
+
+    public static boolean isItemEnergyFull(ItemStack stack) {
+        UniversalEnergyStorage storage = Capabilities.Energy.ITEM.getCapability(stack);
+        return storage == null || storage.getEnergy() >= storage.getMaxEnergy();
     }
 
     public static void distributeEnergyNearby(Level level, BlockPos pos, int amount) {

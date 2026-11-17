@@ -2,7 +2,9 @@ package org.exodusstudio.stellaris.common.transport;
 
 import com.fej1fun.potentials.energy.UniversalEnergyStorage;
 import com.fej1fun.potentials.fluid.UniversalFluidStorage;
+import com.fej1fun.potentials.platform.TransactionHelper;
 import dev.architectury.fluid.FluidStack;
+import dev.architectury.platform.Platform;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.Level;
@@ -21,6 +23,8 @@ import java.util.*;
  * fluid, or energy) so this class never needs to know which one it is moving.
  */
 public final class Transport {
+
+    public static final boolean DEFER_PASSTHROUGH = !Platform.isFabric();
 
     private Transport() {
     }
@@ -154,8 +158,9 @@ public final class Transport {
      * {@code drain/fill(simulate=true)} is correctly side-effect-free.
      */
     public static <S> S capability(Level level, BlockPos pos, Direction direction, TransportMedium<S> medium) {
+        boolean useRaw = medium.rawGet != null && (DEFER_PASSTHROUGH || !TransactionHelper.isOpen());
         BlockEntity be = level.getBlockEntity(pos);
-        if (be != null && medium.rawGet != null) {
+        if (be != null && useRaw) {
             S raw = medium.rawGet.apply(be, direction);
             if (raw != null) return raw;
         }
@@ -168,7 +173,7 @@ public final class Transport {
         BlockState state = level.getBlockState(pos);
         if (state.getBlock() instanceof PumpjackProxyBlock) {
             BlockPos mainPos = PumpjackProxyBlock.getMainPos(pos, state);
-            if (medium.rawGet != null) {
+            if (useRaw) {
                 BlockEntity mainBe = level.getBlockEntity(mainPos);
                 if (mainBe != null) {
                     S raw = medium.rawGet.apply(mainBe, direction);

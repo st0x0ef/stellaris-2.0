@@ -33,6 +33,7 @@ dependencies {
     runtimeOnly "me.shedaniel:RoughlyEnoughItems-fabric:$rootProject.rei_version"
 
     runtimeOnly "maven.modrinth:jade:${rootProject.jade_version}+fabric"
+    runtimeOnly "maven.modrinth:energized-power:${rootProject.energized_power_version}-fabric"
 
     common(project(path: ':common')) { transitive = false }
     shadowCommon(project(path: ':common', configuration: 'transformProductionFabric')) { transitive = false }

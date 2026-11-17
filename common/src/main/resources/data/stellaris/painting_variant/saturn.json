@@ -1,0 +1,9 @@
+{
+  "asset_id": "stellaris:saturn",
+  "height": 3,
+  "title": {
+    "color": "yellow",
+    "translate": "painting.stellaris.saturn.title"
+  },
+  "width": 4
+}

@@ -74,6 +74,7 @@ public class RocketLaunchPadProxyBlock extends Block implements MultiblockProxyB
 
     @Override
     protected BlockState mirror(BlockState state, Mirror mirror) {
+        if (mirror == Mirror.NONE) return state;
         return state.setValue(FACING, mirror.mirror(state.getValue(FACING)))
                 .setValue(PART, state.getValue(PART).mirrored());
     }

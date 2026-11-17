@@ -26,8 +26,8 @@ Place the pumpjack carefully! When you break the pumpjack, you get back almost a
 
 **Stats :** 
 - Extraction Rate : 5 mB/t 
-- Power Consumption : 2 FE per mB, so 10 FE/t at full rate 
+- Power Consumption : 30 FE per mB, so 150 FE/t at full rate 
 - Tank Capacity : 10 000 mB 
-- Internal Buffer : 12 800 FE
+- Internal Buffer : 192 000 FE
 
 [item=stellaris:pumpjack onlyIcon]

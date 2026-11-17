@@ -20,7 +20,7 @@ import org.joml.Vector2i;
 
 import java.util.function.Consumer;
 
-public class OilFinderModuleItem extends Item implements SpaceSuitModule.OilFinderModule {
+public class OilFinderModuleItem extends Item implements SpaceSuitModule.OilFinderModule, SpaceSuitModule.ArmorTooltipAdder {
     private final int range;
 
     public OilFinderModuleItem(Properties properties, int range) {
@@ -75,7 +75,6 @@ public class OilFinderModuleItem extends Item implements SpaceSuitModule.OilFind
                 Component cantSearchText = Component.translatable("text.stellaris.oil_finder.cant_search").withStyle(ChatFormatting.RED);
                 Component noOilText = Component.translatable("text.stellaris.oil_finder.no_oil").withStyle(ChatFormatting.RED);
                 Component oilFoundText = Component.translatable("text.stellaris.oil_finder.oil_found").append(": " + oilLevel + "mb").withStyle(ChatFormatting.GREEN);
-                Component energyText = Component.translatable("tooltip.item.stellaris.energy", energy.getEnergy(), energy.getMaxEnergy()).withStyle(ChatFormatting.YELLOW);
 
                 int height = 0;
 
@@ -91,13 +90,18 @@ public class OilFinderModuleItem extends Item implements SpaceSuitModule.OilFind
                     height += font.lineHeight + 1;
                 }
 
-                graphics.text(font, energyText, x, y + height, Utils.getMinecraftColor("yellow"));
-                height += font.lineHeight + 1;
 
-                return new Vector2i(font.width(oilLevel > 0 ? oilFoundText : (energy.getEnergy() < 1 ? cantSearchText : noOilText)), height);
+                return new Vector2i(font.width(oilLevel > 0 ? oilFoundText : (energy.getEnergy() < 1 ? cantSearchText : noOilText)), 0);
             }
         }
 
         return OilFinderModule.super.renderStackedGui(graphics, deltaTracker, player, stack, x, y);
+    }
+
+    @Override
+    public void appendTooltipsToArmor(ItemStack stack, TooltipContext context, TooltipDisplay tooltipDisplay, Consumer<Component> tooltipAdder, TooltipFlag flag) {
+        tooltipAdder.accept(Component.translatable("tooltip.item.stellaris.space_suit.oil_finder_module.header").withColor(Utils.getMinecraftColor("gold")));
+        tooltipAdder.accept(Component.translatable("tooltip.item.stellaris.space_suit.oil_finder_module.info", this.getRange(), this.getRange()).withColor(Utils.getMinecraftColor("gold")));
+
     }
 }

@@ -22,6 +22,10 @@ public class ElectrolyzeSlot extends Slot {
 
     @Override
     public boolean mayPlace(ItemStack stack) {
+        return accepts(stack, electrolyzerBlock, tank);
+    }
+
+    public static boolean accepts(ItemStack stack, ElectrolyzerBlockEntity electrolyzerBlock, int tank) {
         //If the tank is -1, we are doing the logic for the ingredient tank
         if (tank == -1) {
             UniversalFluidItemStorage fluidStorage = Capabilities.Fluid.ITEM.getCapability(stack);

@@ -170,10 +170,30 @@
                     "add_stone_depth": false
                 },
                 "then_run": {
-                    "type": "minecraft:block",
-                    "result_state": {
-                        "Name": "stellaris:mars_sand"
-                    }
+                    "type": "minecraft:sequence",
+                    "sequence": [
+                        {
+                            "type": "minecraft:condition",
+                            "if_true": {
+                                "type": "minecraft:biome",
+                                "biome_is": [
+                                    "stellaris:ice_spikes"
+                                ]
+                            },
+                            "then_run": {
+                                "type": "minecraft:block",
+                                "result_state": {
+                                    "Name": "minecraft:ice"
+                                }
+                            }
+                        },
+                        {
+                            "type": "minecraft:block",
+                            "result_state": {
+                                "Name": "stellaris:mars_sand"
+                            }
+                        }
+                    ]
                 }
             },
             {
@@ -254,7 +274,7 @@
                             "if_true": {
                                 "type": "minecraft:noise_threshold",
                                 "noise": "stellaris:ice_cave_gradient",
-                                "min_threshold": -0.6,
+                                "min_threshold": -0.9,
                                 "max_threshold": -0.5
                             },
                             "then_run": {
@@ -270,7 +290,7 @@
                                 "type": "minecraft:noise_threshold",
                                 "noise": "stellaris:ice_cave_gradient",
                                 "min_threshold": -0.5,
-                                "max_threshold": -0.2
+                                "max_threshold": -0.1
                             },
                             "then_run": {
                                 "type": "minecraft:block",
@@ -284,7 +304,7 @@
                             "if_true": {
                                 "type": "minecraft:noise_threshold",
                                 "noise": "stellaris:ice_cave_gradient",
-                                "min_threshold": 0.3,
+                                "min_threshold": 0.2,
                                 "max_threshold": 0.5
                             },
                             "then_run": {
@@ -300,7 +320,7 @@
                                 "type": "minecraft:noise_threshold",
                                 "noise": "stellaris:ice_cave_gradient",
                                 "min_threshold": 0.5,
-                                "max_threshold": 0.7
+                                "max_threshold": 0.9
                             },
                             "then_run": {
                                 "type": "minecraft:block",
@@ -329,10 +349,39 @@
                         "add_stone_depth": false
                     },
                     "then_run": {
-                        "type": "minecraft:block",
-                        "result_state": {
-                            "Name": "minecraft:snow_block"
-                        }
+                        "type": "minecraft:sequence",
+                        "sequence": [
+                            {
+                                "type": "minecraft:condition",
+                                "if_true": {
+                                    "type": "minecraft:noise_threshold",
+                                    "noise": "stellaris:ice_cave_gradient",
+                                    "min_threshold": -1,
+                                    "max_threshold": 0
+                                },
+                                "then_run": {
+                                    "type": "minecraft:block",
+                                    "result_state": {
+                                        "Name": "minecraft:packed_ice"
+                                    }
+                                }
+                            },
+                            {
+                                "type": "minecraft:condition",
+                                "if_true": {
+                                    "type": "minecraft:noise_threshold",
+                                    "noise": "stellaris:ice_cave_gradient",
+                                    "min_threshold": 0,
+                                    "max_threshold": 1
+                                },
+                                "then_run": {
+                                    "type": "minecraft:block",
+                                    "result_state": {
+                                        "Name": "minecraft:ice"
+                                    }
+                                }
+                            }
+                        ]
                     }
                 }
             }

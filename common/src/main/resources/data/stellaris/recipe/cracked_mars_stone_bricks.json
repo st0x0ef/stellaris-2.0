@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:smelting",
+  "ingredient": "stellaris:mars_stone_bricks",
+  "result": {
+    "id": "stellaris:cracked_mars_stone_bricks"
+  },
+  "experience": 0.1,
+  "cookingtime": 200
+}

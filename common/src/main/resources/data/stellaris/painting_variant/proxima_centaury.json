@@ -1,0 +1,9 @@
+{
+  "asset_id": "stellaris:proxima_centaury",
+  "height": 4,
+  "title": {
+    "color": "yellow",
+    "translate": "painting.stellaris.proxima_centaury.title"
+  },
+  "width": 4
+}

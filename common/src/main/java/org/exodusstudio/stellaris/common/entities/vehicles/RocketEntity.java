@@ -130,19 +130,6 @@ public class RocketEntity extends VehicleEntity implements FluidProvider.ENTITY,
     }
 
     /**
-     * Drops all equipment stored in the rocket's inventory when destroyed.
-     * @param level The server level where the rocket is located.
-     */
-    protected void dropEquipment(ServerLevel level) {
-        for (int i = 0; i < this.inventory.getItems().size(); ++i) {
-            ItemStack itemstack = this.inventory.getItem(i);
-            if (!itemstack.isEmpty()) {
-                this.spawnAtLocation(level, itemstack);
-            }
-        }
-    }
-
-    /**
      * Spawns the rocket item with its modules saved when the rocket entity is destroyed.
      */
     protected void spawnRocketItem() {
@@ -161,20 +148,17 @@ public class RocketEntity extends VehicleEntity implements FluidProvider.ENTITY,
      * @return The FluidStack representing the rocket's fuel type.
      */
     public FluidStack getFuelType() {
-        FluidStack fuel = FluidStack.create(FluidsRegistry.FUEL_STILL.get(), this.getFuel());
-        for (RocketModule module : this.getRocketModules()) {
-            if (module instanceof RocketModule.CustomFuelModule customFuelModule) {
-                fuel = FluidStack.create(customFuelModule.getFuel().getFluid(), this.getFuel());
-            }
-        }
-
-        return fuel;
+        return FluidStack.create(getExpectedFuelFluid(), this.getFuel());
     }
 
     private Fluid getExpectedFuelFluid() {
-        for (RocketModule module : this.getRocketModules()) {
+        return getExpectedFuelFluid(this.getRocketModules());
+    }
+
+    public static Fluid getExpectedFuelFluid(Modules<RocketModule> modules) {
+        for (RocketModule module : modules) {
             if (module instanceof RocketModule.CustomFuelModule customFuelModule) {
-                return customFuelModule.getFuel().getFluid();
+                return customFuelModule.getFuel();
             }
         }
         return FluidsRegistry.FUEL_STILL.get();
@@ -274,7 +258,7 @@ public class RocketEntity extends VehicleEntity implements FluidProvider.ENTITY,
                     this.level().playSeededSound(null,this, SoundRegistry.ROCKET_SOUND, SoundSource.NEUTRAL, 1, 1, 1);
                 }
             } else {
-                player.sendOverlayMessage(Component.translatable("text.stellaris.rocket.fuel", getFuelType().getFluid().arch$registryName().toString()));
+                player.sendOverlayMessage(Component.translatable("text.stellaris.rocket.fuel", getExpectedFuelFluid().arch$registryName().toString()));
             }
         }
     }
@@ -563,11 +547,9 @@ public class RocketEntity extends VehicleEntity implements FluidProvider.ENTITY,
             rocketEntity.entityData.set(HAS_AUTOPILOT_DESTINATION, true);
         }
 
-        //Only allow to change the fuel type when the rocket is not empty
-        if(stack.has(DataComponentsRegistry.FLUID_LIST.get())) {
-            FluidAmountMapDataComponent fluidData = stack.get(DataComponentsRegistry.FLUID_LIST.get());
-
-            rocketEntity.entityData.set(FUEL, (int) fluidData.getAmount(0));
+        FluidStack stored = FluidUtil.readStoredFluid(stack, DataComponentsRegistry.FLUID_LIST.get(), 0);
+        if (!stored.isEmpty() && stored.getFluid().isSame(getExpectedFuelFluid(modulesOptional))) {
+            rocketEntity.entityData.set(FUEL, (int) Math.min(stored.getAmount(), rocketEntity.getTankCapacity()));
         }
         return rocketEntity;
     }

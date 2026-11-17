@@ -3,7 +3,11 @@ package org.exodusstudio.stellaris.common.config;
 import fr.tathan.exoconfig.common.infos.ConfigInfos;
 import fr.tathan.exoconfig.common.infos.ScreenInfos;
 import fr.tathan.exoconfig.common.post_validation.PostValidation;
+import net.minecraft.resources.Identifier;
+import net.minecraft.resources.Identifier;
 import org.exodusstudio.stellaris.Stellaris;
+import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
+import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
 
 @ConfigInfos(modDisplayName = "Stellaris", name = "stellaris")
 public class CommonConfig implements PostValidation {
@@ -18,6 +22,9 @@ public class CommonConfig implements PostValidation {
         public int maxOil = 50000;
 
         public int oilExtractionPerTick = 5;
+
+        @ScreenInfos.Description(value = "config.stellaris.oilConfig.pumpjackFluid.desc")
+        public Identifier pumpjackFluid = IdentifierUtils.id("oil");
     }
 
     @ScreenInfos.InnerConfig
@@ -119,6 +126,14 @@ public class CommonConfig implements PostValidation {
         @ScreenInfos.Description(value = "config.stellaris.effectsConfig.corrosionDamage.desc")
         public float corrosionDamage = 1.0f;
     }
+    @ScreenInfos.InnerConfig
+    @ScreenInfos.Description("config.stellaris.energyConfig.desc")
+    public EnergyConfig energyConfig = new EnergyConfig();
+
+    public static class EnergyConfig {
+        @ScreenInfos.Description(value = "config.stellaris.energyConfig.energyMultiplier.desc")
+        public double energyMultiplier = 15.0;
+    }
 
     @ScreenInfos.InnerConfig
     @ScreenInfos.Description("config.stellaris.machineConfig.desc")
@@ -142,12 +157,32 @@ public class CommonConfig implements PostValidation {
     }
 
     @ScreenInfos.InnerConfig
+    @ScreenInfos.Description("config.stellaris.foodConfig.desc")
+    public FoodConfig foodConfig = new FoodConfig();
+
+    public static class FoodConfig {
+        @ScreenInfos.Description(value = "config.stellaris.foodConfig.fluidCellWaterPerCan.desc")
+        public int fluidCellWaterPerCan = 100;
+    }
+
+    @ScreenInfos.InnerConfig
     @ScreenInfos.Description("config.stellaris.assistantConfig.desc")
     public AssistantConfig assistantConfig = new AssistantConfig();
 
     public static class AssistantConfig {
         @ScreenInfos.Description(value = "config.stellaris.assistantConfig.enableAssistant.desc")
         public boolean enableAssistant = true;
+    }
+
+    @ScreenInfos.InnerConfig
+    @ScreenInfos.Description(value = "The admin part of the config. Beware...", translate = false)
+    public Admin admin = new Admin();
+
+    public static class Admin {
+        @ScreenInfos.Description(value = "config.stellaris.regenDimension.desc")
+        public boolean regenDimension = false;
+        public Identifier[] dimensionsToRegen = new Identifier[]{IdentifierUtils.id("mars")};
+
     }
 
 
@@ -203,11 +238,15 @@ public class CommonConfig implements PostValidation {
         effectsConfig.corrosionTickInterval = atLeast("effectsConfig.corrosionTickInterval", effectsConfig.corrosionTickInterval, 0);
         effectsConfig.corrosionDamage = atLeast("effectsConfig.corrosionDamage", effectsConfig.corrosionDamage, 0F);
 
+        energyConfig.energyMultiplier = atLeast("energyConfig.energyMultiplier", energyConfig.energyMultiplier, 0.01);
+
         machineConfig.vacuumatorEnergyPerCraft = atLeast("machineConfig.vacuumatorEnergyPerCraft", machineConfig.vacuumatorEnergyPerCraft, 0);
         machineConfig.vacuumatorDurationMultiplier = atLeast("machineConfig.vacuumatorDurationMultiplier", machineConfig.vacuumatorDurationMultiplier, 1);
         machineConfig.vacuumatorWaterPerCraft = atLeast("machineConfig.vacuumatorWaterPerCraft", machineConfig.vacuumatorWaterPerCraft, 0);
         machineConfig.blenderEnergyPerCraft = atLeast("machineConfig.blenderEnergyPerCraft", machineConfig.blenderEnergyPerCraft, 0);
         machineConfig.blenderTicksPerCraft = atLeast("machineConfig.blenderTicksPerCraft", machineConfig.blenderTicksPerCraft, 1);
+
+        foodConfig.fluidCellWaterPerCan = atLeast("foodConfig.fluidCellWaterPerCan", foodConfig.fluidCellWaterPerCan, 1);
     }
 
     private static int atLeast(String name, int value, int min) {

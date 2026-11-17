@@ -6,13 +6,14 @@ import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import org.exodusstudio.stellaris.common.blocks.entities.machines.ElectrolyzerBlockEntity;
+import org.exodusstudio.stellaris.common.menus.base.EnergyUsageMenu;
 import org.exodusstudio.stellaris.common.menus.base.EnergyUsageSync;
 import org.exodusstudio.stellaris.common.menus.base.BaseContainer;
 import org.exodusstudio.stellaris.common.menus.slot.ElectrolyzeSlot;
 import org.exodusstudio.stellaris.common.menus.slot.ResultSlot;
 import org.exodusstudio.stellaris.common.registries.MenuTypesRegistry;
 
-public class ElectrolyzerMenu extends BaseContainer {
+public class ElectrolyzerMenu extends BaseContainer implements EnergyUsageMenu {
 
     private final Container container;
     private final ElectrolyzerBlockEntity blockEntity;
@@ -30,7 +31,7 @@ public class ElectrolyzerMenu extends BaseContainer {
 
         this.container = container;
         this.blockEntity = blockEntity;
-        this.energyUsage = EnergyUsageSync.create(this.blockEntity, this::addDataSlot);
+        this.energyUsage = EnergyUsageSync.create(this.blockEntity, inventory);
 
         addSlot(new ResultSlot(container, 0, 106, 113)); // Water tank output
         addSlot(new ElectrolyzeSlot(container, 1, 60, 113, blockEntity, -1)); // Water tank input
@@ -47,7 +48,14 @@ public class ElectrolyzerMenu extends BaseContainer {
         return blockEntity;
     }
 
+    @Override
     public EnergyUsageSync getEnergyUsage() {
         return energyUsage;
+    }
+
+    @Override
+    public void broadcastChanges() {
+        super.broadcastChanges();
+        energyUsage.broadcastChanges(containerId);
     }
 }

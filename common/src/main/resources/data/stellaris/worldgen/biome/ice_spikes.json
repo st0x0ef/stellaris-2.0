@@ -20,19 +20,18 @@
         [],
         [],
         [
-            "minecraft:ice_spike",
-            "minecraft:ice_patch"
+            "stellaris:pointy_spikes"
+        ],
+        [],
+        [
+            "stellaris:ore_mars_sand"
         ],
         [],
         [],
         [],
-        [],
-        [],
-        [
-            "minecraft:freeze_top_layer"
-        ]
+        []
     ],
-    "has_precipitation": true,
+    "has_precipitation": false,
     "spawn_costs": {},
     "spawners": {},
     "temperature": 0

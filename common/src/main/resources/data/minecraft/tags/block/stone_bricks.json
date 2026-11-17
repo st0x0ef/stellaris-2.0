@@ -2,6 +2,9 @@
   "replace": false,
   "values": [
     "stellaris:moon_stone_bricks",
-    "stellaris:moon_cracked_stone_bricks"
+    "stellaris:moon_cracked_stone_bricks",
+    "stellaris:mars_stone_bricks",
+    "stellaris:cracked_mars_stone_bricks",
+    "stellaris:chiseled_mars_stone_bricks"
   ]
 }

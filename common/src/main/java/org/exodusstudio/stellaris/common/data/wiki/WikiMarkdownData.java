@@ -25,7 +25,7 @@ public class WikiMarkdownData extends SimplePreparableReloadListener<Map<Identif
 
     public static final String ID = "wiki/infos";
 
-    public static HashMap<Identifier, MarkdownPage> ENTRY_PAGES = new HashMap<>();
+    public static volatile HashMap<Identifier, MarkdownPage> ENTRY_PAGES = new HashMap<>();
 
     public static Map<ResourceKey<Block>, Identifier> BLOCK_ENTRY_RESOLVER = new HashMap<>();
     public static Map<TagKey<Block>, Identifier> TAG_ENTRY_RESOLVER = new HashMap<>();
@@ -45,17 +45,19 @@ public class WikiMarkdownData extends SimplePreparableReloadListener<Map<Identif
 
     @Override
     protected void apply(Map<Identifier, String> preparations, ResourceManager manager, ProfilerFiller profiler) {
+        HashMap<Identifier, MarkdownPage> entryPages = new HashMap<>(ENTRY_PAGES);
         for(Identifier id : preparations.keySet()) {
 
             MarkdownPage page = new MarkdownPage(id, preparations.get(id));
 
-            ENTRY_PAGES.put(id, page);
+            entryPages.put(id, page);
 
             for (Either<TagKey<Block>, ResourceKey<Block>> associatedBlock : page.associatedBlocks) {
                 associatedBlock.ifLeft(tagKey -> TAG_ENTRY_RESOLVER.put(tagKey, id));
                 associatedBlock.ifRight(resourceKey -> BLOCK_ENTRY_RESOLVER.put(resourceKey, id));
             }
         }
+        ENTRY_PAGES = entryPages;
     }
 
 

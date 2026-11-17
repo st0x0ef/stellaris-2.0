@@ -19,11 +19,11 @@ import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.component.TooltipDisplay;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.material.Fluid;
 import org.exodusstudio.stellaris.common.entities.vehicles.RoverEntity;
-import org.exodusstudio.stellaris.common.modules.Modules;
-import org.exodusstudio.stellaris.common.modules.rover.RoverModule;
 import org.exodusstudio.stellaris.common.modules.rover.RoverUpgrades;
 import org.exodusstudio.stellaris.common.registries.DataComponentsRegistry;
+import org.exodusstudio.stellaris.common.vehicle_upgrade.FuelType;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -73,15 +73,21 @@ public class RoverItem extends Item implements FluidProvider.ITEM {
         }
 
         FluidStack fuel = storage.getFluidInTank(0);
+        Fluid displayedFluid = fuel.isEmpty() ? FuelType.Type.getFluidBasedOnType(RoverEntity.getMotorFuelType(stack.getOrDefault(DataComponentsRegistry.ROVER_MODULES.get(), RoverUpgrades.empty()))) : fuel.getFluid();
         tooltipAdder.accept(Component.translatable("tooltip.stellaris.fluid_amount", fuel.getAmount(), storage.getTankCapacity(0)).withStyle(ChatFormatting.GRAY));
-        if (!fuel.isEmpty()) {
-            tooltipAdder.accept(Component.translatable("tooltip.stellaris.fuel", fuel.getName()).withStyle(ChatFormatting.GRAY));
+        if (displayedFluid != null) {
+            tooltipAdder.accept(Component.translatable("tooltip.stellaris.fuel", FluidStack.create(displayedFluid, 1).getName()).withStyle(ChatFormatting.GRAY));
         }
     }
 
     @Override
     public @Nullable UniversalFluidItemStorage getFluidTank(@NotNull ItemStack stack) {
-        Modules<RoverModule> modules = stack.getOrDefault(DataComponentsRegistry.ROVER_MODULES.get(), RoverUpgrades.empty()).roverModules();
-        return new ItemFluidStorage(DataComponentsRegistry.FLUID_LIST.get(), stack, 1, RoverEntity.getTankCapacity(modules));
+        RoverUpgrades upgrades = stack.getOrDefault(DataComponentsRegistry.ROVER_MODULES.get(), RoverUpgrades.empty());
+        return new ItemFluidStorage(DataComponentsRegistry.FLUID_LIST.get(), stack, 1, RoverEntity.getTankCapacity(upgrades.roverModules())) {
+            @Override
+            public boolean isFluidValid(int tank, FluidStack fluidStack) {
+                return RoverEntity.acceptsFuel(upgrades, fluidStack.getFluid());
+            }
+        };
     }
 }

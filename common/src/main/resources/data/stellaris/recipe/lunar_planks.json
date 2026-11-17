@@ -1,7 +1,7 @@
 {
   "type": "minecraft:crafting_shapeless",
   "ingredients": [
-    "stellaris:lunar_log"
+    "#stellaris:lunar_logs"
   ],
   "result": {
     "id": "stellaris:lunar_planks",

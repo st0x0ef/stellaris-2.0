@@ -18,6 +18,7 @@ import org.exodusstudio.stellaris.common.blocks.entities.machines.base.BaseEnerg
 import org.exodusstudio.stellaris.common.entities.vehicles.LanderEntity;
 import org.exodusstudio.stellaris.common.menus.CargoUnloaderMenu;
 import org.exodusstudio.stellaris.common.registries.BlockEntitiesRegistry;
+import org.exodusstudio.stellaris.common.utils.capabilities.energy.EnergyUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -100,14 +101,14 @@ public class CargoUnloaderBlockEntity extends BaseEnergyContainerBlockEntity {
         }
 
         // if found, pull 1 item slot out of it and put them in the inventory
-        if (targetLander != null && energyContainer.getEnergy() >= ENERGY_PER_ITEM) {
+        if (targetLander != null && energyContainer.getEnergy() >= EnergyUtil.scaled(ENERGY_PER_ITEM)) {
             // transfer rocket, fuel input, fuel output in the corresponding slot
             for (int j = 0; j < 3; j++) {
                 ItemStack stack = targetLander.inventory.getItem(j);
                 if (!stack.isEmpty() && items.get(j).isEmpty()) {
                     items.set(j, stack.copy());
                     stack.setCount(0);
-                    useEnergy(ENERGY_PER_ITEM);
+                    useEnergy(EnergyUtil.scaled(ENERGY_PER_ITEM));
                     return;
                 }
             }
@@ -126,7 +127,7 @@ public class CargoUnloaderBlockEntity extends BaseEnergyContainerBlockEntity {
                         ItemStack copy = stack.copy();
                         items.set(i, copy);
                         stack.setCount(0);
-                        useEnergy(ENERGY_PER_ITEM);
+                        useEnergy(EnergyUtil.scaled(ENERGY_PER_ITEM));
                     });
         }
     }
@@ -143,6 +144,6 @@ public class CargoUnloaderBlockEntity extends BaseEnergyContainerBlockEntity {
 
     @Override
     public int getMaxEnergyUsage() {
-        return ENERGY_PER_ITEM;
+        return EnergyUtil.scaled(ENERGY_PER_ITEM);
     }
 }

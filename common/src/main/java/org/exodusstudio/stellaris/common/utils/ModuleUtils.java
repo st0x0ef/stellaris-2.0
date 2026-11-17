@@ -8,6 +8,9 @@ import org.exodusstudio.stellaris.common.modules.space_suit.SpaceSuitModule;
 import org.exodusstudio.stellaris.common.modules.space_suit.SpaceSuitModules;
 import org.exodusstudio.stellaris.common.registries.DataComponentsRegistry;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ModuleUtils {
 
     public static Modules<SpaceSuitModule> getSpaceSuitModules(ItemStack stack) {
@@ -33,6 +36,18 @@ public class ModuleUtils {
         }
         return null;
     }
+
+    public static <T> List<T> getSpaceSuitModules(ItemStack stack, Class<T> moduleClass) {
+        Modules<SpaceSuitModule> modules = getSpaceSuitModules(stack);
+        List<T> result = new ArrayList<>();
+        for (SpaceSuitModule mod : modules) {
+            if (moduleClass.isInstance(mod)) {
+                result.add(moduleClass.cast(mod));
+            }
+        }
+        return result;
+    }
+
 
     public static Modules<RocketModule> getRocketModules(ItemStack stack) {
         return stack.getOrDefault(DataComponentsRegistry.ROCKET_MODULES.get(), RocketModules.empty());

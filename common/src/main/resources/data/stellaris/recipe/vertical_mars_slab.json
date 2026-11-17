@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "#",
+    "#",
+    "#"
+  ],
+  "key": {
+    "#": "stellaris:mars_stone_slab"
+  },
+  "result": {
+    "id": "stellaris:vertical_mars_slab",
+    "count": 3
+  }
+}

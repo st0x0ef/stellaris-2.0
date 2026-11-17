@@ -17,6 +17,7 @@ import org.exodusstudio.stellaris.common.network.packets.SyncGravityManipulatorD
 import org.exodusstudio.stellaris.common.network.packets.SyncGravityManipulatorDataPacketS2C;
 import org.exodusstudio.stellaris.common.registries.BlockEntitiesRegistry;
 import org.exodusstudio.stellaris.common.utils.Utils;
+import org.exodusstudio.stellaris.common.utils.capabilities.energy.EnergyUtil;
 
 public class GravityManipulatorBlockEntity extends BaseEnergyContainerBlockEntity {
 
@@ -33,13 +34,13 @@ public class GravityManipulatorBlockEntity extends BaseEnergyContainerBlockEntit
 
     @Override
     protected AbstractContainerMenu createMenu(int containerId, Inventory inventory) {
-        return new GravityManipulatorMenu(containerId, this);
+        return new GravityManipulatorMenu(containerId, inventory, this);
     }
 
     @Override
     public void tick(Level level, BlockState state) {
         if (isActive()) {
-            useEnergy(Stellaris.CONFIG.gravityConfig.gravityManipulatorEnergyPerTick);
+            useEnergy(EnergyUtil.scaled(Stellaris.CONFIG.gravityConfig.gravityManipulatorEnergyPerTick));
         }
     }
 
@@ -110,6 +111,6 @@ public class GravityManipulatorBlockEntity extends BaseEnergyContainerBlockEntit
 
     @Override
     public int getMaxEnergyUsage() {
-        return Stellaris.CONFIG.gravityConfig.gravityManipulatorEnergyPerTick;
+        return EnergyUtil.scaled(Stellaris.CONFIG.gravityConfig.gravityManipulatorEnergyPerTick);
     }
 }

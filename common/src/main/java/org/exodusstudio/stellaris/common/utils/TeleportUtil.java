@@ -3,6 +3,7 @@ package org.exodusstudio.stellaris.common.utils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.portal.TeleportTransition;
 import net.minecraft.world.phys.Vec3;
 import org.exodusstudio.stellaris.Stellaris;
@@ -12,10 +13,12 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public class TeleportUtil {
-
+    private static final int DRY_LANDING_SEARCH_RADIUS = 32;
+    private static final int DRY_LANDING_SEARCH_STEP = 4;
 
     public static void teleportRocketToPlanet(@Nullable Entity entity, ServerLevel planet, RocketEntity rocket, BlockPos destPos, boolean autopilot) {
-        Vec3 arrivalPos = new Vec3(destPos.getX() + 0.5, Stellaris.CONFIG.vehicleConfig.rocketTpHeight, destPos.getZ() + 0.5);
+        BlockPos landingPos = findDryLandingColumn(planet, destPos);
+        Vec3 arrivalPos = new Vec3(landingPos.getX() + 0.5, Stellaris.CONFIG.vehicleConfig.rocketTpHeight, landingPos.getZ() + 0.5);
 
         LanderEntity landerEntity = createLander(rocket, planet, arrivalPos, autopilot);
         rocket.discard();
@@ -26,6 +29,25 @@ public class TeleportUtil {
             entity.startRiding(landerEntity, true, false);
         }
         landerEntity.setNoGravity(false);
+    }
+
+    private static BlockPos findDryLandingColumn(ServerLevel level, BlockPos origin) {
+        for (int ring = 0; ring <= DRY_LANDING_SEARCH_RADIUS; ring += DRY_LANDING_SEARCH_STEP) {
+            for (int dx = -ring; dx <= ring; dx += DRY_LANDING_SEARCH_STEP) {
+                for (int dz = -ring; dz <= ring; dz += DRY_LANDING_SEARCH_STEP) {
+                    if (Math.max(Math.abs(dx), Math.abs(dz)) != ring) continue;
+
+                    int x = origin.getX() + dx;
+                    int z = origin.getZ() + dz;
+                    int top = level.getHeight(Heightmap.Types.MOTION_BLOCKING, x, z);
+                    if (top > level.getMinY() && level.getFluidState(new BlockPos(x, top - 1, z)).isEmpty()) {
+                        return new BlockPos(x, origin.getY(), z);
+                    }
+                }
+            }
+        }
+
+        return origin;
     }
 
     public static void teleportFallingEntityToPlanet(Entity entity, ServerLevel planet, BlockPos destPos) {

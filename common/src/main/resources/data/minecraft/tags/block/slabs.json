@@ -10,6 +10,11 @@
     "stellaris:desh_slab",
     "stellaris:desh_plating_slab",
     "stellaris:casus_astrum_stone_slab",
-    "stellaris:lunar_slab"
+    "stellaris:lunar_slab",
+    "stellaris:mars_stone_slab",
+    "stellaris:mars_stone_brick_slab",
+    "stellaris:mars_polished_stone_slab",
+    "stellaris:conglomorate_slab",
+    "stellaris:polished_conglomorate_slab"
   ]
 }

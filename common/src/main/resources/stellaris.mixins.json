@@ -10,6 +10,8 @@
     "client.CustomItemModelRenderer",
     "client.GuiMixin",
     "client.HeartOfLunaCameraEffectsMixin",
+    "client.HumanoidModelMixin",
+    "client.ItemInHandLayerMixin",
     "client.ItemInHandRendererMixin",
     "client.KeyboardInputMixin",
     "client.MouseHandlerMixin",

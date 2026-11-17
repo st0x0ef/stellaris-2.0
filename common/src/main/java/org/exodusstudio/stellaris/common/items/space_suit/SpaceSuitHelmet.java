@@ -15,13 +15,16 @@ import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.component.TooltipDisplay;
 import net.minecraft.world.item.equipment.ArmorType;
 import org.exodusstudio.stellaris.common.fluid.OxygenItemFluidStorage;
+import org.exodusstudio.stellaris.common.modules.Modules;
 import org.exodusstudio.stellaris.common.modules.space_suit.SpaceSuitModule;
 import org.exodusstudio.stellaris.common.registries.DataComponentsRegistry;
 import org.exodusstudio.stellaris.common.utils.ModuleUtils;
 import org.exodusstudio.stellaris.common.utils.Utils;
+import org.exodusstudio.stellaris.common.utils.capabilities.energy.EnergyUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Consumer;
 
@@ -60,11 +63,6 @@ public class SpaceSuitHelmet extends SpaceSuitItem implements FluidProvider.ITEM
 
         appendOxygenHoverText(stack, tooltipAdder);
 
-        SpaceSuitModule.OilFinderModule oilFinderModule = ModuleUtils.getSpaceSuitModule(stack, SpaceSuitModule.OilFinderModule.class);
-        if (oilFinderModule != null) {
-            tooltipAdder.accept(Component.translatable("tooltip.item.stellaris.space_suit.oil_finder_module.header").withColor(Utils.getMinecraftColor("gold")));
-            tooltipAdder.accept(Component.translatable("tooltip.item.stellaris.space_suit.oil_finder_module.info", oilFinderModule.getRange(), oilFinderModule.getRange()).withColor(Utils.getMinecraftColor("gold")));
-        }
     }
 
     protected void appendEnergyHoverText(ItemStack stack, Consumer<Component> tooltipAdder) {
@@ -90,7 +88,7 @@ public class SpaceSuitHelmet extends SpaceSuitItem implements FluidProvider.ITEM
 
     @Override
     public @Nullable UniversalEnergyStorage getEnergy(@NotNull ItemStack stack) {
-        return new ItemEnergyStorage(stack, DataComponentsRegistry.ENERGY.get(), ENERGY_CAPACITY, 20, 25);
+        return new ItemEnergyStorage(stack, DataComponentsRegistry.ENERGY.get(), EnergyUtil.scaled(ENERGY_CAPACITY), EnergyUtil.scaled(20), EnergyUtil.scaled(25));
     }
 
     @Override
@@ -103,7 +101,8 @@ public class SpaceSuitHelmet extends SpaceSuitItem implements FluidProvider.ITEM
 
         if (itemStack.getOrDefault(DataComponentsRegistry.NIGHT_VISION.get(), false)) {
             UniversalEnergyStorage energy = getEnergy(itemStack);
-            if (energy == null || energy.extract(NIGHT_VISION_ENERGY_PER_SECOND, false) < NIGHT_VISION_ENERGY_PER_SECOND) {
+            int cost = EnergyUtil.scaled(NIGHT_VISION_ENERGY_PER_SECOND);
+            if (energy == null || energy.extract(cost, false) < cost) {
                 itemStack.set(DataComponentsRegistry.NIGHT_VISION.get(), false);
             }
         }
@@ -113,7 +112,7 @@ public class SpaceSuitHelmet extends SpaceSuitItem implements FluidProvider.ITEM
         SpaceSuitModule.OilFinderModule oilFinderModule = ModuleUtils.getSpaceSuitModule(stack, SpaceSuitModule.OilFinderModule.class);
 
         if (stack.getItem() instanceof SpaceSuitHelmet spaceSuitHelmet && oilFinderModule != null) {
-            spaceSuitHelmet.getEnergy(stack).extract(oilFinderModule.getRange() * oilFinderModule.getRange(), false);
+            spaceSuitHelmet.getEnergy(stack).extract(EnergyUtil.scaled(oilFinderModule.getRange() * oilFinderModule.getRange()), false);
         }
     }
 

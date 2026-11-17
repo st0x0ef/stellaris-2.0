@@ -14,6 +14,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import org.exodusstudio.stellaris.common.blocks.base.BaseCableBlock;
 import org.exodusstudio.stellaris.common.blocks.entities.machines.CableBlockEntity;
 import org.exodusstudio.stellaris.common.registries.BlockEntitiesRegistry;
+import org.exodusstudio.stellaris.common.utils.capabilities.energy.EnergyUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -24,6 +25,10 @@ public class CableBlock extends BaseCableBlock {
     public CableBlock(BlockBehaviour.Properties properties, final int transferRate) {
         super(properties);
         this.transferRate = transferRate;
+    }
+
+    public int getTransferRate() {
+        return EnergyUtil.scaled(transferRate);
     }
 
     @Override

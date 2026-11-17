@@ -16,6 +16,8 @@ public class SoundRegistry {
     public static final RegistrySupplier<SoundEvent> ROCKET_SOUND = SOUNDS.register("rocket_fly", () -> SoundEvent.createVariableRangeEvent(IdentifierUtils.id("rocket_fly")));
     public static final RegistrySupplier<SoundEvent> BOOST_SOUND = SOUNDS.register("boost", () -> SoundEvent.createVariableRangeEvent(IdentifierUtils.id("boost")));
     public static final RegistrySupplier<SoundEvent> WELCOME_TO_SPACE = SOUNDS.register("welcome_to_space", () -> SoundEvent.createVariableRangeEvent(IdentifierUtils.id("welcome_to_space")));
+    public static final RegistrySupplier<SoundEvent> BEEP_SOUND = SOUNDS.register("beep", () -> SoundEvent.createVariableRangeEvent(IdentifierUtils.id("beep")));
+    public static final RegistrySupplier<SoundEvent> SONIC_BOOM_SOUND = SOUNDS.register("sonic_boom", () -> SoundEvent.createVariableRangeEvent(IdentifierUtils.id("sonic_boom")));
     public static final RegistrySupplier<SoundEvent> GEIGER_LOW = SOUNDS.register("geiger_low", () -> SoundEvent.createVariableRangeEvent(IdentifierUtils.id("geiger_low")));
     public static final RegistrySupplier<SoundEvent> GEIGER_HIGH = SOUNDS.register("geiger_high", () -> SoundEvent.createVariableRangeEvent(IdentifierUtils.id("geiger_high")));
     public static final RegistrySupplier<SoundEvent> GEIGER_MEDIUM = SOUNDS.register("geiger_medium", () -> SoundEvent.createVariableRangeEvent(IdentifierUtils.id("geiger_medium")));

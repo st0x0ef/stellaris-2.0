@@ -39,7 +39,7 @@ public class SkyPanelBlockEntity extends BaseGeneratorBlockEntity {
     @Override
     public void tick(Level level, BlockState state) {
         super.tick(level, state);
-        EnergyUtil.moveEnergyToItem(getEnergy(null), items.getFirst(), 10);
+        EnergyUtil.moveEnergyToItem(getEnergy(null), items.getFirst(), EnergyUtil.scaled(10));
     }
 
     protected Component getDefaultName() {

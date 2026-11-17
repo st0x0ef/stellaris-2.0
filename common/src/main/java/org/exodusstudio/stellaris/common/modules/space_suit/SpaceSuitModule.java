@@ -3,15 +3,24 @@ package org.exodusstudio.stellaris.common.modules.space_suit;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.renderer.rendertype.RenderType;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.component.TooltipDisplay;
 import net.minecraft.world.item.equipment.ArmorMaterial;
 import net.minecraft.world.level.material.Fluid;
 import org.exodusstudio.stellaris.client.renderers.rockets.RocketRenderer;
 import org.exodusstudio.stellaris.common.modules.Module;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector2i;
+
+import java.util.function.Consumer;
 
 public interface SpaceSuitModule extends Module<SpaceSuitModule> {
 
@@ -85,6 +94,7 @@ public interface SpaceSuitModule extends Module<SpaceSuitModule> {
         TANK,
         JET,
         OIL_FINDER,
+        RADIATION_FINDER,
         PROTECTION,
         VISION,
         OTHER
@@ -118,6 +128,24 @@ public interface SpaceSuitModule extends Module<SpaceSuitModule> {
         int getRange();
     }
 
+    interface GeigerCounterModule extends SpaceSuitModule {
+
+        /**
+         * Change the radiation finding capability of the space suit with this module.
+         * @return The range of the radiation finder.
+         */
+        int getRange();
+    }
+
+    interface TickableModule extends SpaceSuitModule {
+
+        /**
+         * Tick the module.
+         */
+        void tick(ItemStack itemStack, ServerPlayer serverPlayer, @Nullable EquipmentSlot equipmentSlot);
+    }
+
+
     interface JetModule extends SpaceSuitModule {
 
         /**
@@ -149,5 +177,10 @@ public interface SpaceSuitModule extends Module<SpaceSuitModule> {
          * The translated name of the armor material this module is equivalent to.
          */
         Component getMaterialNameComponent();
+    }
+
+    interface ArmorTooltipAdder  {
+
+        void appendTooltipsToArmor(ItemStack stack, Item.TooltipContext context, TooltipDisplay tooltipDisplay, Consumer<Component> tooltipAdder, TooltipFlag flag);
     }
 }
