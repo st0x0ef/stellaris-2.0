@@ -84,7 +84,7 @@ public class GeigerCounterModuleItem extends Item implements SpaceSuitModule.Gei
 
                 /** Oil amount text */
                 Component cantSearchText = Component.translatable("text.stellaris.oil_finder.cant_search").withStyle(ChatFormatting.RED);
-                Component oilFoundText = Component.translatable("text.stellaris.geiger_counter.avg_radiation.result", range, radiationDetected ).withStyle(ChatFormatting.GREEN);
+                Component oilFoundText = Component.translatable("text.stellaris.geiger_counter.avg_radiation.result", range, radiationDetected).withStyle(ChatFormatting.GREEN);
                 Component energyText = Component.translatable("tooltip.item.stellaris.energy", energy.getEnergy(), energy.getMaxEnergy()).withStyle(ChatFormatting.YELLOW);
 
                 int height = 0;
@@ -129,7 +129,7 @@ public class GeigerCounterModuleItem extends Item implements SpaceSuitModule.Gei
                 serverLevel.playSound(null, serverPlayer.blockPosition(), GeigerCounterItem.getGeigerSound(avgRadiation), SoundSource.PLAYERS, randomVolume, randomPitch);
             }
 
-            this.setRadiationDetected(avgRadiation);
+            this.setRadiationDetected(Math.round(avgRadiation));
         }
     }
 }
