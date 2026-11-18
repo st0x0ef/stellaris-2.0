@@ -107,6 +107,7 @@ public class BiomeModificationsRegistry {
                     .addFeature(GenerationStep.Decoration.UNDERGROUND_ORES, StellarisOreFeatures.MARS_ORE_IRON_SMALL.placedFeature())
                     .addFeature(GenerationStep.Decoration.UNDERGROUND_ORES, StellarisOreFeatures.MARS_ORE_IRON_MIDDLE)
                     .addFeature(GenerationStep.Decoration.UNDERGROUND_ORES, StellarisOreFeatures.MARS_ORE_IRON_UPPER)
+                    .addFeature(GenerationStep.Decoration.UNDERGROUND_ORES, StellarisOreFeatures.MARS_ORE_THARSITE)
             ;
         }));
     }

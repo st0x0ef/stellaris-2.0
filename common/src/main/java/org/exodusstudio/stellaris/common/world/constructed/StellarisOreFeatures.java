@@ -39,6 +39,7 @@ public class StellarisOreFeatures {
     public static final ResourceKey<PlacedFeature> ICE_CAVE_ORE_IRON_MIDDLE =  FeaturesRecord.createPlacementFeature("ice_cave_ore_iron_middle");
     public static final ResourceKey<PlacedFeature> MARS_ORE_IRON_MIDDLE = FeaturesRecord.createPlacementFeature("mars_ore_iron_middle");
     public static final ResourceKey<PlacedFeature> MARS_ORE_IRON_UPPER = FeaturesRecord.createPlacementFeature("mars_ore_iron_upper");
+    public static final ResourceKey<PlacedFeature> MARS_ORE_THARSITE = FeaturesRecord.createPlacementFeature("mars_ore_tharsite");
 
     public static void bootstrapConfigured(BootstrapContext<ConfiguredFeature<?, ?>> context) {
         RuleTest marsStoneReplaceable = new TagMatchTest(TagsRegistry.BlockTags.MARS_STONE_ORE_REPLACEABLE);
