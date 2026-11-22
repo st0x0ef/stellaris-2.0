@@ -1,0 +1,30 @@
+{
+  "variants": {
+    "facing=down": {
+      "model": "stellaris:block/ice_crystal",
+      "x": 180
+    },
+    "facing=east": {
+      "model": "stellaris:block/ice_crystal",
+      "x": 90,
+      "y": 90
+    },
+    "facing=north": {
+      "model": "stellaris:block/ice_crystal",
+      "x": 90
+    },
+    "facing=south": {
+      "model": "stellaris:block/ice_crystal",
+      "x": 90,
+      "y": 180
+    },
+    "facing=up": {
+      "model": "stellaris:block/ice_crystal"
+    },
+    "facing=west": {
+      "model": "stellaris:block/ice_crystal",
+      "x": 90,
+      "y": 270
+    }
+  }
+}

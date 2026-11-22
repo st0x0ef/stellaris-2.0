@@ -34,7 +34,7 @@ public class BucketItemMixin {
     {
         if (canPlaceFluidInsideBlock && level.environmentAttributes().getValue(EnvironmentAttributesRegistry.FLASH_FREEZE.get(), pos)) {
 
-            if (this.content.is(FluidTags.WATER)) {
+            if (this.content.is(FluidTags.WATER) && level.getBlockState(pos).isAir()) {
                 this.stellaris$PlaySoundAndSpawnParticles(user, level, pos);
                 level.setBlockAndUpdate(pos, Blocks.ICE.defaultBlockState());
                 cir.setReturnValue(true);

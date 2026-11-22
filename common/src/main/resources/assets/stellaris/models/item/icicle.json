@@ -1,7 +1,7 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "minecraft:item/icicle"
+    "layer0": "stellaris:item/icicle"
   },
   "display": {
     "thirdperson_righthand": {

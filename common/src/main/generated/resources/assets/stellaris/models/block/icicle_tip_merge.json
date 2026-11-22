@@ -1,0 +1,6 @@
+{
+  "parent": "stellaris:block/template_icicle",
+  "textures": {
+    "cross": "stellaris:block/icicle_tip_merge"
+  }
+}

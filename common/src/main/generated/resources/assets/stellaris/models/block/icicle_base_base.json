@@ -1,0 +1,8 @@
+{
+  "parent": "stellaris:block/template_icicle_base",
+  "textures": {
+    "cross": "stellaris:block/icicle_base",
+    "side": "stellaris:block/icicle_side",
+    "top": "stellaris:block/icicle_top"
+  }
+}

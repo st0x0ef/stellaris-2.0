@@ -177,7 +177,7 @@ public final class BlocksRegistry {
             .pushReaction(PushReaction.DESTROY)
             .isRedstoneConductor(BlocksRegistry::never)
             .noOcclusion()
-            .sound(StellarisSoundType.ICE_CRYSTAL)
+            .sound(StellarisSoundType.ICE_CRYSTAL.get())
     ));
     public static final BlockItemRegistrySupplier BRITTLE_ICE = blockWithItem("brittle_ice", BlockBehaviour.Properties.of()
                     .mapColor(MapColor.ICE)
@@ -186,9 +186,8 @@ public final class BlocksRegistry {
                     .noOcclusion()
                     .instrument(NoteBlockInstrument.CHIME)
                     .isRedstoneConductor(BlocksRegistry::never)
-                    .pushReaction(PushReaction.DESTROY)
-                    .sound(StellarisSoundType.BRITTLE_ICE),
-            p -> new BrittleIceBlock(p));
+                    .pushReaction(PushReaction.DESTROY),
+            p -> new BrittleIceBlock(p.sound(StellarisSoundType.BRITTLE_ICE.get())));
     public static final BlockItemRegistrySupplier ICICLE = blockWithItem("icicle",
             BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_LIGHT_BLUE)
                 .forceSolidOn()
@@ -198,9 +197,9 @@ public final class BlocksRegistry {
                 .strength(0.5f, 0.5f)
                 .dynamicShape()
                 .pushReaction(PushReaction.DESTROY)
-                .sound(StellarisSoundType.ICICLE)
                 .isRedstoneConductor(BlocksRegistry::never),
-            p -> new IcicleBlock(Blocks.PACKED_ICE.defaultBlockState(), p));
+            p -> new IcicleBlock(Blocks.PACKED_ICE.defaultBlockState(), p
+                    .sound(StellarisSoundType.ICICLE.get())));
 
     // ASTRUM BLOCKS
     public static final BlockItemRegistrySupplier CASUS_ASTRUM_STONE = blockWithItem("casus_astrum_stone", ofFullCopy(Blocks.STONE));
