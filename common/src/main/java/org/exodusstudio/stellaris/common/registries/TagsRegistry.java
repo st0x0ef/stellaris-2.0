@@ -3,6 +3,7 @@ package org.exodusstudio.stellaris.common.registries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.Identifier;
 import net.minecraft.tags.TagKey;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.biome.Biome;
@@ -48,6 +49,13 @@ public class TagsRegistry {
         public static final TagKey<Block> MARS_STONE_ORE_REPLACEABLE = addTag("mars_stone_ore_replaceables");
         public static final TagKey<Block> LARGE_ICICLE_REPLACEABLE = addTag("large_icicle_replaceables");
         public static final TagKey<Block> ICE_BIOME_ORE_REPLACEABLE = addTag("ice_biome_ore_replaceables");
+        public static final TagKey<Block> TRIGGERS_AMBIENT_ICE_CRYSTAL_SOUNDS = addTag("triggers_ambient_ice_crystal_sounds");
+        public static final TagKey<Block> ICE_CREVASSE_REPLACEABLE = addTag("ice_crevasse_replaceables");
+//        public static final TagKey<Block> BLOCKS_FLUID_FLOW = addTag("blocks_fluid_flow");
+        public static final TagKey<Block> BLOCKS_MOTION_NO_LEAVES = addTag("blocks_motion_no_leaves");
+        public static final TagKey<Block> SPELEOTHEMS = addTag("speleothems");
+        public static final TagKey<Block> MELTS_ICICLE_ABOVE = addTag("melts_icicle_above");
+
 
         public static TagKey<Block> addTag(String path) {
             return TagKey.create(Registries.BLOCK, IdentifierUtils.id(path));
@@ -80,6 +88,7 @@ public class TagsRegistry {
         public static final TagKey<EntityType<?>> INFECTION_IMMUNE = addTag("infection_immune");
         public static final TagKey<EntityType<?>> NO_OXYGEN_NEEDED = addTag("no_oxygen_needed");
         public static final TagKey<EntityType<?>> LUNAR_BOATS = addTag("lunar_boats");
+        public static final TagKey<EntityType<?>> DOES_NOT_BREAK_BRITTLE_ICE = addTag("does_not_break_brittle_ice");
 
         public static TagKey<EntityType<?>> addTag(String path) {
             return TagKey.create(Registries.ENTITY_TYPE, IdentifierUtils.id(path));

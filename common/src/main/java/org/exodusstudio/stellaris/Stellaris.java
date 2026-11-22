@@ -58,6 +58,7 @@ public final class Stellaris {
         DataComponentsRegistry.DATA_COMPONENT_TYPE.register();
         EntityTypesRegistry.ENTITY_TYPE.register();
         EntityAttributesRegistry.register();
+        SoundRegistry.SOUNDS.register();
         BlocksRegistry.BLOCKS.register();
         BlockEntitiesRegistry.BLOCK_ENTITY_TYPE.register();
         ProcessorsRegistry.STRUCTURE_PROCESSORS.register();
@@ -68,7 +69,6 @@ public final class Stellaris {
         StatsRegistry.STATS.register();
         MenuTypesRegistry.MENU_TYPE.register();
         MenuProviderRegistry.register();
-        SoundRegistry.SOUNDS.register();
         EnvironmentAttributesRegistry.ENVIRONMENT_ATTRIBUTES.register();
         ModFeatures.FEATURES.register();
         BiomeRegistry.init();

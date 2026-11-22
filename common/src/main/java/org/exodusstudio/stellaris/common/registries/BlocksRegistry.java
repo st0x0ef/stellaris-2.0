@@ -19,6 +19,7 @@ import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.grower.TreeGrower;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
 import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.level.material.PushReaction;
 import org.exodusstudio.stellaris.common.blocks.*;
@@ -27,6 +28,7 @@ import org.exodusstudio.stellaris.common.items.FluidTankItem;
 import org.exodusstudio.stellaris.common.items.PowerBankItem;
 import org.exodusstudio.stellaris.common.items.TooltipBlockItem;
 import org.exodusstudio.stellaris.common.registries.utils.BlockItemRegistrySupplier;
+import org.exodusstudio.stellaris.common.sound.StellarisSoundType;
 import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
 import org.exodusstudio.stellaris.common.world.ModConfiguredFeatures;
 import org.jetbrains.annotations.NotNull;
@@ -167,7 +169,38 @@ public final class BlocksRegistry {
     public static final BlockItemRegistrySupplier PACKED_ICE_BRICKS = blockWithItem("packed_ice_bricks", ofFullCopy(Blocks.PACKED_ICE));
     public static final BlockItemRegistrySupplier PACKED_ICE_PILLAR = blockWithItem("packed_ice_pillar", ofFullCopy(Blocks.PACKED_ICE), RotatedPillarBlock::new);
     public static final BlockItemRegistrySupplier POLISHED_PACKED_ICE = blockWithItem("polished_packed_ice", ofFullCopy(Blocks.PACKED_ICE));
-
+    public static final BlockItemRegistrySupplier ICE_CRYSTAL = blockWithItem("ice_crystal", BlockBehaviour.Properties.of(),  p -> new IceCrystalBlock( p
+            .mapColor(MapColor.ICE)
+            .instrument(NoteBlockInstrument.CHIME)
+            .strength(1.5f, 1.5f)
+            .lightLevel(_ -> 4)
+            .pushReaction(PushReaction.DESTROY)
+            .isRedstoneConductor(BlocksRegistry::never)
+            .noOcclusion()
+            .sound(StellarisSoundType.ICE_CRYSTAL)
+    ));
+    public static final BlockItemRegistrySupplier BRITTLE_ICE = blockWithItem("brittle_ice", BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.ICE)
+                    .friction(0.98f)
+                    .strength(0.5f)
+                    .noOcclusion()
+                    .instrument(NoteBlockInstrument.CHIME)
+                    .isRedstoneConductor(BlocksRegistry::never)
+                    .pushReaction(PushReaction.DESTROY)
+                    .sound(StellarisSoundType.BRITTLE_ICE),
+            p -> new BrittleIceBlock(p));
+    public static final BlockItemRegistrySupplier ICICLE = blockWithItem("icicle",
+            BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_LIGHT_BLUE)
+                .forceSolidOn()
+                .instrument(NoteBlockInstrument.CHIME)
+                .noOcclusion()
+                .randomTicks()
+                .strength(0.5f, 0.5f)
+                .dynamicShape()
+                .pushReaction(PushReaction.DESTROY)
+                .sound(StellarisSoundType.ICICLE)
+                .isRedstoneConductor(BlocksRegistry::never),
+            p -> new IcicleBlock(Blocks.PACKED_ICE.defaultBlockState(), p));
 
     // ASTRUM BLOCKS
     public static final BlockItemRegistrySupplier CASUS_ASTRUM_STONE = blockWithItem("casus_astrum_stone", ofFullCopy(Blocks.STONE));

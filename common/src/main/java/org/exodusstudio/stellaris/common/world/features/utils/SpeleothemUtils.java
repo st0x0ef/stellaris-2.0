@@ -27,13 +27,13 @@ public class SpeleothemUtils {
         }
 
         double cutoff = 0.384;
-        double r = xzDistanceFromCenter / speleothemRadius * 0.384;
+        double r = xzDistanceFromCenter / speleothemRadius * cutoff;
         double part1 = 0.75 * Math.pow(r, 1.3333333333333333);
         double part2 = Math.pow(r, 0.6666666666666666);
         double part3 = 0.3333333333333333 * Math.log(r);
         double heightRelativeToMaxRadius = scale * (part1 - part2 - part3);
         heightRelativeToMaxRadius = Math.max(heightRelativeToMaxRadius, 0.0);
-        return heightRelativeToMaxRadius / 0.384 * speleothemRadius;
+        return heightRelativeToMaxRadius / cutoff * speleothemRadius;
     }
 
     public static boolean isCircleMostlyEmbeddedInStone(final WorldGenLevel level, final BlockPos center, final int xzRadius) {
@@ -42,7 +42,7 @@ public class SpeleothemUtils {
         }
 
         float arcLength = 6.0F;
-        float angleIncrement = 6.0F / xzRadius;
+        float angleIncrement = arcLength / xzRadius;
 
         for (float angle = 0.0F; angle < (float) (Math.PI * 2); angle += angleIncrement) {
             int dx = (int)(Mth.cos(angle) * xzRadius);
@@ -122,7 +122,7 @@ public class SpeleothemUtils {
         growSpeleothem(level, startPos, tipDirection, height, mergedTip, baseBlock, pointedBlock, replaceableBlocks, SpeleothemUtils.BaseBlockTransformer.NONE);
     }
 
-    protected static void growSpeleothem(
+    public static void growSpeleothem(
             final LevelAccessor level,
             final BlockPos startPos,
             final Direction tipDirection,
@@ -137,7 +137,7 @@ public class SpeleothemUtils {
             BlockPos.MutableBlockPos pos = startPos.mutable();
             buildBaseToTipColumn(tipDirection, height, mergedTip, state -> {
                 if (state.is(pointedBlock)) {
-                    state = (BlockState)state.setValue(PointedDripstoneBlock.WATERLOGGED, level.isWaterAt(pos));
+                    state = state.setValue(PointedDripstoneBlock.WATERLOGGED, level.isWaterAt(pos));
                 }
 
                 level.setBlock(pos, state, 2);
@@ -146,7 +146,7 @@ public class SpeleothemUtils {
         }
     }
 
-    protected static boolean placeBaseBlockIfPossible(
+    public static boolean placeBaseBlockIfPossible(
             final LevelAccessor level, final BlockPos pos, final Block baseBlock, final HolderSet<Block> replaceableBlocks
     ) {
         BlockState state = level.getBlockState(pos);
@@ -159,7 +159,7 @@ public class SpeleothemUtils {
     }
 
     private static BlockState createPointedBlock(final Direction direction, final DripstoneThickness thickness, final Block pointedBlock) {
-        return (BlockState)((BlockState)pointedBlock.defaultBlockState().setValue(PointedDripstoneBlock.TIP_DIRECTION, direction))
+        return pointedBlock.defaultBlockState().setValue(PointedDripstoneBlock.TIP_DIRECTION, direction)
                 .setValue(PointedDripstoneBlock.THICKNESS, thickness);
     }
 

@@ -38,6 +38,10 @@ public class StellarisBlockLootTable extends BlockLootSubProvider {
         dropSelf(BlocksRegistry.ECLIPSE_TULIP.block().get());
         this.add(BlocksRegistry.STARLIGHT_BUSH.block().get(), (block) -> this.createSinglePropConditionTable(block, DoublePlantBlock.HALF, DoubleBlockHalf.LOWER));
         dropSelf(BlocksRegistry.MARS_COBBLESTONE.block().get());
+        dropWhenSilkTouch(BlocksRegistry.BRITTLE_ICE.block().get());
+        dropSelf(BlocksRegistry.ICICLE.block().get());
+        dropSelf(BlocksRegistry.ICE_CRYSTAL.block().get());
+
     }
 
     @Override

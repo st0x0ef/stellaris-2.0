@@ -3,16 +3,12 @@ package org.exodusstudio.stellaris.common.world;
 import dev.architectury.registry.registries.DeferredRegister;
 import dev.architectury.registry.registries.RegistrySupplier;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import org.exodusstudio.stellaris.Stellaris;
-import org.exodusstudio.stellaris.common.world.configuration.LargeSpeleothemConfiguration;
-import org.exodusstudio.stellaris.common.world.configuration.PointySpikeFeatureConfiguration;
-import org.exodusstudio.stellaris.common.world.configuration.SequenceConfiguration;
-import org.exodusstudio.stellaris.common.world.configuration.SpikeFeatureConfiguration;
-import org.exodusstudio.stellaris.common.world.features.ComplexSpikeFeature;
-import org.exodusstudio.stellaris.common.world.features.LargeSpeleothemFeature;
-import org.exodusstudio.stellaris.common.world.features.PointySpikeFeature;
-import org.exodusstudio.stellaris.common.world.features.SequenceFeature;
+import org.exodusstudio.stellaris.common.world.configuration.*;
+import org.exodusstudio.stellaris.common.world.features.*;
 
 public class ModFeatures {
     public static final DeferredRegister<Feature<?>> FEATURES = DeferredRegister.create(Stellaris.MOD_ID, Registries.FEATURE);
@@ -26,5 +22,7 @@ public class ModFeatures {
     public static final RegistrySupplier<Feature<PointySpikeFeatureConfiguration>> POINTY_SPIKE = FEATURES.register(
             "pointy_spike", () -> new PointySpikeFeature(PointySpikeFeatureConfiguration.CODEC)
     );
+    public static final RegistrySupplier<Feature<CrevasseFeatureConfiguration>> CREVASSE_FEATURE = FEATURES.register("crevasse_feature", CrevasseFeature::new);
 
+    public static final RegistrySupplier<Feature<SpeleothemClusterConfiguration>> SPELEOTHEM_CLUSTER = FEATURES.register("speleothem_cluster", SpeleothemClusterFeature::new);
 }
