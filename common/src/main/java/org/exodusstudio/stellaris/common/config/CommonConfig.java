@@ -139,6 +139,9 @@ public class CommonConfig implements PostValidation {
 
         @ScreenInfos.Description(value = "config.stellaris.machineConfig.blenderTicksPerCraft.desc")
         public int blenderTicksPerCraft = 60;
+
+        @ScreenInfos.Description(value = "config.stellaris.machineConfig.enableBlenderSounds.desc")
+        public boolean enableBlenderSounds = true;
     }
 
     @ScreenInfos.InnerConfig

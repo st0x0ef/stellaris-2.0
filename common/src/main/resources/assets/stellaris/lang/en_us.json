@@ -585,6 +585,8 @@
   "config.stellaris.machineConfig.vacuumatorWaterPerCraft.desc": "Amount of water (in mB) condensed into the Vacuumator's tank each time a can is filled.",
   "config.stellaris.machineConfig.blenderEnergyPerCraft.desc": "Energy consumed by the Blender each craft, taken up front. Blending recipes may override it with their own \"energy\" field.",
   "config.stellaris.machineConfig.blenderTicksPerCraft.desc": "How long the Blender takes per craft, in ticks. Blending recipes may override it with their own \"duration\" field.",
+  "config.stellaris.machineConfig.enableBlenderSounds.desc": "Enable or disable the Blender's sound effects.",
+  "config.stellaris.enableBlenderSounds": "Enable Blender Sounds",
 
   "config.stellaris.showOxygenDebug": "Show Oxygen Debug",
   "config.stellaris.showOxygenDebug.desc": "Show oxygen debug information on the HUD.",

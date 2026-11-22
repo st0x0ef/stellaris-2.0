@@ -34,6 +34,7 @@ import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 
 import java.util.*;
+import java.util.function.Consumer;
 
 public class BlenderBlockRenderer implements BlockEntityRenderer<BlenderBlockEntity, BlenderBlockRenderer.BlenderState> {
 
@@ -156,16 +157,30 @@ public class BlenderBlockRenderer implements BlockEntityRenderer<BlenderBlockEnt
         state.facing = blockEntity.getBlockState().getValue(BlenderBlock.FACING);
         Random random = new Random();
 
-        for(int i = 0; i < BlenderBlockEntity.INPUT_SLOT_COUNT; i++) {
-            ItemStack stack = blockEntity.getItem(i);
-            if(stack.isEmpty()) continue;
+        Consumer<ItemStack> addIngredient = stack -> {
+            if(stack.isEmpty()) return;
 
-            IngredientRenderData ingredientRenderData = new IngredientRenderData(new ItemStackRenderState(), stack, i);
+            IngredientRenderData ingredientRenderData = new IngredientRenderData(new ItemStackRenderState(), stack, -1);
             this.itemModelResolver.updateForTopItem(ingredientRenderData.renderState(), stack, ItemDisplayContext.FIXED, blockEntity.getLevel(), null, 1);
             state.ingredientsStates.add(ingredientRenderData);
             rotationCache.computeIfAbsent(stack.getItem(),
                     item -> new Vector3f(random.nextFloat(), random.nextFloat(), random.nextFloat()));
+        };
+
+        for(int i = 0; i < BlenderBlockEntity.INPUT_SLOT_COUNT; i++) {
+            ItemStack stack = blockEntity.getItem(i);
+            addIngredient.accept(stack);
         }
+
+        if(blockEntity.currentBatch == null) {
+            return;
+        }
+
+        //TODO fix if we blend only one item
+        blockEntity.currentBatch.picks().forEach(pick -> {
+            ItemStack stack = new ItemStack(pick.value());
+            addIngredient.accept(stack);
+        });
 
     }
 

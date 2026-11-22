@@ -25,6 +25,7 @@ import org.exodusstudio.stellaris.common.blocks.base.BaseMachineBlock;
 import org.exodusstudio.stellaris.common.blocks.entities.machines.BlenderBlockEntity;
 import org.exodusstudio.stellaris.common.registries.BlockEntitiesRegistry;
 import org.exodusstudio.stellaris.common.registries.BlocksRegistry;
+import org.exodusstudio.stellaris.common.registries.SoundRegistry;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -32,6 +33,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class BlenderBlock extends BaseMachineBlock {
+
+
 
     public static final BooleanProperty TRIGGERED = BlockStateProperties.TRIGGERED;
 
