@@ -75,7 +75,7 @@ public class BlenderMenu extends AbstractContainerMenu {
     @Override
     public boolean stillValid(Player player) {
         if(player instanceof ServerPlayer serverPlayer) {
-            NetworkManager.sendToPlayer(serverPlayer, new SyncBlenderState(InventorySaver.fromContainer(this.container), this.entity.getBlockPos(), this.entity.getBlendTime()));
+            NetworkManager.sendToPlayer(serverPlayer, new SyncBlenderState(InventorySaver.fromContainer(this.container), this.entity.getBlockPos(), this.entity.getBlendTime(), this.entity.currentCookingItems));
         }
         return this.container.stillValid(player);
     }

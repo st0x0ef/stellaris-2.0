@@ -1,5 +1,6 @@
 package org.exodusstudio.stellaris.common.blocks.entities.machines;
 
+import dev.architectury.networking.NetworkManager;
 import net.minecraft.core.*;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.game.ClientboundStopSoundPacket;
@@ -20,6 +21,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 import org.exodusstudio.stellaris.Stellaris;
+import org.exodusstudio.stellaris.common.network.packets.SyncBlenderState;
 import org.exodusstudio.stellaris.common.registries.SoundRegistry;
 import org.exodusstudio.stellaris.common.blocks.entities.machines.base.BaseEnergyContainerBlockEntity;
 import org.exodusstudio.stellaris.common.data.recipes.BlendingRecipe;
@@ -27,6 +29,7 @@ import org.exodusstudio.stellaris.common.data.recipes.input.BlenderInput;
 import org.exodusstudio.stellaris.common.menus.BlenderMenu;
 import org.exodusstudio.stellaris.common.registries.BlockEntitiesRegistry;
 import org.exodusstudio.stellaris.common.registries.RecipesRegistry;
+import org.exodusstudio.stellaris.common.utils.InventorySaver;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -62,7 +65,7 @@ public class BlenderBlockEntity extends BaseEnergyContainerBlockEntity {
     private static final int LOOP_SOUND_TICKS = 39;  // Blender Loop sound tick length (1.95s, crossfaded to loop seamlessly)
     private int soundTicks = -1; // ticks since blending started
 
-    public Batch currentBatch = null;
+    public List<Holder<Item>> currentCookingItems = new ArrayList<>();
 
     private ItemStack resultStack = ItemStack.EMPTY;
 
@@ -203,7 +206,6 @@ public class BlenderBlockEntity extends BaseEnergyContainerBlockEntity {
             return;
         }
 
-        currentBatch = null;
         ticksSinceCanBlendCheck = 0;
         canBlend = planBatch(level) != null;
     }
@@ -231,7 +233,9 @@ public class BlenderBlockEntity extends BaseEnergyContainerBlockEntity {
     private void startBatch(Level level, Batch batch) {
         Blend blend = batch.blend();
 
-        this.currentBatch = batch;
+        this.currentCookingItems = batch.picks;
+        syncCurrentBatch(level);
+
         consumePicks(level, batch.picks(), batch.size(), remaindersFor(batch.input(), blend.recipe(), batch.picks()));
 
         resultStack = blend.unitResult().copyWithCount(blend.unitResult().getCount() * batch.size());
@@ -487,7 +491,8 @@ public class BlenderBlockEntity extends BaseEnergyContainerBlockEntity {
         else {
             setItem(RESULT_SLOT, output.copyWithCount(output.getCount() + result.getCount()));
         }
-        this.currentBatch = null;
+        this.currentCookingItems.clear();
+        syncCurrentBatch(level);
     }
 
     public boolean isBlending() {
@@ -558,5 +563,13 @@ public class BlenderBlockEntity extends BaseEnergyContainerBlockEntity {
     @Override
     public int getMaxEnergyUsage() {
         return isBlending() ? batchEnergy : 0;
+    }
+
+    private void syncCurrentBatch(Level level) {
+        if(level instanceof ServerLevel serverLevel) {
+           for (ServerPlayer player : serverLevel.players()) {
+               NetworkManager.sendToPlayer(player, new SyncBlenderState(InventorySaver.fromContainer(this), this.getBlockPos(), this.getBlendTime(), this.currentCookingItems));
+            }
+        }
     }
 }

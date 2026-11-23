@@ -4,7 +4,6 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.renderer.SubmitNodeCollector;
-import net.minecraft.client.renderer.block.BlockModelResolver;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.blockentity.state.BlockEntityRenderState;
@@ -22,11 +21,9 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.phys.Vec3;
-import org.exodusstudio.stellaris.client.renderers.gravity_manipulator.GravityManipulatorModel;
+import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.common.blocks.BlenderBlock;
-import org.exodusstudio.stellaris.common.blocks.GravityManipulatorBlock;
 import org.exodusstudio.stellaris.common.blocks.entities.machines.BlenderBlockEntity;
 import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
 import org.joml.Vector3f;
@@ -172,12 +169,7 @@ public class BlenderBlockRenderer implements BlockEntityRenderer<BlenderBlockEnt
             addIngredient.accept(stack);
         }
 
-        if(blockEntity.currentBatch == null) {
-            return;
-        }
-
-        //TODO fix if we blend only one item
-        blockEntity.currentBatch.picks().forEach(pick -> {
+        blockEntity.currentCookingItems.forEach(pick -> {
             ItemStack stack = new ItemStack(pick.value());
             addIngredient.accept(stack);
         });
