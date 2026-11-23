@@ -36,6 +36,7 @@
     "sounds": [
       {
         "name": "stellaris:blender_start",
+        "stream": false
       }
     ]
   },
@@ -49,12 +50,12 @@
     ]
   },
   "blender_loop": {
-  "sounds": [
-    {
-      "name": "stellaris:blender_loop",
-      "stream": false
-    }
-  ]
+    "sounds": [
+        {
+          "name": "stellaris:blender_loop",
+          "stream": false
+        }
+    ]
   },
 
   "sonic_boom": {
@@ -66,5 +67,4 @@
       }
     ]
   }
-
 }
