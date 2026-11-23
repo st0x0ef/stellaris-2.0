@@ -147,47 +147,6 @@ public class BlenderBlockEntity extends BaseEnergyContainerBlockEntity {
         tickSound(serverLevel);
     }
 
-    private void tickSound(ServerLevel level) {
-
-        if(!Stellaris.CONFIG.machineConfig.enableBlenderSounds) {
-            return;
-        }
-
-        if (!isBlending()) {
-            if (soundTicks >= 0) {
-
-                stopSound(level, SoundRegistry.BLENDER_START.getId());
-                stopSound(level, SoundRegistry.BLENDER_LOOP.getId());
-
-                playSound(level, SoundRegistry.BLENDER_END.get());
-                soundTicks = -1;
-            }
-            return;
-        }
-
-        if (soundTicks < 0) {
-            playSound(level, SoundRegistry.BLENDER_START.get());
-            soundTicks = 0;
-        }
-        else if (soundTicks >= START_SOUND_TICKS && (soundTicks - START_SOUND_TICKS) % LOOP_SOUND_TICKS == 0) {
-            playSound(level, SoundRegistry.BLENDER_LOOP.get());
-        }
-
-        soundTicks++;
-    }
-
-    private void playSound(ServerLevel level, SoundEvent sound) {
-        level.playSound(null, worldPosition, sound, SoundSource.BLOCKS, 0.05f, 1.0f);
-    }
-
-    private void stopSound(ServerLevel level, Identifier sound) {
-        ClientboundStopSoundPacket packet = new ClientboundStopSoundPacket(sound, SoundSource.BLOCKS);
-        for (ServerPlayer player : level.players()) {
-            if (player.blockPosition().closerThan(worldPosition, 32)) {
-                player.connection.send(packet);
-            }
-        }
-    }
 
     public void requestBlend() {
         if (!(level instanceof ServerLevel serverLevel) || isBlending()) {
@@ -565,10 +524,57 @@ public class BlenderBlockEntity extends BaseEnergyContainerBlockEntity {
         return isBlending() ? batchEnergy : 0;
     }
 
+    /**
+     * Sync the blender when the batch start/end
+     * Primary used to sync currentCookingItems
+     * @param level
+     */
     private void syncCurrentBatch(Level level) {
         if(level instanceof ServerLevel serverLevel) {
            for (ServerPlayer player : serverLevel.players()) {
                NetworkManager.sendToPlayer(player, new SyncBlenderState(InventorySaver.fromContainer(this), this.getBlockPos(), this.getBlendTime(), this.currentCookingItems));
+            }
+        }
+    }
+
+
+    private void tickSound(ServerLevel level) {
+        if(!Stellaris.CONFIG.machineConfig.enableBlenderSounds) {
+            return;
+        }
+
+        if (!isBlending()) {
+            if (soundTicks >= 0) {
+
+                stopSound(level, SoundRegistry.BLENDER_START.getId());
+                stopSound(level, SoundRegistry.BLENDER_LOOP.getId());
+
+                playSound(level, SoundRegistry.BLENDER_END.get());
+                soundTicks = -1;
+            }
+            return;
+        }
+
+        if (soundTicks < 0) {
+            playSound(level, SoundRegistry.BLENDER_START.get());
+            soundTicks = 0;
+        }
+        else if (soundTicks >= START_SOUND_TICKS && (soundTicks - START_SOUND_TICKS) % LOOP_SOUND_TICKS == 0) {
+            playSound(level, SoundRegistry.BLENDER_LOOP.get());
+        }
+
+        soundTicks++;
+    }
+
+    private void playSound(ServerLevel level, SoundEvent sound) {
+        level.playSound(null, worldPosition, sound, SoundSource.BLOCKS, 0.05f, 1.0f);
+    }
+
+    private void stopSound(ServerLevel level, Identifier sound) {
+        ClientboundStopSoundPacket packet = new ClientboundStopSoundPacket(sound, SoundSource.BLOCKS);
+        for (ServerPlayer player : level.players()) {
+            if (player.blockPosition().closerThan(worldPosition, 32)) {
+                player.connection.send(packet);
             }
         }
     }
