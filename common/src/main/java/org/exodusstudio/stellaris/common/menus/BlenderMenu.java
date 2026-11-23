@@ -14,6 +14,7 @@ import net.minecraft.world.inventory.SimpleContainerData;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import org.exodusstudio.stellaris.common.blocks.entities.machines.BlenderBlockEntity;
+import org.exodusstudio.stellaris.common.menus.base.EnergyUsageMenu;
 import org.exodusstudio.stellaris.common.menus.base.EnergyUsageSync;
 import org.exodusstudio.stellaris.common.menus.slot.ResultSlot;
 import org.exodusstudio.stellaris.common.network.packets.SyncBlenderState;
@@ -21,7 +22,7 @@ import org.exodusstudio.stellaris.common.registries.MenuTypesRegistry;
 import org.exodusstudio.stellaris.common.utils.InventorySaver;
 import org.jetbrains.annotations.NotNull;
 
-public class BlenderMenu extends AbstractContainerMenu {
+public class BlenderMenu extends AbstractContainerMenu implements EnergyUsageMenu {
     private static final int GRID_X = 34;
     private static final int GRID_Y = 40;
     private static final int SLOT_SIZE = 18;
@@ -49,7 +50,7 @@ public class BlenderMenu extends AbstractContainerMenu {
         checkContainerSize(container, BlenderBlockEntity.CONTAINER_SIZE);
         this.container = container;
         this.entity = entity;
-        this.energyUsage = EnergyUsageSync.create(this.entity, this::addDataSlot);
+        this.energyUsage = EnergyUsageSync.create(this.entity, inventory);
         this.data = containerData;
 
         for (int row = 0; row < BlenderBlockEntity.GRID_HEIGHT; row++) {
@@ -108,8 +109,15 @@ public class BlenderMenu extends AbstractContainerMenu {
         return this.entity;
     }
 
+    @Override
     public EnergyUsageSync getEnergyUsage() {
         return energyUsage;
+    }
+
+    @Override
+    public void broadcastChanges() {
+        super.broadcastChanges();
+        energyUsage.broadcastChanges(containerId);
     }
 
     public float getBlendProgress() {

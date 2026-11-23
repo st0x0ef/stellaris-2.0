@@ -37,6 +37,14 @@ public abstract class VehicleFuelStorage implements UniversalFluidStorage {
     }
 
     @Override
+    public void setFluidInTank(int tank, FluidStack stack) {
+        if (!stack.isEmpty()) {
+            onFill(stack);
+        }
+        setFuelAmount(stack.getAmount());
+    }
+
+    @Override
     public long getTankCapacity(int tank) {
         return getCapacity();
     }

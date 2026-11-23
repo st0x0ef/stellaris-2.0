@@ -40,12 +40,22 @@ public class FluidUtil {
         return Capabilities.Fluid.ITEM.getCapability(stack);
     }
 
+    public static boolean isItemFluidEmpty(ItemStack stack) {
+        UniversalFluidItemStorage storage = getItemFluidStorage(stack);
+        return storage == null || storage.getFluidInTank(0).isEmpty();
+    }
+
+    public static boolean isItemFluidFull(ItemStack stack) {
+        UniversalFluidItemStorage storage = getItemFluidStorage(stack);
+        return storage == null || storage.getFluidInTank(0).getAmount() >= storage.getTankCapacity(0);
+    }
+
     public static void moveFluidToItem(int tank, UniversalFluidStorage from, int slot, int resultSlot, Container container, long amount) {
         moveFluidToItem(tank, from, slot, resultSlot, container, amount, false);
     }
 
     public static void moveFluidToItem(int tank, UniversalFluidStorage from, int slot, int resultSlot, Container container, long amount, boolean ignoreDrainLimit) {
-        if (container.getItem(slot).isEmpty()) {
+        if (container.getItem(slot).getCount() != 1) {
             return;
         }
 
@@ -78,7 +88,7 @@ public class FluidUtil {
 
     public static void moveFluidFromItem(int tank, int slot, int remainingItemSlot, Container container, UniversalFluidStorage to, long amount) {
         ItemStack input = container.getItem(slot);
-        if (input.isEmpty()) {
+        if (input.getCount() != 1) {
             return;
         }
 
@@ -117,8 +127,20 @@ public class FluidUtil {
             container.setItem(slot, ItemStack.EMPTY);
         }
         else {
-            to.drain(fluidMoved.copy(), false);
+            drainWithoutLimits(to, fluidMoved.copy());
             container.setItem(slot, inputBackup);
+        }
+    }
+
+    private static void drainWithoutLimits(UniversalFluidStorage storage, FluidStack stack) {
+        if (storage instanceof SingleFluidStorage single) {
+            single.drainWithoutLimits(stack, false);
+        }
+        else if (storage instanceof BaseFluidStorage base) {
+            base.drainWithoutLimits(stack, false);
+        }
+        else {
+            storage.drain(stack, false);
         }
     }
 

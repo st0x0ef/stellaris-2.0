@@ -1,11 +1,11 @@
 package org.exodusstudio.stellaris.common.items.modules.rocket;
 
-import dev.architectury.fluid.FluidStack;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.component.TooltipDisplay;
+import net.minecraft.world.level.material.Fluid;
 import org.exodusstudio.stellaris.common.modules.rocket.RocketModule;
 import org.exodusstudio.stellaris.common.registries.FluidsRegistry;
 import org.exodusstudio.stellaris.common.utils.Utils;
@@ -18,8 +18,8 @@ public class HydrogenFuelModuleItem extends Item implements RocketModule.CustomF
     }
 
     @Override
-    public FluidStack getFuel() {
-        return FluidStack.create(FluidsRegistry.HYDROGEN_STILL.get(), 0);
+    public Fluid getFuel() {
+        return FluidsRegistry.HYDROGEN_STILL.get();
     }
 
     @Override

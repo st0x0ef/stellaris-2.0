@@ -107,6 +107,10 @@ public class ResearchMenu extends AbstractContainerMenu {
         this.researchResult = success;
     }
 
+    public void clearResearchResult() {
+        this.researchResult = null;
+    }
+
     public @Nullable Boolean getResearchResult() {
         return this.researchResult;
     }

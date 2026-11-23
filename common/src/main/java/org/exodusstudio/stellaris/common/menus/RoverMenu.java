@@ -48,7 +48,7 @@ public class RoverMenu extends AbstractContainerMenu implements IVehicleMenu {
 
     @Override
     public boolean stillValid(Player player) {
-        return this.inventory.stillValid(player);
+        return IVehicleMenu.isVehicleInInteractionRange(this.rover, player);
     }
 
     private void addSlots(Container inventory, int inventoryRows) {

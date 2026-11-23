@@ -1,0 +1,9 @@
+{
+  "asset_id": "stellaris:mercury",
+  "height": 1,
+  "title": {
+    "color": "yellow",
+    "translate": "painting.stellaris.mercury.title"
+  },
+  "width": 1
+}

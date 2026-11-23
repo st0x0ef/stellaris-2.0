@@ -24,7 +24,6 @@ public class MoonLoreUtils {
 
     public static final Component PLAYER_ALREADY_IMMUNE_MESSAGE = Component.translatable("message.stellaris.player_already_immune");
     public static final Component PLAYER_NOW_IMMUNISED_MESSAGE = Component.translatable("message.stellaris.player_now_immunised");
-    public static final Component PLAYER_NOT_READY_FOR_VACCINE = Component.translatable("message.stellaris.player_not_ready_for_vaccine");
 
 
     public static int getResearchProgressionStage(Player player) {
@@ -56,11 +55,19 @@ public class MoonLoreUtils {
                 player.stellaris$saveDataAttachments(MOON_LORE_PROGRESSION, 0);
                 return true;
             } else {
-                return random.nextInt(100) <= parasiteUsed / (currentStage + 1);
+                return random.nextInt(getParasitesNeededToLeaveStage(currentStage)) < parasiteUsed;
             }
         }
 
         return false;
+    }
+
+    public static int getResearchSuccessPercent(int currentStage, int parasiteUsed) {
+        if (currentStage >= MAX_STAGE || parasiteUsed < 1) {
+            return 0;
+        }
+
+        return Math.clamp(parasiteUsed * 100L / getParasitesNeededToLeaveStage(currentStage), 1, 100);
     }
 
     public static int getParasitesNeededToLeaveStage(int currentStage) {
@@ -73,10 +80,6 @@ public class MoonLoreUtils {
         }
 
         return 100 * (currentStage + 1);
-    }
-
-    public static boolean isVaccineUnlocked(Player player) {
-        return getResearchProgressionStage(player) >= VACCINE_UNLOCK_STAGE;
     }
 
     public static ItemStack getSdCardForStage(int stage) {

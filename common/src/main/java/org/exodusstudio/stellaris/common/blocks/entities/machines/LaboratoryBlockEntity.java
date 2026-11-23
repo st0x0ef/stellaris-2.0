@@ -14,14 +14,16 @@ import net.minecraft.world.level.block.entity.BaseContainerBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
+import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.common.blocks.entities.machines.base.ImplementedInventory;
+import org.exodusstudio.stellaris.common.blocks.entities.machines.base.ProgressingBlockEntity;
 import org.exodusstudio.stellaris.common.blocks.entities.machines.base.TickingBlockEntity;
 import org.exodusstudio.stellaris.common.menus.laboratory.ResearchMenu;
 import org.exodusstudio.stellaris.common.registries.BlockEntitiesRegistry;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class LaboratoryBlockEntity extends BaseContainerBlockEntity implements ImplementedInventory, RecipeInput, TickingBlockEntity {
+public class LaboratoryBlockEntity extends BaseContainerBlockEntity implements ImplementedInventory, RecipeInput, TickingBlockEntity, ProgressingBlockEntity {
 
     private NonNullList<ItemStack> items = NonNullList.withSize(5, ItemStack.EMPTY);
 
@@ -93,6 +95,17 @@ public class LaboratoryBlockEntity extends BaseContainerBlockEntity implements I
         if (progressTickLeft > 0) {
             progressTickLeft--;
         }
+    }
+
+    @Override
+    public boolean isInProgress() {
+        return progressTickLeft > 0;
+    }
+
+    @Override
+    public float getProgress() {
+        int delay = Math.max(progressTickLeft, Stellaris.CONFIG.parasiteConfig.researchDelay);
+        return (float) (delay - progressTickLeft) / delay;
     }
 
     @Override

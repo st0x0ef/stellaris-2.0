@@ -497,7 +497,6 @@
   "message.stellaris.friends_list.empty": "Tu lista de amigos está vacía. Usa este objeto en otro jugador para agregarlo en tu lista de amigos.",
   "message.stellaris.friends_list.added": "%s Ha sido agregado a la lista de amigos.",
   "message.stellaris.friends_list.removed": "%s Ha sido eliminado de la lista de amigos.",
-  "message.stellaris.player_not_ready_for_vaccine": "No estás listo para la vacuna. Debes finalizar el análisis de la infección primero.",
   "message.stellaris.player_now_immunised": "Ahora eres inmune a la infección. Ya puedes explorar a salvo las áreas infectadas y continuar tu aventura espacial sin preocuparte por la infección.",
   "message.stellaris.player_already_immune": "Ya eres inmune a la infección. Puedes explorar a salvo las áreas infectadas y continuar tu aventura espacial sin preocuparte por la infección.",
   "message.stellaris.success": "¡Éxito!",

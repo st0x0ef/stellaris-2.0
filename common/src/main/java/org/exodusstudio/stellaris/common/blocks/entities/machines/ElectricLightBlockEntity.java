@@ -18,6 +18,7 @@ import org.exodusstudio.stellaris.common.network.packets.SyncElectricLightDataPa
 import org.exodusstudio.stellaris.common.network.packets.SyncElectricLightDataPacketS2C;
 import org.exodusstudio.stellaris.common.registries.BlockEntitiesRegistry;
 import org.exodusstudio.stellaris.common.utils.Utils;
+import org.exodusstudio.stellaris.common.utils.capabilities.energy.EnergyUtil;
 
 public class ElectricLightBlockEntity extends BaseEnergyContainerBlockEntity {
 
@@ -44,7 +45,7 @@ public class ElectricLightBlockEntity extends BaseEnergyContainerBlockEntity {
 
     @Override
     protected AbstractContainerMenu createMenu(int containerId, Inventory inventory) {
-        return new ElectricLightMenu(containerId, this);
+        return new ElectricLightMenu(containerId, inventory, this);
     }
 
     @Override
@@ -53,7 +54,7 @@ public class ElectricLightBlockEntity extends BaseEnergyContainerBlockEntity {
             ticksSinceDrain++;
             if (ticksSinceDrain >= ticksPerEnergy(brightness)) {
                 ticksSinceDrain = 0;
-                useEnergy(1);
+                useEnergy(EnergyUtil.scaled(1));
             }
         } else {
             ticksSinceDrain = 0;
@@ -132,6 +133,6 @@ public class ElectricLightBlockEntity extends BaseEnergyContainerBlockEntity {
 
     @Override
     public int getMaxEnergyUsage() {
-        return brightness > 0 ? 1 : 0;
+        return brightness > 0 ? EnergyUtil.scaled(1) : 0;
     }
 }

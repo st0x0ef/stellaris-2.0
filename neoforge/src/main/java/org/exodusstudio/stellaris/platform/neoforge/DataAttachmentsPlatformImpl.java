@@ -36,7 +36,12 @@ public class DataAttachmentsPlatformImpl {
         return entity.getData(getAttachment(location));
     }
     public static <T> void saveEntityData(Entity entity, Identifier key, T value) {
-        entity.setData(getAttachment(key), value);
+        AttachmentType<T> type = getAttachment(key);
+        entity.setData(type, value);
+
+        if (!entity.level().isClientSide()) {
+            entity.syncData(type);
+        }
     }
 
     public static <T> AttachmentType<T> getAttachment(Identifier key) {

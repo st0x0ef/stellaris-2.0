@@ -71,6 +71,11 @@ public class StatsApplicationScreen extends Screen {
     }
 
     @Override
+    public void onClose() {
+        this.minecraft.player.closeContainer();
+    }
+
+    @Override
     public boolean isInGameUi() {
         return true;
     }

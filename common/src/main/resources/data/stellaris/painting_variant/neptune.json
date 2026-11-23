@@ -1,0 +1,9 @@
+{
+  "asset_id": "stellaris:neptune",
+  "height": 3,
+  "title": {
+    "color": "yellow",
+    "translate": "painting.stellaris.neptune.title"
+  },
+  "width": 3
+}

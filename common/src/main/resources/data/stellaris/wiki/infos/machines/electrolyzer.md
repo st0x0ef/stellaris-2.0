@@ -22,11 +22,11 @@ Send the oxygen to an [ref=stellaris:machines/oxygen]Oxygen Distributor[ref] to 
 
 
 **Stats :** 
-- Power Consumption : 50 FE/t while running 
+- Power Consumption : 75 FE/t while running 
 - Water Consumption : 10 mB/t 
 - Hydrogen Production : 10 mB/t 
 - Oxygen Production : 5 mB/t 
 - Tank Capacity : 10 000 mB each 
-- Internal Buffer : 12 800 FE
+- Internal Buffer : 192 000 FE
 
 [item=stellaris:electrolyzer onlyIcon]

@@ -18,12 +18,12 @@ It refines oil into Fuel and Diesel at the same time, and both come out on their
 
 
 **Stats :** 
-- Power Consumption : 50 FE/t while refining 
+- Power Consumption : 75 FE/t while refining 
 - Oil Consumption : 10 mB/t 
 - Fuel Production : 5 mB/t 
 - Diesel Production : 5 mB/t 
 - Tank Capacity : 10 000 mB each 
-- Internal Buffer : 12 800 FE
+- Internal Buffer : 192 000 FE
 
 [image=stellaris:textures/gui/fuel_refinery width=96 height=119]
 

@@ -24,12 +24,14 @@ import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.common.network.packets.SyncBlenderState;
 import org.exodusstudio.stellaris.common.registries.SoundRegistry;
 import org.exodusstudio.stellaris.common.blocks.entities.machines.base.BaseEnergyContainerBlockEntity;
+import org.exodusstudio.stellaris.common.blocks.entities.machines.base.ProgressingBlockEntity;
 import org.exodusstudio.stellaris.common.data.recipes.BlendingRecipe;
 import org.exodusstudio.stellaris.common.data.recipes.input.BlenderInput;
 import org.exodusstudio.stellaris.common.menus.BlenderMenu;
 import org.exodusstudio.stellaris.common.registries.BlockEntitiesRegistry;
 import org.exodusstudio.stellaris.common.registries.RecipesRegistry;
 import org.exodusstudio.stellaris.common.utils.InventorySaver;
+import org.exodusstudio.stellaris.common.utils.capabilities.energy.EnergyUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -37,7 +39,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class BlenderBlockEntity extends BaseEnergyContainerBlockEntity {
+public class BlenderBlockEntity extends BaseEnergyContainerBlockEntity implements ProgressingBlockEntity {
     public static final int GRID_WIDTH = 3;
     public static final int GRID_HEIGHT = 3;
 
@@ -245,7 +247,7 @@ public class BlenderBlockEntity extends BaseEnergyContainerBlockEntity {
         Optional<RecipeHolder<BlendingRecipe>> blending = blendingCheck.getRecipeFor(input, level);
         if (blending.isPresent()) {
             BlendingRecipe recipe = blending.get().value();
-            return new Blend(recipe, recipe.assemble(input), recipe.energyCost(), recipe.blendingTime());
+            return new Blend(recipe, recipe.assemble(input), EnergyUtil.scaled(recipe.energyCost()), recipe.blendingTime());
         }
 
         CraftingRecipe crafting = craftingRecipeFor(level, input);
@@ -264,7 +266,7 @@ public class BlenderBlockEntity extends BaseEnergyContainerBlockEntity {
         }
 
         return new Blend(crafting, crafting.assemble(unitInput),
-                Stellaris.CONFIG.machineConfig.blenderEnergyPerCraft,
+                EnergyUtil.scaled(Stellaris.CONFIG.machineConfig.blenderEnergyPerCraft),
                 Stellaris.CONFIG.machineConfig.blenderTicksPerCraft);
     }
 
@@ -464,6 +466,16 @@ public class BlenderBlockEntity extends BaseEnergyContainerBlockEntity {
 
     public int getBlendTime() {
         return blendTime;
+    }
+
+    @Override
+    public boolean isInProgress() {
+        return isBlending();
+    }
+
+    @Override
+    public float getProgress() {
+        return 1f - (float) blendTime / Math.max(blendDuration, blendTime);
     }
 
     @Override

@@ -12,7 +12,7 @@ import java.util.Map;
 
 public class SpaceStationData extends SimpleJsonResourceReloadListener<SpaceStationRecipe> {
 
-    public static final List<SpaceStationRecipe> SPACE_STATION_RECIPES = new ArrayList<>();
+    public static volatile List<SpaceStationRecipe> SPACE_STATION_RECIPES = new ArrayList<>();
     public static final String ID = "space_stations";
 
     public SpaceStationData() {
@@ -21,7 +21,6 @@ public class SpaceStationData extends SimpleJsonResourceReloadListener<SpaceStat
 
     @Override
     protected void apply(Map<Identifier, SpaceStationRecipe> object, ResourceManager resourceManager, ProfilerFiller profiler) {
-        SPACE_STATION_RECIPES.clear();
-        SPACE_STATION_RECIPES.addAll(object.values());
+        SPACE_STATION_RECIPES = new ArrayList<>(object.values());
     }
 }

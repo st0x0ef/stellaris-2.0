@@ -23,14 +23,23 @@
       }
     ]
   },
-  "blender_start": {
+  "beep": {
+    "subtitle": "subtitles.stellaris.beep",
     "sounds": [
       {
-        "name": "stellaris:blender_start",
+        "name": "stellaris:beep",
         "stream": false
       }
     ]
   },
+  "blender_start": {
+    "sounds": [
+      {
+        "name": "stellaris:blender_start",
+      }
+    ]
+  },
+
   "blender_end": {
     "sounds": [
       {
@@ -46,7 +55,16 @@
       "stream": false
     }
   ]
-}
+  },
 
+  "sonic_boom": {
+    "subtitle": "subtitles.stellaris.sonic_boom",
+    "sounds": [
+      {
+        "name": "stellaris:sonic_boom",
+        "stream": false
+      }
+    ]
+  }
 
 }

@@ -2,9 +2,12 @@ package org.exodusstudio.stellaris.common.entities.vehicles;
 
 import dev.architectury.registry.menu.ExtendedMenuProvider;
 import dev.architectury.registry.menu.MenuRegistry;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.protocol.game.ClientboundAddEntityPacket;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -19,10 +22,12 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.phys.Vec3;
 import org.exodusstudio.stellaris.Stellaris;
+import org.exodusstudio.stellaris.client.sounds.LanderSounds;
 import org.exodusstudio.stellaris.common.assistant.AssistantManager;
 import org.exodusstudio.stellaris.common.entities.vehicles.base.VehicleEntity;
 import org.exodusstudio.stellaris.common.keybinds.KeyVariables;
@@ -36,6 +41,7 @@ public class LanderEntity extends VehicleEntity {
 
     public static final EntityDataAccessor<Boolean> AUTOPILOT = SynchedEntityData.defineId(LanderEntity.class, EntityDataSerializers.BOOLEAN);
     public static final EntityDataAccessor<Boolean> LANDED = SynchedEntityData.defineId(LanderEntity.class, EntityDataSerializers.BOOLEAN);
+    public static final EntityDataAccessor<Boolean> THRUSTING = SynchedEntityData.defineId(LanderEntity.class, EntityDataSerializers.BOOLEAN);
 
     public LanderEntity(Level level, boolean autopilot) {
         this(EntityTypesRegistry.LANDER.get(), level);
@@ -121,11 +127,25 @@ public class LanderEntity extends VehicleEntity {
             this.setDeltaMovement(delta.x, terminalVelocity, delta.z);
         }
 
-        if (KeyVariables.isHoldingJump(getFirstPlayerPassenger()) || this.entityData.get(AUTOPILOT)) {
+        double fluidSurface = getFluidSurface();
+        boolean floating = !Double.isNaN(fluidSurface);
+
+        boolean thrusting = KeyVariables.isHoldingJump(getFirstPlayerPassenger()) || this.entityData.get(AUTOPILOT);
+        if (thrusting && !floating) {
             slowDownLander();
         }
 
-        if (this.verticalCollisionBelow && !this.entityData.get(LANDED)) {
+        if (floating) {
+            Vec3 movement = this.getDeltaMovement();
+            this.setDeltaMovement(movement.x, Math.min(fluidSurface - this.getY(), 0.5), movement.z);
+            this.resetFallDistance();
+        }
+
+        if (!this.level().isClientSide()) {
+            this.entityData.set(THRUSTING, thrusting && !this.onGround() && !floating);
+        }
+
+        if ((this.verticalCollisionBelow || floating) && !this.entityData.get(LANDED)) {
             this.setSpeed(0);
             this.entityData.set(LANDED, true);
 
@@ -139,8 +159,35 @@ public class LanderEntity extends VehicleEntity {
         }
     }
 
+    private double getFluidSurface() {
+        BlockPos.MutableBlockPos pos = this.blockPosition().mutable();
+        FluidState fluid = this.level().getFluidState(pos);
+        if (fluid.isEmpty()) {
+            return Double.NaN;
+        }
+
+        FluidState above = this.level().getFluidState(pos.above());
+        while (!above.isEmpty()) {
+            fluid = above;
+            pos.move(Direction.UP);
+            above = this.level().getFluidState(pos.above());
+        }
+
+        return pos.getY() + fluid.getHeight(this.level(), pos);
+    }
+
     public boolean hasLanded() {
         return this.entityData.get(LANDED);
+    }
+
+    public boolean isThrusting() {
+        return this.entityData.get(THRUSTING);
+    }
+
+    @Override
+    public void recreateFromPacket(ClientboundAddEntityPacket packet) {
+        super.recreateFromPacket(packet);
+        LanderSounds.start(this);
     }
 
     public Player getFirstPlayerPassenger() {
@@ -177,7 +224,7 @@ public class LanderEntity extends VehicleEntity {
         this.inventory.setItem(0, rocketEntity.toItemStack());
 
         for(int i = 0; i < rocketEntity.getInventory().getContainerSize(); i++) {
-            this.inventory.setItem(i + 1, rocketEntity.getInventory().getItem(i));
+            this.inventory.setItem(i + 1, rocketEntity.getInventory().removeItemNoUpdate(i));
         }
     }
 
@@ -197,7 +244,7 @@ public class LanderEntity extends VehicleEntity {
 
             @Override
             public AbstractContainerMenu createMenu(int id, Inventory playerInv, Player player) {
-                return new LanderMenu(id, playerInv, inventory);
+                return new LanderMenu(id, playerInv, inventory, LanderEntity.this);
             }
         });
     }
@@ -221,5 +268,6 @@ public class LanderEntity extends VehicleEntity {
         super.defineSynchedData(builder);
         builder.define(AUTOPILOT, false);
         builder.define(LANDED, false);
+        builder.define(THRUSTING, false);
     }
 }

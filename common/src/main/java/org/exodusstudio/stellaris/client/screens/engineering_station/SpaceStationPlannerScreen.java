@@ -5,10 +5,12 @@ import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.components.events.GuiEventListener;
+import net.minecraft.client.renderer.Rect2i;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Inventory;
+import org.exodusstudio.stellaris.client.screens.GuiExtraAreas;
 import org.exodusstudio.stellaris.client.screens.TabbedMachineScreen;
 import org.exodusstudio.stellaris.client.screens.components.Padding;
 import org.exodusstudio.stellaris.client.screens.components.TexturedButton;
@@ -19,7 +21,9 @@ import org.exodusstudio.stellaris.common.menus.engineering_station.SpaceStationP
 import org.exodusstudio.stellaris.common.network.packets.PlanSpaceStationPacket;
 import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
 
-public class SpaceStationPlannerScreen extends TabbedMachineScreen<SpaceStationPlannerMenu> {
+import java.util.List;
+
+public class SpaceStationPlannerScreen extends TabbedMachineScreen<SpaceStationPlannerMenu> implements GuiExtraAreas {
 
     private ScrollableContainer container;
     private SpaceStationRecipe selectedRecipe;
@@ -35,8 +39,14 @@ public class SpaceStationPlannerScreen extends TabbedMachineScreen<SpaceStationP
     @Override
     protected void init() {
         super.init();
+        this.leftPos = Math.max(this.leftPos, 72);
         setRecipes();
         EngineUpgraderScreen.addTabsButton(getTabsX(), this.topPos + 40, this, menu.engineeringStationPos, "space_station");
+    }
+
+    @Override
+    public List<Rect2i> getExtraAreas() {
+        return List.of(new Rect2i(this.container.getX(), this.container.getY(), this.container.getWidth(), this.container.getHeight()));
     }
 
     @Override

@@ -10,6 +10,7 @@ public class CapabilitiesRegistry {
 
         registerFluidBlockEntities();
         registerFluidItems();
+        registerFluidEntities();
     }
 
     private static void registerEnergyBlockEntities() {
@@ -70,5 +71,4 @@ public class CapabilitiesRegistry {
         Capabilities.Fluid.ENTITY.registerForEntity(EntityTypesRegistry.ROCKET);
         Capabilities.Fluid.ENTITY.registerForEntity(EntityTypesRegistry.ROVER);
     }
-
 }

@@ -24,10 +24,10 @@ A can is not one meal : keep adding food to the same can until it reaches its nu
 
 
 **Stats :** 
-- Power Consumption : 100 FE per can 
+- Power Consumption : 1 500 FE per can 
 - Canning Time : 20 ticks per point of nutrition of the food 
 - Water Produced : 100 mB per can 
 - Water Tank : 4 000 mB 
-- Internal Buffer : 3 000 FE
+- Internal Buffer : 45 000 FE
 
 [item=stellaris:vacuumator onlyIcon]

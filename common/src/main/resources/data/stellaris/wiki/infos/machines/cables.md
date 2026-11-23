@@ -16,6 +16,6 @@ Cables carry energy, never fluids. For fluids use [ref=stellaris:machines/pipes]
 
 
 **Stats :** 
-- Transfer Rate : 20 FE/t
+- Transfer Rate : 300 FE/t
 
 [item=stellaris:cable_t1 onlyIcon]

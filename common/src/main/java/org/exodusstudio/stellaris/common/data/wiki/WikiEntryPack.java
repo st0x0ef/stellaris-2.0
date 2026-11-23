@@ -13,7 +13,7 @@ import java.util.Map;
 public class WikiEntryPack extends SimpleJsonResourceReloadListener<WikiEntry> {
     public static final String ID = "wiki/entries";
 
-    public static ArrayList<WikiEntry> ENTRIES = new ArrayList<>();
+    public static volatile ArrayList<WikiEntry> ENTRIES = new ArrayList<>();
 
     public WikiEntryPack() {
         super(WikiEntry.CODEC, FileToIdConverter.json(ID));
@@ -22,14 +22,15 @@ public class WikiEntryPack extends SimpleJsonResourceReloadListener<WikiEntry> {
     @Override
     protected void apply(Map<Identifier, WikiEntry> IdentifierJsonElementMap, ResourceManager resourceManager, ProfilerFiller profiler) {
         Stellaris.LOG.debug("Loading Assets for Tablet Pack");
-        WikiEntryPack.ENTRIES.clear();
+        ArrayList<WikiEntry> entries = new ArrayList<>();
         IdentifierJsonElementMap.forEach((key, entry) -> {
-            if (!WikiEntryPack.ENTRIES.contains(entry)) {
-                WikiEntryPack.ENTRIES.add(entry);
+            if (!entries.contains(entry)) {
+                entries.add(entry);
             }
 
             Stellaris.LOG.debug("Loaded tablet entry: {}", key);
         });
+        WikiEntryPack.ENTRIES = entries;
 
     }
 

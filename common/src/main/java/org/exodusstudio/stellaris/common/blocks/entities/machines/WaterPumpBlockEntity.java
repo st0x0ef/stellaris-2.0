@@ -16,6 +16,7 @@ import org.exodusstudio.stellaris.common.blocks.entities.machines.base.BaseEnerg
 import org.exodusstudio.stellaris.common.fluid.FluidUtil;
 import org.exodusstudio.stellaris.common.fluid.SingleFluidStorage;
 import org.exodusstudio.stellaris.common.registries.BlockEntitiesRegistry;
+import org.exodusstudio.stellaris.common.utils.capabilities.energy.EnergyUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -25,10 +26,15 @@ public class WaterPumpBlockEntity extends BaseEnergyBlockEntity implements Fluid
 
     private static final int NEEDED_ENERGY = 100;
 
-    private final SingleFluidStorage waterTank = new SingleFluidStorage(1000) {
+    private final SingleFluidStorage waterTank = new SingleFluidStorage(1000, 0, 1000) {
         @Override
         protected void onChange() {
             setChanged();
+        }
+
+        @Override
+        public boolean isFluidValid(int tank, FluidStack stack) {
+            return stack.getFluid().isSame(Fluids.WATER);
         }
     };
 
@@ -38,7 +44,7 @@ public class WaterPumpBlockEntity extends BaseEnergyBlockEntity implements Fluid
 
     @Override
     public void tick(Level level, BlockState state) {
-        if (energyContainer.getEnergy() < NEEDED_ENERGY) {
+        if (energyContainer.getEnergy() < EnergyUtil.scaled(NEEDED_ENERGY)) {
             return;
         }
 
@@ -47,13 +53,12 @@ public class WaterPumpBlockEntity extends BaseEnergyBlockEntity implements Fluid
 
         if (belowFluidState.is(Fluids.WATER) && belowFluidState.isSource()) {
             BlockState belowState = level.getBlockState(belowPos);
-            if (waterTank.getFluidInTank(0).isEmpty()) {
-                if (belowState.getBlock() instanceof BucketPickup bucketPickup) {
-                    if (!bucketPickup.pickupBlock(null, level, belowPos, belowState).isEmpty()) {
-                        waterTank.fill(FluidStack.create(Fluids.WATER, 1000), false);
-                        energyContainer.extract(NEEDED_ENERGY, false);
-                    }
-                }
+            FluidStack pumped = FluidStack.create(Fluids.WATER, 1000);
+            if (waterTank.fillWithoutLimits(pumped, true) == pumped.getAmount()
+                    && belowState.getBlock() instanceof BucketPickup bucketPickup
+                    && !bucketPickup.pickupBlock(null, level, belowPos, belowState).isEmpty()) {
+                waterTank.fillWithoutLimits(pumped, false);
+                energyContainer.extract(EnergyUtil.scaled(NEEDED_ENERGY), false);
             }
         }
 

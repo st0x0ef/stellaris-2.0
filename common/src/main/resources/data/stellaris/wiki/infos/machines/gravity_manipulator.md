@@ -23,9 +23,9 @@ If several manipulators sit in the same chunk, their corrections are averaged.
 
 
 **Stats :** 
-- Power Consumption : 1 FE/t 
+- Power Consumption : 15 FE/t 
 - Gravity Range : 0 to 20 
 - Area : the chunk the machine is in 
-- Internal Buffer : 3 000 FE
+- Internal Buffer : 45 000 FE
 
 [item=stellaris:gravity_manipulator onlyIcon]

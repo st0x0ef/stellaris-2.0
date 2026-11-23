@@ -138,7 +138,8 @@
                 "minecraft:food": {
                   "nutrition": 10,
                   "saturation": 5.0
-                }
+                },
+                "minecraft:consumable": {}
               }
             }
           ]
@@ -154,7 +155,8 @@
                 "minecraft:food": {
                   "nutrition": 10,
                   "saturation": 5.0
-                }
+                },
+                "minecraft:consumable": {}
               }
             }
           ]
@@ -170,7 +172,8 @@
                 "minecraft:food": {
                   "nutrition": 10,
                   "saturation": 5.0
-                }
+                },
+                "minecraft:consumable": {}
               }
             }
           ]
@@ -186,7 +189,8 @@
                 "minecraft:food": {
                   "nutrition": 10,
                   "saturation": 5.0
-                }
+                },
+                "minecraft:consumable": {}
               }
             }
           ]
@@ -202,7 +206,8 @@
                 "minecraft:food": {
                   "nutrition": 20,
                   "saturation": 10.0
-                }
+                },
+                "minecraft:consumable": {}
               }
             }
           ]
@@ -218,7 +223,8 @@
                 "minecraft:food": {
                   "nutrition": 20,
                   "saturation": 10.0
-                }
+                },
+                "minecraft:consumable": {}
               }
             }
           ]
@@ -234,7 +240,8 @@
                 "minecraft:food": {
                   "nutrition": 20,
                   "saturation": 10.0
-                }
+                },
+                "minecraft:consumable": {}
               }
             }
           ]
@@ -250,7 +257,8 @@
                 "minecraft:food": {
                   "nutrition": 20,
                   "saturation": 10.0
-                }
+                },
+                "minecraft:consumable": {}
               }
             }
           ]

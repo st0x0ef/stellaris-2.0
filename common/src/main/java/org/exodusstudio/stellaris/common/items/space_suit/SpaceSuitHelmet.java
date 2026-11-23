@@ -19,6 +19,7 @@ import org.exodusstudio.stellaris.common.modules.space_suit.SpaceSuitModule;
 import org.exodusstudio.stellaris.common.registries.DataComponentsRegistry;
 import org.exodusstudio.stellaris.common.utils.ModuleUtils;
 import org.exodusstudio.stellaris.common.utils.Utils;
+import org.exodusstudio.stellaris.common.utils.capabilities.energy.EnergyUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -90,7 +91,7 @@ public class SpaceSuitHelmet extends SpaceSuitItem implements FluidProvider.ITEM
 
     @Override
     public @Nullable UniversalEnergyStorage getEnergy(@NotNull ItemStack stack) {
-        return new ItemEnergyStorage(stack, DataComponentsRegistry.ENERGY.get(), ENERGY_CAPACITY, 20, 25);
+        return new ItemEnergyStorage(stack, DataComponentsRegistry.ENERGY.get(), EnergyUtil.scaled(ENERGY_CAPACITY), EnergyUtil.scaled(20), EnergyUtil.scaled(25));
     }
 
     @Override
@@ -103,7 +104,8 @@ public class SpaceSuitHelmet extends SpaceSuitItem implements FluidProvider.ITEM
 
         if (itemStack.getOrDefault(DataComponentsRegistry.NIGHT_VISION.get(), false)) {
             UniversalEnergyStorage energy = getEnergy(itemStack);
-            if (energy == null || energy.extract(NIGHT_VISION_ENERGY_PER_SECOND, false) < NIGHT_VISION_ENERGY_PER_SECOND) {
+            int cost = EnergyUtil.scaled(NIGHT_VISION_ENERGY_PER_SECOND);
+            if (energy == null || energy.extract(cost, false) < cost) {
                 itemStack.set(DataComponentsRegistry.NIGHT_VISION.get(), false);
             }
         }
@@ -113,7 +115,7 @@ public class SpaceSuitHelmet extends SpaceSuitItem implements FluidProvider.ITEM
         SpaceSuitModule.OilFinderModule oilFinderModule = ModuleUtils.getSpaceSuitModule(stack, SpaceSuitModule.OilFinderModule.class);
 
         if (stack.getItem() instanceof SpaceSuitHelmet spaceSuitHelmet && oilFinderModule != null) {
-            spaceSuitHelmet.getEnergy(stack).extract(oilFinderModule.getRange() * oilFinderModule.getRange(), false);
+            spaceSuitHelmet.getEnergy(stack).extract(EnergyUtil.scaled(oilFinderModule.getRange() * oilFinderModule.getRange()), false);
         }
     }
 
