@@ -98,7 +98,7 @@ public class EngineUpgradeMenu extends BaseItemCombinerMenu {
                 List<RocketModule> modules = rocketModule.getModules();
                 List<RocketModule> newRocketModules = new ArrayList<>();
                 for (RocketModule mod : modules) {
-                    if (mod.asModule().getRocketFeature() != validModule.asModule().getRocketFeature()) {
+                    if (mod.asModule().getRocketFeature() == RocketModule.RocketFeature.OTHER || mod.asModule().getRocketFeature() != validModule.asModule().getRocketFeature()) {
                         newRocketModules.add(mod.asModule());
                     }
                 }

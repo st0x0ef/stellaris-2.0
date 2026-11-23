@@ -65,6 +65,7 @@ public final class Stellaris {
         ItemsRegistry.ITEMS.register();
         ItemsRegistry.registerAliases();
         ModulesRegistry.init();
+        PlanetRequirementsRegistry.init();
         CreativeTabsRegistry.register();
         StatsRegistry.STATS.register();
         MenuTypesRegistry.MENU_TYPE.register();

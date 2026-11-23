@@ -12,11 +12,15 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.Level;
+import org.exodusstudio.stellaris.common.travel.ModuleRequirement;
+import org.exodusstudio.stellaris.common.travel.PlanetOrbit;
+import org.exodusstudio.stellaris.common.travel.PlanetRequirement;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public record Planet(String translationKey, Identifier dimension, double gravity, boolean hasOxygen, Boolean allowSpaceStation, Optional<Temperature> temperature, Optional<ResourceKey<Level>> parentPlanet, Optional<Identifier> planetBar, float screenOrder, List<Identifier> modulesRequired) {
+public record Planet(String translationKey, Identifier dimension, double gravity, boolean hasOxygen, Boolean allowSpaceStation, Optional<Temperature> temperature, Optional<ResourceKey<Level>> parentPlanet, Optional<Identifier> planetBar, float screenOrder, List<Identifier> modulesRequired, List<PlanetRequirement> requirements, Optional<PlanetOrbit> orbit) {
     public static final Codec<Planet> CODEC = RecordCodecBuilder.create(instance -> instance.group(
             Codec.STRING.fieldOf("translation_key").forGetter(Planet::translationKey),
             Identifier.CODEC.fieldOf("dimension").forGetter(Planet::dimension),
@@ -28,7 +32,9 @@ public record Planet(String translationKey, Identifier dimension, double gravity
             Identifier.CODEC.optionalFieldOf("planet_bar").forGetter(Planet::planetBar),
             Codec.FLOAT.optionalFieldOf("screen_order", 99f).forGetter(Planet::screenOrder),
 
-            Identifier.CODEC.listOf().optionalFieldOf("required_modules", List.of()).forGetter(Planet::modulesRequired)
+            Identifier.CODEC.listOf().optionalFieldOf("required_modules", List.of()).forGetter(Planet::modulesRequired),
+            PlanetRequirement.CODEC.listOf().optionalFieldOf("requirements", List.of()).forGetter(Planet::requirements),
+            PlanetOrbit.CODEC.fieldOf("orbit").codec().optionalFieldOf("travel").forGetter(Planet::orbit)
         ).apply(instance, Planet::new)
     );
 
@@ -43,6 +49,8 @@ public record Planet(String translationKey, Identifier dimension, double gravity
             ByteBufCodecs.optional(Identifier.STREAM_CODEC), Planet::planetBar,
             ByteBufCodecs.FLOAT, Planet::screenOrder,
             Identifier.STREAM_CODEC.apply(ByteBufCodecs.list()), Planet::modulesRequired,
+            ByteBufCodecs.fromCodecWithRegistries(PlanetRequirement.CODEC).apply(ByteBufCodecs.list()), Planet::requirements,
+            ByteBufCodecs.optional(PlanetOrbit.STREAM_CODEC), Planet::orbit,
             Planet::new
     );
 
@@ -50,7 +58,16 @@ public record Planet(String translationKey, Identifier dimension, double gravity
     public static final Planet FALLBACK = new Planet(
             "dimension.minecraft.overworld",
             Level.OVERWORLD.identifier(),
-            9.81, true, false, Optional.empty(), Optional.empty(), Optional.empty(), -1f, List.of());
+            9.81, true, false, Optional.empty(), Optional.empty(), Optional.empty(), -1f, List.of(), List.of(), Optional.empty());
+
+    public List<PlanetRequirement> getRequirements() {
+        List<PlanetRequirement> all = new ArrayList<>(this.requirements);
+        for (Identifier module : this.modulesRequired) {
+            all.add(new ModuleRequirement(module));
+        }
+
+        return all;
+    }
 
     public boolean is(ServerLevel level) {
         return is(level.dimension());

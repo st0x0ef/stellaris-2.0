@@ -26,6 +26,7 @@ import org.exodusstudio.stellaris.common.entities.vehicles.RocketEntity;
 import org.exodusstudio.stellaris.common.modules.Modules;
 import org.exodusstudio.stellaris.common.modules.rocket.RocketModule;
 import org.exodusstudio.stellaris.common.modules.rocket.RocketModules;
+import org.exodusstudio.stellaris.common.modules.rocket.RocketStats;
 import org.exodusstudio.stellaris.common.registries.BlocksRegistry;
 import org.exodusstudio.stellaris.common.registries.DataComponentsRegistry;
 import org.exodusstudio.stellaris.common.registries.EntityTypesRegistry;
@@ -36,7 +37,7 @@ import java.util.List;
 import java.util.function.Consumer;
 
 public class RocketItem extends Item implements FluidProvider.ITEM {
-    public static final long FUEL_CAPACITY = 3000L;
+    public static final long FUEL_CAPACITY = RocketStats.BASE_TANK_CAPACITY;
 
     public RocketItem(Properties properties) {
         super(properties.component(DataComponentsRegistry.ROCKET_MODULES.get(), RocketModules.empty()));
@@ -138,6 +139,11 @@ public class RocketItem extends Item implements FluidProvider.ITEM {
             tooltipAdder.accept(Component.literal("---------------------"));
             tooltipAdder.accept(Component.translatable("tooltip.stellaris.fluid_amount", fuel.getAmount(), storage.getTankCapacity(0)).withStyle(ChatFormatting.GRAY));
             tooltipAdder.accept(Component.translatable("tooltip.stellaris.fuel", FluidStack.create(displayedFluid, 1).getName()).withStyle(ChatFormatting.GRAY));
+
+            float multiplier = RocketStats.of(modules != null ? modules : RocketModules.empty()).fuelCostMultiplier();
+            if (multiplier != 1f) {
+                tooltipAdder.accept(Component.translatable("tooltip.stellaris.fuel_cost_multiplier", RocketStats.formatMultiplier(multiplier)).withStyle(ChatFormatting.GRAY));
+            }
         }
 
         if (stack.has(DataComponentsRegistry.AUTOPILOT.get())) {
@@ -149,8 +155,9 @@ public class RocketItem extends Item implements FluidProvider.ITEM {
 
     @Override
     public @Nullable UniversalFluidItemStorage getFluidTank(@NotNull ItemStack stack) {
-        Fluid fuel = RocketEntity.getExpectedFuelFluid(stack.getOrDefault(DataComponentsRegistry.ROCKET_MODULES.get(), RocketModules.empty()));
-        return new ItemFluidStorage(DataComponentsRegistry.FLUID_LIST.get(), stack, 1, FUEL_CAPACITY) {
+        Modules<RocketModule> modules = stack.getOrDefault(DataComponentsRegistry.ROCKET_MODULES.get(), RocketModules.empty());
+        Fluid fuel = RocketEntity.getExpectedFuelFluid(modules);
+        return new ItemFluidStorage(DataComponentsRegistry.FLUID_LIST.get(), stack, 1, RocketStats.of(modules).tankCapacity()) {
             @Override
             public boolean isFluidValid(int tank, FluidStack fluidStack) {
                 return fluidStack.getFluid().isSame(fuel);

@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "DTD",
+    "TFT",
+    "DTD"
+  ],
+  "key": {
+    "D": "#c:ingots/desh",
+    "T": "#c:ingots/titanium",
+    "F": "stellaris:fluid_tank_t1"
+  },
+  "result": {"id": "stellaris:rocket_tank_module"}
+}

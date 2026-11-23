@@ -7,6 +7,13 @@ import org.exodusstudio.stellaris.client.renderers.rockets.RocketRenderer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.material.Fluid;
+import org.exodusstudio.stellaris.common.data.Planet;
+import org.exodusstudio.stellaris.common.registries.StellarisRegistries;
+import org.exodusstudio.stellaris.common.travel.PlanetAccess;
+import org.exodusstudio.stellaris.common.utils.Utils;
+
+import java.util.List;
+import java.util.function.Consumer;
 import org.exodusstudio.stellaris.common.modules.Module;
 
 public interface RocketModule extends Module<RocketModule> {
@@ -37,23 +44,13 @@ public interface RocketModule extends Module<RocketModule> {
         return false;
     }
 
-    /**
-     * @param currentTravelDistance current travelable distance with the rocket in one flight.
-     * @return what to add/sub to the current distance.
-     *
-     * @implNote addition and substraction operations are ran before multiplication and division.
-     * */
-    default long addToTravelDistance(long currentTravelDistance) {
-        return 0;
-    }
+    default void applyStats(RocketStats.Builder builder) {}
 
-    /**
-     * @param currentTravelDistance current travelable distance with the rocket in one flight.
-     * @return what to mult/div to the current distance.
-     * @implNote multiplication and division operations are ran after addition and substraction.
-     * */
-    default double multByTravelDistance(long currentTravelDistance) {
-        return 1;
+    default void addRequiredForTooltip(Consumer<Component> tooltipAdder) {
+        List<Planet> planets = PlanetAccess.getPlanetsRequiring(StellarisRegistries.ROCKET_MODULES.getId(this));
+        if (!planets.isEmpty()) {
+            tooltipAdder.accept(Component.translatable("tooltip.stellaris.required_for", PlanetAccess.getPlanetNames(planets)).withColor(Utils.getMinecraftColor("yellow")));
+        }
     }
 
     /**
@@ -88,6 +85,13 @@ public interface RocketModule extends Module<RocketModule> {
          * @return The fluid representing the fuel.
          */
         Fluid getFuel();
+
+        float getFuelCostMultiplier();
+
+        @Override
+        default void applyStats(RocketStats.Builder builder) {
+            builder.multiplyFuelCost(getFuelCostMultiplier());
+        }
     }
 
     interface CustomModelModule extends RocketModule {

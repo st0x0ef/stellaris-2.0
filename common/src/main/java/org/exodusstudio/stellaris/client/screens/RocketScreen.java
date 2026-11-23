@@ -4,6 +4,7 @@ import dev.architectury.fluid.FluidStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
+import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
@@ -11,10 +12,16 @@ import net.minecraft.world.entity.player.Inventory;
 import org.exodusstudio.stellaris.client.screens.components.GaugeChunkWidget;
 import org.exodusstudio.stellaris.client.screens.components.GaugeWidget;
 import org.exodusstudio.stellaris.client.screens.utils.GUISprites;
+import org.exodusstudio.stellaris.common.data.Planet;
+import org.exodusstudio.stellaris.common.data.PlanetsData;
 import org.exodusstudio.stellaris.common.entities.vehicles.RocketEntity;
 import org.exodusstudio.stellaris.common.menus.RocketMenu;
+import org.exodusstudio.stellaris.common.modules.rocket.RocketStats;
 import org.exodusstudio.stellaris.common.registries.ModulesRegistry;
+import org.exodusstudio.stellaris.common.travel.PlanetAccess;
 import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
+
+import java.util.List;
 
 
 public class RocketScreen extends AbstractContainerScreen<RocketMenu> {
@@ -41,7 +48,7 @@ public class RocketScreen extends AbstractContainerScreen<RocketMenu> {
         }
 
         this.fuel = getRocket().getFuelType();
-        this.fuelGauge = new GaugeChunkWidget(leftPos + 100, topPos + 20, 12, 46, fuel, GUISprites.FLUID_TANK_OVERLAY, 3000, GaugeWidget.Direction4.DOWN_UP);
+        this.fuelGauge = new GaugeChunkWidget(leftPos + 100, topPos + 20, 12, 46, fuel, GUISprites.FLUID_TANK_OVERLAY, getRocket().getTankCapacity(), GaugeWidget.Direction4.DOWN_UP);
         addRenderableWidget(fuelGauge);
     }
 
@@ -68,7 +75,16 @@ public class RocketScreen extends AbstractContainerScreen<RocketMenu> {
     protected void extractTooltip(GuiGraphicsExtractor guiGraphics, int x, int y) {
         super.extractTooltip(guiGraphics, x, y);
 
-        if(this.fuelGauge != null) fuelGauge.renderTooltips(guiGraphics, x, y, this.font);
+        if(this.fuelGauge != null) fuelGauge.renderTooltips(guiGraphics, x, y, this.font, lines -> {
+            RocketStats stats = RocketStats.of(getRocket().getRocketModules());
+            if (stats.fuelCostMultiplier() != 1f) {
+                lines.add(ClientTooltipComponent.create(Component.translatable("tooltip.stellaris.fuel_cost_multiplier", RocketStats.formatMultiplier(stats.fuelCostMultiplier())).getVisualOrderText()));
+            }
+
+            List<Planet> reachable = PlanetAccess.getReachablePlanets(this.minecraft.player, getRocket().getRocketModules(), stats.tankCapacity(), PlanetsData.getPlanet(getRocket().level().dimension()));
+            Component reaches = reachable.isEmpty() ? Component.translatable("tooltip.stellaris.rocket.reaches_nothing") : Component.translatable("tooltip.stellaris.rocket.reaches", PlanetAccess.getPlanetNames(reachable));
+            lines.add(ClientTooltipComponent.create(reaches.getVisualOrderText()));
+        });
     }
 
     @Override

@@ -7,6 +7,7 @@ import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.component.TooltipDisplay;
 import net.minecraft.world.level.material.Fluid;
 import org.exodusstudio.stellaris.common.modules.rocket.RocketModule;
+import org.exodusstudio.stellaris.common.modules.rocket.RocketStats;
 import org.exodusstudio.stellaris.common.registries.FluidsRegistry;
 import org.exodusstudio.stellaris.common.utils.Utils;
 
@@ -23,6 +24,11 @@ public class HydrogenFuelModuleItem extends Item implements RocketModule.CustomF
     }
 
     @Override
+    public float getFuelCostMultiplier() {
+        return 1.2f;
+    }
+
+    @Override
     public RocketFeature getRocketFeature() {
         return RocketFeature.MOTOR;
     }
@@ -35,6 +41,8 @@ public class HydrogenFuelModuleItem extends Item implements RocketModule.CustomF
     @Override
     public void appendHoverText(ItemStack stack, TooltipContext context, TooltipDisplay tooltipDisplay, Consumer<Component> tooltipAdder, TooltipFlag flag) {
         tooltipAdder.accept(Component.translatable("tooltip.item.stellaris.can_be_applied_to_rocket_module").withColor(Utils.getMinecraftColor("gray")));
+        tooltipAdder.accept(Component.translatable("tooltip.stellaris.fuel_cost_multiplier", RocketStats.formatMultiplier(getFuelCostMultiplier())).withColor(Utils.getMinecraftColor("gray")));
+        addRequiredForTooltip(tooltipAdder);
         tooltipAdder.accept(Component.translatable("tooltip.item.stellaris.can_be_applied_to_rover_module").withColor(Utils.getMinecraftColor("gray")));
     }
 }

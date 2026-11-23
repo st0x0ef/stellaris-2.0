@@ -8,5 +8,8 @@
     "dayTimeTemperature": 123,
     "nightTimeTemperature": -233
   },
-  "screen_order": 2.0
+  "screen_order": 2.0,
+  "travel": {
+    "orbit": { "around": "minecraft:overworld", "distance": 3 }
+  }
 }

@@ -30,6 +30,25 @@ It is also where the [ref=stellaris:mobs/parasite]Lunar Parasite[ref] lives.
 
 
 
+**Mars** 
+
+Gravity 3.73. No oxygen. Temperature +20 degrees during the day and -73 at night. 
+It holds Tharsite, the metal of the Hydrogen Motor, and ice that leaves water when you break it. 
+See the [ref=stellaris:planets/mars]Mars[ref] page before you go : the base rocket tank is too small for the trip. 
+
+
+
+**Travel costs** 
+
+Fuel use depends only on distance, so a trip costs the same both ways. Launching is free : you pay when you choose your destination, and going back to the world you left costs nothing. 
+- Earth and Earth Orbit : 60 mB 
+- Earth and the Moon : 180 mB 
+- Earth and Mars : 3 120 mB (3 744 mB with a Hydrogen Motor) 
+
+A base rocket holds 3 000 mB. A Rocket Tank Module raises it to 6 000 mB. 
+
+
+
 **Surviving off Earth** 
 
 Any world without oxygen deals 0.5 damage per second to whatever breathes. There are two answers : wear a full [ref=stellaris:items/space_suit]Space Suit[ref] with air in the helmet, or seal a room and fill it with an [ref=stellaris:machines/oxygen]Oxygen Distributor[ref]. 

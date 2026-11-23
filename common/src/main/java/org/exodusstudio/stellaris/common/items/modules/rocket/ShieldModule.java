@@ -33,5 +33,6 @@ public class ShieldModule extends Item implements RocketModule {
     @Override
     public void appendHoverText(ItemStack stack, TooltipContext context, TooltipDisplay tooltipDisplay, Consumer<Component> tooltipAdder, TooltipFlag flag) {
         tooltipAdder.accept(Component.translatable("tooltip.item.stellaris.can_be_applied_to_rocket_module").withColor(Utils.getMinecraftColor("gray")));
+        addRequiredForTooltip(tooltipAdder);
     }
 }

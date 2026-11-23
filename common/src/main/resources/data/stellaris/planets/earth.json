@@ -4,5 +4,8 @@
   "gravity": 9.81,
   "has_oxygen": true,
   "planet_bar": "stellaris:textures/planet_bar/earth_planet_bar.png",
-  "screen_order": 0.0
+  "screen_order": 0.0,
+  "travel": {
+    "orbit": { "around": "stellaris:sun", "distance": 100 }
+  }
 }

@@ -42,6 +42,7 @@ import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.phys.Vec3;
 import org.exodusstudio.stellaris.Stellaris;
 import org.exodusstudio.stellaris.common.data.Planet;
+import org.exodusstudio.stellaris.common.data.PlanetsData;
 import org.exodusstudio.stellaris.common.entities.vehicles.base.FuelledVehicle;
 import org.exodusstudio.stellaris.common.entities.vehicles.base.VehicleEntity;
 import org.exodusstudio.stellaris.common.fluid.FluidUtil;
@@ -51,8 +52,10 @@ import org.exodusstudio.stellaris.common.menus.RocketMenu;
 import org.exodusstudio.stellaris.common.modules.Modules;
 import org.exodusstudio.stellaris.common.modules.rocket.RocketModule;
 import org.exodusstudio.stellaris.common.modules.rocket.RocketModules;
+import org.exodusstudio.stellaris.common.modules.rocket.RocketStats;
 import org.exodusstudio.stellaris.common.network.packets.SyncRocketPacket;
 import org.exodusstudio.stellaris.common.registries.*;
+import org.exodusstudio.stellaris.common.travel.PlanetAccess;
 import org.exodusstudio.stellaris.common.utils.InventorySaver;
 import org.exodusstudio.stellaris.common.utils.TeleportUtil;
 import org.exodusstudio.stellaris.common.utils.Utils;
@@ -72,10 +75,7 @@ public class RocketEntity extends VehicleEntity implements FluidProvider.ENTITY,
     public static final EntityDataAccessor<Planet> AUTOPILOT_DESTINATION = SynchedEntityData.defineId(RocketEntity.class, EntityDataSerializersRegistry.PLANET);
     public static final EntityDataAccessor<Boolean> HAS_AUTOPILOT_DESTINATION = SynchedEntityData.defineId(RocketEntity.class, EntityDataSerializers.BOOLEAN);
 
-    private static final int LAUNCH_FUEL_COST = 1000;
-
     private boolean inventoryDirty = false;
-    private int launchFuelPaid = 0;
 
     /** Exposes the rocket's integer fuel as a fluid tank so it can reuse the machine slot logic. */
     private final VehicleFuelStorage fuelTank = new VehicleFuelStorage() {
@@ -239,16 +239,16 @@ public class RocketEntity extends VehicleEntity implements FluidProvider.ENTITY,
         Entity entity = this.getPassengers().getFirst();
 
         if (entity instanceof ServerPlayer player) {
-            if (this.getFuel() >= LAUNCH_FUEL_COST || player.isCreative()) {
+            Planet origin = PlanetsData.getPlanet(this.level().dimension());
+            Planet destination = this.getRocketModules().contains(ModulesRegistry.AUTOPILOT.get()) && this.entityData.get(HAS_AUTOPILOT_DESTINATION) ? PlanetsData.getPlanet(ResourceKey.create(Registries.DIMENSION, this.entityData.get(AUTOPILOT_DESTINATION).dimension())) : null;
+            if (destination != null && !PlanetAccess.canReach(player, this.getRocketModules(), this.getFuel(), origin, destination)) {
+                player.sendOverlayMessage(PlanetAccess.check(player, this.getRocketModules(), this.getFuel(), origin, destination).getFirst());
+                return;
+            }
+
+            if ((this.getFuel() > 0 && this.getFuel() >= PlanetAccess.getCheapestFuelCost(this.getRocketModules(), origin)) || player.isCreative()) {
                 if (!this.entityData.get(ROCKET_START)) {
                     this.entityData.set(ROCKET_START, true);
-
-                    launchFuelPaid = 0;
-                    if (!player.isCreative() && !player.isSpectator()) {
-                        // TODO: adjust fuel consumption based on planet distance
-                        launchFuelPaid = Math.min(LAUNCH_FUEL_COST, this.getFuel());
-                        this.entityData.set(FUEL, this.getFuel() - launchFuelPaid);
-                    }
 
                     player.awardStat(StatsRegistry.ROCKET_LAUNCHED.get());
                     AdvancementTriggerRegistry.ROCKET_LAUNCHED.get().trigger(player, player.getStats()
@@ -270,8 +270,6 @@ public class RocketEntity extends VehicleEntity implements FluidProvider.ENTITY,
     private void cancelLaunch() {
         this.entityData.set(ROCKET_START, false);
         this.entityData.set(ROCKET_START_TIMER, 0);
-        this.entityData.set(FUEL, Math.min(getTankCapacity(), this.getFuel() + launchFuelPaid));
-        launchFuelPaid = 0;
 
         ClientboundStopSoundPacket stopSound = new ClientboundStopSoundPacket(SoundRegistry.ROCKET_SOUND.getId(), SoundSource.NEUTRAL);
         for (ServerPlayer player : Utils.getPlayersIn3x3Chunks(level(), blockPosition())) {
@@ -343,6 +341,9 @@ public class RocketEntity extends VehicleEntity implements FluidProvider.ENTITY,
                         if (!this.getPassengers().isEmpty()) {
                             passenger = this.getPassengers().getFirst();
                         }
+                        if (!(passenger instanceof Player player && player.isCreative())) {
+                            this.useFuel(PlanetAccess.getFuelCost(this.getRocketModules(), PlanetsData.getPlanet(this.level().dimension()), PlanetsData.getPlanet(destinationLevel.dimension())));
+                        }
                         TeleportUtil.teleportRocketToPlanet(passenger, destinationLevel, this, this.blockPosition(), true); // TODO : allow to tp to space station and antenna
                         shouldOpenPlanetMenu = false;
                     }
@@ -412,7 +413,6 @@ public class RocketEntity extends VehicleEntity implements FluidProvider.ENTITY,
 
         output.store("rocket_start", Codec.BOOL, this.entityData.get(ROCKET_START));
         output.store("rocket_start_timer", Codec.INT, this.entityData.get(ROCKET_START_TIMER));
-        output.putInt("launch_fuel_paid", launchFuelPaid);
         if (this.entityData.get(HAS_AUTOPILOT_DESTINATION)) {
             output.store("autopilot_destination", Planet.CODEC, this.entityData.get(AUTOPILOT_DESTINATION));
         }
@@ -430,7 +430,6 @@ public class RocketEntity extends VehicleEntity implements FluidProvider.ENTITY,
 
         Optional<Integer> rocketStartTimer = input.read("rocket_start_timer", Codec.INT);
         rocketStartTimer.ifPresent(timer -> this.entityData.set(ROCKET_START_TIMER, timer));
-        launchFuelPaid = input.getIntOr("launch_fuel_paid", 0);
 
         Optional<Planet> autopilotDestination = input.read("autopilot_destination", Planet.CODEC);
         autopilotDestination.ifPresent(planet -> {
@@ -513,7 +512,11 @@ public class RocketEntity extends VehicleEntity implements FluidProvider.ENTITY,
      * @return The tank capacity in units.
      */
     public int getTankCapacity() {
-        return 3000;
+        return RocketStats.of(getRocketModules()).tankCapacity();
+    }
+
+    public void useFuel(int amount) {
+        this.entityData.set(FUEL, Math.max(0, this.getFuel() - amount));
     }
 
     public int getFuelLevel() {

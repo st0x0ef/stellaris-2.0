@@ -23,6 +23,7 @@ import org.exodusstudio.stellaris.common.data.space_station.SpaceStationData;
 import org.exodusstudio.stellaris.common.data.space_station.SpaceStationRecipe;
 import org.exodusstudio.stellaris.common.entities.vehicles.RocketEntity;
 import org.exodusstudio.stellaris.common.registries.DataComponentsRegistry;
+import org.exodusstudio.stellaris.common.travel.PlanetAccess;
 import org.exodusstudio.stellaris.common.utils.IdentifierUtils;
 import org.exodusstudio.stellaris.common.utils.TeleportUtil;
 import org.exodusstudio.stellaris.common.utils.Utils;
@@ -55,6 +56,12 @@ public record TeleportToPlanetPacket(Planet destination, Optional<BlockPos> pos,
             ResourceKey<Level> dimensionKey = ResourceKey.create(Registries.DIMENSION, data.destination().dimension());
             Planet planet = PlanetsData.getPlanet(dimensionKey);
             if (planet == null) {
+                return;
+            }
+
+            Planet origin = PlanetsData.getPlanet(rocket.level().dimension());
+            if (!PlanetAccess.canReach(player, rocket.getRocketModules(), rocket.getFuel(), origin, planet)) {
+                player.sendSystemMessage(PlanetAccess.check(player, rocket.getRocketModules(), rocket.getFuel(), origin, planet).getFirst());
                 return;
             }
 
@@ -121,6 +128,9 @@ public record TeleportToPlanetPacket(Planet destination, Optional<BlockPos> pos,
                 }
             }
 
+            if (!player.isCreative()) {
+                rocket.useFuel(PlanetAccess.getFuelCost(rocket.getRocketModules(), origin, planet));
+            }
             TeleportUtil.teleportRocketToPlanet(player, level, rocket, destPos, false);
             player.stellaris$setPlanetMenuOpen(false, player, true);
 

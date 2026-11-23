@@ -10,6 +10,8 @@ A bare [ref=stellaris:rocket/rocket]Rocket[ref] flies, but it does not do much e
 
 Install them in the Upgrade tab of the [ref=stellaris:machines/engineering_station]Engineering Station[ref] : rocket on the left, module in the middle, upgraded rocket on the right. The modules stay on the rocket item, so they survive landings and rebuilds. 
 
+Modules can never be removed. A new skin, model, motor or tank replaces the one already installed. The other modules stack. 
+
 
 
 **Cargo Module** 
@@ -22,9 +24,18 @@ It also fits the [ref=stellaris:items/rover]Rover[ref], where it adds the same 2
 **Hydrogen Motor** 
 
 Switches the engine from Fuel over to Hydrogen. Empty the tank before installing it, a tank only holds one kind of fuel at a time. 
+It is made with Tharsite, so you can only build one once you have reached [ref=stellaris:planets/mars]Mars[ref]. Every trip costs 1.2 times more hydrogen than it would cost fuel, but hydrogen only needs water and power, so you can make it anywhere. There is no way back to Fuel once it is installed. 
 It also fits the [ref=stellaris:items/rover]Rover[ref], switching it from Diesel to Hydrogen. 
 
 [item=stellaris:hydrogen_motor]
+
+
+
+**Rocket Tank Module** 
+
+Adds 3 000 mB to the tank, for 6 000 mB in total. The base tank cannot hold enough fuel to reach [ref=stellaris:planets/mars]Mars[ref]. 
+
+[item=stellaris:rocket_tank_module]
 
 
 
