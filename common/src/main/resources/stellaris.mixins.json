@@ -20,7 +20,6 @@
   ],
   "mixins": [
     "BlockItemMixin",
-    "BucketItemMixin",
     "ChunkAccessMixin",
     "ConsumableMixin",
     "CropGrowsMixin",

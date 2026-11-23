@@ -4,6 +4,7 @@ import net.minecraft.data.loot.LootTableProvider;
 import net.minecraft.server.packs.PackType;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
+import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.data.event.GatherDataEvent;
@@ -17,7 +18,7 @@ import org.exodusstudio.stellaris.neoforge.datagen.tags.StellarisItemTagsProvide
 import java.util.List;
 import java.util.Set;
 
-@EventBusSubscriber(modid = Stellaris.MOD_ID)
+@EventBusSubscriber(modid = Stellaris.MOD_ID, value = Dist.CLIENT)
 public class StellarisDatagen {
     @SubscribeEvent
     public static void gatherClientData(GatherDataEvent.Client event) {

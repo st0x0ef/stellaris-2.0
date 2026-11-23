@@ -1,4 +1,4 @@
-package org.exodusstudio.stellaris.mixin;
+package org.exodusstudio.stellaris.neoforge.mixin;
 
 import com.llamalad7.mixinextras.sugar.Cancellable;
 import net.minecraft.core.BlockPos;
@@ -9,6 +9,7 @@ import net.minecraft.tags.FluidTags;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.BucketItem;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.material.Fluid;
@@ -29,8 +30,8 @@ public class BucketItemMixin {
     @Final
     private Fluid content;
 
-    @ModifyVariable(method = "emptyContents", at = @At(value = "STORE"), name = "canPlaceFluidInsideBlock")
-    public boolean FlashFreezeFunctionality(boolean canPlaceFluidInsideBlock, LivingEntity user, Level level, BlockPos pos, BlockHitResult hitResult, @Cancellable CallbackInfoReturnable<Boolean> cir)
+    @ModifyVariable(method = "emptyContents(Lnet/minecraft/world/entity/LivingEntity;Lnet/minecraft/world/level/Level;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/phys/BlockHitResult;Lnet/minecraft/world/item/ItemStack;)Z", at = @At(value = "STORE"), name = "canPlaceFluidInsideBlock")
+    public boolean FlashFreezeFunctionality(boolean canPlaceFluidInsideBlock, LivingEntity user, Level level, BlockPos pos, BlockHitResult hitResult, ItemStack container, @Cancellable CallbackInfoReturnable<Boolean> cir)
     {
         if (canPlaceFluidInsideBlock && level.environmentAttributes().getValue(EnvironmentAttributesRegistry.FLASH_FREEZE.get(), pos)) {
 

@@ -8,6 +8,7 @@
   ],
   "mixins": [
     "ArchitecturyFluidAttributesForgeMixin",
+    "BucketItemMixin",
     "FluidTypeMixin",
     "RegistrarMixin"
   ],
