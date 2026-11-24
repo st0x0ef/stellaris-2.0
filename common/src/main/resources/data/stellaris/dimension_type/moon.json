@@ -20,7 +20,5 @@
   "height": 320,
   "logical_height": 320,
   "infiniburn": "#stellaris:infiniburn_moon",
-  "timelines": [
-    "stellaris:moon"
-  ]
+  "timelines": "#stellaris:moon"
 }
