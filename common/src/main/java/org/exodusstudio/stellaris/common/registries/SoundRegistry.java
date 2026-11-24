@@ -19,4 +19,9 @@ public class SoundRegistry {
     public static final RegistrySupplier<SoundEvent> BEEP_SOUND = SOUNDS.register("beep", () -> SoundEvent.createVariableRangeEvent(IdentifierUtils.id("beep")));
     public static final RegistrySupplier<SoundEvent> SONIC_BOOM_SOUND = SOUNDS.register("sonic_boom", () -> SoundEvent.createVariableRangeEvent(IdentifierUtils.id("sonic_boom")));
 
+
+    public static final RegistrySupplier<SoundEvent> BLENDER_LOOP = SOUNDS.register("blender_loop", () -> SoundEvent.createVariableRangeEvent(IdentifierUtils.id("blender_loop")));
+    public static final RegistrySupplier<SoundEvent> BLENDER_START = SOUNDS.register("blender_start", () -> SoundEvent.createVariableRangeEvent(IdentifierUtils.id("blender_start")));
+    public static final RegistrySupplier<SoundEvent> BLENDER_END = SOUNDS.register("blender_end", () -> SoundEvent.createVariableRangeEvent(IdentifierUtils.id("blender_end")));
+
 }

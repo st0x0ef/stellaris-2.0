@@ -1,0 +1,39 @@
+{
+  "type": "stellaris:mars",
+  "generator": {
+    "type": "minecraft:noise",
+    "biome_source": {
+      "type": "minecraft:multi_noise",
+      "biomes": [
+        {
+          "biome": "stellaris:red_desert",
+          "parameters": {
+            "temperature": [
+              0.55,
+              1
+            ],
+            "humidity": [
+              -1,
+              -0.35
+            ],
+            "continentalness": [
+              0.3,
+              1
+            ],
+            "erosion": [
+              0.55,
+              1
+            ],
+            "weirdness": [
+              -0.85,
+              -0.2
+            ],
+            "depth": 0,
+            "offset": 0
+          }
+        }
+      ]
+    },
+    "settings": "stellaris:mars"
+  }
+}

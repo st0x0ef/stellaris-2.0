@@ -1,10 +1,14 @@
 package org.exodusstudio.stellaris.common.blocks.entities.machines;
 
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
-import net.minecraft.core.Holder;
+import dev.architectury.networking.NetworkManager;
+import net.minecraft.core.*;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.protocol.game.ClientboundStopSoundPacket;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.Containers;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -17,6 +21,8 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 import org.exodusstudio.stellaris.Stellaris;
+import org.exodusstudio.stellaris.common.network.packets.SyncBlenderState;
+import org.exodusstudio.stellaris.common.registries.SoundRegistry;
 import org.exodusstudio.stellaris.common.blocks.entities.machines.base.BaseEnergyContainerBlockEntity;
 import org.exodusstudio.stellaris.common.blocks.entities.machines.base.ProgressingBlockEntity;
 import org.exodusstudio.stellaris.common.data.recipes.BlendingRecipe;
@@ -24,6 +30,7 @@ import org.exodusstudio.stellaris.common.data.recipes.input.BlenderInput;
 import org.exodusstudio.stellaris.common.menus.BlenderMenu;
 import org.exodusstudio.stellaris.common.registries.BlockEntitiesRegistry;
 import org.exodusstudio.stellaris.common.registries.RecipesRegistry;
+import org.exodusstudio.stellaris.common.utils.InventorySaver;
 import org.exodusstudio.stellaris.common.utils.capabilities.energy.EnergyUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -56,6 +63,12 @@ public class BlenderBlockEntity extends BaseEnergyContainerBlockEntity implement
     private int blendDuration;
     private int batchEnergy;
 
+    private static final int START_SOUND_TICKS = 25; // Blender Start sound tick length (1.25s)
+    private static final int LOOP_SOUND_TICKS = 39;  // Blender Loop sound tick length (1.95s, crossfaded to loop seamlessly)
+    private int soundTicks = -1; // ticks since blending started
+
+    public List<Holder<Item>> currentCookingItems = new ArrayList<>();
+
     private ItemStack resultStack = ItemStack.EMPTY;
 
     private final List<ItemStack> scannedGrid = new ArrayList<>();
@@ -65,6 +78,8 @@ public class BlenderBlockEntity extends BaseEnergyContainerBlockEntity implement
     private boolean canBlend;
     private int ticksSinceCanBlendCheck = Integer.MAX_VALUE;
     private static final int CAN_BLEND_CHECK_INTERVAL = 5;
+
+    public boolean itemHasChanged = true;
 
     public final ContainerData dataAccess = new ContainerData() {
         public int get(int index) {
@@ -115,6 +130,7 @@ public class BlenderBlockEntity extends BaseEnergyContainerBlockEntity implement
 
         if (!isBlending()) {
             refreshCanBlend(serverLevel);
+            tickSound(serverLevel);
             return;
         }
 
@@ -129,7 +145,10 @@ public class BlenderBlockEntity extends BaseEnergyContainerBlockEntity implement
 
             setChanged();
         }
+
+        tickSound(serverLevel);
     }
+
 
     public void requestBlend() {
         if (!(level instanceof ServerLevel serverLevel) || isBlending()) {
@@ -152,7 +171,7 @@ public class BlenderBlockEntity extends BaseEnergyContainerBlockEntity implement
         canBlend = planBatch(level) != null;
     }
 
-    private record Batch(Blend blend, BlenderInput input, int size, List<Holder<Item>> picks) {
+    public record Batch(Blend blend, BlenderInput input, int size, List<Holder<Item>> picks) {
     }
 
     private @Nullable Batch planBatch(ServerLevel level) {
@@ -174,6 +193,9 @@ public class BlenderBlockEntity extends BaseEnergyContainerBlockEntity implement
 
     private void startBatch(Level level, Batch batch) {
         Blend blend = batch.blend();
+
+        this.currentCookingItems = batch.picks;
+        syncCurrentBatch(level);
 
         consumePicks(level, batch.picks(), batch.size(), remaindersFor(batch.input(), blend.recipe(), batch.picks()));
 
@@ -430,10 +452,20 @@ public class BlenderBlockEntity extends BaseEnergyContainerBlockEntity implement
         else {
             setItem(RESULT_SLOT, output.copyWithCount(output.getCount() + result.getCount()));
         }
+        this.currentCookingItems.clear();
+        syncCurrentBatch(level);
     }
 
     public boolean isBlending() {
         return blendTime > 0;
+    }
+
+    public void setBlendTime(int blendTime) {
+        this.blendTime = blendTime;
+    }
+
+    public int getBlendTime() {
+        return blendTime;
     }
 
     @Override
@@ -502,5 +534,60 @@ public class BlenderBlockEntity extends BaseEnergyContainerBlockEntity implement
     @Override
     public int getMaxEnergyUsage() {
         return isBlending() ? batchEnergy : 0;
+    }
+
+    /**
+     * Sync the blender when the batch start/end
+     * Primary used to sync currentCookingItems
+     * @param level
+     */
+    private void syncCurrentBatch(Level level) {
+        if(level instanceof ServerLevel serverLevel) {
+           for (ServerPlayer player : serverLevel.players()) {
+               NetworkManager.sendToPlayer(player, new SyncBlenderState(InventorySaver.fromContainer(this), this.getBlockPos(), this.getBlendTime(), this.currentCookingItems));
+            }
+        }
+    }
+
+
+    private void tickSound(ServerLevel level) {
+        if(!Stellaris.CONFIG.machineConfig.enableBlenderSounds) {
+            return;
+        }
+
+        if (!isBlending()) {
+            if (soundTicks >= 0) {
+
+                stopSound(level, SoundRegistry.BLENDER_START.getId());
+                stopSound(level, SoundRegistry.BLENDER_LOOP.getId());
+
+                playSound(level, SoundRegistry.BLENDER_END.get());
+                soundTicks = -1;
+            }
+            return;
+        }
+
+        if (soundTicks < 0) {
+            playSound(level, SoundRegistry.BLENDER_START.get());
+            soundTicks = 0;
+        }
+        else if (soundTicks >= START_SOUND_TICKS && (soundTicks - START_SOUND_TICKS) % LOOP_SOUND_TICKS == 0) {
+            playSound(level, SoundRegistry.BLENDER_LOOP.get());
+        }
+
+        soundTicks++;
+    }
+
+    private void playSound(ServerLevel level, SoundEvent sound) {
+        level.playSound(null, worldPosition, sound, SoundSource.BLOCKS, 0.05f, 1.0f);
+    }
+
+    private void stopSound(ServerLevel level, Identifier sound) {
+        ClientboundStopSoundPacket packet = new ClientboundStopSoundPacket(sound, SoundSource.BLOCKS);
+        for (ServerPlayer player : level.players()) {
+            if (player.blockPosition().closerThan(worldPosition, 32)) {
+                player.connection.send(packet);
+            }
+        }
     }
 }

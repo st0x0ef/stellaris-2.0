@@ -1,0 +1,43 @@
+{
+  "world": "stellaris:mars",
+  "id": "stellaris:mars",
+  "weather": false,
+  "cloud_settings": {
+    "cloud": false
+  },
+  "sun": {
+    "size": 20.0,
+    "intensity": 0.9
+  },
+  "moon": {
+    "show": false
+  },
+  "stars": {
+    "vanilla": false,
+    "moving_stars": true,
+    "count": 6000,
+    "all_days_visible": false,
+    "scale": 0.15,
+    "color": [255, 230, 210]
+  },
+  "sky_objects": [
+    {
+      "texture": "stellaris:phobos",
+      "blend": true,
+      "size": 10.0,
+      "rotation": [0.0, 0.0, -20.0],
+      "object_rotation": [0.0, 0.0, 0.0],
+      "height": 100,
+      "rotation_type": "NIGHT"
+    },
+    {
+      "texture": "stellaris:deimos",
+      "blend": true,
+      "size": 6.0,
+      "rotation": [0.0, 30.0, 35.0],
+      "object_rotation": [0.0, 0.0, 0.0],
+      "height": 100,
+      "rotation_type": "NIGHT"
+    }
+  ]
+}

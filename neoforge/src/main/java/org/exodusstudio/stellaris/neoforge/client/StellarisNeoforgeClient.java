@@ -17,6 +17,7 @@ import org.exodusstudio.stellaris.client.StellarisClient;
 import org.exodusstudio.stellaris.client.debug.OxygenDebugRenderer;
 import org.exodusstudio.stellaris.client.registry.BoatModelLayerRegistry;
 import org.exodusstudio.stellaris.client.registry.KeyMappingsRegistry;
+import org.exodusstudio.stellaris.client.renderers.blender.BlenderBlockRenderer;
 import org.exodusstudio.stellaris.client.renderers.flag.FlagBlockModel;
 import org.exodusstudio.stellaris.client.renderers.flag.FlagBlockRenderer;
 import org.exodusstudio.stellaris.client.renderers.flag.FlagHeadModel;
@@ -123,6 +124,7 @@ public class StellarisNeoforgeClient {
         event.registerBlockEntityRenderer((BlockEntityType<RocketLaunchPadBlockEntity>)BlockEntitiesRegistry.ROCKET_LAUNCH_PAD.get(), RocketLaunchPadBlockRenderer::new);
         event.registerBlockEntityRenderer(BlockEntitiesRegistry.PUMPJACK.get(), PumpjackBlockRenderer::new);
         event.registerBlockEntityRenderer(BlockEntitiesRegistry.SPACE_FARM.get(), SpaceFarmRenderer::new);
+        event.registerBlockEntityRenderer(BlockEntitiesRegistry.BLENDER.get(), BlenderBlockRenderer::new);
 
 
         event.registerEntityRenderer(EntityTypesRegistry.LANDER.get(), LanderRenderer::new);
@@ -149,6 +151,7 @@ public class StellarisNeoforgeClient {
         event.registerEntityRenderer(EntityTypesRegistry.HEART_OF_LUNA.get(), HeartOfLunaRenderer::new);
         event.registerEntityRenderer(EntityTypesRegistry.STAR_CRAWLER_BOSS.get(), StarCrawlerBossRenderer::new);
         event.registerEntityRenderer(EntityTypesRegistry.ALIEN.get(), AlienRenderer::new);
+
     }
 
     @SubscribeEvent

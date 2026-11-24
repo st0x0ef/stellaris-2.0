@@ -1,6 +1,7 @@
 {
   "replace": false,
   "values": [
-    "#c:sand/moon"
+    "#c:sand/moon",
+    "#c:sand/mars"
   ]
 }

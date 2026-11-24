@@ -1,0 +1,33 @@
+{
+  "attributes": {
+    "minecraft:gameplay/snow_golem_melts": true,
+    "minecraft:visual/sky_color": "#d09a6e",
+    "minecraft:visual/fog_color": "#c08a62"
+  },
+  "carvers": [
+    "minecraft:cave",
+    "minecraft:cave_extra_underground",
+    "minecraft:canyon"
+  ],
+  "downfall": 0,
+  "effects": {
+    "water_color": "#3f76e4"
+  },
+  "features": [
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    []
+  ],
+  "has_precipitation": false,
+  "spawn_costs": {},
+  "spawners": {},
+  "temperature": 2
+}

@@ -3,5 +3,6 @@
   "dimension": "minecraft:overworld",
   "gravity": 9.81,
   "has_oxygen": true,
-  "planet_bar": "stellaris:textures/planet_bar/earth_planet_bar.png"
+  "planet_bar": "stellaris:textures/planet_bar/earth_planet_bar.png",
+  "screen_order": 0.0
 }

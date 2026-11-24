@@ -7,5 +7,6 @@
   "temperature": {
     "dayTimeTemperature": 123,
     "nightTimeTemperature": -233
-  }
+  },
+  "screen_order": 2.0
 }

@@ -32,6 +32,32 @@
       }
     ]
   },
+  "blender_start": {
+    "sounds": [
+      {
+        "name": "stellaris:blender_start",
+        "stream": false
+      }
+    ]
+  },
+
+  "blender_end": {
+    "sounds": [
+      {
+        "name": "stellaris:blender_end",
+        "stream": false
+      }
+    ]
+  },
+  "blender_loop": {
+    "sounds": [
+        {
+          "name": "stellaris:blender_loop",
+          "stream": false
+        }
+    ]
+  },
+
   "sonic_boom": {
     "subtitle": "subtitles.stellaris.sonic_boom",
     "sounds": [
@@ -41,5 +67,4 @@
       }
     ]
   }
-
 }
