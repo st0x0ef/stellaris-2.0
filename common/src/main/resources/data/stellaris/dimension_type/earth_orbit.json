@@ -11,7 +11,5 @@
   "height": 256,
   "monster_spawn_light_level": 0,
   "monster_spawn_block_light_limit": 0,
-  "timelines": [
-    "stellaris:earth_orbit"
-  ]
+  "timelines": "#stellaris:earth_orbit"
 }
